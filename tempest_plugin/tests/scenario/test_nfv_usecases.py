@@ -2,9 +2,9 @@ from oslo_log import log
 from tempest.common.utils import data_utils
 from tempest import clients
 from tempest import config
-from tests.scenario import baremetal_manager
 from tempest.common import credentials_factory as common_creds
 from tempest import test
+from tests.scenario import baremetal_manager
 import paramiko
 import xml.etree.ElementTree as ET
 import re
@@ -17,6 +17,7 @@ HUGEPAGE_SIZE = 1048576
 
 
 class TestNfvScenarios(baremetal_manager.BareMetalManager):
+
     @classmethod
     def setup_credentials(cls):
         super(TestNfvScenarios, cls).setup_credentials()
