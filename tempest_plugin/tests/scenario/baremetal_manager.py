@@ -19,5 +19,4 @@ class BareMetalManager(manager.ScenarioTest):
 
     @classmethod
     def setup_credentials(cls):
-        cls.set_network_resources()
         super(BareMetalManager, cls).setup_credentials()
