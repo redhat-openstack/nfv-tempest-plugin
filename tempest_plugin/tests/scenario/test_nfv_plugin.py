@@ -1,5 +1,6 @@
 from oslo_log import log as logging
 from tempest import test
+from tempest import config
 from tempest.lib import exceptions as lib_exc
 from tempest import *
 
@@ -7,7 +8,7 @@ LOG = logging.getLogger(__name__)
 CONF = config.CONF
 
 
-class TestNfvPlugin(scenario.manager.ScenarioTest):
+class TestNfvPlugin(test.scenario.manager.ScenarioTest):
    # Use set up to instantiate parent class and apply configurations
    def setUp(self):
        """Set up a single tenant with an accessible server.
