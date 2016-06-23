@@ -1,0 +1,7 @@
+Code-Review+2: <maximb@redhat.com>
+Verified+1: <maximb@redhat.com>
+Submitted-by: <maximb@redhat.com>
+Submitted-at: Thu, 23 Jun 2016 02:18:28 -0400
+Reviewed-on: https://review.gerrithub.io/281487
+Project: redhat-openstack/tempest-nfv-plugin
+Branch: refs/heads/master
