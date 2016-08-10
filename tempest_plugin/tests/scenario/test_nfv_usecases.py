@@ -1,12 +1,10 @@
 from oslo_log import log
-from tempest.common.utils import data_utils
 from tempest import clients
 from tempest import config
+from tempest.common.utils import data_utils
 from tempest.common import credentials_factory as common_creds
 from tempest import test
 from tests.scenario import baremetal_manager
-import paramiko
-import xml.etree.ElementTree as ET
 import re
 
 
@@ -22,29 +20,14 @@ class TestNfvScenarios(baremetal_manager.BareMetalManager):
     def setup_credentials(cls):
         super(TestNfvScenarios, cls).setup_credentials()
         cls.manager = clients.Manager(
-            credentials=common_creds.get_configured_credentials(
-                'identity_admin', fill_in=False))
+            credentials=common_creds.get_configured_credentials('identity_admin',
+                                                                 fill_in=False))
 
     def setUp(self):
         super(TestNfvScenarios, self).setUp()
         self.cpuregex = re.compile('^[0-9]{1,2}$')
         self.hugepages_init = int(self._get_number_free_hugepages())
 
-    def _get_number_free_hugepages(self):
-        command = "cat /sys/kernel/mm/hugepages/hugepages-1048576kB/free_hugepages"
-        hugepages = self._run_command_over_ssh('10.35.65.83', command)
-        return hugepages[0]
-
-    def create_flavor_with_extra_specs(self, name='flavor', vcpu=1, ram=2048, **extra_specs):
-        flavor_with_hugepages_name = data_utils.rand_name(name)
-        flavor_with_hugepages_id = data_utils.rand_int_id(start=1000)
-        disk = 20
-        self.flavors_client.create_flavor(
-            name=flavor_with_hugepages_name, ram=ram, vcpus=vcpu, disk=disk,
-            id=flavor_with_hugepages_id)
-        self.flavors_client.set_flavor_extra_spec(flavor_with_hugepages_id, **extra_specs)
-        self.addCleanup(self.flavors_client.delete_flavor, flavor_with_hugepages_id)
-        return flavor_with_hugepages_id
 
     @test.attr(type='smoke')
     @test.idempotent_id('f323b3ba-82f8-4db7-8ea6-6a895869ec49')
@@ -92,41 +75,3 @@ class TestNfvScenarios(baremetal_manager.BareMetalManager):
         self._check_numa_with_xml(server)
         print server
 
-    def _check_vcpu_with_xml(self, server):
-        command = ("virsh -c qemu:///system dumpxml %s" % (server['OS-EXT-SRV-ATTR:instance_name']))
-        cpuxml = self._run_command_over_ssh('10.35.65.83', command)
-        string = ET.fromstring(cpuxml)
-        s = string.findall('cputune')[0]
-        for numofcpus in s.findall('vcpupin'):
-            self.assertFalse(self.cpuregex.match(numofcpus.items()[1][1]) is None)
-
-    def _check_numa_with_xml(self, server):
-        command = ("virsh -c qemu:///system dumpxml %s" % (server['OS-EXT-SRV-ATTR:instance_name']))
-        numaxml = self._run_command_over_ssh('10.35.65.83', command)
-        string = ET.fromstring(numaxml)
-        r = string.findall('cpu')[0]
-        for i in r.findall('topology')[0].items():
-            if i[0] == 'sockets':
-                self.assertEqual(i[1], '1') ##change to 2
-                print i[0]
-        count = 0
-        for i in r.findall('numa')[0].findall('cell'):
-            if ((('id', '0')) in i.items() and (('memory', '2097152')) in i.items()):##change memory to 1572864
-                count += 1
-            if ((('id', '1')) in i.items() and (('memory', '2097152')) in i.items()): ##change cell id to 1 memory to 524288
-                count += 1
-        self.assertEqual(count, '2')
-
-    @staticmethod
-    def _run_command_over_ssh(host, command, username='root', password='12345678'):
-        ssh = paramiko.SSHClient()
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(host, username=username, password=password)
-        stdin, stdout, stderr = ssh.exec_command(command)
-        result = stdout.read()
-        return result
-
-    def _get_hypervisor_host_ip(self):
-        hyper = self.manager.hypervisor_client.list_hypervisors()
-        for i in hyper['hypervisors']:
-            print self.manager.hypervisor_client.show_hypervisor(i['id'])['hypervisor']['host_ip']
