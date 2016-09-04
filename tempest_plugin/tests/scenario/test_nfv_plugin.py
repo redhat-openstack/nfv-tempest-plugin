@@ -12,6 +12,7 @@ class TestNfvPlugin(baremetal_manager.BareMetalManager):
        """Set up a single tenant with an accessible server.
               If multi-host is enabled, save created server uuids.
               """
+       self.keypairs = {}
        self.servers = []
        super(TestNfvPlugin, self).setUp()
        # Example for pre setup creations and checks read from config files
