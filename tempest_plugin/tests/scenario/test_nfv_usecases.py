@@ -20,8 +20,8 @@ class TestNfvScenarios(baremetal_manager.BareMetalManager):
     def setup_credentials(cls):
         super(TestNfvScenarios, cls).setup_credentials()
         cls.manager = clients.Manager(
-            credentials=common_creds.get_configured_credentials('identity_admin',
-                                                                 fill_in=False))
+            credentials=common_creds.get_configured_admin_credentials(
+                fill_in=False))
 
     def setUp(self):
         super(TestNfvScenarios, self).setUp()
