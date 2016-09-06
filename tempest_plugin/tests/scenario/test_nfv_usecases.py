@@ -25,6 +25,8 @@ class TestNfvScenarios(baremetal_manager.BareMetalManager):
 
     def setUp(self):
         super(TestNfvScenarios, self).setUp()
+        self.keypairs = {}
+        self.servers = []
         self.cpuregex = re.compile('^[0-9]{1,2}$')
         self.hugepages_init = int(self._get_number_free_hugepages())
 
