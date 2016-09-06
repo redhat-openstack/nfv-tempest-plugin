@@ -40,7 +40,6 @@ class BareMetalManager(manager.ScenarioTest):
         hugepages = self._run_command_over_ssh(host, command)
         return hugepages[0]
 
-    @classmethod
     def create_flavor_with_extra_specs(self, name='flavor', vcpu=1, ram=2048, **extra_specs):
         flavor_with_hugepages_name = data_utils.rand_name(name)
         flavor_with_hugepages_id = data_utils.rand_int_id(start=1000)
