@@ -38,7 +38,7 @@ class BareMetalManager(manager.ScenarioTest):
     def _get_number_free_hugepages(self,host):
         command = "cat /sys/kernel/mm/hugepages/hugepages-1048576kB/free_hugepages"
         hugepages = self._run_command_over_ssh(host, command)
-        return hugepages[0]
+        return hugepages
 
     def create_flavor_with_extra_specs(self, name='flavor', vcpu=1, ram=2048, **extra_specs):
         flavor_with_hugepages_name = data_utils.rand_name(name)
