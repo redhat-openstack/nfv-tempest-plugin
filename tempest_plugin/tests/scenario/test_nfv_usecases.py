@@ -28,7 +28,8 @@ class TestNfvScenarios(baremetal_manager.BareMetalManager):
         self.keypairs = {}
         self.servers = []
         self.cpuregex = re.compile('^[0-9]{1,2}$')
-        self.hugepages_init = int(self._get_number_free_hugepages())
+        self.ip_address = self._get_hypervisor_host_ip('epa')
+        self.hugepages_init = int(self._get_number_free_hugepages(self.ip_address))
 
 
     @test.attr(type='smoke')
@@ -49,7 +50,7 @@ class TestNfvScenarios(baremetal_manager.BareMetalManager):
         count += self.flavors_client.show_flavor(
             self.servers_client.show_server(
                 server2['id'])['server']['flavor']['id'])['flavor']['ram'] / 1024
-        actualresult = int(self._get_number_free_hugepages())
+        actualresult = int(self._get_number_free_hugepages(self.ip_address))
         self.assertEqual((self.hugepages_init - count), actualresult)
 
     def test_cpu_pinning(self):
@@ -58,12 +59,12 @@ class TestNfvScenarios(baremetal_manager.BareMetalManager):
         server = self.create_server(name=data_utils.rand_name('server'),
                                      flavor=flavor_id_cpu,
                                      wait_until='ACTIVE')
-        self._check_vcpu_with_xml(server)
+        self._check_vcpu_with_xml(server, self.ip_address)
         print server
 
     def test_numa_sockets(self):
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
-        result = self._run_command_over_ssh('10.35.65.83', command)
+        result = self._run_command_over_ssh(self.ip_address, command)
         self.assertTrue(int(result[0]) == 1) ##change to "> 1"
         extra_specs = {
             'hw:numa_nodes': '2', 'hw:numa_mempolicy': 'strict',
@@ -74,6 +75,6 @@ class TestNfvScenarios(baremetal_manager.BareMetalManager):
         server = self.create_server(name=data_utils.rand_name('server'),
                                     flavor=flavor_id_numa,
                                     wait_until='ACTIVE')
-        self._check_numa_with_xml(server)
+        self._check_numa_with_xml(server, self.ip_address)
         print server
 
