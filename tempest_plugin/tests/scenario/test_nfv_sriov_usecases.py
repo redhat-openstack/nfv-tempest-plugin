@@ -2,7 +2,6 @@ from oslo_log import log
 from tempest import clients
 from tempest import config
 from tempest.common import credentials_factory as common_creds
-from tempest import test
 from tests.scenario import baremetal_manager
 import re
 
@@ -20,8 +19,6 @@ class TestDirectScenarios(baremetal_manager.BareMetalManager):
         super(TestDirectScenarios, cls).setup_credentials()
         cls.manager = clients.Manager(
              credentials=common_creds.get_configured_admin_credentials())
-        # credentials=common_creds.get_configured_credentials('identity_admin',
-        #                                                     fill_in=False))
 
     def setUp(self):
         self.image_ref = CONF.compute.image_ref  ## as explained earlier

@@ -19,6 +19,7 @@ class TestNfvPlugin(baremetal_manager.BareMetalManager):
        self.image_ref = CONF.compute.image_ref  ## as explained earlier
        self.flavor_ref = CONF.compute.flavor_ref  ## as explained earlier
 
+   #@test.idempotent_id('585e934c-448e-43c4-acbf-d06a9b899997')  
    def test_server_nfv_plugin(self):  ## we define the test_server_basicops method
        ##using the create_server method with our variables, as we described earlier
        self.instance = self.create_server(image_id=self.image_ref,
