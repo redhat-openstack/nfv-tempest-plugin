@@ -30,8 +30,13 @@ class NfvTempestPlugin(plugins.TempestPlugin):
         full_test_dir = os.path.join(base_path, test_dir)
         return full_test_dir, base_path
 
-    def register_opts(self, conf):
-        pass
+    def register_opts(self,conf):
+        config.register_opt_group(conf,
+                     project_config.hypervisor_group,
+		project_config.HypervisorGroup)
+
+##  def register_opts(self, conf):
+##      pass
 
     def get_opt_lists(self):
         pass
