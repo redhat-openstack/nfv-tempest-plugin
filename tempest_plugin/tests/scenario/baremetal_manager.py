@@ -5,14 +5,15 @@ from tempest import clients
 import paramiko
 import xml.etree.ElementTree as ET
 from tempest.common.utils import data_utils
-
+import StringIO
 
 
 CONF = config.CONF
 LOG = log.getLogger(__name__)
 
 class BareMetalManager(manager.ScenarioTest):
-
+    """This class Interacts with BareMetal settings
+    """
     credentials = ['primary']
 
     @classmethod
@@ -22,7 +23,21 @@ class BareMetalManager(manager.ScenarioTest):
         cls.aggregates_client = cls.manager.aggregates_client
 
     def setUp(self):
+        """check location of Private Key
+        """
         super(BareMetalManager, self).setUp()
+        self.assertIsNotNone(CONF.hypervisor.user, "Missing SSH user login in config")
+
+        if CONF.hypervisor.private_key_file:
+            key_str=open(CONF.hypervisor.private_key_file).read()
+            CONF.hypervisor.private_key_file= paramiko.RSAKey.\
+                from_private_key(StringIO.StringIO(key_str))
+        else:
+            self.assertIsNotNone(CONF.hypervisor.password, 'Missing SSH password and '
+                                                       'key_file')
+            self.password=CONF.hypervisor.password
+
+
 
     @classmethod
     def resource_setup(cls):
@@ -36,8 +51,11 @@ class BareMetalManager(manager.ScenarioTest):
 
     @classmethod
     def _get_number_free_hugepages(self,host):
+        """This Method Connects to Bare Metal and receive Number of free Memory Pages
+        BareMetal on Bare Metal settings
+        """
         command = "cat /sys/kernel/mm/hugepages/hugepages-1048576kB/free_hugepages"
-        hugepages = self._run_command_over_ssh(host, command)
+        hugepages = self._run_command_over_ssh( host, command )
         return hugepages
 
     def create_flavor_with_extra_specs(self, name='flavor', vcpu=1, ram=2048, **extra_specs):
@@ -52,16 +70,20 @@ class BareMetalManager(manager.ScenarioTest):
         return flavor_with_hugepages_id
 
     def _check_vcpu_with_xml(self, server,host):
+        """This Method Connects to Bare Metal,Compute and return number of pinned CPUS
+        """
         command = ("virsh -c qemu:///system dumpxml %s" % (server['OS-EXT-SRV-ATTR:instance_name']))
-        cpuxml = self._run_command_over_ssh(host, command)
+        cpuxml = self._run_command_over_ssh(self,host, command)
         string = ET.fromstring(cpuxml)
         s = string.findall('cputune')[0]
         for numofcpus in s.findall('vcpupin'):
             self.assertFalse(self.cpuregex.match(numofcpus.items()[1][1]) is None)
 
     def _check_numa_with_xml(self, server, host):
+        """This Method Connects to Bare Metal,Compute and return number of Cells
+        """
         command = ("virsh -c qemu:///system dumpxml %s" % (server['OS-EXT-SRV-ATTR:instance_name']))
-        numaxml = self._run_command_over_ssh(host, command)
+        numaxml = self._run_command_over_ssh(self,host, command)
         string = ET.fromstring(numaxml)
         r = string.findall('cpu')[0]
         for i in r.findall('topology')[0].items():
@@ -77,34 +99,81 @@ class BareMetalManager(manager.ScenarioTest):
         self.assertEqual(count, '2')
 
     @staticmethod
-    def _run_command_over_ssh(host, command, username='root', password='12345678'):
+    def _run_command_over_ssh(host ,command):
+        """This Method run Command Over SSH
+        enter Host user, pass into configuration files
+        """
+
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(host, username=username, password=password)
+
+        """Assuming all check done in Setup, otherwise Assert failing the test"""
+        if CONF.hypervisor.private_key_file:
+            ssh.connect(host, username=CONF.hypervisor.user,
+                        pkey=CONF.hypervisor.private_key_file)
+        else:
+            ssh.connect(host, username=CONF.hypervisor.user,
+                            password=CONF.hypervisor.password)
+
         stdin, stdout, stderr = ssh.exec_command(command)
         result = stdout.read()
+        ssh.close()
         return result
 
-    def list_aggregate(self, name='None'):
+    def _list_aggregate(self, name=None):
+        """This Method lists aggregation based on name, and returns the aggregated
+        hosts lists
+        TBD: Add support to return, hosts list
+        TBD: Return None in case no aggregation found.
+        """
+        host=None
+
+        if not name:
+            return host
+
         aggregate = self.aggregates_client.list_aggregates()['aggregates']
-        for i in aggregate:
-            if name in i['name']:
-                aggregate = self.aggregates_client.show_aggregate(i['id'])['aggregate']
-        host=aggregate['hosts'][0]
+#       Assertion check
+        if aggregate:
+            for i in aggregate:
+                if name in i['name']:
+                    aggregate.append(self.aggregates_client.show_aggregate(i['id'])[
+                        'aggregate'])
+            host=aggregate['hosts'][0]
+
         return host
 
-    def _get_hypervisor_host_ip(self, name='None'):
+    def _get_hypervisor_host_ip(self, name=None):
+        """This Method lists aggregation based on name, and returns the aggregated
+        search for IP through Hypervisor list API
+        Add support in case of NoAggregation, and Hypervisor list is not empty
+        if host=None, no aggregation, or name=None and if hypervisor list has one member
+        return the member
+        """
+        host=None
         ip_address = ''
-        host = self.list_aggregate(name)
+        if name:
+            host = self._list_aggregate(name)
+
         hyper = self.manager.hypervisor_client.list_hypervisors()
-        for i in hyper['hypervisors']:
-            if self.manager.hypervisor_client.show_hypervisor(i['id'])['hypervisor']['hypervisor_hostname'] == host:
-                ip_address=self.manager.hypervisor_client.show_hypervisor(i['id'])[
-                    'hypervisor']['host_ip']
+
+        if host:
+            for i in hyper['hypervisors']:
+                if i['hypervisor_hostname'] == host:
+                    ip_address=self.manager.hypervisor_client.show_hypervisor(i['id'])[
+                        'hypervisor']['host_ip']
+        else:
+            for i in hyper['hypervisors']:
+                if i['state'] == 'up':
+                    ip_address=self.manager.hypervisor_client.show_hypervisor(i['id'])[
+                        'hypervisor']['host_ip']
+
         return ip_address
 
     def _create_port(self, network_id, client=None, namestart='port-quotatest',
                  **kwargs):
+        """This Method Overrides Manager::CreatePort to support direct and direct ph
+        ports
+        """
         kwargs['admin_state_up']='True'
         if not client:
             client = self.ports_client
@@ -118,6 +187,8 @@ class BareMetalManager(manager.ScenarioTest):
     def create_server(self, name=None, image_id=None, flavor=None,
                        validatable=False, wait_until=None,
                        wait_on_delete=True, clients=None, **kwargs):
+        """This Method Overrides Manager::Createserver to support Gates needs
+        """
         keypair = self.create_keypair()
         self.keypairs[keypair['name']] = keypair
         kwargs['key_name']=keypair['name']

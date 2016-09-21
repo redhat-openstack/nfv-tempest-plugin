@@ -12,4 +12,19 @@
 #    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #    License for the specific language governing permissions and limitations
 #    under the License.
+from oslo_config import cfg
 
+hypervisor_group = cfg.OptGroup(name="hypervisor",
+                                       title="hypervisor params")
+
+HypervisorGroup = [
+    cfg.StrOpt('user',
+               default='root',
+               help="ssh user to login to bare metal"),
+    cfg.StrOpt('password',
+               default=None,
+               help="ssh password login user"),
+    cfg.StrOpt('private_key_file',
+               default=None,
+               help="privatekey string for imported key for ssh user"),
+]
