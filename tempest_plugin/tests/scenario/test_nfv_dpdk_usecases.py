@@ -31,14 +31,9 @@ class TestDirectScenarios(baremetal_manager.BareMetalManager):
         super(TestDirectScenarios, self).setUp()
         self.cpuregex = re.compile('^[0-9]{1,2}$')
         self.hypervisor_list=dict()
-        self.ip_address = super(TestDirectScenarios,self)._get_hypervisor_host_ip('sriov')
+        self.ip_address = super(TestDirectScenarios,self)._get_hypervisor_host_ip('dpdk')
         self.hugepages_init = super(TestDirectScenarios,
                                     self)._get_number_free_hugepages(self.ip_address)
-
-    def test_direct_port(self):
-        LOG.info("TestDirectNfvScenarios::test_server_sriov: started")
-        self.instance = super(TestDirectScenarios, self).create_server(image_id=self.image_ref,
-                                          flavor=self.flavor_ref, wait_until='ACTIVE')
 
     def test_basic_network(self):
         self.instance = super(TestDirectScenarios, self).create_server(image_id=self.image_ref,
