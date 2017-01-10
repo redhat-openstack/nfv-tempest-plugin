@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fabf19d9_f33f8b23",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_plugin.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2017-01-10T08:12:38Z",
+      "side": 1,
+      "message": "Leave just one single comment sign",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 7
+      },
+      "revId": "46bd7185eabd5391f36be3e0c03679570317d211",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_f3266b15",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_plugin.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2017-01-10T08:12:38Z",
+      "side": 1,
+      "message": "Align the doc string",
+      "range": {
+        "startLine": 22,
+        "startChar": 8,
+        "endLine": 24,
+        "endChar": 18
+      },
+      "revId": "46bd7185eabd5391f36be3e0c03679570317d211",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_73125bb6",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_plugin.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2017-01-10T08:12:38Z",
+      "side": 1,
+      "message": "This is not an example",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 75
+      },
+      "revId": "46bd7185eabd5391f36be3e0c03679570317d211",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_93460fbe",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_plugin.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2017-01-10T08:12:38Z",
+      "side": 1,
+      "message": "Not nessesary",
+      "range": {
+        "startLine": 27,
+        "startChar": 49,
+        "endLine": 27,
+        "endChar": 72
+      },
+      "revId": "46bd7185eabd5391f36be3e0c03679570317d211",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_d33c8731",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_plugin.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2017-01-10T08:12:38Z",
+      "side": 1,
+      "message": "Not nessesary",
+      "range": {
+        "startLine": 28,
+        "startChar": 51,
+        "endLine": 28,
+        "endChar": 74
+      },
+      "revId": "46bd7185eabd5391f36be3e0c03679570317d211",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_330ce393",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_plugin.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2017-01-10T08:12:38Z",
+      "side": 1,
+      "message": "Remove one extra blank line",
+      "revId": "46bd7185eabd5391f36be3e0c03679570317d211",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_b3f23399",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_plugin.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2017-01-10T08:12:38Z",
+      "side": 1,
+      "message": "Remove the line",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 65
+      },
+      "revId": "46bd7185eabd5391f36be3e0c03679570317d211",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_931defbf",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_plugin.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2017-01-10T08:12:38Z",
+      "side": 1,
+      "message": "The \"we define the...\" string should be as the explanation of the method instead of \"Create Keys for...\"",
+      "range": {
+        "startLine": 36,
+        "startChar": 39,
+        "endLine": 39,
+        "endChar": 11
+      },
+      "revId": "46bd7185eabd5391f36be3e0c03679570317d211",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fabf19d9_93ef2fb0",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_plugin.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2017-01-10T08:12:38Z",
+      "side": 1,
+      "message": "Remove the space",
+      "range": {
+        "startLine": 52,
+        "startChar": 45,
+        "endLine": 52,
+        "endChar": 46
+      },
+      "revId": "46bd7185eabd5391f36be3e0c03679570317d211",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
