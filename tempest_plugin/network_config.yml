@@ -1,0 +1,27 @@
+networks:
+  - name: datacentre_ovs_419
+    physical_network: datacentre
+    segmentation_id: 419
+    external: true
+    allocation_pool_start: 192.10.10.18
+    allocation_pool_end: 192.10.10.29
+    cidr: 192.10.10.16/28
+    enable_dhcp: false
+    gateway_ip: 192.10.10.30
+    router_name: router1
+    port_type: normal
+    ip_version: 4
+    network_type: vlan
+
+tests-setup:
+  - name: numa0
+    flavor: 7
+    availability-zone: normal
+    image-id: 2db1f4c6-0f16-4e19-b26a-ec6cc78dde1c
+
+dns_nameservers:
+  - 192.10.28.28
+  - 8.8.8.8
+tempest_tests:
+  - tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDirectScenarios.test_basic_network
+  - tempest.api.compute.admin.test_flavors.FlavorsAdminTestJSON.test_create_flavor_using_string_ram
