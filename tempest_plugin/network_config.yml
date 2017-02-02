@@ -1,0 +1,17 @@
+networks:
+  - name: datacentre_ovs_122
+    physical_network: datacentre
+    segmentation_id: 122
+    external: true
+    allocation_pool_start: 192.168.185.18
+    allocation_pool_end: 192.168.185.29
+    cidr: 192.168.185.16/28
+    enable_dhcp: false
+    gateway_ip: 192.168.185.30
+    router_name: router1
+    port_type: normal
+    ip_version: 4
+    network_type: vlan
+
+dns_nameservers:
+  - 8.8.8.8

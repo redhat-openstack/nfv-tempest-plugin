@@ -15,7 +15,7 @@
 from oslo_config import cfg
 
 hypervisor_group = cfg.OptGroup(name="hypervisor",
-                                       title="hypervisor params")
+                                title="hypervisor params")
 
 HypervisorGroup = [
     cfg.StrOpt('user',
@@ -27,4 +27,7 @@ HypervisorGroup = [
     cfg.StrOpt('private_key_file',
                default=None,
                help="privatekey string for imported key for ssh user"),
+    cfg.StrOpt('external_config_file',
+               default=None,
+               help="path to yml file for additional configurations"),
 ]
