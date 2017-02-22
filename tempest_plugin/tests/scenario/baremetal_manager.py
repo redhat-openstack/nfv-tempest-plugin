@@ -19,11 +19,12 @@ class BareMetalManager(manager.ScenarioTest):
 
     def __init__(self, *args, **kwargs):
         super(BareMetalManager, self).__init__(*args, **kwargs)
+        self.doc = None
         self.password = None
         self.external_config = None
         self.key_pairs = {}
         self.servers = []
-
+        self.test_networks = {}
 
     @classmethod
     def setup_clients(cls):
@@ -189,6 +190,59 @@ class BareMetalManager(manager.ScenarioTest):
 
         return ip_address
 
+    def _detect_existing_networks(self):
+        """Use mathod only when test require no network  cls.set_network_resources()
+        it run over external_config networks, verified against existing networks.. 
+        in case all networks exist return True and fill self.test_networks lists
+        """
+        self.assertIsNotNone(
+            CONF.hypervisor.external_config_file,
+            'This test require missing extrnal_config, for this test')
+
+        public_network = \
+            self.networks_client.list_networks(**{'router:external': True})['networks']
+        self.assertTrue(
+            public_network[0]['name'] == self.external_config['networks'][0]['name'],
+            msg="Could not find Neutron public network")
+        
+        self.test_networks[public_network[0]['name']] = \
+            dict(id=public_network[0]['id'],
+                 port_type=self.external_config['networks'][0]['port_type'])
+        
+        private_network = \
+            self.networks_client.list_networks(**{'router:external': False})['networks']
+        """
+        Iterate networks in external_config file place 0 is public network
+        Check if network names exist in openstack network list (private)
+        """
+
+        for i in self.external_config["networks"][1:]:
+            for x in private_network:
+                if x['name'] == i['name']:
+                    self.test_networks.\
+                        update({x['name']: {'id': x['id'], 'port_type': i['port_type']}})
+
+        return True
+
+    def _create_ports_on_networks(self, **kwargs):
+        """This run over prepared network dictionary
+        ports, unless port_security==False, ports created with rules
+        """
+        create_port_body = {'binding:vnic_type': '',
+                            'namestart': 'port-smoke'}
+
+        networks_list = []
+       
+        for i in self.external_config["networks"]:
+            create_port_body['binding:vnic_type'] = i['port_type']
+            port = self._create_port(
+                network_id=self.test_networks[i['name']]['id'],
+                **create_port_body)
+            networks_list.\
+                append({'uuid': self.test_networks[i['name']]['id'], 'port': port['id']})
+                
+        return networks_list
+
     def _create_port(self, network_id, client=None, namestart='port-quotatest',
                      **kwargs):
         """This Method Overrides Manager::CreatePort to support direct and direct ph
@@ -216,20 +270,21 @@ class BareMetalManager(manager.ScenarioTest):
         :param flavor:
         :param name:
         """
-        if 'key_name' not in dir(kwargs):
+        if 'key_name' not in kwargs:
             key_pair = self.create_keypair()
             self.key_pairs[key_pair['name']] = key_pair
             kwargs['key_name'] = key_pair['name']
 
-        if 'networks' not in dir(kwargs):
+        net_id = []
+
+        if 'networks' in kwargs:
+            net_id = kwargs['networks']
+            kwargs.pop('networks', None)
+        else:
             networks = self.networks_client.list_networks(
                 filters={'router:external': False})['networks']
-        else:
-            networks = kwargs['networks']
-
-        net_id = None
-        for network in networks:
-            net_id = [{'uuid': network['id']}]
+            for network in networks:
+                net_id.append({'uuid': network['id']})
 
         server = super(BareMetalManager, self).create_server(name=name,
                                                              networks=net_id,
