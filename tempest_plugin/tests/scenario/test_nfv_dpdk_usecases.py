@@ -32,8 +32,10 @@ class TestDirectScenarios(baremetal_manager.BareMetalManager):
         self.cpuregex = re.compile('^[0-9]{1,2}$')
         self.hypervisor_list=dict()
         self.ip_address = super(TestDirectScenarios,self)._get_hypervisor_host_ip('dpdk')
-        self.hugepages_init = super(TestDirectScenarios,
-                                    self)._get_number_free_hugepages(self.ip_address)
+        # The SSH login temporary disabled as we need to ensure to get the
+        # proper hypervisor ip address.
+        #self.hugepages_init = super(TestDirectScenarios,
+        #                            self)._get_number_free_hugepages(self.ip_address)
 
     def test_basic_network(self):
         self.instance = super(TestDirectScenarios, self).create_server(image_id=self.image_ref,
