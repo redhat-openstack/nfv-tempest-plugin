@@ -229,7 +229,8 @@ class BareMetalManager(manager.ScenarioTest):
 
         net_id = None
         for network in networks:
-            net_id = [{'uuid': network['id']}]
+            if network['router:external'] == False:
+                net_id = [{'uuid': network['id']}]
 
         server = super(BareMetalManager, self).create_server(name=name,
                                                              networks=net_id,
