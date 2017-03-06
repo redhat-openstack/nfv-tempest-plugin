@@ -19,15 +19,11 @@ class BareMetalManager(manager.ScenarioTest):
 
     def __init__(self, *args, **kwargs):
         super(BareMetalManager, self).__init__(*args, **kwargs)
-        self.doc = None
         self.password = None
         self.external_config = None
-        self.test_setup_dict = {}
         self.key_pairs = {}
         self.servers = []
-        self.test_networks = {}
-        self.test_network_dict = {}
-        self.test_setup_dict = {}
+
 
     @classmethod
     def setup_clients(cls):
@@ -42,8 +38,7 @@ class BareMetalManager(manager.ScenarioTest):
         External config file exist [not a must].
         """
         super(BareMetalManager, self).setUp()
-        self.assertIsNotNone(CONF.hypervisor.user,
-                             "Missing SSH user login in config")
+        self.assertIsNotNone(CONF.hypervisor.user, "Missing SSH user login in config")
 
         if CONF.hypervisor.private_key_file:
             key_str = open(CONF.hypervisor.private_key_file).read()
@@ -54,7 +49,8 @@ class BareMetalManager(manager.ScenarioTest):
                                  'Missing SSH password or key_file')
         if CONF.hypervisor.external_config_file:
             if os.path.exists(CONF.hypervisor.external_config_file):
-                self.read_external_config_file()
+                with open(CONF.hypervisor.external_config_file, 'r') as f:
+                    self.external_config = yaml.load(f)
 
     @classmethod
     def resource_setup(cls):
@@ -73,40 +69,6 @@ class BareMetalManager(manager.ScenarioTest):
         hugepages = self._run_command_over_ssh(host, command)
         return hugepages
 
-    def read_external_config_file(self):
-        """This Method reads network_config.yml
-        reads data and assign it to dictionaries
-        """
-        with open(CONF.hypervisor.external_config_file, 'r') as f:
-            self.external_config = yaml.load(f)
-
-        """
-        hold flavor list..
-        hold net list.. translate to id
-        """
-        networks = self.networks_client.list_networks()['networks']
-        flavors = self.flavors_client.list_flavors()['flavors']
-
-        for test in self.external_config['tests-setup']:
-            self.test_setup_dict[test['name']] = {'flavor': test['flavor'],
-                                                  'availability-zone':
-                                                      test['availability-zone']}
-
-        for net in self.external_config['networks']:
-            self.test_network_dict[net['name']] = {'port_type': net['port_type'], 
-                                                   'gateway_ip': net['gateway_ip'],
-                                                   'external': net['external']}
-        # iterate flavors and networks
-        for net in self.test_network_dict.iterkeys():
-            for network in networks:
-                if network['name'] == net:
-                    self.test_network_dict[net]['net-id'] = network['id']
-
-        for test, test_param in self.test_setup_dict.iteritems():
-            for flavor in flavors:
-                if test_param['flavor'] == flavor['name']:
-                    self.test_setup_dict[test]['flavor-id'] = flavor['id']
-
     def create_flavor_with_extra_specs(self, name='flavor', vcpu=1, ram=2048,
                                        **extra_specs):
         flavor_with_hugepages_name = data_utils.rand_name(name)
@@ -115,10 +77,8 @@ class BareMetalManager(manager.ScenarioTest):
         self.flavors_client.create_flavor(
             name=flavor_with_hugepages_name, ram=ram, vcpus=vcpu, disk=disk,
             id=flavor_with_hugepages_id)
-        self.flavors_client.set_flavor_extra_spec(
-            flavor_with_hugepages_id, **extra_specs)
-        self.addCleanup(self.flavors_client.delete_flavor,
-                        flavor_with_hugepages_id)
+        self.flavors_client.set_flavor_extra_spec(flavor_with_hugepages_id, **extra_specs)
+        self.addCleanup(self.flavors_client.delete_flavor, flavor_with_hugepages_id)
         return flavor_with_hugepages_id
 
     def _check_vcpu_with_xml(self, server, host):
@@ -131,8 +91,7 @@ class BareMetalManager(manager.ScenarioTest):
         string = ET.fromstring(cpuxml)
         s = string.findall('cputune')[0]
         for numofcpus in s.findall('vcpupin'):
-            self.assertFalse(self.cpuregex.match(
-                numofcpus.items()[1][1]) is None)
+            self.assertFalse(self.cpuregex.match(numofcpus.items()[1][1]) is None)
 
     def _check_numa_with_xml(self, server, host):
         """This Method Connects to Bare Metal,Compute and return number of Cells
@@ -198,7 +157,7 @@ class BareMetalManager(manager.ScenarioTest):
             for i in aggregate:
                 if name in i['name']:
                     aggregate.append(self.aggregates_client.show_aggregate(i['id'])[
-                        'aggregate'])
+                                         'aggregate'])
             host = aggregate['hosts'][0]
 
         return host
@@ -230,48 +189,6 @@ class BareMetalManager(manager.ScenarioTest):
 
         return ip_address
 
-    def _detect_existing_networks(self):
-        """Use mathod only when test require no network  cls.set_network_resources()
-        it run over external_config networks, verified against existing networks.. 
-        in case all networks exist return True and fill self.test_networks lists
-        """
-        self.assertIsNotNone(CONF.hypervisor.external_config_file,
-                             'This test require missing extrnal_config, for this test')
-
-        self.assertTrue(self.test_network_dict,
-                        'No networks for test, please check external_config_file')
-
-        public_network = self.networks_client.list_networks(
-            **{'router:external': True})['networks']
-
-        """
-        Check public network exist in networks.
-        """
-        self.assertTrue(len(public_network) == 1,
-                        msg="There 0 or more than 1 public network")
-        self.test_network_dict['public'] = public_network[0]['name']
-
-
-    def _create_ports_on_networks(self, **kwargs):
-        """This run over prepared network dictionary
-        ports, unless port_security==False, ports created with rules
-        """
-        create_port_body = {'binding:vnic_type': '',
-                            'namestart': 'port-smoke'}
-        networks_list = []
-        """
-        set public networ first
-        """
-        for net_name, net_param in self.test_network_dict.iteritems():
-            if 'port_type' in net_param:
-                create_port_body['binding:vnic_type'] = net_param['port_type']
-                port = self._create_port(network_id=net_param['net-id'],
-                                         **create_port_body)
-                networks_list.append({'uuid': net_param['net-id'], 'port': port['id']})
-                if net_name == self.test_network_dict['public']:
-                    networks_list.insert(0, networks_list.pop())
-        return networks_list
-
     def _create_port(self, network_id, client=None, namestart='port-quotatest',
                      **kwargs):
         """This Method Overrides Manager::CreatePort to support direct and direct ph
@@ -299,22 +216,21 @@ class BareMetalManager(manager.ScenarioTest):
         :param flavor:
         :param name:
         """
-        if 'key_name' not in kwargs:
+        if 'key_name' not in dir(kwargs):
             key_pair = self.create_keypair()
             self.key_pairs[key_pair['name']] = key_pair
             kwargs['key_name'] = key_pair['name']
 
-        net_id = []
-        networks = []
-        if 'networks' in kwargs:
-            net_id = kwargs['networks']
-            kwargs.pop('networks', None)
-        else:
+        if 'networks' not in dir(kwargs):
             networks = self.networks_client.list_networks(
                 filters={'router:external': False})['networks']
+        else:
+            networks = kwargs['networks']
 
+        net_id = None
         for network in networks:
-            net_id.append({'uuid': network['id']})
+            if network['router:external'] == False:
+                net_id = [{'uuid': network['id']}]
 
         server = super(BareMetalManager, self).create_server(name=name,
                                                              networks=net_id,
