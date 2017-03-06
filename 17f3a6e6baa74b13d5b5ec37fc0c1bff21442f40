@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fabf19d9_f3478049",
+        "filename": "tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2017-03-06T11:24:11Z",
+      "side": 1,
+      "message": "method",
+      "range": {
+        "startLine": 234,
+        "startChar": 15,
+        "endLine": 234,
+        "endChar": 21
+      },
+      "revId": "17f3a6e6baa74b13d5b5ec37fc0c1bff21442f40",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
