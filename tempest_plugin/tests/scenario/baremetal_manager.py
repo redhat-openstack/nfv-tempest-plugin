@@ -189,6 +189,48 @@ class BareMetalManager(manager.ScenarioTest):
 
         return ip_address
 
+    def _detect_existing_networks(self):
+        """Use method only when test require no network  cls.set_network_resources()
+        it run over external_config networks, verified against existing networks..
+        in case all networks exist return True and fill self.test_networks lists
+        """
+        self.assertIsNotNone(CONF.hypervisor.external_config_file,
+                             'This test require missing extrnal_config, for this test')
+
+        self.assertTrue(self.test_network_dict,
+                        'No networks for test, please check external_config_file')
+
+        public_network = self.networks_client.list_networks(
+            **{'router:external': True})['networks']
+
+        """
+        Check public network exist in networks.
+        """
+        self.assertTrue(len(public_network) == 1,
+                        msg="There 0 or more than 1 public network")
+        self.test_network_dict['public'] = public_network[0]['name']
+
+
+    def _create_ports_on_networks(self, **kwargs):
+        """This run over prepared network dictionary
+        ports, unless port_security==False, ports created with rules
+        """
+        create_port_body = {'binding:vnic_type': '',
+                            'namestart': 'port-smoke'}
+        networks_list = []
+        """
+        set public networ first
+        """
+        for net_name, net_param in self.test_network_dict.iteritems():
+            if 'port_type' in net_param:
+                create_port_body['binding:vnic_type'] = net_param['port_type']
+                port = self._create_port(network_id=net_param['net-id'],
+                                         **create_port_body)
+                networks_list.append({'uuid': net_param['net-id'], 'port': port['id']})
+                if net_name == self.test_network_dict['public']:
+                    networks_list.insert(0, networks_list.pop())
+        return networks_list
+
     def _create_port(self, network_id, client=None, namestart='port-quotatest',
                      **kwargs):
         """This Method Overrides Manager::CreatePort to support direct and direct ph
