@@ -311,7 +311,7 @@ class BareMetalManager(manager.ScenarioTest):
             kwargs.pop('networks', None)
         else:
             networks = self.networks_client.list_networks(
-                filters={'router:external': False})['networks']
+                **{'router:external': False})['networks']
 
         for network in networks:
             net_id.append({'uuid': network['id']})
