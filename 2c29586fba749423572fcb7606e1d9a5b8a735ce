@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30283107_9d61c86d",
+        "filename": "tempest_plugin/network_config.yml.sample",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2017-06-15T11:18:23Z",
+      "side": 1,
+      "message": "Please, add the following note:\n\nMore detailed documentation of network creation could be found within the ansible-nfv git - https://github.com/redhat-openstack/ansible-nfv",
+      "revId": "2c29586fba749423572fcb7606e1d9a5b8a735ce",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7cde6997_e06c1c87",
+        "filename": "tempest_plugin/network_config.yml.sample",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2017-06-15T11:18:23Z",
+      "side": 1,
+      "message": "If router should not be created, remove the line.",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 16
+      },
+      "revId": "2c29586fba749423572fcb7606e1d9a5b8a735ce",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "794a4890_607bfb6a",
+        "filename": "tempest_plugin/network_config.yml.sample",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2017-06-15T11:18:23Z",
+      "side": 1,
+      "message": "Add property config. Could be taken from ansible-nfv defaults.\n\nThe following flavor not usable as not contains hugepages. As a result, dpdk instance will not get ip allocation.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 12
+      },
+      "revId": "2c29586fba749423572fcb7606e1d9a5b8a735ce",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6d0aa87_5c33c6e9",
+        "filename": "tempest_plugin/network_config.yml.sample",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2017-06-15T11:18:23Z",
+      "side": 1,
+      "message": "This is internal address.\nChange to 8.8.4.4",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 15
+      },
+      "revId": "2c29586fba749423572fcb7606e1d9a5b8a735ce",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac4550bd_0000d303",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_prep_net_plugin.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2017-06-15T11:18:23Z",
+      "side": 1,
+      "message": "Why is this hardcoded?\nWhat happens if I will change the network cidr in network_config?",
+      "range": {
+        "startLine": 160,
+        "startChar": 83,
+        "endLine": 160,
+        "endChar": 94
+      },
+      "revId": "2c29586fba749423572fcb7606e1d9a5b8a735ce",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
