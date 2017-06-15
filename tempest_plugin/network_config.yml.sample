@@ -1,31 +1,67 @@
-## The following config file set the configuration of the tempest tests.
-## The path to the file should be defined within the etc/tempest.conf under the
-## [hypervisor] section as the 'external_config_file ='.
-
+#More detailed documentation of network creation could be found within the ansible-nfv
+#git - https://github.com/redhat-openstack/ansible-nfv
 networks:
-  - name: datacentre_ovs_419
+  - name: public
     physical_network: datacentre
-    segmentation_id: 419
+    segmentation_id:
     external: true
-    allocation_pool_start: 192.10.10.18
-    allocation_pool_end: 192.10.10.29
-    cidr: 192.10.10.16/28
+    allocation_pool_start: 10.0.0.210
+    allocation_pool_end: 10.0.0.250
+    cidr: 10.0.0.0/24
     enable_dhcp: false
-    gateway_ip: 192.10.10.30
+    gateway_ip: 10.0.0.1
     router_name: router1
-    port_type: normal
-    ip_version: 4
     network_type: vlan
+    ip_version: 4
+    port_type: normal
+
+  - name: vlan1600
+    physical_network: tenant
+    segmentation_id: 1600
+    external: false
+    allocation_pool_start: 10.100.10.2
+    allocation_pool_end: 10.100.10.14
+    cidr: 10.100.10.0/28
+    enable_dhcp: true
+    gateway_ip: 10.100.10.1
+    router_name: router1
+    network_type: vlan
+    ip_version: 4
+    port_type: normal
+
+  - name: vlan1500
+    physical_network: tenant
+    segmentation_id: 1500
+    external: false
+    allocation_pool_start: 10.100.20.2
+    allocation_pool_end: 10.100.20.14
+    cidr: 10.100.20.0/28
+    enable_dhcp: true
+    gateway_ip: 10.100.20.1
+    network_type: vlan
+    ip_version: 4
+    port_type: normal
+
+flavors:
+  - name: nfv-test-flavor
+    ram: 512
+    disk: 20
+    vcpus: 2
+    property:
+     - "hw:mem_page_size=1GB"
+     - "hw:numa_mem.0=4096"
+     - "hw:numa_nodes=1"
+     - "hw:numa_cpus.0=0,1"
+     - "hw:cpu_policy=dedicated"
 
 tests-setup:
   - name: numa0
-    flavor: 7
+    flavor: nfv-test-flavor
     availability-zone: normal
-    image-id: 2db1f4c6-0f16-4e19-b26a-ec6cc78dde1c
 
 dns_nameservers:
-  - 192.10.28.28
+  - 8.8.4.4
   - 8.8.8.8
+
 tempest_tests:
-  - tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDirectScenarios.test_basic_network
-  - tempest.api.compute.admin.test_flavors.FlavorsAdminTestJSON.test_create_flavor_using_string_ram
+  - tempest_plugin.tests.scenario.test_nfv_prep_net_plugin.TestNfvPrepNetPlugin.test_tenant_network_cloud_init
