@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3189f117_6c67c312",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_prep_net_plugin.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-06-15T12:49:02Z",
+      "side": 1,
+      "message": "It is a sample test to explain how to work with cloud-init\nWith parameters and curly braces..\nI do not want to hide how to write things",
+      "parentUuid": "e209b65c_83dc636d",
+      "range": {
+        "startLine": 149,
+        "startChar": 17,
+        "endLine": 149,
+        "endChar": 35
+      },
+      "revId": "76b6f45882d74b44ced2e07ae4dc91f72762f6e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8437255a_e95d7fa0",
         "filename": "tempest_plugin/tests/scenario/test_nfv_prep_net_plugin.py",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2017-06-15T12:17:56Z",
       "side": 1,
       "message": "I think we should add this section only when debugging.\nFor scenario test it won\u0027t be necessary.",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 32
+      },
+      "revId": "76b6f45882d74b44ced2e07ae4dc91f72762f6e6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d33848e_0a455a2e",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_prep_net_plugin.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-06-15T12:49:02Z",
+      "side": 1,
+      "message": "It is a sample test to explain how to work with cloud-init\nWith parameters and curly braces..\nI do not want to hide how to write things",
+      "parentUuid": "8437255a_e95d7fa0",
       "range": {
         "startLine": 148,
         "startChar": 0,
