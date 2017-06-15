@@ -95,7 +95,8 @@ class BareMetalManager(manager.ScenarioTest):
         for net in self.external_config['networks']:
             self.test_network_dict[net['name']] = {'port_type': net['port_type'],
                                                    'gateway_ip': net['gateway_ip'],
-                                                   'external': net['external']}
+                                                   'external': net['external'],
+                                                   'router': net['router_name']}
         # iterate flavors and networks
         for net in self.test_network_dict.iterkeys():
             for network in networks:
@@ -234,6 +235,9 @@ class BareMetalManager(manager.ScenarioTest):
         """Use mathod only when test require no network  cls.set_network_resources()
         it run over external_config networks, verified against existing networks..
         in case all networks exist return True and fill self.test_networks lists
+
+        In case there is external router.. public network decided
+        based on router_external=False and router is not None  
         """
         self.assertIsNotNone(CONF.hypervisor.external_config_file,
                              'This test require missing extrnal_config, for this test')
@@ -246,11 +250,18 @@ class BareMetalManager(manager.ScenarioTest):
 
         """
         Check public network exist in networks.
+        Add here if else regards public networks.. remove it from network list
+        if  = 0 we create port on first network if = 1 we remove public nework 
+        and set next network
         """
-        self.assertTrue(len(public_network) == 1,
-                        msg="There 0 or more than 1 public network")
-        self.test_network_dict['public'] = public_network[0]['name']
+        if len(public_network) == 0:
+            self.test_network_dict['public'] = public_network[0]['name']
 
+        elif len(public_network) == 1:
+            for net_name, net_param in self.test_network_dict.iteritems():
+                if net_name != 'public' and net_param['router'] \
+                        and not net_param['external']:
+                    self.test_network_dict['public'] = net_name
 
     def _create_ports_on_networks(self, **kwargs):
         """This run over prepared network dictionary
@@ -260,11 +271,15 @@ class BareMetalManager(manager.ScenarioTest):
                             'namestart': 'port-smoke'}
         networks_list = []
         """
-        set public networ first
+        set public network first
         """
         for net_name, net_param in self.test_network_dict.iteritems():
             if 'port_type' in net_param:
                 create_port_body['binding:vnic_type'] = net_param['port_type']
+                if 'security_groups' in kwargs and net_name == \
+                        self.test_network_dict['public']:
+                    create_port_body['security_groups'] = \
+                        [s['id'] for s in kwargs['security_groups']]
                 port = self._create_port(network_id=net_param['net-id'],
                                          **create_port_body)
                 networks_list.append({'uuid': net_param['net-id'], 'port': port['id']})
@@ -315,6 +330,10 @@ class BareMetalManager(manager.ScenarioTest):
 
         for network in networks:
             net_id.append({'uuid': network['id']})
+
+        if 'availability_zone' in kwargs:
+            if kwargs['availability_zone'] is None:
+                kwargs.pop('availability_zone', None)
 
         server = super(BareMetalManager, self).create_server(name=name,
                                                              networks=net_id,
