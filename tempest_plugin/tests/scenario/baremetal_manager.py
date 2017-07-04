@@ -86,11 +86,7 @@ class BareMetalManager(manager.ScenarioTest):
         """
         networks = self.networks_client.list_networks()['networks']
         flavors = self.flavors_client.list_flavors()['flavors']
-
-        for test in self.external_config['tests-setup']:
-            self.test_setup_dict[test['name']] = {'flavor': test['flavor'],
-                                                  'availability-zone':
-                                                      test['availability-zone']}
+        images = self.image_client.list_images()['images']
 
         """
         Iterate over networks mandatory vars in external_config are:
@@ -108,16 +104,34 @@ class BareMetalManager(manager.ScenarioTest):
             if 'router_name' in net:
                 self.test_network_dict[net['name']]['router'] = net['router_name']
 
-        # iterate flavors and networks
+        # iterate networks
         for net in self.test_network_dict.iterkeys():
             for network in networks:
                 if network['name'] == net:
                     self.test_network_dict[net]['net-id'] = network['id']
 
+        for test in self.external_config['tests-setup']:
+            self.test_setup_dict[test['name']] = {'flavor': test['flavor']}
+            if 'availability-zone' in test and test['availability-zone'] is not None:
+                self.test_setup_dict[test['name']]['availability-zone'] = \
+                    test['availability-zone']
+            if 'image' in test and test['image'] is not None:
+                self.test_setup_dict[test['name']]['image'] = \
+                    test['image']
+
+        # iterate flavors_id
         for test, test_param in self.test_setup_dict.iteritems():
-            for flavor in flavors:
-                if test_param['flavor'] == flavor['name']:
-                    self.test_setup_dict[test]['flavor-id'] = flavor['id']
+            if 'flavor' in test_param:
+                for flavor in flavors:
+                    if test_param['flavor'] == flavor['name']:
+                        self.test_setup_dict[test]['flavor-id'] = flavor['id']
+
+        # iterate image_id
+        for test, test_param in self.test_setup_dict.iteritems():
+            if 'image' in test_param:
+                for image in images:
+                    if test_param['image'] == image['name']:
+                        self.test_setup_dict[test]['image-id'] = image['id']
 
     def create_flavor_with_extra_specs(self, name='flavor', vcpu=1, ram=2048,
                                        **extra_specs):
