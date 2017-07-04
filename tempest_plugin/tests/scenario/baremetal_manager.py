@@ -92,11 +92,22 @@ class BareMetalManager(manager.ScenarioTest):
                                                   'availability-zone':
                                                       test['availability-zone']}
 
+        """
+        Iterate over networks mandatory vars in external_config are:
+        port_type, gateway_ip
+        """
         for net in self.external_config['networks']:
             self.test_network_dict[net['name']] = {'port_type': net['port_type'],
-                                                   'gateway_ip': net['gateway_ip'],
-                                                   'external': net['external'],
-                                                   'router': net['router_name']}
+                                                   'gateway_ip': net['gateway_ip']}
+            """
+            Check for existence of optionals vars:
+            router_name, external.
+            """
+            if 'external' in net:
+                self.test_network_dict[net['name']]['external'] = net['external']
+            if 'router_name' in net:
+                self.test_network_dict[net['name']]['router'] = net['router_name']
+
         # iterate flavors and networks
         for net in self.test_network_dict.iterkeys():
             for network in networks:
@@ -250,17 +261,18 @@ class BareMetalManager(manager.ScenarioTest):
 
         """
         Check public network exist in networks.
-        Add here if else regards public networks.. remove it from network list
-        if  = 0 we create port on first network if = 1 we remove public nework 
-        and set next network
+        remove it from network list
+        if  = 0 we create port on first network if = 1  public network exist
+        and set next network as vm management network
+        name must not be public, router exist and network external false
         """
         if len(public_network) == 0:
             self.test_network_dict['public'] = public_network[0]['name']
 
         elif len(public_network) == 1:
             for net_name, net_param in self.test_network_dict.iteritems():
-                if net_name != 'public' and net_param['router'] \
-                        and not net_param['external']:
+                if net_name != 'public' and 'router' in net_param \
+                        and ('external' in net_param and not net_param['external']):
                     self.test_network_dict['public'] = net_name
 
     def _create_ports_on_networks(self, **kwargs):
