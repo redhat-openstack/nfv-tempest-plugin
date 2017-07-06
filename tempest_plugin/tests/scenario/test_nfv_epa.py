@@ -230,3 +230,4 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         self.assertTrue(self.ping_ip_address(fip['ip']), msg)
         self._check_vcpu_with_xml(self.instance, self.ip_address, test_setup_numa[4:])
 
+

@@ -147,18 +147,35 @@ class BareMetalManager(manager.ScenarioTest):
                         flavor_with_hugepages_id)
         return flavor_with_hugepages_id
 
-    def _check_vcpu_with_xml(self, server, host):
+    def _check_vcpu_with_xml(self, server, host, cell_id='0'):
         """This Method Connects to Bare Metal,Compute and return number of pinned CPUS
         """
         command = (
-            "virsh -c qemu:///system dumpxml %s" % (
+            "sudo virsh -c qemu:///system dumpxml %s" % (
                 server['OS-EXT-SRV-ATTR:instance_name']))
         cpuxml = self._run_command_over_ssh(host, command)
         string = ET.fromstring(cpuxml)
         s = string.findall('cputune')[0]
+        pinned_cpu_list = []
         for numofcpus in s.findall('vcpupin'):
             self.assertFalse(self.cpuregex.match(
                 numofcpus.items()[1][1]) is None)
+            pinned_cpu_list.append(numofcpus.items()[1][1])
+        """
+        check for existenace of CPU in NUMA cell
+        array=( cpu1 cpu2 cpu3 ); for i in "${array[@]}";
+        do if [ -d /sys/devices/system/cpu/cpu$i/node1 ] ;then echo $i; fi; done
+        """
+        format_list = " ".join(['{}'.format(x) for x in pinned_cpu_list])
+        command = '''
+        array=( {cpu_list} ); for i in "${{array[@]}}";do
+        if [ -d /sys/devices/system/cpu/cpu$i/node{cell} ];then
+        echo $i; fi; done'''.format(cell=cell_id, cpu_list=format_list)
+        res = self._run_command_over_ssh(host, command)
+        self.assertEqual(res.split(), pinned_cpu_list,
+                         'number of vCPUs on cell '
+                         '{cell} does not match to config {result}'.format(
+                             cell=cell_id, result=res.split))
 
     def _check_numa_with_xml(self, server, host):
         """This Method Connects to Bare Metal,Compute and return number of Cells
