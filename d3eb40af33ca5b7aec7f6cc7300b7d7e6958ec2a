@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a183bbc9_5e0798d0",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1008570
+      },
+      "writtenOn": "2017-07-06T15:01:39Z",
+      "side": 1,
+      "message": "This line is not needed.",
+      "range": {
+        "startLine": 232,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 0
+      },
+      "revId": "d3eb40af33ca5b7aec7f6cc7300b7d7e6958ec2a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
