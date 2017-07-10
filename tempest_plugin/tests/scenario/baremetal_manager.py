@@ -47,7 +47,7 @@ class BareMetalManager(manager.ScenarioTest):
 
         if CONF.hypervisor.private_key_file:
             key_str = open(CONF.hypervisor.private_key_file).read()
-            CONF.hypervisor.private_key_file = paramiko.RSAKey. \
+            CONF.hypervisor.private_key = paramiko.RSAKey. \
                 from_private_key(StringIO.StringIO(key_str))
         else:
             self.assertIsNotNone(CONF.hypervisor.password,
@@ -212,9 +212,9 @@ class BareMetalManager(manager.ScenarioTest):
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
         """Assuming all check done in Setup, otherwise Assert failing the test"""
-        if CONF.hypervisor.private_key_file:
+        if CONF.hypervisor.private_key:
             ssh.connect(host, username=CONF.hypervisor.user,
-                        pkey=CONF.hypervisor.private_key_file)
+                        pkey=CONF.hypervisor.private_key)
         else:
             ssh.connect(host, username=CONF.hypervisor.user,
                         password=CONF.hypervisor.password)
