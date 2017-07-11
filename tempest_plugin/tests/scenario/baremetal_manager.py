@@ -167,15 +167,27 @@ class BareMetalManager(manager.ScenarioTest):
         do if [ -d /sys/devices/system/cpu/cpu$i/node1 ] ;then echo $i; fi; done
         """
         format_list = " ".join(['{}'.format(x) for x in pinned_cpu_list])
+        """
+        In case of mix topology checking only node0 and verifying
+        pinned_cpu_list > res.split()
+        """
+        mix_mode = 'mix' if cell_id == 'mix' else cell_id
         command = '''
         array=( {cpu_list} ); for i in "${{array[@]}}";do
         if [ -d /sys/devices/system/cpu/cpu$i/node{cell} ];then
         echo $i; fi; done'''.format(cell=cell_id, cpu_list=format_list)
         res = self._run_command_over_ssh(host, command)
-        self.assertEqual(res.split(), pinned_cpu_list,
-                         'number of vCPUs on cell '
-                         '{cell} does not match to config {result}'.format(
-                             cell=cell_id, result=res.split))
+        #!!! In case of Mix search for res smaller than pinned_cpu_list
+        if(mix_mode != 'mix'):
+            self.assertEqual(res.split(), pinned_cpu_list,
+                             'number of vCPUs on cell '
+                             '{cell} does not match to config {result}'.format(
+                                 cell=cell_id, result=res.split))
+        else:
+            self.assertIsNot(len(res.split()), len(pinned_cpu_list),
+                             'number of mix vCPUs on cell '
+                             '{cell} is equal to config {result}'.format(
+                                 cell=cell_id, result=res.split))
 
     def _check_numa_with_xml(self, server, host):
         """This Method Connects to Bare Metal,Compute and return number of Cells
