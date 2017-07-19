@@ -118,6 +118,9 @@ class BareMetalManager(manager.ScenarioTest):
             if 'image' in test and test['image'] is not None:
                 self.test_setup_dict[test['name']]['image'] = \
                     test['image']
+            if 'router' in test and test['router'] is not None:
+                self.test_setup_dict[test['name']]['router'] = \
+                    test['router']
 
         # iterate flavors_id
         for test, test_param in self.test_setup_dict.iteritems():
@@ -177,8 +180,8 @@ class BareMetalManager(manager.ScenarioTest):
         if [ -d /sys/devices/system/cpu/cpu$i/node{cell} ];then
         echo $i; fi; done'''.format(cell=cell_id, cpu_list=format_list)
         res = self._run_command_over_ssh(host, command)
-        #!!! In case of Mix search for res smaller than pinned_cpu_list
-        if(mix_mode != 'mix'):
+        # !!! In case of Mix search for res smaller than pinned_cpu_list
+        if mix_mode != 'mix':
             self.assertEqual(res.split(), pinned_cpu_list,
                              'number of vCPUs on cell '
                              '{cell} does not match to config {result}'.format(
@@ -310,7 +313,7 @@ class BareMetalManager(manager.ScenarioTest):
         name must not be public, router exist and network external false
         """
         if len(public_network) == 0:
-            self.test_network_dict['public'] = public_network[0]['name']
+            self.test_network_dict['public'] = self.test_network_dict.keys()[0]
 
         elif len(public_network) == 1:
             for net_name, net_param in self.test_network_dict.iteritems():
