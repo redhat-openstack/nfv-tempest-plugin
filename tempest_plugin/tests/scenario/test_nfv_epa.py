@@ -84,6 +84,10 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
             kwargs['availability_zone'] = \
                 self.test_setup_dict[test_setup_numa]['availability-zone']
 
+        router_exist = True
+        if 'router' in self.test_setup_dict[test_setup_numa]:
+            router_exist = self.test_setup_dict[test_setup_numa]['router']
+
         """
         Create Keys for Deployed Guest Image
         """
@@ -130,7 +134,11 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         """
         Create floating ip to management port.
         """
-        fip = self.create_floating_ip(self.instance, self.public_network)
+        fip = None
+        if router_exist:
+           fip = self.create_floating_ip(self.instance, self.public_network)
+        else:
+           fip = self.instance['addresses'][self.test_network_dict['public']][0]['addr']
         LOG.info("fip: %s, instance_id: %s", fip['ip'], self.instance["id"])
         """
         Run ping.

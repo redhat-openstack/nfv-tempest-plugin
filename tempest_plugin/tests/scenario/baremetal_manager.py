@@ -118,6 +118,10 @@ class BareMetalManager(manager.ScenarioTest):
             if 'image' in test and test['image'] is not None:
                 self.test_setup_dict[test['name']]['image'] = \
                     test['image']
+            if 'router' in test and test['router'] is not None:
+                self.test_setup_dict[test['name']]['router'] = \
+                    test['router']
+
 
         # iterate flavors_id
         for test, test_param in self.test_setup_dict.iteritems():
@@ -310,7 +314,7 @@ class BareMetalManager(manager.ScenarioTest):
         name must not be public, router exist and network external false
         """
         if len(public_network) == 0:
-            self.test_network_dict['public'] = public_network[0]['name']
+            self.test_network_dict['public'] = self.test_network_dict.keys()[0]
 
         elif len(public_network) == 1:
             for net_name, net_param in self.test_network_dict.iteritems():
