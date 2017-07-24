@@ -316,10 +316,16 @@ class BareMetalManager(manager.ScenarioTest):
             self.test_network_dict['public'] = self.test_network_dict.keys()[0]
 
         elif len(public_network) == 1:
+            self.test_network_dict['public'] = None
+            remove_network = None
             for net_name, net_param in self.test_network_dict.iteritems():
                 if net_name != 'public' and 'router' in net_param \
-                        and ('external' in net_param and not net_param['external']):
-                    self.test_network_dict['public'] = net_name
+                        and 'external' in net_param:
+                    if not net_param['external']:
+                        self.test_network_dict['public'] = net_name
+                    else:
+                        remove_network = net_name
+            self.test_network_dict.pop(remove_network)
 
     def _create_ports_on_networks(self, **kwargs):
         """This run over prepared network dictionary
@@ -341,9 +347,6 @@ class BareMetalManager(manager.ScenarioTest):
                 port = self._create_port(network_id=net_param['net-id'],
                                          **create_port_body)
                 networks_list.append({'uuid': net_param['net-id'], 'port': port['id']})
-                if net_name == self.test_network_dict['public']:
-                    networks_list.insert(0, networks_list.pop())
-        return networks_list
 
     def _create_port(self, network_id, client=None, namestart='port-quotatest',
                      **kwargs):
