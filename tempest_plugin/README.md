@@ -5,8 +5,8 @@ This directory contains Tempest tests to cover the NfvTest project.
 
 # Setup steps:
 ## Prerequisites:
-* Installed tempest virtual environment.
-* Cloned tempest repository.
+* Cloned/Installed upstream tempest repository.
+* Cloned and executes python-tempestconf
 
 ## NFV plugin setup:
 
@@ -28,7 +28,7 @@ This directory contains Tempest tests to cover the NfvTest project.
 `$ testr list-tests |grep -i nfv`
 
 ## NFV tester environment:
-The plugin planned to run from TripleO undercloud compute
+The plugin planned to run from TripleO Undercloud host (Used as a tester).
 In case ssh connection to overcloud computes needed:
 ssh keys defined in tempest.conf
 ssh from undercloud as user heat-admin to overcloud
@@ -42,7 +42,6 @@ user = heat-admin
 This file ignored if tempest.conf does not include the following parameter
 [hypervisor]
 external_config_file = network_config.yml
-
 
 ## NFV plugin automatic configuration, setup and run:
 
