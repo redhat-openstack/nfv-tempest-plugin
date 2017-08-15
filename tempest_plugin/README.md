@@ -5,8 +5,8 @@ This directory contains Tempest tests to cover the NfvTest project.
 
 # Setup steps:
 ## Prerequisites:
-* Installed tempest virtual environment.
-* Cloned tempest repository.
+* Cloned/Installed upstream tempest repository.
+* Cloned and executes python-tempestconf
 
 ## NFV plugin setup:
 
@@ -42,7 +42,6 @@ user = heat-admin
 This file ignored if tempest.conf does not include the following parameter
 [hypervisor]
 external_config_file = network_config.yml
-
 
 ## NFV plugin automatic configuration, setup and run:
 

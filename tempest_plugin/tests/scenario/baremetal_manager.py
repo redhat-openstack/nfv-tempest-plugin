@@ -3,7 +3,9 @@ from tempest import config
 from tempest.scenario import manager
 import paramiko
 import xml.etree.ElementTree as ET
-from tempest.common.utils import data_utils
+from tempest.lib.common.utils import data_utils
+from tempest.lib.common.utils import test_utils
+
 import StringIO
 import yaml
 import os.path
@@ -15,7 +17,7 @@ LOG = log.getLogger(__name__)
 class BareMetalManager(manager.ScenarioTest):
     """This class Interacts with BareMetal settings
     """
-    credentials = ['primary']
+    credentials = ['primary', 'admin']
 
     def __init__(self, *args, **kwargs):
         super(BareMetalManager, self).__init__(*args, **kwargs)
@@ -288,8 +290,80 @@ class BareMetalManager(manager.ScenarioTest):
 
         return ip_address
 
+    def _create_test_networks(self):
+        """
+        Method read test-networks attributes from external_config.yml, to be created for
+        tempest tenant, Do not use this method if the test need to run on pre-configured
+        networks.. see _detect_existing_networks() method
+        """
+        if len(self.external_config['test-networks']) > 0:
+            self.test_network_dict.clear()
+        mgmt_network = None
+        for net in self.external_config['test-networks']:
+            self.test_network_dict[net['name']] = \
+                {'provider:physical_network': net['physical_network'],
+                 'provider:segmentation_id': net['segmentation_id'],
+                 'provider:network_type': net['network_type'],
+                 'dhcp': net['enable_dhcp'],
+                 'cidr': net['cidr'],
+                 'pool_start': net['allocation_pool_start'],
+                 'pool_end': net['allocation_pool_end'],
+                 'gateway_ip': net['gateway_ip'],
+                 'port_type': net['port_type'],
+                 'ip_version': net['ip_version']}
+            if 'mgmt' in net and net['mgmt']:
+                mgmt_network = net['name']
+        network_kwargs = {}
+        """
+        Create network and subnets
+        """
+        for net_name, net_param in self.test_network_dict.iteritems():
+            network_kwargs.clear()
+            network_kwargs['name'] = net_name
+            if 'sec_groups' in net_param:
+                network_kwargs['port_security_enabled'] = net_param['sec_groups']
+            if 'provider:physical_network' in net_param:
+                network_kwargs['provider:physical_network'] =\
+                    net_param['provider:physical_network']
+            if 'provider:segmentation_id' in net_param:
+                network_kwargs['provider:segmentation_id'] =\
+                    net_param['provider:segmentation_id']
+            if 'provider:network_type' in net_param:
+                network_kwargs['provider:network_type'] =\
+                    net_param['provider:network_type']
+
+            network_kwargs['tenant_id'] = self.networks_client.tenant_id
+            result = self.os_admin.networks_client.create_network(**network_kwargs)
+            network = result['network']
+            self.assertEqual(network['name'], net_name)
+            self.addCleanup(test_utils.call_and_ignore_notfound_exc,
+                            self.os_admin.networks_client.delete_network,
+                            network['id'])
+            network_kwargs.clear()
+            network_kwargs['network_id'] = network['id']
+            self.test_network_dict[net_name]['net-id'] = network['id']
+            network_kwargs['name'] = net_name + '_subnet'
+            network_kwargs['ip_version'] = net_param['ip_version']
+            if 'cidr' in net_param:
+                network_kwargs['cidr'] = net_param['cidr']
+            if 'gateway_ip' in net:
+                network_kwargs['gateway_ip'] = net_param['gateway_ip']
+            if 'dhcp' in net and not net_param['dhcp']:
+                network_kwargs['dhcp'] = net_param['dhcp']
+            if 'allocation_pool_start' in net_param:
+                network_kwargs['allocation_pools'] = \
+                    [{'start': net_param['allocation_pool_start'],
+                      'end':net_param['allocation_pool_end']}]
+
+            result = self.subnets_client.create_subnet(**network_kwargs)
+            subnet = result['subnet']
+            self.addCleanup(test_utils.call_and_ignore_notfound_exc,
+                            self.subnets_client.delete_subnet, subnet['id'])
+        if mgmt_network is not None:
+            self.test_network_dict['public'] = mgmt_network
+
     def _detect_existing_networks(self):
-        """Use mathod only when test require no network  cls.set_network_resources()
+        """Use mathod only when test require no network cls.set_network_resources()
         it run over external_config networks, verified against existing networks..
         in case all networks exist return True and fill self.test_networks lists
 
