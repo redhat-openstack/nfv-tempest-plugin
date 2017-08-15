@@ -48,7 +48,7 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         super(TestBasicEpa, self).setUp()
         # pre setup creations and checks read from config files
 
-    def test_numa0_provider_network(self):
+    def _test_numa_provider_network(self, test_setup_numa):
         """
         The test shows how to deploy Guest with existing networks..
         external_config.. networks leaf need only network names and port types
@@ -68,7 +68,6 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         result = self._run_command_over_ssh(self.ip_address, command)
         self.assertTrue(int(result[0]) == 2)
 
-        test_setup_numa = "numa0"
         """
         If the test demands external_config.. apply assertion check for config
         """
@@ -100,7 +99,7 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         kwargs['security_groups'] = [{'name': security_group['name'],
                                       'id': security_group['id']}]
 
-        super(TestBasicEpa, self)._detect_existing_networks()
+        super(TestBasicEpa, self)._create_test_networks()
         kwargs['networks'] = super(TestBasicEpa, self).\
             _create_ports_on_networks(**kwargs)
 
@@ -134,7 +133,9 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         """
         Create floating ip to management port.
         """
-        fip = self.instance['addresses'][self.test_network_dict['public']][0]['addr']
+        fip = dict()
+        fip['ip'] = \
+            self.instance['addresses'][self.test_network_dict['public']][0]['addr']
         if router_exist:
             fip = self.create_floating_ip(self.instance, self.public_network)
 
@@ -146,188 +147,11 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         self.assertTrue(self.ping_ip_address(fip['ip']), msg)
         self._check_vcpu_with_xml(self.instance, self.ip_address, test_setup_numa[4:])
 
+    def test_numa0_provider_network(self):
+        self._test_numa_provider_network("numa0")
+
     def test_numa1_provider_network(self):
-        """
-        The test shows how to deploy Guest with existing networks..
-        external_config.. networks leaf need only network names and port types
-        per test setup flavor-id, image-id, availability zone
-        The test identifies networks.. create ports prepare port list and parse it to vm
-        It relies on l3 provider network, no router
-        consume test-setup
-
-        numa_topology='numa0','numa1',numamix
-        """
-        self.assertIsNotNone(CONF.hypervisor.external_config_file,
-                             'This test require missing extrnal_config, for this test')
-
-        """
-        Check CPU mapping for numa1
-        """
-        self.ip_address = self._get_hypervisor_host_ip()
-        command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
-        result = self._run_command_over_ssh(self.ip_address, command)
-        self.assertTrue(int(result[0]) == 2)
-
-        test_setup_numa = "numa1"
-        """
-        If the test demands external_config.. apply assertion check for config
-        """
-        kwargs = {}
-        self.assertTrue(test_setup_numa in self.test_setup_dict,
-                        "test requires {0}, setup in externs_config_file".
-                        format(test_setup_numa))
-
-        if 'flavor' in self.test_setup_dict[test_setup_numa]:
-            self.flavor_ref = self.test_setup_dict[test_setup_numa]['flavor-id']
-
-        if 'availability-zone' in self.test_setup_dict[test_setup_numa]:
-            kwargs['availability_zone'] = \
-                self.test_setup_dict[test_setup_numa]['availability-zone']
-
-        """
-        Create Keys for Deployed Guest Image
-        """
-        keypair = self.create_keypair()
-        self.key_pairs[keypair['name']] = keypair
-        """
-        Create security groups [icmp,ssh] for Deployed Guest Image
-        """
-        security_group = self._create_security_group()
-        kwargs['security_groups'] = [{'name': security_group['name'],
-                                      'id': security_group['id']}]
-
-        super(TestBasicEpa, self)._detect_existing_networks()
-        kwargs['networks'] = super(TestBasicEpa, self).\
-            _create_ports_on_networks(**kwargs)
-
-        gw_ip = self.test_network_dict[self.test_network_dict['public']]['gateway_ip']
-
-        script = '''
-                 #cloud-config
-                 user: {user}
-                 password: {passwd}
-                 chpasswd: {{expire: False}}
-                 ssh_pwauth: True
-                 disable_root: 0
-                 runcmd:
-                 - cd /etc/sysconfig/network-scripts/
-                 - cp ifcfg-eth0 ifcfg-eth1
-                 - sed -i 's/'eth0'/'eth1'/' ifcfg-eth1
-                 - echo {gateway}{gw_ip} >>  /etc/sysconfig/network
-                 - systemctl restart network'''.format(gateway='GATEWAY=',
-                                                       gw_ip=gw_ip,
-                                                       user=self.ssh_user,
-                                                       passwd=self.ssh_passwd)
-
-        script_clean = textwrap.dedent(script).lstrip().encode('utf8')
-        script_b64 = base64.b64encode(script_clean)
-        kwargs['user_data'] = script_b64
-
-        self.instance = self.create_server(key_name=keypair['name'],
-                                           image_id=self.image_ref,
-                                           flavor=self.flavor_ref,
-                                           wait_until='ACTIVE', **kwargs)
-        """
-        Create floating ip to management port.
-        """
-        fip = self.create_floating_ip(self.instance, self.public_network)
-        LOG.info("fip: %s, instance_id: %s", fip['ip'], self.instance["id"])
-        """
-        Run ping.
-        """
-        msg = "Timed out waiting for %s to become reachable" % fip['ip']
-        self.assertTrue(self.ping_ip_address(fip['ip']), msg)
-        self._check_vcpu_with_xml(self.instance, self.ip_address, test_setup_numa[4:])
+        self._test_numa_provider_network("numa1")
 
     def test_numamix_provider_network(self):
-        """
-        The test shows how to deploy Guest with existing networks..
-        external_config.. networks leaf need only network names and port types
-        per test setup flavor-id, image-id, availability zone
-        The test identifies networks.. create ports prepare port list and parse it to vm
-        It relies on l3 provider network, no router
-        consume test-setup
-
-        numa_topology='numa0','numa1',numamix
-        """
-        self.assertIsNotNone(CONF.hypervisor.external_config_file,
-                             'This test require missing extrnal_config, for this test')
-
-        """
-        Check CPU mapping for numa1
-        """
-        self.ip_address = self._get_hypervisor_host_ip()
-        command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
-        result = self._run_command_over_ssh(self.ip_address, command)
-        self.assertTrue(int(result[0]) == 2)
-
-        test_setup_numa = "numamix"
-        """
-        If the test demands external_config.. apply assertion check for config
-        """
-        kwargs = {}
-        self.assertTrue(test_setup_numa in self.test_setup_dict,
-                        "test requires {0}, setup in externs_config_file".
-                        format(test_setup_numa))
-
-        if 'flavor' in self.test_setup_dict[test_setup_numa]:
-            self.flavor_ref = self.test_setup_dict[test_setup_numa]['flavor-id']
-
-        if 'availability-zone' in self.test_setup_dict[test_setup_numa]:
-            kwargs['availability_zone'] = \
-                self.test_setup_dict[test_setup_numa]['availability-zone']
-
-        """
-        Create Keys for Deployed Guest Image
-        """
-        keypair = self.create_keypair()
-        self.key_pairs[keypair['name']] = keypair
-        """
-        Create security groups [icmp,ssh] for Deployed Guest Image
-        """
-        security_group = self._create_security_group()
-        kwargs['security_groups'] = [{'name': security_group['name'],
-                                      'id': security_group['id']}]
-
-        super(TestBasicEpa, self)._detect_existing_networks()
-        kwargs['networks'] = super(TestBasicEpa, self).\
-            _create_ports_on_networks(**kwargs)
-
-        gw_ip = self.test_network_dict[self.test_network_dict['public']]['gateway_ip']
-
-        script = '''
-                 #cloud-config
-                 user: {user}
-                 password: {passwd}
-                 chpasswd: {{expire: False}}
-                 ssh_pwauth: True
-                 disable_root: 0
-                 runcmd:
-                 - cd /etc/sysconfig/network-scripts/
-                 - cp ifcfg-eth0 ifcfg-eth1
-                 - sed -i 's/'eth0'/'eth1'/' ifcfg-eth1
-                 - echo {gateway}{gw_ip} >>  /etc/sysconfig/network
-                 - systemctl restart network'''.format(gateway='GATEWAY=',
-                                                       gw_ip=gw_ip,
-                                                       user=self.ssh_user,
-                                                       passwd=self.ssh_passwd)
-
-        script_clean = textwrap.dedent(script).lstrip().encode('utf8')
-        script_b64 = base64.b64encode(script_clean)
-        kwargs['user_data'] = script_b64
-
-        self.instance = self.create_server(key_name=keypair['name'],
-                                           image_id=self.image_ref,
-                                           flavor=self.flavor_ref,
-                                           wait_until='ACTIVE', **kwargs)
-        """
-        Create floating ip to management port.
-        """
-        fip = self.create_floating_ip(self.instance, self.public_network)
-        LOG.info("fip: %s, instance_id: %s", fip['ip'], self.instance["id"])
-        """
-        Run ping.
-        """
-        msg = "Timed out waiting for %s to become reachable" % fip['ip']
-        self.assertTrue(self.ping_ip_address(fip['ip']), msg)
-        self._check_vcpu_with_xml(self.instance, self.ip_address, test_setup_numa[4:])
+        self._test_numa_provider_network("numamix")

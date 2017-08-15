@@ -1,5 +1,6 @@
 #More detailed documentation of network creation could be found within the ansible-nfv
 #git - https://github.com/redhat-openstack/ansible-nfv
+#Test networks configuration already created, to be used by tempest tests.
 networks:
   - name: public
     physical_network: datacentre
@@ -15,10 +16,12 @@ networks:
     ip_version: 4
     port_type: normal
 
+#Test networks configuration to be created by tempest tests.
+test-networks:
   - name: vlan1600
     physical_network: tenant
+    mgmt: true
     segmentation_id: 1600
-    external: false
     allocation_pool_start: 10.100.10.2
     allocation_pool_end: 10.100.10.14
     cidr: 10.100.10.0/28
@@ -27,12 +30,12 @@ networks:
     router_name: router1
     network_type: vlan
     ip_version: 4
+    sec_groups: true
     port_type: normal
 
   - name: vlan1500
     physical_network: tenant
     segmentation_id: 1500
-    external: false
     allocation_pool_start: 10.100.20.2
     allocation_pool_end: 10.100.20.14
     cidr: 10.100.20.0/28
@@ -58,6 +61,7 @@ tests-setup:
   - name: numa0
     flavor: nfv-test-flavor
     availability-zone: normal
+    router: true
 
 dns_nameservers:
   - 8.8.4.4
