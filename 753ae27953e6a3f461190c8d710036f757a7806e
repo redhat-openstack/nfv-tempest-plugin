@@ -22,6 +22,30 @@
       "revId": "753ae27953e6a3f461190c8d710036f757a7806e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d170c68_a7b4fbf9",
+        "filename": "tempest_plugin/network_config.yml.sample",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-08-16T11:53:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "755ec74d_d4e4b8c0",
+      "range": {
+        "startLine": 3,
+        "startChar": 29,
+        "endLine": 3,
+        "endChar": 36
+      },
+      "revId": "753ae27953e6a3f461190c8d710036f757a7806e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
