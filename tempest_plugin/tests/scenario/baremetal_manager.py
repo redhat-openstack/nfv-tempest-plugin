@@ -155,9 +155,10 @@ class BareMetalManager(manager.ScenarioTest):
     def _check_vcpu_with_xml(self, server, host, cell_id='0'):
         """This Method Connects to Bare Metal,Compute and return number of pinned CPUS
         """
+        instance_properties = self.os_admin.servers_client.show_server(self.instance['id'])['server']
         command = (
             "sudo virsh -c qemu:///system dumpxml %s" % (
-                server['OS-EXT-SRV-ATTR:instance_name']))
+                instance_properties['OS-EXT-SRV-ATTR:instance_name']))
         cpuxml = self._run_command_over_ssh(host, command)
         string = ET.fromstring(cpuxml)
         s = string.findall('cputune')[0]
@@ -197,9 +198,10 @@ class BareMetalManager(manager.ScenarioTest):
     def _check_numa_with_xml(self, server, host):
         """This Method Connects to Bare Metal,Compute and return number of Cells
         """
+        instance_properties = self.os_admin.servers_client.show_server(self.instance['id'])['server']
         command = (
             "virsh -c qemu:///system dumpxml %s" % (
-                server['OS-EXT-SRV-ATTR:instance_name']))
+                instance_properties['OS-EXT-SRV-ATTR:instance_name']))
         numaxml = self._run_command_over_ssh(host, command)
         string = ET.fromstring(numaxml)
         r = string.findall('cpu')[0]
