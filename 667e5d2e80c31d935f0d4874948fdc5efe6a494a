@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1c742728_4fe53bf7",
+        "filename": "tempest_plugin/network_config.yml.sample",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1008570
+      },
+      "writtenOn": "2017-09-13T07:41:40Z",
+      "side": 1,
+      "message": "This way I could only validate tuned service,\nI would like to validate several packages, and append as wished.\nI could add another method which checks the profile if necessary.",
+      "parentUuid": "57f800ff_c9e6a6a4",
+      "range": {
+        "startLine": 66,
+        "startChar": 1,
+        "endLine": 66,
+        "endChar": 18
+      },
+      "revId": "667e5d2e80c31d935f0d4874948fdc5efe6a494a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8cb19a0a_1f9a4718",
         "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
         "patchSetId": 2
