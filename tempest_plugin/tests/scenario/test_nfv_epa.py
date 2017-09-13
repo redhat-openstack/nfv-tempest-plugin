@@ -155,3 +155,37 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
 
     def test_numamix_provider_network(self):
         self._test_numa_provider_network("numamix")
+
+    def _test_check_package_version(self, test_compute):
+        """
+        - Checks if package exists on hypervisors
+        - If given - checks if the service is at active state
+        - If given - checks the active tuned-profile
+
+        * The test demands test_compute list
+        """
+        self.assertTrue(self.test_setup_dict[test_compute],
+                        "test requires compute-packages list in external_config_file")
+        self.ip_address = self._get_hypervisor_host_ip()
+        if 'package-names' in self.test_setup_dict[test_compute]:
+            if self.test_setup_dict[test_compute]['package-names'] is not None:
+                command = "rpm -qa | grep %s" % self.test_setup_dict[test_compute]['package-names']
+                result = self._run_command_over_ssh(self.ip_address, command)
+                self.assertTrue(self.test_setup_dict[test_compute]['package-names'] in result)
+        if 'service-names' in self.test_setup_dict[test_compute]:
+            if self.test_setup_dict[test_compute]['service-names'] is not None:
+                command = "systemctl status %s | grep Active | awk '{print $2}'" \
+                          % self.test_setup_dict[test_compute]['service-names']
+                result = self._run_command_over_ssh(self.ip_address, command)
+                self.assertTrue('active' in result)
+        if 'tuned-profile' in self.test_setup_dict[test_compute]:
+            if self.test_setup_dict[test_compute]['tuned-profile'] is not None:
+                command = "sudo tuned-adm active | awk '{print $4}'"
+                result = self._run_command_over_ssh(self.ip_address, command)
+                self.assertTrue(self.test_setup_dict[test_compute]['tuned-profile'] in result)
+        command = "sudo cat /proc/cmdline | grep nohz | grep nohz_full | grep rcu_nocbs | grep intel_pstate  | wc -l"
+        result = self._run_command_over_ssh(self.ip_address, command)
+        self.assertEqual(int(result),1)
+
+    def test_packages_compute(self):
+        self._test_check_package_version("compute-packges")
