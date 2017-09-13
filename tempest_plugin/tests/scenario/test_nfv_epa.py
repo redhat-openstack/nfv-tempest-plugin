@@ -155,3 +155,33 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
 
     def test_numamix_provider_network(self):
         self._test_numa_provider_network("numamix")
+
+    def test_check_package_version(self):
+        """
+        - Checks if package exists on hypervisors
+        - If given - checks if the service is at active state
+        - If given - checks the active tuned-profile
+
+        * The test demands 'compute-packges' list
+        """
+        self.assertTrue(self.compute_packages_dict['compute-packges'],
+            "test requires compute-packages list in external_config_file")
+        self.ip_address = self._get_hypervisor_host_ip()
+        if (('package-names' in self.compute_packages_dict['compute-packges']) and
+        (self.compute_packages_dict['compute-packges']['package-names'] is not None)):
+            command = "rpm -qa | grep %s" % self.compute_packages_dict['compute-packges']['package-names']
+            result = self._run_command_over_ssh(self.ip_address, command)
+            self.assertTrue(self.compute_packages_dict['compute-packges']['package-names'] in result)
+        if (('service-names' in self.compute_packages_dict['compute-packges']) and
+        (self.compute_packages_dict['compute-packges']['service-names'] is not None)):
+            command = "systemctl status %s | grep Active | awk '{print $2}'" % self.compute_packages_dict['compute-packges']['service-names']
+            result = self._run_command_over_ssh(self.ip_address, command)
+            self.assertTrue('active' in result)
+        if(('tuned-profile' in self.compute_packages_dict['compute-packges']) and
+        (self.compute_packages_dict['compute-packges']['tuned-profile'] is not None)):
+            command = "sudo tuned-adm active | awk '{print $4}'"
+            result = self._run_command_over_ssh(self.ip_address, command)
+            self.assertTrue(self.compute_packages_dict['compute-packges']['tuned-profile'] in result)
+        command = "sudo cat /proc/cmdline | grep nohz | grep nohz_full | grep intel_pstate  | wc -l"
+        result = self._run_command_over_ssh(self.ip_address, command)
+        self.assertEqual(int(result),1)
