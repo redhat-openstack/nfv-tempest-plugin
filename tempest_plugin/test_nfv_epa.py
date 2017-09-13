@@ -158,13 +158,27 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
 
     def test_check_package_version(self):
         """
-        Method checks if package available on hypervisors
-        Test demands package-existence list in external config file
+        - Checks if package exists on hypervisors
+        - If given - checks if the service is at active state
+        - If given - checks the active tuned-profile
+        
+        * The test demands 'compute-packges' list
         """
-    self.assertTrue(self.external_config['package-existence'],
-        "test requires package-existence list in external_config_file")
-    for package in self.external_config['package-existence']:
+	self.assertTrue(self.compute_packages_dict['compute-packges'], 
+		"test requires compute-packages list in external_config_file")
         self.ip_address = self._get_hypervisor_host_ip()
-        command = "rpm -qa | grep %s" % package
+        if (('package-names' in self.compute_packages_dict['compute-packges']) and (self.compute_packages_dict['compute-packges']['package-names'] is not None)):
+	    command = "rpm -qa | grep %s" % self.compute_packages_dict['compute-packges']['package-names']
             result = self._run_command_over_ssh(self.ip_address, command)
-        self.assertTrue(package in result)
+	    self.assertTrue(self.compute_packages_dict['compute-packges']['package-names'] in result)
+        if (('service-names' in self.compute_packages_dict['compute-packges']) and (self.compute_packages_dict['compute-packges']['service-names'] is not None)):
+            command = "systemctl status %s | grep Active | awk '{print $2}'" % self.compute_packages_dict['compute-packges']['service-names']
+            result = self._run_command_over_ssh(self.ip_address, command)
+            self.assertTrue('active' in result)
+        if(('tuned-profile' in self.compute_packages_dict['compute-packges']) and (self.compute_packages_dict['compute-packges']['tuned-profile'] is not None)):
+            command = "sudo tuned-adm active | awk '{print $4}'"
+            result = self._run_command_over_ssh(self.ip_address, command)
+            self.assertTrue(self.compute_packages_dict['compute-packges']['tuned-profile'] in result)
+        command = "sudo cat /proc/cmdline | grep iommu | grep isolcpus | grep nohz | grep nohz_full | grep rcu_nocbs | grep intel_pstate  | wc -l"
+        result = self._run_command_over_ssh(self.ip_address, command)
+        self.assertEqual(int(result),1)
