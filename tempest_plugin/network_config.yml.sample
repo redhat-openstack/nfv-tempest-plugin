@@ -62,6 +62,11 @@ tests-setup:
     flavor: nfv-test-flavor
     availability-zone: normal
     router: true
+  - name: compute-packges
+    package-names: tuned-2.8.0-5.el7.noarch
+    service-names: tuned.service
+    tuned-profile: cpu-partitioning
+
 
 dns_nameservers:
   - 8.8.4.4

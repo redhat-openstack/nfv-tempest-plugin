@@ -29,7 +29,7 @@ class BareMetalManager(manager.ScenarioTest):
         self.servers = []
         self.test_networks = {}
         self.test_network_dict = {}
-        self.test_setup_dict = {}
+        self.compute_packages_dict = {}
 
     @classmethod
     def setup_clients(cls):
@@ -111,9 +111,10 @@ class BareMetalManager(manager.ScenarioTest):
             for network in networks:
                 if network['name'] == net:
                     self.test_network_dict[net]['net-id'] = network['id']
-
+        # Insert here every new parameter.
         for test in self.external_config['tests-setup']:
-            self.test_setup_dict[test['name']] = {'flavor': test['flavor']}
+            if 'flavor' in test and test['flavor'] is not None:
+                self.test_setup_dict[test['name']] = {'flavor': test['flavor']}
             if 'availability-zone' in test and test['availability-zone'] is not None:
                 self.test_setup_dict[test['name']]['availability-zone'] = \
                     test['availability-zone']
@@ -123,6 +124,14 @@ class BareMetalManager(manager.ScenarioTest):
             if 'router' in test and test['router'] is not None:
                 self.test_setup_dict[test['name']]['router'] = \
                     test['router']
+            if 'package-names' in test and test['package-names'] is not None:
+                self.compute_packages_dict[test['name']] = {'package-names': test['package-names']}
+            if 'service-names' in test and test['service-names'] is not None:
+                self.compute_packages_dict[test['name']]['service-names'] = \
+                    test['service-names']
+            if 'tuned-profile' in test and test['tuned-profile'] is not None:
+                self.compute_packages_dict[test['name']]['tuned-profile'] = \
+                    test['tuned-profile']
 
         # iterate flavors_id
         for test, test_param in self.test_setup_dict.iteritems():
