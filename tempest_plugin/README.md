@@ -54,4 +54,25 @@ external_config_file = network_config.yml
 
  see network_config.yml.sample file
 
+## NFV test cases
 
+* Tests included in test_nfv_epa.py
+  
+  - Testing numa topology by booting an instance on numa0/numa1/numamix by demand
+    used by insertion of the following under tests-setup at network_config.yml
+    `- name: numa0
+       flavor: nfv-test-flavor
+       availability-zone: normal
+       router: true `
+  - Testing of tuned - checking exsitence of tuned package, tuned service state
+    and current tuned profile.
+    used by insertion of the following under tests-setup at network_config.yml
+    `- name: compute-packges
+       package-names: tuned-2.8.0-5.el7.noarch
+       service-names: tuned.service
+       tuned-profile: cpu-partitioning 
+       availability-zone: normal `
+    Optional:
+    Could be used for another package name:
+      `- name: check-compute-packges
+         package-names: tuned-profiles-cpu-partitioning-2.8.0-5.el7.noarch `
