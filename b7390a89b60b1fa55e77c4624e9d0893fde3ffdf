@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1a8bc99_05090938",
+        "filename": "tempest_plugin/README.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-13T11:41:42Z",
+      "side": 1,
+      "message": "Please Remove it is from previous patches",
+      "range": {
+        "startLine": 66,
+        "startChar": 7,
+        "endLine": 66,
+        "endChar": 45
+      },
+      "revId": "b7390a89b60b1fa55e77c4624e9d0893fde3ffdf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fcbf530_1303d5f9",
+        "filename": "tempest_plugin/network_config.yml.sample",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-13T11:41:42Z",
+      "side": 1,
+      "message": "Think of availability-zone \nWe could search on different computes different packages",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 35
+      },
+      "revId": "b7390a89b60b1fa55e77c4624e9d0893fde3ffdf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2cfd35a0_df79195a",
+        "filename": "tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-13T11:41:42Z",
+      "side": 1,
+      "message": "Please replace with \nself.test_setup_dict[test[\u0027name\u0027]] \u003d{}\nChange all other use of self.compute_packages_dict",
+      "range": {
+        "startLine": 128,
+        "startChar": 16,
+        "endLine": 128,
+        "endChar": 42
+      },
+      "revId": "b7390a89b60b1fa55e77c4624e9d0893fde3ffdf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3691ccdd_a538c6cf",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-13T11:41:42Z",
+      "side": 1,
+      "message": "Please see sample for test_numa\nThink on aggregation:\none hypervisor OVS-DPDK other SRIOV, maybe different tuneds\nplease rename test_check_package_version to _check_packages_on_host(parameter of aggregation name from config)\nBy default None.\n\nAnd  create new test_basic_compute(_check_packages_on_host)\n        self._check_packages_on_host(\"compute-packges\")",
+      "range": {
+        "startLine": 159,
+        "startChar": 8,
+        "endLine": 159,
+        "endChar": 34
+      },
+      "revId": "b7390a89b60b1fa55e77c4624e9d0893fde3ffdf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "044f5441_b6468bcf",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-13T11:41:42Z",
+      "side": 1,
+      "message": "Run Pycharm indentaion use Menn\u003e\u003e Code \u003e\u003e Inspect Code\n\nsupport _get_hypervisor_host_ip() with parameter.. it support  None parameter",
+      "range": {
+        "startLine": 166,
+        "startChar": 1,
+        "endLine": 169,
+        "endChar": 40
+      },
+      "revId": "b7390a89b60b1fa55e77c4624e9d0893fde3ffdf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
