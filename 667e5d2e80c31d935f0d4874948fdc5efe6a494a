@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57f800ff_c9e6a6a4",
+        "filename": "tempest_plugin/network_config.yml.sample",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-13T07:39:08Z",
+      "side": 1,
+      "message": "This parameter must be \n   - name: compute-service\n     service: tuned-2.8.0-5.el7.noarch\n     service-profile: tuned-profiles-cpu-partitioning-2.8.0-5.el7.noarch\n\nSince the test is running under EPA class all tests need to be in the same test-config",
+      "range": {
+        "startLine": 66,
+        "startChar": 1,
+        "endLine": 66,
+        "endChar": 18
+      },
+      "revId": "667e5d2e80c31d935f0d4874948fdc5efe6a494a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8cb19a0a_1f9a4718",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-13T07:39:08Z",
+      "side": 1,
+      "message": "Please check tuned active for cpu-partitioning\nAnd Kernel parameters as you suggested\n\nsee sample how to read config\nhttps://github.com/redhat-openstack/tempest-nfv-plugin/blob/devel/tempest_plugin/tests/scenario/test_nfv_epa.py#L75",
+      "range": {
+        "startLine": 164,
+        "startChar": 4,
+        "endLine": 164,
+        "endChar": 62
+      },
+      "revId": "667e5d2e80c31d935f0d4874948fdc5efe6a494a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
