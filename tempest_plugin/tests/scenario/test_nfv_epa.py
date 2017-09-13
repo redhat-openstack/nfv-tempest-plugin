@@ -155,3 +155,16 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
 
     def test_numamix_provider_network(self):
         self._test_numa_provider_network("numamix")
+
+    def test_check_package_version(self):
+        """
+        Method checks if package available on hypervisors
+        Test demands package-existence list in external config file
+        """
+    self.assertTrue(self.external_config['package-existence'],
+        "test requires package-existence list in external_config_file")
+    for package in self.external_config['package-existence']:
+        self.ip_address = self._get_hypervisor_host_ip()
+        command = "rpm -qa | grep %s" % package
+            result = self._run_command_over_ssh(self.ip_address, command)
+        self.assertTrue(package in result)

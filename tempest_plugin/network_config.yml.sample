@@ -63,6 +63,10 @@ tests-setup:
     availability-zone: normal
     router: true
 
+package-existence:
+  - tuned-2.8.0-5.el7.noarch
+  - tuned-profiles-cpu-partitioning-2.8.0-5.el7.noarch
+
 dns_nameservers:
   - 8.8.4.4
   - 8.8.8.8
