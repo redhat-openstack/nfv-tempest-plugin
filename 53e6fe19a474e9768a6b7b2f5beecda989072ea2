@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6040ee1_20f6bc60",
+        "filename": "tempest_plugin/README.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-14T14:31:37Z",
+      "side": 1,
+      "message": "Consider changing name to:\ncheck-compute-packages",
+      "range": {
+        "startLine": 70,
+        "startChar": 13,
+        "endLine": 70,
+        "endChar": 28
+      },
+      "revId": "53e6fe19a474e9768a6b7b2f5beecda989072ea2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9784845_37fad648",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-14T14:31:37Z",
+      "side": 1,
+      "message": "Please use aggregation parameter, if it not defined or None  in test_setup_dict pass None parameter \naggrgation\u003dNone by default\n_get_hypervisor_host_ip(aggrgation)",
+      "range": {
+        "startLine": 169,
+        "startChar": 31,
+        "endLine": 169,
+        "endChar": 56
+      },
+      "revId": "53e6fe19a474e9768a6b7b2f5beecda989072ea2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
