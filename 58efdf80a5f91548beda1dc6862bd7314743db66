@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "662cb0fa_fb85afc6",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-17T12:06:48Z",
+      "side": 1,
+      "message": "Please check indentation",
+      "range": {
+        "startLine": 190,
+        "startChar": 2,
+        "endLine": 190,
+        "endChar": 117
+      },
+      "revId": "58efdf80a5f91548beda1dc6862bd7314743db66",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
