@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb765152_a0ac7867",
+        "filename": "tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-17T08:55:15Z",
+      "side": 1,
+      "message": "Please check indentation\n                self.test_setup_dict[test[\u0027name\u0027]] \u003d \\\n                    {\u0027package-names\u0027: test[\u0027package-names\u0027]}",
+      "range": {
+        "startLine": 118,
+        "startChar": 1,
+        "endLine": 119,
+        "endChar": 93
+      },
+      "revId": "36da011660a441289836a56d74d5ece6a10a80b7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
