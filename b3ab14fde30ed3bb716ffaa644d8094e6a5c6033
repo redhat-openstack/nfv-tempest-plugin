@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39bcf348_0cbe2946",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-17T08:19:19Z",
+      "side": 1,
+      "message": "Please run indentation check \nsee the following sample:\nif \u0027availability-zone\u0027 in self.test_setup_dict[test_compute]:\n            self.ip_address \u003d self._get_hypervisor_host_ip(\n                self.test_setup_dict[test_compute][\u0027availability-zone\u0027])\n        else:\n            self.ip_address \u003d self._get_hypervisor_host_ip()",
+      "range": {
+        "startLine": 167,
+        "startChar": 1,
+        "endLine": 172,
+        "endChar": 60
+      },
+      "revId": "b3ab14fde30ed3bb716ffaa644d8094e6a5c6033",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
