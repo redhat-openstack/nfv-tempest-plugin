@@ -29,7 +29,7 @@ class BareMetalManager(manager.ScenarioTest):
         self.servers = []
         self.test_networks = {}
         self.test_network_dict = {}
-        self.test_setup_dict = {}
+        self.maxqueues = None
 
     @classmethod
     def setup_clients(cls):
@@ -57,6 +57,7 @@ class BareMetalManager(manager.ScenarioTest):
         if CONF.hypervisor.external_config_file:
             if os.path.exists(CONF.hypervisor.external_config_file):
                 self.read_external_config_file()
+        self.maxqueues = self._check_number_queues()
 
     @classmethod
     def resource_setup(cls):
@@ -116,8 +117,7 @@ class BareMetalManager(manager.ScenarioTest):
             if 'flavor' in test and test['flavor'] is not None:
                 self.test_setup_dict[test['name']] = {'flavor': test['flavor']}
             if 'package-names' in test and test['package-names'] is not None:
-                self.test_setup_dict[test['name']] = \
-                    {'package-names': test['package-names']}
+                self.test_setup_dict[test['name']] = {'package-names': test['package-names']}
             if 'availability-zone' in test and test['availability-zone'] is not None:
                 self.test_setup_dict[test['name']]['availability-zone'] = \
                     test['availability-zone']
@@ -153,12 +153,12 @@ class BareMetalManager(manager.ScenarioTest):
         flavor_with_hugepages_name = data_utils.rand_name(name)
         flavor_with_hugepages_id = data_utils.rand_int_id(start=1000)
         disk = 20
-        self.flavors_client.create_flavor(
+        self.os_admin.flavors_client.create_flavor(
             name=flavor_with_hugepages_name, ram=ram, vcpus=vcpu, disk=disk,
             id=flavor_with_hugepages_id)
-        self.flavors_client.set_flavor_extra_spec(
+        self.os_admin.flavors_client.set_flavor_extra_spec(
             flavor_with_hugepages_id, **extra_specs)
-        self.addCleanup(self.flavors_client.delete_flavor,
+        self.addCleanup(self.os_admin.flavors_client.delete_flavor,
                         flavor_with_hugepages_id)
         return flavor_with_hugepages_id
 
@@ -380,7 +380,7 @@ class BareMetalManager(manager.ScenarioTest):
         in case all networks exist return True and fill self.test_networks lists
 
         In case there is external router.. public network decided
-        based on router_external=False and router is not None  
+        based on router_external=False and router is not None
         """
         self.assertIsNotNone(CONF.hypervisor.external_config_file,
                              'This test require missing extrnal_config, for this test')
@@ -433,6 +433,7 @@ class BareMetalManager(manager.ScenarioTest):
                 port = self._create_port(network_id=net_param['net-id'],
                                          **create_port_body)
                 networks_list.append({'uuid': net_param['net-id'], 'port': port['id']})
+        return networks_list
 
     def _create_port(self, network_id, client=None, namestart='port-quotatest',
                      **kwargs):
@@ -490,3 +491,14 @@ class BareMetalManager(manager.ScenarioTest):
                                                              **kwargs)
         self.servers.append(server)
         return server
+
+    def _check_number_queues(self):
+        "This method checks the number of max queues"
+        self.ip_address = self._get_hypervisor_host_ip()
+        command = "tuna -t ovs-vswitchd -CP | grep pmd | wc -l"
+        numpmds = int(self._run_command_over_ssh(self.ip_address, command))
+        command = "sudo ovs-vsctl show | grep rxq | awk '{print $2}'"
+        numqueues = self._run_command_over_ssh(self.ip_address, command)
+        numqueues = int(filter(str.isdigit, numqueues))
+        maxqueues = numqueues * numpmds
+        return maxqueues

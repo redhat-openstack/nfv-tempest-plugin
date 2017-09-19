@@ -67,6 +67,10 @@ tests-setup:
     service-names: tuned.service
     tuned-profile: cpu-partitioning
     availability-zone: normal
+  - name: check-multiqueue-func
+    flavor: nfv-test-flavor
+    router: false
+    availability-zone: normal
 
 
 dns_nameservers:
