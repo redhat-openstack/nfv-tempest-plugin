@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0293231_f5ab8eab",
+        "filename": "tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-19T14:39:02Z",
+      "side": 1,
+      "message": "Please enter dummy config like flavor: nfv-test-flavor\nand remove this addon",
+      "range": {
+        "startLine": 121,
+        "startChar": 12,
+        "endLine": 122,
+        "endChar": 79
+      },
+      "revId": "5b7f2caf383b3a61c3d775d4798327358a2cb910",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb71d50d_4a1d419d",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-19T14:39:02Z",
+      "side": 1,
+      "message": "Please use string for string configuration file\nIn order to make this function generic, see epa test as sample",
+      "range": {
+        "startLine": 50,
+        "startChar": 34,
+        "endLine": 50,
+        "endChar": 63
+      },
+      "revId": "5b7f2caf383b3a61c3d775d4798327358a2cb910",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc966b05_5e60d43c",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-19T14:39:02Z",
+      "side": 1,
+      "message": "see comment above",
+      "range": {
+        "startLine": 60,
+        "startChar": 11,
+        "endLine": 60,
+        "endChar": 67
+      },
+      "revId": "5b7f2caf383b3a61c3d775d4798327358a2cb910",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f98f4a21_2a97cd80",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-19T14:39:02Z",
+      "side": 1,
+      "message": "see comment above",
+      "range": {
+        "startLine": 66,
+        "startChar": 8,
+        "endLine": 66,
+        "endChar": 37
+      },
+      "revId": "5b7f2caf383b3a61c3d775d4798327358a2cb910",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
