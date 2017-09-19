@@ -67,12 +67,19 @@ external_config_file = network_config.yml
   - Testing of tuned - checking exsitence of tuned package, tuned service state
     and current tuned profile.
     used by insertion of the following under tests-setup at network_config.yml
-    `- name: check-compute-packges
-       package-names: tuned-2.8.0-5.el7.noarch
-       service-names: tuned.service
-       tuned-profile: cpu-partitioning 
-       availability-zone: normal `
+    ` - name: check-compute-packges
+        package-names: tuned-2.8.0-5.el7.noarch
+        service-names: tuned.service
+        tuned-profile: cpu-partitioning 
+        availability-zone: normal `
     Optional:
     Could be used for another package name:
-      `- name: check-compute-packges
-         package-names: tuned-profiles-cpu-partitioning-2.8.0-5.el7.noarch `
+    ` - name: check-compute-packges
+        package-names: tuned-profiles-cpu-partitioning-2.8.0-5.el7.noarch `
+  - Test multi-queue functionality.
+    Calculates the number of queues * the number of PMDs.
+    Boot instances using 4 different flavors, bigger, smaller, equal and odd
+    number of vCPUs.
+    ` - name: check-multiqueue-func
+        router: false
+        availability-zone: normal `
