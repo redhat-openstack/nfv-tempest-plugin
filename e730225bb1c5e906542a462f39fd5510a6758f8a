@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "162b5664_9d3db5dd",
+        "filename": "tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-26T08:30:31Z",
+      "side": 1,
+      "message": "On second thought\nThis is not part of Manager since it is related to DPDK tests",
+      "range": {
+        "startLine": 32,
+        "startChar": 7,
+        "endLine": 32,
+        "endChar": 29
+      },
+      "revId": "e730225bb1c5e906542a462f39fd5510a6758f8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de07a7d0_8fe15b3f",
+        "filename": "tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-26T08:30:31Z",
+      "side": 1,
+      "message": "See above it is not part of Manager\nIt should be member of TestDpdkScenarios class",
+      "range": {
+        "startLine": 60,
+        "startChar": 7,
+        "endLine": 60,
+        "endChar": 52
+      },
+      "revId": "e730225bb1c5e906542a462f39fd5510a6758f8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eabd069f_9b815519",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-26T08:30:31Z",
+      "side": 1,
+      "message": "Add here self.maxqueues",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 23
+      },
+      "revId": "e730225bb1c5e906542a462f39fd5510a6758f8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ac11883_70656bf9",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-26T08:30:31Z",
+      "side": 1,
+      "message": "here you could put self.maxqueues \u003d super(TestDPDK)._check_number_queues",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 46
+      },
+      "revId": "e730225bb1c5e906542a462f39fd5510a6758f8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59d6a615_ec932c7f",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-26T08:30:31Z",
+      "side": 1,
+      "message": "No need for else:\nin Line 72\nPut the content of the else first it will b called each run\nand than the if call without else",
+      "range": {
+        "startLine": 75,
+        "startChar": 1,
+        "endLine": 76,
+        "endChar": 90
+      },
+      "revId": "e730225bb1c5e906542a462f39fd5510a6758f8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9fa272f_37944089",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-09-26T08:30:31Z",
+      "side": 1,
+      "message": "Add String if Assertion Fails\nself.assertTrue(condition,\"error message\")\nthis goes to all three tests below also",
+      "range": {
+        "startLine": 80,
+        "startChar": 8,
+        "endLine": 80,
+        "endChar": 69
+      },
+      "revId": "e730225bb1c5e906542a462f39fd5510a6758f8a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
