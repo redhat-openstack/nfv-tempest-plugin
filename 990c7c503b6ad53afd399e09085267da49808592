@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe4cfe00_96acf87b",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2017-09-27T08:07:15Z",
+      "side": 1,
+      "message": "Dear Eyal,\n\nIt will be very kind for you for delete the following shit.",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 24
+      },
+      "revId": "990c7c503b6ad53afd399e09085267da49808592",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
