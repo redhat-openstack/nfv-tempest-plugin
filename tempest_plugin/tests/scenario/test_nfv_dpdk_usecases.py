@@ -88,9 +88,9 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         self.assertTrue(self._test_queue_functionality(queues="equal"), msg)
 
     def test_max_queues_functionality(self):
-        msg = "Unexpectedly creating and ping to instance with flavor contains " \
-              "vcpus greater than allowed amount of queues"
-        self.assertFalse(self._test_queue_functionality(queues="max"), msg)
+        msg = "Could not create and ping instance with flavor contains " \
+              "vcpus max to allowed amount of queues"
+        self.assertTrue(self._test_queue_functionality(queues="max"), msg)
 
     def test_odd_queues_functionality(self):
         msg = "Could not create and ping instance with flavor contains " \
