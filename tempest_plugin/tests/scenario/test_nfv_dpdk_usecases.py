@@ -60,7 +60,7 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
             wait_until = 'ACTIVE'
         elif queues == 'max':
             queues = self.maxqueues + 2
-            wait_until = 'ERROR'
+            wait_until = 'ACTIVE'
         else:
             queues = self.maxqueues
             wait_until = 'ACTIVE'
