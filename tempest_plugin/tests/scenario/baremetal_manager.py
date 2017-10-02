@@ -115,7 +115,8 @@ class BareMetalManager(manager.ScenarioTest):
             if 'flavor' in test and test['flavor'] is not None:
                 self.test_setup_dict[test['name']] = {'flavor': test['flavor']}
             if 'package-names' in test and test['package-names'] is not None:
-                self.test_setup_dict[test['name']] = {'package-names': test['package-names']}
+                self.test_setup_dict[test['name']] = \
+                    {'package-names': test['package-names']}
             if 'availability-zone' in test and test['availability-zone'] is not None:
                 self.test_setup_dict[test['name']]['availability-zone'] = \
                     test['availability-zone']
@@ -163,7 +164,8 @@ class BareMetalManager(manager.ScenarioTest):
     def _check_vcpu_with_xml(self, server, host, cell_id='0'):
         """This Method Connects to Bare Metal,Compute and return number of pinned CPUS
         """
-        instance_properties = self.os_admin.servers_client.show_server(server['id'])['server']
+        instance_properties = \
+            self.os_admin.servers_client.show_server(server['id'])['server']
         command = (
             "sudo virsh -c qemu:///system dumpxml %s" % (
                 instance_properties['OS-EXT-SRV-ATTR:instance_name']))
@@ -205,8 +207,10 @@ class BareMetalManager(manager.ScenarioTest):
 
     def _check_numa_with_xml(self, server, host):
         """This Method Connects to Bare Metal,Compute and return number of Cells
+           This method should be obsolete it is used by test_nfv_usecases
         """
-        instance_properties = self.os_admin.servers_client.show_server(server['id'])['server']
+        instance_properties = \
+            self.os_admin.servers_client.show_server(server['id'])['server']
         command = (
             "virsh -c qemu:///system dumpxml %s" % (
                 instance_properties['OS-EXT-SRV-ATTR:instance_name']))
@@ -373,7 +377,7 @@ class BareMetalManager(manager.ScenarioTest):
             self.test_network_dict['public'] = mgmt_network
 
     def _detect_existing_networks(self):
-        """Use mathod only when test require no network cls.set_network_resources()
+        """Use method only when test require no network cls.set_network_resources()
         it run over external_config networks, verified against existing networks..
         in case all networks exist return True and fill self.test_networks lists
 
@@ -412,7 +416,10 @@ class BareMetalManager(manager.ScenarioTest):
             self.test_network_dict.pop(remove_network)
 
     def _create_ports_on_networks(self, **kwargs):
-        """This run over prepared network dictionary
+        """Use method only when test require no network cls.set_network_resources()
+        it run over external_config networks, create networks as per test_network_dict
+        In case there is external router public network decided
+        This run over prepared network dictionary
         ports, unless port_security==False, ports created with rules
         """
         create_port_body = {'binding:vnic_type': '',
@@ -430,7 +437,10 @@ class BareMetalManager(manager.ScenarioTest):
                         [s['id'] for s in kwargs['security_groups']]
                 port = self._create_port(network_id=net_param['net-id'],
                                          **create_port_body)
-                networks_list.append({'uuid': net_param['net-id'], 'port': port['id']})
+                net_var = {'uuid': net_param['net-id'], 'port': port['id']}
+                networks_list.append(net_var) \
+                    if net_name != self.test_network_dict['public'] else \
+                    networks_list.insert(0, net_var)
         return networks_list
 
     def _create_port(self, network_id, client=None, namestart='port-quotatest',
@@ -491,7 +501,7 @@ class BareMetalManager(manager.ScenarioTest):
         return server
 
     def _check_number_queues(self):
-        "This method checks the number of max queues"
+        """This method checks the number of max queues"""
         self.ip_address = self._get_hypervisor_host_ip()
         command = "tuna -t ovs-vswitchd -CP | grep pmd | wc -l"
         numpmds = int(self._run_command_over_ssh(self.ip_address, command))
