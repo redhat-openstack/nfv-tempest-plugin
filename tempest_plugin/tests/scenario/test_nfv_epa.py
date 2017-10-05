@@ -96,8 +96,7 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         Create security groups [icmp,ssh] for Deployed Guest Image
         """
         security_group = self._create_security_group()
-        kwargs['security_groups'] = [{'name': security_group['name'],
-                                      'id': security_group['id']}]
+        kwargs['security_groups'] = [{'name': security_group['name']}]
 
         super(TestBasicEpa, self)._create_test_networks()
         kwargs['networks'] = super(TestBasicEpa, self).\
@@ -165,7 +164,8 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         * The test demands test_compute list
         """
         self.assertTrue(self.test_setup_dict[test_compute],
-                        "test requires check-compute-packages list in external_config_file")
+                        "test requires check-compute-packages "
+                        "list in external_config_file")
         if 'availability-zone' in self.test_setup_dict[test_compute]:
             self.ip_address = self._get_hypervisor_host_ip(
                 self.test_setup_dict[test_compute]['availability-zone'])
@@ -173,9 +173,11 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
             self.ip_address = self._get_hypervisor_host_ip()
         if 'package-names' in self.test_setup_dict[test_compute]:
             if self.test_setup_dict[test_compute]['package-names'] is not None:
-                command = "rpm -qa | grep %s" % self.test_setup_dict[test_compute]['package-names']
+                command = "rpm -qa | grep %s" % \
+                          self.test_setup_dict[test_compute]['package-names']
                 result = self._run_command_over_ssh(self.ip_address, command)
-                self.assertTrue(self.test_setup_dict[test_compute]['package-names'] in result)
+                self.assertTrue(
+                    self.test_setup_dict[test_compute]['package-names'] in result)
         if 'service-names' in self.test_setup_dict[test_compute]:
             if self.test_setup_dict[test_compute]['service-names'] is not None:
                 command = "systemctl status %s | grep Active | awk '{print $2}'" % \
@@ -186,11 +188,12 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
             if self.test_setup_dict[test_compute]['tuned-profile'] is not None:
                 command = "sudo tuned-adm active | awk '{print $4}'"
                 result = self._run_command_over_ssh(self.ip_address, command)
-                self.assertTrue(self.test_setup_dict[test_compute]['tuned-profile'] in result)
+                self.assertTrue(
+                    self.test_setup_dict[test_compute]['tuned-profile'] in result)
         command = "sudo cat /proc/cmdline | grep nohz | grep nohz_full" \
                   " | grep rcu_nocbs | grep intel_pstate  | wc -l"
         result = self._run_command_over_ssh(self.ip_address, command)
-        self.assertEqual(int(result),1)
+        self.assertEqual(int(result), 1)
 
     def test_packages_compute(self):
         self._test_check_package_version("check-compute-packges")
