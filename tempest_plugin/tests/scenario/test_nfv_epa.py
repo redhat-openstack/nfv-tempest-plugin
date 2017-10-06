@@ -96,8 +96,8 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         Create security groups [icmp,ssh] for Deployed Guest Image
         """
         security_group = self._create_security_group()
-        kwargs['security_groups'] = [{'name': security_group['name']}]
-
+        kwargs['security_groups'] = [{'name': security_group['name'],
+                                      'id': security_group['id']}]
         super(TestBasicEpa, self)._create_test_networks()
         kwargs['networks'] = super(TestBasicEpa, self).\
             _create_ports_on_networks(**kwargs)
