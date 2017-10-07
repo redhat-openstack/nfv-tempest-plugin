@@ -441,6 +441,8 @@ class BareMetalManager(manager.ScenarioTest):
                 networks_list.append(net_var) \
                     if net_name != self.test_network_dict['public'] else \
                     networks_list.insert(0, net_var)
+        if 'security_groups' in kwargs:
+            [x.pop('id') for x in kwargs['security_groups']]
         return networks_list
 
     def _create_port(self, network_id, client=None, namestart='port-quotatest',
