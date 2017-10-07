@@ -96,8 +96,8 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         Create security groups [icmp,ssh] for Deployed Guest Image
         """
         security_group = self._create_security_group()
-        kwargs['security_groups'] = [{'name': security_group['name']}]
-
+        kwargs['security_groups'] = [{'name': security_group['name'],
+                                      'id': security_group['id']}]
         super(TestBasicEpa, self)._create_test_networks()
         kwargs['networks'] = super(TestBasicEpa, self).\
             _create_ports_on_networks(**kwargs)
@@ -176,24 +176,31 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
                 command = "rpm -qa | grep %s" % \
                           self.test_setup_dict[test_compute]['package-names']
                 result = self._run_command_over_ssh(self.ip_address, command)
+                msg = "Packageg are {0} not found".format(
+                    self.test_setup_dict[test_compute]['package-names'])
                 self.assertTrue(
-                    self.test_setup_dict[test_compute]['package-names'] in result)
+                    self.test_setup_dict[test_compute]['package-names'] in result, msg)
         if 'service-names' in self.test_setup_dict[test_compute]:
             if self.test_setup_dict[test_compute]['service-names'] is not None:
                 command = "systemctl status %s | grep Active | awk '{print $2}'" % \
                           self.test_setup_dict[test_compute]['service-names']
                 result = self._run_command_over_ssh(self.ip_address, command)
-                self.assertTrue('active' in result)
+                msg = "services are {0} not Active".format(
+                    self.test_setup_dict[test_compute]['service-names'])
+                self.assertTrue('active' in result, msg)
         if 'tuned-profile' in self.test_setup_dict[test_compute]:
             if self.test_setup_dict[test_compute]['tuned-profile'] is not None:
                 command = "sudo tuned-adm active | awk '{print $4}'"
                 result = self._run_command_over_ssh(self.ip_address, command)
+                msg = "Tuned {0} not Active".format(
+                    self.test_setup_dict[test_compute]['tuned-profile'])
                 self.assertTrue(
-                    self.test_setup_dict[test_compute]['tuned-profile'] in result)
+                    self.test_setup_dict[test_compute]['tuned-profile'] in result, msg)
         command = "sudo cat /proc/cmdline | grep nohz | grep nohz_full" \
                   " | grep rcu_nocbs | grep intel_pstate  | wc -l"
         result = self._run_command_over_ssh(self.ip_address, command)
-        self.assertEqual(int(result), 1)
+        msg = "Tuned not set in grub need to reboot?"
+        self.assertEqual(int(result), 1, msg)
 
     def test_packages_compute(self):
         self._test_check_package_version("check-compute-packges")
