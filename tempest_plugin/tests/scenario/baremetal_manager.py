@@ -507,8 +507,10 @@ class BareMetalManager(manager.ScenarioTest):
         self.ip_address = self._get_hypervisor_host_ip()
         command = "tuna -t ovs-vswitchd -CP | grep pmd | wc -l"
         numpmds = int(self._run_command_over_ssh(self.ip_address, command))
-        command = "sudo ovs-vsctl show | grep rxq | awk '{print $2}'"
+        command = "sudo ovs-vsctl show | grep rxq | awk -F'rxq=' '{print $2}'"
         numqueues = self._run_command_over_ssh(self.ip_address, command)
-        numqueues = int(filter(str.isdigit, numqueues))
+        msg = "There are no queues available"
+        self.assertNotEqual((numqueues.rstrip("\n")), '', msg)
+        numqueues = int(filter(str.isdigit, numqueues.split("\n")[0]))
         maxqueues = numqueues * numpmds
         return maxqueues
