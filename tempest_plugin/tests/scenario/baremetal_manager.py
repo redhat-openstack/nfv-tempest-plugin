@@ -9,6 +9,7 @@ from tempest.lib.common.utils import test_utils
 import StringIO
 import yaml
 import os.path
+import subprocess as sp
 
 CONF = config.CONF
 LOG = log.getLogger(__name__)
@@ -255,6 +256,24 @@ class BareMetalManager(manager.ScenarioTest):
         ssh.close()
         return result
 
+    def _run_local_cmd_shell_with_venv(self, command, shell_file_to_exec=None):
+        """This Method run command on tester local host
+        shell_file_to_exec path to source file default is None
+        TBD: Add support to return, hosts list
+        TBD: Return None in case no aggregation found.
+        """
+        pipe = None
+        self.assertNotEmpty(command, "missing command parameter")
+        if shell_file_to_exec is not None:
+            source = 'source '.join(shell_file_to_exec)
+            pipe = sp.Popen(['/bin/bash', '-c', '%s && %s' % (source, command)],
+                            stdout=sp.PIPE)
+        else:
+            pipe = sp.Popen(['/bin/bash', '-c', '%s' % command],
+                            stdout=sp.PIPE)
+        result = pipe.stdout.read()
+        return result.split()
+
     def _list_aggregate(self, name=None):
         """This Method lists aggregation based on name, and returns the aggregated
         hosts lists
@@ -269,11 +288,12 @@ class BareMetalManager(manager.ScenarioTest):
         aggregate = self.aggregates_client.list_aggregates()['aggregates']
         #       Assertion check
         if aggregate:
+            aggr_result = []
             for i in aggregate:
                 if name in i['name']:
-                    aggregate.append(self.aggregates_client.show_aggregate(i['id'])[
+                    aggr_result.append(self.aggregates_client.show_aggregate(i['id'])[
                         'aggregate'])
-            host = aggregate['hosts'][0]
+            host = aggr_result['hosts'][0]
 
         return host
 
