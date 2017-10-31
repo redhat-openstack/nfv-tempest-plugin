@@ -63,7 +63,15 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         """
         Check CPU mapping for numa0
         """
-        self.ip_address = self._get_hypervisor_host_ip()
+        """
+           self.ip_address = self._get_hypervisor_host_ip()
+           w/a to my_ip address set in nova fir non_contolled network, need access from
+           tester """
+        host_ip = self._get_hypervisor_ip_from_undercloud(None,
+                                                          shell="/home/stack/stackrc")
+        self.ip_address = host_ip[0]
+        self.assertNotEmpty(self.ip_address, "_get_hypervisor_ip_from_undercloud"
+                                             "returned empty ip list")
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
         result = self._run_command_over_ssh(self.ip_address, command)
         self.assertTrue(int(result[0]) == 2)
@@ -167,10 +175,19 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
                         "test requires check-compute-packages "
                         "list in external_config_file")
         if 'availability-zone' in self.test_setup_dict[test_compute]:
-            self.ip_address = self._get_hypervisor_host_ip(
-                self.test_setup_dict[test_compute]['availability-zone'])
+            self.availability_zone = \
+                self.test_setup_dict[test_compute]['availability-zone']
+            host_ip = \
+                self._get_hypervisor_ip_from_undercloud(self.availability_zone,
+                                                        shell="/home/stack/stackrc")
+            self.ip_address = host_ip[0]
         else:
-            self.ip_address = self._get_hypervisor_host_ip()
+            host_ip = self._get_hypervisor_ip_from_undercloud(None,
+                                                              shell="/home/stack/stackrc")
+            self.ip_address = host_ip[0]
+
+        self.assertNotEmpty(self.ip_address, "_get_hypervisor_ip_from_undercloud"
+                                             "returned empty ip list")
         if 'package-names' in self.test_setup_dict[test_compute]:
             if self.test_setup_dict[test_compute]['package-names'] is not None:
                 command = "rpm -qa | grep %s" % \
