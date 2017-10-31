@@ -63,9 +63,17 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         """
         Check CPU mapping for numa0
         """
-        self.ip_address = self._get_hypervisor_host_ip()
+        """
+           self.ip_address = self._get_hypervisor_host_ip()
+           w/a to my_ip address set in nova fir non_contolled network, need access from
+           tester """
+        self.ip_address = self._get_hypervisor_ip_from_undercloud(None,
+                                                                  shell=
+                                                                  "/home/stack/stackrc")
+        self.assertNotEmpty(self.ip_address, "_get_hypervisor_ip_from_undercloud"
+                                             "returned empty ip list")
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
-        result = self._run_command_over_ssh(self.ip_address, command)
+        result = self._run_command_over_ssh(self.ip_address[0], command)
         self.assertTrue(int(result[0]) == 2)
 
         """
