@@ -2,14 +2,16 @@ from oslo_log import log
 from tempest import config
 from tempest.scenario import manager
 import paramiko
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ELEMENTTree
 from tempest.lib.common.utils import data_utils
 from tempest.lib.common.utils import test_utils
+import re
 
 import StringIO
 import yaml
 import os.path
 import subprocess as sp
+
 
 CONF = config.CONF
 LOG = log.getLogger(__name__)
@@ -171,7 +173,7 @@ class BareMetalManager(manager.ScenarioTest):
             "sudo virsh -c qemu:///system dumpxml %s" % (
                 instance_properties['OS-EXT-SRV-ATTR:instance_name']))
         cpuxml = self._run_command_over_ssh(host, command)
-        string = ET.fromstring(cpuxml)
+        string = ELEMENTTree.fromstring(cpuxml)
         s = string.findall('cputune')[0]
         pinned_cpu_list = []
         for numofcpus in s.findall('vcpupin'):
@@ -216,7 +218,7 @@ class BareMetalManager(manager.ScenarioTest):
             "virsh -c qemu:///system dumpxml %s" % (
                 instance_properties['OS-EXT-SRV-ATTR:instance_name']))
         numaxml = self._run_command_over_ssh(host, command)
-        string = ET.fromstring(numaxml)
+        string = ELEMENTTree.fromstring(numaxml)
         r = string.findall('cpu')[0]
         for i in r.findall('topology')[0].items():
             if i[0] == 'sockets':
@@ -262,10 +264,9 @@ class BareMetalManager(manager.ScenarioTest):
         TBD: Add support to return, hosts list
         TBD: Return None in case no aggregation found.
         """
-        pipe = None
         self.assertNotEmpty(command, "missing command parameter")
         if shell_file_to_exec is not None:
-            source = 'source '.join(shell_file_to_exec)
+            source = 'source %s' % shell_file_to_exec
             pipe = sp.Popen(['/bin/bash', '-c', '%s && %s' % (source, command)],
                             stdout=sp.PIPE)
         else:
@@ -293,8 +294,7 @@ class BareMetalManager(manager.ScenarioTest):
                 if name in i['name']:
                     aggr_result.append(self.aggregates_client.show_aggregate(i['id'])[
                         'aggregate'])
-            host = aggr_result['hosts'][0]
-
+            host = aggr_result[0]['hosts']
         return host
 
     def _get_hypervisor_host_ip(self, name=None):
@@ -321,6 +321,39 @@ class BareMetalManager(manager.ScenarioTest):
                 if i['state'] == 'up':
                     ip_address = self.manager.hypervisor_client.show_hypervisor(i['id'])[
                         'hypervisor']['host_ip']
+        return ip_address
+
+    def _get_hypervisor_ip_from_undercloud(self, name=None, shell=None):
+        """This Method lists aggregation based on name, and returns the aggregated
+        search for IP through Hypervisor list API
+        Add support in case of NoAggregation, and Hypervisor list is not empty
+        if host=None, no aggregation, or name=None and if hypervisor list has one member
+        return the member
+        """
+        host = None
+        ip_address = ''
+        if name:
+            host = self._list_aggregate(name)
+
+        hyper = self.manager.hypervisor_client.list_hypervisors()
+
+        if host:
+            host_name = re.split("\.", host[0])[0]
+            if host_name is None:
+                host_name = host
+
+            for i in hyper['hypervisors']:
+                if i['hypervisor_hostname'] == host[0]:
+                    command = 'openstack ' \
+                              'server show ' + host_name + \
+                              ' -c \'addresses\' -f value | cut -d\"=\" -f2'
+                    ip_address = self._run_local_cmd_shell_with_venv(command, shell)
+        else:
+            for i in hyper['hypervisors']:
+                if i['state'] == 'up':
+                    command = 'openstack server list -c \'Name\' -c \'Networks\' -f ' \
+                              'value | grep -i compute | cut -d\"=\" -f2'
+                    ip_address = self._run_local_cmd_shell_with_venv(command, shell)
 
         return ip_address
 
