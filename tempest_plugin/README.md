@@ -84,3 +84,9 @@ external_config_file = network_config.yml
         flavor: nfv-test-flavor
         router: false
         availability-zone: normal `
+
+* Tests included in test_nfv_dpdk_usecases.py
+
+  - Testing live migration with ovs-dpdk.
+    Boots instance, migrate it to next available hypervisor,
+    checks if the instance located on wished hypervisor.
