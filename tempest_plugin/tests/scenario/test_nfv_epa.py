@@ -17,7 +17,6 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         self.image_ref = None
         self.flavor_ref = None
         self.ip_address = None
-        self.public_network = None
         self.instance = None
         self.ssh_user = None
         self.availability_zone = None
