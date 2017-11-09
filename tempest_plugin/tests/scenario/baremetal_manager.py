@@ -5,6 +5,8 @@ import paramiko
 import xml.etree.ElementTree as ELEMENTTree
 from tempest.lib.common.utils import data_utils
 from tempest.lib.common.utils import test_utils
+import textwrap
+import base64
 import re
 
 import StringIO
@@ -557,13 +559,37 @@ class BareMetalManager(manager.ScenarioTest):
 
     def _check_number_queues(self):
         """This method checks the number of max queues"""
-        self.ip_address = self._get_hypervisor_host_ip()
+        self.ip_address = self._get_hypervisor_ip_from_undercloud(None, shell="/home/stack/stackrc")
         command = "tuna -t ovs-vswitchd -CP | grep pmd | wc -l"
-        numpmds = int(self._run_command_over_ssh(self.ip_address, command))
+        numpmds = int(self._run_command_over_ssh(self.ip_address[0], command))
         command = "sudo ovs-vsctl show | grep rxq | awk -F'rxq=' '{print $2}'"
-        numqueues = self._run_command_over_ssh(self.ip_address, command)
+        numqueues = self._run_command_over_ssh(self.ip_address[0], command)
         msg = "There are no queues available"
         self.assertNotEqual((numqueues.rstrip("\n")), '', msg)
         numqueues = int(filter(str.isdigit, numqueues.split("\n")[0]))
         maxqueues = numqueues * numpmds
         return maxqueues
+
+    def _prepare_cloudinit_file(self):
+        gw_ip = self.test_network_dict[self.test_network_dict['public']]['gateway_ip']
+
+        script = '''
+                 #cloud-config
+                 user: {user}
+                 password: {passwd}
+                 chpasswd: {{expire: False}}
+                 ssh_pwauth: True
+                 disable_root: 0
+                 runcmd:
+                 - cd /etc/sysconfig/network-scripts/
+                 - cp ifcfg-eth0 ifcfg-eth1
+                 - sed -i 's/'eth0'/'eth1'/' ifcfg-eth1
+                 - echo {gateway}{gw_ip} >>  /etc/sysconfig/network
+                 - systemctl restart network'''.format(gateway='GATEWAY=',
+                                                       gw_ip=gw_ip,
+                                                       user=self.ssh_user,
+                                                       passwd=self.ssh_passwd)
+
+        script_clean = textwrap.dedent(script).lstrip().encode('utf8')
+        script_b64 = base64.b64encode(script_clean)
+        return script_b64
