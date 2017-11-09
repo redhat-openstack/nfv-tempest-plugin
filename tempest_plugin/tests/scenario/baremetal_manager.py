@@ -557,11 +557,11 @@ class BareMetalManager(manager.ScenarioTest):
 
     def _check_number_queues(self):
         """This method checks the number of max queues"""
-        self.ip_address = self._get_hypervisor_host_ip()
+        self.ip_address = self._get_hypervisor_ip_from_undercloud(None, shell="/home/stack/stackrc")
         command = "tuna -t ovs-vswitchd -CP | grep pmd | wc -l"
-        numpmds = int(self._run_command_over_ssh(self.ip_address, command))
+        numpmds = int(self._run_command_over_ssh(self.ip_address[0], command))
         command = "sudo ovs-vsctl show | grep rxq | awk -F'rxq=' '{print $2}'"
-        numqueues = self._run_command_over_ssh(self.ip_address, command)
+        numqueues = self._run_command_over_ssh(self.ip_address[0], command)
         msg = "There are no queues available"
         self.assertNotEqual((numqueues.rstrip("\n")), '', msg)
         numqueues = int(filter(str.isdigit, numqueues.split("\n")[0]))
