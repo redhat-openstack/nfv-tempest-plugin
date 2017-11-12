@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c37563d_d8adbf7f",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-12T11:26:32Z",
+      "side": 1,
+      "message": "Please add detailed Error:\nHypervisor OVS not configured with MultiQueue",
+      "range": {
+        "startLine": 52,
+        "startChar": 12,
+        "endLine": 52,
+        "endChar": 49
+      },
+      "revId": "a45a09831343f4719df3548cf63fbec62853191d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f678f775_93cf43da",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-12T11:26:32Z",
+      "side": 1,
+      "message": "Please Add Function description\n\"\"\" bla bla\n\"\"\"",
+      "range": {
+        "startLine": 84,
+        "startChar": 1,
+        "endLine": 84,
+        "endChar": 18
+      },
+      "revId": "a45a09831343f4719df3548cf63fbec62853191d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35826075_6cd79e82",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-12T11:26:32Z",
+      "side": 1,
+      "message": "Please add comments that explain what are those checks\n\"\"\"bla bla \n\"\"\"",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 33
+      },
+      "revId": "a45a09831343f4719df3548cf63fbec62853191d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
