@@ -96,8 +96,8 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
             instance = self.create_server(flavor=flavor, wait_until='ACTIVE', **kwargs)
         except exceptions.BuildErrorException:
             return False
-        host = self.os_admin.servers_client.show_server
-        (instance['id'])['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']
+        host = self.os_admin.servers_client.show_server\
+            (instance['id'])['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']
         self.os_admin.servers_client.live_migrate_server\
             (server_id=instance['id'], block_migration=True, disk_over_commit=True, host=None)
         """ Switch hypervisor id (compute-0 <=> compute-1) """
