@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efc9343d_add82a40",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-12T14:55:19Z",
+      "side": 1,
+      "message": "change to test_setup_migration",
+      "range": {
+        "startLine": 83,
+        "startChar": 41,
+        "endLine": 83,
+        "endChar": 64
+      },
+      "revId": "8f10f910d11bf81b53d055362d2b83bb68599748",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e83843b1_18d178ad",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-12T14:55:19Z",
+      "side": 1,
+      "message": "Add availability-zone check",
+      "range": {
+        "startLine": 89,
+        "startChar": 7,
+        "endLine": 89,
+        "endChar": 34
+      },
+      "revId": "8f10f910d11bf81b53d055362d2b83bb68599748",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7964f061_b4846a4f",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-12T14:55:19Z",
+      "side": 1,
+      "message": "Consider testing ssh to host!! at the end of the test",
+      "range": {
+        "startLine": 109,
+        "startChar": 3,
+        "endLine": 109,
+        "endChar": 62
+      },
+      "revId": "8f10f910d11bf81b53d055362d2b83bb68599748",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03c3a4ee_b2355054",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-12T14:55:19Z",
+      "side": 1,
+      "message": "Use the string for test config as reasonable name like tests_live_migration_basic",
+      "range": {
+        "startLine": 150,
+        "startChar": 54,
+        "endLine": 150,
+        "endChar": 77
+      },
+      "revId": "8f10f910d11bf81b53d055362d2b83bb68599748",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
