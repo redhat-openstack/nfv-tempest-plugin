@@ -90,3 +90,6 @@ external_config_file = network_config.yml
   - Testing live migration with ovs-dpdk.
     Boots instance, migrate it to next available hypervisor,
     checks if the instance located on wished hypervisor.
+    ` - name: test_instance_migration
+        flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+        router: false `

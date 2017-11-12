@@ -80,20 +80,27 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
                 fip = self.create_floating_ip(self.instance, self.public_network)
         return self.ping_ip_address(fip['ip'])
 
-    def _test_live_migration_block(self):
+    def _test_live_migration_block(self, test_instance_migration=None):
         """ Method boots an instance and wait until ACTIVE state.
         Migrates the instance to the next available hypervisor.
-        TODO:edannon - Add support for flavor from ci_netowrk_config.yaml
         """
         kwargs = {}
         count = 1
-        extra_specs = {'hw:mem_page_size': str("large")}
-        flavor = self.create_flavor_with_extra_specs(vcpu=2, **extra_specs)
+        import ipdb;ipdb.set_trace()
+        if test_instance_migration:
+            self.assertTrue(test_instance_migration in self.test_setup_dict,
+                            "test requires {0}, setup in externs_config_file".
+                            format(test_instance_migration))
+            if 'flavor' in self.test_setup_dict[test_instance_migration]:
+                self.flavor_ref = self.test_setup_dict[test_instance_migration]['flavor-id']
+        else:
+            extra_specs = {'hw:mem_page_size': str("large")}
+            self.flavor_ref = self.create_flavor_with_extra_specs(vcpu=2, **extra_specs)
         self._create_test_networks()
         super(TestDpdkScenarios, self)._create_ports_on_networks()
         kwargs['user_data'] = super(TestDpdkScenarios, self)._prepare_cloudinit_file()
         try:
-            instance = self.create_server(flavor=flavor, wait_until='ACTIVE', **kwargs)
+            instance = self.create_server(flavor=self.flavor_ref, wait_until='ACTIVE', **kwargs)
         except exceptions.BuildErrorException:
             return False
         host = self.os_admin.servers_client.show_server\
@@ -140,4 +147,4 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
     def test_live_migration_block(self):
         """ Make sure CONF.compute_feature_enabled.live_migration is True """
         msg = "Live migration Failed"
-        self.assertTrue(self._test_live_migration_block(), msg)
+        self.assertTrue(self._test_live_migration_block(test_instance_migration="test_instance_migration"), msg)
