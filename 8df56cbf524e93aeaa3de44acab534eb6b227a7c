@@ -1,0 +1,7 @@
+Verified+1: edannon <edannon@redhat.com>
+Code-Review+2: <yrachman@redhat.com>
+Submitted-by: <yrachman@redhat.com>
+Submitted-at: Mon, 13 Nov 2017 03:14:52 -0500
+Reviewed-on: https://review.gerrithub.io/386783
+Project: redhat-openstack/tempest-nfv-plugin
+Branch: refs/heads/devel
