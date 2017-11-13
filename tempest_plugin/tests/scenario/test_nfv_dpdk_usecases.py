@@ -84,9 +84,10 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         """ Method boots an instance and wait until ACTIVE state.
         Migrates the instance to the next available hypervisor.
         """
+        fip = dict()
         kwargs = {}
         count = 1
-        if test_setup_migration:
+        if test_setup_migration is not None:
             self.assertTrue(test_setup_migration in self.test_setup_dict,
                             "test requires {0}, setup in externs_config_file".
                             format(test_setup_migration))
@@ -98,8 +99,13 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         else:
             extra_specs = {'hw:mem_page_size': str("large")}
             self.flavor_ref = self.create_flavor_with_extra_specs(vcpu=2, **extra_specs)
+        if 'router' in self.test_setup_dict[test_setup_migration]:
+            router_exist = self.test_setup_dict[test_setup_migration]['router']
+        security_group = self._create_security_group()
+        kwargs['security_groups'] = [{'name': security_group['name'],
+                                      'id': security_group['id']}]
         self._create_test_networks()
-        super(TestDpdkScenarios, self)._create_ports_on_networks()
+        kwargs['networks']=  super(TestDpdkScenarios, self)._create_ports_on_networks()
         kwargs['user_data'] = super(TestDpdkScenarios, self)._prepare_cloudinit_file()
         try:
             instance = self.create_server(flavor=self.flavor_ref, wait_until='ACTIVE', **kwargs)
@@ -107,6 +113,14 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
             return False
         host = self.os_admin.servers_client.show_server\
             (instance['id'])['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']
+        fip['ip'] = \
+            instance['addresses'][self.test_network_dict['public']][0]['addr']
+        if router_exist:
+            fip = self.create_floating_ip(instance, self.public_network)
+        """ Run ping before migration """
+        msg = "Timed out waiting for %s to become reachable" % fip['ip']
+        self.assertTrue(self.ping_ip_address(fip['ip']), msg)
+        """ Migrate server """
         self.os_admin.servers_client.live_migrate_server\
             (server_id=instance['id'], block_migration=True, disk_over_commit=True, host=None)
         """ Switch hypervisor id (compute-0 <=> compute-1) """
@@ -123,6 +137,8 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
             time.sleep(3)
             if (self.os_admin.servers_client.show_server(instance['id'])
                 ['server']['OS-EXT-SRV-ATTR:hypervisor_hostname'] == dest):
+                """ Run ping after migration """
+                self.assertTrue(self.ping_ip_address(fip['ip']), msg)
                 return True
         return False
 
