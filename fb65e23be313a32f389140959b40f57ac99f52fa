@@ -22,6 +22,29 @@
       "revId": "fb65e23be313a32f389140959b40f57ac99f52fa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e60e5d09_7ece195d",
+        "filename": "tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1008570
+      },
+      "writtenOn": "2017-11-15T10:18:22Z",
+      "side": 1,
+      "message": "I think it should be equal to VxLAN because flat is an option too..",
+      "range": {
+        "startLine": 399,
+        "startChar": 0,
+        "endLine": 400,
+        "endChar": 69
+      },
+      "revId": "fb65e23be313a32f389140959b40f57ac99f52fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
