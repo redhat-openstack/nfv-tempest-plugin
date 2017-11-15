@@ -3,8 +3,6 @@ from tempest import config
 from tempest import clients
 from tests.scenario import baremetal_manager
 from tempest.common import credentials_factory as common_creds
-import base64
-import textwrap
 import re
 
 LOG = logging.getLogger(__name__)
@@ -99,38 +97,14 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         """
         keypair = self.create_keypair()
         self.key_pairs[keypair['name']] = keypair
-        """
-        Create security groups [icmp,ssh] for Deployed Guest Image
-        """
-        security_group = self._create_security_group()
-        kwargs['security_groups'] = [{'name': security_group['name'],
-                                      'id': security_group['id']}]
         super(TestBasicEpa, self)._create_test_networks()
-        kwargs['networks'] = super(TestBasicEpa, self).\
-            _create_ports_on_networks(**kwargs)
-
-        gw_ip = self.test_network_dict[self.test_network_dict['public']]['gateway_ip']
-
-        script = '''
-                 #cloud-config
-                 user: {user}
-                 password: {passwd}
-                 chpasswd: {{expire: False}}
-                 ssh_pwauth: True
-                 disable_root: 0
-                 runcmd:
-                 - cd /etc/sysconfig/network-scripts/
-                 - cp ifcfg-eth0 ifcfg-eth1
-                 - sed -i 's/'eth0'/'eth1'/' ifcfg-eth1
-                 - echo {gateway}{gw_ip} >>  /etc/sysconfig/network
-                 - systemctl restart network'''.format(gateway='GATEWAY=',
-                                                       gw_ip=gw_ip,
-                                                       user=self.ssh_user,
-                                                       passwd=self.ssh_passwd)
-
-        script_clean = textwrap.dedent(script).lstrip().encode('utf8')
-        script_b64 = base64.b64encode(script_clean)
-        kwargs['user_data'] = script_b64
+        kwargs['networks'] = super(TestBasicEpa,
+                                   self)._create_ports_on_networks(**kwargs)
+        security = super(TestBasicEpa, self)._set_security_groups()
+        if security is not None:
+            kwargs['security_groups'] = security
+        kwargs['user_data'] = super(TestBasicEpa,
+                                    self)._prepare_cloudinit_file()
 
         self.instance = self.create_server(key_name=keypair['name'],
                                            image_id=self.image_ref,
@@ -143,7 +117,9 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         fip['ip'] = \
             self.instance['addresses'][self.test_network_dict['public']][0]['addr']
         if router_exist:
-            fip = self.create_floating_ip(self.instance, self.public_network)
+            super(TestBasicEpa, self)._add_subnet_to_router()
+            fip = self.create_floating_ip(self.instance,
+                                          self.public_network)
 
         LOG.info("fip: %s, instance_id: %s", fip['ip'], self.instance["id"])
         """
