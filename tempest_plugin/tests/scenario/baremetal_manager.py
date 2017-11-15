@@ -8,6 +8,7 @@ from tempest.lib.common.utils import test_utils
 import textwrap
 import base64
 import re
+from tempest.lib import exceptions as lib_exc
 
 import StringIO
 import yaml
@@ -380,6 +381,8 @@ class BareMetalManager(manager.ScenarioTest):
                  'gateway_ip': net['gateway_ip'],
                  'port_type': net['port_type'],
                  'ip_version': net['ip_version']}
+            if 'sec_groups' in net:
+                self.test_network_dict[net['name']]['sec_groups'] = net['sec_groups']
             if 'mgmt' in net and net['mgmt']:
                 mgmt_network = net['name']
         network_kwargs = {}
@@ -389,14 +392,19 @@ class BareMetalManager(manager.ScenarioTest):
         for net_name, net_param in self.test_network_dict.iteritems():
             network_kwargs.clear()
             network_kwargs['name'] = net_name
-            if 'sec_groups' in net_param:
+            if 'sec_groups' in net_param and net_param['sec_groups'] == False:
                 network_kwargs['port_security_enabled'] = net_param['sec_groups']
-            if 'provider:physical_network' in net_param:
-                network_kwargs['provider:physical_network'] =\
-                    net_param['provider:physical_network']
-            if 'provider:segmentation_id' in net_param:
-                network_kwargs['provider:segmentation_id'] =\
-                    net_param['provider:segmentation_id']
+            """Added this for VxLAN no need of physical network or segmentation
+            """
+            if 'provider:network_type' in net_param \
+                    and net_param['provider:network_type'] != 'vlan':
+                if 'provider:physical_network' in net_param:
+                    network_kwargs['provider:physical_network'] =\
+                        net_param['provider:physical_network']
+                if 'provider:segmentation_id' in net_param:
+                    network_kwargs['provider:segmentation_id'] =\
+                        net_param['provider:segmentation_id']
+
             if 'provider:network_type' in net_param:
                 network_kwargs['provider:network_type'] =\
                     net_param['provider:network_type']
@@ -428,8 +436,39 @@ class BareMetalManager(manager.ScenarioTest):
             subnet = result['subnet']
             self.addCleanup(test_utils.call_and_ignore_notfound_exc,
                             self.subnets_client.delete_subnet, subnet['id'])
+            self.test_network_dict[net_name]['subnet-id'] = subnet['id']
         if mgmt_network is not None:
             self.test_network_dict['public'] = mgmt_network
+
+    def _add_subnet_to_router(self):
+        """
+        Method read test-networks attributes from external_config.yml, to be created for
+        For VxLAN network type there is additional fork to be Done
+        The following add to admin router mgmt subnet and create flowing ip
+        """
+        public_name = self.test_network_dict['public']
+        public_net = self.test_network_dict[public_name]
+        """
+        search for admin router name
+
+        """
+        seen_routers = self.os_admin.routers_client.list_routers()['routers']
+        self.assertEqual(len(seen_routers), 1,
+                         "Test require 1 admin router. please check")
+        self.os_admin.routers_client.add_router_interface(
+             seen_routers[0]['id'], subnet_id=public_net['subnet-id'])
+        self.addCleanup(self._try_remove_router_subnet,
+                        seen_routers[0]['id'],
+                        subnet_id=public_net['subnet-id'])
+
+    def _try_remove_router_subnet(self, router, **kwargs):
+        # delete router, if it exists
+        try:
+            self.os_admin.routers_client.remove_router_interface(
+                router, **kwargs)
+        # if router is not found, this means it was deleted in the test
+        except lib_exc.NotFound:
+                pass
 
     def _detect_existing_networks(self):
         """Use method only when test require no network cls.set_network_resources()
@@ -559,7 +598,8 @@ class BareMetalManager(manager.ScenarioTest):
 
     def _check_number_queues(self):
         """This method checks the number of max queues"""
-        self.ip_address = self._get_hypervisor_ip_from_undercloud(None, shell="/home/stack/stackrc")
+        self.ip_address = \
+            self._get_hypervisor_ip_from_undercloud(None, shell="/home/stack/stackrc")
         command = "tuna -t ovs-vswitchd -CP | grep pmd | wc -l"
         numpmds = int(self._run_command_over_ssh(self.ip_address[0], command))
         command = "sudo ovs-vsctl show | grep rxq | awk -F'rxq=' '{print $2}'"
