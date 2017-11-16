@@ -45,6 +45,54 @@
       "revId": "fb65e23be313a32f389140959b40f57ac99f52fa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8625b5f3_f205a61d",
+        "filename": "tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-16T08:53:54Z",
+      "side": 1,
+      "message": "Yo are right, it was working on VLAN for me, since i had only one network, and i used segmentation id, checking",
+      "parentUuid": "be2732a5_be8f2e51",
+      "range": {
+        "startLine": 400,
+        "startChar": 59,
+        "endLine": 400,
+        "endChar": 68
+      },
+      "revId": "fb65e23be313a32f389140959b40f57ac99f52fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f79f8ddf_25895dce",
+        "filename": "tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-16T08:53:54Z",
+      "side": 1,
+      "message": "Lets start with that, thanks",
+      "parentUuid": "e60e5d09_7ece195d",
+      "range": {
+        "startLine": 399,
+        "startChar": 0,
+        "endLine": 400,
+        "endChar": 69
+      },
+      "revId": "fb65e23be313a32f389140959b40f57ac99f52fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
