@@ -652,4 +652,39 @@ class BareMetalManager(manager.ScenarioTest):
                                'id': security_group['id']}]
         return security_group
 
+    def ping_ip_address(self, ip_address, should_succeed=True,
+                        ping_timeout=None, mtu=None):
+        timeout = ping_timeout or CONF.validation.ping_timeout
+        cmd = ['ping', '-c1', '-w1']
 
+        if mtu:
+            cmd += [
+                # don't fragment
+                '-M', 'do',
+                # ping receives just the size of ICMP payload
+                '-s', str(net_utils.get_ping_payload_size(mtu, 4))
+            ]
+        cmd.append(ip_address)
+
+        def ping():
+            proc = subprocess.Popen(cmd,
+                                    stdout=subprocess.PIPE,
+                                    stderr=subprocess.PIPE)
+            proc.communicate()
+
+            return (proc.returncode == 0) == should_succeed
+
+        caller = test_utils.find_test_caller()
+        LOG.debug('%(caller)s begins to ping %(ip)s in %(timeout)s sec and the'
+                  ' expected result is %(should_succeed)s', {
+                      'caller': caller, 'ip': ip_address, 'timeout': timeout,
+                      'should_succeed':
+                          'reachable' if should_succeed else 'unreachable'
+                  })
+        result = test_utils.call_until_true(ping, timeout, 1)
+        LOG.debug('%(caller)s finishes ping %(ip)s in %(timeout)s sec and the '
+                  'ping result is %(result)s', {
+                      'caller': caller, 'ip': ip_address, 'timeout': timeout,
+                      'result': 'expected' if result else 'unexpected'
+                  })
+        return result
