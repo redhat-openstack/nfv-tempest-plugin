@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f66534d0_7a03ca58",
+        "filename": "tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-23T12:55:30Z",
+      "side": 1,
+      "message": "if mtu is not None\nWhy do you use cmd +\u003d and in line 667 you are using append?\ni think append is safer\nhttps://stackoverflow.com/questions/2022031/python-append-vs-operator-on-lists-why-do-these-give-different-results",
+      "range": {
+        "startLine": 660,
+        "startChar": 11,
+        "endLine": 660,
+        "endChar": 14
+      },
+      "revId": "2f83eabdf6659cf7219f7546d9213b8ee3247200",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d646aaea_70f7adfe",
+        "filename": "tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-23T12:55:30Z",
+      "side": 1,
+      "message": "I think you have another parameter for VxLAN network\nIf \u003d\u003d True you have to add additional byte",
+      "range": {
+        "startLine": 665,
+        "startChar": 35,
+        "endLine": 665,
+        "endChar": 36
+      },
+      "revId": "2f83eabdf6659cf7219f7546d9213b8ee3247200",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
