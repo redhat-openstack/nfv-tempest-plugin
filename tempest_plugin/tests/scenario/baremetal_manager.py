@@ -138,6 +138,9 @@ class BareMetalManager(manager.ScenarioTest):
             if 'tuned-profile' in test and test['tuned-profile'] is not None:
                 self.test_setup_dict[test['name']]['tuned-profile'] = \
                     test['tuned-profile']
+            if 'mtu' in test and test['mtu'] is not None:
+                self.test_setup_dict[test['name']]['mtu'] = \
+                    test['mtu']
 
         # iterate flavors_id
         for test, test_param in self.test_setup_dict.iteritems():
