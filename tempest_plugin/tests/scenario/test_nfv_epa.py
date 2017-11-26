@@ -196,3 +196,56 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
 
     def test_packages_compute(self):
         self._test_check_package_version("check-compute-packges")
+
+    def _test_mtu_ping_gateway(self, test_setup_mtu, mtu=1973):
+        """
+        The test boots an instance with given args from external_config_file,
+        connect to the instance using ssh, and ping with given MTU to GW.
+        * This tests depend on MTU configured at running environment.
+        """
+        kwargs = {}
+        if 'availability-zone' in self.test_setup_dict[test_setup_mtu]:
+            self.availability_zone = \
+                self.test_setup_dict[test_setup_mtu]['availability-zone']
+        if 'flavor' in self.test_setup_dict[test_setup_mtu]:
+            self.flavor_ref = self.test_setup_dict[test_setup_mtu]['flavor-id']
+        if 'router' in self.test_setup_dict[test_setup_mtu]:
+            router_exist = self.test_setup_dict[test_setup_mtu]['router']
+        if 'mtu' in self.test_setup_dict[test_setup_mtu]:
+            mtu = self.test_setup_dict[test_setup_mtu]['mtu']
+        keypair = self.create_keypair()
+        self.key_pairs[keypair['name']] = keypair
+        super(TestBasicEpa, self)._create_test_networks()
+        kwargs['networks'] = super(TestBasicEpa,
+                                   self)._create_ports_on_networks(**kwargs)
+        security = super(TestBasicEpa, self)._set_security_groups()
+        if security is not None:
+            kwargs['security_groups'] = security
+        kwargs['user_data'] = super(TestBasicEpa,
+                                    self)._prepare_cloudinit_file()
+        self.instance = self.create_server(key_name=keypair['name'],
+                                           image_id=self.image_ref,
+                                           flavor=self.flavor_ref,
+                                           wait_until='ACTIVE', **kwargs)
+        fip = dict()
+        fip['ip'] = \
+            self.instance['addresses'][self.test_network_dict['public']][0]['addr']
+        if router_exist is not None and router_exist:
+            super(TestBasicEpa, self)._add_subnet_to_router()
+            fip = self.create_floating_ip(self.instance,
+                                          self.public_network)
+        msg = "Timed out waiting for %s to become reachable" % fip['ip']
+        self.assertTrue(self.ping_ip_address(fip['ip']), msg)
+        gateway = self.test_network_dict[self.test_network_dict['public']]['gateway_ip']
+        gw_msg = "The gateway of given network does not exists, please assign it and re-run."
+        self.assertTrue(gateway is not None, gw_msg)
+        ssh_source = self.get_remote_client(fip['ip'],
+                                            private_key=self.key_pairs
+                                            [self.instance['key_name']]['private_key'])
+        return ssh_source.exec_command('ping -c 1 -M do -s %d %s' % (mtu, gateway))
+
+    def test_mtu_ping_test(self):
+        msg = "MTU Ping test failed - check your environment settings"
+        self.assertTrue(self._test_mtu_ping_gateway("test-ping-mtu"), msg)
+        
+
