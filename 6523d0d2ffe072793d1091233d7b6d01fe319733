@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "64e6ad17_6837cb3f",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1008570
+      },
+      "writtenOn": "2017-11-28T11:58:39Z",
+      "side": 1,
+      "message": "If it\u0027s None it won\u0027t go into the if statement right?",
+      "parentUuid": "ef11a1ba_327cc8c3",
+      "range": {
+        "startLine": 228,
+        "startChar": 8,
+        "endLine": 228,
+        "endChar": 24
+      },
+      "revId": "6523d0d2ffe072793d1091233d7b6d01fe319733",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a8d362b_20f25b0b",
         "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
         "patchSetId": 2
@@ -117,6 +141,30 @@
     },
     {
       "key": {
+        "uuid": "8de402cc_4ad90a77",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1008570
+      },
+      "writtenOn": "2017-11-28T11:58:39Z",
+      "side": 1,
+      "message": "Test_network_dict contain only the net-id, subnet id and gateway Ip does not exists..",
+      "parentUuid": "1a8d362b_20f25b0b",
+      "range": {
+        "startLine": 234,
+        "startChar": 1,
+        "endLine": 236,
+        "endChar": 81
+      },
+      "revId": "6523d0d2ffe072793d1091233d7b6d01fe319733",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90919995_b5929e4b",
         "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
         "patchSetId": 2
@@ -128,6 +176,30 @@
       "writtenOn": "2017-11-28T10:55:54Z",
       "side": 1,
       "message": "Please check if gw exist if not please assert and have a meesage",
+      "range": {
+        "startLine": 240,
+        "startChar": 73,
+        "endLine": 240,
+        "endChar": 81
+      },
+      "revId": "6523d0d2ffe072793d1091233d7b6d01fe319733",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2c5a129_3024cce2",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1008570
+      },
+      "writtenOn": "2017-11-28T11:58:39Z",
+      "side": 1,
+      "message": "There\u0027s always gateway, even if you do not provide it, neutron auto generate it and removes it from your pool",
+      "parentUuid": "90919995_b5929e4b",
       "range": {
         "startLine": 240,
         "startChar": 73,
