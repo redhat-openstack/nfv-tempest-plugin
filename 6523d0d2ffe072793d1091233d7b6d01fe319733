@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90e55873_8b805d4f",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-28T10:55:54Z",
+      "side": 1,
+      "message": "Please Add description of this method \nInput parameters and its defauts",
+      "range": {
+        "startLine": 200,
+        "startChar": 8,
+        "endLine": 200,
+        "endChar": 31
+      },
+      "revId": "6523d0d2ffe072793d1091233d7b6d01fe319733",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8495177a_27fe5804",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-28T10:55:54Z",
+      "side": 1,
+      "message": "security groups must be called before before _create_ports_on_networks\nother wise port will always have security group",
+      "range": {
+        "startLine": 216,
+        "startChar": 8,
+        "endLine": 216,
+        "endChar": 67
+      },
+      "revId": "6523d0d2ffe072793d1091233d7b6d01fe319733",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eff45d65_ec499f7d",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-28T10:55:54Z",
+      "side": 1,
+      "message": "This must be created only if security group enabled",
+      "range": {
+        "startLine": 217,
+        "startChar": 6,
+        "endLine": 217,
+        "endChar": 32
+      },
+      "revId": "6523d0d2ffe072793d1091233d7b6d01fe319733",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef11a1ba_327cc8c3",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-28T10:55:54Z",
+      "side": 1,
+      "message": "look at line 208\nin case router is not in config router_exist is None\nYou could add here if router_exist is not None and router_exist",
+      "range": {
+        "startLine": 228,
+        "startChar": 8,
+        "endLine": 228,
+        "endChar": 24
+      },
+      "revId": "6523d0d2ffe072793d1091233d7b6d01fe319733",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a8d362b_20f25b0b",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-28T10:55:54Z",
+      "side": 1,
+      "message": "please use here the data of test_network_dict all data exist and ids, subnet-id and gateway_ip",
+      "range": {
+        "startLine": 234,
+        "startChar": 1,
+        "endLine": 236,
+        "endChar": 81
+      },
+      "revId": "6523d0d2ffe072793d1091233d7b6d01fe319733",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90919995_b5929e4b",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-28T10:55:54Z",
+      "side": 1,
+      "message": "Please check if gw exist if not please assert and have a meesage",
+      "range": {
+        "startLine": 240,
+        "startChar": 73,
+        "endLine": 240,
+        "endChar": 81
+      },
+      "revId": "6523d0d2ffe072793d1091233d7b6d01fe319733",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
