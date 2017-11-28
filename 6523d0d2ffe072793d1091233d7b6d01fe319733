@@ -118,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "b57c9b8e_6f616cf5",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-28T12:55:24Z",
+      "side": 1,
+      "message": "Problem that you are doing if expected True/False not None\nIn line 208 could be use case that router_exist is None\nTest will fail here",
+      "parentUuid": "64e6ad17_6837cb3f",
+      "range": {
+        "startLine": 228,
+        "startChar": 8,
+        "endLine": 228,
+        "endChar": 24
+      },
+      "revId": "6523d0d2ffe072793d1091233d7b6d01fe319733",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a8d362b_20f25b0b",
         "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
         "patchSetId": 2
@@ -165,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "8c81d775_252353d2",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-28T12:55:24Z",
+      "side": 1,
+      "message": "Correct\nWe have to save API calls it takes time\nat least use self.test_network_dict[\u0027public\u0027]][\u0027gateway_ip\u0027]\n\nWe will have to Add gateway, ip and security grous into self.test_networks{}",
+      "parentUuid": "8de402cc_4ad90a77",
+      "range": {
+        "startLine": 234,
+        "startChar": 1,
+        "endLine": 236,
+        "endChar": 81
+      },
+      "revId": "6523d0d2ffe072793d1091233d7b6d01fe319733",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90919995_b5929e4b",
         "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
         "patchSetId": 2
@@ -200,6 +248,30 @@
       "side": 1,
       "message": "There\u0027s always gateway, even if you do not provide it, neutron auto generate it and removes it from your pool",
       "parentUuid": "90919995_b5929e4b",
+      "range": {
+        "startLine": 240,
+        "startChar": 73,
+        "endLine": 240,
+        "endChar": 81
+      },
+      "revId": "6523d0d2ffe072793d1091233d7b6d01fe319733",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0aac1e94_d4487e0a",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_epa.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-11-28T12:55:24Z",
+      "side": 1,
+      "message": "What about two subnets? you have to parse every thing\nDid you test it with two networks?\n\nTry to be open to work with multiple networks, you could have 1 Guest with3 networks, 3 different MTU?",
+      "parentUuid": "d2c5a129_3024cce2",
       "range": {
         "startLine": 240,
         "startChar": 73,
