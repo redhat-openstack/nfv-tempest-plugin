@@ -54,7 +54,9 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
 
     def _test_queue_functionality(self, queues):
         fip = dict()
-        extra_specs = {'hw:mem_page_size': str("large")}
+        extra_specs = {'hw:mem_page_size': str("large"),
+                       'hw:cpu_policy': str("dedicated"),
+                       'hw:numa_nodes': str("2")}
         if queues == "min":
             queues = self.maxqueues - 2
             wait_until = 'ACTIVE'
