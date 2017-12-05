@@ -53,7 +53,6 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         """ pre setup creations and checks read from config files """
 
     def _test_queue_functionality(self, queues):
-        fip = dict()
         extra_specs = {'hw:mem_page_size': str("large"),
                        'hw:cpu_policy': str("dedicated"),
                        'hw:numa_nodes': str("2")}
@@ -76,10 +75,12 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
             instance = self.create_server(flavor=flavor, wait_until=wait_until)
         except exceptions.BuildErrorException:
             return False
+        fip = dict()
         fip['ip'] = instance['addresses'][self.test_network_dict['public']][0]['addr']
         if 'router' in self.test_setup_dict['check-multiqueue-func']:
             if self.test_setup_dict['check-multiqueue-func']['router']:
-                fip = self.create_floating_ip(self.instance, self.public_network)
+                super(TestDpdkScenarios, self)._add_subnet_to_router()
+                fip = self.create_floating_ip(instance, self.public_network)
         return self.ping_ip_address(fip['ip'])
 
     def _test_live_migration_block(self, test_setup_migration=None):
