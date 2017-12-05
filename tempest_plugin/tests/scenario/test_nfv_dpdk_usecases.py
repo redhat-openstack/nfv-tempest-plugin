@@ -60,6 +60,11 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
             queues = self.maxqueues - 2
             wait_until = 'ACTIVE'
         elif queues == "odd":
+            odd_extra_specs = {'hw:numa_cpus.0': str("0,1"),
+                               'hw:numa_cpus.1': str("2"),
+                               'hw:numa_mem.0': str("1024"),
+                               'hw:numa_mem.1': str("1024")}
+            extra_specs.update(odd_extra_specs)
             queues = self.maxqueues - 1
             wait_until = 'ACTIVE'
         elif queues == 'max':
