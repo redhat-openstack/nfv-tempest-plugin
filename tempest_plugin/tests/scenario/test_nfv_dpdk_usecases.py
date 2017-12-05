@@ -53,9 +53,12 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         """ pre setup creations and checks read from config files """
 
     def _test_queue_functionality(self, queues):
+        """Checks DPDK queues functionality by booting number of
+        instances with various number of cpus based on the setup
+        queues number.
+        """
         extra_specs = {'hw:mem_page_size': str("large"),
-                       'hw:cpu_policy': str("dedicated"),
-                       'hw:numa_nodes': str("2")}
+                       'hw:cpu_policy': str("dedicated")}
         if queues == "min":
             queues = self.maxqueues - 2
             wait_until = 'ACTIVE'
