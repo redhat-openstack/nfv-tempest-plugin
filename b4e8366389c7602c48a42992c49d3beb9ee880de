@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54550e6c_b0f4a2f0",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1008570
+      },
+      "writtenOn": "2017-12-06T07:35:27Z",
+      "side": 1,
+      "message": "The number of vCPUs isn\u0027t known when applying them to guests numa,\nMeaning in case you\u0027ll have 6 vcpus, 0,1 at numa0, 2 on numa1, what about the rest of them?\nSame regarding the memory, we could specify 2G of memory for creation.",
+      "range": {
+        "startLine": 76,
+        "startChar": 8,
+        "endLine": 76,
+        "endChar": 80
+      },
+      "revId": "b4e8366389c7602c48a42992c49d3beb9ee880de",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
