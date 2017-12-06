@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8aeb3383_2d76758c",
+        "filename": "tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-12-06T09:55:05Z",
+      "side": 1,
+      "message": "Please add \n\"\"\"\nDescription of what method do\n\"\"\"",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 48
+      },
+      "revId": "1ad5213bdcdae08667ed8deac282a352046e3113",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
