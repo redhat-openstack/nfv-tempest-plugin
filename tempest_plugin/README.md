@@ -84,6 +84,13 @@ external_config_file = network_config.yml
         flavor: nfv-test-flavor
         router: false
         availability-zone: normal `
+  - MTU ping test.
+    Boots instance, send ping with given MTU to GW.
+    ` - name: test-ping-mtu
+        flavor: nfv-test-flavor
+        router: false
+        mtu: 2972
+        availability-zone: normal `
 
 * Tests included in test_nfv_dpdk_usecases.py
 
