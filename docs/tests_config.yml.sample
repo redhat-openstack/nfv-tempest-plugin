@@ -1,0 +1,129 @@
+---
+
+# The network should be pre-created for the tempest access.
+networks:
+  - name: 'access'
+    physical_network: 'access'
+    segmentation_id: '57'
+    allocation_pool_start: '10.0.0.210'
+    allocation_pool_end: '10.0.0.250'
+    cidr: '10.0.0.0/24'
+    enable_dhcp: true
+    gateway_ip: '10.0.0.1'
+    external: true
+    shared: true
+    router_name: router1
+    port_type: normal
+    network_type: vlan
+
+dns_nameservers:
+  - 8.8.4.4
+  - 8.8.8.8
+
+# Networks used by the test.
+# Will be created by the tests during the execution.
+test-networks:
+  - name: 'vlan1600'
+    physical_network: 'tenant'
+    segmentation_id: '1600'
+    allocation_pool_start: '10.100.10.2'
+    allocation_pool_end: '10.100.10.14'
+    cidr: '10.100.10.0/28'
+    enable_dhcp: true
+    gateway_ip: '10.100.10.1'
+    router_name: router1
+    network_type: vlan
+    ip_version: 4
+    # Security group definition.
+    # In case of no security, set the flag to 'false'.
+    sec_groups: true
+    port_type: normal
+    # At least one network from the provided networks
+    # should be set  to 'true'.
+    # Port create on this network will be configured
+    # as default router for booted vms.
+    mgmt: true
+
+  - name: 'vlan1500'
+    physical_network: 'tenant'
+    segmentation_id: '1500'
+    allocation_pool_start: '10.100.20.2'
+    allocation_pool_end: '10.100.20.14'
+    cidr: '10.100.20.0/28'
+    enable_dhcp: true
+    gateway_ip: '10.100.20.1'
+    network_type: vlan
+    ip_version: 4
+    port_type: normal
+
+# Flavors used by the test.
+# Should be pre-created before the test execution.
+flavors:
+  - name: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    ram: 2048
+    disk: 20
+    vcpus: 2
+    property:
+     - "hw:mem_page_size": "1GB"
+       "hw:numa_mem.0": "2048"
+       "hw:numa_mempolicy": "strict"
+       "hw:numa_cpus.0": "0,1"
+       "hw:cpu_policy": "dedicated"
+
+  - name: m1.medium.huge_pages_cpu_pinning_numa_node-1
+    ram: 2048
+    disk: 20
+    vcpus: 2
+    property:
+     - "hw:mem_page_size": "1GB"
+       "hw:numa_mem.1": "2048"
+       "hw:numa_mempolicy": "strict"
+       "hw:numa_cpus.1": "0,1"
+       "hw:cpu_policy": "dedicated"
+
+  - name: m1.medium.huge_pages_cpu_pinning_numa_node-mix
+    ram: 2048
+    disk: 20
+    vcpus: 2
+    property:
+     - "hw:numa_nodes": "2"
+       "hw:mem_page_size": "1GB"
+       "hw:numa_mem.0": "1024"
+       "hw:numa_mem.1": "1024"
+       "hw:numa_mempolicy": "strict"
+       "hw:numa_cpus.0": "0"
+       "hw:numa_cpus.1": "1"
+       "hw:cpu_policy": "dedicated"
+
+ tests-setup:
+  - name: numa0
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+
+  - name: numa1
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-1
+    router: true
+
+  - name: numamix
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-mix
+    router: true
+
+  - name: check-multiqueue-func
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+
+  - name: check-compute-packges
+    package-names: tuned-2.8.0-5.el7.noarch
+    service-names: tuned.service
+    tuned-profile: cpu-partitioning
+    availability-zone: normal
+
+tempest_tests:
+  - tests.scenario.test_nfv_epa.TestBasicEpa.test_numa0_provider_network
+  - tests.scenario.test_nfv_epa.TestBasicEpa.test_numa1_provider_network
+  - tests.scenario.test_nfv_epa.TestBasicEpa.test_numamix_provider_network
+  - tests.scenario.test_nfv_epa.TestBasicEpa.test_packages_compute
+  - tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_min_queues_functionality
+  - tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_equal_queues_functionality
+  - tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_max_queues_functionality
+  - tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_odd_queues_functionality
