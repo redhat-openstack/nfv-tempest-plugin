@@ -1,59 +1,19 @@
-Tempest Integration of NfvTest
-==============================
+Tempest integration tests for NFV based deployment
+==================================================
 
-This directory contains Tempest tests to cover the NfvTest project.
+The tempest-nfv-plugin contains various tempest tests for NFV based deployment.
 
-# Setup steps:
-## Prerequisites:
-* Installed tempest virtual environment.
-* Cloned/Installed upstream tempest repository.
-* Cloned and executes python-tempestconf
+### Documantation
+For the proper documentation including installation, tests explanation and configuration, etc... refer to the `docs/` directory at the root of the repository.
 
-## NFV plugin setup:
-
-1. The tempeset-nfv-plugin repository should be cloned near to the main tempest directory.
-
-`$ git clone https://review.gerrithub.io/redhat-openstack/tempest-nfv-plugin`
-
-2. Activate the tempest virtual env.
-
-3. Browse to the nfv_tempest_plugin directory and install the nfv plugin:
-
-`$ pip install --upgrade -e .`
-
-4. Test the installed plugin:
-
-`$ pip list |grep -i nfv`
-
-5. Browse to the main tempest directory and check the newly installed nfv plugin:
-
-`$ testr list-tests |grep -i nfv`
-
-## NFV tester environment:
-The plugin planned to run from TripleO Undercloud host (Used as a tester).
-In case ssh connection to overcloud computes needed:
-ssh keys defined in tempest.conf
-ssh from undercloud as user heat-admin to overcloud
-
-[hypervisor]
-private_key_file = /home/stack/.ssh/id_rsa
-user = heat-admin
-
-# NFV plugin tempest configuration extensions
-*  network_config.yml
-This file ignored if tempest.conf does not include the following parameter
-[hypervisor]
-external_config_file = network_config.yml
-
-## NFV plugin automatic configuration, setup and run:
-
-* Plugin env setup, install running tests could be automated with the following ansible
- nfv repository: https://github.com/redhat-openstack/ansible-nfv
-
- run playbook as follow:
- ansible-playbook -i ${TRIPLEO_TOPOLOGY}/keys/hosts
- playbooks/tripleo/tester/tempest.yml -e @${ROOT_DIR}/ansible-nfv/network_config.yml
-
- see network_config.yml.sample file
-
-
+Current available tests:
+- tests.scenario.test_nfv_epa.TestBasicEpa.test_numa0_provider_network
+- tests.scenario.test_nfv_epa.TestBasicEpa.test_numa1_provider_network
+- tests.scenario.test_nfv_epa.TestBasicEpa.test_numamix_provider_network
+- tests.scenario.test_nfv_epa.TestBasicEpa.test_packages_compute
+- tests.scenario.test_nfv_epa.TestBasicEpa.test_mtu_ping_test
+- tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_min_queues_functionality
+- tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_equal_queues_functionality
+- tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_max_queues_functionality
+- tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_odd_queues_functionality
+- tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_live_migration_block
