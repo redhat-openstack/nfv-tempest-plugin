@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4167dcc7_1ca8b586",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-12-10T21:36:39Z",
+      "side": 1,
+      "message": "Tenant network will be created by tests",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 54
+      },
+      "revId": "1a2a675d3152deb2980cf708274f940e9af48401",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4963db80_d0cdbb33",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-12-10T21:36:39Z",
+      "side": 1,
+      "message": "default is true,\nIn case of no security it must be set to false",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 20
+      },
+      "revId": "1a2a675d3152deb2980cf708274f940e9af48401",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a40697d_80014c6e",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2017-12-10T21:36:39Z",
+      "side": 1,
+      "message": "at least one test network marked as mgmt network\nPort created on this network will be configured as default router for booted vms",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 14
+      },
+      "revId": "1a2a675d3152deb2980cf708274f940e9af48401",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
