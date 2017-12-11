@@ -68,6 +68,29 @@
       "revId": "1a2a675d3152deb2980cf708274f940e9af48401",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78474f04_f9bfe404",
+        "filename": "docs/tests_prerequisites_config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1008570
+      },
+      "writtenOn": "2017-12-11T07:07:41Z",
+      "side": 1,
+      "message": "Please add pre-requirement  \n- { sect: \u0027compute-feature-enabled\u0027, opt: \u0027live_migration\u0027, val: \u0027true\u0027 }",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 19
+      },
+      "revId": "1a2a675d3152deb2980cf708274f940e9af48401",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
