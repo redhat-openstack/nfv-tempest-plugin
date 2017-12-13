@@ -2,7 +2,7 @@
 from oslo_log import log as logging
 from tempest import config
 from tempest import clients
-from tests.scenario import baremetal_manager
+from tempest_nfv_plugin.tests.scenario import baremetal_manager
 from tempest.common import credentials_factory as common_creds
 
 LOG = logging.getLogger(__name__)
@@ -57,7 +57,7 @@ class TestNfvPlugin(baremetal_manager.BareMetalManager):
 
         if self.external_config['tests-setup'][0]['flavor']:
                self.flavor_ref = self.external_config['tests-setup'][0]['flavor']
-        
+
         if self.external_config['tests-setup'][0]['image-id']:
               self.image_ref = self.external_config['tests-setup'][0]['image-id']
 

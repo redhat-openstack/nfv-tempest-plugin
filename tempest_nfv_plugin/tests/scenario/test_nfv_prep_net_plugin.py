@@ -1,7 +1,7 @@
 from oslo_log import log as logging
 from tempest import config
 from tempest import clients
-from tests.scenario import baremetal_manager
+from tempest_nfv_plugin.tests.scenario import baremetal_manager
 from tempest.common import credentials_factory as common_creds
 import base64
 import textwrap
@@ -176,5 +176,3 @@ class TestNfvPrepNetPlugin(baremetal_manager.BareMetalManager):
         """
         msg = "Timed out waiting for %s to become reachable" % fip['ip']
         self.assertTrue(self.ping_ip_address(fip['ip']), msg)
-
-
