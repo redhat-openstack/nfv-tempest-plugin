@@ -1,7 +1,7 @@
 from oslo_log import log as logging
 from tempest import config
 from tempest import clients
-from tests.scenario import baremetal_manager
+from tempest_nfv_plugin.tests.scenario import baremetal_manager
 from tempest.common import credentials_factory as common_creds
 import re
 
@@ -247,4 +247,3 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
     def test_mtu_ping_test(self):
         msg = "MTU Ping test failed - check your environment settings"
         self.assertTrue(self._test_mtu_ping_gateway("test-ping-mtu"), msg)
-
