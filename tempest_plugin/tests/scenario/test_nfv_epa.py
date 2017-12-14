@@ -97,15 +97,14 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         """
         keypair = self.create_keypair()
         self.key_pairs[keypair['name']] = keypair
-        super(TestBasicEpa, self)._create_test_networks()
-        kwargs['networks'] = super(TestBasicEpa,
-                                   self)._create_ports_on_networks(**kwargs)
         security = super(TestBasicEpa, self)._set_security_groups()
         if security is not None:
             kwargs['security_groups'] = security
+        super(TestBasicEpa, self)._create_test_networks()
+        kwargs['networks'] = super(TestBasicEpa,
+                                   self)._create_ports_on_networks(**kwargs)
         kwargs['user_data'] = super(TestBasicEpa,
                                     self)._prepare_cloudinit_file()
-
         self.instance = self.create_server(key_name=keypair['name'],
                                            image_id=self.image_ref,
                                            flavor=self.flavor_ref,
@@ -204,6 +203,7 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         * This tests depend on MTU configured at running environment.
         """
         kwargs = {}
+        router_exist = True
         if 'availability-zone' in self.test_setup_dict[test_setup_mtu]:
             self.availability_zone = \
                 self.test_setup_dict[test_setup_mtu]['availability-zone']
@@ -215,12 +215,12 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
             mtu = self.test_setup_dict[test_setup_mtu]['mtu']
         keypair = self.create_keypair()
         self.key_pairs[keypair['name']] = keypair
-        super(TestBasicEpa, self)._create_test_networks()
-        kwargs['networks'] = super(TestBasicEpa,
-                                   self)._create_ports_on_networks(**kwargs)
         security = super(TestBasicEpa, self)._set_security_groups()
         if security is not None:
             kwargs['security_groups'] = security
+        super(TestBasicEpa, self)._create_test_networks()
+        kwargs['networks'] = super(TestBasicEpa,
+                                   self)._create_ports_on_networks(**kwargs)
         kwargs['user_data'] = super(TestBasicEpa,
                                     self)._prepare_cloudinit_file()
         self.instance = self.create_server(key_name=keypair['name'],
@@ -230,6 +230,7 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         fip = dict()
         fip['ip'] = \
             self.instance['addresses'][self.test_network_dict['public']][0]['addr']
+ 
         if router_exist is not None and router_exist:
             super(TestBasicEpa, self)._add_subnet_to_router()
             fip = self.create_floating_ip(self.instance,
@@ -237,7 +238,8 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         msg = "Timed out waiting for %s to become reachable" % fip['ip']
         self.assertTrue(self.ping_ip_address(fip['ip']), msg)
         gateway = self.test_network_dict[self.test_network_dict['public']]['gateway_ip']
-        gw_msg = "The gateway of given network does not exists, please assign it and re-run."
+        gw_msg = "The gateway of given network does not exists," \
+                 " please assign it and re-run."
         self.assertTrue(gateway is not None, gw_msg)
         ssh_source = self.get_remote_client(fip['ip'],
                                             private_key=self.key_pairs
