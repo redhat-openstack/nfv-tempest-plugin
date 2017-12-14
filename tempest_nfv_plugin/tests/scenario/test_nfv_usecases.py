@@ -4,7 +4,7 @@ from tempest import config
 from tempest.common.utils import data_utils
 from tempest.common import credentials_factory as common_creds
 from tempest import test
-from tests.scenario import baremetal_manager
+from tempest_nfv_plugin.tests.scenario import baremetal_manager
 import re
 
 
@@ -77,4 +77,3 @@ class TestNfvScenarios(baremetal_manager.BareMetalManager):
                                     wait_until='ACTIVE')
         self._check_numa_with_xml(server, self.ip_address)
         print server
-

@@ -2,7 +2,7 @@ from oslo_log import log
 from tempest import clients
 from tempest import config
 from tempest.common import credentials_factory as common_creds
-from tests.scenario import baremetal_manager
+from tempest_nfv_plugin.tests.scenario import baremetal_manager
 import re
 
 
