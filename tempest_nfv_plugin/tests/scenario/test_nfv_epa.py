@@ -97,10 +97,10 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         """
         keypair = self.create_keypair()
         self.key_pairs[keypair['name']] = keypair
+        super(TestBasicEpa, self)._create_test_networks()
         security = super(TestBasicEpa, self)._set_security_groups()
         if security is not None:
             kwargs['security_groups'] = security
-        super(TestBasicEpa, self)._create_test_networks()
         kwargs['networks'] = super(TestBasicEpa,
                                    self)._create_ports_on_networks(**kwargs)
         kwargs['user_data'] = super(TestBasicEpa,
@@ -216,10 +216,10 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
             mtu = self.test_setup_dict[test_setup_mtu]['mtu']
         keypair = self.create_keypair()
         self.key_pairs[keypair['name']] = keypair
+        super(TestBasicEpa, self)._create_test_networks()
         security = super(TestBasicEpa, self)._set_security_groups()
         if security is not None:
             kwargs['security_groups'] = security
-        super(TestBasicEpa, self)._create_test_networks()
         kwargs['networks'] = super(TestBasicEpa,
                                    self)._create_ports_on_networks(**kwargs)
         kwargs['user_data'] = super(TestBasicEpa,
