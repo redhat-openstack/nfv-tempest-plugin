@@ -57,6 +57,7 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         instances with various number of cpus based on the setup
         queues number.
         """
+        kwargs = {}
         extra_specs = {'hw:mem_page_size': str("large"),
                        'hw:cpu_policy': str("dedicated")}
         if queues == "min":
@@ -73,9 +74,16 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
             wait_until = 'ACTIVE'
         flavor = self.create_flavor_with_extra_specs(vcpu=queues, **extra_specs)
         self._create_test_networks()
-        super(TestDpdkScenarios, self)._create_ports_on_networks()
+        security = super(TestDpdkScenarios, self)._set_security_groups()
+        if security is not None:
+            kwargs['security_groups'] = security
+        kwargs['networks'] = super(TestDpdkScenarios,
+                                   self)._create_ports_on_networks(**kwargs)
+        kwargs['user_data'] = super(TestDpdkScenarios,
+                                    self)._prepare_cloudinit_file()
         try:
-            instance = self.create_server(flavor=flavor, wait_until=wait_until)
+            instance = self.create_server(flavor=flavor, wait_until=wait_until,
+                                                                      **kwargs)
         except exceptions.BuildErrorException:
             return False
         fip = dict()
