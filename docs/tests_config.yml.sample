@@ -112,7 +112,7 @@ flavors:
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
 
-  - name: check-compute-packges
+  - name: check-compute-packages
     package-names: tuned-2.8.0-5.el7.noarch
     service-names: tuned.service
     tuned-profile: cpu-partitioning
