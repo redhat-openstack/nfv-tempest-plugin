@@ -59,7 +59,7 @@ Tests included:
 
   ```
   Test config:
-  - name: check-compute-packges
+  - name: check-compute-packages
     package-names: tuned-2.8.0-5.el7.noarch
     service-names: tuned.service
     tuned-profile: cpu-partitioning
