@@ -195,7 +195,7 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         self.assertEqual(int(result), 1, msg)
 
     def test_packages_compute(self):
-        self._test_check_package_version("check-compute-packges")
+        self._test_check_package_version("check-compute-packages")
 
     def _test_mtu_ping_gateway(self, test_setup_mtu, mtu=1973):
         """
