@@ -123,10 +123,14 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
 
         LOG.info("fip: %s, instance_id: %s", fip['ip'], self.instance["id"])
         """
-        Run ping.
+        Run ping and verify ssh connection.
         """
         msg = "Timed out waiting for %s to become reachable" % fip['ip']
         self.assertTrue(self.ping_ip_address(fip['ip']), msg)
+        self.assertTrue(self.get_remote_client(
+                        fip['ip'],
+                        private_key=self.key_pairs[self.instance['key_name']]
+                                                            ['private_key']))
         self._check_vcpu_with_xml(self.instance, self.ip_address, test_setup_numa[4:])
 
     def test_numa0_provider_network(self):
