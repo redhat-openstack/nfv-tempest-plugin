@@ -35,6 +35,7 @@ class BareMetalManager(manager.ScenarioTest):
         self.servers = []
         self.test_networks = {}
         self.test_network_dict = {}
+        self.test_flavor_dict = {}
 
     @classmethod
     def setup_clients(cls):
@@ -655,4 +656,47 @@ class BareMetalManager(manager.ScenarioTest):
                                'id': security_group['id']}]
         return security_group
 
-
+    def _create_flavor_from_config(self):
+        """
+        Method creates flavor for the test tenant based on the test-flavors
+        attributes within the external_config.yaml file.
+        Note! - Do not use this method in case test should run on a
+        preconfigured flavors.
+        """
+        msg = "Missing test-flavors from the external config file"
+        self.assertTrue(('test-flavors' in self.external_config), msg)
+        for flavor in self.external_config['test-flavors']:
+            self.test_flavor_dict[flavor['name']] = {
+                'ram': flavor['ram'],
+                'disk': flavor['disk'],
+                'vcpus': flavor['vcpus']}
+            if 'extra_specs' in flavor:
+                self.test_flavor_dict[flavor['name']] \
+                                        ['extra_specs'] = flavor['extra_specs']
+        """
+        Create flavors and set extra_specs.
+        """
+        flavor_kwargs = {}
+        for flavor_name, flavor_param in self.test_flavor_dict.iteritems():
+            flavor_kwargs.clear()
+            flavor_kwargs['name'] = flavor_name
+            flavor_kwargs['ram'] = flavor_param['ram']
+            flavor_kwargs['disk'] = flavor_param['disk']
+            flavor_kwargs['vcpus'] = flavor_param['vcpus']
+            flavor_kwargs['tenant_id'] = \
+                    self.os_admin.flavors_client.create_flavor(**flavor_kwargs)
+            if 'extra_specs' in flavor_param:
+                flavor_extra_kwargs = flavor_param['extra_specs'][0]
+            flavor_id = flavor_kwargs['tenant_id']['flavor']['id']
+            flavor_kwargs['tenant_id'] = \
+               self.os_admin.flavors_client.set_flavor_extra_spec(flavor_id,
+                                                        **flavor_extra_kwargs)
+        # Iterate over the created flavors
+        flavors = self.flavors_client.list_flavors()['flavors']
+        for test, test_param in self.test_setup_dict.iteritems():
+            if 'flavor' in test_param:
+                for flavor in flavors:
+                    if test_param['flavor'] == flavor['name']:
+                        self.test_setup_dict[test]['flavor-id'] = flavor_id
+        self.addCleanup(test_utils.call_and_ignore_notfound_exc,
+                        self.os_admin.flavors_client.delete_flavor, flavor_id)
