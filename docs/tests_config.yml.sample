@@ -63,7 +63,7 @@ flavors:
     ram: 2048
     disk: 20
     vcpus: 2
-    property:
+    extra_specs:
      - "hw:mem_page_size": "1GB"
        "hw:numa_mem.0": "2048"
        "hw:numa_mempolicy": "strict"
@@ -74,7 +74,7 @@ flavors:
     ram: 2048
     disk: 20
     vcpus: 2
-    property:
+    extra_specs:
      - "hw:mem_page_size": "1GB"
        "hw:numa_mem.1": "2048"
        "hw:numa_mempolicy": "strict"
@@ -85,7 +85,7 @@ flavors:
     ram: 2048
     disk: 20
     vcpus: 2
-    property:
+    extra_specs:
      - "hw:numa_nodes": "2"
        "hw:mem_page_size": "1GB"
        "hw:numa_mem.0": "1024"

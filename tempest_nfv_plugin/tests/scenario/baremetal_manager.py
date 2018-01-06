@@ -15,7 +15,6 @@ import yaml
 import os.path
 import subprocess as sp
 
-
 CONF = config.CONF
 LOG = log.getLogger(__name__)
 
@@ -35,6 +34,7 @@ class BareMetalManager(manager.ScenarioTest):
         self.servers = []
         self.test_networks = {}
         self.test_network_dict = {}
+        self.test_flavor_dict = {}
 
     @classmethod
     def setup_clients(cls):
@@ -156,19 +156,54 @@ class BareMetalManager(manager.ScenarioTest):
                     if test_param['image'] == image['name']:
                         self.test_setup_dict[test]['image-id'] = image['id']
 
-    def create_flavor_with_extra_specs(self, name='flavor', vcpu=1, ram=2048,
-                                       **extra_specs):
-        flavor_with_hugepages_name = data_utils.rand_name(name)
-        flavor_with_hugepages_id = data_utils.rand_int_id(start=1000)
-        disk = 20
-        self.os_admin.flavors_client.create_flavor(
-            name=flavor_with_hugepages_name, ram=ram, vcpus=vcpu, disk=disk,
-            id=flavor_with_hugepages_id)
-        self.os_admin.flavors_client.set_flavor_extra_spec(
-            flavor_with_hugepages_id, **extra_specs)
-        self.addCleanup(self.os_admin.flavors_client.delete_flavor,
-                        flavor_with_hugepages_id)
-        return flavor_with_hugepages_id
+        # iterate flavors parameters
+        if 'test-flavors' in self.external_config:
+            for flavor in self.external_config['test-flavors']:
+                self.test_flavor_dict[flavor['name']] = flavor
+
+    def check_flavor_existence(self, testname):
+        """
+        Check test specific flavor existence.
+
+        :param testname: value - The name of the running test.
+        """
+        if 'flavor' and 'flavor-id' in self.test_setup_dict[testname]:
+            self.flavor_ref = self.test_setup_dict[testname]['flavor-id']
+            return True
+        return False
+
+    def create_flavor(self, name='flavor', ram='2048', disk='20', vcpus='1',
+                      **flavor_args):
+        """
+        The method creates flavor based on the arguments
+        passed to the method.
+        The flavor could be created with or without an extra specs.
+        In case method call with empty parameters, default values will
+        be used and default flavor will be created.
+
+        :param name: Flavor name.
+        :param ram: Flavor ram.
+        :param disk: Flavor disk.
+        :param vcpus: Flavor vcpus.
+        :param flavor_args: Dict of parameters for the flavor that should be
+                created.
+        :return flavor_id: ID of the created flavor.
+        """
+        flavor = self.os_admin.flavors_client.create_flavor(name=name,
+                                                            ram=ram,
+                                                            disk=disk,
+                                                            vcpus=vcpus)
+        flavor_id = flavor['flavor']['id']
+        if 'extra_specs' in flavor_args:
+            if isinstance(flavor_args['extra_specs'], list):
+                extra_specs = flavor_args['extra_specs'][0]
+            elif isinstance(flavor_args['extra_specs'], dict):
+                extra_specs = flavor_args['extra_specs']
+            self.os_admin.flavors_client.set_flavor_extra_spec(flavor_id,
+                                                               **extra_specs)
+        self.addCleanup(test_utils.call_and_ignore_notfound_exc,
+                        self.os_admin.flavors_client.delete_flavor, flavor_id)
+        return flavor_id
 
     def _check_vcpu_with_xml(self, server, host, cell_id='0'):
         """This Method Connects to Bare Metal,Compute and return number of pinned CPUS
@@ -654,5 +689,3 @@ class BareMetalManager(manager.ScenarioTest):
             security_group = [{'name': security_group['name'],
                                'id': security_group['id']}]
         return security_group
-
-
