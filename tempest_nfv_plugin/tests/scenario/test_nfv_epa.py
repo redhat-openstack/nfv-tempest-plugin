@@ -81,8 +81,11 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
                         "test requires {0}, setup in externs_config_file".
                         format(test_setup_numa))
 
-        if 'flavor' in self.test_setup_dict[test_setup_numa]:
-            self.flavor_ref = self.test_setup_dict[test_setup_numa]['flavor-id']
+        flavor_args = super(TestBasicEpa,
+                            self).check_flavor_existence(test_setup_numa)
+        if flavor_args is not None:
+            self.flavor_ref = super(TestBasicEpa,
+                                    self).create_flavor(flavor_args)
 
         if 'availability-zone' in self.test_setup_dict[test_setup_numa]:
             kwargs['availability_zone'] = \
@@ -210,8 +213,13 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         if 'availability-zone' in self.test_setup_dict[test_setup_mtu]:
             self.availability_zone = \
                 self.test_setup_dict[test_setup_mtu]['availability-zone']
-        if 'flavor' in self.test_setup_dict[test_setup_mtu]:
-            self.flavor_ref = self.test_setup_dict[test_setup_mtu]['flavor-id']
+
+        flavor_args = super(TestBasicEpa,
+                            self).check_flavor_existence(test_setup_mtu)
+        if flavor_args is not None:
+            self.flavor_ref = super(TestBasicEpa,
+                                    self).create_flavor(flavor_args)
+
         if 'router' in self.test_setup_dict[test_setup_mtu]:
             router_exist = self.test_setup_dict[test_setup_mtu]['router']
         if 'mtu' in self.test_setup_dict[test_setup_mtu]:
