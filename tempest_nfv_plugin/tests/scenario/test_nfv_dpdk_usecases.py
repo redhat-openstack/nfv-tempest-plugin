@@ -58,8 +58,8 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         queues number.
         """
         kwargs = {}
-        extra_specs = {'hw:mem_page_size': str("large"),
-                       'hw:cpu_policy': str("dedicated")}
+        extra_specs = {'extra_specs': {'hw:mem_page_size': str("large"),
+                                       'hw:cpu_policy': str("dedicated")}}
         if queues == "min":
             queues = self.maxqueues - 2
             wait_until = 'ACTIVE'
@@ -72,7 +72,10 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         else:
             queues = self.maxqueues
             wait_until = 'ACTIVE'
-        flavor = self.create_flavor_with_extra_specs(vcpu=queues, **extra_specs)
+
+        self.flavor_ref = super(TestDpdkScenarios, self).\
+            create_flavor(name='test-queues', vcpus=queues, **extra_specs)
+
         keypair = self.create_keypair()
         self._create_test_networks()
         security = super(TestDpdkScenarios, self)._set_security_groups()
@@ -84,8 +87,8 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
                                     self)._prepare_cloudinit_file()
         kwargs['key_name'] = keypair['name']
         try:
-            instance = self.create_server(flavor=flavor, wait_until=wait_until,
-                                                                      **kwargs)
+            instance = self.create_server(flavor=self.flavor_ref,
+                                          wait_until=wait_until, **kwargs)
         except exceptions.BuildErrorException:
             return False
         fip = dict()
@@ -107,18 +110,17 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         fip = dict()
         kwargs = {}
         count = 1
-        if test_setup_migration is not None:
-            self.assertTrue(test_setup_migration in self.test_setup_dict,
-                            "test requires {0}, setup in externs_config_file".
-                            format(test_setup_migration))
-            if 'flavor' in self.test_setup_dict[test_setup_migration]:
-                self.flavor_ref = self.test_setup_dict[test_setup_migration]['flavor-id']
-            if 'availability-zone' in self.test_setup_dict[test_setup_migration]:
-                kwargs['availability_zone'] = \
-                    self.test_setup_dict[test_setup_migration]['availability-zone']
-        else:
-            extra_specs = {'hw:mem_page_size': str("large")}
-            self.flavor_ref = self.create_flavor_with_extra_specs(vcpu=2, **extra_specs)
+        self.assertTrue(test_setup_migration in self.test_setup_dict,
+                        "test requires {0}, setup in externs_config_file".
+                        format(test_setup_migration))
+        if 'availability-zone' in self.test_setup_dict[test_setup_migration]:
+            kwargs['availability_zone'] = \
+                self.test_setup_dict[test_setup_migration]['availability-zone']
+
+        extra_specs = {'extra_specs': {'hw:mem_page_size': str("large")}}
+        self.flavor_ref = super(TestDpdkScenarios, self).\
+            create_flavor(name='live-migration', vcpus='2', **extra_specs)
+
         if 'router' in self.test_setup_dict[test_setup_migration]:
             router_exist = self.test_setup_dict[test_setup_migration]['router']
         security_group = self._create_security_group()
