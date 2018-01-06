@@ -36,8 +36,9 @@ class TestNfvScenarios(baremetal_manager.BareMetalManager):
     @test.idempotent_id('f323b3ba-82f8-4db7-8ea6-6a895869ec49')
     @test.services('compute', 'network')
     def test_hugepages(self):
-        extra_specs = {'hw:mem_page_size': str(HUGEPAGE_SIZE)}
-        flavor_id = self.create_flavor_with_extcra_specs(name="hugepages_flavor", **extra_specs)
+        extra_specs = {'extra_specs': {'hw:mem_page_size': str(HUGEPAGE_SIZE)}}
+        flavor_id = self.create_flavor_with_extcra_specs(
+            name="hugepages_flavor", **extra_specs)
         server1 = self.create_server(
             name=data_utils.rand_name('server'),
             flavor=flavor_id, wait_until='ACTIVE')
@@ -54,8 +55,10 @@ class TestNfvScenarios(baremetal_manager.BareMetalManager):
         self.assertEqual((self.hugepages_init - count), actualresult)
 
     def test_cpu_pinning(self):
-        extra_specs = {'hw:mem_page_size': str(HUGEPAGE_SIZE), 'hw:cpu_policy': 'dedicated'}
-        flavor_id_cpu = self.create_flavor_with_extra_specs(name="cpu_pinning_flavor", vcpu=2, **extra_specs)
+        extra_specs = {'extra_specs': {'hw:mem_page_size': str(HUGEPAGE_SIZE),
+                                       'hw:cpu_policy': str("dedicated")}}
+        flavor_id_cpu = self.create_flavor(name='cpu_pinning_flavor', vcpus='2',
+                                           **extra_specs)
         server = self.create_server(name=data_utils.rand_name('server'),
                                      flavor=flavor_id_cpu,
                                      wait_until='ACTIVE')
@@ -66,12 +69,10 @@ class TestNfvScenarios(baremetal_manager.BareMetalManager):
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
         result = self._run_command_over_ssh(self.ip_address, command)
         self.assertTrue(int(result[0]) == 1) ##change to "> 1"
-        extra_specs = {
-            'hw:numa_nodes': '2', 'hw:numa_mempolicy': 'strict',
-            'hw:numa_cpus.0': '0', 'hw:numa_cpus.1': '1',
-            'hw:numa_mem.0': '1536', 'hw:numa_mem.1': '512'}
-        extra_specs = {'hw:mem_page_size': str(HUGEPAGE_SIZE), 'hw:cpu_policy': 'dedicated'} ##delete after test finished
-        flavor_id_numa = self.create_flavor_with_extra_specs(name="numa_flavor", vcpu=2, ram=2048, **extra_specs)
+        extra_specs = {'extra_specs': {'hw:mem_page_size': str(HUGEPAGE_SIZE),
+                                       'hw:cpu_policy': str("dedicated")}}
+        flavor_id_numa = self.create_flavor(name='numa_flavor',ram='2048',
+                                            vcpus='2', **extra_specs)
         server = self.create_server(name=data_utils.rand_name('server'),
                                     flavor=flavor_id_numa,
                                     wait_until='ACTIVE')
