@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1be6ddcc_574e87a4",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-01-07T11:08:08Z",
+      "side": 1,
+      "message": "I did not see any usage of the variable:\nself.keypairs consider deletion from tests.",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 77,
+        "endChar": 39
+      },
+      "revId": "7d914174157f3e1d8b8f4e212ff09068197b1a32",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d9c92ae_474bf8b9",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-01-07T11:08:08Z",
+      "side": 1,
+      "message": "consider using the following:\nkwargs[\u0027key_name\u0027] \u003d keypair[\u0027name\u0027]\n\nNo need to add extra parameter to create server.",
+      "range": {
+        "startLine": 87,
+        "startChar": 42,
+        "endLine": 87,
+        "endChar": 66
+      },
+      "revId": "7d914174157f3e1d8b8f4e212ff09068197b1a32",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ea925d3_c53553e8",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-01-07T11:08:08Z",
+      "side": 1,
+      "message": "Try to use the following API\nself.assertTrue(self.ping_ip_address(\"10.25.32.15\"),msg)\nSee if it will fail the test",
+      "range": {
+        "startLine": 97,
+        "startChar": 1,
+        "endLine": 98,
+        "endChar": 24
+      },
+      "revId": "7d914174157f3e1d8b8f4e212ff09068197b1a32",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
