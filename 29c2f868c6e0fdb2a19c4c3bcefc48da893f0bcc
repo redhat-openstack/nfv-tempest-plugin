@@ -22,6 +22,30 @@
       "revId": "29c2f868c6e0fdb2a19c4c3bcefc48da893f0bcc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b32a4c9_f94e432a",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-01-07T15:12:29Z",
+      "side": 1,
+      "message": "I\u0027m not sure we need to separate the method too much.\nDoes not make sense to me.\n\nThis whole method could replace the hard-coded method with the methodology of specifying flavors from the external config file.",
+      "parentUuid": "5c71458f_1d89d794",
+      "range": {
+        "startLine": 679,
+        "startChar": 0,
+        "endLine": 693,
+        "endChar": 78
+      },
+      "revId": "29c2f868c6e0fdb2a19c4c3bcefc48da893f0bcc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
