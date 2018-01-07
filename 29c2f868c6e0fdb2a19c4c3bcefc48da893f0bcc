@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c71458f_1d89d794",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1008570
+      },
+      "writtenOn": "2018-01-07T15:07:11Z",
+      "side": 1,
+      "message": "I think we should take this section out for another method(create flavor) we could use and modify the one we already have(which is currently a bit hard coded)",
+      "range": {
+        "startLine": 679,
+        "startChar": 0,
+        "endLine": 693,
+        "endChar": 78
+      },
+      "revId": "29c2f868c6e0fdb2a19c4c3bcefc48da893f0bcc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
