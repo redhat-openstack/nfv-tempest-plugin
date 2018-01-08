@@ -73,6 +73,7 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
             queues = self.maxqueues
             wait_until = 'ACTIVE'
         flavor = self.create_flavor_with_extra_specs(vcpu=queues, **extra_specs)
+        keypair = self.create_keypair()
         self._create_test_networks()
         security = super(TestDpdkScenarios, self)._set_security_groups()
         if security is not None:
@@ -81,6 +82,7 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
                                    self)._create_ports_on_networks(**kwargs)
         kwargs['user_data'] = super(TestDpdkScenarios,
                                     self)._prepare_cloudinit_file()
+        kwargs['key_name'] = keypair['name']
         try:
             instance = self.create_server(flavor=flavor, wait_until=wait_until,
                                                                       **kwargs)
@@ -92,7 +94,11 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
             if self.test_setup_dict['check-multiqueue-func']['router']:
                 super(TestDpdkScenarios, self)._add_subnet_to_router()
                 fip = self.create_floating_ip(instance, self.public_network)
-        return self.ping_ip_address(fip['ip'])
+        msg = "%s instance is not reachable by ping" % fip['ip']
+        self.assertTrue(self.ping_ip_address(fip['ip']), msg)
+        self.assertTrue(self.get_remote_client(fip['ip'],
+                                           private_key=keypair['private_key']))
+        return True
 
     def _test_live_migration_block(self, test_setup_migration=None):
         """ Method boots an instance and wait until ACTIVE state.
@@ -157,23 +163,23 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         return False
 
     def test_min_queues_functionality(self):
-        msg = "Could not create and ping instance with flavor contains " \
-              "vcpus smaller than allowed amount of queues"
+        msg = "Could not create, ping or ssh to the instance with flavor " \
+              "contains vcpus smaller than allowed amount of queues"
         self.assertTrue(self._test_queue_functionality(queues="min"), msg)
 
     def test_equal_queues_functionality(self):
-        msg = "Could not create and ping instance with flavor contains " \
-              "vcpus equal to allowed amount of queues"
+        msg = "Could not create, ping or ssh to the instance with flavor " \
+              "contains vcpus equal to allowed amount of queues"
         self.assertTrue(self._test_queue_functionality(queues="equal"), msg)
 
     def test_max_queues_functionality(self):
-        msg = "Could not create and ping instance with flavor contains " \
-              "vcpus max to allowed amount of queues"
+        msg = "Could not create, ping or ssh to the instance with flavor " \
+              "contains vcpus max to allowed amount of queues"
         self.assertTrue(self._test_queue_functionality(queues="max"), msg)
 
     def test_odd_queues_functionality(self):
-        msg = "Could not create and ping instance with flavor contains " \
-              "odd number of vcpus"
+        msg = "Could not create, ping or ssh to the instance with flavor " \
+              "contains odd number of vcpus"
         self.assertTrue(self._test_queue_functionality(queues="odd"), msg)
 
     def test_live_migration_block(self):

@@ -105,9 +105,9 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
                                    self)._create_ports_on_networks(**kwargs)
         kwargs['user_data'] = super(TestBasicEpa,
                                     self)._prepare_cloudinit_file()
+        kwargs['key_name'] = keypair['name']
 
-        self.instance = self.create_server(key_name=keypair['name'],
-                                           image_id=self.image_ref,
+        self.instance = self.create_server(image_id=self.image_ref,
                                            flavor=self.flavor_ref,
                                            wait_until='ACTIVE', **kwargs)
         """
@@ -123,10 +123,12 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
 
         LOG.info("fip: %s, instance_id: %s", fip['ip'], self.instance["id"])
         """
-        Run ping.
+        Run ping and verify ssh connection.
         """
         msg = "Timed out waiting for %s to become reachable" % fip['ip']
         self.assertTrue(self.ping_ip_address(fip['ip']), msg)
+        self.assertTrue(self.get_remote_client(fip['ip'],
+                                           private_key=keypair['private_key']))
         self._check_vcpu_with_xml(self.instance, self.ip_address, test_setup_numa[4:])
 
     def test_numa0_provider_network(self):
