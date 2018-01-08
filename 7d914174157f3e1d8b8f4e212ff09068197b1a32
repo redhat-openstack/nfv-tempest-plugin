@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "16cb9bf4_1c486d40",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-01-08T10:23:11Z",
+      "side": 1,
+      "message": "It was used within the ssh verification. Currently removed this as changed the structure of the ssh verification.",
+      "parentUuid": "1be6ddcc_574e87a4",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 77,
+        "endChar": 39
+      },
+      "revId": "7d914174157f3e1d8b8f4e212ff09068197b1a32",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d9c92ae_474bf8b9",
         "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0c815235_545719ba",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-01-08T10:23:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d9c92ae_474bf8b9",
+      "range": {
+        "startLine": 87,
+        "startChar": 42,
+        "endLine": 87,
+        "endChar": 66
+      },
+      "revId": "7d914174157f3e1d8b8f4e212ff09068197b1a32",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ea925d3_c53553e8",
         "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2018-01-07T11:08:08Z",
       "side": 1,
       "message": "Try to use the following API\nself.assertTrue(self.ping_ip_address(\"10.25.32.15\"),msg)\nSee if it will fail the test",
+      "range": {
+        "startLine": 97,
+        "startChar": 1,
+        "endLine": 98,
+        "endChar": 24
+      },
+      "revId": "7d914174157f3e1d8b8f4e212ff09068197b1a32",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9463e46_d1d60a27",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-01-08T10:23:11Z",
+      "side": 1,
+      "message": "Changed ping and ssh verification to verification assert.",
+      "parentUuid": "7ea925d3_c53553e8",
       "range": {
         "startLine": 97,
         "startChar": 1,
