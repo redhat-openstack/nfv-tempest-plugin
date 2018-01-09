@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "ea6aa7b6_7ab69211",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-01-09T00:03:08Z",
+      "side": 1,
+      "message": "Allow project to create flavor from config file.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "29c2f868c6e0fdb2a19c4c3bcefc48da893f0bcc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a4879a6e_a96dda36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-01-09T00:03:08Z",
+      "side": 1,
+      "message": "New method create flavor, it search for flavor name\nin test flavor list.\nOnce flavor name was found, \nit creates flavor and set configured extraspecs",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "29c2f868c6e0fdb2a19c4c3bcefc48da893f0bcc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c71458f_1d89d794",
         "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -42,6 +88,53 @@
         "startChar": 0,
         "endLine": 693,
         "endChar": 78
+      },
+      "revId": "29c2f868c6e0fdb2a19c4c3bcefc48da893f0bcc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb9b2f05_4592cefd",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-01-09T00:03:08Z",
+      "side": 1,
+      "message": "+2 on edannon comment,\nMore than that, the method need to receive flavor_name.\nNo need for for, it is dictionary, \nyou can use flavor name as key dictionary \nand than call self.test_flavor_dict[\"flavor_name\"]\nonce you have it read the parameters and fill extra spec",
+      "parentUuid": "5c71458f_1d89d794",
+      "range": {
+        "startLine": 679,
+        "startChar": 0,
+        "endLine": 693,
+        "endChar": 78
+      },
+      "revId": "29c2f868c6e0fdb2a19c4c3bcefc48da893f0bcc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fddebf6_934a46db",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-01-09T00:03:08Z",
+      "side": 1,
+      "message": "If you track the above comment \nuse the following: self.test_setup_dict[\u0027test_name\u0027]\nif flavor is None continue and search for flavor_name \u003d self.test_setup_dict[\u0027test_name\u0027][\u0027flavor\u0027]\n\nWith that you have one value to access \nself.test_flavor_dict[flavor_name]\n\nPrepare kwargs fpr create_flavor_method",
+      "range": {
+        "startLine": 698,
+        "startChar": 17,
+        "endLine": 698,
+        "endChar": 37
       },
       "revId": "29c2f868c6e0fdb2a19c4c3bcefc48da893f0bcc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
