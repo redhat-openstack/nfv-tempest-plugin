@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa9a8385_20a8adbf",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-01-22T09:19:06Z",
+      "side": 1,
+      "message": "Is it a string or dictionary? \nplease write it in doc, expected type",
+      "range": {
+        "startLine": 158,
+        "startChar": 37,
+        "endLine": 158,
+        "endChar": 46
+      },
+      "revId": "c8565cb2a89764720f129480c5fe0a48e76112f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d92866e5_095e3fb4",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-01-22T09:19:06Z",
+      "side": 1,
+      "message": "function return only one variable.\nself.flavor_red is set in test itself IIUC",
+      "range": {
+        "startLine": 167,
+        "startChar": 7,
+        "endLine": 167,
+        "endChar": 72
+      },
+      "revId": "c8565cb2a89764720f129480c5fe0a48e76112f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abf9f1bc_88514f86",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-01-22T09:19:06Z",
+      "side": 1,
+      "message": "Please return None,\nWho ever calling will check upon return value \u003d\u003d None\nSince function expects to return flavor_args dictionary",
+      "range": {
+        "startLine": 171,
+        "startChar": 7,
+        "endLine": 173,
+        "endChar": 18
+      },
+      "revId": "c8565cb2a89764720f129480c5fe0a48e76112f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9566c4f5_bb973238",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-01-22T09:19:06Z",
+      "side": 1,
+      "message": "Please refer comment of line 171\nEither return empty dict either None, in case of no tests-flavor match.\nIt could happen in for loop no flavor found and {} is returned",
+      "range": {
+        "startLine": 179,
+        "startChar": 8,
+        "endLine": 179,
+        "endChar": 29
+      },
+      "revId": "c8565cb2a89764720f129480c5fe0a48e76112f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "952bb1dd_ef3f663e",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-01-22T09:19:06Z",
+      "side": 1,
+      "message": "I do not understand the logic,\nfunction receives testname, is it string or dict? since you use testname[flavor] and testname[flavor-id]",
+      "range": {
+        "startLine": 180,
+        "startChar": 9,
+        "endLine": 180,
+        "endChar": 59
+      },
+      "revId": "c8565cb2a89764720f129480c5fe0a48e76112f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f641755_730cad19",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-01-22T09:19:06Z",
+      "side": 1,
+      "message": "please use default values in function\n\ncreate_flavor(self, name\u003d\u0027flavor\u0027, ram\u003d\u00272048\u0027,\n                   disk\u003d\u002720\u0027, vcpus\u003d\u00271\u0027, flavor_args):",
+      "range": {
+        "startLine": 193,
+        "startChar": 8,
+        "endLine": 193,
+        "endChar": 40
+      },
+      "revId": "c8565cb2a89764720f129480c5fe0a48e76112f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ec29f65_5ec00240",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-01-22T09:19:06Z",
+      "side": 1,
+      "message": "Why needed \u0027teanant-id\u0027 use --public otion when you create flavor",
+      "range": {
+        "startLine": 222,
+        "startChar": 8,
+        "endLine": 222,
+        "endChar": 35
+      },
+      "revId": "c8565cb2a89764720f129480c5fe0a48e76112f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
