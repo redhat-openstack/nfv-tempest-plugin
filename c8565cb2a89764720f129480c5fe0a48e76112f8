@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2f93702c_0961bd48",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-01-22T12:04:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa9a8385_20a8adbf",
+      "range": {
+        "startLine": 158,
+        "startChar": 37,
+        "endLine": 158,
+        "endChar": 46
+      },
+      "revId": "c8565cb2a89764720f129480c5fe0a48e76112f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d92866e5_095e3fb4",
         "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2018-01-22T09:19:06Z",
       "side": 1,
       "message": "function return only one variable.\nself.flavor_red is set in test itself IIUC",
+      "range": {
+        "startLine": 167,
+        "startChar": 7,
+        "endLine": 167,
+        "endChar": 72
+      },
+      "revId": "c8565cb2a89764720f129480c5fe0a48e76112f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfac138b_5fc69223",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-01-22T12:04:34Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "d92866e5_095e3fb4",
       "range": {
         "startLine": 167,
         "startChar": 7,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1e3419ab_0e5d053b",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-01-22T12:04:34Z",
+      "side": 1,
+      "message": "Done.\nAdded None",
+      "parentUuid": "abf9f1bc_88514f86",
+      "range": {
+        "startLine": 171,
+        "startChar": 7,
+        "endLine": 173,
+        "endChar": 18
+      },
+      "revId": "c8565cb2a89764720f129480c5fe0a48e76112f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9566c4f5_bb973238",
         "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "eaf786d6_8da237d8",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-01-22T12:04:34Z",
+      "side": 1,
+      "message": "Done.\nSet it as None",
+      "parentUuid": "9566c4f5_bb973238",
+      "range": {
+        "startLine": 179,
+        "startChar": 8,
+        "endLine": 179,
+        "endChar": 29
+      },
+      "revId": "c8565cb2a89764720f129480c5fe0a48e76112f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "952bb1dd_ef3f663e",
         "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
@@ -105,6 +201,30 @@
       "writtenOn": "2018-01-22T09:19:06Z",
       "side": 1,
       "message": "I do not understand the logic,\nfunction receives testname, is it string or dict? since you use testname[flavor] and testname[flavor-id]",
+      "range": {
+        "startLine": 180,
+        "startChar": 9,
+        "endLine": 180,
+        "endChar": 59
+      },
+      "revId": "c8565cb2a89764720f129480c5fe0a48e76112f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "402da199_81cb35a6",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-01-22T12:04:34Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "952bb1dd_ef3f663e",
       "range": {
         "startLine": 180,
         "startChar": 9,
@@ -151,6 +271,30 @@
       "writtenOn": "2018-01-22T09:19:06Z",
       "side": 1,
       "message": "Why needed \u0027teanant-id\u0027 use --public otion when you create flavor",
+      "range": {
+        "startLine": 222,
+        "startChar": 8,
+        "endLine": 222,
+        "endChar": 35
+      },
+      "revId": "c8565cb2a89764720f129480c5fe0a48e76112f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0524469b_fc22e647",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-01-22T12:04:34Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "0ec29f65_5ec00240",
       "range": {
         "startLine": 222,
         "startChar": 8,
