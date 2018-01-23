@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a1ba4b3_4c1d79a2",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-01-23T08:10:43Z",
+      "side": 1,
+      "message": "I suggest to refer read_external_config_file\nhold every think in one dictionary, once you have flavor_name it brings you the whole flavor object\nsimilar to self.test_network_dict use this  self.test_flavor_dict\nuse self.test_flavor_dict[flavor] no for loop needed",
+      "range": {
+        "startLine": 181,
+        "startChar": 8,
+        "endLine": 181,
+        "endChar": 59
+      },
+      "revId": "a3a85274ac51e9cb08a88f4b49b32219138a7a19",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1701b9c1_f81d900f",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-01-23T08:10:43Z",
+      "side": 1,
+      "message": "Since this method create a flavor,\nThink about **kwargs parameter for manual  instead of flavor_args, use **flavor_args it should be last parameter in function argument.\n\nYou can also parse kwargs only.\nThink that maybe kwargs will look own image parameters and hw_spec    kwargs[\u0027name\u0027] \u003d {{\u0027ram\u0027: \u0027\u0027},{\u0027cpu\u0027: \u0027\u0027},\u0027hw_extra_spec\u0027: [] }",
+      "range": {
+        "startLine": 195,
+        "startChar": 22,
+        "endLine": 196,
+        "endChar": 31
+      },
+      "revId": "a3a85274ac51e9cb08a88f4b49b32219138a7a19",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e8f4ca4_9512ff6d",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-01-23T08:10:43Z",
+      "side": 1,
+      "message": "see my comments to baremetal::create_flavor ()\nWith correct code you could only parse **flavor_kwargs",
+      "range": {
+        "startLine": 78,
+        "startChar": 12,
+        "endLine": 78,
+        "endChar": 25
+      },
+      "revId": "a3a85274ac51e9cb08a88f4b49b32219138a7a19",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
