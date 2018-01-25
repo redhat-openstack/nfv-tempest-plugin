@@ -1,0 +1,8 @@
+Verified+1: Maxim Babushkin <maximb@redhat.com>
+Code-Review+1: <yrachman@redhat.com>
+Code-Review+2: Ziv Greenberg <ziv@redhat.com>
+Submitted-by: Ziv Greenberg <ziv@redhat.com>
+Submitted-at: Thu, 25 Jan 2018 10:49:51 -0500
+Reviewed-on: https://review.gerrithub.io/396427
+Project: redhat-openstack/tempest-nfv-plugin
+Branch: refs/heads/devel
