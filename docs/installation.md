@@ -36,4 +36,4 @@ For the comprehensive explanation of this playbook, refer to the following docum
 [Ansible NFV Tempest](https://github.com/redhat-openstack/ansible-nfv/blob/master/docs/tripleo/tester/tempest.md)
 
 Basic playbook execution:  
-`ansible-playbook -i tripleo_inventory playbooks/tripleo/tester/tempest.yml -e @network_config.yml`
+`ansible-playbook -i tripleo_inventory playbooks/tripleo/tester/tempest.yml -e @tests_config.yml`

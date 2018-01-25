@@ -30,7 +30,6 @@ Tests included:
 - test_numamix_provider_network  
   Test explanation:  
   Numa tests are testing the proper allocation and reservation of the virtual cores within numa nodes of the compute hypervisor according to the provided flavor with numa config specs.  
-  **Note** - Predefined flavor should be exists. Refer to the sample file.
 
   ```
   Test config:
@@ -70,7 +69,6 @@ Tests included:
   Test explanation:  
   The MTU test boots an instance with given args from external_config_file, connect to the instance using ssh, and ping with given MTU to GW.  
   **Note 1** - This tests depend on MTU configured at running environment.  
-  **Note 2** - Predefined flavor should be exists. Refer to the sample file.
 
   ```
   Test config:  
@@ -81,9 +79,9 @@ Tests included:
     availability-zone: normal
   ```
 
-  flavor - specifies the flavor that the instance should boot with.
-  router - Sets if the booted instance will get floating ip or direct access config.
-  mtu - Specify the required mtu for the test.
+  flavor - specifies the flavor that the instance should boot with.  
+  router - Sets if the booted instance will get floating ip or direct access config.  
+  mtu - Specify the required mtu for the test. The calculation of testing mtu should be based on the deployed mtu size.  
   availability-zone - Sets the zone in which the hypervisor exists (Parameter not required).
 
 ----------
@@ -97,7 +95,6 @@ Tests included:
   Test multi-queue functionality.  
   Calculates the number of queues multiply by the number of PMDs.  
   Boot instances with different amount of vCpus: bigger, smaller, equal and odd.  
-  **Note** - Predefined flavor is not required.  
 
   ```
   Test config:  
@@ -109,7 +106,6 @@ Tests included:
 - test_setup_migration  
   Test explanation:  
   The test boot an instance, checks availability and migrates the instance to the next available hypervisor.  
-  **Note** - Predefined flavor should be exists. Refer to the sample file.
 
   ```
   Test config:  
@@ -117,3 +113,8 @@ Tests included:
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
   ```
+
+**Note** - Running test will take the flavor name within the test configuration.  
+The test will look for the exist flavor.  
+In case the flavor exists, the test will use it.  
+Otherwise the test will create a flavor based on the parameters defined at the test-flavors within the tests-config.yml.

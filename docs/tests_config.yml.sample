@@ -1,25 +1,4 @@
 ---
-
-# The network should be pre-created for the tempest access.
-networks:
-  - name: 'access'
-    physical_network: 'access'
-    segmentation_id: '57'
-    allocation_pool_start: '10.0.0.210'
-    allocation_pool_end: '10.0.0.250'
-    cidr: '10.0.0.0/24'
-    enable_dhcp: true
-    gateway_ip: '10.0.0.1'
-    external: true
-    shared: true
-    router_name: router1
-    port_type: normal
-    network_type: vlan
-
-dns_nameservers:
-  - 8.8.4.4
-  - 8.8.8.8
-
 # Networks used by the test.
 # Will be created by the tests during the execution.
 test-networks:
@@ -57,8 +36,9 @@ test-networks:
     port_type: normal
 
 # Flavors used by the test.
-# Should be pre-created before the test execution.
-flavors:
+# Will be created by the tests during the execution
+# if no flavor with such name exists.
+test-flavors:
   - name: m1.medium.huge_pages_cpu_pinning_numa_node-0
     ram: 2048
     disk: 20
@@ -118,12 +98,19 @@ flavors:
     tuned-profile: cpu-partitioning
     availability-zone: normal
 
+  - name: test-ping-mtu
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+    mtu: 8972
+
 tempest_tests:
   - tests.scenario.test_nfv_epa.TestBasicEpa.test_numa0_provider_network
   - tests.scenario.test_nfv_epa.TestBasicEpa.test_numa1_provider_network
   - tests.scenario.test_nfv_epa.TestBasicEpa.test_numamix_provider_network
-  - tests.scenario.test_nfv_epa.TestBasicEpa.test_packages_compute
   - tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_min_queues_functionality
   - tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_equal_queues_functionality
   - tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_max_queues_functionality
   - tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_odd_queues_functionality
+  - tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_live_migration_block
+  - tests.scenario.test_nfv_epa.TestBasicEpa.test_packages_compute
+  - tests.scenario.test_nfv_epa.TestBasicEpa.test_mtu_ping_test

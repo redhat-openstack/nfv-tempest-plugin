@@ -30,9 +30,13 @@ In case of manual environment configuration, be aware of the following:
   live_migration = true
   ```
 
-- **Note 1** - Some of the tests are using predefined flavors and some of the tests creating the flavor during the test run.  
-  Refer to the tests doc for the information regarding the flavor requirements per test.
+- **Note 1** - Tempest require a predefined (public api) network that will be used as an access point for the tests execution.  
+All other networks used by the test will be created during the test execution.
 
-- **Note 2** - Tempest require a network that will be used as an access point for the tests execution.
+- **Note 2** - Running test will take the flavor name within the test configuration.  
+The test will look for the exist flavor.  
+In case the flavor exists, the test will use it.  
+Otherwise the test will create a flavor based on the parameters defined at the test-flavors within the tests-config.yml.
+
 
 In order to minimize the pre-configuration effort, use the tempest ansible playbook specified at the top of the doc.
