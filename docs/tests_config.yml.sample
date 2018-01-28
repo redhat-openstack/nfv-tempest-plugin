@@ -18,10 +18,16 @@ test-networks:
     sec_groups: true
     port_type: normal
     # At least one network from the provided networks
-    # should be set  to 'true'.
-    # Port create on this network will be configured
+    # should be set to 'mgmt: true'.
+    # Port created on this network will be configured
     # as default router for booted vms.
     mgmt: true
+    # DNS nameservers should be provided only on the
+    # instance mgmt network, and will be used as exit
+    # point for various tasks like downloads, repo config, etc...
+    dns_nameservers:
+      - 8.8.8.8
+      - 8.8.4.4
 
   - name: 'vlan1500'
     physical_network: 'tenant'

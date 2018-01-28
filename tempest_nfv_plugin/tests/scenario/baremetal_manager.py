@@ -419,9 +419,13 @@ class BareMetalManager(manager.ScenarioTest):
                  'port_type': net['port_type'],
                  'ip_version': net['ip_version']}
             if 'sec_groups' in net:
-                self.test_network_dict[net['name']]['sec_groups'] = net['sec_groups']
+                self.test_network_dict[net['name']]['sec_groups'] = \
+                    net['sec_groups']
             if 'mgmt' in net and net['mgmt']:
                 mgmt_network = net['name']
+            if 'mgmt' in net and 'dns_nameservers' in net:
+                self.test_network_dict[net['name']]['dns_nameservers'] = \
+                    net['dns_nameservers']
         network_kwargs = {}
         """
         Create network and subnets
@@ -464,10 +468,13 @@ class BareMetalManager(manager.ScenarioTest):
                 network_kwargs['gateway_ip'] = net_param['gateway_ip']
             if 'dhcp' in net and not net_param['dhcp']:
                 network_kwargs['dhcp'] = net_param['dhcp']
-            if 'allocation_pool_start' in net_param:
+            if 'pool_start' in net_param:
                 network_kwargs['allocation_pools'] = \
-                    [{'start': net_param['allocation_pool_start'],
-                      'end':net_param['allocation_pool_end']}]
+                    [{'start': net_param['pool_start'],
+                      'end':net_param['pool_end']}]
+            if 'dns_nameservers' in net_param:
+                network_kwargs['dns_nameservers'] = \
+                    net_param['dns_nameservers']
 
             result = self.subnets_client.create_subnet(**network_kwargs)
             subnet = result['subnet']
