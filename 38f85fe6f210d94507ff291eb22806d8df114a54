@@ -22,6 +22,30 @@
       "revId": "38f85fe6f210d94507ff291eb22806d8df114a54",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24e9a224_d9242cb8",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-01-29T12:47:20Z",
+      "side": 1,
+      "message": "The \u0027bool\u0027 here is used for identifying if the dictionary is empty or not.\nAt the top of the test, self.test_instance_repo set as {}.\nI need to ensure it is empty in order to proceed.",
+      "parentUuid": "1ea22b79_0ed714e1",
+      "range": {
+        "startLine": 683,
+        "startChar": 11,
+        "endLine": 683,
+        "endChar": 40
+      },
+      "revId": "38f85fe6f210d94507ff291eb22806d8df114a54",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
