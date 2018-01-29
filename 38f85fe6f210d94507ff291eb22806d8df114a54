@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ea22b79_0ed714e1",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 1008570
+      },
+      "writtenOn": "2018-01-29T12:42:39Z",
+      "side": 1,
+      "message": "You can only specify the parameter I\u0027m not sure bool() is required",
+      "range": {
+        "startLine": 683,
+        "startChar": 11,
+        "endLine": 683,
+        "endChar": 40
+      },
+      "revId": "38f85fe6f210d94507ff291eb22806d8df114a54",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
