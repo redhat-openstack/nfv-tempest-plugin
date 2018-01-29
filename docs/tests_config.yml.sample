@@ -81,6 +81,11 @@ test-flavors:
        "hw:numa_cpus.1": "1"
        "hw:cpu_policy": "dedicated"
 
+# Test repo to be used by the instance during the test (optional variable).
+test_instance_repo:
+  name: epel
+  url: http://download.fedoraproject.org/pub/epel/7/x86_64/
+
  tests-setup:
   - name: numa0
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
