@@ -35,6 +35,7 @@ class BareMetalManager(manager.ScenarioTest):
         self.test_networks = {}
         self.test_network_dict = {}
         self.test_flavor_dict = {}
+        self.test_instance_repo = {}
 
     @classmethod
     def setup_clients(cls):
@@ -160,6 +161,9 @@ class BareMetalManager(manager.ScenarioTest):
         if 'test-flavors' in self.external_config:
             for flavor in self.external_config['test-flavors']:
                 self.test_flavor_dict[flavor['name']] = flavor
+
+        if 'test_instance_repo' in self.external_config:
+            self.test_instance_repo = self.external_config['test_instance_repo']
 
     def check_flavor_existence(self, testname):
         """
@@ -648,10 +652,16 @@ class BareMetalManager(manager.ScenarioTest):
         return maxqueues
 
     def _prepare_cloudinit_file(self):
-        """This method create cloud-init file can be parsed duting nova boot
-        It sets ssh user:passwd credentials, enable root login set default route
-        and add additional interface and restart network"""
-        gw_ip = self.test_network_dict[self.test_network_dict['public']]['gateway_ip']
+        """
+        This method creates cloud-init file with instance boot config.
+        Set params:
+        User credentials: user:passwd
+        Enable direct (console) root login
+        Set default route, add additional interface and restart network
+        Configures repository
+        """
+        gw_ip = self.test_network_dict[self.test_network_dict[
+            'public']]['gateway_ip']
 
         script = '''
                  #cloud-config
@@ -669,6 +679,19 @@ class BareMetalManager(manager.ScenarioTest):
                                                        gw_ip=gw_ip,
                                                        user=self.ssh_user,
                                                        passwd=self.ssh_passwd)
+
+        if self.test_instance_repo and 'name' in self.test_instance_repo:
+            repo_name = self.external_config['test_instance_repo']['name']
+            repo_url = self.external_config['test_instance_repo']['url']
+            repo = '''
+                 yum_repos:
+                    {repo_name}:
+                       name: {repo_name}
+                       baseurl: {repo_url}
+                       enabled: true
+                       gpgcheck: false'''.format(repo_name=repo_name,
+                                                 repo_url=repo_url)
+            script = "".join((script, repo))
 
         script_clean = textwrap.dedent(script).lstrip().encode('utf8')
         script_b64 = base64.b64encode(script_clean)
