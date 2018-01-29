@@ -3,11 +3,11 @@
 The detailed explanation of the tests and tests configuration.
 
 Current supported tests:
-- tests.scenario.test_nfv_epa.TestBasicEpa.test_numa0_provider_network
-- tests.scenario.test_nfv_epa.TestBasicEpa.test_numa1_provider_network
-- tests.scenario.test_nfv_epa.TestBasicEpa.test_numamix_provider_network
-- tests.scenario.test_nfv_epa.TestBasicEpa.test_packages_compute
-- tests.scenario.test_nfv_epa.TestBasicEpa.test_mtu_ping_test
+- tests.scenario.test_nfv_basic.TestNfvBasic.test_numa0_provider_network
+- tests.scenario.test_nfv_basic.TestNfvBasic.test_numa1_provider_network
+- tests.scenario.test_nfv_basic.TestNfvBasic.test_numamix_provider_network
+- tests.scenario.test_nfv_basic.TestNfvBasic.test_packages_compute
+- tests.scenario.test_nfv_basic.TestNfvBasic.test_mtu_ping_test
 - tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_min_queues_functionality
 - tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_equal_queues_functionality
 - tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_max_queues_functionality
