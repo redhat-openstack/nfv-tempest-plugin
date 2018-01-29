@@ -9,9 +9,9 @@ LOG = logging.getLogger(__name__)
 CONF = config.CONF
 
 
-class TestBasicEpa(baremetal_manager.BareMetalManager):
+class TestNfvBasic(baremetal_manager.BareMetalManager):
     def __init__(self, *args, **kwargs):
-        super(TestBasicEpa, self).__init__(*args, **kwargs)
+        super(TestNfvBasic, self).__init__(*args, **kwargs)
         self.image_ref = None
         self.flavor_ref = None
         self.ip_address = None
@@ -33,7 +33,7 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         Do not create network resources for these tests, using public network for ssh
         """
         cls.set_network_resources()
-        super(TestBasicEpa, cls).setup_credentials()
+        super(TestNfvBasic, cls).setup_credentials()
         cls.manager = clients.Manager(
             credentials=common_creds.get_configured_admin_credentials())
 
@@ -42,7 +42,7 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         Set up a single tenant with an accessible server.
         If multi-host is enabled, save created server uuids.
         """
-        super(TestBasicEpa, self).setUp()
+        super(TestNfvBasic, self).setUp()
         # pre setup creations and checks read from config files
 
     def _test_numa_provider_network(self, test_setup_numa):
@@ -81,12 +81,12 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
                         "test requires {0}, setup in externs_config_file".
                         format(test_setup_numa))
 
-        flavor_exists = super(TestBasicEpa,
+        flavor_exists = super(TestNfvBasic,
                             self).check_flavor_existence(test_setup_numa)
         if flavor_exists is False:
             flavor_name = self.test_setup_dict[test_setup_numa]['flavor']
             self.flavor_ref = \
-                super(TestBasicEpa,
+                super(TestNfvBasic,
                       self).create_flavor(**self.test_flavor_dict[flavor_name])
 
         if 'availability-zone' in self.test_setup_dict[test_setup_numa]:
@@ -102,13 +102,13 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         """
         keypair = self.create_keypair()
         self.key_pairs[keypair['name']] = keypair
-        super(TestBasicEpa, self)._create_test_networks()
-        security = super(TestBasicEpa, self)._set_security_groups()
+        super(TestNfvBasic, self)._create_test_networks()
+        security = super(TestNfvBasic, self)._set_security_groups()
         if security is not None:
             kwargs['security_groups'] = security
-        kwargs['networks'] = super(TestBasicEpa,
+        kwargs['networks'] = super(TestNfvBasic,
                                    self)._create_ports_on_networks(**kwargs)
-        kwargs['user_data'] = super(TestBasicEpa,
+        kwargs['user_data'] = super(TestNfvBasic,
                                     self)._prepare_cloudinit_file()
         kwargs['key_name'] = keypair['name']
 
@@ -122,7 +122,7 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         fip['ip'] = \
             self.instance['addresses'][self.test_network_dict['public']][0]['addr']
         if router_exist:
-            super(TestBasicEpa, self)._add_subnet_to_router()
+            super(TestNfvBasic, self)._add_subnet_to_router()
             fip = self.create_floating_ip(self.instance,
                                           self.public_network)
 
@@ -216,12 +216,12 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
             self.availability_zone = \
                 self.test_setup_dict[test_setup_mtu]['availability-zone']
 
-        flavor_exists = super(TestBasicEpa,
+        flavor_exists = super(TestNfvBasic,
                               self).check_flavor_existence(test_setup_mtu)
         if flavor_exists is False:
             flavor_name = self.test_setup_dict[test_setup_mtu]['flavor']
             self.flavor_ref = \
-                super(TestBasicEpa,
+                super(TestNfvBasic,
                       self).create_flavor(**self.test_flavor_dict[flavor_name])
 
         if 'router' in self.test_setup_dict[test_setup_mtu]:
@@ -230,13 +230,13 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
             mtu = self.test_setup_dict[test_setup_mtu]['mtu']
         keypair = self.create_keypair()
         self.key_pairs[keypair['name']] = keypair
-        super(TestBasicEpa, self)._create_test_networks()
-        security = super(TestBasicEpa, self)._set_security_groups()
+        super(TestNfvBasic, self)._create_test_networks()
+        security = super(TestNfvBasic, self)._set_security_groups()
         if security is not None:
             kwargs['security_groups'] = security
-        kwargs['networks'] = super(TestBasicEpa,
+        kwargs['networks'] = super(TestNfvBasic,
                                    self)._create_ports_on_networks(**kwargs)
-        kwargs['user_data'] = super(TestBasicEpa,
+        kwargs['user_data'] = super(TestNfvBasic,
                                     self)._prepare_cloudinit_file()
         self.instance = self.create_server(key_name=keypair['name'],
                                            image_id=self.image_ref,
@@ -246,7 +246,7 @@ class TestBasicEpa(baremetal_manager.BareMetalManager):
         fip['ip'] = \
             self.instance['addresses'][self.test_network_dict['public']][0]['addr']
         if router_exist is not None and router_exist:
-            super(TestBasicEpa, self)._add_subnet_to_router()
+            super(TestNfvBasic, self)._add_subnet_to_router()
             fip = self.create_floating_ip(self.instance,
                                           self.public_network)
         msg = "Timed out waiting for %s to become reachable" % fip['ip']
