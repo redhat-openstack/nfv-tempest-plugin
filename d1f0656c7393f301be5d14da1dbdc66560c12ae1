@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46ca803d_158a5540",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-02-04T12:54:41Z",
+      "side": 1,
+      "message": "Please select better name, like install_packages",
+      "range": {
+        "startLine": 661,
+        "startChar": 38,
+        "endLine": 661,
+        "endChar": 46
+      },
+      "revId": "d1f0656c7393f301be5d14da1dbdc66560c12ae1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
