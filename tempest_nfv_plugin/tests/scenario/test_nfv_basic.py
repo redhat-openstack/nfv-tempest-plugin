@@ -70,7 +70,8 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         self.assertNotEmpty(self.ip_address, "_get_hypervisor_ip_from_undercloud"
                                              "returned empty ip list")
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
-        result = self._run_command_over_ssh(self.ip_address, command)
+        result = self._run_command_over_ssh(host=self.ip_address,
+                                            command=command)
         self.assertTrue(int(result[0]) == 2)
 
         """
@@ -174,7 +175,8 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
             if self.test_setup_dict[test_compute]['package-names'] is not None:
                 command = "rpm -qa | grep %s" % \
                           self.test_setup_dict[test_compute]['package-names']
-                result = self._run_command_over_ssh(self.ip_address, command)
+                result = self._run_command_over_ssh(host=self.ip_address,
+                                                    command=command)
                 msg = "Packageg are {0} not found".format(
                     self.test_setup_dict[test_compute]['package-names'])
                 self.assertTrue(
@@ -183,21 +185,24 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
             if self.test_setup_dict[test_compute]['service-names'] is not None:
                 command = "systemctl status %s | grep Active | awk '{print $2}'" % \
                           self.test_setup_dict[test_compute]['service-names']
-                result = self._run_command_over_ssh(self.ip_address, command)
+                result = self._run_command_over_ssh(host=self.ip_address,
+                                                    command=command)
                 msg = "services are {0} not Active".format(
                     self.test_setup_dict[test_compute]['service-names'])
                 self.assertTrue('active' in result, msg)
         if 'tuned-profile' in self.test_setup_dict[test_compute]:
             if self.test_setup_dict[test_compute]['tuned-profile'] is not None:
                 command = "sudo tuned-adm active | awk '{print $4}'"
-                result = self._run_command_over_ssh(self.ip_address, command)
+                result = self._run_command_over_ssh(host=self.ip_address,
+                                                    command=command)
                 msg = "Tuned {0} not Active".format(
                     self.test_setup_dict[test_compute]['tuned-profile'])
                 self.assertTrue(
                     self.test_setup_dict[test_compute]['tuned-profile'] in result, msg)
         command = "sudo cat /proc/cmdline | grep nohz | grep nohz_full" \
                   " | grep rcu_nocbs | grep intel_pstate  | wc -l"
-        result = self._run_command_over_ssh(self.ip_address, command)
+        result = self._run_command_over_ssh(host=self.ip_address,
+                                            command=command)
         msg = "Tuned not set in grub need to reboot?"
         self.assertEqual(int(result), 1, msg)
 

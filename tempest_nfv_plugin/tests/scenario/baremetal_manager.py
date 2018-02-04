@@ -281,21 +281,34 @@ class BareMetalManager(manager.ScenarioTest):
         self.assertEqual(count, '2')
 
     @staticmethod
-    def _run_command_over_ssh(host, command):
-        """This Method run Command Over SSH
-        enter Host user, pass into configuration files
+    def _run_command_over_ssh(host=None, command=None, user=None, ssh_key=None):
+        """
+        This method runs command over ssh.
+        In case 'user' and 'keypair' does not specified, use config file params.
+        :param host: Host ip address.
+        :param command: Command to execute on the host.
+        :param user: Custom user to connect to the host.
+        :param ssh_key: Custom ssh key to connect to the host.
         """
 
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-        """Assuming all check done in Setup, otherwise Assert failing the test"""
-        if CONF.hypervisor.private_key:
-            ssh.connect(host, username=CONF.hypervisor.user,
-                        pkey=CONF.hypervisor.private_key)
+        if ssh_key:
+            private_key_file = StringIO.StringIO()
+            private_key_file.write(ssh_key)
+            private_key_file.seek(0)
+            ssh_key = paramiko.RSAKey.from_private_key(private_key_file)
+
+        if user and ssh_key:
+            ssh.connect(host, username=user, pkey=ssh_key)
         else:
-            ssh.connect(host, username=CONF.hypervisor.user,
-                        password=CONF.hypervisor.password)
+            if CONF.hypervisor.private_key:
+                ssh.connect(host, username=CONF.hypervisor.user,
+                            pkey=CONF.hypervisor.private_key)
+            else:
+                ssh.connect(host, username=CONF.hypervisor.user,
+                            password=CONF.hypervisor.password)
 
         stdin, stdout, stderr = ssh.exec_command(command)
         result = stdout.read()
