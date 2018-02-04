@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15def837_ffc12ee7",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-02-04T12:51:01Z",
+      "side": 1,
+      "message": "In a second look maybe we need to use \nself.get_remote_client, it should be in ToDo",
+      "range": {
+        "startLine": 284,
+        "startChar": 8,
+        "endLine": 284,
+        "endChar": 29
+      },
+      "revId": "f19edbad183f2e47f3f633ce784d73498bd8760b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a5de71f_a9b07ad1",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-02-04T12:51:01Z",
+      "side": 1,
+      "message": "This function should be for the overcloud hypervisor\nFor Guest please refer\nTestDpdkScenarios\nYou can use https://github.com/redhat-openstack/tempest-nfv-plugin/blob/devel/tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py#L102\n\nSee the following as use case\nhttps://github.com/openstack/tempest/blob/b1bc277eb34b0c98d0ae09b49b1ea46295e29877/tempest/scenario/test_server_basic_ops.py#L75",
+      "range": {
+        "startLine": 297,
+        "startChar": 1,
+        "endLine": 301,
+        "endChar": 72
+      },
+      "revId": "f19edbad183f2e47f3f633ce784d73498bd8760b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
