@@ -658,7 +658,7 @@ class BareMetalManager(manager.ScenarioTest):
         maxqueues = numqueues * numpmds
         return maxqueues
 
-    def _prepare_cloudinit_file(self):
+    def _prepare_cloudinit_file(self, install_packages=None):
         """
         This method creates cloud-init file with instance boot config.
         Set params:
@@ -666,6 +666,9 @@ class BareMetalManager(manager.ScenarioTest):
         Enable direct (console) root login
         Set default route, add additional interface and restart network
         Configures repository
+        :param packages: Provide the packages that should be installed.
+                         Multiple packages should be separated by comma -
+                         iperf,htop,vim
         """
         gw_ip = self.test_network_dict[self.test_network_dict[
             'public']]['gateway_ip']
@@ -699,6 +702,16 @@ class BareMetalManager(manager.ScenarioTest):
                        gpgcheck: false'''.format(repo_name=repo_name,
                                                  repo_url=repo_url)
             script = "".join((script, repo))
+
+        if install_packages is not None:
+            header = '''
+                 packages:'''
+            body = ''
+            for package in install_packages.split(','):
+                body += '''
+                 - {package}'''.format(package=package)
+            package = "".join((header, body))
+            script = "".join((script, package))
 
         script_clean = textwrap.dedent(script).lstrip().encode('utf8')
         script_b64 = base64.b64encode(script_clean)
