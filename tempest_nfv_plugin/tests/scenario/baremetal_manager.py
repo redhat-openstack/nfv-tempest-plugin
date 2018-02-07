@@ -8,6 +8,7 @@ from tempest.lib.common.utils import test_utils
 import textwrap
 import base64
 import re
+import time
 from tempest.lib import exceptions as lib_exc
 
 import StringIO
@@ -731,3 +732,63 @@ class BareMetalManager(manager.ScenarioTest):
             security_group = [{'name': security_group['name'],
                                'id': security_group['id']}]
         return security_group
+
+    def copy_file_to_remote_host(self, host, ssh_key, username=None, files=None,
+                                 src_path=None, dst_path=None, timeout=60):
+        """
+        The method copy provided file to a specified remote host.
+        Note! - The method is temporary. Should be removed once config_drive is
+        implemented.
+        :param host: Remote host to copy files to
+        :param username: Username for the remote  host
+        :param ssh_key: SSH key for the remote host
+        :param files: File or comma separated file to copy
+        :param src_path: Source path of the files
+        :param dst_path: Destination path of the files
+        :param timeout: A timeout for SSH connection to become active
+        :return Return local and remote path
+        """
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        private_key_file = StringIO.StringIO()
+        private_key_file.write(ssh_key)
+        private_key_file.seek(0)
+        ssh_key = paramiko.RSAKey.from_private_key(private_key_file)
+
+        if username is None:
+            username = self.ssh_user
+
+        timeout_start = time.time()
+        ssh_success = False
+        while time.time() < timeout_start + timeout:
+            time.sleep(2)
+            try:
+                ssh.connect(host, username=username, pkey=ssh_key)
+                ssh_success = True
+                break
+            except paramiko.ssh_exception.NoValidConnectionsError:
+                print('SSH transport is not ready...')
+                continue
+        if not ssh_success:
+            raise lib_exc.TimeoutException('Instance ssh connection timed out.')
+
+        try:
+            if not all([files, src_path, dst_path]):
+                raise NameError('The following variables must be provided '
+                                '- files, src_path, dst_path.')
+        except NameError:
+            raise
+
+        sftp = ssh.open_sftp()
+        for copy_file in files.split(','):
+            path = os.path.dirname(__file__)
+            src_path = os.path.join(path, src_path)
+            file_local = src_path + '/' + copy_file
+            file_remote = dst_path + '/' + copy_file
+
+            sftp.put(file_local, file_remote)
+            result = 'Copied ' + file_local + ' to ' + host + ':' + file_remote
+
+        sftp.close()
+        ssh.close()
+        return result
