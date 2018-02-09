@@ -164,6 +164,136 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
                 return True
         return False
 
+    def _test_multicast_traffic(self, test_multicast):
+        """
+        The method boots three instances and runs multicast
+        traffic between them.
+        """
+        kwargs = {}
+        self.assertTrue(test_multicast in self.test_setup_dict,
+                        "Test requires {0} configuration "
+                        "in external config file".format(test_multicast))
+
+        flavor_exists = super(TestDpdkScenarios,
+                              self).check_flavor_existence(test_multicast)
+        if flavor_exists is False:
+            flavor_name = self.test_setup_dict[test_multicast]['flavor']
+            self.flavor_ref = \
+                super(TestDpdkScenarios,
+                      self).create_flavor(**self.test_flavor_dict[flavor_name])
+
+        if 'availability-zone' in self.test_setup_dict[test_multicast]:
+            kwargs['availability_zone'] = \
+                self.test_setup_dict[test_multicast]['availability-zone']
+
+        """
+        Prepare and boot an Instance
+        """
+        keypair = self.create_keypair()
+        self.key_pairs[keypair['name']] = keypair
+        super(TestDpdkScenarios, self)._create_test_networks()
+        if 'router' in self.test_setup_dict['multicast']:
+            if self.test_setup_dict['multicast']['router']:
+                super(TestDpdkScenarios, self)._add_subnet_to_router()
+        kwargs['user_data'] = super(TestDpdkScenarios,
+                                    self)._prepare_cloudinit_file()
+        kwargs['key_name'] = keypair['name']
+
+        servers = {}
+        mcast_srv = ["traffic_runner", "listener1", "listener2"]
+        for server in mcast_srv:
+            security = super(TestDpdkScenarios, self)._set_security_groups()
+            if security is not None:
+                kwargs['security_groups'] = security
+            kwargs['networks'] = super(TestDpdkScenarios,
+                                       self)._create_ports_on_networks(**kwargs)
+            try:
+                self.instance = self.create_server(name=server,
+                                                   image_id=self.image_ref,
+                                                   flavor=self.flavor_ref,
+                                                   wait_until='ACTIVE',
+                                                   **kwargs)
+            except exceptions.BuildErrorException:
+                return False
+            fip = dict()
+            fip['ip'] = self.instance['addresses'][self.test_network_dict[
+                'public']][0]['addr']
+            if 'router' in self.test_setup_dict['multicast']:
+                if self.test_setup_dict['multicast']['router']:
+                    fip = self.create_floating_ip(self.instance,
+                                                  self.public_network)
+            self.instance['fip'] = fip['ip']
+            servers[server] = self.instance
+
+        """
+        Start multicast listeners
+        """
+        for key, value in servers.iteritems():
+            if ('listener1' in key) or ('listener2' in key):
+                # The method is a temporary solution.
+                # ToDo: Remove once config-drive will be implemented.
+                copy = self.copy_file_to_remote_host(value['fip'],
+                                                     username=self.ssh_user,
+                                                     ssh_key=keypair[
+                                                         'private_key'],
+                                                     files='mcast_receive.py',
+                                                     src_path='tests_scripts',
+                                                     dst_path='/tmp')
+                print copy
+                ssh_source = self.get_remote_client(value['fip'],
+                                                    private_key=keypair[
+                                                        'private_key'])
+                ssh_source.exec_command(
+                    'python /tmp/mcast_receive.py -g "224.1.1.1" '
+                    '-p 10000 > /tmp/output &')
+        """
+        Start multicast traffic runner
+        """
+        for key, value in servers.iteritems():
+            if 'traffic_runner' in key:
+                # The method is a temporary solution.
+                # ToDo: Remove once config-drive will be implemented.
+                copy = self.copy_file_to_remote_host(value['fip'],
+                                                     username=self.ssh_user,
+                                                     ssh_key=keypair[
+                                                         'private_key'],
+                                                     files='mcast_send.py',
+                                                     src_path='tests_scripts',
+                                                     dst_path='/tmp')
+                LOG.info(copy)
+                print copy
+                ssh_source = self.get_remote_client(value['fip'],
+                                                    private_key=keypair[
+                                                        'private_key'])
+                ssh_source.exec_command(
+                    'python /tmp/mcast_send.py -g "224.1.1.1" '
+                    '-p 10000 -m "mcast_pass"')
+
+        """
+        Reading the listeners output files
+        """
+        get_mcast_results = 'cat /tmp/output'
+        for key, value in servers.iteritems():
+            if ('listener1' in key) or ('listener2' in key):
+                ssh_source = self.get_remote_client(value['fip'],
+                                                    private_key=keypair[
+                                                        'private_key'])
+                output = ssh_source.exec_command(get_mcast_results)
+                results = output.rstrip('\n')
+                if results != 'mcast_pass':
+                    msg = '%s unable to receive multicast traffic.' % key
+                    LOG.info(msg)
+                    print(msg)
+                    return False, msg
+                else:
+                    msg = '%s received multicast traffic.' % key
+                    LOG.info(msg)
+                    print(msg)
+        msg = 'Both listener1 and listener2 received multicast traffic.'
+        LOG.info(msg)
+        print(msg)
+        return True
+
     def test_min_queues_functionality(self):
         msg = "Could not create, ping or ssh to the instance with flavor " \
               "contains vcpus smaller than allowed amount of queues"
@@ -189,3 +319,8 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         msg = "Live migration Failed"
         self.assertTrue(self._test_live_migration_block\
                             (test_setup_migration="test_live_migration_basic"), msg)
+
+    def test_multicast(self):
+        msg = "One of the instances or both of them unable to receive " \
+              "multicast traffic. Check log for more details."
+        self.assertTrue(self._test_multicast_traffic("multicast"), msg)
