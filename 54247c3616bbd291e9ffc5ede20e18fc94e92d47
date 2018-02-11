@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7287aeb4_f8ac06e6",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-02-11T20:56:01Z",
+      "side": 1,
+      "message": "default is None add check or forbid default to None",
+      "range": {
+        "startLine": 755,
+        "startChar": 31,
+        "endLine": 755,
+        "endChar": 38
+      },
+      "revId": "54247c3616bbd291e9ffc5ede20e18fc94e92d47",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52c5272f_e3c8675f",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-02-11T20:56:01Z",
+      "side": 1,
+      "message": "I do not understand why ping is not enough\nOr why not doing it like all tests\nPing and ssh, after that parse file",
+      "range": {
+        "startLine": 760,
+        "startChar": 8,
+        "endLine": 760,
+        "endChar": 52
+      },
+      "revId": "54247c3616bbd291e9ffc5ede20e18fc94e92d47",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9104fe75_9faad52f",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-02-11T20:56:01Z",
+      "side": 1,
+      "message": "Please src_path and dst_path defaults are None\nPlease add check if both are None throw Exception",
+      "range": {
+        "startLine": 773,
+        "startChar": 1,
+        "endLine": 774,
+        "endChar": 52
+      },
+      "revId": "54247c3616bbd291e9ffc5ede20e18fc94e92d47",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
