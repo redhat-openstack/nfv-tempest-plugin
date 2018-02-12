@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dea9d147_22f5f9d1",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-02-12T12:45:49Z",
+      "side": 1,
+      "message": "Default removed.",
+      "parentUuid": "7287aeb4_f8ac06e6",
+      "range": {
+        "startLine": 755,
+        "startChar": 31,
+        "endLine": 755,
+        "endChar": 38
+      },
+      "revId": "54247c3616bbd291e9ffc5ede20e18fc94e92d47",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52c5272f_e3c8675f",
         "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "16433f8e_c58b1c7d",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-02-12T12:45:49Z",
+      "side": 1,
+      "message": "Ping test is not enough because when the instance is booting up, and ping becomes available, it may take up to 5-8 seconds to start the ssh daemon.\n\nIf we would like to use the ssh, let\u0027s check the ssh.",
+      "parentUuid": "52c5272f_e3c8675f",
+      "range": {
+        "startLine": 760,
+        "startChar": 8,
+        "endLine": 760,
+        "endChar": 52
+      },
+      "revId": "54247c3616bbd291e9ffc5ede20e18fc94e92d47",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9104fe75_9faad52f",
         "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2018-02-11T20:56:01Z",
       "side": 1,
       "message": "Please src_path and dst_path defaults are None\nPlease add check if both are None throw Exception",
+      "range": {
+        "startLine": 773,
+        "startChar": 1,
+        "endLine": 774,
+        "endChar": 52
+      },
+      "revId": "54247c3616bbd291e9ffc5ede20e18fc94e92d47",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e93a8497_ead557ee",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-02-12T12:45:49Z",
+      "side": 1,
+      "message": "Added exception.",
+      "parentUuid": "9104fe75_9faad52f",
       "range": {
         "startLine": 773,
         "startChar": 1,
