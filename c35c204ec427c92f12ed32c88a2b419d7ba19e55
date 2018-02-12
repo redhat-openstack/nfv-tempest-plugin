@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bb3356c1_4b8e9bef",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-02-12T13:22:46Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "6cb04659_489014d2",
+      "range": {
+        "startLine": 219,
+        "startChar": 16,
+        "endLine": 219,
+        "endChar": 30
+      },
+      "revId": "c35c204ec427c92f12ed32c88a2b419d7ba19e55",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91bb7812_6e6628a5",
         "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-02-11T21:22:36Z",
       "side": 1,
       "message": "You can avoid the timer in baremetal_manager::copy file\nif you were doing here regular ssh\nAt the end of for loop, with ping",
+      "range": {
+        "startLine": 234,
+        "startChar": 12,
+        "endLine": 234,
+        "endChar": 44
+      },
+      "revId": "c35c204ec427c92f12ed32c88a2b419d7ba19e55",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af9b61b7_103c7b3c",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-02-12T13:22:46Z",
+      "side": 1,
+      "message": "Ping will not help us as described in the second patch.",
+      "parentUuid": "91bb7812_6e6628a5",
       "range": {
         "startLine": 234,
         "startChar": 12,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "dc2e9879_bbefa5e6",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-02-12T13:22:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50c74734_00dfb046",
+      "range": {
+        "startLine": 262,
+        "startChar": 32,
+        "endLine": 262,
+        "endChar": 43
+      },
+      "revId": "c35c204ec427c92f12ed32c88a2b419d7ba19e55",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e2dc190_8fe3e000",
         "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
         "patchSetId": 2
@@ -105,6 +177,30 @@
       "writtenOn": "2018-02-11T21:22:36Z",
       "side": 1,
       "message": "Should be function local parameters, see above",
+      "range": {
+        "startLine": 287,
+        "startChar": 47,
+        "endLine": 288,
+        "endChar": 30
+      },
+      "revId": "c35c204ec427c92f12ed32c88a2b419d7ba19e55",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50872d51_5caf7399",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-02-12T13:22:46Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "2e2dc190_8fe3e000",
       "range": {
         "startLine": 287,
         "startChar": 47,
