@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3df3b1a8_3ff4bb0f",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-02-13T16:00:05Z",
+      "side": 1,
+      "message": "Please add General exception and check if \ntime.time() \u003e timeout_start + timeout\nraise some exception",
+      "range": {
+        "startLine": 764,
+        "startChar": 12,
+        "endLine": 764,
+        "endChar": 16
+      },
+      "revId": "3dc6369759ed804d5895572bd17e1cbf6ca339de",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b955924_d23132c9",
+        "filename": "tempest_nfv_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-02-13T16:00:05Z",
+      "side": 1,
+      "message": "Please remove this print",
+      "range": {
+        "startLine": 776,
+        "startChar": 12,
+        "endLine": 776,
+        "endChar": 39
+      },
+      "revId": "3dc6369759ed804d5895572bd17e1cbf6ca339de",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
