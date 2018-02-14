@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6c741d04_ca5fb904",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-02-14T16:43:24Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "83a36ddd_6f590e86",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 20
+      },
+      "revId": "c6b0cf03986ca4e900c9df68a7a5a89238b36366",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "acaab392_0d21fc6d",
         "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-02-14T15:36:54Z",
       "side": 1,
       "message": "Please remove print in the test",
+      "range": {
+        "startLine": 175,
+        "startChar": 8,
+        "endLine": 175,
+        "endChar": 14
+      },
+      "revId": "c6b0cf03986ca4e900c9df68a7a5a89238b36366",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eefdebea_faff025d",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-02-14T16:43:24Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "acaab392_0d21fc6d",
       "range": {
         "startLine": 175,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "595422c7_eb847697",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-02-14T16:43:24Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "e99645ff_684a6504",
+      "range": {
+        "startLine": 211,
+        "startChar": 12,
+        "endLine": 212,
+        "endChar": 31
+      },
+      "revId": "c6b0cf03986ca4e900c9df68a7a5a89238b36366",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ebe000a_0e6f5ae4",
         "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2018-02-14T15:36:54Z",
       "side": 1,
       "message": "Consider just using raise instead of return False",
+      "range": {
+        "startLine": 227,
+        "startChar": 16,
+        "endLine": 227,
+        "endChar": 28
+      },
+      "revId": "c6b0cf03986ca4e900c9df68a7a5a89238b36366",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a8b76b2_5b0e2efc",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-02-14T16:43:24Z",
+      "side": 1,
+      "message": "Replaced with raise",
+      "parentUuid": "4ebe000a_0e6f5ae4",
       "range": {
         "startLine": 227,
         "startChar": 16,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "696bd675_1e0d2a5d",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-02-14T16:43:24Z",
+      "side": 1,
+      "message": "Changed.",
+      "parentUuid": "d79140fa_2868727d",
+      "range": {
+        "startLine": 249,
+        "startChar": 2,
+        "endLine": 252,
+        "endChar": 35
+      },
+      "revId": "c6b0cf03986ca4e900c9df68a7a5a89238b36366",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f46fd19c_7ce88f38",
         "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
         "patchSetId": 3
@@ -128,6 +248,30 @@
       "writtenOn": "2018-02-14T15:36:54Z",
       "side": 1,
       "message": "Why do you print it?\nYou could add something like LOG.info(\"copied test file to remote server\"))",
+      "range": {
+        "startLine": 262,
+        "startChar": 16,
+        "endLine": 262,
+        "endChar": 30
+      },
+      "revId": "c6b0cf03986ca4e900c9df68a7a5a89238b36366",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0abcc594_2e763d6a",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-02-14T16:43:24Z",
+      "side": 1,
+      "message": "I\u0027m logging it because copy_file_to_remote_host function returns the following message:\n\n\"Copied /home/stack/tempest/tempest-nfv-plugin/tempest_nfv_plugin/tests/scenario/tests_scripts/mcast_receive.py to 10.35.141.124:/tmp/mcast_receive.py\"",
+      "parentUuid": "f46fd19c_7ce88f38",
       "range": {
         "startLine": 262,
         "startChar": 16,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "ed88fb57_e3b91178",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-02-14T16:43:24Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "e7955523_0eece27a",
+      "range": {
+        "startLine": 275,
+        "startChar": 3,
+        "endLine": 278,
+        "endChar": 35
+      },
+      "revId": "c6b0cf03986ca4e900c9df68a7a5a89238b36366",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b358577_0b7d6fe4",
         "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
         "patchSetId": 3
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "3e357156_5bd6b69b",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-02-14T16:43:24Z",
+      "side": 1,
+      "message": "I\u0027m logging it because copy_file_to_remote_host function returns the following message:\n\n\"Copied /home/stack/tempest/tempest-nfv-plugin/tempest_nfv_plugin/tests/scenario/tests_scripts/mcast_receive.py to 10.35.141.124:/tmp/mcast_receive.py\"\n\n\nPrint removed.",
+      "parentUuid": "9b358577_0b7d6fe4",
+      "range": {
+        "startLine": 288,
+        "startChar": 4,
+        "endLine": 289,
+        "endChar": 26
+      },
+      "revId": "c6b0cf03986ca4e900c9df68a7a5a89238b36366",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f1ed0a3_8a2dc321",
         "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
         "patchSetId": 3
@@ -197,6 +389,30 @@
       "writtenOn": "2018-02-14T15:36:54Z",
       "side": 1,
       "message": "No need for self.log_msg",
+      "range": {
+        "startLine": 321,
+        "startChar": 4,
+        "endLine": 321,
+        "endChar": 80
+      },
+      "revId": "c6b0cf03986ca4e900c9df68a7a5a89238b36366",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff04095b_a651e072",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-02-14T16:43:24Z",
+      "side": 1,
+      "message": "Changed.",
+      "parentUuid": "2f1ed0a3_8a2dc321",
       "range": {
         "startLine": 321,
         "startChar": 4,
