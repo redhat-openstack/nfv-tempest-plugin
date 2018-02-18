@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d75e796d_288c5e9b",
+        "filename": "tempest_nfv_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1008570
+      },
+      "writtenOn": "2018-02-18T15:34:26Z",
+      "side": 1,
+      "message": "Usually the return value depends on specific condition,\nif something passed than return True.\nI suggest saving the results of the assertion mention above( line 197) and return true if they passed.\n\nreturn received1|recevied2",
+      "range": {
+        "startLine": 300,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 19
+      },
+      "revId": "5d71db1ebdfa059f62466b069f181184ec992bae",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
