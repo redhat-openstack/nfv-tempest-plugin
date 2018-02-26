@@ -1,11 +1,27 @@
-from oslo_log import log as logging
-from tempest import config
-from tempest import clients
-from tempest_nfv_plugin.tests.scenario import baremetal_manager
-from tempest.common import credentials_factory as common_creds
-from tempest import exceptions
-import time
+# Copyright 2017 Red Hat, Inc.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+
 import re
+import time
+
+from oslo_log import log as logging
+from tempest import clients
+from tempest.common import credentials_factory as common_creds
+from tempest import config
+from tempest import exceptions
+from tempest_nfv_plugin.tests.scenario import baremetal_manager
 
 LOG = logging.getLogger(__name__)
 CONF = config.CONF
@@ -32,8 +48,9 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
 
     @classmethod
     def setup_credentials(cls):
-        """
-        Do not create network resources for these tests, using public network for ssh
+        """Do not create network resources for these tests
+
+        Using public network for ssh
         """
         cls.set_network_resources()
         super(TestDpdkScenarios, cls).setup_credentials()
@@ -41,21 +58,23 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
             credentials=common_creds.get_configured_admin_credentials())
 
     def setUp(self):
-        """
-        Set up a single tenant with an accessible server.
+        """Set up a single tenant with an accessible server
+
         If multi-host is enabled, save created server uuids.
         """
         super(TestDpdkScenarios, self).setUp()
         try:
-            self.maxqueues = super(TestDpdkScenarios, self)._check_number_queues()
-        except:
+            self.maxqueues = super(TestDpdkScenarios, self)\
+                ._check_number_queues()
+        except Exception:
             print("Hypervisor OVS not configured with MultiQueue")
         """ pre setup creations and checks read from config files """
 
     def _test_queue_functionality(self, queues):
-        """Checks DPDK queues functionality by booting number of
-        instances with various number of cpus based on the setup
-        queues number.
+        """Checks DPDK queues functionality
+
+        Booting number of instances with various number of cpus based on the
+        setup queues number.
         """
         kwargs = {}
         extra_specs = {'extra_specs': {'hw:mem_page_size': str("large"),
@@ -92,19 +111,21 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         except exceptions.BuildErrorException:
             return False
         fip = dict()
-        fip['ip'] = instance['addresses'][self.test_network_dict['public']][0]['addr']
+        fip['ip'] = instance['addresses'][
+            self.test_network_dict['public']][0]['addr']
         if 'router' in self.test_setup_dict['check-multiqueue-func']:
             if self.test_setup_dict['check-multiqueue-func']['router']:
                 super(TestDpdkScenarios, self)._add_subnet_to_router()
                 fip = self.create_floating_ip(instance, self.public_network)
         msg = "%s instance is not reachable by ping" % fip['ip']
         self.assertTrue(self.ping_ip_address(fip['ip']), msg)
-        self.assertTrue(self.get_remote_client(fip['ip'],
-                                           private_key=keypair['private_key']))
+        self.assertTrue(self.get_remote_client(
+            fip['ip'], private_key=keypair['private_key']))
         return True
 
     def _test_live_migration_block(self, test_setup_migration=None):
-        """ Method boots an instance and wait until ACTIVE state.
+        """Method boots an instance and wait until ACTIVE state
+
         Migrates the instance to the next available hypervisor.
         """
         fip = dict()
@@ -127,14 +148,17 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         kwargs['security_groups'] = [{'name': security_group['name'],
                                       'id': security_group['id']}]
         self._create_test_networks()
-        kwargs['networks']=  super(TestDpdkScenarios, self)._create_ports_on_networks()
-        kwargs['user_data'] = super(TestDpdkScenarios, self)._prepare_cloudinit_file()
+        kwargs['networks'] = super(TestDpdkScenarios, self)\
+            ._create_ports_on_networks()
+        kwargs['user_data'] = super(TestDpdkScenarios, self)\
+            ._prepare_cloudinit_file()
         try:
-            instance = self.create_server(flavor=self.flavor_ref, wait_until='ACTIVE', **kwargs)
+            instance = self.create_server(flavor=self.flavor_ref,
+                                          wait_until='ACTIVE', **kwargs)
         except exceptions.BuildErrorException:
             return False
-        host = self.os_admin.servers_client.show_server\
-            (instance['id'])['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']
+        host = self.os_admin.servers_client.show_server(
+            instance['id'])['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']
         fip['ip'] = \
             instance['addresses'][self.test_network_dict['public']][0]['addr']
         if router_exist:
@@ -143,8 +167,9 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         msg = "Timed out waiting for %s to become reachable" % fip['ip']
         self.assertTrue(self.ping_ip_address(fip['ip']), msg)
         """ Migrate server """
-        self.os_admin.servers_client.live_migrate_server\
-            (server_id=instance['id'], block_migration=True, disk_over_commit=True, host=None)
+        self.os_admin.servers_client.live_migrate_server(
+            server_id=instance['id'], block_migration=True,
+            disk_over_commit=True, host=None)
         """ Switch hypervisor id (compute-0 <=> compute-1) """
         if host[host.index('0')]:
             dest = list(host)
@@ -165,10 +190,7 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         return False
 
     def _test_multicast_traffic(self, test_multicast):
-        """
-        The method boots three instances and runs multicast
-        traffic between them.
-        """
+        """The method boots three instances, runs mcast traffic between them"""
         LOG.info('Starting multicast test.')
 
         kwargs = {}
@@ -209,8 +231,8 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
             security = super(TestDpdkScenarios, self)._set_security_groups()
             if security is not None:
                 kwargs['security_groups'] = security
-            kwargs['networks'] = super(TestDpdkScenarios,
-                                       self)._create_ports_on_networks(**kwargs)
+            kwargs['networks'] = super(
+                TestDpdkScenarios, self)._create_ports_on_networks(**kwargs)
             try:
                 # ToDo: Change the server creation 'for loop' to servers list.
                 self.instance = self.create_server(name=server,
@@ -325,10 +347,10 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         self.assertTrue(self._test_queue_functionality(queues="odd"), msg)
 
     def test_live_migration_block(self):
-        """ Make sure CONF.compute_feature_enabled.live_migration is True """
+        """Make sure CONF.compute_feature_enabled.live_migration is True"""
         msg = "Live migration Failed"
-        self.assertTrue(self._test_live_migration_block\
-                            (test_setup_migration="test_live_migration_basic"), msg)
+        self.assertTrue(self._test_live_migration_block(
+            test_setup_migration="test_live_migration_basic"), msg)
 
     def test_multicast(self):
         msg = "Multicast test failed. Check log for more details."
