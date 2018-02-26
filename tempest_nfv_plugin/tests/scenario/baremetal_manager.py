@@ -1,28 +1,42 @@
+# Copyright 2017 Red Hat, Inc.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+
+import base64
+import os.path
+import paramiko
+import re
+import StringIO
+import subprocess as sp
+import textwrap
+import time
+import xml.etree.ElementTree as ELEMENTTree
+import yaml
+
 from oslo_log import log
 from tempest import config
-from tempest.scenario import manager
-import paramiko
-import xml.etree.ElementTree as ELEMENTTree
 from tempest.lib.common.utils import data_utils
 from tempest.lib.common.utils import test_utils
-import textwrap
-import base64
-import re
-import time
 from tempest.lib import exceptions as lib_exc
-
-import StringIO
-import yaml
-import os.path
-import subprocess as sp
+from tempest.scenario import manager
 
 CONF = config.CONF
 LOG = log.getLogger(__name__)
 
 
 class BareMetalManager(manager.ScenarioTest):
-    """This class Interacts with BareMetal settings
-    """
+    """This class Interacts with BareMetal settings"""
     credentials = ['primary', 'admin']
 
     def __init__(self, *args, **kwargs):
@@ -45,8 +59,8 @@ class BareMetalManager(manager.ScenarioTest):
         cls.aggregates_client = cls.manager.aggregates_client
 
     def setUp(self):
-        """
-        Check hypervisor configuration:
+        """Check hypervisor configuration:
+
         SSH user and Private key/password definition [must].
         External config file exist [not a must].
         """
@@ -75,16 +89,20 @@ class BareMetalManager(manager.ScenarioTest):
         super(BareMetalManager, cls).setup_credentials()
 
     def _get_number_free_hugepages(self, host):
-        """This Method Connects to Bare Metal and receive Number of free Memory Pages
-        BareMetal on Bare Metal settings
+        """Free memory pages number
+
+        This Method Connects to Bare Metal and receive Number of free
+        Memory Pages BareMetal on Bare Metal settings
         """
-        command = "cat /sys/kernel/mm/hugepages/hugepages-1048576kB/free_hugepages"
+        command = "cat /sys/kernel/mm/hugepages/hugepages-1048576kB/" \
+                  "free_hugepages"
         hugepages = self._run_command_over_ssh(host, command)
         return hugepages
 
     def read_external_config_file(self):
         """This Method reads network_config.yml
-        reads data and assign it to dictionaries
+
+        Reads config data and assign it to dictionaries
         """
         with open(CONF.hypervisor.external_config_file, 'r') as f:
             self.external_config = yaml.load(f)
@@ -102,16 +120,18 @@ class BareMetalManager(manager.ScenarioTest):
         port_type, gateway_ip
         """
         for net in self.external_config['networks']:
-            self.test_network_dict[net['name']] = {'port_type': net['port_type'],
-                                                   'gateway_ip': net['gateway_ip']}
+            self.test_network_dict[net['name']] = {
+                'port_type': net['port_type'], 'gateway_ip': net['gateway_ip']}
             """
             Check for existence of optionals vars:
             router_name, external.
             """
             if 'external' in net:
-                self.test_network_dict[net['name']]['external'] = net['external']
+                self.test_network_dict[net['name']]['external'] = net[
+                    'external']
             if 'router_name' in net:
-                self.test_network_dict[net['name']]['router'] = net['router_name']
+                self.test_network_dict[net['name']]['router'] = net[
+                    'router_name']
 
         # iterate networks
         for net in self.test_network_dict.iterkeys():
@@ -125,7 +145,8 @@ class BareMetalManager(manager.ScenarioTest):
             if 'package-names' in test and test['package-names'] is not None:
                 self.test_setup_dict[test['name']] = \
                     {'package-names': test['package-names']}
-            if 'availability-zone' in test and test['availability-zone'] is not None:
+            if 'availability-zone' in test and \
+                    test['availability-zone'] is not None:
                 self.test_setup_dict[test['name']]['availability-zone'] = \
                     test['availability-zone']
             if 'image' in test and test['image'] is not None:
@@ -164,11 +185,11 @@ class BareMetalManager(manager.ScenarioTest):
                 self.test_flavor_dict[flavor['name']] = flavor
 
         if 'test_instance_repo' in self.external_config:
-            self.test_instance_repo = self.external_config['test_instance_repo']
+            self.test_instance_repo = self.external_config[
+                'test_instance_repo']
 
     def check_flavor_existence(self, testname):
-        """
-        Check test specific flavor existence.
+        """Check test specific flavor existence.
 
         :param testname: value - The name of the running test.
         """
@@ -179,9 +200,8 @@ class BareMetalManager(manager.ScenarioTest):
 
     def create_flavor(self, name='flavor', ram='2048', disk='20', vcpus='1',
                       **flavor_args):
-        """
-        The method creates flavor based on the arguments
-        passed to the method.
+        """The method creates flavor based on the args passed to the method.
+
         The flavor could be created with or without an extra specs.
         In case method call with empty parameters, default values will
         be used and default flavor will be created.
@@ -210,7 +230,14 @@ class BareMetalManager(manager.ScenarioTest):
         return flavor_id
 
     def _check_vcpu_with_xml(self, server, host, cell_id='0'):
-        """This Method Connects to Bare Metal,Compute and return number of pinned CPUS
+        """Instance vcpu check
+
+        This Method Connects to Bare Metal, Compute and return number of
+        pinned CPUS
+
+        :param server
+        :param host
+        :param cell_id
         """
         instance_properties = \
             self.os_admin.servers_client.show_server(server['id'])['server']
@@ -227,8 +254,12 @@ class BareMetalManager(manager.ScenarioTest):
             pinned_cpu_list.append(numofcpus.items()[1][1])
         """
         check for existenace of CPU in NUMA cell
-        array=( cpu1 cpu2 cpu3 ); for i in "${array[@]}";
-        do if [ -d /sys/devices/system/cpu/cpu$i/node1 ] ;then echo $i; fi; done
+        array=( cpu1 cpu2 cpu3 );
+        for i in "${array[@]}"; do
+            if [ -d /sys/devices/system/cpu/cpu$i/node1 ]; then
+                echo $i;
+            fi;
+        done
         """
         format_list = " ".join(['{}'.format(x) for x in pinned_cpu_list])
         """
@@ -255,7 +286,11 @@ class BareMetalManager(manager.ScenarioTest):
 
     def _check_numa_with_xml(self, server, host):
         """This Method Connects to Bare Metal,Compute and return number of Cells
-           This method should be obsolete it is used by test_nfv_usecases
+
+        This method should be obsolete it is used by test_nfv_usecases
+
+        :param server
+        :param host
         """
         instance_properties = \
             self.os_admin.servers_client.show_server(server['id'])['server']
@@ -269,28 +304,35 @@ class BareMetalManager(manager.ScenarioTest):
             if i[0] == 'sockets':
                 # change to 2
                 self.assertEqual(i[1], '1')
-                print i[0]
+                print(i[0])
         count = 0
         for i in r.findall('numa')[0].findall('cell'):
+            # change memory to 1572864
             if (('id', '0') in i.items() and (
-                    ('memory', '2097152')) in i.items()):  # change memory to 1572864
+                    ('memory', '2097152')) in i.items()):
                 count += 1
+            # change cell id to 1 memory to 524288
             if (('id', '1') in i.items() and (
-                    ('memory',
-                     '2097152')) in i.items()):  # change cell id to 1 memory to 524288
+                    ('memory', '2097152')) in i.items()):
                 count += 1
         self.assertEqual(count, '2')
 
     @staticmethod
     def _run_command_over_ssh(host, command):
         """This Method run Command Over SSH
-        enter Host user, pass into configuration files
+
+        Provide Host, user and pass into configuration file
+
+        :param host
+        :param command
         """
 
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-        """Assuming all check done in Setup, otherwise Assert failing the test"""
+        """Assuming all check done in Setup,
+        otherwise Assert failing the test
+        """
         if CONF.hypervisor.private_key:
             ssh.connect(host, username=CONF.hypervisor.user,
                         pkey=CONF.hypervisor.private_key)
@@ -304,16 +346,20 @@ class BareMetalManager(manager.ScenarioTest):
         return result
 
     def _run_local_cmd_shell_with_venv(self, command, shell_file_to_exec=None):
-        """This Method run command on tester local host
-        shell_file_to_exec path to source file default is None
+        """This Method runs command on tester local host
+
+        Shell_file_to_exec path to source file default is None
         TBD: Add support to return, hosts list
         TBD: Return None in case no aggregation found.
+
+        :param command
+        :param shell_file_to_exec
         """
         self.assertNotEmpty(command, "missing command parameter")
         if shell_file_to_exec is not None:
             source = 'source %s' % shell_file_to_exec
-            pipe = sp.Popen(['/bin/bash', '-c', '%s && %s' % (source, command)],
-                            stdout=sp.PIPE)
+            pipe = sp.Popen(['/bin/bash', '-c', '%s && %s' % (
+                source, command)], stdout=sp.PIPE)
         else:
             pipe = sp.Popen(['/bin/bash', '-c', '%s' % command],
                             stdout=sp.PIPE)
@@ -321,10 +367,14 @@ class BareMetalManager(manager.ScenarioTest):
         return result.split()
 
     def _list_aggregate(self, name=None):
-        """This Method lists aggregation based on name, and returns the aggregated
-        hosts lists
+        """Aggregation listing
+
+        This Method lists aggregation based on name, and returns the
+        aggregated hosts lists.
         TBD: Add support to return, hosts list
         TBD: Return None in case no aggregation found.
+
+        :param name
         """
         host = None
 
@@ -337,17 +387,21 @@ class BareMetalManager(manager.ScenarioTest):
             aggr_result = []
             for i in aggregate:
                 if name in i['name']:
-                    aggr_result.append(self.aggregates_client.show_aggregate(i['id'])[
-                        'aggregate'])
+                    aggr_result.append(self.aggregates_client.
+                                       show_aggregate(i['id'])['aggregate'])
             host = aggr_result[0]['hosts']
         return host
 
     def _get_hypervisor_host_ip(self, name=None):
-        """This Method lists aggregation based on name, and returns the aggregated
-        search for IP through Hypervisor list API
+        """Get hypervisor ip
+
+        This Method lists aggregation based on name,
+        and returns the aggregated search for IP through Hypervisor list API
         Add support in case of NoAggregation, and Hypervisor list is not empty
-        if host=None, no aggregation, or name=None and if hypervisor list has one member
-        return the member
+        if host=None, no aggregation, or name=None and if hypervisor list has
+        one member return the member
+
+        :param name
         """
         host = None
         ip_address = ''
@@ -359,21 +413,27 @@ class BareMetalManager(manager.ScenarioTest):
         if host:
             for i in hyper['hypervisors']:
                 if i['hypervisor_hostname'] == host:
-                    ip_address = self.manager.hypervisor_client.show_hypervisor(i['id'])[
-                        'hypervisor']['host_ip']
+                    ip_address = \
+                        self.manager.hypervisor_client.show_hypervisor(
+                            i['id'])['hypervisor']['host_ip']
         else:
             for i in hyper['hypervisors']:
                 if i['state'] == 'up':
-                    ip_address = self.manager.hypervisor_client.show_hypervisor(i['id'])[
-                        'hypervisor']['host_ip']
+                    ip_address = \
+                        self.manager.hypervisor_client.show_hypervisor(
+                            i['id'])['hypervisor']['host_ip']
         return ip_address
 
     def _get_hypervisor_ip_from_undercloud(self, name=None, shell=None):
-        """This Method lists aggregation based on name, and returns the aggregated
-        search for IP through Hypervisor list API
+        """This Method lists aggregation based on name
+
+        Returns the aggregated search for IP through Hypervisor list API
         Add support in case of NoAggregation, and Hypervisor list is not empty
-        if host=None, no aggregation, or name=None and if hypervisor list has one member
-        return the member
+        if host=None, no aggregation, or name=None and if hypervisor list has
+        one member return the member
+
+        :param name
+        :param shell
         """
         host = None
         ip_address = ''
@@ -392,21 +452,26 @@ class BareMetalManager(manager.ScenarioTest):
                     command = 'openstack ' \
                               'server show ' + host_name + \
                               ' -c \'addresses\' -f value | cut -d\"=\" -f2'
-                    ip_address = self._run_local_cmd_shell_with_venv(command, shell)
+                    ip_address = self._run_local_cmd_shell_with_venv(command,
+                                                                     shell)
         else:
             for i in hyper['hypervisors']:
                 if i['state'] == 'up':
-                    command = 'openstack server list -c \'Name\' -c \'Networks\' -f ' \
-                              'value | grep -i compute | cut -d\"=\" -f2'
-                    ip_address = self._run_local_cmd_shell_with_venv(command, shell)
+                    command = 'openstack server list -c \'Name\' -c ' \
+                              '\'Networks\' -f value | grep -i compute | ' \
+                              'cut -d\"=\" -f2'
+                    ip_address = self._run_local_cmd_shell_with_venv(command,
+                                                                     shell)
 
         return ip_address
 
     def _create_test_networks(self):
-        """
-        Method read test-networks attributes from external_config.yml, to be created for
-        tempest tenant, Do not use this method if the test need to run on pre-configured
-        networks.. see _detect_existing_networks() method
+        """Method reads test-networks attributes from external_config.yml
+
+        The network will be created for tempest tenant.
+        Do not use this method if the test
+        need to run on pre-configured networks..
+        see _detect_existing_networks() method
         """
         if len(self.external_config['test-networks']) > 0:
             self.test_network_dict.clear()
@@ -438,8 +503,9 @@ class BareMetalManager(manager.ScenarioTest):
         for net_name, net_param in self.test_network_dict.iteritems():
             network_kwargs.clear()
             network_kwargs['name'] = net_name
-            if 'sec_groups' in net_param and net_param['sec_groups'] == False:
-                network_kwargs['port_security_enabled'] = net_param['sec_groups']
+            if 'sec_groups' in net_param and not net_param['sec_groups']:
+                network_kwargs['port_security_enabled'] = net_param[
+                    'sec_groups']
             """Added this for VxLAN no need of physical network or segmentation
             """
             if 'provider:network_type' in net_param \
@@ -456,7 +522,8 @@ class BareMetalManager(manager.ScenarioTest):
                     net_param['provider:network_type']
 
             network_kwargs['tenant_id'] = self.networks_client.tenant_id
-            result = self.os_admin.networks_client.create_network(**network_kwargs)
+            result = self.os_admin.networks_client.create_network(
+                **network_kwargs)
             network = result['network']
             self.assertEqual(network['name'], net_name)
             self.addCleanup(test_utils.call_and_ignore_notfound_exc,
@@ -490,8 +557,8 @@ class BareMetalManager(manager.ScenarioTest):
             self.test_network_dict['public'] = mgmt_network
 
     def _add_subnet_to_router(self):
-        """
-        Method read test-networks attributes from external_config.yml, to be created for
+        """Adding subnet as an interface to the router
+
         For VxLAN network type there is additional fork to be Done
         The following add to admin router mgmt subnet and create flowing ip
         """
@@ -505,7 +572,7 @@ class BareMetalManager(manager.ScenarioTest):
         self.assertEqual(len(seen_routers), 1,
                          "Test require 1 admin router. please check")
         self.os_admin.routers_client.add_router_interface(
-             seen_routers[0]['id'], subnet_id=public_net['subnet-id'])
+            seen_routers[0]['id'], subnet_id=public_net['subnet-id'])
         self.addCleanup(self._try_remove_router_subnet,
                         seen_routers[0]['id'],
                         subnet_id=public_net['subnet-id'])
@@ -520,18 +587,23 @@ class BareMetalManager(manager.ScenarioTest):
                 pass
 
     def _detect_existing_networks(self):
-        """Use method only when test require no network cls.set_network_resources()
-        it run over external_config networks, verified against existing networks..
-        in case all networks exist return True and fill self.test_networks lists
+        """Use method only when test require no network
 
+        cls.set_network_resources()
+        it run over external_config networks,
+        verified against existing networks..
+        in case all networks exist return True and fill self.test_networks
+        lists.
         In case there is external router.. public network decided
         based on router_external=False and router is not None
         """
         self.assertIsNotNone(CONF.hypervisor.external_config_file,
-                             'This test require missing extrnal_config, for this test')
+                             'This test require missing extrnal_config, '
+                             'for this test')
 
         self.assertTrue(self.test_network_dict,
-                        'No networks for test, please check external_config_file')
+                        'No networks for test, please check '
+                        'external_config_file')
 
         public_network = self.networks_client.list_networks(
             **{'router:external': True})['networks']
@@ -559,11 +631,16 @@ class BareMetalManager(manager.ScenarioTest):
             self.test_network_dict.pop(remove_network)
 
     def _create_ports_on_networks(self, **kwargs):
-        """Use method only when test require no network cls.set_network_resources()
-        it run over external_config networks, create networks as per test_network_dict
+        """Use method only when test require no network
+
+        cls.set_network_resources()
+        it run over external_config networks,
+        create networks as per test_network_dict
         In case there is external router public network decided
         This run over prepared network dictionary
         ports, unless port_security==False, ports created with rules
+
+        :param kwargs
         """
         create_port_body = {'binding:vnic_type': '',
                             'namestart': 'port-smoke'}
@@ -590,8 +667,15 @@ class BareMetalManager(manager.ScenarioTest):
 
     def _create_port(self, network_id, client=None, namestart='port-quotatest',
                      **kwargs):
-        """This Method Overrides Manager::CreatePort to support direct and direct ph
-        ports
+        """Port creation for instance
+
+        This Method Overrides Manager::CreatePort to support direct and
+        direct ph ports
+
+        :param network_id
+        :param client
+        :param namestart
+        :param kwargs
         """
         kwargs['admin_state_up'] = 'True'
         if not client:
@@ -607,6 +691,7 @@ class BareMetalManager(manager.ScenarioTest):
                       validatable=False, wait_until=None,
                       wait_on_delete=True, clients=None, **kwargs):
         """This Method Overrides Manager::Createserver to support Gates needs
+
         :param validatable:
         :param clients:
         :param image_id:
@@ -636,19 +721,20 @@ class BareMetalManager(manager.ScenarioTest):
             if kwargs['availability_zone'] is None:
                 kwargs.pop('availability_zone', None)
 
-        server = super(BareMetalManager, self).create_server(name=name,
-                                                             networks=net_id,
-                                                             image_id=image_id,
-                                                             flavor=flavor,
-                                                             wait_until=wait_until,
-                                                             **kwargs)
+        server = super(BareMetalManager,
+                       self).create_server(name=name,
+                                           networks=net_id,
+                                           image_id=image_id,
+                                           flavor=flavor,
+                                           wait_until=wait_until,
+                                           **kwargs)
         self.servers.append(server)
         return server
 
     def _check_number_queues(self):
         """This method checks the number of max queues"""
-        self.ip_address = \
-            self._get_hypervisor_ip_from_undercloud(None, shell="/home/stack/stackrc")
+        self.ip_address = self._get_hypervisor_ip_from_undercloud(
+            None, shell="/home/stack/stackrc")
         command = "tuna -t ovs-vswitchd -CP | grep pmd | wc -l"
         numpmds = int(self._run_command_over_ssh(self.ip_address[0], command))
         command = "sudo ovs-vsctl show | grep rxq | awk -F'rxq=' '{print $2}'"
@@ -660,8 +746,8 @@ class BareMetalManager(manager.ScenarioTest):
         return maxqueues
 
     def _prepare_cloudinit_file(self, install_packages=None):
-        """
-        This method creates cloud-init file with instance boot config.
+        """This method creates cloud-init file with instance boot config.
+
         Set params:
         User credentials: user:passwd
         Enable direct (console) root login
@@ -719,26 +805,31 @@ class BareMetalManager(manager.ScenarioTest):
         return script_b64
 
     def _set_security_groups(self):
-        """This method create security group except network marked with security
-        groups == false in test_networks"""
+        """Security group creation
+
+        This method create security group except network marked with security
+        groups == false in test_networks
+        """
         """
         Create security groups [icmp,ssh] for Deployed Guest Image
         """
         security_group = None
         mgmt_net = self.test_network_dict['public']
         if not ('sec_groups' in self.test_network_dict[mgmt_net] and
-                self.test_network_dict[mgmt_net]['sec_groups'] == False):
+                not self.test_network_dict[mgmt_net]['sec_groups']):
             security_group = self._create_security_group()
             security_group = [{'name': security_group['name'],
                                'id': security_group['id']}]
         return security_group
 
-    def copy_file_to_remote_host(self, host, ssh_key, username=None, files=None,
-                                 src_path=None, dst_path=None, timeout=60):
-        """
-        The method copy provided file to a specified remote host.
+    def copy_file_to_remote_host(self, host, ssh_key, username=None,
+                                 files=None, src_path=None, dst_path=None,
+                                 timeout=60):
+        """The method copy provided file to a specified remote host.
+
         Note! - The method is temporary. Should be removed once config_drive is
         implemented.
+
         :param host: Remote host to copy files to
         :param username: Username for the remote  host
         :param ssh_key: SSH key for the remote host
@@ -770,7 +861,7 @@ class BareMetalManager(manager.ScenarioTest):
                 print('SSH transport is not ready...')
                 continue
         if not ssh_success:
-            raise lib_exc.TimeoutException('Instance ssh connection timed out.')
+            raise lib_exc.TimeoutException('Instance ssh connection timed out')
 
         try:
             if not all([files, src_path, dst_path]):

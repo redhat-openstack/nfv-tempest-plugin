@@ -1,9 +1,25 @@
-from oslo_log import log as logging
-from tempest import config
-from tempest import clients
-from tempest_nfv_plugin.tests.scenario import baremetal_manager
-from tempest.common import credentials_factory as common_creds
+# Copyright 2017 Red Hat, Inc.
+# All Rights Reserved.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License"); you may
+#    not use this file except in compliance with the License. You may obtain
+#    a copy of the License at
+#
+#         http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+
 import re
+
+from oslo_log import log as logging
+from tempest import clients
+from tempest.common import credentials_factory as common_creds
+from tempest import config
+from tempest_nfv_plugin.tests.scenario import baremetal_manager
 
 LOG = logging.getLogger(__name__)
 CONF = config.CONF
@@ -29,8 +45,9 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
 
     @classmethod
     def setup_credentials(cls):
-        """
-        Do not create network resources for these tests, using public network for ssh
+        """Do not create network resources for these tests
+
+        Using public network for ssh
         """
         cls.set_network_resources()
         super(TestNfvBasic, cls).setup_credentials()
@@ -38,37 +55,41 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
             credentials=common_creds.get_configured_admin_credentials())
 
     def setUp(self):
-        """
-        Set up a single tenant with an accessible server.
+        """Set up a single tenant with an accessible server.
+
         If multi-host is enabled, save created server uuids.
         """
         super(TestNfvBasic, self).setUp()
         # pre setup creations and checks read from config files
 
     def _test_numa_provider_network(self, test_setup_numa):
-        """
+        """Verify numa configuration on test instance
+
         The test shows how to deploy Guest with existing networks..
         external_config.. networks leaf need only network names and port types
         per test setup flavor-id, image-id, availability zone
-        The test identifies networks.. create ports prepare port list and parse it to vm
+        The test identifies networks..
+        create ports prepare port list and parse it to vm
         It relies on l3 provider network, no router
         consume test-setup
-
         numa_topology='numa0','numa1',numamix
+
+        :param test_setup_numa
         """
 
         """
         Check CPU mapping for numa0
         """
         """
-           self.ip_address = self._get_hypervisor_host_ip()
-           w/a to my_ip address set in nova fir non_contolled network, need access from
-           tester """
-        host_ip = self._get_hypervisor_ip_from_undercloud(None,
-                                                          shell="/home/stack/stackrc")
+        self.ip_address = self._get_hypervisor_host_ip()
+        w/a to my_ip address set in nova fir non_contolled network,
+        need access from tester """
+        host_ip = self._get_hypervisor_ip_from_undercloud(
+            None, shell="/home/stack/stackrc")
         self.ip_address = host_ip[0]
-        self.assertNotEmpty(self.ip_address, "_get_hypervisor_ip_from_undercloud"
-                                             "returned empty ip list")
+        self.assertNotEmpty(self.ip_address,
+                            "_get_hypervisor_ip_from_undercloud "
+                            "returned empty ip list")
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
         result = self._run_command_over_ssh(self.ip_address, command)
         self.assertTrue(int(result[0]) == 2)
@@ -82,7 +103,7 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
                         format(test_setup_numa))
 
         flavor_exists = super(TestNfvBasic,
-                            self).check_flavor_existence(test_setup_numa)
+                              self).check_flavor_existence(test_setup_numa)
         if flavor_exists is False:
             flavor_name = self.test_setup_dict[test_setup_numa]['flavor']
             self.flavor_ref = \
@@ -120,7 +141,8 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         """
         fip = dict()
         fip['ip'] = \
-            self.instance['addresses'][self.test_network_dict['public']][0]['addr']
+            self.instance['addresses'][self.test_network_dict[
+                'public']][0]['addr']
         if router_exist:
             super(TestNfvBasic, self)._add_subnet_to_router()
             fip = self.create_floating_ip(self.instance,
@@ -132,9 +154,10 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         """
         msg = "Timed out waiting for %s to become reachable" % fip['ip']
         self.assertTrue(self.ping_ip_address(fip['ip']), msg)
-        self.assertTrue(self.get_remote_client(fip['ip'],
-                                           private_key=keypair['private_key']))
-        self._check_vcpu_with_xml(self.instance, self.ip_address, test_setup_numa[4:])
+        self.assertTrue(self.get_remote_client(
+            fip['ip'], private_key=keypair['private_key']))
+        self._check_vcpu_with_xml(self.instance, self.ip_address,
+                                  test_setup_numa[4:])
 
     def test_numa0_provider_network(self):
         self._test_numa_provider_network("numa0")
@@ -146,12 +169,14 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         self._test_numa_provider_network("numamix")
 
     def _test_check_package_version(self, test_compute):
-        """
+        """Check provided packages from external config file
+
         - Checks if package exists on hypervisors
         - If given - checks if the service is at active state
         - If given - checks the active tuned-profile
-
         * The test demands test_compute list
+
+        :param test_compute
         """
         self.assertTrue(self.test_setup_dict[test_compute],
                         "test requires check-compute-packages "
@@ -159,17 +184,17 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         if 'availability-zone' in self.test_setup_dict[test_compute]:
             self.availability_zone = \
                 self.test_setup_dict[test_compute]['availability-zone']
-            host_ip = \
-                self._get_hypervisor_ip_from_undercloud(self.availability_zone,
-                                                        shell="/home/stack/stackrc")
+            host_ip = self._get_hypervisor_ip_from_undercloud(
+                self.availability_zone, shell="/home/stack/stackrc")
             self.ip_address = host_ip[0]
         else:
-            host_ip = self._get_hypervisor_ip_from_undercloud(None,
-                                                              shell="/home/stack/stackrc")
+            host_ip = self._get_hypervisor_ip_from_undercloud(
+                None, shell="/home/stack/stackrc")
             self.ip_address = host_ip[0]
 
-        self.assertNotEmpty(self.ip_address, "_get_hypervisor_ip_from_undercloud"
-                                             "returned empty ip list")
+        self.assertNotEmpty(self.ip_address,
+                            "_get_hypervisor_ip_from_undercloud "
+                            "returned empty ip list")
         if 'package-names' in self.test_setup_dict[test_compute]:
             if self.test_setup_dict[test_compute]['package-names'] is not None:
                 command = "rpm -qa | grep %s" % \
@@ -178,10 +203,12 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
                 msg = "Packageg are {0} not found".format(
                     self.test_setup_dict[test_compute]['package-names'])
                 self.assertTrue(
-                    self.test_setup_dict[test_compute]['package-names'] in result, msg)
+                    self.test_setup_dict[test_compute][
+                        'package-names'] in result, msg)
         if 'service-names' in self.test_setup_dict[test_compute]:
             if self.test_setup_dict[test_compute]['service-names'] is not None:
-                command = "systemctl status %s | grep Active | awk '{print $2}'" % \
+                command = "systemctl status %s | grep Active | " \
+                          "awk '{print $2}'" % \
                           self.test_setup_dict[test_compute]['service-names']
                 result = self._run_command_over_ssh(self.ip_address, command)
                 msg = "services are {0} not Active".format(
@@ -194,7 +221,8 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
                 msg = "Tuned {0} not Active".format(
                     self.test_setup_dict[test_compute]['tuned-profile'])
                 self.assertTrue(
-                    self.test_setup_dict[test_compute]['tuned-profile'] in result, msg)
+                    self.test_setup_dict[test_compute][
+                        'tuned-profile'] in result, msg)
         command = "sudo cat /proc/cmdline | grep nohz | grep nohz_full" \
                   " | grep rcu_nocbs | grep intel_pstate  | wc -l"
         result = self._run_command_over_ssh(self.ip_address, command)
@@ -205,10 +233,14 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         self._test_check_package_version("check-compute-packages")
 
     def _test_mtu_ping_gateway(self, test_setup_mtu, mtu=1973):
-        """
+        """Test MTU by pinging instance gateway
+
         The test boots an instance with given args from external_config_file,
         connect to the instance using ssh, and ping with given MTU to GW.
         * This tests depend on MTU configured at running environment.
+
+        :param test_setup_mtu
+        :param mtu
         """
         kwargs = {}
         router_exist = None
@@ -244,21 +276,25 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
                                            wait_until='ACTIVE', **kwargs)
         fip = dict()
         fip['ip'] = \
-            self.instance['addresses'][self.test_network_dict['public']][0]['addr']
+            self.instance['addresses'][self.test_network_dict[
+                'public']][0]['addr']
         if router_exist is not None and router_exist:
             super(TestNfvBasic, self)._add_subnet_to_router()
             fip = self.create_floating_ip(self.instance,
                                           self.public_network)
         msg = "Timed out waiting for %s to become reachable" % fip['ip']
         self.assertTrue(self.ping_ip_address(fip['ip']), msg)
-        gateway = self.test_network_dict[self.test_network_dict['public']]['gateway_ip']
+        gateway = self.test_network_dict[self.test_network_dict[
+            'public']]['gateway_ip']
         gw_msg = "The gateway of given network does not exists,".\
             join("please assign it and re-run.")
         self.assertTrue(gateway is not None, gw_msg)
         ssh_source = self.get_remote_client(fip['ip'],
                                             private_key=self.key_pairs
-                                            [self.instance['key_name']]['private_key'])
-        return ssh_source.exec_command('ping -c 1 -M do -s %d %s' % (mtu, gateway))
+                                            [self.instance['key_name']][
+                                                'private_key'])
+        return ssh_source.exec_command('ping -c 1 -M do -s %d %s' % (mtu,
+                                                                     gateway))
 
     def test_mtu_ping_test(self):
         msg = "MTU Ping test failed - check your environment settings"
