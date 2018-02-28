@@ -3,3 +3,5 @@
 *.egg*
 *.egg-info/
 .idea/
+.tox/
+.tox_*
