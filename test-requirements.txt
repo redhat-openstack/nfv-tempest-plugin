@@ -1,2 +1,6 @@
-python-subunit >= 0.0.18
-testtools >= 0.9.30
+tox
+hacking<0.13,>=0.12.0
+python-subunit>=1.0.0
+testtools>=2.2.0
+pep8==1.7.0
+sphinx!=1.6.6,>=1.6.2testtools >= 0.9.30
