@@ -50,7 +50,7 @@ class BareMetalManager(manager.ScenarioTest):
         SSH user and Private key/password definition [must].
         External config file exist [not a must].
         """
-        super(BareMetalManager, self).setUp()
+        super(BareMetalManager,self).setUp()
         self.assertIsNotNone(CONF.hypervisor.user,
                              "Missing SSH user login in config")
 
