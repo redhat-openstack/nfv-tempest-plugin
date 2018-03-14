@@ -1,7 +1,7 @@
 from oslo_log import log as logging
 from tempest import config
 from tempest import clients
-from tempest_nfv_plugin.tests.scenario import baremetal_manager
+from nfv_tempest_plugin.tests.scenario import baremetal_manager
 from tempest.common import credentials_factory as common_creds
 from tempest import exceptions
 import time
