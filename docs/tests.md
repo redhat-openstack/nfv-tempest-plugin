@@ -1,22 +1,22 @@
-### Tests of the tempest-nfv-plugin
+### Tests of the nfv-tempest-plugin
 
 The detailed explanation of the tests and tests configuration.
 
 Current supported tests:
-- tempest_nfv_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_numa0_provider_network
-- tempest_nfv_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_numa1_provider_network
-- tempest_nfv_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_numamix_provider_network
-- tempest_nfv_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_packages_compute
-- tempest_nfv_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_mtu_ping_test
-- tempest_nfv_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_min_queues_functionality
-- tempest_nfv_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_equal_queues_functionality
-- tempest_nfv_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_max_queues_functionality
-- tempest_nfv_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_odd_queues_functionality
-- tempest_nfv_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_live_migration_block
-- tempest_nfv_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_multicast
+- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_numa0_provider_network
+- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_numa1_provider_network
+- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_numamix_provider_network
+- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_packages_compute
+- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_mtu_ping_test
+- nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_min_queues_functionality
+- nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_equal_queues_functionality
+- nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_max_queues_functionality
+- nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_odd_queues_functionality
+- nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_live_migration_block
+- nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_multicast
 
 ### Tests configuration
-Tempest-nfv-plugin uses external configuration file in order to provide the proper configuration of the test execution to the tempest.  
+The nfv-tempest-plugin uses external configuration file in order to provide the proper configuration of the test execution to the tempest.  
 For the details explanation of the file location and configuration, refer to the tests_prerequisites_config doc file.
 
 Following explanation will cover the content of the external configuration file.  
@@ -119,7 +119,7 @@ Tests included:
 - multicast
   Test explanation:
   The test boot three instances and send from one instance multicast traffic to other instances.
-  
+
   ```
   - name: multicast
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
