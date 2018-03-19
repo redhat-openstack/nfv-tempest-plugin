@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "fc38b56d_c9e2858b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-03-19T10:09:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "988b20ab_04eaf7a5",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "0c44838ab81b7c2c1eb8b637cca5561e772a4974",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "950935c8_3d01f7be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-03-19T10:09:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23d9763a_4f5d815b",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 61
+      },
+      "revId": "0c44838ab81b7c2c1eb8b637cca5561e772a4974",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c51f687_67d52d1d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2018-03-08T16:33:20Z",
       "side": 1,
       "message": "deprecated",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 10,
+        "endChar": 14
+      },
+      "revId": "0c44838ab81b7c2c1eb8b637cca5561e772a4974",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02cf2828_aa17de08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-03-19T10:09:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c51f687_67d52d1d",
       "range": {
         "startLine": 10,
         "startChar": 9,
