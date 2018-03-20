@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80dc28d5_2104103e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-03-20T15:08:41Z",
+      "side": 1,
+      "message": "Please, remove.\n\nIt is not related to the jump server.\nWe are changing it in order to fit the general convention.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "4bb2d1bdf1c3288c48b32d069cc140f56684cf57",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c93277a_1411b79a",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-03-20T15:08:41Z",
+      "side": 1,
+      "message": "nfv-tempest-plugin",
+      "range": {
+        "startLine": 4,
+        "startChar": 4,
+        "endLine": 4,
+        "endChar": 22
+      },
+      "revId": "4bb2d1bdf1c3288c48b32d069cc140f56684cf57",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab8fd7dd_4cfa5a94",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-03-20T15:08:41Z",
+      "side": 1,
+      "message": "Add dot (\u0027.\u0027) between the nfv_tempest_plugin and tests.",
+      "revId": "4bb2d1bdf1c3288c48b32d069cc140f56684cf57",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "519b64cf_8a79e5c5",
+        "filename": "docs/tests.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-03-20T15:08:41Z",
+      "side": 1,
+      "message": "nfv-tempest-plugin",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 35
+      },
+      "revId": "4bb2d1bdf1c3288c48b32d069cc140f56684cf57",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "625c695d_5f280966",
+        "filename": "docs/tests.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-03-20T15:08:41Z",
+      "side": 1,
+      "message": "The nfv-tempest-plugin",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 1
+      },
+      "revId": "4bb2d1bdf1c3288c48b32d069cc140f56684cf57",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
