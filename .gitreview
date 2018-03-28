@@ -1,5 +1,5 @@
 [gerrit]
 host=review.gerrithub.io
 port=29418
-project=redhat-openstack/tempest-nfv-plugin.git
+project=redhat-openstack/nfv-tempest-plugin.git
 defaultbranch=devel
