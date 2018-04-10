@@ -1,6 +1,6 @@
 ### Configuration of the environment for tests execution
 
-Tempest-nfv-plugin requires some pre-configuration steps in order to run the tests.  
+The nfv-tempest-plugin requires some pre-configuration steps in order to run the tests.  
 In order to automate the environment preparation, we suggest to use a dedicated temepst ansible playbook that will install, configure and execute the tests on selected environment.  
 Tempest ansible playbook belongs to the [ansible-nfv](https://github.com/redhat-openstack/ansible-nfv) repository which contains different plays for various tasks on the OpenStack environment.  
 For more information regarding tempest install, configuration and execution playbook, refer to the playbook [documentation](https://github.com/redhat-openstack/ansible-nfv/blob/master/docs/tripleo/tester/tempest.md).
