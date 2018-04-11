@@ -1,7 +1,7 @@
 # Tempest NFV plugin installation steps:
 
 ### NFV tester environment:
-By default tempest-nfv-plugin planned to run from TripleO Undercloud host (used as a tester), but it could be run and tested from any host that has access to the OSP external api network.  
+By default nfv-tempest-plugin planned to run from TripleO Undercloud host (used as a tester), but it could be run and tested from any host that has access to the OSP external api network.  
 
 ### Prerequisites:
 * Installed [Upstream tempest](https://github.com/openstack/tempest) repository.  
@@ -12,14 +12,14 @@ By default tempest-nfv-plugin planned to run from TripleO Undercloud host (used 
 
 ### NFV plugin setup:
 1. The tempeset-nfv-plugin repository should be cloned near to the main tempest directory.  
-   `$ git clone https://github.com/redhat-openstack/tempest-nfv-plugin.git`
+   `$ git clone https://github.com/redhat-openstack/nfv-tempest-plugin.git`
 2. Activate the tempest virtual env.
-3. Browse to the tempest-nfv-plugin cloned directory and install the nfv plugin:  
+3. Browse to the nfv-tempest-plugin cloned directory and install the nfv plugin:  
    `$ pip install --upgrade -e .`
 4. Test the installed plugin:  
    `$ pip list | grep -i nfv`  
    Expected output:  
-   `nfv-plugin (1.0.0.dev67, /root/tempest/tempest-nfv-plugin)`
+   `nfv-plugin (1.0.0.dev67, /root/tempest/nfv-tempest-plugin)`
 5. Browse to the main tempest directory and list NFV tests:  
    `$ testr list-tests | grep -i nfv`  
    Expected output:  
