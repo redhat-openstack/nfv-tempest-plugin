@@ -144,10 +144,10 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
 
         if 'router' in self.test_setup_dict[test_setup_migration]:
             router_exist = self.test_setup_dict[test_setup_migration]['router']
-        security_group = self._create_security_group()
-        kwargs['security_groups'] = [{'name': security_group['name'],
-                                      'id': security_group['id']}]
         self._create_test_networks()
+        security = super(TestDpdkScenarios, self)._set_security_groups()
+        if security is not None:
+            kwargs['security_groups'] = security
         kwargs['networks'] = super(TestDpdkScenarios, self)\
             ._create_ports_on_networks()
         kwargs['user_data'] = super(TestDpdkScenarios, self)\
@@ -162,6 +162,7 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         fip['ip'] = \
             instance['addresses'][self.test_network_dict['public']][0]['addr']
         if router_exist:
+            super(TestDpdkScenarios, self)._add_subnet_to_router()
             fip = self.create_floating_ip(instance, self.public_network)
         """ Run ping before migration """
         msg = "Timed out waiting for %s to become reachable" % fip['ip']
