@@ -735,8 +735,14 @@ class BareMetalManager(manager.ScenarioTest):
         """This method checks the number of max queues"""
         self.ip_address = self._get_hypervisor_ip_from_undercloud(
             None, shell="/home/stack/stackrc")
-        command = "tuna -t ovs-vswitchd -CP | grep pmd | wc -l"
-        numpmds = int(self._run_command_over_ssh(self.ip_address[0], command))
+        ovs_process = "sudo pidof ovs-vswitchd"
+        ovs_process_pid = (self._run_command_over_ssh(self.ip_address[0],
+                                                      ovs_process)).strip('\n')
+        if not ovs_process_pid:
+            raise ValueError('The ovs-vswitchd process is missing.')
+        count_pmd = "ps -T -p {} | grep pmd | wc -l".format(ovs_process_pid)
+        numpmds = int(self._run_command_over_ssh(self.ip_address[0],
+                                                 count_pmd))
         command = "sudo ovs-vsctl show | grep rxq | awk -F'rxq=' '{print $2}'"
         numqueues = self._run_command_over_ssh(self.ip_address[0], command)
         msg = "There are no queues available"
