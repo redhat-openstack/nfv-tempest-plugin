@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "710a8381_8551afc6",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-04-13T15:40:21Z",
+      "side": 1,
+      "message": "You can remove this as it already exists within the _set_security_groups method you added..",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 149,
+        "endChar": 66
+      },
+      "revId": "b16d3f903c5890437bf3c72c27a7e0fc7ac71894",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
