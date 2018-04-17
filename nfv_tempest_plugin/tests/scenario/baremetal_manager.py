@@ -424,24 +424,29 @@ class BareMetalManager(manager.ScenarioTest):
                             i['id'])['hypervisor']['host_ip']
         return ip_address
 
-    def _get_hypervisor_ip_from_undercloud(self, name=None, shell=None):
+    def _get_hypervisor_ip_from_undercloud(self, **kwargs):
         """This Method lists aggregation based on name
 
         Returns the aggregated search for IP through Hypervisor list API
         Add support in case of NoAggregation, and Hypervisor list is not empty
         if host=None, no aggregation, or name=None and if hypervisor list has
         one member return the member
-
-        :param name
-        :param shell
+        :param kwargs['shell']
+        :param kwargs['host_name']
+        :param kwargs['aggregation_name']
         """
         host = None
+        hyper = None
         ip_address = ''
-        if name:
-            host = self._list_aggregate(name)
+        if 'host_name' in kwargs:
+            pass
 
-        hyper = self.manager.hypervisor_client.list_hypervisors()
-
+        if 'aggregation_name' in kwargs:
+            host = self._list_aggregate(kwargs['aggregation_name'])
+            hyper = self.manager.hypervisor_client.list_hypervisors()
+        """
+        if hosts in aggregations
+        """
         if host:
             host_name = re.split("\.", host[0])[0]
             if host_name is None:
@@ -452,16 +457,25 @@ class BareMetalManager(manager.ScenarioTest):
                     command = 'openstack ' \
                               'server show ' + host_name + \
                               ' -c \'addresses\' -f value | cut -d\"=\" -f2'
-                    ip_address = self._run_local_cmd_shell_with_venv(command,
-                                                                     shell)
+                    ip_address = self.\
+                        _run_local_cmd_shell_with_venv(command,
+                                                       kwargs['shell'])
         else:
+            """
+            no hosts in aggregations, select with 'host_name' in kwargs
+            """
+            compute='compute'
+            if 'host_name' in kwargs:
+                compute = 'host_name'
             for i in hyper['hypervisors']:
+
                 if i['state'] == 'up':
                     command = 'openstack server list -c \'Name\' -c ' \
-                              '\'Networks\' -f value | grep -i compute | ' \
-                              'cut -d\"=\" -f2'
-                    ip_address = self._run_local_cmd_shell_with_venv(command,
-                                                                     shell)
+                              '\'Networks\' -f value | grep -i {0} | ' \
+                              'cut -d\"=\" -f2'.format(compute)
+                    ip_address = self.\
+                        _run_local_cmd_shell_with_venv(command,
+                                                       kwargs['kwargs'])
 
         return ip_address
 
