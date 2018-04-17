@@ -85,7 +85,7 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         w/a to my_ip address set in nova fir non_contolled network,
         need access from tester """
         host_ip = self._get_hypervisor_ip_from_undercloud(
-            None, shell="/home/stack/stackrc")
+            **{'shell': '/home/stack/stackrc'})
         self.ip_address = host_ip[0]
         self.assertNotEmpty(self.ip_address,
                             "_get_hypervisor_ip_from_undercloud "
@@ -156,6 +156,9 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         self.assertTrue(self.ping_ip_address(fip['ip']), msg)
         self.assertTrue(self.get_remote_client(
             fip['ip'], private_key=keypair['private_key']))
+        self.ip_address = self._get_hypervisor_ip_from_undercloud(
+            **{'shell': '/home/stack/stackrc',
+               'server_id': self.instance['id']})[0]
         self._check_vcpu_with_xml(self.instance, self.ip_address,
                                   test_setup_numa[4:])
 
@@ -185,11 +188,12 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
             self.availability_zone = \
                 self.test_setup_dict[test_compute]['availability-zone']
             host_ip = self._get_hypervisor_ip_from_undercloud(
-                self.availability_zone, shell="/home/stack/stackrc")
+                **{'shell': '/home/stack/stackrc',
+                   'aggregation_name': self.availability_zone})
             self.ip_address = host_ip[0]
         else:
             host_ip = self._get_hypervisor_ip_from_undercloud(
-                None, shell="/home/stack/stackrc")
+                **{'shell': '/home/stack/stackrc'})
             self.ip_address = host_ip[0]
 
         self.assertNotEmpty(self.ip_address,
