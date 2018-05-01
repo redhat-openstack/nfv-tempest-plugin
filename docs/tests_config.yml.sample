@@ -21,6 +21,8 @@ test-networks:
     # should be set to 'mgmt: true'.
     # Port created on this network will be configured
     # as default router for booted vms.
+    # As well, it will be used as an access network to the instance.
+    # If router exists, floating ip will be attached to port from this network.
     mgmt: true
     # DNS nameservers should be provided only on the
     # instance mgmt network, and will be used as exit
