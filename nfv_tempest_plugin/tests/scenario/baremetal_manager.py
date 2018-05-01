@@ -750,7 +750,7 @@ class BareMetalManager(manager.ScenarioTest):
 
     def _check_number_queues(self):
         """This method checks the number of max queues"""
-        self._get_hypervisor_ip_from_undercloud(
+        self.ip_address = self._get_hypervisor_ip_from_undercloud(
             **{'shell': '/home/stack/stackrc'})
         ovs_process = "sudo pidof ovs-vswitchd"
         ovs_process_pid = (self._run_command_over_ssh(self.ip_address[0],
