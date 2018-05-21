@@ -172,11 +172,11 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         self._test_numa_provider_network("numamix")
 
     def _test_check_package_version(self, test_compute):
-        """Check provided packages from external config file
+        """Check provided packages, service and tuned profile on the compute
 
-        - Checks if package exists on hypervisors
-        - If given - checks if the service is at active state
-        - If given - checks the active tuned-profile
+        - If given - checks if packages are exist on hypervisor
+        - If given - checks if the services are at active state
+        - If given - checks the active state of the tuned-profile
         * The test demands test_compute list
 
         :param test_compute
@@ -199,39 +199,48 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         self.assertNotEmpty(self.ip_address,
                             "_get_hypervisor_ip_from_undercloud "
                             "returned empty ip list")
+
+        test_result = []
         if 'package-names' in self.test_setup_dict[test_compute]:
-            if self.test_setup_dict[test_compute]['package-names'] is not None:
-                command = "rpm -qa | grep %s" % \
-                          self.test_setup_dict[test_compute]['package-names']
-                result = self._run_command_over_ssh(self.ip_address, command)
-                msg = "Packageg are {0} not found".format(
-                    self.test_setup_dict[test_compute]['package-names'])
-                self.assertTrue(
-                    self.test_setup_dict[test_compute][
-                        'package-names'] in result, msg)
+            packages = self.test_setup_dict[test_compute]['package-names']
+            if packages is not None:
+                for package in packages:
+                    cmd = "rpm -qa | grep {0}".format(package)
+                    result = self._run_command_over_ssh(self.ip_address, cmd)
+                    if result is '':
+                        test_result.append("Package {0} is not found"
+                                           .format(package))
+
         if 'service-names' in self.test_setup_dict[test_compute]:
-            if self.test_setup_dict[test_compute]['service-names'] is not None:
-                command = "systemctl status %s | grep Active | " \
-                          "awk '{print $2}'" % \
-                          self.test_setup_dict[test_compute]['service-names']
-                result = self._run_command_over_ssh(self.ip_address, command)
-                msg = "services are {0} not Active".format(
-                    self.test_setup_dict[test_compute]['service-names'])
-                self.assertTrue('active' in result, msg)
+            services = self.test_setup_dict[test_compute]['service-names']
+            if services is not None:
+                for service in services:
+                    cmd = "systemctl is-active {0}".format(service)
+                    result = self._run_command_over_ssh(
+                        self.ip_address, cmd).strip('\n')
+                    if result is not 'active':
+                        test_result.append("The {0} service is not Active"
+                                           .format(service))
+
         if 'tuned-profile' in self.test_setup_dict[test_compute]:
-            if self.test_setup_dict[test_compute]['tuned-profile'] is not None:
-                command = "sudo tuned-adm active | awk '{print $4}'"
-                result = self._run_command_over_ssh(self.ip_address, command)
-                msg = "Tuned {0} not Active".format(
-                    self.test_setup_dict[test_compute]['tuned-profile'])
-                self.assertTrue(
-                    self.test_setup_dict[test_compute][
-                        'tuned-profile'] in result, msg)
-        command = "sudo cat /proc/cmdline | grep nohz | grep nohz_full" \
-                  " | grep rcu_nocbs | grep intel_pstate  | wc -l"
-        result = self._run_command_over_ssh(self.ip_address, command)
-        msg = "Tuned not set in grub need to reboot?"
-        self.assertEqual(int(result), 1, msg)
+            tuned = self.test_setup_dict[test_compute]['tuned-profile']
+            if tuned is not None:
+                cmd = "sudo tuned-adm active | awk '{print $4}'"
+                result = self._run_command_over_ssh(
+                    self.ip_address, cmd).strip('\n')
+                if result != tuned:
+                    test_result.append("Tuned {0} profile is not Active"
+                                       .format(tuned))
+
+        kernel_args = ['nohz', 'nohz_full', 'rcu_nocbs', 'intel_pstate']
+        check_grub_cmd = "sudo cat /proc/cmdline"
+        result = self._run_command_over_ssh(self.ip_address, check_grub_cmd)
+        for arg in kernel_args:
+            if arg not in result:
+                test_result.append("Tuned not set in grub. Need to reboot?")
+
+        test_result = '\n'.join(test_result)
+        self.assertEmpty(test_result, test_result)
 
     def test_packages_compute(self):
         self._test_check_package_version("check-compute-packages")

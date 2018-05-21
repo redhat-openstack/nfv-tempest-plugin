@@ -60,8 +60,12 @@ Tests included:
   ```
   Test config:
   - name: check-compute-packages
-    package-names: tuned-2.8.0-5.el7.noarch
-    service-names: tuned.service
+    package-names:
+      - tuned-2.8.0-5.el7.noarch
+      - openvswitch-2.6.1-16.git20161206.el7ost.x86_64
+    service-names:
+      - tuned
+      - openvswitch
     tuned-profile: cpu-partitioning
     availability-zone: normal
   ```
