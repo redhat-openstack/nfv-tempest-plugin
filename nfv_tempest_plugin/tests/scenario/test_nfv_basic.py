@@ -218,7 +218,7 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
                     cmd = "systemctl is-active {0}".format(service)
                     result = self._run_command_over_ssh(
                         self.ip_address, cmd).strip('\n')
-                    if result is not 'active':
+                    if result != 'active':
                         test_result.append("The {0} service is not Active"
                                            .format(service))
 
