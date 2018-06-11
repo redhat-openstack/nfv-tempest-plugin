@@ -496,7 +496,6 @@ class BareMetalManager(manager.ScenarioTest):
         for net in self.external_config['test-networks']:
             self.test_network_dict[net['name']] = \
                 {'provider:physical_network': net['physical_network'],
-                 'provider:segmentation_id': net['segmentation_id'],
                  'provider:network_type': net['network_type'],
                  'dhcp': net['enable_dhcp'],
                  'cidr': net['cidr'],
@@ -505,6 +504,9 @@ class BareMetalManager(manager.ScenarioTest):
                  'gateway_ip': net['gateway_ip'],
                  'port_type': net['port_type'],
                  'ip_version': net['ip_version']}
+            if 'segmentation_id' in net:
+                self.test_network_dict[net['name']][
+                    'provider:segmentation_id'] = net['segmentation_id']
             if 'sec_groups' in net:
                 self.test_network_dict[net['name']]['sec_groups'] = \
                     net['sec_groups']

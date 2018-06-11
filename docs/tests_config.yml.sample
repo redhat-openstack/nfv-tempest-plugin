@@ -4,6 +4,10 @@
 test-networks:
   - name: 'vlan1600'
     physical_network: 'tenant'
+    # Segmentation ID is not mandatory in case
+    # private networks are used for the tests.
+    # Skip this value in case HA based deployment.
+    # https://wiki.openstack.org/wiki/Neutron/L3_High_Availability_VRRP
     segmentation_id: '1600'
     allocation_pool_start: '10.100.10.2'
     allocation_pool_end: '10.100.10.14'
