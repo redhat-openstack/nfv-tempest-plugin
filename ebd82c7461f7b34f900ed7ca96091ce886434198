@@ -22,6 +22,30 @@
       "revId": "ebd82c7461f7b34f900ed7ca96091ce886434198",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "569da27d_411e7b01",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-06-13T07:15:27Z",
+      "side": 1,
+      "message": "The number is networks used in the test does not matter.\nIn case multiple networks are used, each created network will get a vlan id from the vlan range available to the environment.\n\nIf decided to skip the seg_id, it should be skipped for all the networks used in test.",
+      "parentUuid": "9c366baf_4a262eea",
+      "range": {
+        "startLine": 7,
+        "startChar": 3,
+        "endLine": 10,
+        "endChar": 71
+      },
+      "revId": "ebd82c7461f7b34f900ed7ca96091ce886434198",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
