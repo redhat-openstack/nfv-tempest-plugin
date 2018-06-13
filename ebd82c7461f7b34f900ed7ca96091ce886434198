@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c366baf_4a262eea",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-06-13T07:09:36Z",
+      "side": 1,
+      "message": "In case of multiple networks with network_type \u003d vlan\nIt is mandatory to skip seg_id?",
+      "range": {
+        "startLine": 7,
+        "startChar": 3,
+        "endLine": 10,
+        "endChar": 71
+      },
+      "revId": "ebd82c7461f7b34f900ed7ca96091ce886434198",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
