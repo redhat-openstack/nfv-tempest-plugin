@@ -109,13 +109,13 @@ Tests included:
     router: true
   ```
 
-- test_setup_migration  
+- test_live_migration_basic
   Test explanation:  
   The test boot an instance, checks availability and migrates the instance to the next available hypervisor.  
 
   ```
   Test config:  
-  - name: test_setup_migration
+  - name: test_live_migration_basic 
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
   ```

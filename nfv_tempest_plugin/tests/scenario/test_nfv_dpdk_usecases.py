@@ -125,7 +125,6 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
 
     def _test_live_migration_block(self, test_setup_migration=None):
         """Method boots an instance and wait until ACTIVE state
-
         Migrates the instance to the next available hypervisor.
         """
         fip = dict()
@@ -142,18 +141,21 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         self.flavor_ref = super(TestDpdkScenarios, self).\
             create_flavor(name='live-migration', vcpus='2', **extra_specs)
 
+        router_exist = True
         if 'router' in self.test_setup_dict[test_setup_migration]:
             router_exist = self.test_setup_dict[test_setup_migration]['router']
-        self._create_test_networks()
+
+        super(TestDpdkScenarios, self)._create_test_networks()
         security = super(TestDpdkScenarios, self)._set_security_groups()
         if security is not None:
             kwargs['security_groups'] = security
-        kwargs['networks'] = super(TestDpdkScenarios, self)\
-            ._create_ports_on_networks()
-        kwargs['user_data'] = super(TestDpdkScenarios, self)\
-            ._prepare_cloudinit_file()
+        kwargs['networks'] = super(TestDpdkScenarios,
+                                   self)._create_ports_on_networks(**kwargs)
+        kwargs['user_data'] = super(TestDpdkScenarios, 
+                                    self)._prepare_cloudinit_file()
         try:
             instance = self.create_server(flavor=self.flavor_ref,
+                                          image_id=self.image_ref,
                                           wait_until='ACTIVE', **kwargs)
         except exceptions.BuildErrorException:
             return False
@@ -172,7 +174,7 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
             server_id=instance['id'], block_migration=True,
             disk_over_commit=True, host=None)
         """ Switch hypervisor id (compute-0 <=> compute-1) """
-        if host[host.index('0')]:
+        if host.find('0') > 0:
             dest = list(host)
             dest[dest.index('0')] = '1'
             dest = ''.join(dest)
