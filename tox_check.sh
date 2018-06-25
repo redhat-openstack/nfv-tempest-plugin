@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+set -euxo pipefail
 RUN_ENVS="py27 pep8"
 
 FAILED=""
