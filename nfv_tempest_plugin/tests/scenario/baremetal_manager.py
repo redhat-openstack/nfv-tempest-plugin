@@ -527,8 +527,9 @@ class BareMetalManager(manager.ScenarioTest):
                     'sec_groups']
             """Added this for VxLAN no need of physical network or segmentation
             """
-            if 'provider:network_type' in net_param \
-                    and net_param['provider:network_type'] == 'vlan':
+            if 'provider:network_type' in net_param and \
+                    (net_param['provider:network_type'] == 'vlan' or
+                     net_param['provider:network_type'] == 'flat'):
                 if 'provider:physical_network' in net_param:
                     network_kwargs['provider:physical_network'] =\
                         net_param['provider:physical_network']
@@ -617,7 +618,7 @@ class BareMetalManager(manager.ScenarioTest):
         based on router_external=False and router is not None
         """
         self.assertIsNotNone(CONF.hypervisor.external_config_file,
-                             'This test require missing extrnal_config, '
+                             'This test require missing external_config, '
                              'for this test')
 
         self.assertTrue(self.test_network_dict,
