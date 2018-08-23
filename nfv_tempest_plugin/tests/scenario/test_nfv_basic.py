@@ -156,10 +156,14 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         self.assertTrue(self.ping_ip_address(fip['ip']), msg)
         self.assertTrue(self.get_remote_client(
             fip['ip'], private_key=keypair['private_key']))
-        self.ip_address = self._get_hypervisor_ip_from_undercloud(
+        self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
             **{'shell': '/home/stack/stackrc',
                'server_id': self.instance['id']})[0]
-        self._check_vcpu_with_xml(self.instance, self.ip_address,
+        if 'emulatorpin_thread' in self.test_defaults_dict \
+                and self.test_defaults_dict['emulatorpin_thread']:
+            self.verify_emulatorpin_thread_cpus(self.instance,
+                                                self.hypervisor_ip)
+        self._check_vcpu_with_xml(self.instance, self.hypervisor_ip,
                                   test_setup_numa[4:])
 
     def test_numa0_provider_network(self):
@@ -297,6 +301,13 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
                                           self.public_network)
         msg = "Timed out waiting for %s to become reachable" % fip['ip']
         self.assertTrue(self.ping_ip_address(fip['ip']), msg)
+        if 'emulatorpin_thread' in self.test_defaults_dict \
+                and self.test_defaults_dict['emulatorpin_thread']:
+            self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
+                **{'shell': '/home/stack/stackrc',
+                   'server_id': self.instance['id']})[0]
+            self.verify_emulatorpin_thread_cpus(self.instance,
+                                                self.hypervisor_ip)
         gateway = self.test_network_dict[self.test_network_dict[
             'public']]['gateway_ip']
         gw_msg = "The gateway of given network does not exists,".\
