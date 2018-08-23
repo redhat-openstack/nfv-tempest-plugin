@@ -19,7 +19,7 @@ hypervisor_group = cfg.OptGroup(name="hypervisor",
 
 HypervisorGroup = [
     cfg.StrOpt('user',
-               default='root',
+               default='heat-admin',
                help="ssh user to login to bare metal"),
     cfg.StrOpt('password',
                default=None,
