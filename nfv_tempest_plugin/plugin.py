@@ -19,7 +19,11 @@ import os
 from tempest import config
 from tempest.test_discover import plugins
 
-import config as project_config
+from nfv_tempest_plugin import config as project_config
+
+_opts = [
+    (project_config.hypervisor_group, project_config.HypervisorGroup)
+]
 
 
 class NfvTempestPlugin(plugins.TempestPlugin):
@@ -31,8 +35,8 @@ class NfvTempestPlugin(plugins.TempestPlugin):
         return full_test_dir, base_path
 
     def register_opts(self, conf):
-        config.register_opt_group(conf, project_config.hypervisor_group,
-                                  project_config.HypervisorGroup)
+        for group, option in _opts:
+            config.register_opt_group(conf, group, option)
 
     def get_opt_lists(self):
-        pass
+        return [(group.name, option) for group, option in _opts]
