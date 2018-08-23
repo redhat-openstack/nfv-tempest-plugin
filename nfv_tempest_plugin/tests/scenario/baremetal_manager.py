@@ -51,6 +51,7 @@ class BareMetalManager(manager.ScenarioTest):
         self.test_network_dict = {}
         self.test_flavor_dict = {}
         self.test_instance_repo = {}
+        self.test_defaults_dict = {}
 
     @classmethod
     def setup_clients(cls):
@@ -187,6 +188,13 @@ class BareMetalManager(manager.ScenarioTest):
         if 'test_instance_repo' in self.external_config:
             self.test_instance_repo = self.external_config[
                 'test_instance_repo']
+
+        # iterate default test parameters
+        if 'test-defaults' in self.external_config:
+            for default in self.external_config['test-defaults']:
+                if 'emulatorpin_thread' in default:
+                    self.test_defaults_dict['emulatorpin_thread'] = \
+                        default['emulatorpin_thread']
 
     def check_flavor_existence(self, testname):
         """Check test specific flavor existence.
@@ -910,3 +918,67 @@ class BareMetalManager(manager.ScenarioTest):
         sftp.close()
         ssh.close()
         return result
+
+    def _check_emulatorpin_thread_nova_config(self, hypervisor):
+        """Checks emulatorpin thread configuration within nova config
+
+        :return Returns emulatorpin thread cpu list from hypervisor nova conf
+        """
+
+        nova_config_path = '/var/lib/config-data/puppet-generated/' \
+                           'nova_libvirt/etc/nova/nova.conf'
+        search_param = '^cpu_shared_set'
+        command = 'sudo grep {0} {1}'.format(search_param, nova_config_path)
+
+        nova_emulatorpin_thread_list = self._run_command_over_ssh(
+            hypervisor, command).strip().split('=')[1]
+        nova_emulatorpin_thread_list = nova_emulatorpin_thread_list.split(',')
+
+        return nova_emulatorpin_thread_list
+
+    def _check_instance_emulatorpin_thread(self, instance, hypervisor):
+        """This Method Connects to Bare Metal,Compute and return emulatorpin
+        thread cpus for the instance.
+
+        :param instance: Test instance
+        :param hypervisor: Random hypervisor to test emulatorpin thread config
+
+        :return Returns emulatorpin thread cpu list on test instance
+        """
+        instance_properties = \
+            self.os_admin.servers_client.show_server(instance['id'])['server']
+        command = (
+            "sudo virsh -c qemu:///system dumpxml %s" % (
+                instance_properties['OS-EXT-SRV-ATTR:instance_name']))
+        xml_details = self._run_command_over_ssh(hypervisor, command)
+        string = ELEMENTTree.fromstring(xml_details)
+
+        emulatorpin_vm_list = string.find('cputune/emulatorpin').items()[0][1]
+        emulatorpin_vm_list = emulatorpin_vm_list.replace('-', ',').split(',')
+
+        return emulatorpin_vm_list
+
+    def verify_emulatorpin_thread_cpus(self, instance, hypervisor):
+        """The method compares the cpus lists in order to verify the
+        emulatorpin thread configuration
+
+        :param instance: Test instance
+        :param hypervisor: The hypervisor the instance resides on
+
+        :return Return cpu list match boolean
+        """
+
+        nova_emulatorpin_list = self.\
+            _check_emulatorpin_thread_nova_config(hypervisor)
+        instance_emulatorpin_list = self.\
+            _check_instance_emulatorpin_thread(instance, hypervisor)
+
+        result = set(nova_emulatorpin_list) == set(instance_emulatorpin_list)
+        if result:
+            return result
+        else:
+            raise ValueError('The emulatorpin thread cpus list does not match '
+                             'between nova configuration and test instance.\n'
+                             'The emulatorpin thread check could be disabled '
+                             'from the config file.\n'
+                             'Look for the documentation.')

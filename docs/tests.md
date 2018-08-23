@@ -134,3 +134,20 @@ Tests included:
 The test will look for the exist flavor.  
 In case the flavor exists, the test will use it.  
 Otherwise the test will create a flavor based on the parameters defined at the test-flavors within the tests-config.yml.
+
+### Test defaults:
+------------------
+The test-default configuration should configure various all tests global configs.
+
+```
+test-defaults:
+  - emulatorpin_thread: true
+```
+
+The "emulatorpin_thread" is responsible for testing the emulatorpin allocated for the instances.  
+For more information, refer to the following documentation:  
+https://specs.openstack.org/openstack/nova-specs/specs/ocata/approved/libvirt-emulator-threads-policy.html
+
+The emulatorpin_thread check require a flavor flag to be set "hw:emulator_threads_policy=share"  
+in addition to the tripleo templates parameters.  
+In order to cancel the emulatorpin thread verification, set the flag to disable.
