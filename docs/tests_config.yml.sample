@@ -61,6 +61,7 @@ test-flavors:
        "hw:numa_mempolicy": "strict"
        "hw:numa_cpus.0": "0,1"
        "hw:cpu_policy": "dedicated"
+       "hw:emulator_threads_policy": "share"
 
   - name: m1.medium.huge_pages_cpu_pinning_numa_node-1
     ram: 2048
@@ -72,6 +73,7 @@ test-flavors:
        "hw:numa_mempolicy": "strict"
        "hw:numa_cpus.1": "0,1"
        "hw:cpu_policy": "dedicated"
+       "hw:emulator_threads_policy": "share"
 
   - name: m1.medium.huge_pages_cpu_pinning_numa_node-mix
     ram: 2048
@@ -86,13 +88,18 @@ test-flavors:
        "hw:numa_cpus.0": "0"
        "hw:numa_cpus.1": "1"
        "hw:cpu_policy": "dedicated"
+       "hw:emulator_threads_policy": "share"
 
 # Test repo to be used by the instance during the test (optional variable).
 test_instance_repo:
   name: epel
   url: http://download.fedoraproject.org/pub/epel/7/x86_64/
 
- tests-setup:
+# Global config options for the tests.
+test-defaults:
+  - emulatorpin_thread: true        # Use in versions Rocky(14) and up.
+
+tests-setup:
   - name: numa0
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
