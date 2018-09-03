@@ -25,6 +25,7 @@ import xml.etree.ElementTree as ELEMENTTree
 import yaml
 
 from oslo_log import log
+from tempest.common import waiters
 from tempest import config
 from tempest.lib.common.utils import data_utils
 from tempest.lib.common.utils import test_utils
@@ -41,11 +42,13 @@ class BareMetalManager(manager.ScenarioTest):
 
     def __init__(self, *args, **kwargs):
         super(BareMetalManager, self).__init__(*args, **kwargs)
+        self.public_network = CONF.network.public_network_id
+        self.image_ref = CONF.compute.image_ref
+        self.flavor_ref = CONF.compute.flavor_ref
         self.doc = None
         self.password = None
         self.external_config = None
         self.test_setup_dict = {}
-        self.key_pairs = {}
         self.servers = []
         self.test_networks = {}
         self.test_network_dict = {}
@@ -55,6 +58,7 @@ class BareMetalManager(manager.ScenarioTest):
     @classmethod
     def setup_clients(cls):
         super(BareMetalManager, cls).setup_clients()
+        cls.client = cls.os_primary.networks_client
         cls.hypervisor_client = cls.manager.hypervisor_client
         cls.aggregates_client = cls.manager.aggregates_client
 
@@ -707,49 +711,118 @@ class BareMetalManager(manager.ScenarioTest):
         self.addCleanup(self.ports_client.delete_port, port['id'])
         return port
 
-    def create_server(self, name=None, image_id=None, flavor=None,
-                      validatable=False, wait_until=None,
-                      wait_on_delete=True, clients=None, **kwargs):
-        """This Method Overrides Manager::Createserver to support Gates needs
+    def create_server(self, name=None, image=CONF.compute.image_ref,
+                      flavor=CONF.compute.flavor_ref, **kwargs):
+        """Basic create server method
 
-        :param validatable:
-        :param clients:
-        :param image_id:
-        :param wait_on_delete:
-        :param wait_until:
-        :param flavor:
-        :param name:
+        :param name: Name of the instance (optional)
+        :param image: Image for the instance
+        :param flavor: Flavor for the instance
+
+        :return server: Return created server
         """
-        if 'key_name' not in kwargs:
-            key_pair = self.create_keypair()
-            self.key_pairs[key_pair['name']] = key_pair
-            kwargs['key_name'] = key_pair['name']
 
-        net_id = []
-        networks = []
-        if 'networks' in kwargs:
-            net_id = kwargs['networks']
-            kwargs.pop('networks', None)
+        client = self.os_primary.servers_client
+
+        if name is None:
+            kwargs.setdefault('name', data_utils.rand_name('server-test'))
         else:
-            networks = self.networks_client.list_networks(
-                **{'router:external': False})['networks']
+            kwargs.setdefault('name', name)
 
-        for network in networks:
-            net_id.append({'uuid': network['id']})
+        if not kwargs.get('security_groups'):
+            kwargs['security_groups'] = [{'name': 'default'}]
 
-        if 'availability_zone' in kwargs:
-            if kwargs['availability_zone'] is None:
-                kwargs.pop('availability_zone', None)
+        if kwargs.get('availability_zone'):
+            client = self.os_admin.servers_client
 
-        server = super(BareMetalManager,
-                       self).create_server(name=name,
-                                           networks=net_id,
-                                           image_id=image_id,
-                                           flavor=flavor,
-                                           wait_until=wait_until,
-                                           **kwargs)
-        self.servers.append(server)
+        server = client.create_server(imageRef=image,
+                                      flavorRef=flavor,
+                                      **kwargs)
+
+        self.addCleanup(test_utils.call_and_ignore_notfound_exc,
+                        waiters.wait_for_server_termination,
+                        client,
+                        server['server']['id'])
+        self.addCleanup(test_utils.call_and_ignore_notfound_exc,
+                        client.delete_server,
+                        server['server']['id'])
         return server
+
+    def create_server_with_resources(self, num_servers=1, fip=True, test=None,
+                                     hyper=None, avail_zone=None, **kwargs):
+        """The method creates multiple instances with all needed resources
+
+        The resources for the instance are: image, flavor, networks/ports,
+        security groups, keypair, availability zone, etc...
+
+        :param num_servers: The number of servers to boot up
+        :param fip: Floating ip for the server
+        :param test: Currently executed test. Provide test specific parameters
+        :param hyper: Hypervisor name for created server on (optional)
+        :param avail_zone: Availability zone for created server (optional)
+
+        :return servers, ip, key_pair
+        """
+
+        servers, fips, key_pair = ([], [], [])
+
+        # Check for the test config file
+        self.assertTrue(test in self.test_setup_dict,
+                        "The test requires {0}, setup in external_config_file".
+                        format(test))
+
+        # Set availability zone if required
+        if avail_zone and hyper is not None:
+            az = '{} : {}'.format(avail_zone, hyper)
+            kwargs['availability_zone'] = az
+        elif 'availability-zone' in self.test_setup_dict[test]:
+            kwargs['availability_zone'] = \
+                self.test_setup_dict[test]['availability-zone']
+
+        # Flavor creation
+        if not kwargs.get('flavor'):
+            flavor_check = self.check_flavor_existence(test)
+            if flavor_check is False:
+                flavor_name = self.test_setup_dict[test]['flavor']
+                self.flavor_ref = self.\
+                    create_flavor(**self.test_flavor_dict[flavor_name])
+                kwargs['flavor'] = self.flavor_ref
+
+        # Key pair creation
+        key_pair = self.create_keypair()
+        kwargs['key_name'] = key_pair['name']
+
+        # Network, subnet and router creation
+        self._create_test_networks()
+        router_exist = True
+        if 'router' in self.test_setup_dict[test]:
+            router_exist = self.test_setup_dict[test]['router']
+        if router_exist:
+            self._add_subnet_to_router()
+
+        # Prepare cloudinit
+        kwargs['user_data'] = self._prepare_cloudinit_file()
+
+        for num in range(num_servers):
+            # TODO(maximb) Take the security groups out of the for loop
+            # Need to rewrite security group and port creation methods
+            kwargs['security_groups'] = self._set_security_groups()
+            kwargs['networks'] = self._create_ports_on_networks(**kwargs)
+            servers.append(self.create_server(**kwargs))
+        for num, server in enumerate(servers):
+            waiters.wait_for_server_status(self.os_admin.servers_client,
+                                           server['server']['id'],
+                                           'ACTIVE')
+            port = self.os_admin.ports_client.list_ports(
+                device_id=server['server']['id'],
+                network_id=kwargs['networks'][0]['uuid'])['ports'][0]
+
+            if fip is True:
+                fips.append(self.create_floating_ip(server['server'],
+                                                    self.public_network))
+            else:
+                fips.append(port['fixed_ips'][0]['ip_address'])
+        return servers, fips, key_pair
 
     def _check_number_queues(self):
         """This method checks the number of max queues"""
