@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "611f8b18_1a8a83e6",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-09-12T12:15:24Z",
+      "side": 1,
+      "message": "Please use it in kwargs\nnot to change function api, although you have default parameter intialization\nno need to add, since it will go through kwargs into parent createserver\nPlease test it, in case it is working with kwargs[config_drive], this patch is not needed, i think",
+      "range": {
+        "startLine": 711,
+        "startChar": 34,
+        "endLine": 711,
+        "endChar": 53
+      },
+      "revId": "d646ee1ffb9db5d25c442be6fea597f1fa07034c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
