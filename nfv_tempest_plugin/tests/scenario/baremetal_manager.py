@@ -707,7 +707,8 @@ class BareMetalManager(manager.ScenarioTest):
         self.addCleanup(self.ports_client.delete_port, port['id'])
         return port
 
-    def create_server(self, name=None, image_id=None, flavor=None,
+    def create_server(self, name=None, image_id=None,
+                      flavor=None, config_drive=False,
                       validatable=False, wait_until=None,
                       wait_on_delete=True, clients=None, **kwargs):
         """This Method Overrides Manager::Createserver to support Gates needs
@@ -746,6 +747,7 @@ class BareMetalManager(manager.ScenarioTest):
                                            networks=net_id,
                                            image_id=image_id,
                                            flavor=flavor,
+                                           config_drive=config_drive,
                                            wait_until=wait_until,
                                            **kwargs)
         self.servers.append(server)
