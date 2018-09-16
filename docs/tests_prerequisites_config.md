@@ -8,6 +8,13 @@ For more information regarding tempest install, configuration and execution play
 **Note!** - Tempest-nfv-plugin uses external file that holds specific tests configuration. For the tests configuration refer to the tests doc file and sample tests config file.
 
 In case of manual environment configuration, be aware of the following:
+- All tests in nfv_plugin require to define Compte microversion in tempest.conf
+  ```
+  [compute]
+  min_microversion = 2.32
+  max_microversion = 2.32
+  ```
+
 - Tempest-nfv-plugin uses external tests configuration file.  
   The file should reside on the tester host and path of the file should be provided within the tempest.conf file under hypervisor section.
   ```
