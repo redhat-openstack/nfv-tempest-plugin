@@ -25,7 +25,9 @@ import xml.etree.ElementTree as ELEMENTTree
 import yaml
 
 from oslo_log import log
+from tempest.api.compute import api_microversion_fixture
 from tempest import config
+from tempest.lib.common import api_version_utils
 from tempest.lib.common.utils import data_utils
 from tempest.lib.common.utils import test_utils
 from tempest.lib import exceptions as lib_exc
@@ -35,7 +37,8 @@ CONF = config.CONF
 LOG = log.getLogger(__name__)
 
 
-class BareMetalManager(manager.ScenarioTest):
+class BareMetalManager(api_version_utils.BaseMicroversionTest,
+                       manager.ScenarioTest):
     """This class Interacts with BareMetal settings"""
     credentials = ['primary', 'admin']
 
@@ -68,6 +71,12 @@ class BareMetalManager(manager.ScenarioTest):
         self.assertIsNotNone(CONF.hypervisor.user,
                              "Missing SSH user login in config")
 
+        self.assertIsNotNone(CONF.compute.min_microversion,
+                             "Missing Compute min microversion in config")
+
+        self.assertIsNotNone(CONF.compute.max_microversion,
+                             "Missing Compute max microversion in config")
+
         if CONF.hypervisor.private_key_file:
             key_str = open(CONF.hypervisor.private_key_file).read()
             CONF.hypervisor.private_key = paramiko.RSAKey. \
@@ -79,10 +88,17 @@ class BareMetalManager(manager.ScenarioTest):
             if os.path.exists(CONF.hypervisor.external_config_file):
                 self.read_external_config_file()
 
+        self.useFixture(api_microversion_fixture.APIMicroversionFixture(
+            self.request_microversion))
+
     @classmethod
     def resource_setup(cls):
         super(BareMetalManager, cls).resource_setup()
         cls.tenant_id = cls.manager.identity_client.tenant_id
+        cls.request_microversion = (
+            api_version_utils.select_request_microversion(
+                cls.min_microversion,
+                CONF.compute.min_microversion))
 
     @classmethod
     def setup_credentials(cls):
