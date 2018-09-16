@@ -1,20 +1,22 @@
-Tempest integration tests for NFV based deployment
+nfv-tempest-plugin
 ==================================================
 
-The nfv-tempest-plugin contains various tempest tests for NFV based deployment.
+This project is a plugin to [OpenStack's Tempest](https://github.com/openstack/tempest) used to test NFV usecases.
 
-### Documantation
-For the proper documentation including installation, tests explanation and configuration, etc... refer to the `docs/` directory at the root of the repository.
+### Installation
 
-Current available tests:
-- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_numa0_provider_network
-- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_numa1_provider_network
-- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_numamix_provider_network
-- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_packages_compute
-- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_mtu_ping_test
-- nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_min_queues_functionality
-- nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_equal_queues_functionality
-- nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_max_queues_functionality
-- nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_odd_queues_functionality
-- nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_live_migration_block
-- nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_multicast
+Please refer to the following [page](https://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/docs/installation.md).
+
+### Pre-requisites before running the plugin
+
+Please refer to the following [page](https://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/docs/tests_prerequisites_config.md).
+
+### Tests and samples
+
+For the list of tests with description, please refer to the following [page](https://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/docs/tests.md).
+
+For a sample external configuration file, please refer to the following [page](https://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/docs/tests_config.yml.sample).
+
+### Contributing
+
+Please refer to the following [page](https://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/docs/contribution.md).
