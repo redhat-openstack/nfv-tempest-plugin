@@ -81,6 +81,30 @@
       "revId": "4cd000c1b1c5230075b9fdee18084c7d6218bea0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68bd4c5a_b9fd1a4b",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-09-17T12:52:51Z",
+      "side": 1,
+      "message": "This is the way it should work!! no parameters of microversion will be 2.1",
+      "parentUuid": "3e8a1b72_c9d2d6a0",
+      "range": {
+        "startLine": 95,
+        "startChar": 16,
+        "endLine": 95,
+        "endChar": 45
+      },
+      "revId": "4cd000c1b1c5230075b9fdee18084c7d6218bea0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
