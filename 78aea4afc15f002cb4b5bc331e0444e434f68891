@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bfd3f463_226f0ed3",
+        "filename": "docs/tests_prerequisites_config.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2018-09-17T09:00:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1c963c6b_0c1fccbd",
+      "range": {
+        "startLine": 1,
+        "startChar": 4,
+        "endLine": 1,
+        "endChar": 56
+      },
+      "revId": "78aea4afc15f002cb4b5bc331e0444e434f68891",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a672e367_7d8ce2fd",
         "filename": "docs/tests_prerequisites_config.md",
         "patchSetId": 7
@@ -45,6 +69,30 @@
       "revId": "78aea4afc15f002cb4b5bc331e0444e434f68891",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99d4bc99_bef03f23",
+        "filename": "docs/tests_prerequisites_config.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2018-09-17T09:00:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a672e367_7d8ce2fd",
+      "range": {
+        "startLine": 3,
+        "startChar": 1,
+        "endLine": 6,
+        "endChar": 216
+      },
+      "revId": "78aea4afc15f002cb4b5bc331e0444e434f68891",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ddd91f70_b217b067",
+        "filename": "docs/tests_prerequisites_config.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2018-09-17T09:00:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "59686b50_a2b7860b",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 25
+      },
+      "revId": "78aea4afc15f002cb4b5bc331e0444e434f68891",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0452f056_1e0a9963",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 7
@@ -82,6 +154,30 @@
       "writtenOn": "2018-09-17T07:29:34Z",
       "side": 1,
       "message": "I would avoid assertion, assertion will fail all tests,\nBY default nova-api-version is 2.1 so, please verify with empty microversion, to see if tests are running as before",
+      "range": {
+        "startLine": 74,
+        "startChar": 1,
+        "endLine": 78,
+        "endChar": 74
+      },
+      "revId": "78aea4afc15f002cb4b5bc331e0444e434f68891",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53225f1a_299955f6",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2018-09-17T09:00:29Z",
+      "side": 1,
+      "message": "You\u0027re right.\n\nDone.",
+      "parentUuid": "0452f056_1e0a9963",
       "range": {
         "startLine": 74,
         "startChar": 1,
