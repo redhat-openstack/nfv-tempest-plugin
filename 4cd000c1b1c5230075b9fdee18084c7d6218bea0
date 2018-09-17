@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2dc7b2d_1f1283c4",
+        "filename": "README.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-09-17T11:52:29Z",
+      "side": 1,
+      "message": "Please, add supported tests section with the tests.",
+      "revId": "4cd000c1b1c5230075b9fdee18084c7d6218bea0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccf983bd_4a75710c",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-09-17T11:52:29Z",
+      "side": 1,
+      "message": "Did you check what is going on when the variable is not defined?\nIs there a need to set a default?",
+      "range": {
+        "startLine": 95,
+        "startChar": 16,
+        "endLine": 95,
+        "endChar": 45
+      },
+      "revId": "4cd000c1b1c5230075b9fdee18084c7d6218bea0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
