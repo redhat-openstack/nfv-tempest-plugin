@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9814c567_7a72c536",
+        "filename": "docs/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-09-17T09:15:32Z",
+      "side": 1,
+      "message": "Move this file to the root README file.\n\nAdd the tests we are support at the bottom of the page as per now..",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 22
+      },
+      "revId": "0ee9a466f60131b79fea9aa52ef3922f5235550d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4135ee7c_4f0ff48c",
+        "filename": "docs/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-09-17T09:15:32Z",
+      "side": 1,
+      "message": "New line?",
+      "range": {
+        "startLine": 13,
+        "startChar": 101,
+        "endLine": 14,
+        "endChar": 2
+      },
+      "revId": "0ee9a466f60131b79fea9aa52ef3922f5235550d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "717f2648_ec60620f",
+        "filename": "docs/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-09-17T09:15:32Z",
+      "side": 1,
+      "message": "New line?",
+      "range": {
+        "startLine": 18,
+        "startChar": 101,
+        "endLine": 19,
+        "endChar": 3
+      },
+      "revId": "0ee9a466f60131b79fea9aa52ef3922f5235550d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "455e39a2_1ffd234c",
+        "filename": "docs/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-09-17T09:15:32Z",
+      "side": 1,
+      "message": "Move this to tests_prerequisites_config.md file.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 158
+      },
+      "revId": "0ee9a466f60131b79fea9aa52ef3922f5235550d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b092df27_1bc1d57a",
+        "filename": "docs/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-09-17T09:15:32Z",
+      "side": 1,
+      "message": "Please, remove this.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 184
+      },
+      "revId": "0ee9a466f60131b79fea9aa52ef3922f5235550d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d31e2d38_e95d88a6",
+        "filename": "docs/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-09-17T09:15:32Z",
+      "side": 1,
+      "message": "refer",
+      "range": {
+        "startLine": 48,
+        "startChar": 7,
+        "endLine": 48,
+        "endChar": 13
+      },
+      "revId": "0ee9a466f60131b79fea9aa52ef3922f5235550d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77c03eb9_9b2558c9",
+        "filename": "docs/tests_prerequisites_config.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-09-17T09:15:32Z",
+      "side": 1,
+      "message": "compute",
+      "range": {
+        "startLine": 8,
+        "startChar": 52,
+        "endLine": 8,
+        "endChar": 58
+      },
+      "revId": "0ee9a466f60131b79fea9aa52ef3922f5235550d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd9221ca_05c15194",
+        "filename": "docs/tests_prerequisites_config.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-09-17T09:15:32Z",
+      "side": 1,
+      "message": "tempest",
+      "range": {
+        "startLine": 45,
+        "startChar": 129,
+        "endLine": 45,
+        "endChar": 136
+      },
+      "revId": "0ee9a466f60131b79fea9aa52ef3922f5235550d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f713c61c_061e45fe",
+        "filename": "docs/tests_prerequisites_config.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-09-17T09:15:32Z",
+      "side": 1,
+      "message": "automation",
+      "range": {
+        "startLine": 45,
+        "startChar": 63,
+        "endLine": 45,
+        "endChar": 74
+      },
+      "revId": "0ee9a466f60131b79fea9aa52ef3922f5235550d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcd2b682_e7efa8ed",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-09-17T09:15:32Z",
+      "side": 1,
+      "message": "What happens when the min_microversion is not defined in the tempest.conf?\nYou can add a default \"None\" within the config.py",
+      "range": {
+        "startLine": 95,
+        "startChar": 16,
+        "endLine": 95,
+        "endChar": 45
+      },
+      "revId": "0ee9a466f60131b79fea9aa52ef3922f5235550d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
