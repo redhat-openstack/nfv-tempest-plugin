@@ -163,6 +163,30 @@
     },
     {
       "key": {
+        "uuid": "7642dd9d_74ef0981",
+        "filename": "docs/tests_prerequisites_config.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-09-17T09:43:19Z",
+      "side": 1,
+      "message": "it should nova client mincroversion",
+      "parentUuid": "77c03eb9_9b2558c9",
+      "range": {
+        "startLine": 8,
+        "startChar": 52,
+        "endLine": 8,
+        "endChar": 58
+      },
+      "revId": "0ee9a466f60131b79fea9aa52ef3922f5235550d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bd9221ca_05c15194",
         "filename": "docs/tests_prerequisites_config.md",
         "patchSetId": 8
@@ -220,6 +244,30 @@
       "writtenOn": "2018-09-17T09:15:32Z",
       "side": 1,
       "message": "What happens when the min_microversion is not defined in the tempest.conf?\nYou can add a default \"None\" within the config.py",
+      "range": {
+        "startLine": 95,
+        "startChar": 16,
+        "endLine": 95,
+        "endChar": 45
+      },
+      "revId": "0ee9a466f60131b79fea9aa52ef3922f5235550d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c7113ac_05fd14e9",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-09-17T09:43:19Z",
+      "side": 1,
+      "message": "You have to try without microversion and verify",
+      "parentUuid": "dcd2b682_e7efa8ed",
       "range": {
         "startLine": 95,
         "startChar": 16,
