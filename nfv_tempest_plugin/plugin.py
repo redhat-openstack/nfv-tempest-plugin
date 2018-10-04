@@ -1,4 +1,4 @@
-# Copyright 2017 Red Hat, Inc.
+# Copyright 2018 Red Hat, Inc.
 # All Rights Reserved.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -22,7 +22,9 @@ from tempest.test_discover import plugins
 from nfv_tempest_plugin import config as project_config
 
 _opts = [
-    (project_config.hypervisor_group, project_config.HypervisorGroup)
+    (project_config.hypervisor_group, project_config.HypervisorGroup),
+    (project_config.compte_features_groups,
+     project_config.ComputeFeaturesGroup)
 ]
 
 
