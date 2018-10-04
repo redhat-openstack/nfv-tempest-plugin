@@ -737,6 +737,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         net_id = []
         networks = []
+        CONF.get('compute-feature-enabled').config_drive and kwargs.update({'config_drive':True}) 
         if 'networks' in kwargs:
             net_id = kwargs['networks']
             kwargs.pop('networks', None)
