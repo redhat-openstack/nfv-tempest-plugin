@@ -1,4 +1,4 @@
-# Copyright 2017 Red Hat, Inc.
+# Copyright 2018 Red Hat, Inc.
 # All Rights Reserved.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -31,4 +31,13 @@ HypervisorGroup = [
     cfg.StrOpt('external_config_file',
                default=None,
                help="The path to yml file for additional configurations"),
+]
+
+compute_features_groups = cfg.OptGroup(name="compute-feature-enabled",
+                                       title="Advanced compute features")
+
+ComputeFeaturesGroup = [
+    cfg.StrOpt('config_drive',
+               default=True,
+               help="Use config drive at intance creation"),
 ]
