@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "918b3104_e79a2eaf",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-04T12:56:57Z",
+      "side": 1,
+      "message": "Looks fine.\nMaybe we will add the config_drive as enabled by the default unless specified other in tempest.conf generation command.\nWhat do you say?\n\nTake a look at the nfv_tempest_plugin/config.py and nfv_tempest_plugin/plugin.py",
+      "revId": "46b010ef43b0bc47fa0114ace27cdd7f49e13a46",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
