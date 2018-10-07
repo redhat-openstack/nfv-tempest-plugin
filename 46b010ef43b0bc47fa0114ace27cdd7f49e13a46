@@ -52,6 +52,24 @@
       "revId": "46b010ef43b0bc47fa0114ace27cdd7f49e13a46",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2293eda_24c88c4c",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-07T08:08:51Z",
+      "side": 1,
+      "message": "It is related to the nfv_tempest_plugin/config.py and nfv_tempest_plugin/plugin.py files within the plugin. Which set a default values related to our plugin.",
+      "parentUuid": "61648e7a_340f3b08",
+      "revId": "46b010ef43b0bc47fa0114ace27cdd7f49e13a46",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
