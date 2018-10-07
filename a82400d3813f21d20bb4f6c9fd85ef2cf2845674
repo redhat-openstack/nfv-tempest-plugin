@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "054e9846_6c813652",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-10-07T14:04:19Z",
+      "side": 1,
+      "message": "see prefious comment for plugin.py",
+      "parentUuid": "24f80345_7accda24",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 6
+      },
+      "revId": "a82400d3813f21d20bb4f6c9fd85ef2cf2845674",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "de2ef557_f2495a84",
         "filename": "nfv_tempest_plugin/plugin.py",
         "patchSetId": 4
@@ -58,6 +82,53 @@
         "startChar": 20,
         "endLine": 26,
         "endChar": 26
+      },
+      "revId": "a82400d3813f21d20bb4f6c9fd85ef2cf2845674",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dd94d2c_691793e6",
+        "filename": "nfv_tempest_plugin/plugin.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-10-07T14:04:19Z",
+      "side": 1,
+      "message": "Please remove this from nfv-plugin, it is already part of tempest \nplease refer \nhttps://github.com/openstack/tempest/blob/9594233ffd93066677aa601c594d55f3a4f188d8/tempest/scenario/test_server_basic_ops.py#L97",
+      "parentUuid": "de2ef557_f2495a84",
+      "range": {
+        "startLine": 26,
+        "startChar": 20,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "a82400d3813f21d20bb4f6c9fd85ef2cf2845674",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d473910_aad765a8",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-10-07T14:04:19Z",
+      "side": 1,
+      "message": "Please use tyhe following config \n(CONF.compute_feature_enabled.config_drive and  kwargs.update({\u0027config_drive\u0027: True}))\nInstead of the implicit dictionary call",
+      "range": {
+        "startLine": 740,
+        "startChar": 6,
+        "endLine": 741,
+        "endChar": 47
       },
       "revId": "a82400d3813f21d20bb4f6c9fd85ef2cf2845674",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
