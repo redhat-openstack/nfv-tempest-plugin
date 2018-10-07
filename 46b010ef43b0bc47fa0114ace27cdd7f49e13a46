@@ -70,6 +70,24 @@
       "revId": "46b010ef43b0bc47fa0114ace27cdd7f49e13a46",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b0ecc01_a6745744",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2018-10-07T08:31:22Z",
+      "side": 1,
+      "message": "Ack. Done.",
+      "parentUuid": "f2293eda_24c88c4c",
+      "revId": "46b010ef43b0bc47fa0114ace27cdd7f49e13a46",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
