@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4f865b9_63cbd77b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-07T11:34:13Z",
+      "side": 1,
+      "message": "No need.\n\nAdd instead little explanation of config_drive\n\nOpenStack can be configured to write metadata to a special configuration\ndrive that attaches to the instance when it boots.\nThe instance can mount this drive and read files from it to get information\nthat is normally available through the metadata service.",
+      "revId": "a82400d3813f21d20bb4f6c9fd85ef2cf2845674",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24f80345_7accda24",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-07T11:34:13Z",
+      "side": 1,
+      "message": "compute",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 6
+      },
+      "revId": "a82400d3813f21d20bb4f6c9fd85ef2cf2845674",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de2ef557_f2495a84",
+        "filename": "nfv_tempest_plugin/plugin.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-07T11:34:13Z",
+      "side": 1,
+      "message": "compute",
+      "range": {
+        "startLine": 26,
+        "startChar": 20,
+        "endLine": 26,
+        "endChar": 26
+      },
+      "revId": "a82400d3813f21d20bb4f6c9fd85ef2cf2845674",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
