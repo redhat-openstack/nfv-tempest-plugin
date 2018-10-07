@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e130ef52_e539a7d6",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-10-07T17:16:20Z",
+      "side": 1,
+      "message": "Please consider \n... and (self.request_microversion \u003e\u003d 2.32 and\n                self.request_microversion \u003c\u003d 2.36 or\n                self.request_microversion \u003e\u003d 2.42)",
+      "range": {
+        "startLine": 528,
+        "startChar": 32,
+        "endLine": 530,
+        "endChar": 50
+      },
+      "revId": "e4da5afde68682a65eb4f023e4e45919f4edb3df",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
