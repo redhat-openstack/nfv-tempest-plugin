@@ -1,4 +1,4 @@
-# Copyright 2017 Red Hat, Inc.
+# Copyright 2018 Red Hat, Inc.
 # All Rights Reserved.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -525,6 +525,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'mgmt' in net and 'dns_nameservers' in net:
                 self.test_network_dict[net['name']]['dns_nameservers'] = \
                     net['dns_nameservers']
+            if ('tag' in net and (self.request_microversion >= 2.32 and
+                self.request_microversion <= 2.36 or
+                self.request_microversion >= 2.42)):
+                self.test_network_dict[net['name']]['tag'] = net['tag']
         network_kwargs = {}
         """
         Create network and subnets
@@ -688,6 +692,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 port = self._create_port(network_id=net_param['net-id'],
                                          **create_port_body)
                 net_var = {'uuid': net_param['net-id'], 'port': port['id']}
+                if 'tag' in net_param:
+                    net_var['tag'] = net_param['tag']
                 networks_list.append(net_var) \
                     if net_name != self.test_network_dict['public'] else \
                     networks_list.insert(0, net_var)
