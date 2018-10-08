@@ -54,6 +54,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.test_network_dict = {}
         self.test_flavor_dict = {}
         self.test_instance_repo = {}
+        self.user_data = {}
 
     @classmethod
     def setup_clients(cls):
@@ -197,6 +198,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if 'test_instance_repo' in self.external_config:
             self.test_instance_repo = self.external_config[
                 'test_instance_repo']
+
+        if 'test_user_data' in self.external_config:
+            self.user_data = self.external_config['user_data']
+            self.assertTrue(os.path.exists(self.user_data),
+                            "Specified user_data file can't be read")
 
     def check_flavor_existence(self, testname):
         """Check test specific flavor existence.
@@ -804,37 +810,40 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         gw_ip = self.test_network_dict[self.test_network_dict[
             'public']]['gateway_ip']
 
-        script = '''
-                 #cloud-config
-                 user: {user}
-                 password: {passwd}
-                 chpasswd: {{expire: False}}
-                 ssh_pwauth: True
-                 disable_root: 0
-                 runcmd:
-                 - cd /etc/sysconfig/network-scripts/
-                 - cp ifcfg-eth0 ifcfg-eth1
-                 - sed -i 's/'eth0'/'eth1'/' ifcfg-eth1
-                 - echo {gateway}{gw_ip} >>  /etc/sysconfig/network
-                 - systemctl restart network'''.format(gateway='GATEWAY=',
-                                                       gw_ip=gw_ip,
-                                                       user=self.ssh_user,
-                                                       passwd=self.ssh_passwd)
-
-        if self.test_instance_repo and 'name' in self.test_instance_repo:
+        if not self.user_data:
+            self.user_data = '''
+                             #cloud-config
+                             user: {user}
+                             password: {passwd}
+                             chpasswd: {{expire: False}}
+                             ssh_pwauth: True
+                             disable_root: 0
+                             runcmd:
+                             - cd /etc/sysconfig/network-scripts/
+                             - cp ifcfg-eth0 ifcfg-eth1
+                             - sed -i 's/'eth0'/'eth1'/' ifcfg-eth1
+                             - echo {gateway}{gw_ip} >>  /etc/sysconfig/network
+                             - systemctl restart network
+                             '''.format(gateway='GATEWAY=',
+                                        gw_ip=gw_ip,
+                                        user=self.ssh_user,
+                                        passwd=self.ssh_passwd)
+        if (self.test_instance_repo and
+            'name' in self.test_instance_repo and not self.user_data):
             repo_name = self.external_config['test_instance_repo']['name']
             repo_url = self.external_config['test_instance_repo']['url']
             repo = '''
-                 yum_repos:
-                    {repo_name}:
-                       name: {repo_name}
-                       baseurl: {repo_url}
-                       enabled: true
-                       gpgcheck: false'''.format(repo_name=repo_name,
-                                                 repo_url=repo_url)
-            script = "".join((script, repo))
+                   yum_repos:
+                       {repo_name}:
+                          name: {repo_name}
+                          baseurl: {repo_url}
+                          enabled: true
+                          gpgcheck: false
+                    '''.format(repo_name=repo_name,
+                               repo_url=repo_url)
+            self.user_data = "".join((self.user_data, repo))
 
-        if install_packages is not None:
+        if install_packages is not None and not self.user_data:
             header = '''
                  packages:'''
             body = ''
@@ -842,11 +851,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 body += '''
                  - {package}'''.format(package=package)
             package = "".join((header, body))
-            script = "".join((script, package))
+            self.user_data = "".join((self.user_data, package))
 
-        script_clean = textwrap.dedent(script).lstrip().encode('utf8')
-        script_b64 = base64.b64encode(script_clean)
-        return script_b64
+        user_data = textwrap.dedent(self.user_data).lstrip().encode('utf8')
+        user_data_b64 = base64.b64encode(user_data)
+        return user_data_b64
 
     def _set_security_groups(self):
         """Security group creation
