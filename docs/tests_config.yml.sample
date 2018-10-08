@@ -92,6 +92,9 @@ test_instance_repo:
   name: epel
   url: http://download.fedoraproject.org/pub/epel/7/x86_64/
 
+# Custom user_data (to be used during cloud-init execution, currently accepts only one file).
+user_data = "/home/stack/tempest/cloud-init.yml"
+
  tests-setup:
   - name: numa0
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
