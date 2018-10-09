@@ -30,20 +30,15 @@ CONF = config.CONF
 class TestDpdkScenarios(baremetal_manager.BareMetalManager):
     def __init__(self, *args, **kwargs):
         super(TestDpdkScenarios, self).__init__(*args, **kwargs)
-        self.image_ref = None
-        self.flavor_ref = None
         self.ip_address = None
-        self.public_network = None
         self.instance = None
         self.availability_zone = None
-        self.list_networks = None
         self.cpuregex = re.compile('^[0-9]{1,2}$')
         self.image_ref = CONF.compute.image_ref
         self.flavor_ref = CONF.compute.flavor_ref
         self.public_network = CONF.network.public_network_id
         self.ssh_user = CONF.validation.image_ssh_user
         self.ssh_passwd = CONF.validation.image_ssh_password
-        self.list_networks = []
         self.maxqueues = None
 
     @classmethod

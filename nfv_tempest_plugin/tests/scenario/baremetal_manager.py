@@ -44,13 +44,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
     def __init__(self, *args, **kwargs):
         super(BareMetalManager, self).__init__(*args, **kwargs)
-        self.doc = None
-        self.password = None
         self.external_config = None
         self.test_setup_dict = {}
         self.key_pairs = {}
         self.servers = []
-        self.test_networks = {}
         self.test_network_dict = {}
         self.test_flavor_dict = {}
         self.test_instance_repo = {}
