@@ -196,7 +196,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             self.test_instance_repo = self.external_config[
                 'test_instance_repo']
 
-        if CONF.hypervisor.user_data:
+        if 'user_data' in CONF.hypervisor:
             self.user_data = CONF.hypervisor.user_data
             self.assertTrue(os.path.exists(self.user_data),
                             "Specified user_data file can't be read")
@@ -528,9 +528,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'mgmt' in net and 'dns_nameservers' in net:
                 self.test_network_dict[net['name']]['dns_nameservers'] = \
                     net['dns_nameservers']
-            if ('tag' in net and (self.request_microversion >= 2.32 and
-                self.request_microversion <= 2.36 or
-                self.request_microversion >= 2.42)):
+            if ('tag' in net and (2.32 <= self.request_microversion <= 2.36 or
+                                  self.request_microversion >= 2.42)):
                 self.test_network_dict[net['name']]['tag'] = net['tag']
         network_kwargs = {}
         """
