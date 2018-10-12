@@ -22,6 +22,30 @@
       "revId": "e9bb7ebbd7eb6957c6381593c3957ac3a1500720",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "367d3f7e_32e929c9",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-12T19:31:55Z",
+      "side": 1,
+      "message": "Vadim,\n\nIf I set the number between quotes, the compare is wrong.\n\n\u003e\u003e\u003e \n\u003e\u003e\u003e test \u003d 2.34\n\u003e\u003e\u003e 2.32 \u003c\u003d test \u003c\u003d 2.36\nTrue\n\u003e\u003e\u003e \n\u003e\u003e\u003e test \u003d \u00272.34\u0027\n\u003e\u003e\u003e 2.32 \u003c\u003d test \u003c\u003d 2.36\nFalse\n\u003e\u003e\u003e",
+      "parentUuid": "a7c203ac_d257a7f7",
+      "range": {
+        "startLine": 531,
+        "startChar": 0,
+        "endLine": 532,
+        "endChar": 70
+      },
+      "revId": "e9bb7ebbd7eb6957c6381593c3957ac3a1500720",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
