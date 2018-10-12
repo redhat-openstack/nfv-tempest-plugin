@@ -24,6 +24,14 @@ In case of manual environment configuration, be aware of the following:
   ```
   The file name is not restricted to a specific name.
 
+- nfv-tempest-plugin can use a custom user_data during instance booting by supplying the file within tempest.conf under hyervisor group.
+  The file should reside on the tester host and path of the file should be provided within the tempest.conf file under hypervisor section.
+  ```
+  [hypervisor]
+  user_data = /path/to/user_data.yml
+  ```
+  The file name is not restricted to a specific name.
+
 - Some of the tests will require to perform checks on the hypervisors.  
   For such case, specify the user and private key for the hypervisor ssh access under hypervisor section.
   ```
