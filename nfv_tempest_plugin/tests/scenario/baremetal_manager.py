@@ -44,6 +44,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
     def __init__(self, *args, **kwargs):
         super(BareMetalManager, self).__init__(*args, **kwargs)
+        self.public_network = CONF.network.public_network_id
+        self.flavor_ref = CONF.compute.flavor_ref
         self.external_config = None
         self.test_setup_dict = {}
         self.key_pairs = {}
@@ -770,6 +772,69 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                            **kwargs)
         self.servers.append(server)
         return server
+
+    def create_server_with_resources(self, fip=True, test=None, hyper=None,
+                                     avail_zone=None, **kwargs):
+        """The method creates multiple instances
+
+        :param fip: Creation of the floating ip for the server
+        :param test: Currently executed test. Provide test specific parameters.
+        :param hyper: Hypervisor name for created server on (optional).
+        :param avail_zone: Availability zone for created server (optional).
+
+        :return servers, fips
+        """
+
+        servers, key_pair = ([], [])
+
+        # Check for the test config file
+        self.assertTrue(test in self.test_setup_dict,
+                        'The test requires {0} config in external_config_file'.
+                        format(test))
+
+        # Set availability zone if required
+        if avail_zone and hyper is not None:
+            az = '{} : {}'.format(avail_zone, hyper)
+            kwargs['availability_zone'] = az
+        elif 'availability-zone' in self.test_setup_dict[test]:
+            kwargs['availability_zone'] = \
+                self.test_setup_dict[test]['availability-zone']
+
+        # Flavor creation
+        if not kwargs.get('flavor'):
+            flavor_check = self.check_flavor_existence(test)
+            if flavor_check is False:
+                flavor_name = self.test_setup_dict[test]['flavor']
+                self.flavor_ref = self. \
+                    create_flavor(**self.test_flavor_dict[flavor_name])
+                kwargs['flavor'] = self.flavor_ref
+
+        # Key pair creation
+        key_pair = self.create_keypair()
+        kwargs['key_name'] = key_pair['name']
+
+        # Network, subnet, router and security group creation
+        self._create_test_networks()
+        kwargs['security_groups'] = self._set_security_groups()
+        kwargs['networks'] = self._create_ports_on_networks(**kwargs)
+        router_exist = True
+        if 'router' in self.test_setup_dict[test]:
+            router_exist = self.test_setup_dict[test]['router']
+        if router_exist:
+            self._add_subnet_to_router()
+
+        # Prepare cloudinit
+        kwargs['user_data'] = self._prepare_cloudinit_file()
+
+        servers.append(self.create_server(wait_until='ACTIVE', **kwargs))
+
+        if fip:
+            servers[0]['fip'] = \
+                self.create_floating_ip(servers[0], self.public_network)['ip']
+        else:
+            servers[0]['fip'] = servers[0][
+                'addresses'][self.test_network_dict['public']][0]['addr']
+        return servers, key_pair
 
     def _check_number_queues(self):
         """This method checks the number of max queues"""
