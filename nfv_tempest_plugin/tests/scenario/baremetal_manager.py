@@ -26,6 +26,7 @@ import yaml
 
 from oslo_log import log
 from tempest.api.compute import api_microversion_fixture
+from tempest.common import waiters
 from tempest import config
 from tempest.lib.common import api_version_utils
 from tempest.lib.common.utils import data_utils
@@ -44,6 +45,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
     def __init__(self, *args, **kwargs):
         super(BareMetalManager, self).__init__(*args, **kwargs)
+        self.public_network = CONF.network.public_network_id
         self.external_config = None
         self.test_setup_dict = {}
         self.key_pairs = {}
@@ -771,6 +773,35 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                            **kwargs)
         self.servers.append(server)
         return server
+
+    def create_server_with_resources(self, num_servers=1, fip=True, **kwargs):
+        """The method creates multiple instances
+
+        :param num_servers: The number of the servers
+        :param fip: Creation of the floating ip for the server
+
+        :return servers, fips
+        """
+
+        servers = []
+
+        for num in range(num_servers):
+            kwargs['security_groups'] = self._set_security_groups()
+            kwargs['networks'] = self._create_ports_on_networks(**kwargs)
+            servers.append(self.create_server(**kwargs))
+        for num, server in enumerate(servers):
+            waiters.wait_for_server_status(self.os_admin.servers_client,
+                                           server['id'], 'ACTIVE')
+            port = self.os_admin.ports_client.list_ports(
+                device_id=server['id'],
+                network_id=kwargs['networks'][0]['uuid'])['ports'][0]
+
+            if fip:
+                servers[num]['fip'] = \
+                    self.create_floating_ip(server, self.public_network)
+            else:
+                servers[num]['fip'] = port['fixed_ips'][0]['ip_address']
+        return servers
 
     def _check_number_queues(self):
         """This method checks the number of max queues"""

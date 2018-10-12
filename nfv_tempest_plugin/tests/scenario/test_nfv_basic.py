@@ -29,7 +29,6 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
     def __init__(self, *args, **kwargs):
         super(TestNfvBasic, self).__init__(*args, **kwargs)
         self.ip_address = None
-        self.instance = None
         self.availability_zone = None
         self.cpuregex = re.compile('^[0-9]{1,2}$')
         self.image_ref = CONF.compute.image_ref
@@ -119,42 +118,28 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         keypair = self.create_keypair()
         self.key_pairs[keypair['name']] = keypair
         super(TestNfvBasic, self)._create_test_networks()
-        security = super(TestNfvBasic, self)._set_security_groups()
-        if security is not None:
-            kwargs['security_groups'] = security
-        kwargs['networks'] = super(TestNfvBasic,
-                                   self)._create_ports_on_networks(**kwargs)
         kwargs['user_data'] = super(TestNfvBasic,
                                     self)._prepare_cloudinit_file()
         kwargs['key_name'] = keypair['name']
-
-        self.instance = self.create_server(image_id=self.image_ref,
-                                           flavor=self.flavor_ref,
-                                           wait_until='ACTIVE', **kwargs)
-        """
-        Create floating ip to management port.
-        """
-        fip = dict()
-        fip['ip'] = \
-            self.instance['addresses'][self.test_network_dict[
-                'public']][0]['addr']
         if router_exist:
             super(TestNfvBasic, self)._add_subnet_to_router()
-            fip = self.create_floating_ip(self.instance,
-                                          self.public_network)
 
-        LOG.info("fip: %s, instance_id: %s", fip['ip'], self.instance["id"])
+        servers = self.create_server_with_resources(**kwargs)
+
+        LOG.info("fip: %s, instance_id: %s", servers[0]['fip']['ip'],
+                 servers[0]['id'])
         """
         Run ping and verify ssh connection.
         """
-        msg = "Timed out waiting for %s to become reachable" % fip['ip']
-        self.assertTrue(self.ping_ip_address(fip['ip']), msg)
+        msg = "Timed out waiting for %s to become reachable" % \
+              servers[0]['fip']['ip']
+        self.assertTrue(self.ping_ip_address(servers[0]['fip']['ip']), msg)
         self.assertTrue(self.get_remote_client(
-            fip['ip'], private_key=keypair['private_key']))
+            servers[0]['fip']['ip'], private_key=keypair['private_key']))
         self.ip_address = self._get_hypervisor_ip_from_undercloud(
             **{'shell': '/home/stack/stackrc',
-               'server_id': self.instance['id']})[0]
-        self._check_vcpu_with_xml(self.instance, self.ip_address,
+               'server_id': servers[0]['id']})[0]
+        self._check_vcpu_with_xml(servers[0], self.ip_address,
                                   test_setup_numa[4:])
 
     def test_numa0_provider_network(self):
@@ -271,35 +256,22 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         keypair = self.create_keypair()
         self.key_pairs[keypair['name']] = keypair
         super(TestNfvBasic, self)._create_test_networks()
-        security = super(TestNfvBasic, self)._set_security_groups()
-        if security is not None:
-            kwargs['security_groups'] = security
-        kwargs['networks'] = super(TestNfvBasic,
-                                   self)._create_ports_on_networks(**kwargs)
         kwargs['user_data'] = super(TestNfvBasic,
                                     self)._prepare_cloudinit_file()
-        self.instance = self.create_server(key_name=keypair['name'],
-                                           image_id=self.image_ref,
-                                           flavor=self.flavor_ref,
-                                           wait_until='ACTIVE', **kwargs)
-        fip = dict()
-        fip['ip'] = \
-            self.instance['addresses'][self.test_network_dict[
-                'public']][0]['addr']
         if router_exist is not None and router_exist:
             super(TestNfvBasic, self)._add_subnet_to_router()
-            fip = self.create_floating_ip(self.instance,
-                                          self.public_network)
-        msg = "Timed out waiting for %s to become reachable" % fip['ip']
-        self.assertTrue(self.ping_ip_address(fip['ip']), msg)
+        servers = self.create_server_with_resources(**kwargs)
+        msg = "Timed out waiting for %s to become reachable" % \
+              servers[0]['fip']['ip']
+        self.assertTrue(self.ping_ip_address(servers[0]['fip']['ip']), msg)
         gateway = self.test_network_dict[self.test_network_dict[
             'public']]['gateway_ip']
         gw_msg = "The gateway of given network does not exists,".\
             join("please assign it and re-run.")
         self.assertTrue(gateway is not None, gw_msg)
-        ssh_source = self.get_remote_client(fip['ip'],
+        ssh_source = self.get_remote_client(servers[0]['fip']['ip'],
                                             private_key=self.key_pairs
-                                            [self.instance['key_name']][
+                                            [servers[0]['key_name']][
                                                 'private_key'])
         return ssh_source.exec_command('ping -c 1 -M do -s %d %s' % (mtu,
                                                                      gateway))
