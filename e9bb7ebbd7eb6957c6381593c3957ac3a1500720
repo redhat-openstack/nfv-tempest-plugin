@@ -94,6 +94,30 @@
       "revId": "e9bb7ebbd7eb6957c6381593c3957ac3a1500720",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf29f09b_9a0428a5",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2018-10-14T08:16:45Z",
+      "side": 1,
+      "message": "You should\u0027ve put the quotes around \u00272.32\u0027 and so on,\n\nI was working on a demonstration but you already fixed it.",
+      "parentUuid": "e1dc2d40_e1dd0b6f",
+      "range": {
+        "startLine": 531,
+        "startChar": 0,
+        "endLine": 532,
+        "endChar": 70
+      },
+      "revId": "e9bb7ebbd7eb6957c6381593c3957ac3a1500720",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
