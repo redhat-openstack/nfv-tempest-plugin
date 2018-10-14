@@ -87,6 +87,10 @@ test-flavors:
        "hw:numa_cpus.1": "1"
        "hw:cpu_policy": "dedicated"
 
+# Files to be transfered from client to instance during the test
+transfer-files:
+  - [client_source: "/path/to/source.txt", guest_destination: "/path/to/dest.txt"]
+
 # Test repo to be used by the instance during the test (optional variable).
 test_instance_repo:
   name: epel
