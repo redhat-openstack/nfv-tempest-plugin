@@ -31,4 +31,9 @@ HypervisorGroup = [
     cfg.StrOpt('external_config_file',
                default=None,
                help="The path to yml file for additional configurations"),
+    cfg.StrOpt('transfer_files',
+                default=None,
+                help=("List of dictionaries contanining paths and "
+                      "destinations of files to be tranfered from "
+                      "client to guest")),
 ]
