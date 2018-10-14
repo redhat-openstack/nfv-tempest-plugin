@@ -13,11 +13,19 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import os
 from oslo_config import cfg
+
+tests_dir = os.path.dirname(os.path.realpath(__file__))
+tests_scripts_dir = tests_dir + "/tests_scripts"
+default_script = tests_scripts_dir + "custom_net_config.py"
+default_personality = ("[{'client_source': {0}"
+                       ", "
+                       "guest_destination: "
+                       "/tmp/custom_net_config.py'}]".format(default_script))
 
 hypervisor_group = cfg.OptGroup(name="hypervisor",
                                 title="Hypervisor params")
-
 HypervisorGroup = [
     cfg.StrOpt('user',
                default='heat-admin',
@@ -31,4 +39,9 @@ HypervisorGroup = [
     cfg.StrOpt('external_config_file',
                default=None,
                help="The path to yml file for additional configurations"),
+    cfg.StrOpt('transfer_files',
+               default=default_personality,
+               help=("List of dictionaries contanining paths and "
+                     "destinations of files to be tranfered from "
+                     "client to guest")),
 ]

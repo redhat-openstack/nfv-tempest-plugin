@@ -40,6 +40,15 @@ In case of manual environment configuration, be aware of the following:
   user = heat-admin
   ```
 
+- Files can be transferred from tester node to guest instance using nova's personality API via metadata server.  
+  Refer to [server personality documentation](https://developer.openstack.org/api-ref/compute/#servers-servers).  
+  Specify a list of dictionaries in **string** with the coressponding values under hypervisor group.
+  NOTE: Personality is deprecated from compute microversion 2.57 and onwards and should be replaced by user_data.
+  ```
+  [hypervisor]
+  transfer_files = '[{"client_source": "/path/to/source.txt", "guest_destination": "/path/to/dest.txt"}]'
+  ```
+
 - Live migration test requires explicit parameter enabled within the tempest.conf file.
   ```
   [compute-feature-enabled]
