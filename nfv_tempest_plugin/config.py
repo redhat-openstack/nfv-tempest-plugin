@@ -31,4 +31,13 @@ HypervisorGroup = [
     cfg.StrOpt('external_config_file',
                default=None,
                help="The path to yml file for additional configurations"),
+    cfg.StrOpt('transfer_files',
+               default='[{"client_source": "/home/stack/tempest/'
+                       'nfv-tempest-plugin/'
+                       'nfv_tempest_plugin/tests/scenario/tests_scripts/'
+                       'custom_net_config.py", "guest_destination":'
+                       '"guest_destination": "/tmp/custom_net_config.py"}]',
+               help=("List of dictionaries contanining paths and "
+                     "destinations of files to be tranfered from "
+                     "client to guest")),
 ]
