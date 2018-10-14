@@ -25,6 +25,7 @@ import xml.etree.ElementTree as ELEMENTTree
 import yaml
 
 from oslo_log import log
+from oslo_serialization import jsonutils
 from tempest.api.compute import api_microversion_fixture
 from tempest import config
 from tempest.lib.common import api_version_utils
@@ -761,6 +762,25 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if kwargs['availability_zone'] is None:
                 kwargs.pop('availability_zone', None)
 
+        if 'transfer_files' in CONF.hypervisor:
+            if float(self.request_microversion) < 2.57:
+                files = jsonutils.loads(CONF.hypervisor.transfer_files)
+                kwargs['personality'] = []
+                for file in files:
+                    self.assertTrue(os.path.exists(file['client_source']),
+                                    "Specified file {0} can't be read"
+                                    .format(file['client_source']))
+                    content = open(file['client_source']).read()
+                    content = textwrap.dedent(content).lstrip().encode('utf8')
+                    content_b64 = base64.b64encode(content)
+                    guest_destination = file['guest_destination']
+                    kwargs['personality'].append({"path": guest_destination,
+                                                  "contents": content_b64})
+            else:
+                raise Exception("Personality (transfer-files) "
+                                "is deprecated from "
+                                "compute micro_version 2.57 and onwards")
+
         server = super(BareMetalManager,
                        self).create_server(name=name,
                                            networks=net_id,
@@ -815,10 +835,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                              ssh_pwauth: True
                              disable_root: 0
                              runcmd:
-                             - cd /etc/sysconfig/network-scripts/
-                             - cp ifcfg-eth0 ifcfg-eth1
-                             - sed -i 's/'eth0'/'eth1'/' ifcfg-eth1
-                             - echo {gateway}{gw_ip} >>  /etc/sysconfig/network
+                             - python /tmp/custom_net_config.py
+                             - echo {gateway}{gw_ip} >> /etc/sysconfig/network
                              - systemctl restart network
                              '''.format(gateway='GATEWAY=',
                                         gw_ip=gw_ip,

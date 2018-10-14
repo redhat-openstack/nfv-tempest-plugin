@@ -13,7 +13,17 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import json
+import os
 from oslo_config import cfg
+
+plugin_dir = os.path.dirname(os.path.realpath(__file__))
+tests_scripts_dir = plugin_dir + "/tests/scenario/tests_scripts"
+default_script = tests_scripts_dir + "/custom_net_config.py"
+default_personality = []
+default_personality.append({"client_source": default_script,
+                            "guest_destination": '/tmp/custom_net_config.py'})
+default_personality = json.dumps(default_personality)
 
 hypervisor_group = cfg.OptGroup(name="hypervisor",
                                 title="Hypervisor params")
@@ -31,4 +41,9 @@ HypervisorGroup = [
     cfg.StrOpt('external_config_file',
                default=None,
                help="The path to yml file for additional configurations"),
+    cfg.StrOpt('transfer_files',
+               default=default_personality,
+               help=("List of dictionaries contanining paths and "
+                     "destinations of files to be tranfered from "
+                     "client to guest")),
 ]
