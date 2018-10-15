@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2551a831_74396e63",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-10-15T12:56:36Z",
+      "side": 1,
+      "message": "Please but the dafault as not None\n\u0027[{\"client_source\": \"tests-scripts/custom-net-config.py\", \"guest_destination\": \" /tmp/custom-net-config.py\"}]\u0027\n\nneed to add another config for tests-scripts location with default location",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 1
+      },
+      "revId": "e116a8995b4dfd1aecc0b6a22328922c80207686",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

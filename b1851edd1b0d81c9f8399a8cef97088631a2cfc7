@@ -46,6 +46,30 @@
       "revId": "b1851edd1b0d81c9f8399a8cef97088631a2cfc7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "370323c2_bdd70d90",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-10-15T12:56:36Z",
+      "side": 1,
+      "message": "There is an option to parse many files in list \nBetter to save it configurable with dafaults",
+      "parentUuid": "b0dcf731_f77efbac",
+      "range": {
+        "startLine": 764,
+        "startChar": 30,
+        "endLine": 764,
+        "endChar": 51
+      },
+      "revId": "b1851edd1b0d81c9f8399a8cef97088631a2cfc7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
