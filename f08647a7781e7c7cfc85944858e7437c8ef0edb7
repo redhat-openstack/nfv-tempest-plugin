@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "82328092_6333c7cb",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-15T12:46:41Z",
+      "side": 1,
+      "message": "I agree.\nBut currently, I want to refactor the existing code and reduce the amount of code used in the tests.\nThis is how it works now.\nLets not add a new features here as it is refactoring.",
+      "parentUuid": "d621767b_ba84d008",
+      "range": {
+        "startLine": 790,
+        "startChar": 11,
+        "endLine": 790,
+        "endChar": 73
+      },
+      "revId": "f08647a7781e7c7cfc85944858e7437c8ef0edb7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b6d61cbf_d1c1f7a6",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-10-15T12:34:40Z",
       "side": 1,
       "message": "I think this should go into create resources also",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 105,
+        "endChar": 79
+      },
+      "revId": "f08647a7781e7c7cfc85944858e7437c8ef0edb7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7db1b614_32a0bcf8",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-15T12:46:41Z",
+      "side": 1,
+      "message": "Yariv, are you kidding?\n\nI have added the previous patch [1] that moved all these resources to the new method.\nYou gave me -2 because as you told me, it was too big.\nAnd now you say that it should move to the create resource method also?\n\nOf course, it should!\nBut you asked to do it in small patches. So I am.\n\n[1] https://review.gerrithub.io/c/redhat-openstack/nfv-tempest-plugin/+/424456",
+      "parentUuid": "b6d61cbf_d1c1f7a6",
       "range": {
         "startLine": 99,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2c83908d_96696225",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-15T12:46:41Z",
+      "side": 1,
+      "message": "See comment of line 99 within test_nfv_basic.py.",
+      "parentUuid": "eccbc7ed_b6eb39eb",
+      "range": {
+        "startLine": 111,
+        "startChar": 1,
+        "endLine": 113,
+        "endChar": 74
+      },
+      "revId": "f08647a7781e7c7cfc85944858e7437c8ef0edb7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "79582585_aefa5197",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2018-10-15T12:34:40Z",
       "side": 1,
       "message": "Is\u0027nt it part of resource creation?",
+      "range": {
+        "startLine": 120,
+        "startChar": 7,
+        "endLine": 120,
+        "endChar": 57
+      },
+      "revId": "f08647a7781e7c7cfc85944858e7437c8ef0edb7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab1204a5_635ffdb0",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-15T12:46:41Z",
+      "side": 1,
+      "message": "See comment of line 99 within test_nfv_basic.py.",
+      "parentUuid": "79582585_aefa5197",
       "range": {
         "startLine": 120,
         "startChar": 7,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "e60219cc_834e27c4",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-15T12:46:41Z",
+      "side": 1,
+      "message": "See comment of line 99 within test_nfv_basic.py.",
+      "parentUuid": "5cc3e508_c66d0edb",
+      "range": {
+        "startLine": 244,
+        "startChar": 8,
+        "endLine": 251,
+        "endChar": 0
+      },
+      "revId": "f08647a7781e7c7cfc85944858e7437c8ef0edb7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2a6fea5f_8bf0ded3",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 1
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "ba5f6124_cb11c922",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-15T12:46:41Z",
+      "side": 1,
+      "message": "See comment of line 99 within test_nfv_basic.py.",
+      "parentUuid": "2a6fea5f_8bf0ded3",
+      "range": {
+        "startLine": 258,
+        "startChar": 8,
+        "endLine": 258,
+        "endChar": 57
+      },
+      "revId": "f08647a7781e7c7cfc85944858e7437c8ef0edb7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7cd1d97c_cafb464c",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
         "patchSetId": 1
@@ -151,6 +295,30 @@
       "writtenOn": "2018-10-15T12:34:40Z",
       "side": 1,
       "message": "see errors in basic_nfv",
+      "range": {
+        "startLine": 90,
+        "startChar": 3,
+        "endLine": 102,
+        "endChar": 0
+      },
+      "revId": "f08647a7781e7c7cfc85944858e7437c8ef0edb7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9cb31bf_1127751c",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-15T12:46:41Z",
+      "side": 1,
+      "message": "See comment of line 99 within test_nfv_basic.py.",
+      "parentUuid": "7cd1d97c_cafb464c",
       "range": {
         "startLine": 90,
         "startChar": 3,
