@@ -22,6 +22,30 @@
       "revId": "b1851edd1b0d81c9f8399a8cef97088631a2cfc7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0dcf731_f77efbac",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-15T08:25:09Z",
+      "side": 1,
+      "message": "Why tempest.conf?\nThis method should get an attribute of the file that should be copied and where.\nBut the file should reside within the nfv plugin.\n\nHow tempest.conf met here?",
+      "parentUuid": "83ead0d2_f6f7878f",
+      "range": {
+        "startLine": 764,
+        "startChar": 30,
+        "endLine": 764,
+        "endChar": 51
+      },
+      "revId": "b1851edd1b0d81c9f8399a8cef97088631a2cfc7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
