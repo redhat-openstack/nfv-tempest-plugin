@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d621767b_ba84d008",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-10-15T12:34:40Z",
+      "side": 1,
+      "message": "This one is Trickey, since if we need to add how many ports needed to create on each network\nThis way,\nsuper(BareMetalManager,self).create_server(name\u003dname,\n                                           networks\u003dnet_id,\n                                           image_id\u003dimage_id,\n                                           flavor\u003dflavor,\n                                           wait_until\u003dwait_until,\n                                           **kwargs)\n\nWill have only the net_id and will dind the relevant ports for each network\nWhen you want to have 2 machines for SRIOV for instance, the parent method will find the ports in each network and assign it to each compute,\nThat is what the code says, we need to verify it\nsee here:\nhttps://github.com/openstack/tempest/blob/master/tempest/scenario/manager.py#L194",
+      "range": {
+        "startLine": 790,
+        "startChar": 11,
+        "endLine": 790,
+        "endChar": 73
+      },
+      "revId": "f08647a7781e7c7cfc85944858e7437c8ef0edb7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6d61cbf_d1c1f7a6",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-10-15T12:34:40Z",
+      "side": 1,
+      "message": "I think this should go into create resources also",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 105,
+        "endChar": 79
+      },
+      "revId": "f08647a7781e7c7cfc85944858e7437c8ef0edb7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eccbc7ed_b6eb39eb",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-10-15T12:34:40Z",
+      "side": 1,
+      "message": "I think this should go into create resources also",
+      "range": {
+        "startLine": 111,
+        "startChar": 1,
+        "endLine": 113,
+        "endChar": 74
+      },
+      "revId": "f08647a7781e7c7cfc85944858e7437c8ef0edb7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79582585_aefa5197",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-10-15T12:34:40Z",
+      "side": 1,
+      "message": "Is\u0027nt it part of resource creation?",
+      "range": {
+        "startLine": 120,
+        "startChar": 7,
+        "endLine": 120,
+        "endChar": 57
+      },
+      "revId": "f08647a7781e7c7cfc85944858e7437c8ef0edb7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cc3e508_c66d0edb",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-10-15T12:34:40Z",
+      "side": 1,
+      "message": "see above",
+      "range": {
+        "startLine": 244,
+        "startChar": 8,
+        "endLine": 251,
+        "endChar": 0
+      },
+      "revId": "f08647a7781e7c7cfc85944858e7437c8ef0edb7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a6fea5f_8bf0ded3",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-10-15T12:34:40Z",
+      "side": 1,
+      "message": "see above",
+      "range": {
+        "startLine": 258,
+        "startChar": 8,
+        "endLine": 258,
+        "endChar": 57
+      },
+      "revId": "f08647a7781e7c7cfc85944858e7437c8ef0edb7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cd1d97c_cafb464c",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-10-15T12:34:40Z",
+      "side": 1,
+      "message": "see errors in basic_nfv",
+      "range": {
+        "startLine": 90,
+        "startChar": 3,
+        "endLine": 102,
+        "endChar": 0
+      },
+      "revId": "f08647a7781e7c7cfc85944858e7437c8ef0edb7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
