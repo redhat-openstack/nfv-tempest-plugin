@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "60d777b9_52e854b8",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-10-15T13:51:24Z",
+      "side": 1,
+      "message": "So, why starting w. multiple servers and refactoring",
+      "parentUuid": "82328092_6333c7cb",
+      "range": {
+        "startLine": 790,
+        "startChar": 11,
+        "endLine": 790,
+        "endChar": 73
+      },
+      "revId": "f08647a7781e7c7cfc85944858e7437c8ef0edb7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b6d61cbf_d1c1f7a6",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Yariv, are you kidding?\n\nI have added the previous patch [1] that moved all these resources to the new method.\nYou gave me -2 because as you told me, it was too big.\nAnd now you say that it should move to the create resource method also?\n\nOf course, it should!\nBut you asked to do it in small patches. So I am.\n\n[1] https://review.gerrithub.io/c/redhat-openstack/nfv-tempest-plugin/+/424456",
       "parentUuid": "b6d61cbf_d1c1f7a6",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 105,
+        "endChar": 79
+      },
+      "revId": "f08647a7781e7c7cfc85944858e7437c8ef0edb7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8a1bf59_bd2d9624",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-10-15T13:51:24Z",
+      "side": 1,
+      "message": "Sorry i am confused\n\nPatch name is multiple server creation as discussed, but createserver w/ resources added also, instead of separating it you still did two things,\nIt is again 2 things in one patch, sorry\n\nSo why you introsuced the createserver w/ resource?",
+      "parentUuid": "7db1b614_32a0bcf8",
       "range": {
         "startLine": 99,
         "startChar": 8,
