@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "6ccc6d72_d7a7e783",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-10-18T14:26:56Z",
+      "side": 1,
+      "message": "Please use class.staticmethod() similar to\nsince currently the parameters are global to tempest.\nstatic methods can b used w/o instantiation of class\n\n\nclass HypervisorGroupUtils:\n   @staticmethod\n   def get_default_personality():\n       plugin_dir \u003d os.path.dirname(os.path.realpath(__file__))\n       tests_scripts_dir \u003d plugin_dir + \"/tests/scenario/tests_scripts\"\n       default_script \u003d tests_scripts_dir + \"/custom_net_config.py\"\n       default_personality \u003d []\n       default_personality.append({\"client_source\": default_script,\n                                  \"guest_destination\": \u0027/tmp/custom_net_config.py\u0027})\n       return default_personality",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 53
+      },
+      "revId": "fdd54ff2e69659ffb6c669e505d42b759fbbd95a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2697541_8a758cc0",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-10-18T14:26:56Z",
+      "side": 1,
+      "message": "HypervisorGroupUtils.get_default_personality()",
+      "range": {
+        "startLine": 45,
+        "startChar": 23,
+        "endLine": 45,
+        "endChar": 42
+      },
+      "revId": "fdd54ff2e69659ffb6c669e505d42b759fbbd95a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f5d34f2_83458db2",
         "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/custom_net_config.py",
         "patchSetId": 8
