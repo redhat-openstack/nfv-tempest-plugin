@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f5d34f2_83458db2",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/custom_net_config.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-18T07:03:21Z",
+      "side": 1,
+      "message": "Maybe add some prefix to the logger, such as \"Custom net config - ...\"\nIt will be much easier to locate it later within the log file of the instance if need to debug.",
+      "range": {
+        "startLine": 57,
+        "startChar": 33,
+        "endLine": 57,
+        "endChar": 35
+      },
+      "revId": "fdd54ff2e69659ffb6c669e505d42b759fbbd95a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
