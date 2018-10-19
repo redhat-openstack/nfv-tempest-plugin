@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "129de147_16f899dd",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-19T23:18:19Z",
+      "side": 1,
+      "message": "It is here because I\u0027m leaving the multicast test as it is, without changes.\nSince the new method yet supports multiple instance creation, I didn\u0027t touch the test at all, because I don\u0027t want to break it.\n\nAnd it still uses this statement.\nOnce multiple server creation will be implemented, I will modify the multicast test to use it and will delete all these leftovers.",
+      "parentUuid": "446c95c6_f18af51a",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 28
+      },
+      "revId": "281efb20762b40314990bcaa03b168a6c6f8a952",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee2cf2ba_bcf50496",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ae07ea9d_475b6215",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-19T23:18:19Z",
+      "side": 1,
+      "message": "self.cpuregex moved to baremetal manager\n\nself.image_ref and self.flavor_ref are still used by multicast test.",
+      "parentUuid": "ee2cf2ba_bcf50496",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 49
+      },
+      "revId": "281efb20762b40314990bcaa03b168a6c6f8a952",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0839ec22_36e773f7",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2018-10-18T14:41:45Z",
       "side": 1,
       "message": "This three vars, are exist in TestDpdkScenarios and TestNfvBasic\nIt can be moved to baremetal init __init__",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 60
+      },
+      "revId": "281efb20762b40314990bcaa03b168a6c6f8a952",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d4663f1_e5e027d2",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-19T23:18:19Z",
+      "side": 1,
+      "message": "Moved.",
+      "parentUuid": "0839ec22_36e773f7",
       "range": {
         "startLine": 39,
         "startChar": 0,
