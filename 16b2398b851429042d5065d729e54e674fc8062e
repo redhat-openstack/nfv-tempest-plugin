@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6820d175_e8eb2eda",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-10-22T13:58:27Z",
+      "side": 1,
+      "message": "Please, try to make it simple.\nI broke my mind when trying to understand it. And I know what is it about. :)",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 73
+      },
+      "revId": "16b2398b851429042d5065d729e54e674fc8062e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
