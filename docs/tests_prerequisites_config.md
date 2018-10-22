@@ -40,10 +40,27 @@ In case of manual environment configuration, be aware of the following:
   user = heat-admin
   ```
 
+- Files can be transferred from tester node to guest instance using nova's personality API via metadata server.  
+  Refer to [server personality documentation](https://developer.openstack.org/api-ref/compute/#servers-servers).  
+  Specify a list of dictionaries in **string** with the coressponding values under hypervisor group.
+  NOTE: Personality is deprecated from compute microversion 2.57 and onwards and should be replaced by user_data.
+  ```
+  [hypervisor]
+  transfer_files = '[{"client_source": "/path/to/source.txt", "guest_destination": "/path/to/dest.txt"}]'
+  ```
+
 - Live migration test requires explicit parameter enabled within the tempest.conf file.
   ```
   [compute-feature-enabled]
   live_migration = true
+  ```
+
+- Config drive allows to access Nova's metadata server via CD-ROM device instead of via network connectivity. By Default is True.  
+  Refer to [config drive documentation](https://docs.openstack.org/nova/queens/user/config-drive.html)  
+  To disable the use of config_drive, set the parameter to false
+  ```
+  [compute-feature-enabled]
+  config_drive = false
   ```
 
 - **Note 1** - Tempest require a predefined (public api) network that will be used as an access point for the tests execution.  
