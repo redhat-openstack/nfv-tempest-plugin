@@ -46,6 +46,10 @@ test-networks:
     network_type: vlan
     ip_version: 4
     port_type: normal
+    # Tags ports which are created on this network with metadata that can be
+    # accessed via Nova metadata server which can be used in guest instance
+    # to perform necessary configuration on the NIC connected to the port
+    tag: external
 
 # Flavors used by the test.
 # Will be created by the tests during the execution
