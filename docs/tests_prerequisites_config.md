@@ -55,6 +55,14 @@ In case of manual environment configuration, be aware of the following:
   live_migration = true
   ```
 
+- Config drive allows to access Nova's metadata server via CD-ROM device instead of via network connectivity. By Default is True.  
+  Refer to [config drive documentation](https://docs.openstack.org/nova/queens/user/config-drive.html)  
+  To disable the use of config_drive, set the parameter to false
+  ```
+  [compute-feature-enabled]
+  config_drive = false
+  ```
+
 - **Note 1** - Tempest require a predefined (public api) network that will be used as an access point for the tests execution.  
 All other networks used by the test will be created during the test execution.
 
