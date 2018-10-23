@@ -167,8 +167,7 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         self.assertTrue(self.ping_ip_address(fip['ip']), msg)
         """ Migrate server """
         self.os_admin.servers_client.live_migrate_server(
-            server_id=instance['id'], block_migration=True,
-            disk_over_commit=True, host=None)
+            server_id=instance['id'], block_migration=True, host=None)
         """ Switch hypervisor id (compute-0 <=> compute-1) """
         if host.find('0') > 0:
             dest = list(host)
