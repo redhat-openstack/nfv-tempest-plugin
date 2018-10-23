@@ -332,6 +332,29 @@
     },
     {
       "key": {
+        "uuid": "5173a13b_1277fe92",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2018-10-23T07:06:53Z",
+      "side": 1,
+      "message": "Don\u0027t you want to check if all servers can be reached via external?",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 11
+      },
+      "revId": "f08647a7781e7c7cfc85944858e7437c8ef0edb7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7cd1d97c_cafb464c",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
         "patchSetId": 1
