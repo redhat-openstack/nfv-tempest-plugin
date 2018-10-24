@@ -1,4 +1,4 @@
-# Copyright 2017 Red Hat, Inc.
+# Copyright 2018 Red Hat, Inc.
 # All Rights Reserved.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -25,6 +25,7 @@ import xml.etree.ElementTree as ELEMENTTree
 import yaml
 
 from oslo_log import log
+from oslo_serialization import jsonutils
 from tempest.api.compute import api_microversion_fixture
 from tempest import config
 from tempest.lib.common import api_version_utils
@@ -44,16 +45,14 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
     def __init__(self, *args, **kwargs):
         super(BareMetalManager, self).__init__(*args, **kwargs)
-        self.doc = None
-        self.password = None
         self.external_config = None
         self.test_setup_dict = {}
         self.key_pairs = {}
         self.servers = []
-        self.test_networks = {}
         self.test_network_dict = {}
         self.test_flavor_dict = {}
         self.test_instance_repo = {}
+        self.user_data = {}
 
     @classmethod
     def setup_clients(cls):
@@ -197,6 +196,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if 'test_instance_repo' in self.external_config:
             self.test_instance_repo = self.external_config[
                 'test_instance_repo']
+
+        if 'user_data' in CONF.hypervisor:
+            self.user_data = CONF.hypervisor.user_data
+            self.assertTrue(os.path.exists(self.user_data),
+                            "Specified user_data file can't be read")
 
     def check_flavor_existence(self, testname):
         """Check test specific flavor existence.
@@ -525,6 +529,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'mgmt' in net and 'dns_nameservers' in net:
                 self.test_network_dict[net['name']]['dns_nameservers'] = \
                     net['dns_nameservers']
+            if ('tag' in net and (2.32 <= float(self.request_microversion) <=
+                                  2.36 or self.request_microversion >= 2.42)):
+                self.test_network_dict[net['name']]['tag'] = net['tag']
         network_kwargs = {}
         """
         Create network and subnets
@@ -688,6 +695,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 port = self._create_port(network_id=net_param['net-id'],
                                          **create_port_body)
                 net_var = {'uuid': net_param['net-id'], 'port': port['id']}
+                if 'tag' in net_param:
+                    net_var['tag'] = net_param['tag']
                 networks_list.append(net_var) \
                     if net_name != self.test_network_dict['public'] else \
                     networks_list.insert(0, net_var)
@@ -737,6 +746,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         net_id = []
         networks = []
+        (CONF.compute_feature_enabled.config_drive and
+         kwargs.update({'config_drive': True}))
         if 'networks' in kwargs:
             net_id = kwargs['networks']
             kwargs.pop('networks', None)
@@ -750,6 +761,25 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if 'availability_zone' in kwargs:
             if kwargs['availability_zone'] is None:
                 kwargs.pop('availability_zone', None)
+
+        if 'transfer_files' in CONF.hypervisor:
+            if float(self.request_microversion) < 2.57:
+                files = jsonutils.loads(CONF.hypervisor.transfer_files)
+                kwargs['personality'] = []
+                for file in files:
+                    self.assertTrue(os.path.exists(file['client_source']),
+                                    "Specified file {0} can't be read"
+                                    .format(file['client_source']))
+                    content = open(file['client_source']).read()
+                    content = textwrap.dedent(content).lstrip().encode('utf8')
+                    content_b64 = base64.b64encode(content)
+                    guest_destination = file['guest_destination']
+                    kwargs['personality'].append({"path": guest_destination,
+                                                  "contents": content_b64})
+            else:
+                raise Exception("Personality (transfer-files) "
+                                "is deprecated from "
+                                "compute micro_version 2.57 and onwards")
 
         server = super(BareMetalManager,
                        self).create_server(name=name,
@@ -796,37 +826,38 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         gw_ip = self.test_network_dict[self.test_network_dict[
             'public']]['gateway_ip']
 
-        script = '''
-                 #cloud-config
-                 user: {user}
-                 password: {passwd}
-                 chpasswd: {{expire: False}}
-                 ssh_pwauth: True
-                 disable_root: 0
-                 runcmd:
-                 - cd /etc/sysconfig/network-scripts/
-                 - cp ifcfg-eth0 ifcfg-eth1
-                 - sed -i 's/'eth0'/'eth1'/' ifcfg-eth1
-                 - echo {gateway}{gw_ip} >>  /etc/sysconfig/network
-                 - systemctl restart network'''.format(gateway='GATEWAY=',
-                                                       gw_ip=gw_ip,
-                                                       user=self.ssh_user,
-                                                       passwd=self.ssh_passwd)
-
-        if self.test_instance_repo and 'name' in self.test_instance_repo:
+        if not self.user_data:
+            self.user_data = '''
+                             #cloud-config
+                             user: {user}
+                             password: {passwd}
+                             chpasswd: {{expire: False}}
+                             ssh_pwauth: True
+                             disable_root: 0
+                             runcmd:
+                             - python /tmp/custom_net_config.py
+                             - echo {gateway}{gw_ip} >> /etc/sysconfig/network
+                             - systemctl restart network
+                             '''.format(gateway='GATEWAY=',
+                                        gw_ip=gw_ip,
+                                        user=self.ssh_user,
+                                        passwd=self.ssh_passwd)
+        if (self.test_instance_repo and
+            'name' in self.test_instance_repo and not self.user_data):
             repo_name = self.external_config['test_instance_repo']['name']
             repo_url = self.external_config['test_instance_repo']['url']
             repo = '''
-                 yum_repos:
-                    {repo_name}:
-                       name: {repo_name}
-                       baseurl: {repo_url}
-                       enabled: true
-                       gpgcheck: false'''.format(repo_name=repo_name,
-                                                 repo_url=repo_url)
-            script = "".join((script, repo))
+                   yum_repos:
+                       {repo_name}:
+                          name: {repo_name}
+                          baseurl: {repo_url}
+                          enabled: true
+                          gpgcheck: false
+                    '''.format(repo_name=repo_name,
+                               repo_url=repo_url)
+            self.user_data = "".join((self.user_data, repo))
 
-        if install_packages is not None:
+        if install_packages is not None and not self.user_data:
             header = '''
                  packages:'''
             body = ''
@@ -834,11 +865,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 body += '''
                  - {package}'''.format(package=package)
             package = "".join((header, body))
-            script = "".join((script, package))
+            self.user_data = "".join((self.user_data, package))
 
-        script_clean = textwrap.dedent(script).lstrip().encode('utf8')
-        script_b64 = base64.b64encode(script_clean)
-        return script_b64
+        user_data = textwrap.dedent(self.user_data).lstrip().encode('utf8')
+        user_data_b64 = base64.b64encode(user_data)
+        return user_data_b64
 
     def _set_security_groups(self):
         """Security group creation

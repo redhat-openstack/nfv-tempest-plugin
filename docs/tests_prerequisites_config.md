@@ -24,12 +24,29 @@ In case of manual environment configuration, be aware of the following:
   ```
   The file name is not restricted to a specific name.
 
+- nfv-tempest-plugin can use a custom user_data during instance booting by supplying the file within tempest.conf under hyervisor group.
+  The file should reside on the tester host and path of the file should be provided within the tempest.conf file under hypervisor section.
+  ```
+  [hypervisor]
+  user_data = /path/to/user_data.yml
+  ```
+  The file name is not restricted to a specific name.
+
 - Some of the tests will require to perform checks on the hypervisors.  
   For such case, specify the user and private key for the hypervisor ssh access under hypervisor section.
   ```
   [hypervisor]
   private_key_file = /home/stack/.ssh/id_rsa
   user = heat-admin
+  ```
+
+- Files can be transferred from tester node to guest instance using nova's personality API via metadata server.  
+  Refer to [server personality documentation](https://developer.openstack.org/api-ref/compute/#servers-servers).  
+  Specify a list of dictionaries in **string** with the coressponding values under hypervisor group.
+  NOTE: Personality is deprecated from compute microversion 2.57 and onwards and should be replaced by user_data.
+  ```
+  [hypervisor]
+  transfer_files = '[{"client_source": "/path/to/source.txt", "guest_destination": "/path/to/dest.txt"}]'
   ```
 
 - Live migration test requires explicit parameter enabled within the tempest.conf file.
