@@ -46,6 +46,9 @@ test-networks:
     network_type: vlan
     ip_version: 4
     port_type: normal
+    # Utiltizes Nova's device role tagging in order to add a metadata tag for
+    # ports created on this network
+    tag: external
 
 # Flavors used by the test.
 # Will be created by the tests during the execution
