@@ -13,8 +13,6 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-import re
-
 from nfv_tempest_plugin.tests.scenario import baremetal_manager
 from oslo_log import log as logging
 from tempest import clients
@@ -29,14 +27,7 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
     def __init__(self, *args, **kwargs):
         super(TestNfvBasic, self).__init__(*args, **kwargs)
         self.ip_address = None
-        self.instance = None
         self.availability_zone = None
-        self.cpuregex = re.compile('^[0-9]{1,2}$')
-        self.image_ref = CONF.compute.image_ref
-        self.flavor_ref = CONF.compute.flavor_ref
-        self.public_network = CONF.network.public_network_id
-        self.ssh_user = CONF.validation.image_ssh_user
-        self.ssh_passwd = CONF.validation.image_ssh_password
 
     @classmethod
     def setup_credentials(cls):
@@ -72,6 +63,12 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         :param test_setup_numa
         """
 
+        servers, key_pair = \
+            self.create_server_with_resources(test=test_setup_numa)
+
+        LOG.info("fip: %s, instance_id: %s", servers[0]['fip'],
+                 servers[0]['id'])
+
         """
         Check CPU mapping for numa0
         """
@@ -89,72 +86,16 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         result = self._run_command_over_ssh(self.ip_address, command)
         self.assertTrue(int(result[0]) == 2)
 
-        """
-        If the test demands external_config.. apply assertion check for config
-        """
-        kwargs = {}
-        self.assertTrue(test_setup_numa in self.test_setup_dict,
-                        "test requires {0}, setup in externs_config_file".
-                        format(test_setup_numa))
-
-        flavor_exists = super(TestNfvBasic,
-                              self).check_flavor_existence(test_setup_numa)
-        if flavor_exists is False:
-            flavor_name = self.test_setup_dict[test_setup_numa]['flavor']
-            self.flavor_ref = \
-                super(TestNfvBasic,
-                      self).create_flavor(**self.test_flavor_dict[flavor_name])
-
-        if 'availability-zone' in self.test_setup_dict[test_setup_numa]:
-            kwargs['availability_zone'] = \
-                self.test_setup_dict[test_setup_numa]['availability-zone']
-
-        router_exist = True
-        if 'router' in self.test_setup_dict[test_setup_numa]:
-            router_exist = self.test_setup_dict[test_setup_numa]['router']
-
-        """
-        Create Keys for Deployed Guest Image
-        """
-        keypair = self.create_keypair()
-        self.key_pairs[keypair['name']] = keypair
-        super(TestNfvBasic, self)._create_test_networks()
-        security = super(TestNfvBasic, self)._set_security_groups()
-        if security is not None:
-            kwargs['security_groups'] = security
-        kwargs['networks'] = super(TestNfvBasic,
-                                   self)._create_ports_on_networks(**kwargs)
-        kwargs['user_data'] = super(TestNfvBasic,
-                                    self)._prepare_cloudinit_file()
-        kwargs['key_name'] = keypair['name']
-
-        self.instance = self.create_server(image_id=self.image_ref,
-                                           flavor=self.flavor_ref,
-                                           wait_until='ACTIVE', **kwargs)
-        """
-        Create floating ip to management port.
-        """
-        fip = dict()
-        fip['ip'] = \
-            self.instance['addresses'][self.test_network_dict[
-                'public']][0]['addr']
-        if router_exist:
-            super(TestNfvBasic, self)._add_subnet_to_router()
-            fip = self.create_floating_ip(self.instance,
-                                          self.public_network)
-
-        LOG.info("fip: %s, instance_id: %s", fip['ip'], self.instance["id"])
-        """
-        Run ping and verify ssh connection.
-        """
-        msg = "Timed out waiting for %s to become reachable" % fip['ip']
-        self.assertTrue(self.ping_ip_address(fip['ip']), msg)
+        """Run ping and verify ssh connection."""
+        msg = "Timed out waiting for %s to become reachable" % \
+              servers[0]['fip']
+        self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
         self.assertTrue(self.get_remote_client(
-            fip['ip'], private_key=keypair['private_key']))
+            servers[0]['fip'], private_key=key_pair['private_key']))
         self.ip_address = self._get_hypervisor_ip_from_undercloud(
             **{'shell': '/home/stack/stackrc',
-               'server_id': self.instance['id']})[0]
-        self._check_vcpu_with_xml(self.instance, self.ip_address,
+               'server_id': servers[0]['id']})[0]
+        self._check_vcpu_with_xml(servers[0], self.ip_address,
                                   test_setup_numa[4:])
 
     def test_numa0_provider_network(self):
@@ -250,56 +191,24 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         :param test_setup_mtu
         :param mtu
         """
-        kwargs = {}
-        router_exist = None
-        if 'availability-zone' in self.test_setup_dict[test_setup_mtu]:
-            self.availability_zone = \
-                self.test_setup_dict[test_setup_mtu]['availability-zone']
 
-        flavor_exists = super(TestNfvBasic,
-                              self).check_flavor_existence(test_setup_mtu)
-        if flavor_exists is False:
-            flavor_name = self.test_setup_dict[test_setup_mtu]['flavor']
-            self.flavor_ref = \
-                super(TestNfvBasic,
-                      self).create_flavor(**self.test_flavor_dict[flavor_name])
+        servers, key_pair = \
+            self.create_server_with_resources(test=test_setup_mtu)
 
-        if 'router' in self.test_setup_dict[test_setup_mtu]:
-            router_exist = self.test_setup_dict[test_setup_mtu]['router']
+        msg = "Timed out waiting for %s to become reachable" % \
+              servers[0]['fip']
+
         if 'mtu' in self.test_setup_dict[test_setup_mtu]:
             mtu = self.test_setup_dict[test_setup_mtu]['mtu']
-        keypair = self.create_keypair()
-        self.key_pairs[keypair['name']] = keypair
-        super(TestNfvBasic, self)._create_test_networks()
-        security = super(TestNfvBasic, self)._set_security_groups()
-        if security is not None:
-            kwargs['security_groups'] = security
-        kwargs['networks'] = super(TestNfvBasic,
-                                   self)._create_ports_on_networks(**kwargs)
-        kwargs['user_data'] = super(TestNfvBasic,
-                                    self)._prepare_cloudinit_file()
-        self.instance = self.create_server(key_name=keypair['name'],
-                                           image_id=self.image_ref,
-                                           flavor=self.flavor_ref,
-                                           wait_until='ACTIVE', **kwargs)
-        fip = dict()
-        fip['ip'] = \
-            self.instance['addresses'][self.test_network_dict[
-                'public']][0]['addr']
-        if router_exist is not None and router_exist:
-            super(TestNfvBasic, self)._add_subnet_to_router()
-            fip = self.create_floating_ip(self.instance,
-                                          self.public_network)
-        msg = "Timed out waiting for %s to become reachable" % fip['ip']
-        self.assertTrue(self.ping_ip_address(fip['ip']), msg)
+
+        self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
         gateway = self.test_network_dict[self.test_network_dict[
             'public']]['gateway_ip']
         gw_msg = "The gateway of given network does not exists,".\
             join("please assign it and re-run.")
         self.assertTrue(gateway is not None, gw_msg)
-        ssh_source = self.get_remote_client(fip['ip'],
-                                            private_key=self.key_pairs
-                                            [self.instance['key_name']][
+        ssh_source = self.get_remote_client(servers[0]['fip'],
+                                            private_key=key_pair[
                                                 'private_key'])
         return ssh_source.exec_command('ping -c 1 -M do -s %d %s' % (mtu,
                                                                      gateway))
