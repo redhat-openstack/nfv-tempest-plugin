@@ -203,7 +203,7 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         """
         Start multicast listeners
         """
-        mcast_group = '224.1.1.1'
+        mcast_group = '224.0.0.1'
         mcast_port = '10000'
         mcast_msg = 'mcast_pass'
         mcast_output = '/tmp/output'
