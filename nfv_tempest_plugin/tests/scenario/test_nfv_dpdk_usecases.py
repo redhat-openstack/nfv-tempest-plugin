@@ -53,7 +53,7 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         """
         super(TestDpdkScenarios, self).setUp()
         try:
-            self.maxqueues = super(TestDpdkScenarios, self)\
+            self.maxqueues = super(TestDpdkScenarios, self) \
                 ._check_number_queues()
         except Exception:
             print("Hypervisor OVS not configured with MultiQueue")
@@ -100,7 +100,8 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
                                               **extra_specs)
         servers, key_pair = \
             self.create_server_with_resources(test=test_setup_migration,
-                                              flavor=migration_flavor)
+                                              flavor=migration_flavor,
+                                              use_mgmt_only=True)
 
         host = self.os_admin.servers_client.show_server(
             servers[0]['id'])['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']
@@ -121,11 +122,12 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
             dest = list(host)
             dest[dest.index('1')] = '0'
             dest = ''.join(dest)
-        while (count < 30):
+        while count < 30:
             count = +1
             time.sleep(3)
-            if (self.os_admin.servers_client.show_server(servers[0]['id'])
-                ['server']['OS-EXT-SRV-ATTR:hypervisor_hostname'] == dest):
+            if dest == self\
+                    .os_admin.servers_client.show_server(servers[0][
+                    'id'])['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']:
                 """ Run ping after migration """
                 self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
                 return True

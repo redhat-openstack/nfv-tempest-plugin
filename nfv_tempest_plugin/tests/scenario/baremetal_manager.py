@@ -771,14 +771,14 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if float(self.request_microversion) < 2.57:
                 files = jsonutils.loads(CONF.hypervisor.transfer_files)
                 kwargs['personality'] = []
-                for file in files:
-                    self.assertTrue(os.path.exists(file['client_source']),
+                for copy_file in files:
+                    self.assertTrue(os.path.exists(copy_file['client_source']),
                                     "Specified file {0} can't be read"
-                                    .format(file['client_source']))
-                    content = open(file['client_source']).read()
+                                    .format(copy_file['client_source']))
+                    content = open(copy_file['client_source']).read()
                     content = textwrap.dedent(content).lstrip().encode('utf8')
                     content_b64 = base64.b64encode(content)
-                    guest_destination = file['guest_destination']
+                    guest_destination = copy_file['guest_destination']
                     kwargs['personality'].append({"path": guest_destination,
                                                   "contents": content_b64})
             else:
@@ -847,7 +847,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             router_exist = self.test_setup_dict[test]['router']
         if router_exist:
             self._add_subnet_to_router()
-
+        """ If this parameters exist, parse only mgmt network.
+            Example live migration cannt run with SRIOV ports attached"""
+        if kwargs.get('use_mgmt_only'):
+            kwargs.pop('use_mgmt_only', None)
+            del(kwargs['networks'][1:])
         # Prepare cloudinit
         kwargs['user_data'] = self._prepare_cloudinit_file()
 
@@ -912,8 +916,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                         gw_ip=gw_ip,
                                         user=self.ssh_user,
                                         passwd=self.ssh_passwd)
-        if (self.test_instance_repo and
-            'name' in self.test_instance_repo and not self.user_data):
+        if (self.test_instance_repo and 'name' in
+                self.test_instance_repo and not self.user_data):
             repo_name = self.external_config['test_instance_repo']['name']
             repo_url = self.external_config['test_instance_repo']['url']
             repo = '''
