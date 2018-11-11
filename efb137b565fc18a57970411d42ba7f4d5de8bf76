@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a362a74d_ecce4fb3",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-11-11T08:53:07Z",
+      "side": 1,
+      "message": "Please, add some comment to describe why this is needed, so within 3-5 month we will be able to understand why this is here.",
+      "range": {
+        "startLine": 851,
+        "startChar": 8,
+        "endLine": 851,
+        "endChar": 10
+      },
+      "revId": "efb137b565fc18a57970411d42ba7f4d5de8bf76",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
