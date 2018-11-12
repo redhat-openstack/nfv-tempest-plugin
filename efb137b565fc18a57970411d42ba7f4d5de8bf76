@@ -22,6 +22,30 @@
       "revId": "efb137b565fc18a57970411d42ba7f4d5de8bf76",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de177652_d7799196",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-11-12T09:06:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a362a74d_ecce4fb3",
+      "range": {
+        "startLine": 851,
+        "startChar": 8,
+        "endLine": 851,
+        "endChar": 10
+      },
+      "revId": "efb137b565fc18a57970411d42ba7f4d5de8bf76",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
