@@ -248,49 +248,55 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         self.os_admin.flavors_client.delete_flavor, flavor_id)
         return flavor_id
 
-    def _check_vcpu_with_xml(self, server, host, cell_id='0'):
+    def _get_dumpxml_instance_data(self, server, hypervisor):
+        """Get dumpxml data from the instance
+
+        :param server: Server name
+        :param hypervisor: Hypervisor that hold the instance
+
+        :return dumpxml_string
+        """
+
+        server_details = \
+            self.os_admin.servers_client.show_server(server['id'])['server']
+        get_dumpxml = 'sudo virsh -c qemu:///system dumpxml {0}'.format(
+            server_details['OS-EXT-SRV-ATTR:instance_name'])
+        dumpxml_data = self._run_command_over_ssh(hypervisor, get_dumpxml)
+        dumpxml_string = ELEMENTTree.fromstring(dumpxml_data)
+
+        return dumpxml_string
+
+    def _check_vcpu_from_dumpxml(self, server, hypervisor, cell_id='0'):
         """Instance vcpu check
 
-        This Method Connects to Bare Metal, Compute and return number of
-        pinned CPUS
+        This method checks vcpu value within the provided dumpxml data
 
         :param server
-        :param host
+        :param hypervisor
         :param cell_id
         """
-        instance_properties = \
-            self.os_admin.servers_client.show_server(server['id'])['server']
-        command = (
-            "sudo virsh -c qemu:///system dumpxml %s" % (
-                instance_properties['OS-EXT-SRV-ATTR:instance_name']))
-        cpuxml = self._run_command_over_ssh(host, command)
-        string = ELEMENTTree.fromstring(cpuxml)
-        s = string.findall('cputune')[0]
+
+        dumpxml_string = self._get_dumpxml_instance_data(server, hypervisor)
+
+        dumpxml = dumpxml_string.findall('cputune')[0]
         pinned_cpu_list = []
-        for numofcpus in s.findall('vcpupin'):
+        for numofcpus in dumpxml.findall('vcpupin'):
             self.assertFalse(self.cpuregex.match(
                 numofcpus.items()[1][1]) is None)
             pinned_cpu_list.append(numofcpus.items()[1][1])
-        """
-        check for existenace of CPU in NUMA cell
-        array=( cpu1 cpu2 cpu3 );
-        for i in "${array[@]}"; do
-            if [ -d /sys/devices/system/cpu/cpu$i/node1 ]; then
-                echo $i;
-            fi;
-        done
-        """
         format_list = " ".join(['{}'.format(x) for x in pinned_cpu_list])
+
         """
         In case of mix topology checking only node0 and verifying
         pinned_cpu_list > res.split()
         """
         mix_mode = 'mix' if cell_id == 'mix' else cell_id
+
         command = '''
         array=( {cpu_list} ); for i in "${{array[@]}}";do
         if [ -d /sys/devices/system/cpu/cpu$i/node{cell} ];then
         echo $i; fi; done'''.format(cell=cell_id, cpu_list=format_list)
-        res = self._run_command_over_ssh(host, command)
+        res = self._run_command_over_ssh(hypervisor, command)
         # !!! In case of Mix search for res smaller than pinned_cpu_list
         if mix_mode != 'mix':
             self.assertEqual(res.split(), pinned_cpu_list,
@@ -303,29 +309,25 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                              '{cell} is equal to config {result}'.format(
                                  cell=cell_id, result=res.split))
 
-    def _check_numa_with_xml(self, server, host):
-        """This Method Connects to Bare Metal,Compute and return number of Cells
+    def _check_numa_from_dumpxml(self, server, hypervisor):
+        """Instance number of cells check
 
-        This method should be obsolete it is used by test_nfv_usecases
+        This method checks the number of cells within the provided dumpxml data
 
         :param server
-        :param host
+        :param hypervisor
         """
-        instance_properties = \
-            self.os_admin.servers_client.show_server(server['id'])['server']
-        command = (
-            "virsh -c qemu:///system dumpxml %s" % (
-                instance_properties['OS-EXT-SRV-ATTR:instance_name']))
-        numaxml = self._run_command_over_ssh(host, command)
-        string = ELEMENTTree.fromstring(numaxml)
-        r = string.findall('cpu')[0]
-        for i in r.findall('topology')[0].items():
+
+        dumpxml_string = self._get_dumpxml_instance_data(server, hypervisor)
+
+        dumpxml = dumpxml_string.findall('cpu')[0]
+        for i in dumpxml.findall('topology')[0].items():
             if i[0] == 'sockets':
                 # change to 2
                 self.assertEqual(i[1], '1')
                 print(i[0])
         count = 0
-        for i in r.findall('numa')[0].findall('cell'):
+        for i in dumpxml.findall('numa')[0].findall('cell'):
             # change memory to 1572864
             if (('id', '0') in i.items() and (
                     ('memory', '2097152')) in i.items()):

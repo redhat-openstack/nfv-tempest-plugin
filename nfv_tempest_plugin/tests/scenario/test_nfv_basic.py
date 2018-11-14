@@ -95,8 +95,8 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         self.ip_address = self._get_hypervisor_ip_from_undercloud(
             **{'shell': '/home/stack/stackrc',
                'server_id': servers[0]['id']})[0]
-        self._check_vcpu_with_xml(servers[0], self.ip_address,
-                                  test_setup_numa[4:])
+        self._check_vcpu_from_dumpxml(servers[0], self.ip_address,
+                                      test_setup_numa[4:])
 
     def test_numa0_provider_network(self):
         self._test_numa_provider_network("numa0")
