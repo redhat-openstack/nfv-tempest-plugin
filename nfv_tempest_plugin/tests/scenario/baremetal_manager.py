@@ -338,6 +338,20 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 count += 1
         self.assertEqual(count, '2')
 
+    def _check_emulatorpin_from_dumpxml(self, server, hypervisor):
+        """Emulatorpin configuration on the instance
+
+        :param server
+        :param hypervisor
+        """
+
+        dumpxml_string = self._get_dumpxml_instance_data(server, hypervisor)
+
+        cputune = dumpxml_string.findall('cputune')[0]
+        emulatorpin_str = cputune.findall('emulatorpin')[0].items()[0][1]
+
+        return emulatorpin_str
+
     @staticmethod
     def _run_command_over_ssh(host, command):
         """This Method run Command Over SSH
