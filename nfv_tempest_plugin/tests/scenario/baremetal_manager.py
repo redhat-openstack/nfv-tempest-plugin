@@ -14,6 +14,8 @@
 #    under the License.
 
 import base64
+import ConfigParser
+import io
 import os.path
 import paramiko
 import re
@@ -337,6 +339,48 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     ('memory', '2097152')) in i.items()):
                 count += 1
         self.assertEqual(count, '2')
+
+    def _get_overcloud_config(self, overcloud_node, config_path):
+        """Get overcloud configuration
+
+        The method will get the config file by the provided path from the
+        overcloud node specified by the user.
+        The path could lead to the regular config path or to the
+        containerized bind.
+
+        :param overcloud_node: Which server to get config from
+        :param config_path: The path of the configuration file
+
+        :return config_data
+        """
+
+        get_config_data = 'sudo cat {0}'.format(config_path)
+        config_data = self._run_command_over_ssh(overcloud_node,
+                                                 get_config_data)
+
+        return config_data
+
+    def _get_value_from_ini_config(self, overcloud_node, config_path,
+                                   check_section, check_value):
+        """Get value from INI configuration file
+
+        :param overcloud_node: The node that config should be pulled from
+        :param config_path: The path of the configuration file
+        :param check_section: Section within the config
+        :param check_value: Value that should be checked within the config
+
+        :return value_data
+        """
+
+        nova_config = self._get_overcloud_config(overcloud_node, config_path)
+
+        nova_config = unicode(nova_config, 'utf-8')
+        get_value = ConfigParser.ConfigParser(allow_no_value=True)
+        get_value.readfp(io.StringIO(nova_config))
+
+        value_data = get_value.get(check_section, check_value)
+
+        return value_data
 
     @staticmethod
     def _run_command_over_ssh(host, command):
