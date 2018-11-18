@@ -70,31 +70,30 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
                  servers[0]['id'])
 
         """
-        Check CPU mapping for numa0
-        """
-        """
         self.ip_address = self._get_hypervisor_host_ip()
-        w/a to my_ip address set in nova fir non_contolled network,
-        need access from tester """
-        host_ip = self._get_hypervisor_ip_from_undercloud(
-            **{'shell': '/home/stack/stackrc'})
-        self.ip_address = host_ip[0]
+        w/a to my_ip address set in nova for non_contolled network,
+        need access from tester
+        """
+        self.ip_address = self._get_hypervisor_ip_from_undercloud(
+            **{'shell': '/home/stack/stackrc',
+               'server_id': servers[0]['id']})[0]
         self.assertNotEmpty(self.ip_address,
                             "_get_hypervisor_ip_from_undercloud "
                             "returned empty ip list")
+        """
+        Check CPU mapping for numa0
+        """
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
         result = self._run_command_over_ssh(self.ip_address, command)
         self.assertTrue(int(result[0]) == 2)
-
-        """Run ping and verify ssh connection."""
+        """
+        Run ping and verify ssh connection.
+        """
         msg = "Timed out waiting for %s to become reachable" % \
               servers[0]['fip']
         self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
         self.assertTrue(self.get_remote_client(
             servers[0]['fip'], private_key=key_pair['private_key']))
-        self.ip_address = self._get_hypervisor_ip_from_undercloud(
-            **{'shell': '/home/stack/stackrc',
-               'server_id': servers[0]['id']})[0]
         self._check_vcpu_from_dumpxml(servers[0], self.ip_address,
                                       test_setup_numa[4:])
 
@@ -120,17 +119,12 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         self.assertTrue(self.test_setup_dict[test_compute],
                         "test requires check-compute-packages "
                         "list in external_config_file")
+        hyper_kwargs = {'shell': '/home/stack/stackrc'}
         if 'availability-zone' in self.test_setup_dict[test_compute]:
-            self.availability_zone = \
-                self.test_setup_dict[test_compute]['availability-zone']
-            host_ip = self._get_hypervisor_ip_from_undercloud(
-                **{'shell': '/home/stack/stackrc',
-                   'aggregation_name': self.availability_zone})
-            self.ip_address = host_ip[0]
-        else:
-            host_ip = self._get_hypervisor_ip_from_undercloud(
-                **{'shell': '/home/stack/stackrc'})
-            self.ip_address = host_ip[0]
+            hyper_kwargs = {'shell': '/home/stack/stackrc',
+                            'aggregation_name': self.availability_zone}
+        self.ip_address = self._get_hypervisor_ip_from_undercloud(
+            **hyper_kwargs)[0]
 
         self.assertNotEmpty(self.ip_address,
                             "_get_hypervisor_ip_from_undercloud "
