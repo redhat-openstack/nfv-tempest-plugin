@@ -396,6 +396,34 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         return value_data
 
+    def compare_emulatorpin_to_overcloud_config(self, server, overcloud_node,
+                                                config_path, check_section,
+                                                check_value):
+        """Compare emulatorpin to overcloud config
+
+        :param server
+        :param overcloud_node
+        :param config_path
+        :param check_section
+        :param check_value
+        """
+
+        instance_emulatorpin = \
+            self._check_emulatorpin_from_dumpxml(server, overcloud_node)
+        nova_emulatorpin = self._get_value_from_ini_config(overcloud_node,
+                                                           config_path,
+                                                           check_section,
+                                                           check_value)
+        instance_emulatorpin = instance_emulatorpin.replace('-',
+                                                            ',').split(',')
+        nova_emulatorpin = nova_emulatorpin.split(',')
+        instance_emulatorpin.sort()
+        nova_emulatorpin.sort()
+
+        if instance_emulatorpin == nova_emulatorpin:
+            return True
+        return False
+
     @staticmethod
     def _run_command_over_ssh(host, command):
         """This Method run Command Over SSH
