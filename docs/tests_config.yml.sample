@@ -139,3 +139,10 @@ test_instance_repo:
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
 
+  - name: emulatorpin
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+    config_path: '/var/lib/config-data/puppet-generated/nova_libvirt/etc/nova/nova.conf'
+    check_section: 'compute'
+    check_value: 'cpu_shared_set'
+
