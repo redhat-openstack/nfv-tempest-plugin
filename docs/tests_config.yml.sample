@@ -64,6 +64,7 @@ test-flavors:
        "hw:numa_mempolicy": "strict"
        "hw:numa_cpus.0": "0,1"
        "hw:cpu_policy": "dedicated"
+       "hw:emulator_threads_policy": "share"   # Note! - This extra spec should be applied only starting from RHOSP 14
 
   - name: m1.medium.huge_pages_cpu_pinning_numa_node-1
     ram: 2048
@@ -75,6 +76,7 @@ test-flavors:
        "hw:numa_mempolicy": "strict"
        "hw:numa_cpus.1": "0,1"
        "hw:cpu_policy": "dedicated"
+       "hw:emulator_threads_policy": "share"   # Note! - This extra spec should be applied only starting from RHOSP 14
 
   - name: m1.medium.huge_pages_cpu_pinning_numa_node-mix
     ram: 2048
@@ -89,6 +91,7 @@ test-flavors:
        "hw:numa_cpus.0": "0"
        "hw:numa_cpus.1": "1"
        "hw:cpu_policy": "dedicated"
+       "hw:emulator_threads_policy": "share"   # Note! - This extra spec should be applied only starting from RHOSP 14
 
 # Test repo to be used by the instance during the test (optional variable).
 test_instance_repo:
@@ -138,4 +141,12 @@ test_instance_repo:
   - name: cold-migration
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
+
+  - name: emulatorpin
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+    emulatorpin_config:
+      config_path: '/var/lib/config-data/puppet-generated/nova_libvirt/etc/nova/nova.conf'
+      check_section: 'compute'
+      check_value: 'cpu_shared_set'
 
