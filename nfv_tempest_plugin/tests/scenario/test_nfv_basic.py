@@ -259,3 +259,38 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         msg = "Cold migration test id failing -\
          check your environment settings"
         self.assertTrue(self._cold_migration("cold-migration"), msg)
+
+    def test_emulatorpin(self, test='emulatorpin'):
+        """Test emulatorpin on the instance vs nova configuration
+
+        The test compares emulatorpin value from the dumpxml of the running
+        instance vs values of the overcloud nova configuration
+
+        Note! - The test suit only for RHOS version 14 and up, since the
+                emulatorpin feature was implemented only in version 14.
+        """
+
+        for key, value in self.test_setup_dict[test].iteritems():
+            if not value:
+                raise ValueError('The {0} configuration is required for '
+                                 'the emulatorpin test, but currently empty.'
+                                 .format(key))
+
+        servers, key_pair, self.hypervisor_ip = \
+            self._test_base(test=test)
+
+        config_path = self.test_setup_dict['emulatorpin']['config_path']
+        check_section = self.test_setup_dict['emulatorpin']['check_section']
+        check_value = self.test_setup_dict['emulatorpin']['check_value']
+
+        return_value = None
+        for srv in servers:
+            return_value = self. \
+                compare_emulatorpin_to_overcloud_config(srv,
+                                                        self.hypervisor_ip,
+                                                        config_path,
+                                                        check_section,
+                                                        check_value)
+        self.assertTrue(return_value, 'The emulatorpin test failed. '
+                                      'The values of the instance and nova '
+                                      'does not match.')
