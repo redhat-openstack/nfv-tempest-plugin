@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf15e840_bc151acb",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-11-19T15:07:04Z",
+      "side": 1,
+      "message": "Test only checks xml, it is a feature, so i think we can skip this check\nYou can use the _test_numa_provider_network as base to launch a vm\nand move compare_emulatorpin_to_overcloud_config to test_emulator_pin\n\nIt will also require moving  self._check_vcpu_from_dumpxml(servers[0], self.hypervisor_ip,\n                                      test_setup_numa[4:])\nto test_numa1/0/mix_provider_network",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 65
+      },
+      "revId": "0ed2bfad7c34a5b9a92bd56f386ac48c46f8a283",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58483277_3599a881",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-11-19T15:07:04Z",
+      "side": 1,
+      "message": "Please move it to configuration since once this feature backported to 10,\ncontainers are not available",
+      "range": {
+        "startLine": 240,
+        "startChar": 8,
+        "endLine": 241,
+        "endChar": 60
+      },
+      "revId": "0ed2bfad7c34a5b9a92bd56f386ac48c46f8a283",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
