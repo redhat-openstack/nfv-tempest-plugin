@@ -599,6 +599,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if ('tag' in net and (2.32 <= float(self.request_microversion) <=
                                   2.36 or self.request_microversion >= 2.42)):
                 self.test_network_dict[net['name']]['tag'] = net['tag']
+            if 'trusted' in net and net['trusted']:
+                self.test_network_dict[net['name']]['trusted'] = True
         network_kwargs = {}
         """
         Create network and subnets
@@ -759,6 +761,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         self.test_network_dict['public']:
                     create_port_body['security_groups'] = \
                         [s['id'] for s in kwargs['security_groups']]
+                if 'trusted' in net_param and net_param['trusted'] and \
+                   net_param['port_type'] == 'direct':
+                    create_port_body['use_admin'] = True
+                    create_port_body['binding:profile'] = {'trusted': 'true'}
                 port = self._create_port(network_id=net_param['net-id'],
                                          **create_port_body)
                 net_var = {'uuid': net_param['net-id'], 'port': port['id']}
@@ -784,10 +790,16 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         :param kwargs
         """
         kwargs['admin_state_up'] = 'True'
+        port_tenant_id = self.ports_client.tenant_id
         if not client:
-            client = self.ports_client
+            if 'use_admin' in kwargs and kwargs['use_admin']:
+                kwargs.pop('use_admin', None)
+                client = self.os_admin.ports_client
+            else:
+                client = self.ports_client
         name = data_utils.rand_name(namestart)
-        result = client.create_port(name=name, network_id=network_id, **kwargs)
+        result = client.create_port(name=name, network_id=network_id,
+                                    project_id=port_tenant_id, **kwargs)
         self.assertIsNotNone(result, 'Unable to allocate port')
         port = result['port']
         self.addCleanup(self.ports_client.delete_port, port['id'])
