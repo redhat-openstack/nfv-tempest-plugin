@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2f39071e_47e7855f",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-11-19T07:13:48Z",
+      "side": 1,
+      "message": "Agree.\nFixed.",
+      "parentUuid": "8a04b5a2_5e31533d",
+      "range": {
+        "startLine": 375,
+        "startChar": 8,
+        "endLine": 375,
+        "endChar": 19
+      },
+      "revId": "cb4634e1b0a6345298b39b3dedc4306b65dc94ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4b096392_367a32c3",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3d5b96b1_eaf7b6eb",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-11-19T07:13:48Z",
+      "side": 1,
+      "message": "Agree.\nFixed.",
+      "parentUuid": "4b096392_367a32c3",
+      "range": {
+        "startLine": 377,
+        "startChar": 8,
+        "endLine": 377,
+        "endChar": 19
+      },
+      "revId": "cb4634e1b0a6345298b39b3dedc4306b65dc94ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f9158b4c_9e5eeb90",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2018-11-19T07:07:48Z",
       "side": 1,
       "message": "Is the method supposed to be generic? If so, maybe call the variable \"ini_config\" instead?",
+      "range": {
+        "startLine": 379,
+        "startChar": 37,
+        "endLine": 379,
+        "endChar": 48
+      },
+      "revId": "cb4634e1b0a6345298b39b3dedc4306b65dc94ed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a9d2d14_7ecda22c",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-11-19T07:13:48Z",
+      "side": 1,
+      "message": "Agree.\nFixed.",
+      "parentUuid": "f9158b4c_9e5eeb90",
       "range": {
         "startLine": 379,
         "startChar": 37,
