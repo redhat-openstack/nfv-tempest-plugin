@@ -89,6 +89,19 @@ Tests included:
   mtu - Specify the required mtu for the test. The calculation of testing mtu should be based on the deployed mtu size.  
   availability-zone - Sets the zone in which the hypervisor exists (Parameter not required).
 
+- emulatorpin  
+  Test explanation:  
+  The test boots instances, takes the emulatorpin value from the dumpxml of the running instance and compares
+  it to the emulatorpin values from the overcloud nova configuration.  
+  **Note** - The test suit only for RHOS version 14 and up, since the emulatorpin feature was implemented only in version 14.
+  
+  ```
+  Test config:
+  - name: emulatorpin
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+  ```
+
 ----------
 #### TestDpdkScenarios:  
 Tests included:
@@ -109,19 +122,19 @@ Tests included:
     router: true
   ```
 
-- test_live_migration_basic
+- test_live_migration_basic  
   Test explanation:  
   The test boot an instance, checks availability and migrates the instance to the next available hypervisor.  
 
   ```
   Test config:  
-  - name: test_live_migration_basic 
+  - name: test_live_migration_basic
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
   ```
 
-- multicast
-  Test explanation:
+- multicast  
+  Test explanation:  
   The test boot three instances and send from one instance multicast traffic to other instances.
 
   ```
