@@ -17,6 +17,8 @@ from oslo_config import cfg
 
 hypervisor_group = cfg.OptGroup(name="hypervisor",
                                 title="Hypervisor params")
+nfv_plugin_options = cfg.OptGroup(name="nfv_plugin_options",
+                                  title="NFV plugin options")
 
 HypervisorGroup = [
     cfg.StrOpt('user',
@@ -40,4 +42,16 @@ HypervisorGroup = [
                help=("List of dictionaries contanining paths and "
                      "destinations of files to be tranfered from "
                      "client to guest")),
+]
+
+NfvPluginOptions = [
+    cfg.StrOpt('emulatorpin_config',
+               default='[{"config_path": "/var/lib/config-data/'
+                       'puppet-generated/nova_libvirt/etc/nova/nova.conf",'
+                       '"check_section": "compute",'
+                       '"check_value": "cpu_shared_set"}]',
+               help=("List of emulatorpin test configuration defaults. "
+                     "These defaults are used in OSP 14 and follow versions. "
+                     "Could be overridden by using the nfv plugin external "
+                     "configuration file.")),
 ]
