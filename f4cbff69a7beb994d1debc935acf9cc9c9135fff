@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "213a971e_ba6e2ff3",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2018-11-19T09:24:07Z",
+      "side": 1,
+      "message": "Should be new line to me be more clear",
+      "range": {
+        "startLine": 78,
+        "startChar": 31,
+        "endLine": 78,
+        "endChar": 35
+      },
+      "revId": "f4cbff69a7beb994d1debc935acf9cc9c9135fff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
