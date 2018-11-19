@@ -26,7 +26,7 @@ CONF = config.CONF
 class TestNfvBasic(baremetal_manager.BareMetalManager):
     def __init__(self, *args, **kwargs):
         super(TestNfvBasic, self).__init__(*args, **kwargs)
-        self.ip_address = None
+        self.hypervisor_ip = None
         self.availability_zone = None
 
     @classmethod
@@ -70,21 +70,21 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
                  servers[0]['id'])
 
         """
-        self.ip_address = self._get_hypervisor_host_ip()
+        self.hypervisor_ip = self._get_hypervisor_host_ip()
         w/a to my_ip address set in nova for non_contolled network,
         need access from tester
         """
-        self.ip_address = self._get_hypervisor_ip_from_undercloud(
+        self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
             **{'shell': '/home/stack/stackrc',
                'server_id': servers[0]['id']})[0]
-        self.assertNotEmpty(self.ip_address,
+        self.assertNotEmpty(self.hypervisor_ip,
                             "_get_hypervisor_ip_from_undercloud "
                             "returned empty ip list")
         """
         Check CPU mapping for numa0
         """
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
-        result = self._run_command_over_ssh(self.ip_address, command)
+        result = self._run_command_over_ssh(self.hypervisor_ip, command)
         self.assertTrue(int(result[0]) == 2)
         """
         Run ping and verify ssh connection.
@@ -94,7 +94,7 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
         self.assertTrue(self.get_remote_client(
             servers[0]['fip'], private_key=key_pair['private_key']))
-        self._check_vcpu_from_dumpxml(servers[0], self.ip_address,
+        self._check_vcpu_from_dumpxml(servers[0], self.hypervisor_ip,
                                       test_setup_numa[4:])
 
     def test_numa0_provider_network(self):
@@ -123,10 +123,10 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         if 'availability-zone' in self.test_setup_dict[test_compute]:
             hyper_kwargs = {'shell': '/home/stack/stackrc',
                             'aggregation_name': self.availability_zone}
-        self.ip_address = self._get_hypervisor_ip_from_undercloud(
+        self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
             **hyper_kwargs)[0]
 
-        self.assertNotEmpty(self.ip_address,
+        self.assertNotEmpty(self.hypervisor_ip,
                             "_get_hypervisor_ip_from_undercloud "
                             "returned empty ip list")
 
@@ -136,7 +136,8 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
             if packages is not None:
                 for package in packages:
                     cmd = "rpm -qa | grep {0}".format(package)
-                    result = self._run_command_over_ssh(self.ip_address, cmd)
+                    result = self._run_command_over_ssh(self.hypervisor_ip,
+                                                        cmd)
                     if result is '':
                         test_result.append("Package {0} is not found"
                                            .format(package))
@@ -147,7 +148,7 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
                 for service in services:
                     cmd = "systemctl is-active {0}".format(service)
                     result = self._run_command_over_ssh(
-                        self.ip_address, cmd).strip('\n')
+                        self.hypervisor_ip, cmd).strip('\n')
                     if result != 'active':
                         test_result.append("The {0} service is not Active"
                                            .format(service))
@@ -157,14 +158,14 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
             if tuned is not None:
                 cmd = "sudo tuned-adm active | awk '{print $4}'"
                 result = self._run_command_over_ssh(
-                    self.ip_address, cmd).strip('\n')
+                    self.hypervisor_ip, cmd).strip('\n')
                 if result != tuned:
                     test_result.append("Tuned {0} profile is not Active"
                                        .format(tuned))
 
         kernel_args = ['nohz', 'nohz_full', 'rcu_nocbs', 'intel_pstate']
         check_grub_cmd = "sudo cat /proc/cmdline"
-        result = self._run_command_over_ssh(self.ip_address, check_grub_cmd)
+        result = self._run_command_over_ssh(self.hypervisor_ip, check_grub_cmd)
         for arg in kernel_args:
             if arg not in result:
                 test_result.append("Tuned not set in grub. Need to reboot?")
@@ -210,3 +211,55 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
     def test_mtu_ping_test(self):
         msg = "MTU Ping test failed - check your environment settings"
         self.assertTrue(self._test_mtu_ping_gateway("test-ping-mtu"), msg)
+
+    def _test_emulatorpin(self, emulatorpin):
+        """Test emulatorpin on the instance vs nova configuration
+
+        The test compares emulatorpin value from the dumpxml of the running
+        instance vs values of the overcloud nova configuration
+
+        Note! - The test suit only for RHOS version 14 and up, since the
+                emulatorpin feature was implemented only in version 14.
+        """
+
+        servers, key_pair = \
+            self.create_server_with_resources(test=emulatorpin)
+
+        """
+        Run ping and verify ssh connection
+        """
+        for srv in servers:
+            LOG.info("fip: %s, instance_id: %s", srv['fip'], srv['id'])
+
+            msg = "Timed out waiting for %s to become reachable" % \
+                srv['fip']
+            self.assertTrue(self.ping_ip_address(srv['fip']), msg)
+            self.assertTrue(self.get_remote_client(
+                srv['fip'], private_key=key_pair['private_key']))
+
+        nova_config_path = '/var/lib/config-data/puppet-generated/' \
+                           'nova_libvirt/etc/nova/nova.conf'
+        nova_check_section = 'compute'
+        nova_check_value = 'cpu_shared_set'
+
+        """
+        Compare emulatorpin values for running instances
+        """
+        return_value = None
+        for srv in servers:
+            self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
+                **{'shell': '/home/stack/stackrc',
+                   'server_id': srv['id']})[0]
+
+            return_value = self.\
+                compare_emulatorpin_to_overcloud_config(srv,
+                                                        self.hypervisor_ip,
+                                                        nova_config_path,
+                                                        nova_check_section,
+                                                        nova_check_value)
+        return return_value
+
+    def test_emulatorpin(self):
+        msg = "Emulatorpin test failed. " \
+              "The values of the instance and nova config are not equal."
+        self.assertTrue(self._test_emulatorpin("emulatorpin"), msg)
