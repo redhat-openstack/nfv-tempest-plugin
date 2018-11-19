@@ -180,6 +180,19 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'mtu' in test and test['mtu'] is not None:
                 self.test_setup_dict[test['name']]['mtu'] = \
                     test['mtu']
+            if 'emulatorpin_config' in test and test['emulatorpin_config'] \
+                    is not None:
+                for key, value in test['emulatorpin_config'].iteritems():
+                    if not value:
+                        raise ValueError('The {0} configuration is required '
+                                         'for the emulatorpin test, but '
+                                         'currently empty.'.format(key))
+                self.test_setup_dict[test['name']]['config_path'] = \
+                    test['emulatorpin_config']['config_path']
+                self.test_setup_dict[test['name']]['check_section'] = \
+                    test['emulatorpin_config']['check_section']
+                self.test_setup_dict[test['name']]['check_value'] = \
+                    test['emulatorpin_config']['check_value']
 
         # iterate flavors_id
         for test, test_param in self.test_setup_dict.iteritems():
