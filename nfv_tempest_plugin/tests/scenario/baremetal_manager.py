@@ -354,6 +354,25 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         return emulatorpin_str
 
+    def _check_rx_tx_from_dumpxml(self, server, hypervisor):
+        """RX/TX configuration on the instance
+
+        :param server
+        :param hypervisor
+
+        :return rx_tx_list
+        """
+
+        dumpxml_string = self._get_dumpxml_instance_data(server, hypervisor)
+
+        devices = dumpxml_string.findall('devices')[0]
+        rx_tx_list = []
+        for value in devices.findall('interface')[0].findall(
+                'driver')[0].items():
+            rx_tx_list.append(value[1])
+
+        return rx_tx_list
+
     def _get_overcloud_config(self, overcloud_node, config_path):
         """Get overcloud configuration
 
