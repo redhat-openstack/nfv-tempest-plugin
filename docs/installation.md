@@ -11,7 +11,7 @@ By default nfv-tempest-plugin planned to run from TripleO Undercloud host (used 
 
 
 ### NFV plugin setup:
-1. The tempeset-nfv-plugin repository should be cloned near to the main tempest directory.  
+1. The nfv-tempeset-plugin repository should be cloned near to the main tempest directory.
    `$ git clone https://github.com/redhat-openstack/nfv-tempest-plugin.git`
 2. Activate the tempest virtual env.
 3. Browse to the nfv-tempest-plugin cloned directory and install the nfv plugin:  
@@ -24,9 +24,9 @@ By default nfv-tempest-plugin planned to run from TripleO Undercloud host (used 
    `$ testr list-tests | grep -i nfv`  
    Expected output:  
    `(output omitted)
-   tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_max_queues_functionality
-   tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_min_queues_functionality
-   tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_odd_queues_functionality
+   nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_max_queues_functionality
+   nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_min_queues_functionality
+   nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_odd_queues_functionality
    (output omitted)`
 
 ### Automatic installation, configuration and tests run:
