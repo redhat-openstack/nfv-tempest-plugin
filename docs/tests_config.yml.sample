@@ -134,3 +134,8 @@ test_instance_repo:
   - name: multicast
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
+
+  - name: cold-migration
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+
