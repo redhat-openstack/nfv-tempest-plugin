@@ -17,6 +17,7 @@ from nfv_tempest_plugin.tests.scenario import baremetal_manager
 from oslo_log import log as logging
 from tempest import clients
 from tempest.common import credentials_factory as common_creds
+from tempest.common import waiters
 from tempest import config
 
 LOG = logging.getLogger(__name__)
@@ -210,3 +211,35 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
     def test_mtu_ping_test(self):
         msg = "MTU Ping test failed - check your environment settings"
         self.assertTrue(self._test_mtu_ping_gateway("test-ping-mtu"), msg)
+
+
+    def _cold_migration(self, test_setup_coldmgrn):
+        servers, key_pair = \
+            self.create_server_with_resources(test=test_setup_coldmgrn)
+
+        msg = "Timed out waiting for %s to become reachable" % \
+              servers[0]['fip']
+        self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
+        self.assertTrue(self.get_remote_client(
+            servers[0]['fip'], private_key=key_pair['private_key']))
+        """
+        apply cold migration, migrate_server shut down the server and bring it
+        to VERIFY_RESIZE
+        """
+        self.os_admin.servers_client. \
+            migrate_server(server_id=servers[0]['id'])
+        waiters.wait_for_server_status(self.servers_client,
+                                       servers[0]['id'], 'VERIFY_RESIZE')
+        self.servers_client.confirm_resize_server(server_id=servers[0]['id'])
+        msg = "Timed out waiting for %s to become reachable" % \
+            servers[0]['fip']
+        self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
+        self.assertTrue(self.get_remote_client(
+            servers[0]['fip'], private_key=key_pair['private_key']))
+        return True
+
+
+    def test_cold_migration(self):
+        msg = "Cold migration test id failing - check your environment settings"
+        self.assertTrue(self._cold_migration("cold-migration"), msg)
+
