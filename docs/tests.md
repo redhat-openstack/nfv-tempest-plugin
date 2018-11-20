@@ -8,6 +8,7 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_numamix_provider_network
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_packages_compute
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_mtu_ping_test
+- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_cold_migration
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_min_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_equal_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_max_queues_functionality
@@ -28,7 +29,8 @@ For the full version of the external configuration file sample, refer to the sam
 Tests included:
 - test_numa0_provider_network
 - test_numa1_provider_network
-- test_numamix_provider_network  
+- test_numamix_provider_network
+- test_cold_migration
   Test explanation:  
   Numa tests are testing the proper allocation and reservation of the virtual cores within numa nodes of the compute hypervisor according to the provided flavor with numa config specs.  
 
@@ -43,6 +45,10 @@ Tests included:
     router: true
 
   - name: numamix
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-mix
+    router: true
+
+  - name: cold-migration
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-mix
     router: true
   ```
@@ -88,6 +94,8 @@ Tests included:
   router - Sets if the booted instance will get floating ip or direct access config.  
   mtu - Specify the required mtu for the test. The calculation of testing mtu should be based on the deployed mtu size.  
   availability-zone - Sets the zone in which the hypervisor exists (Parameter not required).
+
+
 
 ----------
 #### TestDpdkScenarios:  
