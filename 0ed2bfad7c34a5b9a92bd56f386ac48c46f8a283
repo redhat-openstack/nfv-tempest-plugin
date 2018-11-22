@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7c5b09d4_f2e3c354",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-11-22T08:21:39Z",
+      "side": 1,
+      "message": "Implemented in the following patch - https://review.gerrithub.io/c/redhat-openstack/nfv-tempest-plugin/+/434054",
+      "parentUuid": "cf15e840_bc151acb",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 65
+      },
+      "revId": "0ed2bfad7c34a5b9a92bd56f386ac48c46f8a283",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "58483277_3599a881",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-11-19T15:07:04Z",
       "side": 1,
       "message": "Please move it to configuration since once this feature backported to 10,\ncontainers are not available",
+      "range": {
+        "startLine": 240,
+        "startChar": 8,
+        "endLine": 241,
+        "endChar": 60
+      },
+      "revId": "0ed2bfad7c34a5b9a92bd56f386ac48c46f8a283",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d55bc7c4_345b3d14",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-11-22T08:21:39Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "58483277_3599a881",
       "range": {
         "startLine": 240,
         "startChar": 8,
