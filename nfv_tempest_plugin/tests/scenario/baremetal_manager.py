@@ -180,6 +180,18 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'mtu' in test and test['mtu'] is not None:
                 self.test_setup_dict[test['name']]['mtu'] = \
                     test['mtu']
+            if 'rx_tx_config' in test and test['rx_tx_config'] is not None:
+                for key, value in test['rx_tx_config'].iteritems():
+                    if not value:
+                        raise ValueError('The {0} configuration is required '
+                                         'for the tx/tx test, but '
+                                         'currently empty.'.format(key))
+                self.test_setup_dict[test['name']]['config_path'] = \
+                    test['rx_tx_config']['config_path']
+                self.test_setup_dict[test['name']]['check_section'] = \
+                    test['rx_tx_config']['check_section']
+                self.test_setup_dict[test['name']]['check_value'] = \
+                    test['rx_tx_config']['check_value']
 
         # iterate flavors_id
         for test, test_param in self.test_setup_dict.iteritems():
@@ -371,7 +383,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 'driver')[0].items():
             rx_tx_list.append(value[1])
 
-        return rx_tx_list
+        return ','.join(rx_tx_list)
 
     def _get_overcloud_config(self, overcloud_node, config_path):
         """Get overcloud configuration

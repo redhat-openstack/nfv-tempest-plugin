@@ -15,6 +15,7 @@
 
 from nfv_tempest_plugin.tests.scenario import baremetal_manager
 from oslo_log import log as logging
+from oslo_serialization import jsonutils
 from tempest import clients
 from tempest.common import credentials_factory as common_creds
 from tempest.common import waiters
@@ -259,3 +260,41 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         msg = "Cold migration test id failing -\
          check your environment settings"
         self.assertTrue(self._cold_migration("cold-migration"), msg)
+
+    def test_rx_tx(self, test='rx_tx'):
+        """Test RX/TX on the instance vs nova configuration
+
+        The test compares RX/TX value from the dumpxml of the running
+        instance vs values of the overcloud nova configuration
+
+        Note! - The test suit only for RHOS version 14 and up, since the
+                rx/tx feature was implemented only in version 14.
+        """
+
+        servers, key_pair, self.hypervisor_ip = \
+            self._test_base(test=test)
+
+        config_path, check_section, check_value = ('', '', '')
+        if 'rx_tx_config' in CONF.nfv_plugin_options:
+            rx_tx_conf = jsonutils.loads(CONF.nfv_plugin_options.rx_tx_config)
+            for conf in rx_tx_conf:
+                config_path = conf['config_path']
+                check_section = conf['check_section']
+                check_value = conf['check_value']
+
+        if {'config_path', 'check_section', 'check_value'}.issubset(
+                self.test_setup_dict['rx_tx']):
+            config_path = self.test_setup_dict['rx_tx']['config_path']
+            check_section = self.test_setup_dict['rx_tx']['check_section']
+            check_value = self.test_setup_dict['rx_tx']['check_value']
+
+        return_value = None
+        for srv in servers:
+            return_value = self.\
+                compare_rx_tx_to_overcloud_config(srv, self.hypervisor_ip,
+                                                  config_path,
+                                                  check_section,
+                                                  check_value)
+        self.assertTrue(return_value, 'The rx_tx test failed. '
+                                      'The values of the instance and nova '
+                                      'does not match.')
