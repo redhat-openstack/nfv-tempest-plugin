@@ -45,6 +45,30 @@
       "revId": "933e3cf79cde5565c957eea434736a7bc74b8deb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67618b77_4dca5035",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-11-22T10:48:07Z",
+      "side": 1,
+      "message": "But what will happen when the emulatorpin feature will be backported to 10?\nIn such case, config_path will be relevant only to version 14 and up.\n\nIs it acceptable for you?",
+      "parentUuid": "ff173fb0_f3630abf",
+      "range": {
+        "startLine": 282,
+        "startChar": 8,
+        "endLine": 284,
+        "endChar": 72
+      },
+      "revId": "933e3cf79cde5565c957eea434736a7bc74b8deb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
