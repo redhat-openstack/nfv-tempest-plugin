@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf3c079d_42d1892e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-11-22T10:31:12Z",
+      "side": 1,
+      "message": "This should move to read file, if test exist, due there the checks",
+      "range": {
+        "startLine": 273,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 46
+      },
+      "revId": "933e3cf79cde5565c957eea434736a7bc74b8deb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff173fb0_f3630abf",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-11-22T10:31:12Z",
+      "side": 1,
+      "message": "Please use the following as sample \nhttps://github.com/redhat-openstack/nfv-tempest-plugin/blob/devel/nfv_tempest_plugin/config.py#L34\n\nAnd this one. think for future usage\nhttps://github.com/redhat-openstack/nfv-tempest-plugin/blob/2cee04663f20136b730f1e483b836804da6e7363/nfv_tempest_plugin/tests/scenario/baremetal_manager.py#L772",
+      "range": {
+        "startLine": 282,
+        "startChar": 8,
+        "endLine": 284,
+        "endChar": 72
+      },
+      "revId": "933e3cf79cde5565c957eea434736a7bc74b8deb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
