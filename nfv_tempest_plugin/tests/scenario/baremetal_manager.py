@@ -401,8 +401,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         :param config_path: The path of the configuration file
         :param check_section: Section within the config
         :param check_value: Value that should be checked within the config
+                            The variable could hold multiple values separated
+                            by comma.
 
-        :return value_data
+        :return return_value
         """
 
         ini_config = self._get_overcloud_config(overcloud_node, config_path)
@@ -411,9 +413,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         get_value = ConfigParser.ConfigParser(allow_no_value=True)
         get_value.readfp(io.StringIO(ini_config))
 
-        value_data = get_value.get(check_section, check_value)
+        value_data = []
+        for value in check_value.split(','):
+            value_data.append(get_value.get(check_section, value))
 
-        return value_data
+        return ','.join(value_data)
 
     def compare_emulatorpin_to_overcloud_config(self, server, overcloud_node,
                                                 config_path, check_section,
@@ -438,6 +442,28 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         nova_emulatorpin = sorted(nova_emulatorpin.split(','))
 
         if instance_emulatorpin == nova_emulatorpin:
+            return True
+        return False
+
+    def compare_rx_tx_to_overcloud_config(self, server, overcloud_node,
+                                          config_path, check_section,
+                                          check_value):
+        """Compare RX/TX to overcloud config
+
+        :param server
+        :param overcloud_node
+        :param config_path
+        :param check_section
+        :param check_value
+        """
+
+        instance_rx_tx = self._check_rx_tx_from_dumpxml(server, overcloud_node)
+        nova_rx_tx = self._get_value_from_ini_config(overcloud_node,
+                                                     config_path,
+                                                     check_section,
+                                                     check_value)
+
+        if instance_rx_tx == nova_rx_tx:
             return True
         return False
 
