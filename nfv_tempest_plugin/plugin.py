@@ -23,6 +23,7 @@ from nfv_tempest_plugin import config as project_config
 
 _opts = [
     (project_config.hypervisor_group, project_config.HypervisorGroup),
+    (project_config.nfv_plugin_options, project_config.NfvPluginOptions),
 ]
 
 

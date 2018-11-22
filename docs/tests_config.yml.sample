@@ -139,3 +139,12 @@ test_instance_repo:
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
 
+  - name: rx_tx
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+    # The following test configuration set as a default and not required within the test.
+    # In case config values differ, specify them in order to override the defaults.
+    rx_tx_config:
+      config_path: '/var/lib/config-data/puppet-generated/nova_libvirt/etc/nova/nova.conf'
+      check_section: 'libvirt'
+      check_value: 'rx_queue_size,tx_queue_size'
