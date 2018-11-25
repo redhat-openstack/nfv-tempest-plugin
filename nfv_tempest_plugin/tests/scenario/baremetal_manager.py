@@ -623,7 +623,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
             for i in hyper['hypervisors']:
                 if i['state'] == 'up':
-                    if i['hypervisor_hostname']:
+                    if i['hypervisor_hostname'].split(".")[0] == compute:
                         compute = i['hypervisor_hostname'].split(".")[0]
                     command = 'openstack server list -c \'Name\' -c ' \
                               '\'Networks\' -f value | grep -i {0} | ' \
