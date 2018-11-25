@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d4f18bc_a2c4a63e",
+        "filename": "docs/tests.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-11-25T16:05:57Z",
+      "side": 1,
+      "message": "Please make it ready for dictionary, similar to default configuration\n   emulatorpin_config: \u003e\n               [{\"config_path\": \"/var/lib/config-data/puppet-generated/nova_libvirt/etc/nova/nova.conf\",\n               \"check_section\": \"compute\",\n               \"check_value\": \"cpu_shared_set\"},\n               {\"config_path\": \"/var/lib/config-data/puppet-generated/nova_libvirt/etc/nova/nova.conf\",\n               \"check_section\": \"compute\",\n               \"check_value\": \"cpu_shared_set\"}]",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 35
+      },
+      "revId": "71bdb43a316d3717f6cf74c63b308052124db9ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "795d1b59_4c885053",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 10
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-11-25T16:05:57Z",
+      "side": 1,
+      "message": "see documentation comment",
+      "range": {
+        "startLine": 150,
+        "startChar": 1,
+        "endLine": 153,
+        "endChar": 35
+      },
+      "revId": "71bdb43a316d3717f6cf74c63b308052124db9ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5161be73_703a4d81",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-11-25T16:05:57Z",
+      "side": 1,
+      "message": "self.test_setup_dict[test[\u0027name\u0027]][\u0027config_dict\u0027] \u003d jsonutils.loads(test[\u0027emulatorpin_config\u0027]).rstrip(\u0027\\n\u0027))",
+      "range": {
+        "startLine": 183,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 61
+      },
+      "revId": "71bdb43a316d3717f6cf74c63b308052124db9ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69ecbb98_b685aa20",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-11-25T16:05:57Z",
+      "side": 1,
+      "message": "read here you have prepared dictionary of array dicts prepared\nself.test_setup_dict[test[\u0027name\u0027]][\u0027config_dict\u0027]",
+      "range": {
+        "startLine": 278,
+        "startChar": 2,
+        "endLine": 284,
+        "endChar": 49
+      },
+      "revId": "71bdb43a316d3717f6cf74c63b308052124db9ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "058d7c94_c4465f1d",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-11-25T16:05:57Z",
+      "side": 1,
+      "message": "if {\u0027config_path\u0027, \u0027check_section\u0027, \u0027check_value\u0027}.issubset(\n                self.test_setup_dict[\u0027emulatorpin_config\u0027][i][\u0027config_dict\u0027]):\n\nBut it is Array here!! so it should be see the i there",
+      "range": {
+        "startLine": 286,
+        "startChar": 8,
+        "endLine": 287,
+        "endChar": 53
+      },
+      "revId": "71bdb43a316d3717f6cf74c63b308052124db9ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcc322ce_05297ee1",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-11-25T16:05:57Z",
+      "side": 1,
+      "message": "Should support list of results, based on list of files",
+      "range": {
+        "startLine": 296,
+        "startChar": 16,
+        "endLine": 296,
+        "endChar": 55
+      },
+      "revId": "71bdb43a316d3717f6cf74c63b308052124db9ef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
