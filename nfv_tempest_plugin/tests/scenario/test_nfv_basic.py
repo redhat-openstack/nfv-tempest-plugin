@@ -187,41 +187,38 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         return ssh_source.exec_command('ping -c 1 -M do -s %d %s' % (mtu,
                                                                      gateway))
 
-    def test_numa0_provider_network(self):
+    def test_numa0_provider_network(self, test='numa0'):
         """Verify numa configuration on instance
 
         The test instance allocation on the selected numa cell.
         """
-        servers, key_pair, self.hypervisor_ip = self._test_base(test="numa0")
+        servers, key_pair, self.hypervisor_ip = self._test_base(test=test)
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
         result = self._run_command_over_ssh(self.hypervisor_ip, command)
         self.assertTrue(int(result[0]) == 2)
-        self._check_vcpu_from_dumpxml(servers[0], self.hypervisor_ip,
-                                      "numa0"[4:])
+        self._check_vcpu_from_dumpxml(servers[0], self.hypervisor_ip, test[4:])
 
-    def test_numa1_provider_network(self):
+    def test_numa1_provider_network(self, test='numa1'):
         """Verify numa configuration on instance
 
         The test instance allocation on the selected numa cell.
         """
-        servers, key_pair, self.hypervisor_ip = self._test_base(test="numa1")
+        servers, key_pair, self.hypervisor_ip = self._test_base(test=test)
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
         result = self._run_command_over_ssh(self.hypervisor_ip, command)
         self.assertTrue(int(result[0]) == 2)
-        self._check_vcpu_from_dumpxml(servers[0], self.hypervisor_ip,
-                                      "numa1"[4:])
+        self._check_vcpu_from_dumpxml(servers[0], self.hypervisor_ip, test[4:])
 
-    def test_numamix_provider_network(self):
+    def test_numamix_provider_network(self, test='numamix'):
         """Verify numa configuration on instance
 
         The test instance allocation on the selected numa cell.
         """
-        servers, key_pair, self.hypervisor_ip = self._test_base(test="numamix")
+        servers, key_pair, self.hypervisor_ip = self._test_base(test=test)
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
         result = self._run_command_over_ssh(self.hypervisor_ip, command)
         self.assertTrue(int(result[0]) == 2)
-        self._check_vcpu_from_dumpxml(servers[0], self.hypervisor_ip,
-                                      "numamix"[4:])
+        self._check_vcpu_from_dumpxml(servers[0], self.hypervisor_ip, test[4:])
 
     def test_packages_compute(self):
         self._test_check_package_version("check-compute-packages")
@@ -230,32 +227,25 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         msg = "MTU Ping test failed - check your environment settings"
         self.assertTrue(self._test_mtu_ping_gateway("test-ping-mtu"), msg)
 
-    def _cold_migration(self, test_setup_coldmgrn):
-        servers, key_pair = \
-            self.create_server_with_resources(test=test_setup_coldmgrn)
+    def test_cold_migration(self, test='cold-migration'):
+        """Test cold migration
 
-        msg = "Timed out waiting for %s to become reachable" % \
-              servers[0]['fip']
-        self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
-        self.assertTrue(self.get_remote_client(
-            servers[0]['fip'], private_key=key_pair['private_key']))
+        The test shuts down the instance, migrates it and brings it up to
+        verify resize.
         """
-        apply cold migration, migrate_server shut down the server and bring it
-        to VERIFY_RESIZE
-        """
+        servers, key_pair, self.hypervisor_ip = self._test_base(test=test)
+
         self.os_admin.servers_client. \
             migrate_server(server_id=servers[0]['id'])
         waiters.wait_for_server_status(self.servers_client,
                                        servers[0]['id'], 'VERIFY_RESIZE')
         self.servers_client.confirm_resize_server(server_id=servers[0]['id'])
         msg = "Timed out waiting for %s to become reachable" % \
-            servers[0]['fip']
+              servers[0]['fip']
         self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
         self.assertTrue(self.get_remote_client(
             servers[0]['fip'], private_key=key_pair['private_key']))
-        return True
+        succeed = True
 
-    def test_cold_migration(self):
-        msg = "Cold migration test id failing -\
-         check your environment settings"
-        self.assertTrue(self._cold_migration("cold-migration"), msg)
+        msg = "Cold migration test id failing. Check your environment settings"
+        self.assertTrue(succeed, msg)
