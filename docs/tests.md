@@ -8,6 +8,9 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_numamix_provider_network
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_packages_compute
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_mtu_ping_test
+- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_cold_migration
+- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_emulatorpin
+- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_rx_tx
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_min_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_equal_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_max_queues_functionality
@@ -28,7 +31,8 @@ For the full version of the external configuration file sample, refer to the sam
 Tests included:
 - test_numa0_provider_network
 - test_numa1_provider_network
-- test_numamix_provider_network  
+- test_numamix_provider_network
+- test_cold_migration
   Test explanation:  
   Numa tests are testing the proper allocation and reservation of the virtual cores within numa nodes of the compute hypervisor according to the provided flavor with numa config specs.  
 
@@ -43,6 +47,10 @@ Tests included:
     router: true
 
   - name: numamix
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-mix
+    router: true
+
+  - name: cold-migration
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-mix
     router: true
   ```
@@ -89,6 +97,41 @@ Tests included:
   mtu - Specify the required mtu for the test. The calculation of testing mtu should be based on the deployed mtu size.  
   availability-zone - Sets the zone in which the hypervisor exists (Parameter not required).
 
+- test_emulatorpin  
+  Test explanation:  
+  The test boots instances, takes the emulatorpin value from the dumpxml of the running instance and compares
+  it to the emulatorpin values from the overcloud nova configuration.  
+  **Note** - The test suit only for RHOS version 14 and up, since the emulatorpin feature was implemented only in version 14.
+  **Note** - The following extra spec should be added to the flavor on this test execution - "hw:emulator_threads_policy": "share"
+  
+  ```
+  Test config:
+  - name: emulatorpin
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+    emulatorpin_config:
+      - config_path: '/var/lib/config-data/puppet-generated/nova_libvirt/etc/nova/nova.conf'
+        check_section: 'compute'
+        check_value: 'cpu_shared_set'
+  ```
+
+- rx_tx
+  Test explanation:
+  The test boots instances, takes the rx/tx value from the dumpxml of the running instance and compares
+  it to the rx/tx values from the overcloud nova configuration.  
+  **Note** - The test suit only for RHOS version 14 and up, since the rx/tx feature was implemented only in version 14.
+
+  ```
+  Test config:
+  - name: rx_tx
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+    rx_tx_config:
+      - config_path: '/var/lib/config-data/puppet-generated/nova_libvirt/etc/nova/nova.conf'
+        check_section: 'libvirt'
+        check_value: 'rx_queue_size,tx_queue_size'
+  ```
+
 ----------
 #### TestDpdkScenarios:  
 Tests included:
@@ -96,7 +139,6 @@ Tests included:
 - test_equal_queues_functionality
 - test_max_queues_functionality
 - test_odd_queues_functionality  
-- multicast  
   Test explanation:  
   Test multi-queue functionality.  
   Calculates the number of queues multiply by the number of PMDs.  
@@ -109,19 +151,19 @@ Tests included:
     router: true
   ```
 
-- test_live_migration_basic
+- test_live_migration_basic  
   Test explanation:  
   The test boot an instance, checks availability and migrates the instance to the next available hypervisor.  
 
   ```
   Test config:  
-  - name: test_live_migration_basic 
+  - name: test_live_migration_basic
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
   ```
 
-- multicast
-  Test explanation:
+- multicast  
+  Test explanation:  
   The test boot three instances and send from one instance multicast traffic to other instances.
 
   ```
