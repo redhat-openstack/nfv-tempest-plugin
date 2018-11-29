@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b486d38_483ef462",
+        "filename": "docs/tests.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2018-11-29T13:45:59Z",
+      "side": 1,
+      "message": "Is it left over text?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "c25bc050b3aae3d5b7ff404aaa40df745d802787",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a04fc42_1f21ed95",
+        "filename": "docs/tests.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2018-11-29T13:45:59Z",
+      "side": 1,
+      "message": "Is it left over text?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 7
+      },
+      "revId": "c25bc050b3aae3d5b7ff404aaa40df745d802787",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "357dd88b_2e2dd64d",
+        "filename": "docs/tests.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2018-11-29T13:45:59Z",
+      "side": 1,
+      "message": "Is it left over text?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 1
+      },
+      "revId": "c25bc050b3aae3d5b7ff404aaa40df745d802787",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
