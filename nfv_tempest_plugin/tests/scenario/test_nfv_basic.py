@@ -49,7 +49,7 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         super(TestNfvBasic, self).setUp()
         # pre setup creations and checks read from config files
 
-    def _test_base(self, test=None):
+    def _test_base(self, test=None, **kwargs):
         """Test base method
 
         The test base method performs basic steps in order to prepare the
@@ -66,7 +66,7 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         """
 
         servers, key_pair = \
-            self.create_server_with_resources(test=test)
+            self.create_server_with_resources(test=test, **kwargs)
 
         LOG.info("fip: %s, instance_id: %s", servers[0]['fip'],
                  servers[0]['id'])
