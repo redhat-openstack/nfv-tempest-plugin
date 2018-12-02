@@ -828,42 +828,50 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         remove_network = net_name
             self.test_network_dict.pop(remove_network)
 
-    def _create_ports_on_networks(self, **kwargs):
-        """Use method only when test require no network
+    def _create_ports_on_networks(self, num_servers=1, **kwargs):
+        """Create ports on a test networks for instances
 
-        cls.set_network_resources()
-        it run over external_config networks,
-        create networks as per test_network_dict
-        In case there is external router public network decided
-        This run over prepared network dictionary
-        ports, unless port_security==False, ports created with rules
+        The method will create a network ports as per test_network dict
+        from the external config file.
+        The ports creation will loop over the number of specified servers.
+        This will allow to call the method once for all instances.
 
+        The ID of the security groups used for the ports creation, removed
+        from the kwargs for the later instance creation.
+
+        :param num_servers: The number of loops for ports creation
         :param kwargs
+
+        :return ports_list: A list of ports lists
         """
         create_port_body = {'binding:vnic_type': '',
                             'namestart': 'port-smoke'}
-        networks_list = []
+        ports_list = []
         """
         set public network first
         """
-        for net_name, net_param in self.test_network_dict.iteritems():
-            if 'port_type' in net_param:
-                create_port_body['binding:vnic_type'] = net_param['port_type']
-                if 'security_groups' in kwargs and net_name == \
-                        self.test_network_dict['public']:
-                    create_port_body['security_groups'] = \
-                        [s['id'] for s in kwargs['security_groups']]
-                port = self._create_port(network_id=net_param['net-id'],
-                                         **create_port_body)
-                net_var = {'uuid': net_param['net-id'], 'port': port['id']}
-                if 'tag' in net_param:
-                    net_var['tag'] = net_param['tag']
-                networks_list.append(net_var) \
-                    if net_name != self.test_network_dict['public'] else \
-                    networks_list.insert(0, net_var)
+        for server in range(num_servers):
+            networks_list = []
+            for net_name, net_param in self.test_network_dict.iteritems():
+                if 'port_type' in net_param:
+                    create_port_body['binding:vnic_type'] = \
+                        net_param['port_type']
+                    if 'security_groups' in kwargs and net_name == \
+                            self.test_network_dict['public']:
+                        create_port_body['security_groups'] = \
+                            [s['id'] for s in kwargs['security_groups']]
+                    port = self._create_port(network_id=net_param['net-id'],
+                                             **create_port_body)
+                    net_var = {'uuid': net_param['net-id'], 'port': port['id']}
+                    if 'tag' in net_param:
+                        net_var['tag'] = net_param['tag']
+                    networks_list.append(net_var) \
+                        if net_name != self.test_network_dict['public'] else \
+                        networks_list.insert(0, net_var)
+            ports_list.append(networks_list)
         if 'security_groups' in kwargs:
             [x.pop('id') for x in kwargs['security_groups']]
-        return networks_list
+        return ports_list
 
     def _create_port(self, network_id, client=None, namestart='port-quotatest',
                      **kwargs):
