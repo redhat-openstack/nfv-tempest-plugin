@@ -66,6 +66,9 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         setup queues number.
         """
 
+        msg = "Hypervisor OVS not configured with MultiQueue"
+        self.assertIsNotNone(self.maxqueues, msg)
+
         extra_specs = {'extra_specs': {'hw:mem_page_size': str("large"),
                                        'hw:cpu_policy': str("dedicated")}}
         if queues == "min":
