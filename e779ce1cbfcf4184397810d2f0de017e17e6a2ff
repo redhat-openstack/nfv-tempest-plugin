@@ -34,6 +34,24 @@
       "revId": "e779ce1cbfcf4184397810d2f0de017e17e6a2ff",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c3b0fcd_dfff6ae2",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-12-03T12:28:45Z",
+      "side": 1,
+      "message": "\u003e Here is wrong the failure log, when multi-queue is not enabled.\n\u003e \n\u003e \u003ctestcase classname\u003d\"nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios\" name\u003d\"test_min_queues_functionality\" time\u003d\"7.522\"\u003e\n\u003e \u003cfailure type\u003d\"testtools.testresult.real._StringException\"\u003eTraceback (most recent call last):\n\u003e testtools.testresult.real._StringException: pythonlogging:\u0027\u0027: {{{\n\u003e 2018-11-27 12:20:59,507 1000709 INFO     [tempest.lib.common.rest_client] Request (TestDpdkScenarios:setUp): 200 GET http://172.30.0.202:9696/v2.0/networks 0.541s\n\u003e 2018-11-27 12:20:59,938 1000709 INFO     [tempest.lib.common.rest_client] Request (TestDpdkScenarios:setUp): 200 GET http://172.30.0.202:8774/v2.1/flavors 0.430s\n\u003e 2018-11-27 12:21:00,344 1000709 INFO     [tempest.lib.common.rest_client] Request (TestDpdkScenarios:setUp): 200 GET http://172.30.0.202:9292/v2/images 0.403s\n\u003e 2018-11-27 12:21:00,894 1000709 INFO     [tempest.lib.common.rest_client] Request (TestDpdkScenarios:setUp): 201 POST http://172.30.0.202:5000/v3/auth/tokens\n\u003e 2018-11-27 12:21:01,195 1000709 INFO     [tempest.lib.common.rest_client] Request (TestDpdkScenarios:setUp): 200 GET http://172.30.0.202:8774/v2.1/os-hypervisors 0.299s\n\u003e 2018-11-27 12:21:05,302 1000709 INFO     [paramiko.transport] Connected (version 2.0, client OpenSSH_7.4)\n\u003e 2018-11-27 12:21:05,370 1000709 INFO     [paramiko.transport] Authentication (publickey) successful!\n\u003e 2018-11-27 12:21:05,707 1000709 INFO     [paramiko.transport] Connected (version 2.0, client OpenSSH_7.4)\n\u003e 2018-11-27 12:21:05,770 1000709 INFO     [paramiko.transport] Authentication (publickey) successful!\n\u003e 2018-11-27 12:21:06,072 1000709 INFO     [paramiko.transport] Connected (version 2.0, client OpenSSH_7.4)\n\u003e 2018-11-27 12:21:06,135 1000709 INFO     [paramiko.transport] Authentication (publickey) successful!\n\u003e }}}\n\u003e \n\u003e Traceback (most recent call last):\n\u003e   File \"/home/stack/tempest/nfv-tempest-plugin/nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py\", line 276, in test_min_queues_functionality\n\u003e     self.assertTrue(self._test_queue_functionality(queues\u003d\"min\"), msg)\n\u003e   File \"/home/stack/tempest/nfv-tempest-plugin/nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py\", line 72, in _test_queue_functionality\n\u003e     queues \u003d self.maxqueues - 2\n\u003e TypeError: unsupported operand type(s) for -: \u0027NoneType\u0027 and \u0027int\u0027\n\u003e \n\u003e \u003c/failure\u003e\n\u003e \u003c/testcase\u003e\n\n\nGot you.\nYes, it\u0027s a bug.",
+      "parentUuid": "0b12aaf2_25a5cf75",
+      "revId": "e779ce1cbfcf4184397810d2f0de017e17e6a2ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
