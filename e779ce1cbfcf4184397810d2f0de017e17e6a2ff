@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6871f33a_5f9040fa",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-12-03T10:30:12Z",
+      "side": 1,
+      "message": "This check actually exists in the setUp method. Lines 55-59.\n\nDid you have a test execution where this check didn\u0027t work?",
+      "revId": "e779ce1cbfcf4184397810d2f0de017e17e6a2ff",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
