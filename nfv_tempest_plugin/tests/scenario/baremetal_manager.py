@@ -29,6 +29,7 @@ import yaml
 from oslo_log import log
 from oslo_serialization import jsonutils
 from tempest.api.compute import api_microversion_fixture
+from tempest.common import waiters
 from tempest import config
 from tempest.lib.common import api_version_utils
 from tempest.lib.common.utils import data_utils
@@ -952,10 +953,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.servers.append(server)
         return server
 
-    def create_server_with_resources(self, fip=True, test=None, hyper=None,
-                                     avail_zone=None, **kwargs):
+    def create_server_with_resources(self, num_servers=1, fip=True, test=None,
+                                     hyper=None, avail_zone=None, **kwargs):
         """The method creates multiple instances
 
+        :param num_servers: The number of servers to boot up
         :param fip: Creation of the floating ip for the server
         :param test: Currently executed test. Provide test specific parameters.
         :param hyper: Hypervisor name for created server on (optional).
@@ -997,7 +999,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         security_groups = self._set_security_groups()
         if security_groups is not None:
             kwargs['security_groups'] = security_groups
-        kwargs['networks'] = self._create_ports_on_networks(**kwargs)
+        ports_list = self._create_ports_on_networks(num_servers=num_servers,
+                                                    **kwargs)
         router_exist = True
         if 'router' in self.test_setup_dict[test]:
             router_exist = self.test_setup_dict[test]['router']
@@ -1011,14 +1014,20 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         # Prepare cloudinit
         kwargs['user_data'] = self._prepare_cloudinit_file()
 
-        servers.append(self.create_server(wait_until='ACTIVE', **kwargs))
+        for num in range(num_servers):
+            kwargs['networks'] = ports_list[num]
+            servers.append(self.create_server(**kwargs))
+        for num, server in enumerate(servers):
+            waiters.wait_for_server_status(self.os_admin.servers_client,
+                                           server['id'], 'ACTIVE')
+            port = self.os_admin.ports_client.list_ports(device_id=server[
+                'id'], network_id=ports_list[num][0]['uuid'])['ports'][0]
 
-        if fip:
-            servers[0]['fip'] = \
-                self.create_floating_ip(servers[0], self.public_network)['ip']
-        else:
-            servers[0]['fip'] = servers[0][
-                'addresses'][self.test_network_dict['public']][0]['addr']
+            if fip:
+                server['fip'] = \
+                    self.create_floating_ip(server, self.public_network)['ip']
+            else:
+                server['fip'] = port['fixed_ips'][0]['ip_address']
         return servers, key_pair
 
     def _check_number_queues(self):
