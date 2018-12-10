@@ -694,6 +694,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if ('tag' in net and (2.32 <= float(self.request_microversion) <=
                                   2.36 or self.request_microversion >= 2.42)):
                 self.test_network_dict[net['name']]['tag'] = net['tag']
+            if 'trusted' in net and net['trusted']:
+                self.test_network_dict[net['name']]['trusted'] = True
         network_kwargs = {}
         """
         Create network and subnets
@@ -861,6 +863,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                             self.test_network_dict['public']:
                         create_port_body['security_groups'] = \
                             [s['id'] for s in kwargs['security_groups']]
+                    if 'trusted' in net_param and net_param['trusted'] and \
+                       net_param['port_type'] == 'direct':
+                        create_port_body['binding:profile'] = \
+                            {'trusted': 'true'}
                     port = self._create_port(network_id=net_param['net-id'],
                                              **create_port_body)
                     net_var = {'uuid': net_param['net-id'], 'port': port['id']}
