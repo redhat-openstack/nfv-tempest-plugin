@@ -13,30 +13,17 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from nfv_tempest_plugin.tests.scenario import baremetal_manager
+from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
-from tempest import clients
-from tempest.common import credentials_factory as common_creds
 from tempest import config
 
 LOG = logging.getLogger(__name__)
 CONF = config.CONF
 
 
-class TestSriovScenarios(baremetal_manager.BareMetalManager):
+class TestSriovScenarios(base_test.BaseTest):
     def __init__(self, *args, **kwargs):
         super(TestSriovScenarios, self).__init__(*args, **kwargs)
-
-    @classmethod
-    def setup_credentials(cls):
-        """Do not create network resources for these tests
-
-        Using public network for ssh
-        """
-        cls.set_network_resources()
-        super(TestSriovScenarios, cls).setup_credentials()
-        cls.manager = clients.Manager(
-            credentials=common_creds.get_configured_admin_credentials())
 
     def setUp(self):
         """Set up a single tenant with an accessible server
@@ -49,22 +36,20 @@ class TestSriovScenarios(baremetal_manager.BareMetalManager):
     def test_sriov_trusted_vfs(self, test='trustedvfs'):
         """Verify trusted virtual functions
 
+        The test search 'trust on' configuration in the instance interfaces.
         """
         trusted_vfs_mac_addresses = []
-        servers, key_pair = \
-            self.create_server_with_resources(test=test)
+        servers, key_pair = self.create_and_verify_resources(test=test)
         ports = self.ports_client.list_ports(device_id=servers[0]['id'])
         for port in ports['ports']:
             if 'trusted' in port['binding:profile'] and \
-                port['binding:profile']['trusted']:
-                    trusted_vfs_mac_addresses.append(port['mac_address'])
+                    port['binding:profile']['trusted']:
+                trusted_vfs_mac_addresses.append(port['mac_address'])
         self.assertNotEmpty(trusted_vfs_mac_addresses,
                             "No trusted VFs are attached to server")
-        host_ip = self._get_hypervisor_ip_from_undercloud(
-            **{'shell': '/home/stack/stackrc',
-               'server_id': servers[0]['id']})[0]
         cmd = 'sudo ip link'
-        result = self._run_command_over_ssh(host_ip, cmd).split('\n')
+        result = self._run_command_over_ssh(servers[0]['hypervisor_ip'],
+                                            cmd).split('\n')
         for mac_address in trusted_vfs_mac_addresses:
             for line in result:
                 if mac_address in line:
