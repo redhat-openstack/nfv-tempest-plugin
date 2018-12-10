@@ -71,6 +71,8 @@ The test will look for the exist flavor.
 In case the flavor exists, the test will use it.  
 Otherwise the test will create a flavor based on the parameters defined at the test-flavors within the tests-config.yml.
 
+- **Note 3** - In order to utilize Trusted VF in this plugin, custom Neutron API Policies must be set for 'create_port:binding:profile' and 'get_port:binding:profile'.
+
 In order to minimize the pre-configuration effort, there is an automation for the environment preparation, which uses dedicated tempest ansible playbook that will install, configure and execute the tests on selected environment.
 Tempest ansible playbook belongs to the [ansible-nfv](https://github.com/redhat-openstack/ansible-nfv) repository which contains different plays for various tasks on the OpenStack environment.  
 For more information regarding tempest install, configuration and execution playbook, refer to the playbook [documentation](https://github.com/redhat-openstack/ansible-nfv/blob/master/docs/tripleo/tester/tempest.md).
