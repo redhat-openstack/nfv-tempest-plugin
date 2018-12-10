@@ -694,6 +694,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if ('tag' in net and (2.32 <= float(self.request_microversion) <=
                                   2.36 or self.request_microversion >= 2.42)):
                 self.test_network_dict[net['name']]['tag'] = net['tag']
+            if 'trusted_vf' in net and net['trusted_vf']:
+                self.test_network_dict[net['name']]['trusted_vf'] = True
         network_kwargs = {}
         """
         Create network and subnets
@@ -845,8 +847,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         :return ports_list: A list of ports lists
         """
-        create_port_body = {'binding:vnic_type': '',
-                            'namestart': 'port-smoke'}
         ports_list = []
         """
         set public network first
@@ -854,6 +854,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         for server in range(num_servers):
             networks_list = []
             for net_name, net_param in self.test_network_dict.iteritems():
+                create_port_body = {'binding:vnic_type': '',
+                                    'namestart': 'port-smoke'}
                 if 'port_type' in net_param:
                     create_port_body['binding:vnic_type'] = \
                         net_param['port_type']
@@ -861,6 +863,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                             self.test_network_dict['public']:
                         create_port_body['security_groups'] = \
                             [s['id'] for s in kwargs['security_groups']]
+                    if 'trusted_vf' in net_param and \
+                       net_param['trusted_vf'] and \
+                       net_param['port_type'] == 'direct':
+                        create_port_body['binding:profile'] = \
+                            {'trusted': 'true'}
                     port = self._create_port(network_id=net_param['net-id'],
                                              **create_port_body)
                     net_var = {'uuid': net_param['net-id'], 'port': port['id']}
