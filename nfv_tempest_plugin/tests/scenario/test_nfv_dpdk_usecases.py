@@ -15,10 +15,8 @@
 
 import time
 
-from nfv_tempest_plugin.tests.scenario import baremetal_manager
+from nfv_tempest_plugin.tests.scenario import base_test_manager
 from oslo_log import log as logging
-from tempest import clients
-from tempest.common import credentials_factory as common_creds
 from tempest import config
 from tempest import exceptions
 
@@ -26,7 +24,7 @@ LOG = logging.getLogger(__name__)
 CONF = config.CONF
 
 
-class TestDpdkScenarios(baremetal_manager.BareMetalManager):
+class TestDpdkScenarios(base_test_manager.BaseTestManager):
     def __init__(self, *args, **kwargs):
         super(TestDpdkScenarios, self).__init__(*args, **kwargs)
         self.instance = None
@@ -34,17 +32,6 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         self.flavor_ref = CONF.compute.flavor_ref
         self.public_network = CONF.network.public_network_id
         self.maxqueues = None
-
-    @classmethod
-    def setup_credentials(cls):
-        """Do not create network resources for these tests
-
-        Using public network for ssh
-        """
-        cls.set_network_resources()
-        super(TestDpdkScenarios, cls).setup_credentials()
-        cls.manager = clients.Manager(
-            credentials=common_creds.get_configured_admin_credentials())
 
     def setUp(self):
         """Set up a single tenant with an accessible server
@@ -179,7 +166,7 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
             if security is not None:
                 kwargs['security_groups'] = security
             kwargs['networks'] = super(
-                TestDpdkScenarios, self)._create_ports_on_networks(**kwargs)
+                TestDpdkScenarios, self)._create_ports_on_networks(**kwargs)[0]
             try:
                 # ToDo: Change the server creation 'for loop' to servers list.
                 self.instance = self.create_server(name=server,
