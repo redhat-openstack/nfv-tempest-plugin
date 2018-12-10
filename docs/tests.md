@@ -17,6 +17,7 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_odd_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_live_migration_block
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_multicast
+- nfv_tempest_plugin.tests.scenario.test_nfv_sriov_usecases.TestSriovScenarios.test_sriov_trusted_vfs
 
 ### Tests configuration
 The nfv-tempest-plugin uses external configuration file in order to provide the proper configuration of the test execution to the tempest.  
@@ -168,6 +169,23 @@ Tests included:
 
   ```
   - name: multicast
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+  ```
+
+----------
+#### TestSriovScenarios:  
+Tests included:
+- test_sriov_trusted_vfs
+  Test explanation:  
+  Test Trusted Virtual Function capabilities
+  This test tells neutron to create SR-IOV ports in trusted mode which unlock additional capabilities
+  **Note** This test requires nova to allow creation of trusted VFs, refer to [upstream documentation](https://docs.openstack.org/neutron/rocky/admin/config-sriov#whitelist-pci-devices-nova-compute-compute)
+  **Note** By default Trusted VF requires admininstrative user, this test relies on custom Neutron API policies which allows non-administrative users to perform these actions (**TODO: Add Neutron API policies reference after agreeing on an internal solution**)
+
+  ```
+  Test config:  
+  - name: trustedvfs
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
   ```
