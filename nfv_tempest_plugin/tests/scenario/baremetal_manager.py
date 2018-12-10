@@ -1038,6 +1038,43 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 server['fip'] = port['fixed_ips'][0]['ip_address']
         return servers, key_pair
 
+    def basic_test_base(self, test=None, **kwargs):
+        """Basic test base method
+
+        The basic test base method performs basic steps in order to prepare
+        the environment for the actual test.
+        Create all the resources and boot an instance.
+        Verify ping and SSH connection to the instance.
+
+        The method should be used by the tests as a starting point for
+        environment preparation.
+
+        :param test: Test name from the external config file.
+
+        :return servers, key_pair
+        """
+
+        servers, key_pair = \
+            self.create_server_with_resources(test=test, **kwargs)
+
+        for srv in servers:
+            LOG.info("fip: %s, instance_id: %s", srv['fip'], srv['id'])
+
+            srv['hypervisor_ip'] = self._get_hypervisor_ip_from_undercloud(
+                **{'shell': '/home/stack/stackrc', 'server_id': srv['id']})[0]
+            self.assertNotEmpty(srv['hypervisor_ip'],
+                                "_get_hypervisor_ip_from_undercloud "
+                                "returned empty ip list")
+
+            """Run ping and verify ssh connection"""
+            msg = "Timed out waiting for %s to become reachable" % srv['fip']
+            self.assertTrue(self.ping_ip_address(srv['fip']), msg)
+            self.assertTrue(self.get_remote_client(srv['fip'],
+                                                   private_key=key_pair[
+                                                       'private_key']))
+
+        return servers, key_pair
+
     def _check_number_queues(self):
         """This method checks the number of max queues"""
         self.ip_address = self._get_hypervisor_ip_from_undercloud(

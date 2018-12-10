@@ -49,45 +49,6 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         super(TestNfvBasic, self).setUp()
         # pre setup creations and checks read from config files
 
-    def _test_base(self, test=None, **kwargs):
-        """Test base method
-
-        The test base method performs basic steps in order to prepare the
-        environment for the actual test.
-        Create all the resources and boot an instance.
-        Verify ping and SSH connection to the instance.
-
-        The method should be used by the tests as a starting point for
-        environment preparation.
-
-        :param test: Test name from the external config file.
-
-        :return servers, key_pair, self.hypervisor_ip
-        """
-
-        servers, key_pair = \
-            self.create_server_with_resources(test=test, **kwargs)
-
-        LOG.info("fip: %s, instance_id: %s", servers[0]['fip'],
-                 servers[0]['id'])
-
-        self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
-            **{'shell': '/home/stack/stackrc',
-               'server_id': servers[0]['id']})[0]
-        self.assertNotEmpty(self.hypervisor_ip,
-                            "_get_hypervisor_ip_from_undercloud "
-                            "returned empty ip list")
-        """
-        Run ping and verify ssh connection.
-        """
-        msg = "Timed out waiting for %s to become reachable" % \
-              servers[0]['fip']
-        self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
-        self.assertTrue(self.get_remote_client(
-            servers[0]['fip'], private_key=key_pair['private_key']))
-
-        return servers, key_pair, self.hypervisor_ip
-
     def _test_check_package_version(self, test_compute):
         """Check provided packages, service and tuned profile on the compute
 
@@ -192,33 +153,39 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
 
         The test instance allocation on the selected numa cell.
         """
-        servers, key_pair, self.hypervisor_ip = self._test_base(test=test)
+        servers, key_pair = self.basic_test_base(test=test)
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
-        result = self._run_command_over_ssh(self.hypervisor_ip, command)
+        result = self._run_command_over_ssh(servers[0]['hypervisor_ip'],
+                                            command)
         self.assertTrue(int(result[0]) == 2)
-        self._check_vcpu_from_dumpxml(servers[0], self.hypervisor_ip, test[4:])
+        self._check_vcpu_from_dumpxml(servers[0], servers[0]['hypervisor_ip'],
+                                      test[4:])
 
     def test_numa1_provider_network(self, test='numa1'):
         """Verify numa configuration on instance
 
         The test instance allocation on the selected numa cell.
         """
-        servers, key_pair, self.hypervisor_ip = self._test_base(test=test)
+        servers, key_pair = self.basic_test_base(test=test)
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
-        result = self._run_command_over_ssh(self.hypervisor_ip, command)
+        result = self._run_command_over_ssh(servers[0]['hypervisor_ip'],
+                                            command)
         self.assertTrue(int(result[0]) == 2)
-        self._check_vcpu_from_dumpxml(servers[0], self.hypervisor_ip, test[4:])
+        self._check_vcpu_from_dumpxml(servers[0], servers[0]['hypervisor_ip'],
+                                      test[4:])
 
     def test_numamix_provider_network(self, test='numamix'):
         """Verify numa configuration on instance
 
         The test instance allocation on the selected numa cell.
         """
-        servers, key_pair, self.hypervisor_ip = self._test_base(test=test)
+        servers, key_pair = self.basic_test_base(test=test)
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
-        result = self._run_command_over_ssh(self.hypervisor_ip, command)
+        result = self._run_command_over_ssh(servers[0]['hypervisor_ip'],
+                                            command)
         self.assertTrue(int(result[0]) == 2)
-        self._check_vcpu_from_dumpxml(servers[0], self.hypervisor_ip, test[4:])
+        self._check_vcpu_from_dumpxml(servers[0], servers[0]['hypervisor_ip'],
+                                      test[4:])
 
     def test_packages_compute(self):
         self._test_check_package_version("check-compute-packages")
@@ -233,7 +200,7 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         The test shuts down the instance, migrates it and brings it up to
         verify resize.
         """
-        servers, key_pair, self.hypervisor_ip = self._test_base(test=test)
+        servers, key_pair = self.basic_test_base(test=test)
 
         self.os_admin.servers_client. \
             migrate_server(server_id=servers[0]['id'])
@@ -260,8 +227,7 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
                 emulatorpin feature was implemented only in version 14.
         """
 
-        servers, key_pair, self.hypervisor_ip = \
-            self._test_base(test=test)
+        servers, key_pair = self.basic_test_base(test=test)
 
         conf = self.test_setup_dict['emulatorpin']['config_dict'][0]
         config_path = conf['config_path']
@@ -271,7 +237,7 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         for srv in servers:
             return_value = self. \
                 compare_emulatorpin_to_overcloud_config(srv,
-                                                        self.hypervisor_ip,
+                                                        srv['hypervisor_ip'],
                                                         config_path,
                                                         check_section,
                                                         check_value)
@@ -289,8 +255,7 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
                 rx/tx feature was implemented only in version 14.
         """
 
-        servers, key_pair, self.hypervisor_ip = \
-            self._test_base(test=test)
+        servers, key_pair = self.basic_test_base(test=test)
 
         conf = self.test_setup_dict['rx_tx']['config_dict'][0]
         config_path = conf['config_path']
@@ -299,7 +264,7 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
 
         for srv in servers:
             return_value = self.\
-                compare_rx_tx_to_overcloud_config(srv, self.hypervisor_ip,
+                compare_rx_tx_to_overcloud_config(srv, srv['hypervisor_ip'],
                                                   config_path,
                                                   check_section,
                                                   check_value)
