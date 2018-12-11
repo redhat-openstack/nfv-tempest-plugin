@@ -977,11 +977,15 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                      hyper=None, avail_zone=None, **kwargs):
         """The method creates multiple instances
 
-        :param num_servers: The number of servers to boot up
-        :param fip: Creation of the floating ip for the server
+        :param num_servers: The number of servers to boot up.
+        :param fip: Creation of the floating ip for the server.
         :param test: Currently executed test. Provide test specific parameters.
         :param hyper: Hypervisor name for created server on (optional).
         :param avail_zone: Availability zone for created server (optional).
+        :param kwargs: See below.
+
+        :Keyword Arguments:
+            * use_mgmt_only: Boot the instance with mgmt network only.
 
         :return servers, fips
         """
