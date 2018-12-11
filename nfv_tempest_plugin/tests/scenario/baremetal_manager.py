@@ -1021,16 +1021,18 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             router_exist = self.test_setup_dict[test]['router']
         if router_exist:
             self._add_subnet_to_router()
-        """ If this parameters exist, parse only mgmt network.
-            Example live migration cannt run with SRIOV ports attached"""
-        if kwargs.get('use_mgmt_only'):
-            kwargs.pop('use_mgmt_only', None)
-            del(kwargs['networks'][1:])
         # Prepare cloudinit
         kwargs['user_data'] = self._prepare_cloudinit_file()
 
         for num in range(num_servers):
             kwargs['networks'] = ports_list[num]
+
+            """ If this parameters exist, parse only mgmt network.
+            Example live migration cannt run with SRIOV ports attached"""
+            if kwargs.get('use_mgmt_only'):
+                kwargs.pop('use_mgmt_only', None)
+                del (kwargs['networks'][1:])
+
             servers.append(self.create_server(**kwargs))
         for num, server in enumerate(servers):
             waiters.wait_for_server_status(self.os_admin.servers_client,
