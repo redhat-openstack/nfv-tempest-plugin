@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "70863121_a3b086c7",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2018-12-11T12:09:18Z",
+      "side": 1,
+      "message": "Thanks for the suggestion, done.",
+      "parentUuid": "0ec104d7_4e1ccc0d",
+      "range": {
+        "startLine": 68,
+        "startChar": 15,
+        "endLine": 68,
+        "endChar": 33
+      },
+      "revId": "da161c02cd9c243bc720f9aa71dac30aa5a62d8f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a55a1924_86aa475e",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "In case it is on the same compute, consider searching for mac addresses in one shot,\nAnd do the iteration on the output returned from one ssh",
       "parentUuid": "a55a1924_86aa475e",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 45
+      },
+      "revId": "da161c02cd9c243bc720f9aa71dac30aa5a62d8f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "beada962_ecb800b6",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2018-12-11T12:09:18Z",
+      "side": 1,
+      "message": "Good point, done.",
+      "parentUuid": "849d7a55_a5d17ac0",
       "range": {
         "startLine": 69,
         "startChar": 8,
