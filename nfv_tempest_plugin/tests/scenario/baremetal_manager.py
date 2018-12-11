@@ -942,7 +942,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if 'transfer_files' in CONF.hypervisor:
             if float(self.request_microversion) < 2.57:
                 files = jsonutils.loads(CONF.hypervisor.transfer_files)
-                kwargs['personality'] = []
+                if not kwargs.get('personality'):
+                    kwargs['personality'] = []
                 for copy_file in files:
                     self.assertTrue(os.path.exists(copy_file['client_source']),
                                     "Specified file {0} can't be read"
@@ -969,14 +970,22 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         return server
 
     def create_server_with_resources(self, num_servers=1, fip=True, test=None,
-                                     hyper=None, avail_zone=None, **kwargs):
+                                     hyper=None, avail_zone=None,
+                                     copy_file=None, copy_dest=None, **kwargs):
         """The method creates multiple instances
 
-        :param num_servers: The number of servers to boot up
-        :param fip: Creation of the floating ip for the server
+        :param num_servers: The number of servers to boot up.
+        :param fip: Creation of the floating ip for the server.
         :param test: Currently executed test. Provide test specific parameters.
         :param hyper: Hypervisor name for created server on (optional).
         :param avail_zone: Availability zone for created server (optional).
+        :param copy_file: File to copy to the instance.
+        :param copy_dest: Destination of the file to copy.
+        :param kwargs: See below.
+
+        :Keyword Arguments:
+            * use_mgmt_only: Boot the instance with mgmt network only.
+            * transfer_files: Files that should be copied to the instances.
 
         :return servers, fips
         """
@@ -1023,6 +1032,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             self._add_subnet_to_router()
         # Prepare cloudinit
         kwargs['user_data'] = self._prepare_cloudinit_file()
+
+        if copy_file and copy_dest:
+            kwargs['personality'] = \
+                self._add_copy_files_to_personality(copy_file, copy_dest)
 
         for num in range(num_servers):
             kwargs['networks'] = ports_list[num]
@@ -1207,3 +1220,25 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         sftp.close()
         ssh.close()
         return result
+
+    def _add_copy_files_to_personality(self, copy_file=None, copy_dest=None):
+        """Add copy files to personality kwargs for server create
+
+        :param copy_file: The relative source path of the file to copy
+        :param copy_dest: THe destination of the file to copy
+        :return:
+        """
+        if float(self.request_microversion) < 2.57:
+            copyf = copy_file.split(',')
+            copyd = copy_dest.split(',')
+            path = os.path.dirname(__file__)
+
+            for src, dst in zip(copyf, copyd):
+                content = open(path + '/' + src).read()
+                content = textwrap.dedent(content).lstrip().encode('utf8')
+                content_b64 = base64.b64encode(content)
+
+                return [{'path': dst, 'contents': content_b64}]
+        else:
+            raise Exception("Personality is deprecated from "
+                            "compute micro_version 2.57 and onwards")
