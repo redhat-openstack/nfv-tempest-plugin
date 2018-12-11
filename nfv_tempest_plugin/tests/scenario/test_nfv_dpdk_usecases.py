@@ -18,7 +18,6 @@ import time
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
 from tempest import config
-from tempest import exceptions
 
 LOG = logging.getLogger(__name__)
 CONF = config.CONF
@@ -123,140 +122,58 @@ class TestDpdkScenarios(base_test.BaseTest):
                 return True
         return False
 
-    def _test_multicast_traffic(self, test_multicast):
+    def test_multicast(self, test='multicast'):
         """The method boots three instances, runs mcast traffic between them"""
         LOG.info('Starting multicast test.')
+        servers, key_pair = \
+            self.create_server_with_resources(test=test, num_servers=3,
+                                              use_mgmt_only=True)
 
-        kwargs = {}
-        self.assertTrue(test_multicast in self.test_setup_dict,
-                        "Test requires {0} configuration "
-                        "in external config file".format(test_multicast))
+        servers[0]['listener1'] = 'listener1'
+        servers[1]['listener2'] = 'listener2'
+        servers[2]['traffic_runner'] = 'traffic_runner'
 
-        flavor_exists = super(TestDpdkScenarios,
-                              self).check_flavor_existence(test_multicast)
-        if flavor_exists is False:
-            flavor_name = self.test_setup_dict[test_multicast]['flavor']
-            self.flavor_ref = \
-                super(TestDpdkScenarios,
-                      self).create_flavor(**self.test_flavor_dict[flavor_name])
-
-        if 'availability-zone' in self.test_setup_dict[test_multicast]:
-            kwargs['availability_zone'] = \
-                self.test_setup_dict[test_multicast]['availability-zone']
-
-        """
-        Prepare and boot an Instance
-        """
-        keypair = self.create_keypair()
-        self.key_pairs[keypair['name']] = keypair
-        super(TestDpdkScenarios, self)._create_test_networks()
-        if 'router' in self.test_setup_dict['multicast']:
-            if self.test_setup_dict['multicast']['router']:
-                super(TestDpdkScenarios, self)._add_subnet_to_router()
-        kwargs['user_data'] = super(TestDpdkScenarios,
-                                    self)._prepare_cloudinit_file()
-        kwargs['key_name'] = keypair['name']
-
-        servers = {}
-        mcast_srv = ["traffic_runner", "listener1", "listener2"]
-        for server in mcast_srv:
-            LOG.info('Booting %s instance.' % server)
-
-            security = super(TestDpdkScenarios, self)._set_security_groups()
-            if security is not None:
-                kwargs['security_groups'] = security
-            kwargs['networks'] = super(
-                TestDpdkScenarios, self)._create_ports_on_networks(**kwargs)[0]
-            try:
-                # ToDo: Change the server creation 'for loop' to servers list.
-                self.instance = self.create_server(name=server,
-                                                   image_id=self.image_ref,
-                                                   flavor=self.flavor_ref,
-                                                   wait_until='ACTIVE',
-                                                   **kwargs)
-            except exceptions.BuildErrorException:
-                raise
-
-            fip = dict()
-            fip['ip'] = self.instance['addresses'][self.test_network_dict[
-                'public']][0]['addr']
-            if 'router' in self.test_setup_dict['multicast']:
-                if self.test_setup_dict['multicast']['router']:
-                    fip = self.create_floating_ip(self.instance,
-                                                  self.public_network)
-            self.instance['fip'] = fip['ip']
-            servers[server] = self.instance
-
-        for server in mcast_srv:
-            if server not in servers:
-                LOG.error('Instance %s missing from the servers list' % server)
-                return False
-
-        """
-        Start multicast listeners
-        """
         mcast_group = '224.0.0.1'
         mcast_port = '10000'
         mcast_msg = 'mcast_pass'
         mcast_output = '/tmp/output'
-        get_mcast_results = 'cat %s' % mcast_output
-        for key, value in servers.iteritems():
-            if ('listener1' in key) or ('listener2' in key):
-                LOG.info('Copying and executing multicast script to %s.' % key)
+        get_mcast_results = 'cat {}'.format(mcast_output)
+        receive_cmd = 'python /tmp/multicast_traffic.py -r -g {0} -p {1} > ' \
+                      '{2} &'.format(mcast_group, mcast_port, mcast_output)
+        send_cmd = 'python /tmp/multicast_traffic.py -s -g {0} -p {1} -m ' \
+                   '{2} > {3} &'.format(mcast_group, mcast_port, mcast_msg,
+                                        mcast_output)
+        for srv in servers:
+            LOG.info('Copying and executing multicast script on {}.'
+                     .format(srv['fip']))
+            copy = self.copy_file_to_remote_host(srv['fip'],
+                                                 ssh_key=key_pair[
+                                                     'private_key'],
+                                                 files='multicast_traffic.py',
+                                                 src_path='tests_scripts',
+                                                 dst_path='/tmp')
+            LOG.info(copy)
+            ssh_source = self.get_remote_client(srv['fip'],
+                                                private_key=key_pair[
+                                                    'private_key'])
+            ssh_source.exec_command(send_cmd if 'traffic_runner' in srv else
+                                    receive_cmd)
 
-                # The method is a temporary solution.
-                # ToDo: Remove once config-drive will be implemented.
-                copy = self.copy_file_to_remote_host(value['fip'],
-                                                     ssh_key=keypair[
-                                                         'private_key'],
-                                                     files='mcast_receive.py',
-                                                     src_path='tests_scripts',
-                                                     dst_path='/tmp')
-                LOG.info(copy)
-                ssh_source = self.get_remote_client(value['fip'],
-                                                    private_key=keypair[
-                                                        'private_key'])
-                ssh_source.exec_command(
-                    'python /tmp/mcast_receive.py -g %s -p %s > %s &'
-                    % (mcast_group, mcast_port, mcast_output))
-        """
-        Start multicast traffic runner
-        """
-        for key, value in servers.iteritems():
-            if 'traffic_runner' in key:
-                LOG.info('Copying and executing multicast script to %s.' % key)
-
-                # The method is a temporary solution.
-                # ToDo: Remove once config-drive will be implemented.
-                copy = self.copy_file_to_remote_host(value['fip'],
-                                                     ssh_key=keypair[
-                                                         'private_key'],
-                                                     files='mcast_send.py',
-                                                     src_path='tests_scripts',
-                                                     dst_path='/tmp')
-                LOG.info(copy)
-                ssh_source = self.get_remote_client(value['fip'],
-                                                    private_key=keypair[
-                                                        'private_key'])
-                ssh_source.exec_command(
-                    'python /tmp/mcast_send.py -g %s -p %s -m %s'
-                    % (mcast_group, mcast_port, mcast_msg))
-
-        """
-        Reading the listeners output files
-        """
-        for key, value in servers.iteritems():
-            if ('listener1' in key) or ('listener2' in key):
-                LOG.info('Reading results from %s instance.' % key)
-
-                ssh_source = self.get_remote_client(value['fip'],
-                                                    private_key=keypair[
+        for receiver in servers:
+            if ('listener1' in receiver) or ('listener2' in receiver):
+                LOG.info('Reading results from {} instance.'
+                         .format(receiver['fip']))
+                ssh_source = self.get_remote_client(receiver['fip'],
+                                                    private_key=key_pair[
                                                         'private_key'])
                 output = ssh_source.exec_command(get_mcast_results)
                 results = output.rstrip('\n')
-                results_msg = '%s unable to receive multicast traffic.' % key
+                results_msg = '{} unable to receive multicast traffic.'\
+                    .format(receiver['fip'])
                 self.assertEqual(results, mcast_msg, results_msg)
-                LOG.info('%s received multicast traffic.' % key)
+                LOG.info('{} received multicast traffic.'
+                         .format(receiver['fip']))
+
         LOG.info('Both listener1 and listener2 received multicast traffic')
         return True
 
@@ -285,7 +202,3 @@ class TestDpdkScenarios(base_test.BaseTest):
         msg = "Live migration Failed"
         self.assertTrue(self._test_live_migration_block(
             test_setup_migration="test_live_migration_basic"), msg)
-
-    def test_multicast(self):
-        msg = "Multicast test failed. Check log for more details."
-        self.assertTrue(self._test_multicast_traffic("multicast"), msg)
