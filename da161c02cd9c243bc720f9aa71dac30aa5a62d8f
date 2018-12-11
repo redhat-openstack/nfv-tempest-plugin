@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ec104d7_4e1ccc0d",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-12-11T08:25:58Z",
+      "side": 1,
+      "message": "If you change this to \"\u0027server_id\u0027: servers[0][\u0027id\u0027]\", you can delete the host variable (lines 63-65), as it will give you the hypervisor ip address based on the instance id you provide.",
+      "range": {
+        "startLine": 68,
+        "startChar": 15,
+        "endLine": 68,
+        "endChar": 33
+      },
+      "revId": "da161c02cd9c243bc720f9aa71dac30aa5a62d8f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a55a1924_86aa475e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-12-11T08:25:58Z",
+      "side": 1,
+      "message": "This will hardly decrease the time of the test because the instance boots with three interfaces which mean that tempest will have to do three iterations if the ssh command method.\n\nWhy not to bring the full \"sudo ip link\" output once and then perform the parsing of the output locally?",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 45
+      },
+      "revId": "da161c02cd9c243bc720f9aa71dac30aa5a62d8f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
