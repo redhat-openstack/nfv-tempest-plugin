@@ -75,7 +75,6 @@ Tests included:
       - tuned
       - openvswitch
     tuned-profile: cpu-partitioning
-    availability-zone: normal
   ```
 
 - test_mtu_ping_test  
@@ -89,13 +88,11 @@ Tests included:
     flavor: nfv-test-flavor
     router: false
     mtu: 2972
-    availability-zone: normal
   ```
 
   flavor - specifies the flavor that the instance should boot with.  
   router - Sets if the booted instance will get floating ip or direct access config.  
   mtu - Specify the required mtu for the test. The calculation of testing mtu should be based on the deployed mtu size.  
-  availability-zone - Sets the zone in which the hypervisor exists (Parameter not required).
 
 - test_emulatorpin  
   Test explanation:  
@@ -108,12 +105,15 @@ Tests included:
   Test config:
   - name: emulatorpin
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-    router: true
+    router: truaggregate_instances: truee
+    aggregate_instances: true
     emulatorpin_config:
       - config_path: '/var/lib/config-data/puppet-generated/nova_libvirt/etc/nova/nova.conf'
         check_section: 'compute'
         check_value: 'cpu_shared_set'
   ```
+  
+  aggregate_instances - If true, creates an aggregation zone, adds first hypervisor to the aggregation and boots multiple instances in that zone.
 
 - rx_tx
   Test explanation:
