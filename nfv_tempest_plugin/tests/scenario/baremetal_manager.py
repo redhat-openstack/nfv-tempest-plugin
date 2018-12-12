@@ -162,6 +162,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'package-names' in test and test['package-names'] is not None:
                 self.test_setup_dict[test['name']] = \
                     {'package-names': test['package-names']}
+            if 'aggregate_instances' in test and \
+                    test['aggregate_instances'] is not None:
+                self.test_setup_dict[test['name']]['aggregate_instances'] = \
+                    test['aggregate_instances']
             if 'availability-zone' in test and \
                     test['availability-zone'] is not None:
                 self.test_setup_dict[test['name']]['availability-zone'] = \
@@ -539,6 +543,24 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                             stdout=sp.PIPE)
         result = pipe.stdout.read()
         return result.split()
+
+    def _create_aggregate(self, aggr_name, hypervisor_name):
+        """Create aggregate zone and place hypervisor within the zone
+
+        :param aggr_name: The name of the aggregation to be created
+        :param hypervisor_name: The name of the hypervisor for the aggregate
+
+        :return: aggregate_name
+        """
+        aggr = self.aggregates_client.create_aggregate(
+            name=aggr_name, availability_zone=aggr_name)
+        self.addCleanup(self.aggregates_client.delete_aggregate,
+                        aggr['aggregate']['id'])
+        self.aggregates_client.add_host(aggr['aggregate']['id'],
+                                        host=hypervisor_name)
+        self.addCleanup(self.aggregates_client.remove_host,
+                        aggr['aggregate']['id'], host=hypervisor_name)
+        return aggr['aggregate']['name']
 
     def _list_aggregate(self, name=None):
         """Aggregation listing
@@ -969,14 +991,12 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         return server
 
     def create_server_with_resources(self, num_servers=1, fip=True, test=None,
-                                     hyper=None, avail_zone=None, **kwargs):
+                                     **kwargs):
         """The method creates multiple instances
 
         :param num_servers: The number of servers to boot up
         :param fip: Creation of the floating ip for the server
         :param test: Currently executed test. Provide test specific parameters.
-        :param hyper: Hypervisor name for created server on (optional).
-        :param avail_zone: Availability zone for created server (optional).
 
         :return servers, fips
         """
@@ -988,13 +1008,13 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         'The test requires {0} config in external_config_file'.
                         format(test))
 
-        # Set availability zone if required
-        if avail_zone and hyper is not None:
-            az = '{} : {}'.format(avail_zone, hyper)
-            kwargs['availability_zone'] = az
-        elif 'availability-zone' in self.test_setup_dict[test]:
-            kwargs['availability_zone'] = \
-                self.test_setup_dict[test]['availability-zone']
+        # Create and set the aggregation zone if specified in config
+        if 'aggregate_instances' in self.test_setup_dict[test] and \
+                self.test_setup_dict[test]['aggregate_instances']:
+            hyper_name = self.hypervisor_client.list_hypervisors()[
+                'hypervisors'][0]['hypervisor_hostname']
+            self._create_aggregate(test, hyper_name)
+            kwargs['availability_zone'] = test
 
         # Flavor creation
         if not kwargs.get('flavor'):
