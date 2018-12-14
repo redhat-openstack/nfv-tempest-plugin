@@ -49,7 +49,7 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         super(TestNfvBasic, self).setUp()
         # pre setup creations and checks read from config files
 
-    def _test_base(self, test=None, **kwargs):
+    def _test_base(self, test=None, fip=True, **kwargs):
         """Test base method
 
         The test base method performs basic steps in order to prepare the
@@ -66,7 +66,7 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         """
 
         servers, key_pair = \
-            self.create_server_with_resources(test=test, **kwargs)
+            self.create_server_with_resources(test=test, fip=fip, **kwargs)
 
         LOG.info("fip: %s, instance_id: %s", servers[0]['fip'],
                  servers[0]['id'])
@@ -80,11 +80,18 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         """
         Run ping and verify ssh connection.
         """
-        msg = "Timed out waiting for %s to become reachable" % \
-              servers[0]['fip']
-        self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
-        self.assertTrue(self.get_remote_client(
-            servers[0]['fip'], private_key=key_pair['private_key']))
+        if fip:
+            msg = "Timed out waiting for %s to become reachable" % \
+                  servers[0]['fip']
+            self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
+            self.assertTrue(self.get_remote_client(
+                servers[0]['fip'], private_key=key_pair['private_key']))
+        else:
+            LOG.info("FIP is disabled, ping %s using network namespaces" %
+                     servers[0]['fip'])
+            ping = self.ping_via_network_namespace(servers[0]['fip'],
+                                                   servers[0]['network_id'])
+            self.assertTrue(ping)
 
         return servers, key_pair, self.hypervisor_ip
 
@@ -155,7 +162,7 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         test_result = '\n'.join(test_result)
         self.assertEmpty(test_result, test_result)
 
-    def _test_mtu_ping_gateway(self, test_setup_mtu, mtu=1973):
+    def _test_mtu_ping_gateway(self, test_setup_mtu, mtu=1973, fip=True):
         """Test MTU by pinging instance gateway
 
         The test boots an instance with given args from external_config_file,
@@ -165,6 +172,10 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         :param test_setup_mtu
         :param mtu
         """
+
+        # TODO(skramaja): Need to check if it is possible to execute ping
+        #                 inside the guest VM using network namespace
+        self.assertTrue(fip, "Floating IP is required for mtu test")
 
         servers, key_pair = \
             self.create_server_with_resources(test=test_setup_mtu)
@@ -192,7 +203,8 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
 
         The test instance allocation on the selected numa cell.
         """
-        servers, key_pair, self.hypervisor_ip = self._test_base(test=test)
+        servers, key_pair, self.hypervisor_ip = self._test_base(test=test,
+                                                                fip=self.fip)
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
         result = self._run_command_over_ssh(self.hypervisor_ip, command)
         self.assertTrue(int(result[0]) == 2)
@@ -203,7 +215,8 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
 
         The test instance allocation on the selected numa cell.
         """
-        servers, key_pair, self.hypervisor_ip = self._test_base(test=test)
+        servers, key_pair, self.hypervisor_ip = self._test_base(test=test,
+                                                                fip=self.fip)
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
         result = self._run_command_over_ssh(self.hypervisor_ip, command)
         self.assertTrue(int(result[0]) == 2)
@@ -214,7 +227,8 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
 
         The test instance allocation on the selected numa cell.
         """
-        servers, key_pair, self.hypervisor_ip = self._test_base(test=test)
+        servers, key_pair, self.hypervisor_ip = self._test_base(test=test,
+                                                                fip=self.fip)
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
         result = self._run_command_over_ssh(self.hypervisor_ip, command)
         self.assertTrue(int(result[0]) == 2)
@@ -225,7 +239,8 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
 
     def test_mtu_ping_test(self):
         msg = "MTU Ping test failed - check your environment settings"
-        self.assertTrue(self._test_mtu_ping_gateway("test-ping-mtu"), msg)
+        result = self._test_mtu_ping_gateway("test-ping-mtu", fip=self.fip)
+        self.assertTrue(result, msg)
 
     def test_cold_migration(self, test='cold-migration'):
         """Test cold migration
@@ -233,7 +248,8 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         The test shuts down the instance, migrates it and brings it up to
         verify resize.
         """
-        servers, key_pair, self.hypervisor_ip = self._test_base(test=test)
+        servers, key_pair, self.hypervisor_ip = self._test_base(test=test,
+                                                                fip=self.fip)
 
         self.os_admin.servers_client. \
             migrate_server(server_id=servers[0]['id'])
@@ -261,7 +277,7 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         """
 
         servers, key_pair, self.hypervisor_ip = \
-            self._test_base(test=test)
+            self._test_base(test=test, fip=self.fip)
 
         conf = self.test_setup_dict['emulatorpin']['config_dict'][0]
         config_path = conf['config_path']
@@ -290,7 +306,7 @@ class TestNfvBasic(baremetal_manager.BareMetalManager):
         """
 
         servers, key_pair, self.hypervisor_ip = \
-            self._test_base(test=test)
+            self._test_base(test=test, fip=self.fip)
 
         conf = self.test_setup_dict['rx_tx']['config_dict'][0]
         config_path = conf['config_path']
