@@ -1,4 +1,9 @@
 ---
+
+# Enable or Disable floating IP creation of guest VMs
+# Default is true (floating ip is enabled if not provided)
+floating_ip: true
+
 # Networks used by the test.
 # Will be created by the tests during the execution.
 test-networks:

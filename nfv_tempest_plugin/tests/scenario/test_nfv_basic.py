@@ -178,6 +178,10 @@ class TestNfvBasic(base_test.BaseTest):
         self._test_check_package_version("check-compute-packages")
 
     def test_mtu_ping_test(self):
+        # TODO(skramaja): Need to check if it is possible to execute ping
+        #                 inside the guest VM using network namespace
+        self.assertTrue(self.fip, "Floating IP is required for mtu test")
+
         msg = "MTU Ping test failed - check your environment settings"
         self.assertTrue(self._test_mtu_ping_gateway("test-ping-mtu"), msg)
 
