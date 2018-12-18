@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b4d0275_27937376",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-12-18T11:36:39Z",
+      "side": 1,
+      "message": "Please refer the client the following\n\nAs per the Link of aggregation\nNeed to check Filter AggregateInstanceExtraSpecsFilter exist in NoveScheduler\n\nFor the flavor  set aggregate_instance_extra_specs:aggr-nae\u003dTrue\n\nClientApi should change from avilability_zone\u003d to aggregate_instance_extra_spec\n\nWe need to ask nove if there is API for that,\nit is exist in nova --h | grep aggregate \nbut not in openstack server --h",
+      "range": {
+        "startLine": 555,
+        "startChar": 6,
+        "endLine": 563,
+        "endChar": 40
+      },
+      "revId": "af51bc697e44db0c8906a3d7feb9b77a4fcdd9a4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
