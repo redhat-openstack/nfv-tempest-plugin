@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ee3ef6d_54d70696",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2018-12-18T10:53:04Z",
+      "side": 1,
+      "message": "unused",
+      "revId": "baaf1d1063e14bae286575052a725bd0ab1afc5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
