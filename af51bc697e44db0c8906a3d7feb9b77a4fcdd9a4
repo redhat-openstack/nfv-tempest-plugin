@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "36dfd860_6578cbcb",
+        "filename": "docs/tests.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2018-12-18T12:54:27Z",
+      "side": 1,
+      "message": "Using \"zone\" with \"aggregation\" is confusing with \"availability zone\". I would prefer it as \"creates a host aggregation\".",
+      "range": {
+        "startLine": 116,
+        "startChar": 56,
+        "endLine": 116,
+        "endChar": 60
+      },
+      "revId": "af51bc697e44db0c8906a3d7feb9b77a4fcdd9a4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5b277a7_073b020f",
+        "filename": "docs/tests.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2018-12-18T12:54:27Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 116,
+        "startChar": 140,
+        "endLine": 116,
+        "endChar": 144
+      },
+      "revId": "af51bc697e44db0c8906a3d7feb9b77a4fcdd9a4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13cd52e1_a8484bb1",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2018-12-18T12:54:27Z",
+      "side": 1,
+      "message": "There is no need for this condition, as there is a validation where aggreate_instances is used in create_server_with_resources function, could be simplified.\n\nself.test_setup_dict[test[\u0027name\u0027]][\u0027aggregate_instances\u0027] \u003d \\\n                    test.get(\u0027aggregate_instances\u0027)",
+      "range": {
+        "startLine": 165,
+        "startChar": 12,
+        "endLine": 166,
+        "endChar": 60
+      },
+      "revId": "af51bc697e44db0c8906a3d7feb9b77a4fcdd9a4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1daa64f4_69b17df8",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2018-12-18T12:54:27Z",
+      "side": 1,
+      "message": "availability_zone is not required?",
+      "range": {
+        "startLine": 556,
+        "startChar": 28,
+        "endLine": 556,
+        "endChar": 45
+      },
+      "revId": "af51bc697e44db0c8906a3d7feb9b77a4fcdd9a4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8b4d0275_27937376",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 3
@@ -18,6 +110,53 @@
         "startChar": 6,
         "endLine": 563,
         "endChar": 40
+      },
+      "revId": "af51bc697e44db0c8906a3d7feb9b77a4fcdd9a4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99f1fa09_381dbfa9",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2018-12-18T12:54:27Z",
+      "side": 1,
+      "message": "Here are the commands that i generally use to host aggregate along with OVS-DPDK feature, for a sample. \n--------------------------------------------------------------------\nopenstack flavor create --vcpus 4 --ram 4096 --disk 40 m1.nano\nopenstack flavor set m1.nano --property dpdk\u003dfalse --property hw:mem_page_size\u003dlarge\nopenstack aggregate create general_host_group\nopenstack aggregate set general_host_group --property dpdk\u003dfalse\nopenstack aggregate add host general_host_group $(openstack host list -f value -c \u0027Host Name\u0027 | grep compute | grep -v computeovsdpdk)\n\nopenstack flavor create --vcpus 4 --ram 4096 --disk 40 m1.nano.dpdk\nopenstack flavor set m1.nano.dpdk --property dpdk\u003dtrue --property hw:mem_page_size\u003dlarge\nopenstack aggregate create dpdk_host_group\nopenstack aggregate set dpdk_host_group --property dpdk\u003dtrue\nopenstack aggregate add host dpdk_host_group $(openstack host list -f value -c \u0027Host Name\u0027 | grep computeovsdpdk)",
+      "parentUuid": "8b4d0275_27937376",
+      "range": {
+        "startLine": 555,
+        "startChar": 6,
+        "endLine": 563,
+        "endChar": 40
+      },
+      "revId": "af51bc697e44db0c8906a3d7feb9b77a4fcdd9a4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20e6f273_59de6dce",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1015,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2018-12-18T12:54:27Z",
+      "side": 1,
+      "message": "Rather than hard coding to first hypervisor, can it be enhanced to created aggregates based on the roles used for the deployment. Simpler way would be to fix it as host name regex (complex would be to identify based on the service names of the hypervisor).",
+      "range": {
+        "startLine": 1015,
+        "startChar": 30,
+        "endLine": 1015,
+        "endChar": 33
       },
       "revId": "af51bc697e44db0c8906a3d7feb9b77a4fcdd9a4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
