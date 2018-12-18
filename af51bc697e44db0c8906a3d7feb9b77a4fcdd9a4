@@ -141,6 +141,30 @@
     },
     {
       "key": {
+        "uuid": "2a575151_567959e2",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-12-18T13:58:51Z",
+      "side": 1,
+      "message": "ok Thanks @SKR\nPlease use the properies option through aggrgate set command\nsee sample \nhttps://github.com/openstack/tempest/blob/master/tempest/api/compute/admin/test_aggregates.py#L115-#L116\nInstead of availability zones \nsee the CLI options, but same results",
+      "parentUuid": "99f1fa09_381dbfa9",
+      "range": {
+        "startLine": 555,
+        "startChar": 6,
+        "endLine": 563,
+        "endChar": 40
+      },
+      "revId": "af51bc697e44db0c8906a3d7feb9b77a4fcdd9a4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "20e6f273_59de6dce",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 3
