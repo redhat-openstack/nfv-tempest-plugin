@@ -16,6 +16,29 @@
       "revId": "baaf1d1063e14bae286575052a725bd0ab1afc5f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99de5eee_450dce8e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2018-12-18T14:55:11Z",
+      "side": 1,
+      "message": "variable name could be \u0027use_fip\u0027, as its easier to understand.",
+      "range": {
+        "startLine": 52,
+        "startChar": 36,
+        "endLine": 52,
+        "endChar": 39
+      },
+      "revId": "baaf1d1063e14bae286575052a725bd0ab1afc5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
