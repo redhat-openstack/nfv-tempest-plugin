@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16bb8fce_1476b0df",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1227,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2018-12-18T09:25:18Z",
+      "side": 1,
+      "message": "As the network_id is already passed as a parameter, it can be used directly instead of querying again.",
+      "revId": "96a695fe10ebf81fbc9dc60c4c512e9178584a88",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
