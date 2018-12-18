@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2b2fbc12_f45eb261",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-12-18T15:13:42Z",
+      "side": 1,
+      "message": "Please, check the tox log output. The import should be in alphabetical order.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 43
+      },
+      "revId": "baaf1d1063e14bae286575052a725bd0ab1afc5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9ee3ef6d_54d70696",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 3
@@ -13,6 +36,47 @@
       "writtenOn": "2018-12-18T10:53:04Z",
       "side": 1,
       "message": "unused",
+      "revId": "baaf1d1063e14bae286575052a725bd0ab1afc5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f3cfdf2_cd65f21d",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-12-18T15:13:42Z",
+      "side": 1,
+      "message": "So why to import?",
+      "parentUuid": "9ee3ef6d_54d70696",
+      "revId": "baaf1d1063e14bae286575052a725bd0ab1afc5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bed021ca_626bf069",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-12-18T15:13:42Z",
+      "side": 1,
+      "message": "Do we want this as a global config or per test configuration?\nMaybe create a common config for all tests with the ability to override on the test level?\n\nPlease, add the new parameter description within the documentation as well.",
+      "range": {
+        "startLine": 239,
+        "startChar": 8,
+        "endLine": 239,
+        "endChar": 64
+      },
       "revId": "baaf1d1063e14bae286575052a725bd0ab1afc5f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
@@ -35,6 +99,29 @@
         "startChar": 36,
         "endLine": 52,
         "endChar": 39
+      },
+      "revId": "baaf1d1063e14bae286575052a725bd0ab1afc5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebfa9cc7_8bf53989",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-12-18T15:13:42Z",
+      "side": 1,
+      "message": "Using fip is the default behavior of the tests.\nConsider making the decision of using the fip within the \u0027test_base\u0027 method.\nNo need to specify it in each test.",
+      "range": {
+        "startLine": 165,
+        "startChar": 63,
+        "endLine": 165,
+        "endChar": 71
       },
       "revId": "baaf1d1063e14bae286575052a725bd0ab1afc5f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
