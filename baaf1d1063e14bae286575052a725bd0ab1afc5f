@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "0855f89c_63701dcb",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2018-12-19T09:33:28Z",
+      "side": 1,
+      "message": "it will be removed on next iteration..",
+      "parentUuid": "6f3cfdf2_cd65f21d",
+      "revId": "baaf1d1063e14bae286575052a725bd0ab1afc5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bed021ca_626bf069",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 3
@@ -71,6 +89,30 @@
       "writtenOn": "2018-12-18T15:13:42Z",
       "side": 1,
       "message": "Do we want this as a global config or per test configuration?\nMaybe create a common config for all tests with the ability to override on the test level?\n\nPlease, add the new parameter description within the documentation as well.",
+      "range": {
+        "startLine": 239,
+        "startChar": 8,
+        "endLine": 239,
+        "endChar": 64
+      },
+      "revId": "baaf1d1063e14bae286575052a725bd0ab1afc5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aba34d70_7e551a86",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2018-12-19T09:33:28Z",
+      "side": 1,
+      "message": "\u003e Do we want this as a global config or per test configuration?\n\nIt is still a global config, as the cluster may or may not support FIP. Individual tests, if those require FIP to be mandatory, then that particular test should fail itself.\n\n\u003e Please, add the new parameter description within the documentation as well.\n\nOK.",
+      "parentUuid": "bed021ca_626bf069",
       "range": {
         "startLine": 239,
         "startChar": 8,
@@ -106,6 +148,30 @@
     },
     {
       "key": {
+        "uuid": "57ba756d_e9da08ba",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2018-12-19T09:33:28Z",
+      "side": 1,
+      "message": "create_server_with_resources function already had this parameter, so I used the same name. I can change it all places if it is better.",
+      "parentUuid": "99de5eee_450dce8e",
+      "range": {
+        "startLine": 52,
+        "startChar": 36,
+        "endLine": 52,
+        "endChar": 39
+      },
+      "revId": "baaf1d1063e14bae286575052a725bd0ab1afc5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ebfa9cc7_8bf53989",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 3
@@ -117,6 +183,30 @@
       "writtenOn": "2018-12-18T15:13:42Z",
       "side": 1,
       "message": "Using fip is the default behavior of the tests.\nConsider making the decision of using the fip within the \u0027test_base\u0027 method.\nNo need to specify it in each test.",
+      "range": {
+        "startLine": 165,
+        "startChar": 63,
+        "endLine": 165,
+        "endChar": 71
+      },
+      "revId": "baaf1d1063e14bae286575052a725bd0ab1afc5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f8e09f5_1910ce22",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2018-12-19T09:33:28Z",
+      "side": 1,
+      "message": "I would still believe the control should be from the individual tests, that way we can fail the tests which cannot be executed without FIP. I still prefer to use it as parameter for all tests.",
+      "parentUuid": "ebfa9cc7_8bf53989",
       "range": {
         "startLine": 165,
         "startChar": 63,
