@@ -216,6 +216,30 @@
       "revId": "baaf1d1063e14bae286575052a725bd0ab1afc5f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d0bfd71_8771a36a",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-12-19T10:04:30Z",
+      "side": 1,
+      "message": "The control still could be from the individual tests.\nBut in addition, we could have a default defined.\nSo if I would like to override the default, I will specify it.",
+      "parentUuid": "5f8e09f5_1910ce22",
+      "range": {
+        "startLine": 165,
+        "startChar": 63,
+        "endLine": 165,
+        "endChar": 71
+      },
+      "revId": "baaf1d1063e14bae286575052a725bd0ab1afc5f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
