@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4e2ed28e_01b6085d",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-12-19T20:00:55Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "c16ed56d_6245a4a5",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "fcf5e77de9a0a49838ff0e42a89db7a8f60efe98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1c42a37c_10b5937d",
         "filename": "nfv_tempest_plugin/tests/scenario/base_test_manager.py",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-12-19T14:53:43Z",
       "side": 1,
       "message": "Also here basic_test_base :/ is not a good name,\nSince the function of this method is not the test itself consider some think like\n_prepare_setup_and_verify",
+      "range": {
+        "startLine": 49,
+        "startChar": 8,
+        "endLine": 49,
+        "endChar": 23
+      },
+      "revId": "fcf5e77de9a0a49838ff0e42a89db7a8f60efe98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e3e28b7_70c37cb2",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-12-19T20:00:55Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "1c42a37c_10b5937d",
       "range": {
         "startLine": 49,
         "startChar": 8,
