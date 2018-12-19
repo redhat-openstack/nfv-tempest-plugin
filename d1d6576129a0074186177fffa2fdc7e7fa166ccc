@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21acbcf6_b9892cb9",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-12-19T19:01:42Z",
+      "side": 1,
+      "message": "Sorry Saravanan, but when floating ip use is the default behaviour, I don\u0027t see any reason to remember to add it in any new test.\nDefault config option should not be defined here.",
+      "range": {
+        "startLine": 207,
+        "startChar": 64,
+        "endLine": 207,
+        "endChar": 76
+      },
+      "revId": "d1d6576129a0074186177fffa2fdc7e7fa166ccc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
