@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d808f9c1_f11be4a6",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2018-12-20T12:13:42Z",
+      "side": 1,
+      "message": "Use the function parameter instead of the global parameter.",
+      "range": {
+        "startLine": 178,
+        "startChar": 24,
+        "endLine": 178,
+        "endChar": 32
+      },
+      "revId": "d1d6576129a0074186177fffa2fdc7e7fa166ccc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "21acbcf6_b9892cb9",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 5
@@ -13,6 +36,30 @@
       "writtenOn": "2018-12-19T19:01:42Z",
       "side": 1,
       "message": "Sorry Saravanan, but when floating ip use is the default behaviour, I don\u0027t see any reason to remember to add it in any new test.\nDefault config option should not be defined here.",
+      "range": {
+        "startLine": 207,
+        "startChar": 64,
+        "endLine": 207,
+        "endChar": 76
+      },
+      "revId": "d1d6576129a0074186177fffa2fdc7e7fa166ccc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c0b370d_2909bf97",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2018-12-20T12:13:42Z",
+      "side": 1,
+      "message": "Conditions like [1] where tests will be failed when floating IP is enabled, should be handled in the individual tests. And when it is controlled from the top, the same parameter could be used to decide whether a floating IP is required or not for a test case. For example, when a new test case is added (in future), to verify only the VMs numa placement, floating IP is not required for that test. If we flow it from the top, it is easy to control.\n\nAnd if for some reason, there is a need to move all the configs (external config) to a separate config class, to reduce the baremetal manager overload it is easy to do it. \n\nIt is always good to be parameterized than global variables. \n\n[1] https://review.gerrithub.io/c/redhat-openstack/nfv-tempest-plugin/+/437521/5/nfv_tempest_plugin/tests/scenario/test_nfv_basic.py#178",
+      "parentUuid": "21acbcf6_b9892cb9",
       "range": {
         "startLine": 207,
         "startChar": 64,
