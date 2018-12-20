@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8ee62c2_5f010566",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-12-20T11:18:09Z",
+      "side": 1,
+      "message": "This should be moved to dpdk tests",
+      "range": {
+        "startLine": 235,
+        "startChar": 4,
+        "endLine": 235,
+        "endChar": 39
+      },
+      "revId": "3fa0917d2aacf87750b3a37521a6c89344ad1d07",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
