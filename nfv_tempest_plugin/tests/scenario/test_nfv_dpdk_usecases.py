@@ -113,7 +113,7 @@ class TestDpdkScenarios(base_test.BaseTest):
             dest[dest.index('1')] = '0'
             dest = ''.join(dest)
         while count < 30:
-            count = +1
+            count += 1
             time.sleep(3)
             if dest == self\
                     .os_admin.servers_client.show_server(servers[0][
