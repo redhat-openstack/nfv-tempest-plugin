@@ -46,6 +46,52 @@
       "revId": "519789badf5b63a61deea3339e5165d86e895526",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec868348_95ea6843",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/multicast_traffic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-12-27T11:43:40Z",
+      "side": 1,
+      "message": "This code exist in both cases\nIt should go one line up",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 79
+      },
+      "revId": "519789badf5b63a61deea3339e5165d86e895526",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3bdd46c_a92162f8",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/multicast_traffic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-12-27T11:43:40Z",
+      "side": 1,
+      "message": "Why cant we broadcast all the time?",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 13
+      },
+      "revId": "519789badf5b63a61deea3339e5165d86e895526",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
