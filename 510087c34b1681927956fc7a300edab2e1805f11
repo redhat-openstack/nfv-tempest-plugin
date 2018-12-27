@@ -22,6 +22,30 @@
       "revId": "510087c34b1681927956fc7a300edab2e1805f11",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce9a9d1c_7abd99a4",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-12-27T09:36:31Z",
+      "side": 1,
+      "message": "\u003e Maybe it\u0027s worth to report additional info,\n\u003e - On which host the traffic generator resides\n\u003e - On which host the traffic receiver resides\n\u003e \n\u003e It might be useful in debugging.\n\nAgree.\nProper logging added.",
+      "parentUuid": "d074fc98_abc7f43f",
+      "range": {
+        "startLine": 171,
+        "startChar": 32,
+        "endLine": 171,
+        "endChar": 69
+      },
+      "revId": "510087c34b1681927956fc7a300edab2e1805f11",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
