@@ -22,6 +22,30 @@
       "revId": "519789badf5b63a61deea3339e5165d86e895526",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "254e39a7_a9ad0e6e",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/multicast_traffic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-12-27T11:38:35Z",
+      "side": 1,
+      "message": "\u003e This is nitpicking, but perhaps it should be mutually exclusive?\n\nGood point.\nAdded.",
+      "parentUuid": "ae8abf53_b872cbac",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 56
+      },
+      "revId": "519789badf5b63a61deea3339e5165d86e895526",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
