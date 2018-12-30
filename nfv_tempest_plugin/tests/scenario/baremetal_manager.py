@@ -1092,11 +1092,15 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                              disable_root: 0
                              runcmd:
                              - python /tmp/custom_net_config.py
+                             - chmod +x {py_script}
                              - echo {gateway}{gw_ip} >> /etc/sysconfig/network
                              - systemctl restart network
                              '''.format(gateway='GATEWAY=',
                                         gw_ip=gw_ip,
                                         user=self.ssh_user,
+                                        py_script=('/var/lib/cloud/scripts/'
+                                                   'per-boot/'
+                                                   'custom_net_config.py'),
                                         passwd=self.ssh_passwd)
         if (self.test_instance_repo and 'name' in
                 self.test_instance_repo and not self.user_data):
