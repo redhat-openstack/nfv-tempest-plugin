@@ -1091,13 +1091,16 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                              ssh_pwauth: True
                              disable_root: 0
                              runcmd:
-                             - python /tmp/custom_net_config.py
                              - echo {gateway}{gw_ip} >> /etc/sysconfig/network
-                             - systemctl restart network
+                             - python {py_script}
+                             - chmod +x {rc_file}
+                             - echo /bin/python {py_script} >> {rc_file}
                              '''.format(gateway='GATEWAY=',
                                         gw_ip=gw_ip,
                                         user=self.ssh_user,
-                                        passwd=self.ssh_passwd)
+                                        passwd=self.ssh_passwd,
+                                        py_script='/tmp/custom_net_config.py',
+                                        rc_file='/etc/rc.d/rc.local')
         if (self.test_instance_repo and 'name' in
                 self.test_instance_repo and not self.user_data):
             repo_name = self.external_config['test_instance_repo']['name']
