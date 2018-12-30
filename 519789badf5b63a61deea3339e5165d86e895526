@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "dc6510d1_d3731904",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/multicast_traffic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-12-30T12:02:40Z",
+      "side": 1,
+      "message": "\u003e This code exist in both cases\n\u003e It should go one line up\n\nFixed.",
+      "parentUuid": "ec868348_95ea6843",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 79
+      },
+      "revId": "519789badf5b63a61deea3339e5165d86e895526",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e3bdd46c_a92162f8",
         "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/multicast_traffic.py",
         "patchSetId": 2
@@ -83,6 +107,30 @@
       "writtenOn": "2018-12-27T11:43:40Z",
       "side": 1,
       "message": "Why cant we broadcast all the time?",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 13
+      },
+      "revId": "519789badf5b63a61deea3339e5165d86e895526",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6e03171_23977772",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/multicast_traffic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-12-30T12:02:40Z",
+      "side": 1,
+      "message": "\u003e Why cant we broadcast all the time?\n\nThe script changed to send continuous multicast traffic.\nThe number of packets could be limited by using the \u0027--count\u0027 flag.",
+      "parentUuid": "e3bdd46c_a92162f8",
       "range": {
         "startLine": 57,
         "startChar": 0,
