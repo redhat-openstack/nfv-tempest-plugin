@@ -22,6 +22,30 @@
       "revId": "0e62daeeef5ff98ab0e2239e7adfb17d5e0aafc8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4194dfec_f87c9261",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2018-12-30T12:03:32Z",
+      "side": 1,
+      "message": "\u003e Why not using personality file, and copy the scripts in advance?\n\u003e Like routing script?\n\u003e Less ssh/scp to do\n\nAdded \u0027_add_copy_files_to_personality\u0027 method to copy the files by personality.",
+      "parentUuid": "2099174d_c9f7d146",
+      "range": {
+        "startLine": 154,
+        "startChar": 11,
+        "endLine": 154,
+        "endChar": 60
+      },
+      "revId": "0e62daeeef5ff98ab0e2239e7adfb17d5e0aafc8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
