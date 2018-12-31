@@ -29,6 +29,7 @@ import yaml
 from oslo_log import log
 from oslo_serialization import jsonutils
 from tempest.api.compute import api_microversion_fixture
+from tempest.common import waiters
 from tempest import config
 from tempest.lib.common import api_version_utils
 from tempest.lib.common.utils import data_utils
@@ -693,6 +694,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if ('tag' in net and (2.32 <= float(self.request_microversion) <=
                                   2.36 or self.request_microversion >= 2.42)):
                 self.test_network_dict[net['name']]['tag'] = net['tag']
+            if 'trusted_vf' in net and net['trusted_vf']:
+                self.test_network_dict[net['name']]['trusted_vf'] = True
         network_kwargs = {}
         """
         Create network and subnets
@@ -828,42 +831,55 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         remove_network = net_name
             self.test_network_dict.pop(remove_network)
 
-    def _create_ports_on_networks(self, **kwargs):
-        """Use method only when test require no network
+    def _create_ports_on_networks(self, num_servers=1, **kwargs):
+        """Create ports on a test networks for instances
 
-        cls.set_network_resources()
-        it run over external_config networks,
-        create networks as per test_network_dict
-        In case there is external router public network decided
-        This run over prepared network dictionary
-        ports, unless port_security==False, ports created with rules
+        The method will create a network ports as per test_network dict
+        from the external config file.
+        The ports creation will loop over the number of specified servers.
+        This will allow to call the method once for all instances.
 
+        The ID of the security groups used for the ports creation, removed
+        from the kwargs for the later instance creation.
+
+        :param num_servers: The number of loops for ports creation
         :param kwargs
+
+        :return ports_list: A list of ports lists
         """
-        create_port_body = {'binding:vnic_type': '',
-                            'namestart': 'port-smoke'}
-        networks_list = []
+        ports_list = []
         """
         set public network first
         """
-        for net_name, net_param in self.test_network_dict.iteritems():
-            if 'port_type' in net_param:
-                create_port_body['binding:vnic_type'] = net_param['port_type']
-                if 'security_groups' in kwargs and net_name == \
-                        self.test_network_dict['public']:
-                    create_port_body['security_groups'] = \
-                        [s['id'] for s in kwargs['security_groups']]
-                port = self._create_port(network_id=net_param['net-id'],
-                                         **create_port_body)
-                net_var = {'uuid': net_param['net-id'], 'port': port['id']}
-                if 'tag' in net_param:
-                    net_var['tag'] = net_param['tag']
-                networks_list.append(net_var) \
-                    if net_name != self.test_network_dict['public'] else \
-                    networks_list.insert(0, net_var)
+        for server in range(num_servers):
+            networks_list = []
+            for net_name, net_param in self.test_network_dict.iteritems():
+                create_port_body = {'binding:vnic_type': '',
+                                    'namestart': 'port-smoke'}
+                if 'port_type' in net_param:
+                    create_port_body['binding:vnic_type'] = \
+                        net_param['port_type']
+                    if 'security_groups' in kwargs and net_name == \
+                            self.test_network_dict['public']:
+                        create_port_body['security_groups'] = \
+                            [s['id'] for s in kwargs['security_groups']]
+                    if 'trusted_vf' in net_param and \
+                       net_param['trusted_vf'] and \
+                       net_param['port_type'] == 'direct':
+                        create_port_body['binding:profile'] = \
+                            {'trusted': 'true'}
+                    port = self._create_port(network_id=net_param['net-id'],
+                                             **create_port_body)
+                    net_var = {'uuid': net_param['net-id'], 'port': port['id']}
+                    if 'tag' in net_param:
+                        net_var['tag'] = net_param['tag']
+                    networks_list.append(net_var) \
+                        if net_name != self.test_network_dict['public'] else \
+                        networks_list.insert(0, net_var)
+            ports_list.append(networks_list)
         if 'security_groups' in kwargs:
             [x.pop('id') for x in kwargs['security_groups']]
-        return networks_list
+        return ports_list
 
     def _create_port(self, network_id, client=None, namestart='port-quotatest',
                      **kwargs):
@@ -952,10 +968,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.servers.append(server)
         return server
 
-    def create_server_with_resources(self, fip=True, test=None, hyper=None,
-                                     avail_zone=None, **kwargs):
+    def create_server_with_resources(self, num_servers=1, fip=True, test=None,
+                                     hyper=None, avail_zone=None, **kwargs):
         """The method creates multiple instances
 
+        :param num_servers: The number of servers to boot up
         :param fip: Creation of the floating ip for the server
         :param test: Currently executed test. Provide test specific parameters.
         :param hyper: Hypervisor name for created server on (optional).
@@ -997,28 +1014,37 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         security_groups = self._set_security_groups()
         if security_groups is not None:
             kwargs['security_groups'] = security_groups
-        kwargs['networks'] = self._create_ports_on_networks(**kwargs)
+        ports_list = self._create_ports_on_networks(num_servers=num_servers,
+                                                    **kwargs)
         router_exist = True
         if 'router' in self.test_setup_dict[test]:
             router_exist = self.test_setup_dict[test]['router']
         if router_exist:
             self._add_subnet_to_router()
-        """ If this parameters exist, parse only mgmt network.
-            Example live migration cannt run with SRIOV ports attached"""
-        if kwargs.get('use_mgmt_only'):
-            kwargs.pop('use_mgmt_only', None)
-            del(kwargs['networks'][1:])
         # Prepare cloudinit
         kwargs['user_data'] = self._prepare_cloudinit_file()
 
-        servers.append(self.create_server(wait_until='ACTIVE', **kwargs))
+        for num in range(num_servers):
+            kwargs['networks'] = ports_list[num]
 
-        if fip:
-            servers[0]['fip'] = \
-                self.create_floating_ip(servers[0], self.public_network)['ip']
-        else:
-            servers[0]['fip'] = servers[0][
-                'addresses'][self.test_network_dict['public']][0]['addr']
+            """ If this parameters exist, parse only mgmt network.
+            Example live migration cannt run with SRIOV ports attached"""
+            if kwargs.get('use_mgmt_only'):
+                kwargs.pop('use_mgmt_only', None)
+                del (kwargs['networks'][1:])
+
+            servers.append(self.create_server(**kwargs))
+        for num, server in enumerate(servers):
+            waiters.wait_for_server_status(self.os_admin.servers_client,
+                                           server['id'], 'ACTIVE')
+            port = self.os_admin.ports_client.list_ports(device_id=server[
+                'id'], network_id=ports_list[num][0]['uuid'])['ports'][0]
+
+            if fip:
+                server['fip'] = \
+                    self.create_floating_ip(server, self.public_network)['ip']
+            else:
+                server['fip'] = port['fixed_ips'][0]['ip_address']
         return servers, key_pair
 
     def _check_number_queues(self):

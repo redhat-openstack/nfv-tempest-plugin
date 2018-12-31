@@ -15,10 +15,8 @@
 
 import time
 
-from nfv_tempest_plugin.tests.scenario import baremetal_manager
+from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
-from tempest import clients
-from tempest.common import credentials_factory as common_creds
 from tempest import config
 from tempest import exceptions
 
@@ -26,7 +24,7 @@ LOG = logging.getLogger(__name__)
 CONF = config.CONF
 
 
-class TestDpdkScenarios(baremetal_manager.BareMetalManager):
+class TestDpdkScenarios(base_test.BaseTest):
     def __init__(self, *args, **kwargs):
         super(TestDpdkScenarios, self).__init__(*args, **kwargs)
         self.instance = None
@@ -34,17 +32,6 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         self.flavor_ref = CONF.compute.flavor_ref
         self.public_network = CONF.network.public_network_id
         self.maxqueues = None
-
-    @classmethod
-    def setup_credentials(cls):
-        """Do not create network resources for these tests
-
-        Using public network for ssh
-        """
-        cls.set_network_resources()
-        super(TestDpdkScenarios, cls).setup_credentials()
-        cls.manager = clients.Manager(
-            credentials=common_creds.get_configured_admin_credentials())
 
     def setUp(self):
         """Set up a single tenant with an accessible server
@@ -65,6 +52,9 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
         Booting number of instances with various number of cpus based on the
         setup queues number.
         """
+
+        msg = "Hypervisor OVS not configured with MultiQueue"
+        self.assertIsNotNone(self.maxqueues, msg)
 
         extra_specs = {'extra_specs': {'hw:mem_page_size': str("large"),
                                        'hw:cpu_policy': str("dedicated")}}
@@ -123,7 +113,7 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
             dest[dest.index('1')] = '0'
             dest = ''.join(dest)
         while count < 30:
-            count = +1
+            count += 1
             time.sleep(3)
             if dest == self\
                     .os_admin.servers_client.show_server(servers[0][
@@ -176,7 +166,7 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
             if security is not None:
                 kwargs['security_groups'] = security
             kwargs['networks'] = super(
-                TestDpdkScenarios, self)._create_ports_on_networks(**kwargs)
+                TestDpdkScenarios, self)._create_ports_on_networks(**kwargs)[0]
             try:
                 # ToDo: Change the server creation 'for loop' to servers list.
                 self.instance = self.create_server(name=server,
@@ -299,3 +289,30 @@ class TestDpdkScenarios(baremetal_manager.BareMetalManager):
     def test_multicast(self):
         msg = "Multicast test failed. Check log for more details."
         self.assertTrue(self._test_multicast_traffic("multicast"), msg)
+
+    def test_rx_tx(self, test='rx_tx'):
+        """Test RX/TX on the instance vs nova configuration
+
+        The test compares RX/TX value from the dumpxml of the running
+        instance vs values of the overcloud nova configuration
+
+        Note! - The test suit only for RHOS version 14 and up, since the
+                rx/tx feature was implemented only in version 14.
+        """
+
+        servers, key_pair = self.create_and_verify_resources(test=test)
+
+        conf = self.test_setup_dict['rx_tx']['config_dict'][0]
+        config_path = conf['config_path']
+        check_section = conf['check_section']
+        check_value = conf['check_value']
+
+        for srv in servers:
+            return_value = self.\
+                compare_rx_tx_to_overcloud_config(srv, srv['hypervisor_ip'],
+                                                  config_path,
+                                                  check_section,
+                                                  check_value)
+            self.assertTrue(return_value, 'The rx_tx test failed. '
+                                          'The values of the instance and '
+                                          'nova does not match.')

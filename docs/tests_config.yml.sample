@@ -50,6 +50,21 @@ test-networks:
     # ports created on this network
     tag: external
 
+  - name: 'vlan1600'
+    physical_network: 'tenant'
+    segmentation_id: '1600'
+    allocation_pool_start: '10.200.20.2'
+    allocation_pool_end: '10.200.20.14'
+    cidr: '10.200.20.0/28'
+    enable_dhcp: true
+    gateway_ip: '10.200.20.1'
+    network_type: vlan
+    ip_version: 4
+    port_type: direct
+    # Nova will set the binding profile of this port to trusted=true and will
+    # set it as Trusted VF
+    trusted_vf: true
+
 # Flavors used by the test.
 # Will be created by the tests during the execution
 # if no flavor with such name exists.
@@ -157,3 +172,7 @@ test_instance_repo:
       - config_path: '/var/lib/config-data/puppet-generated/nova_libvirt/etc/nova/nova.conf'
         check_section: 'libvirt'
         check_value: 'rx_queue_size,tx_queue_size'
+
+  - name: trustedvfs
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true

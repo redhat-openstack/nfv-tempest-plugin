@@ -10,13 +10,14 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_mtu_ping_test
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_cold_migration
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_emulatorpin
-- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_rx_tx
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_min_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_equal_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_max_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_odd_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_live_migration_block
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_multicast
+- nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_rx_tx
+- nfv_tempest_plugin.tests.scenario.test_nfv_sriov_usecases.TestSriovScenarios.test_sriov_trusted_vfs
 
 ### Tests configuration
 The nfv-tempest-plugin uses external configuration file in order to provide the proper configuration of the test execution to the tempest.  
@@ -115,23 +116,6 @@ Tests included:
         check_value: 'cpu_shared_set'
   ```
 
-- rx_tx
-  Test explanation:
-  The test boots instances, takes the rx/tx value from the dumpxml of the running instance and compares
-  it to the rx/tx values from the overcloud nova configuration.  
-  **Note** - The test suit only for RHOS version 14 and up, since the rx/tx feature was implemented only in version 14.
-
-  ```
-  Test config:
-  - name: rx_tx
-    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-    router: true
-    rx_tx_config:
-      - config_path: '/var/lib/config-data/puppet-generated/nova_libvirt/etc/nova/nova.conf'
-        check_section: 'libvirt'
-        check_value: 'rx_queue_size,tx_queue_size'
-  ```
-
 ----------
 #### TestDpdkScenarios:  
 Tests included:
@@ -168,6 +152,40 @@ Tests included:
 
   ```
   - name: multicast
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+  ```
+
+- rx_tx
+  Test explanation:
+  The test boots instances, takes the rx/tx value from the dumpxml of the running instance and compares
+  it to the rx/tx values from the overcloud nova configuration.
+  **Note** - The test suit only for RHOS version 14 and up, since the rx/tx feature was implemented only in version 14.
+
+  ```
+  Test config:
+  - name: rx_tx
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+    rx_tx_config:
+      - config_path: '/var/lib/config-data/puppet-generated/nova_libvirt/etc/nova/nova.conf'
+        check_section: 'libvirt'
+        check_value: 'rx_queue_size,tx_queue_size'
+  ```
+
+----------
+#### TestSriovScenarios:  
+Tests included:
+- test_sriov_trusted_vfs
+  Test explanation:  
+  Test Trusted Virtual Function capabilities
+  This test tells neutron to create SR-IOV ports in trusted mode which unlock additional capabilities
+  **Note** This test requires nova to allow creation of trusted VFs, refer to [upstream documentation](https://docs.openstack.org/neutron/rocky/admin/config-sriov#whitelist-pci-devices-nova-compute-compute)
+  **Note** By default Trusted VF requires admininstrative user, this test relies on custom Neutron API policies which allows non-administrative users to perform these actions (**TODO: Add Neutron API policies reference after agreeing on an internal solution**)
+
+  ```
+  Test config:  
+  - name: trustedvfs
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
   ```
