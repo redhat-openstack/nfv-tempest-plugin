@@ -45,6 +45,30 @@
       "revId": "fbd3f146171cf35478a623f8abdb23d233f39c00",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9201a51b_2774538d",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1103,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2018-12-31T12:18:22Z",
+      "side": 1,
+      "message": "Consider testing \n\n[Service]\nType\u003doneshot\nExecStartPre\u003d/usr/bin/python /usr/local/bin/custom_net_config.py\n\nAnd remove restart network from script",
+      "parentUuid": "e0e091a2_5ba363bd",
+      "range": {
+        "startLine": 1103,
+        "startChar": 49,
+        "endLine": 1103,
+        "endChar": 67
+      },
+      "revId": "fbd3f146171cf35478a623f8abdb23d233f39c00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
