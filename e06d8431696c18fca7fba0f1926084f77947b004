@@ -22,6 +22,30 @@
       "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "530dd2b2_12b24439",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-01-01T06:46:19Z",
+      "side": 1,
+      "message": "\u003e This code is not needed.\n\u003e Currently we have configuration file in tempest.conf.\n\u003e \n\u003e So it could be configured there \n\u003e \n\u003e transfer_files \u003d \u0027[{\"client_source\": \"/home/stack/tempest/nfv-tempest-plugin/nfv_tempest_plugin/tests/scenario/tests_scripts/custo\n\u003e m_net_config.py\", \"guest_destination\": \"/usr/local/bin/custom_net_config.py\"},{\"client_source\":\"/home/stack/tempest/nfv-tempest-plugin/nfv_tempest_plugin/tests/scenario/tests_scripts/multicast_traffic.py\":\"/tmp/multicast_traffic.py\"}]\n\u003e \u0027\n\u003e \n\u003e or enter as default param to ./nfv_tempest_plugin/config.py\n\n\nThe transfer_files default configuration within the config.py contains files that should be copied to any instance on boot.\n\nThe multicast_traffic.py script is used only for the multicast test and I don\u0027t see any reason to copy it to every instance on boot, so no reason to put it within the transfer_files default.\n\nFor that reason, I created the \"_add_copy_files_to_personality\" method that should be used for copying the files dedicated for the specific test using the personality and integrated it into the \"create_server_with_resources\" method.",
+      "parentUuid": "bb830ec2_c71dc5d8",
+      "range": {
+        "startLine": 131,
+        "startChar": 45,
+        "endLine": 134,
+        "endChar": 68
+      },
+      "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
