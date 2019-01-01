@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb830ec2_c71dc5d8",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-01-01T06:31:47Z",
+      "side": 1,
+      "message": "This code is not needed.\nCurrently we have configuration file in tempest.conf.\n\nSo it could be configured there \n\ntransfer_files \u003d \u0027[{\"client_source\": \"/home/stack/tempest/nfv-tempest-plugin/nfv_tempest_plugin/tests/scenario/tests_scripts/custo\nm_net_config.py\", \"guest_destination\": \"/usr/local/bin/custom_net_config.py\"},{\"client_source\":\"/home/stack/tempest/nfv-tempest-plugin/nfv_tempest_plugin/tests/scenario/tests_scripts/multicast_traffic.py\":\"/tmp/multicast_traffic.py\"}]\n\u0027\n\nor enter as default param to ./nfv_tempest_plugin/config.py",
+      "range": {
+        "startLine": 131,
+        "startChar": 45,
+        "endLine": 134,
+        "endChar": 68
+      },
+      "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
