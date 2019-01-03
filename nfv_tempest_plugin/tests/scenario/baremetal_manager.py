@@ -63,6 +63,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.test_instance_repo = {}
         self.user_data = {}
         self.fip = True
+        self.resources_data = {}
 
     @classmethod
     def setup_clients(cls):
@@ -125,6 +126,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         with open(CONF.hypervisor.external_config_file, 'r') as f:
             self.external_config = yaml.load(f)
+
+        # Check and validate external resource data file
+        if self.external_config.get('data_file_path'):
+            self._read_and_validate_external_resources_data_file()
 
         """
         hold flavor list..
@@ -1235,3 +1240,22 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     return True
                 break
         return False
+
+    def _read_and_validate_external_resources_data_file(self):
+        """Validate yaml file contains externally created resources"""
+        with open(self.external_config['data_file_path'], 'r') as stream:
+            try:
+                self.resources_data = yaml.safe_load(stream)
+            except yaml.YAMLError as exc:
+                pm = exc.problem_mark
+                raise Exception('The {} file has an issue on line {} at '
+                                'position {}.'.format(pm.name,
+                                                      pm.line,
+                                                      pm.column))
+
+        if self.resources_data['key_pair']['private_key'] is None:
+            raise Exception('The private key is missing from the yaml file.')
+        for srv in self.resources_data['servers']:
+            if not srv.viewkeys() >= {'name', 'id', 'fip'}:
+                raise ValueError('The yaml file missing of the following keys:'
+                                 ' name, id or fip.')

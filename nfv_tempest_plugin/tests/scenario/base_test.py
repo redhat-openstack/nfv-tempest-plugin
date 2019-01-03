@@ -61,12 +61,16 @@ class BaseTest(baremetal_manager.BareMetalManager):
 
         :return servers, key_pair
         """
-
         if fip is None:
             fip = self.fip
 
-        servers, key_pair = \
-            self.create_server_with_resources(test=test, fip=fip, **kwargs)
+        if self.external_config.get('data_file_path'):
+            servers = self.resources_data['servers']
+            key_pair = self.resources_data['key_pair']
+        else:
+            servers, key_pair = self.create_server_with_resources(test=test,
+                                                                  fip=fip,
+                                                                  **kwargs)
 
         for srv in servers:
             LOG.info("fip: %s, instance_id: %s", srv['fip'], srv['id'])
