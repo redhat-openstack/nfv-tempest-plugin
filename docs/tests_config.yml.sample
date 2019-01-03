@@ -1,5 +1,9 @@
 ---
 
+# Define this variable and proper path when resources for the tests created externally (not by tempest).
+# For the sample of the file, refer to data.yml.sample
+data_file_path: /home/stack/data.yml
+
 # Enable or Disable floating IP creation of guest VMs
 # Default is true (floating ip is enabled if not provided)
 floating_ip: true
