@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8cc00f77_f697d9ba",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-01-03T20:22:37Z",
+      "side": 1,
+      "message": "Hi Saravanan,\n\nThanks for changing the patch to fip as default.\nI\u0027m wondering regarding the following.\n\nWe are using the fip as the default behavior as discussed before, but we always had the ability to use the direct addresses for the instance in case there is some issue with the floating ip and we would like to test the direct access.\n\nI\u0027m basically fine with this patch, but what do you think regarding the possibility in the next patch to not override the direct access to the instance, but give the user to decide which kind of method he would like to use: fip / direct / namespace?",
+      "range": {
+        "startLine": 1052,
+        "startChar": 16,
+        "endLine": 1052,
+        "endChar": 66
+      },
+      "revId": "032b98d781c637f4b390de42784c2ca018020db3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
