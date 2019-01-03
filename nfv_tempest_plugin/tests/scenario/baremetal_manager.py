@@ -63,6 +63,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.test_instance_repo = {}
         self.user_data = {}
         self.fip = True
+        self.external_resources_data = {}
 
     @classmethod
     def setup_clients(cls):
@@ -93,6 +94,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         self.useFixture(api_microversion_fixture.APIMicroversionFixture(
             self.request_microversion))
+
+        if CONF.hypervisor.external_resources_output_file:
+            if os.path.exists(CONF.hypervisor.external_resources_output_file):
+                self._read_and_validate_external_resources_data_file()
 
     @classmethod
     def resource_setup(cls):
@@ -1235,3 +1240,22 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     return True
                 break
         return False
+
+    def _read_and_validate_external_resources_data_file(self):
+        """Validate yaml file contains externally created resources"""
+        with open(CONF.hypervisor.external_resources_output_file, 'r') as f:
+            try:
+                self.external_resources_data = yaml.safe_load(f)
+            except yaml.YAMLError as exc:
+                pm = exc.problem_mark
+                raise Exception('The {} file has an issue on line {} at '
+                                'position {}.'.format(pm.name,
+                                                      pm.line,
+                                                      pm.column))
+
+        if self.external_resources_data['key_pair']['private_key'] is None:
+            raise Exception('The private key is missing from the yaml file.')
+        for srv in self.external_resources_data['servers']:
+            if not srv.viewkeys() >= {'name', 'id', 'fip'}:
+                raise ValueError('The yaml file missing of the following keys:'
+                                 ' name, id or fip.')
