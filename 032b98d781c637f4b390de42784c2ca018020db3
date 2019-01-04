@@ -22,6 +22,30 @@
       "revId": "032b98d781c637f4b390de42784c2ca018020db3",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cad41354_e99c4f9d",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2019-01-04T09:30:18Z",
+      "side": 1,
+      "message": "Eventhough FIP is enabled by default, it can be controlled by each test, so for tests, where FIP is not required, we can pass fip\u003dFalse.\n\nI am not quite following the \u0027direct\u0027 method of IP. Is it a new customer or PM requirement? I am completely fine with any enhancements which makes FIP as optional and relying only on namespace. \n\nCurrently I don\u0027t have a setup to verify these updates, once done, I will add verified +1. You can propose the enhancement patch on top of this.",
+      "parentUuid": "8cc00f77_f697d9ba",
+      "range": {
+        "startLine": 1052,
+        "startChar": 16,
+        "endLine": 1052,
+        "endChar": 66
+      },
+      "revId": "032b98d781c637f4b390de42784c2ca018020db3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
