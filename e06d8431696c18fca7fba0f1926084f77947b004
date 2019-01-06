@@ -46,6 +46,30 @@
       "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f65e460f_22c4f0af",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-01-06T13:18:14Z",
+      "side": 1,
+      "message": "It is extra copy, through scp, IMHO copy every thing in one shot even if test does not use it.\nLess ssh or copy is recommended,\n\n@Vadim? what\u0027s your take here?",
+      "parentUuid": "530dd2b2_12b24439",
+      "range": {
+        "startLine": 131,
+        "startChar": 45,
+        "endLine": 134,
+        "endChar": 68
+      },
+      "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
