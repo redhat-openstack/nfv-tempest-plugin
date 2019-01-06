@@ -70,6 +70,30 @@
       "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9abb2147_33237f2c",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-01-06T13:23:33Z",
+      "side": 1,
+      "message": "\u003e It is extra copy, through scp, IMHO copy every thing in one shot even if test does not use it.\n\u003e Less ssh or copy is recommended,\n\u003e \n\u003e @Vadim? what\u0027s your take here?\n\n@Yariv,\n\nIt looks like you missed it.\nIt is not extra copy and for sure not a use of scp.\nI\u0027m appending the script using the personality to the kwargs during the server creation.\n\nAs a result, the script passed to the instance using the same mechanism as the custom_net_config.py with the same iteration during the server creation.\nThe only difference is that I\u0027m copying it only when needed and not during every test.",
+      "parentUuid": "f65e460f_22c4f0af",
+      "range": {
+        "startLine": 131,
+        "startChar": 45,
+        "endLine": 134,
+        "endChar": 68
+      },
+      "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
