@@ -118,6 +118,30 @@
       "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "113cf099_86d3f920",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-01-07T10:33:19Z",
+      "side": 1,
+      "message": "@Vadim,\n\nThat\u0027s exactly what I\u0027m trying to achieve.\nI would like to append the script to the instance when needed. For that, I created the _add_copy_files_to_personality method in baremetal_manager.\nThe method integrated within the create_server_with_resources method and all that needs to be done from the test side is to specify the src and dest of the script I would like to use.\nIf specified, the method is triggered automatically.\n\nI don\u0027t think that keep this script in config.py alongside with the custon_net_script.py is a good idea because it will be copied to each instance in every test, which is overkill from my perspective.\n\nIn addition, by default, the amount of the files that could be copied to the instance using personality is limited to 5. Of course, the limit could be modified by the admin, but as I said, I don\u0027t see a reason to copy a script that is not related to the test, to the instance of that test.\n\nhttps://developer.openstack.org/api-guide/compute/limits.html",
+      "parentUuid": "20982dc8_61ea1272",
+      "range": {
+        "startLine": 131,
+        "startChar": 45,
+        "endLine": 134,
+        "endChar": 68
+      },
+      "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
