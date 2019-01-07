@@ -166,6 +166,30 @@
       "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8199f659_92fc0fb8",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-01-07T14:24:33Z",
+      "side": 1,
+      "message": "The config.py file has a default with contains the custon_net_config.py file and the file copied to every booted instance.\nIt makes sense since the file is required by any instance for the network configuration.\n\nThe multicast_traffic.py test used only in multicast test, and I see no issue for the file to be specified within the test to be appended to the personality during instance creation.\nAfter all the test is a list of actions that should be performed and one of them is the script copy.\nThe usage of the multicast_traffic.py script in the multicast test is required as it is a multicast test, so specifying the script in the external_config will add unnecessary confusion to the external_config file.\n\nWe can\u0027t migrate to microversion 2.57 as osp 10 does not support it.\nAnd separate the microversion support per version will add a lot of maintenance to the plugin.",
+      "parentUuid": "ca227d1c_117caa28",
+      "range": {
+        "startLine": 131,
+        "startChar": 45,
+        "endLine": 134,
+        "endChar": 68
+      },
+      "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
