@@ -1092,6 +1092,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                              disable_root: 0
                              runcmd:
                              - chmod +x {py_script}
+                             - python {py_script}
                              - echo {gateway}{gw_ip} >> /etc/sysconfig/network
                              - systemctl restart network
                              '''.format(gateway='GATEWAY=',
