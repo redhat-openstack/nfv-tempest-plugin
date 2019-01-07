@@ -142,6 +142,30 @@
       "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca227d1c_117caa28",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2019-01-07T10:37:14Z",
+      "side": 1,
+      "message": "@Maxim\n\nWe meant that as a user you could provide an additional files from an external source (either tempest.conf or ci_network_config.yaml) to be transferred regardless of test.\n\nAlso, personality is deprecated from 2.57 and user_data is used instead. We could be proactive and migrate to it.",
+      "parentUuid": "113cf099_86d3f920",
+      "range": {
+        "startLine": 131,
+        "startChar": 45,
+        "endLine": 134,
+        "endChar": 68
+      },
+      "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
