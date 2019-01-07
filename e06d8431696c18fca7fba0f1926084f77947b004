@@ -94,6 +94,30 @@
       "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20982dc8_61ea1272",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2019-01-07T09:16:03Z",
+      "side": 1,
+      "message": "Correct me if I\u0027m wrong but:\n\nYariv wants the ability to dynamically append additional scripts that will be transferred to tests without having to modify the tests each time.\n\nI think it\u0027s a good approach to have in the future, not sure if it should be part of this patch.",
+      "parentUuid": "9abb2147_33237f2c",
+      "range": {
+        "startLine": 131,
+        "startChar": 45,
+        "endLine": 134,
+        "endChar": 68
+      },
+      "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
