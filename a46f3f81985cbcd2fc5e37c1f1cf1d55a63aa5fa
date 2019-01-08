@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31b0f698_8cebb7f8",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 1229,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2019-01-08T10:47:18Z",
+      "side": 1,
+      "message": "Perhaps we should explain this exception when it\u0027s raised, for example something in the likes of \"Unable to parse packet data\"?",
+      "range": {
+        "startLine": 1229,
+        "startChar": 20,
+        "endLine": 1229,
+        "endChar": 25
+      },
+      "revId": "a46f3f81985cbcd2fc5e37c1f1cf1d55a63aa5fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
