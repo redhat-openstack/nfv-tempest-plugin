@@ -22,6 +22,30 @@
       "revId": "a46f3f81985cbcd2fc5e37c1f1cf1d55a63aa5fa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51cb92dd_5afbee26",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 1229,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2019-01-09T04:05:13Z",
+      "side": 1,
+      "message": "It will result in test failure as PING is not working as the expected output is not received. And by looking at the log at line 1224, it would be easy to conclude on why is the error. I don\u0027t think we need to populate this exception to the caller, as with received count, we could provide the required outcome for the tests. Let me know if this suffice.",
+      "parentUuid": "31b0f698_8cebb7f8",
+      "range": {
+        "startLine": 1229,
+        "startChar": 20,
+        "endLine": 1229,
+        "endChar": 25
+      },
+      "revId": "a46f3f81985cbcd2fc5e37c1f1cf1d55a63aa5fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
