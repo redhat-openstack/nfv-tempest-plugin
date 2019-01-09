@@ -19,6 +19,7 @@ import io
 import os.path
 import paramiko
 import re
+from six.moves.urllib.parse import urlparse
 import StringIO
 import subprocess as sp
 import textwrap
@@ -61,6 +62,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.test_flavor_dict = {}
         self.test_instance_repo = {}
         self.user_data = {}
+        self.fip = True
 
     @classmethod
     def setup_clients(cls):
@@ -232,6 +234,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             self.user_data = CONF.hypervisor.user_data
             self.assertTrue(os.path.exists(self.user_data),
                             "Specified user_data file can't be read")
+        # Update the floating IP configuration (enable/disable)
+        self.fip = self.external_config.get('floating_ip', True)
 
     def check_flavor_existence(self, testname):
         """Check test specific flavor existence.
@@ -514,6 +518,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             ssh.connect(host, username=CONF.hypervisor.user,
                         password=CONF.hypervisor.password)
 
+        LOG.info("Executing command: %s" % command)
         stdin, stdout, stderr = ssh.exec_command(command)
         result = stdout.read()
         ssh.close()
@@ -1045,6 +1050,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     self.create_floating_ip(server, self.public_network)['ip']
             else:
                 server['fip'] = port['fixed_ips'][0]['ip_address']
+                server['network_id'] = ports_list[num][0]['uuid']
         return servers, key_pair
 
     def _check_number_queues(self):
@@ -1211,3 +1217,21 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         sftp.close()
         ssh.close()
         return result
+
+    def ping_via_network_namespace(self, ping_to_ip, network_id):
+        cmd = ("sudo ip netns exec qdhcp-" + network_id +
+               " ping -c 10 " + ping_to_ip)
+        ctrl_ip = urlparse(CONF.identity.uri).netloc.split(':')[0]
+        result = self._run_command_over_ssh(ctrl_ip, cmd)
+        for line in result.split('\n'):
+            if 'packets transmitted' in line:
+                LOG.info("Ping via namespace result: %s", line)
+                received_str = line.split(',')[1].strip()
+                try:
+                    received = int(received_str.split(' ')[0])
+                except ValueError:
+                    break
+                if received > 0:
+                    return True
+                break
+        return False

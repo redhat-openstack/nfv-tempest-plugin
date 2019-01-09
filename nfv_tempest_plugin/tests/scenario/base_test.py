@@ -46,7 +46,7 @@ class BaseTest(baremetal_manager.BareMetalManager):
         super(BaseTest, self).setUp()
         # pre setup creations and checks read from config files
 
-    def create_and_verify_resources(self, test=None, **kwargs):
+    def create_and_verify_resources(self, test=None, fip=None, **kwargs):
         """Create and verify resources method
 
         The create and verify resources method performs basic steps in order
@@ -62,8 +62,11 @@ class BaseTest(baremetal_manager.BareMetalManager):
         :return servers, key_pair
         """
 
+        if fip is None:
+            fip = self.fip
+
         servers, key_pair = \
-            self.create_server_with_resources(test=test, **kwargs)
+            self.create_server_with_resources(test=test, fip=fip, **kwargs)
 
         for srv in servers:
             LOG.info("fip: %s, instance_id: %s", srv['fip'], srv['id'])
@@ -75,10 +78,18 @@ class BaseTest(baremetal_manager.BareMetalManager):
                                 "returned empty ip list")
 
             """Run ping and verify ssh connection"""
-            msg = "Timed out waiting for %s to become reachable" % srv['fip']
-            self.assertTrue(self.ping_ip_address(srv['fip']), msg)
-            self.assertTrue(self.get_remote_client(srv['fip'],
-                                                   private_key=key_pair[
-                                                       'private_key']))
+            if fip:
+                msg = ("Timed out waiting for %s to become reachable" %
+                       srv['fip'])
+                self.assertTrue(self.ping_ip_address(srv['fip']), msg)
+                self.assertTrue(self.get_remote_client(srv['fip'],
+                                                       private_key=key_pair[
+                                                           'private_key']))
+            else:
+                LOG.info("FIP is disabled, ping %s using network namespaces" %
+                         srv['fip'])
+                ping = self.ping_via_network_namespace(srv['fip'],
+                                                       srv['network_id'])
+                self.assertTrue(ping)
 
         return servers, key_pair
