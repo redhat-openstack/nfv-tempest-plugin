@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8eedfde9_f7687ff6",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-01-10T12:33:34Z",
+      "side": 1,
+      "message": "\u003e Why not moving it to tempest_conf, IIRC, tests are running either with populated/empty cloud.\n\nRemoved. Path config moved to config.py.",
+      "parentUuid": "ff80de6e_e95ba53d",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 36
+      },
+      "revId": "628de1bb27980134a9221dadf5fd5527a2d58e2a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7e183178_9cf19813",
         "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "+1 In case it a generic one\nI think it should be moved to  def setUp(self): of this class\nSo if the tests are running as class this base will be called only once",
       "parentUuid": "7e183178_9cf19813",
+      "range": {
+        "startLine": 67,
+        "startChar": 11,
+        "endLine": 67,
+        "endChar": 53
+      },
+      "revId": "628de1bb27980134a9221dadf5fd5527a2d58e2a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef981500_6b767c81",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-01-10T12:33:34Z",
+      "side": 1,
+      "message": "\u003e +1 In case it a generic one\n\u003e I think it should be moved to  def setUp(self): of this class\n\u003e So if the tests are running as class this base will be called only once\n\nThe _read_and_validate_external_resources_data_file method call moved into setUp method.\n\nThe check of use the external resources changed to check the self.external_resources_data.",
+      "parentUuid": "5e1102c9_db65eeb4",
       "range": {
         "startLine": 67,
         "startChar": 11,
