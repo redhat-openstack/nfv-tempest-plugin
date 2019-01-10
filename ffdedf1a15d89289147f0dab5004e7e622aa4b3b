@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d32db3c3_63bfc177",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-01-10T15:57:44Z",
+      "side": 1,
+      "message": "Do\u0027nt you think that if you return servers and keypairs in this if cond\nCan\u0027t you return from self.create_server_with_resources(test\u003dtest,\n                                                                  fip\u003dfip,\n                                                                  **kwargs)\nThe server and keypairs? i think the check  if self.external_resources_data is not None:\nsould be from create server with resources, that if you aim to have the same tests running with different resources topology",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 0
+      },
+      "revId": "ffdedf1a15d89289147f0dab5004e7e622aa4b3b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
