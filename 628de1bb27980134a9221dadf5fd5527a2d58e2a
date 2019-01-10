@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ff80de6e_e95ba53d",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-01-10T11:10:32Z",
+      "side": 1,
+      "message": "Why not moving it to tempest_conf, IIRC, tests are running either with populated/empty cloud.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 36
+      },
+      "revId": "628de1bb27980134a9221dadf5fd5527a2d58e2a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7e183178_9cf19813",
         "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
         "patchSetId": 2
@@ -13,6 +36,30 @@
       "writtenOn": "2019-01-10T07:08:28Z",
       "side": 1,
       "message": "We might endup using these checks in many places. If the check is based on more relevant name, it would be easy for anyone who is following the code. Like \"external_guest_setup\" or \"external_vm_setup\" or in similar terms, rather than checking the config file path on every location.",
+      "range": {
+        "startLine": 67,
+        "startChar": 11,
+        "endLine": 67,
+        "endChar": 53
+      },
+      "revId": "628de1bb27980134a9221dadf5fd5527a2d58e2a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e1102c9_db65eeb4",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-01-10T11:10:32Z",
+      "side": 1,
+      "message": "+1 In case it a generic one\nI think it should be moved to  def setUp(self): of this class\nSo if the tests are running as class this base will be called only once",
+      "parentUuid": "7e183178_9cf19813",
       "range": {
         "startLine": 67,
         "startChar": 11,
