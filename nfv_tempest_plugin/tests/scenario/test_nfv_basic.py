@@ -103,37 +103,40 @@ class TestNfvBasic(base_test.BaseTest):
         test_result = '\n'.join(test_result)
         self.assertEmpty(test_result, test_result)
 
-    def _test_mtu_ping_gateway(self, test_setup_mtu, mtu=1973):
+    def test_mtu_ping_test(self, test='test-ping-mtu', mtu=1973):
         """Test MTU by pinging instance gateway
 
         The test boots an instance with given args from external_config_file,
         connect to the instance using ssh, and ping with given MTU to GW.
         * This tests depend on MTU configured at running environment.
 
-        :param test_setup_mtu
-        :param mtu
+        :param test: Test name from the config file
+        :param mtu: Size of the mtu to check
         """
+        # TODO(skramaja): Need to check if it is possible to execute ping
+        #                 inside the guest VM using network namespace
+        servers, key_pair = self.create_and_verify_resources(test=test)
 
-        servers, key_pair = \
-            self.create_server_with_resources(test=test_setup_mtu)
+        if 'mtu' in self.test_setup_dict[test]:
+            mtu = self.test_setup_dict[test]['mtu']
 
-        msg = "Timed out waiting for %s to become reachable" % \
-              servers[0]['fip']
+        routers = self.routers_client.list_routers()['routers']
+        for router in routers:
+            if router['external_gateway_info'] is not None:
+                gateway = router['external_gateway_info'][
+                    'external_fixed_ips'][0]['ip_address']
+                break
+        else:
+            raise ValueError('The gateway of given network does not exists. '
+                             'Please assign it and re-run.')
 
-        if 'mtu' in self.test_setup_dict[test_setup_mtu]:
-            mtu = self.test_setup_dict[test_setup_mtu]['mtu']
-
-        self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
-        gateway = self.test_network_dict[self.test_network_dict[
-            'public']]['gateway_ip']
-        gw_msg = "The gateway of given network does not exists,".\
-            join("please assign it and re-run.")
-        self.assertTrue(gateway is not None, gw_msg)
         ssh_source = self.get_remote_client(servers[0]['fip'],
                                             private_key=key_pair[
                                                 'private_key'])
-        return ssh_source.exec_command('ping -c 1 -M do -s %d %s' % (mtu,
-                                                                     gateway))
+        out = ssh_source.exec_command('ping -c 1 -M do -s %d %s' % (mtu,
+                                                                    gateway))
+        msg = "MTU Ping test failed - check your environment settings"
+        self.assertTrue(out, msg)
 
     def test_numa0_provider_network(self, test='numa0'):
         """Verify numa configuration on instance
@@ -176,14 +179,6 @@ class TestNfvBasic(base_test.BaseTest):
 
     def test_packages_compute(self):
         self._test_check_package_version("check-compute-packages")
-
-    def test_mtu_ping_test(self):
-        # TODO(skramaja): Need to check if it is possible to execute ping
-        #                 inside the guest VM using network namespace
-        self.assertTrue(self.fip, "Floating IP is required for mtu test")
-
-        msg = "MTU Ping test failed - check your environment settings"
-        self.assertTrue(self._test_mtu_ping_gateway("test-ping-mtu"), msg)
 
     def test_cold_migration(self, test='cold-migration'):
         """Test cold migration
