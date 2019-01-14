@@ -214,6 +214,30 @@
       "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e5644d2_949a9145",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2019-01-14T12:28:01Z",
+      "side": 1,
+      "message": "Currently, we have an option to transfer a script to ALL booted VMs(like we do with custom_net_config.py). Maxim introduced a way to specify which additional files to transfer to an instance during test execution.\n\nSo if I\u0027m understanding correctly (correct me if I\u0027m wrong):\n* Maxim doesn\u0027t want to bloat other instances with unnecessary scripts (for example MTU on numa test)\n* Yariv wants all instances to have all scripts and they\u0027ll be triggered via cloud-init or during test\n\nWhat I\u0027m thinking: Perhaps we should expose an additional attribute to tests which will leverage Maxim\u0027s addition:\n\ntests-setup:\n - name: numa0\n   flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0\n   router: true\n   scripts:\n     - {\u0027src\u0027: /path/to/script, \u0027dest\u0027: /path/to/dest }\n\nThat way numa0 test will always have the default scripts mentioned in tempest.conf and we\u0027ll be able to transfer to specific test additional files.",
+      "parentUuid": "9b13340a_7433d51f",
+      "range": {
+        "startLine": 131,
+        "startChar": 45,
+        "endLine": 134,
+        "endChar": 68
+      },
+      "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
