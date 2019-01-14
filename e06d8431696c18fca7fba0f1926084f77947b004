@@ -262,6 +262,30 @@
       "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d775e7cc_d1584381",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-01-14T17:39:24Z",
+      "side": 1,
+      "message": "We tend to get rid of ci_network_config, and you insist to put it back :)\nWe never discussed it, IMHO, it is about time, we have to move into profile configurations.\nAny way, FIP images will have their defaults in tempest.conf, virt-customize will help us at preparing images as a start, \n\nso if you get my point, better to move back to configuration file, and plan the future :)",
+      "parentUuid": "198949d7_923becea",
+      "range": {
+        "startLine": 131,
+        "startChar": 45,
+        "endLine": 134,
+        "endChar": 68
+      },
+      "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
