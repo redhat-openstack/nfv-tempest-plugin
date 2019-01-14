@@ -238,6 +238,30 @@
       "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "198949d7_923becea",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-01-14T12:39:17Z",
+      "side": 1,
+      "message": "I do think that bloating each test instances with all the scripts is not a good idea.\nEspecially, when there is a default limit to 5 files to copy - https://developer.openstack.org/api-guide/compute/limits.html\n\nBut I do not think that we need to specify the files we would like to copy within the external config file. The multicast traffic script is not optional to the multicast test, so add it to the external config will add an overload to the config file.\n\nIf the script is required for the test, and it is, why not to specify it within the test as it is done in the current patch?",
+      "parentUuid": "9e5644d2_949a9145",
+      "range": {
+        "startLine": 131,
+        "startChar": 45,
+        "endLine": 134,
+        "endChar": 68
+      },
+      "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
