@@ -190,6 +190,30 @@
       "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b13340a_7433d51f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-01-14T09:19:09Z",
+      "side": 1,
+      "message": "Sure,\nWe should copy all of our test scripts into vm,\nAt the end it all has to run in data plane, we should trigger them by cloud-init\nIt is obvious that all scripts will be copied to VM with user-data file",
+      "parentUuid": "8199f659_92fc0fb8",
+      "range": {
+        "startLine": 131,
+        "startChar": 45,
+        "endLine": 134,
+        "endChar": 68
+      },
+      "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
