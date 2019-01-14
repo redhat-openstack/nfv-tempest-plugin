@@ -286,6 +286,30 @@
       "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa29c1ba_e041bb02",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-01-14T19:05:10Z",
+      "side": 1,
+      "message": "I agree that we need to get rid of the external_config file, but let\u0027s get stick with the subject.\n\nVadim, please, provide your opinion regarding the two options discussed in the thread.\n* Set the multicast_traffic.py script to the defaults and pass it to every created instance.\n* Add the script to the personality during the server creation only when needed.\n\nWhat do you think is preferred here from your point of view?",
+      "parentUuid": "d775e7cc_d1584381",
+      "range": {
+        "startLine": 131,
+        "startChar": 45,
+        "endLine": 134,
+        "endChar": 68
+      },
+      "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
