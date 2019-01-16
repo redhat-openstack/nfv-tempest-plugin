@@ -310,6 +310,30 @@
       "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bd2cb18_8cb2468f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2019-01-16T10:57:56Z",
+      "side": 1,
+      "message": "My two cents:\n\nI think it shouldn\u0027t be default, transfer the script only when needed.\n\nI also would like to continue the discussion regarding personality and Config Drive.\nSince there is a limit to 5 files (and we won\u0027t reach it in the near future), perhaps we should consider refactoring and to use Config Drive in order to transfer files since sooner or later it\u0027ll be deprecated (might take at least 2 more years due to OSP10 entering ELS now)",
+      "parentUuid": "aa29c1ba_e041bb02",
+      "range": {
+        "startLine": 131,
+        "startChar": 45,
+        "endLine": 134,
+        "endChar": 68
+      },
+      "revId": "e06d8431696c18fca7fba0f1926084f77947b004",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
