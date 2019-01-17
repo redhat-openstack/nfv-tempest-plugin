@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27962d18_a70fb083",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-01-17T13:47:11Z",
+      "side": 1,
+      "message": "files \n\npersonality [] \u003d CONF.hypervisor.transfer_files\npersonality.append(kwargs[\u0027add_to_personality\u0027])   \n\nAnd than you run over persolaity(jsonutils.loads(personality)) \nclean kwargs[\u0027add_to_personality\u0027]",
+      "range": {
+        "startLine": 949,
+        "startChar": 24,
+        "endLine": 949,
+        "endChar": 71
+      },
+      "revId": "21a8e3ce791e7e9ce8a043edf5488db84d9f4fe8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cf26063_62d52988",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-01-17T13:47:11Z",
+      "side": 1,
+      "message": "delete this",
+      "range": {
+        "startLine": 979,
+        "startChar": 37,
+        "endLine": 979,
+        "endChar": 68
+      },
+      "revId": "21a8e3ce791e7e9ce8a043edf5488db84d9f4fe8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1439f492_890498dd",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 1044,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-01-17T13:47:11Z",
+      "side": 1,
+      "message": "delete this\nsee test itself",
+      "range": {
+        "startLine": 1041,
+        "startChar": 3,
+        "endLine": 1044,
+        "endChar": 0
+      },
+      "revId": "21a8e3ce791e7e9ce8a043edf5488db84d9f4fe8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9802dd85_ff112424",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-01-17T13:47:11Z",
+      "side": 1,
+      "message": "please use consider the following\nkwargs[\u0027add_to_personality\u0027] \u003d {similar to tempest.conf}\n\nself.create_server_with_resources(test\u003dtest, num_servers\u003d3,\n                                              use_mgmt_only\u003dTrue,\n                                              **kwargs\n\nAnd look below",
+      "range": {
+        "startLine": 131,
+        "startChar": 46,
+        "endLine": 134,
+        "endChar": 69
+      },
+      "revId": "21a8e3ce791e7e9ce8a043edf5488db84d9f4fe8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
