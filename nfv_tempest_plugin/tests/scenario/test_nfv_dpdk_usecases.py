@@ -13,6 +13,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import json
 import time
 
 from nfv_tempest_plugin.tests.scenario import base_test
@@ -316,3 +317,64 @@ class TestDpdkScenarios(base_test.BaseTest):
             self.assertTrue(return_value, 'The rx_tx test failed. '
                                           'The values of the instance and '
                                           'nova does not match.')
+
+    def test_derived_parameters(self):
+        """Test Derived Parameters
+
+        The test compares derived parameters generated from intrsopection data
+        with the current asggined values
+
+        Note! - The test requires an external file containg all parameters
+                in a JSON format.
+        """
+
+        retrive_host_params = {
+            'IsolCpusList': ("sudo cat /etc/tuned/bootcmdline | grep -P -o "
+                             "'nohz_full=.+?\s{1,}' | sed 's/nohz_full=//'"),
+            'KernelArgs': "sudo cat /proc/cmdline",
+            'NovaReservedHostMemory': ("sudo crudini --get /var/lib/"
+                                       "config-data/puppet-generated/"
+                                       "nova_libvirt/etc/nova/nova.conf "
+                                       "DEFAULT reserved_host_memory_mb"),
+            'NovaVcpuPinSet': ("sudo crudini --get /var/lib/config-data/"
+                               "puppet-generated/nova_libvirt/etc/nova/"
+                               "nova.conf DEFAULT vcpu_pin_set"),
+            'OvsDpdkCoreList': ("sudo pgrep ovsdb-server | xargs taskset -cp "
+                                "| grep -P -o '\d+' | tail -n +2 | "
+                                "paste -s -d, -"),
+            'OvsDpdkSocketMemory': ("sudo ovs-vsctl get Open_vSwitch . "
+                                    "other_config:dpdk-socket-mem"),
+            'OvsPmdCoreList': ("sudo ovs-appctl dpif-netdev/pmd-rxq-show | "
+                               "grep core_id | cut -d ' ' -f 6 | "
+                               "sed -e 's/://' | paste -s -d, -")
+        }
+
+        derived_params = CONF.hypervisor.derived_parameters_json
+        host_params = {}
+        failures = []
+
+        with open(derived_params) as stream:
+            derived_params = json.load(stream)
+
+        hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
+            shell='/home/stack/stackrc')[0]
+        # Retrieve parameter values from current deployment and compare
+        for param in retrive_host_params:
+            cmd = retrive_host_params[param]
+            result = self._run_command_over_ssh(hypervisor_ip, cmd)
+            # Remove new lines, double quote and trailing spaces
+            host_params[param] = result.strip('\n').strip('"').strip()
+            if param == 'OvsDpdkCoreList':
+                # Substitute dash with a comma to compare derived with host
+                derived_params[param] = host_params[param].replace('-', ',')
+            if host_params[param] != str(derived_params[param]) and \
+               str(derived_params[param]) not in host_params[param]:
+                error = ("Derived parameter {p} is {d_p} is not equal to "
+                         "{h_p}").format(p=param,
+                                         d_p=derived_params[param],
+                                         h_p=host_params[param])
+                failures.append(error)
+        if failures:
+            raise Exception(failures)
+        else:
+            return True
