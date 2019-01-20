@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "432b84d7_df88b2b1",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-01-20T10:10:47Z",
+      "side": 1,
+      "message": "\u003e files \n\u003e \n\u003e personality [] \u003d CONF.hypervisor.transfer_files\n\u003e personality.append(kwargs[\u0027add_to_personality\u0027])   \n\u003e \n\u003e And than you run over persolaity(jsonutils.loads(personality)) \n\u003e clean kwargs[\u0027add_to_personality\u0027]\n\nAll the work that should be done on the personality files (base64 encoding, etc...) resides within the \u0027if\u0027 condition, which means that there is a possibility that the condition will not be met and the code will not be executed.\n\nI think the code below should be taken to a separate method and called in a way that will execute it when needed.\nWhat do you think?",
+      "parentUuid": "27962d18_a70fb083",
+      "range": {
+        "startLine": 949,
+        "startChar": 24,
+        "endLine": 949,
+        "endChar": 71
+      },
+      "revId": "21a8e3ce791e7e9ce8a043edf5488db84d9f4fe8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0cf26063_62d52988",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 7
