@@ -13,6 +13,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import json
 import time
 
 from nfv_tempest_plugin.tests.scenario import base_test
@@ -316,3 +317,84 @@ class TestDpdkScenarios(base_test.BaseTest):
             self.assertTrue(return_value, 'The rx_tx test failed. '
                                           'The values of the instance and '
                                           'nova does not match.')
+
+    def test_derived_parameters(self):
+        """Test Derived Parameters
+
+        The test compares derived parameters generated from intrsopection data
+        with the current asggined values
+
+        Note! - The test requires an external file containg all parameters
+                in a JSON format.
+        """
+
+        retrive_host_params = {
+            'IsolCpusList': {'action': 'command',
+                             'cmd': ("sudo cat /etc/tuned/bootcmdline | "
+                                     "grep -P -o 'nohz_full=.+?\s{1,}' | "
+                                     "sed 's/nohz_full=//'")},
+            'KernelArgs': {'action': 'command',
+                           'cmd': 'sudo cat /proc/cmdline'},
+            'NovaReservedHostMemory': {'action': 'ini',
+                                       'file_path': ('/var/lib/config-data/'
+                                                     'puppet-generated/nova_'
+                                                     'libvirt/etc/nova/'
+                                                     'nova.conf'),
+                                       'section': 'DEFAULT',
+                                       'value': 'reserved_host_memory_mb'},
+            'NovaVcpuPinSet': {'action': 'ini',
+                               'file_path': ('/var/lib/config-data/puppet-'
+                                             'generated/nova_libvirt/etc/nova/'
+                                             'nova.conf'),
+                               'section': 'DEFAULT',
+                               'value': 'vcpu_pin_set'},
+            'OvsDpdkCoreList': {'action': 'command',
+                                'cmd': ("sudo pgrep ovsdb-server | xargs "
+                                        "taskset -cp | grep -P -o '\d+' | "
+                                        "tail -n +2 | paste -s -d, -")},
+            'OvsDpdkSocketMemory': {'action': 'command',
+                                    'cmd': ("sudo ovs-vsctl get Open_vSwitch "
+                                            ". other_config:dpdk-socket-mem")},
+            'OvsPmdCoreList': {'action': 'command',
+                               'cmd': ("sudo ovs-appctl dpif-netdev/pmd-rxq"
+                                       "-show | grep core_id | "
+                                       "cut -d ' ' -f 6 | "
+                                       "sed -e 's/://' | paste -s -d, -")},
+        }
+
+        derived_params = CONF.hypervisor.derived_parameters_json
+        host_params = {}
+        failures = []
+
+        with open(derived_params) as stream:
+            derived_params = json.load(stream)
+
+        hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
+            shell='/home/stack/stackrc')[0]
+        # Retrieve parameter values from current deployment and compare
+        for param in retrive_host_params:
+            if retrive_host_params[param]['action'] is 'command':
+                cmd = retrive_host_params[param]['cmd']
+                result = self._run_command_over_ssh(hypervisor_ip, cmd)
+            elif retrive_host_params[param]['action'] is 'ini':
+                file_path = retrive_host_params[param]['file_path']
+                section = retrive_host_params[param]['section']
+                value = retrive_host_params[param]['value']
+                result = self._get_value_from_ini_config(hypervisor_ip,
+                                                         file_path, section,
+                                                         value)
+            host_params[param] = result.strip('\n').strip('"').strip()
+            if param == 'OvsDpdkCoreList':
+                # Substitute dash with a comma to compare derived with host
+                derived_params[param] = host_params[param].replace('-', ',')
+            if host_params[param] != str(derived_params[param]) and \
+               str(derived_params[param]) not in host_params[param]:
+                error = ("Derived parameter {p} is {d_p} is not equal to "
+                         "{h_p}").format(p=param,
+                                         d_p=derived_params[param],
+                                         h_p=host_params[param])
+                failures.append(error)
+        if failures:
+            raise Exception(failures)
+        else:
+            return True
