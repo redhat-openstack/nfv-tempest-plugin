@@ -41,4 +41,7 @@ HypervisorGroup = [
                help=("List of dictionaries contanining paths and "
                      "destinations of files to be tranfered from "
                      "client to guest")),
+    cfg.StrOpt('derived_parameters_json',
+               default='/home/stack/derived_parameters.json',
+               help=("JSON file containing derived parameters")),
 ]
