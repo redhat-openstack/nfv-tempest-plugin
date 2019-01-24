@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9cfc085_67de5d66",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-01-24T14:01:20Z",
+      "side": 1,
+      "message": "The test performs 5 commands and 1 ini remote check.\nMaybe, we could combine the 5 commands into one and then parse the output?\nIt will save us a lot of time of the running test.",
+      "range": {
+        "startLine": 380,
+        "startChar": 8,
+        "endLine": 380,
+        "endChar": 35
+      },
+      "revId": "792e5c5fb74635247acb95bc8b20cb76667d6a49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
