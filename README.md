@@ -1,4 +1,4 @@
-nfv-tempest-plugin
+NFV-tempest-plugin
 ==================================================
 
 This project is a plugin to [OpenStack's Tempest](https://github.com/openstack/tempest) used to test NFV usecases.
