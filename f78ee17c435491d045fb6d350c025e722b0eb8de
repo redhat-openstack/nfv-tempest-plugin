@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e422ac97_dcee1002",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1004,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-01-24T07:49:28Z",
+      "side": 1,
+      "message": "@Maxim, is there a reason why private string is written in config file?\nIIRC, there is a way to read private string from openstack cli.\nlooking at the server, you already have key_name and project-id,\nIt can be fetched from there, do\u0027nt you think?",
+      "range": {
+        "startLine": 1004,
+        "startChar": 8,
+        "endLine": 1004,
+        "endChar": 63
+      },
+      "revId": "f78ee17c435491d045fb6d350c025e722b0eb8de",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
