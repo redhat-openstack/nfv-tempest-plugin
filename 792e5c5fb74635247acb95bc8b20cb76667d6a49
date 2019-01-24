@@ -22,6 +22,30 @@
       "revId": "792e5c5fb74635247acb95bc8b20cb76667d6a49",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aeaa834_1aec2a37",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2019-01-24T17:09:25Z",
+      "side": 1,
+      "message": "On my deployment(OSP14) it takes 4 seconds to perform all of these procedures, don\u0027t think it\u0027s worth investing that much time into optimizing this but I\u0027m open to this idea.\n\nI\u0027ll try it on OSP13 and report back.",
+      "parentUuid": "d9cfc085_67de5d66",
+      "range": {
+        "startLine": 380,
+        "startChar": 8,
+        "endLine": 380,
+        "endChar": 35
+      },
+      "revId": "792e5c5fb74635247acb95bc8b20cb76667d6a49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
