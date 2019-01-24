@@ -22,6 +22,30 @@
       "revId": "f78ee17c435491d045fb6d350c025e722b0eb8de",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3080ebd1_02dfab62",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1004,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-01-24T08:01:22Z",
+      "side": 1,
+      "message": "No, there is no way to take the private key from the openstack as it saves only the public key.\nThe only way to store the private key is to take it during the keypair creation and that is what I\u0027m doing during the ansible playbook execution.\nIt is done based on security reasons.\n\nI have two reasons to store the private key within the config file.\n1. As mentioned above, there is no way to take the private key after the keypair has been created, so I need somehow to pass it to the test.\n2. Debug. If we would like to ssh into the servers after the creation in order to debug the setup, we can take the key from there.\n\nI see to the security problem here as it is a temporary key which will be not relevant once the resources will be deleted.\nAnd if the created resource should be used not for the test, the step which generates the file could be skiped.",
+      "parentUuid": "e422ac97_dcee1002",
+      "range": {
+        "startLine": 1004,
+        "startChar": 8,
+        "endLine": 1004,
+        "endChar": 63
+      },
+      "revId": "f78ee17c435491d045fb6d350c025e722b0eb8de",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
