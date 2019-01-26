@@ -6,6 +6,7 @@ The nfv-tempest-plugin requires some pre-configuration steps in order to run the
 
 In case of manual environment configuration, be aware of the following:
 - Tets in nfv-tempest-plugin support nova microversions. By default the microversion is 2.1, this can be overriden by including the following parameters in tempest.conf and their values should be in the format "X.Y" or equal to 'latest'.
+**Note!** - The nfv-tempest-plugin use the following min and max microversion - 2.32
   ```
   [compute]
   min_microversion = latest
@@ -13,7 +14,7 @@ In case of manual environment configuration, be aware of the following:
   ```
 
   Refer to [OpenStack's official Nova documentation regarding microversions](https://docs.openstack.org/nova/latest/contributor/microversions.html)
-	
+
   Refer to [OpenStack's official Nova documentation regarding API microversions](https://docs.openstack.org/nova/latest/reference/api-microversion-history.html)
 
 - Tempest-nfv-plugin uses external tests configuration file.  
