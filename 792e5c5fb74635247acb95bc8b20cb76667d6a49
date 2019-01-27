@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "40353e9c_30a583e5",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2019-01-27T14:31:11Z",
+      "side": 1,
+      "message": "As far as I know, you can\u0027t retrieve this value from INI.",
+      "parentUuid": "c98e89e6_98cb3ed5",
+      "range": {
+        "startLine": 332,
+        "startChar": 30,
+        "endLine": 332,
+        "endChar": 36
+      },
+      "revId": "792e5c5fb74635247acb95bc8b20cb76667d6a49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "65ec551c_6d360b12",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a77d3184_c32ed100",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2019-01-27T14:31:11Z",
+      "side": 1,
+      "message": "As far as I know, you can\u0027t retrieve this value from INI.",
+      "parentUuid": "65ec551c_6d360b12",
+      "range": {
+        "startLine": 336,
+        "startChar": 28,
+        "endLine": 336,
+        "endChar": 47
+      },
+      "revId": "792e5c5fb74635247acb95bc8b20cb76667d6a49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db22aa3a_f434a576",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
         "patchSetId": 5
@@ -59,6 +107,30 @@
       "writtenOn": "2019-01-27T12:42:21Z",
       "side": 1,
       "message": "I just noticed.\nYariv is right.\nThis one you can pass in one command.",
+      "range": {
+        "startLine": 338,
+        "startChar": 11,
+        "endLine": 350,
+        "endChar": 56
+      },
+      "revId": "792e5c5fb74635247acb95bc8b20cb76667d6a49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb6ce425_adb2c1b0",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2019-01-27T14:31:11Z",
+      "side": 1,
+      "message": "I can\u0027t think of an elegant solution for that.",
+      "parentUuid": "db22aa3a_f434a576",
       "range": {
         "startLine": 338,
         "startChar": 11,
@@ -177,6 +249,30 @@
       "writtenOn": "2019-01-27T12:36:48Z",
       "side": 1,
       "message": "You can split values\nhttps://github.com/redhat-openstack/nfv-tempest-plugin/blob/19c1d8871c73d995f95901026d0f985c5fc6c2ce/nfv_tempest_plugin/tests/scenario/baremetal_manager.py#L441\n\nAnd have one command on nova.conf with two parameters.",
+      "range": {
+        "startLine": 393,
+        "startChar": 30,
+        "endLine": 393,
+        "endChar": 56
+      },
+      "revId": "792e5c5fb74635247acb95bc8b20cb76667d6a49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3594151c_e45998d3",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2019-01-27T14:31:11Z",
+      "side": 1,
+      "message": "I can\u0027t think of an elegant solution for that.",
+      "parentUuid": "37b1603c_170e8e55",
       "range": {
         "startLine": 393,
         "startChar": 30,
