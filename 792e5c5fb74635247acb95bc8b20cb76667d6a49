@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "c98e89e6_98cb3ed5",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-01-27T12:36:48Z",
+      "side": 1,
+      "message": "Why not using \u0027action\u0027: \u0027ini\u0027?",
+      "range": {
+        "startLine": 332,
+        "startChar": 30,
+        "endLine": 332,
+        "endChar": 36
+      },
+      "revId": "792e5c5fb74635247acb95bc8b20cb76667d6a49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65ec551c_6d360b12",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-01-27T12:36:48Z",
+      "side": 1,
+      "message": "Why not as the previous comment?",
+      "range": {
+        "startLine": 336,
+        "startChar": 28,
+        "endLine": 336,
+        "endChar": 47
+      },
+      "revId": "792e5c5fb74635247acb95bc8b20cb76667d6a49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d9cfc085_67de5d66",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
         "patchSetId": 5
@@ -90,6 +136,29 @@
         "startChar": 8,
         "endLine": 380,
         "endChar": 35
+      },
+      "revId": "792e5c5fb74635247acb95bc8b20cb76667d6a49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37b1603c_170e8e55",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-01-27T12:36:48Z",
+      "side": 1,
+      "message": "You can split values\nhttps://github.com/redhat-openstack/nfv-tempest-plugin/blob/19c1d8871c73d995f95901026d0f985c5fc6c2ce/nfv_tempest_plugin/tests/scenario/baremetal_manager.py#L441\n\nAnd have one command on nova.conf with two parameters.",
+      "range": {
+        "startLine": 393,
+        "startChar": 30,
+        "endLine": 393,
+        "endChar": 56
       },
       "revId": "792e5c5fb74635247acb95bc8b20cb76667d6a49",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
