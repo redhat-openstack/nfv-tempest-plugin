@@ -447,6 +447,59 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         return ','.join(value_data)
 
+    def _retrieve_content_from_files(self, node, files):
+        """Retrieve encoded base64 content from files on Linux hosts
+
+        Using a single SSH connection that executes a bash for loop that
+        itterates over files to construct a JSON containing file's name and
+        file's encoded content.
+
+        The retrieved content will be decoded from base64.
+
+        If file doesn't exist/can not be parsed, the content will be equal
+        to 'None'.
+
+        :param node: Which node to retrive content from
+        :param files: List of files to retrive content from
+
+        :return file_content
+        """
+
+        bash_list = ' '.join(files)
+        file_content = {}
+        # Create JSONs for each file with base64 encoded content
+        # if file doesn't exist/can't be decodded returns 'None'
+        cmd = '''
+              function construct_json() {{
+                  echo "{{\\"$1\\": \\"$2\\"}}"
+              }}
+
+              a=({list})
+              for file in ${{a[@]}}; do
+                  content="None"
+                  if [[ -f $file ]]; then
+                          output=$(base64 $file)
+                          if [[ $output ]];then
+                              content=$output
+                         fi
+                  fi
+                  construct_json $file $content
+              done
+              '''.format(list=bash_list)
+
+        guest_content = self._run_command_over_ssh(node, cmd).split('\n')
+        # Retrieved output will always produce an dditional unecessery new line
+        del guest_content[-1]
+        # Parse and construct a JSON containing all the results
+        for result in guest_content:
+            file_content.update(jsonutils.loads(result))
+        # Decode content from base64
+        for content in file_content:
+            if file_content[content] != 'None':
+                file_content[content] = base64.b64decode(file_content[content])
+
+        return file_content
+
     def compare_emulatorpin_to_overcloud_config(self, server, overcloud_node,
                                                 config_path, check_section,
                                                 check_value):
