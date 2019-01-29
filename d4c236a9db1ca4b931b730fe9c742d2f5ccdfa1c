@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0d6ff46_9c9e2776",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-01-29T12:32:22Z",
+      "side": 1,
+      "message": "iterates",
+      "range": {
+        "startLine": 454,
+        "startChar": 8,
+        "endLine": 454,
+        "endChar": 17
+      },
+      "revId": "d4c236a9db1ca4b931b730fe9c742d2f5ccdfa1c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09830ae0_66b942a6",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-01-29T12:32:22Z",
+      "side": 1,
+      "message": "This command should be updated to the following:\n\noutput\u003d$(sudo base64 -w 0 $file)\n\n1. \"sudo\"\nAdd sudo to the command.\nThe connection to the host performed by heat-admin user.\nThis means that if I would like to read a file from /var/lib/... location, I will get permission denied error.\nNeed to add sudo in order to resolve it.\n\n2. \"-w 0\"\nThis argument tells base64 command to encode the content in one line.\nWithout this argument, the enconding output looks similar to the ssh private key (means it has new lines breaking).\nAs a result, just the first line stored in the \"output\" variable and just a small part of the file decoded later.",
+      "range": {
+        "startLine": 481,
+        "startChar": 26,
+        "endLine": 481,
+        "endChar": 48
+      },
+      "revId": "d4c236a9db1ca4b931b730fe9c742d2f5ccdfa1c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78aaaa2b_c1473896",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-01-29T12:32:22Z",
+      "side": 1,
+      "message": "additional",
+      "range": {
+        "startLine": 491,
+        "startChar": 50,
+        "endLine": 491,
+        "endChar": 59
+      },
+      "revId": "d4c236a9db1ca4b931b730fe9c742d2f5ccdfa1c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a46623a_073650ae",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-01-29T12:32:22Z",
+      "side": 1,
+      "message": "unnecessary",
+      "range": {
+        "startLine": 491,
+        "startChar": 60,
+        "endLine": 491,
+        "endChar": 70
+      },
+      "revId": "d4c236a9db1ca4b931b730fe9c742d2f5ccdfa1c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
