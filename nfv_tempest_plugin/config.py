@@ -46,4 +46,7 @@ HypervisorGroup = [
                help=("List of dictionaries contanining paths and "
                      "destinations of files to be tranfered from "
                      "client to guest")),
+    cfg.StrOpt('external_resources_output_file',
+               default='/home/stack/resources_output_file.yml',
+               help="The path to the file output of the created resources"),
 ]
