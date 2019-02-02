@@ -19,6 +19,7 @@ import io
 import os.path
 import paramiko
 import re
+from six.moves.urllib.parse import urlparse
 import StringIO
 import subprocess as sp
 import textwrap
@@ -61,6 +62,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.test_flavor_dict = {}
         self.test_instance_repo = {}
         self.user_data = {}
+        self.fip = True
+        self.external_resources_data = None
 
     @classmethod
     def setup_clients(cls):
@@ -91,6 +94,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         self.useFixture(api_microversion_fixture.APIMicroversionFixture(
             self.request_microversion))
+
+        if CONF.hypervisor.external_resources_output_file:
+            if os.path.exists(CONF.hypervisor.external_resources_output_file):
+                self._read_and_validate_external_resources_data_file()
 
     @classmethod
     def resource_setup(cls):
@@ -232,6 +239,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             self.user_data = CONF.hypervisor.user_data
             self.assertTrue(os.path.exists(self.user_data),
                             "Specified user_data file can't be read")
+        # Update the floating IP configuration (enable/disable)
+        self.fip = self.external_config.get('floating_ip', True)
 
     def check_flavor_existence(self, testname):
         """Check test specific flavor existence.
@@ -514,6 +523,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             ssh.connect(host, username=CONF.hypervisor.user,
                         password=CONF.hypervisor.password)
 
+        LOG.info("Executing command: %s" % command)
         stdin, stdout, stderr = ssh.exec_command(command)
         result = stdout.read()
         ssh.close()
@@ -972,11 +982,15 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                      hyper=None, avail_zone=None, **kwargs):
         """The method creates multiple instances
 
-        :param num_servers: The number of servers to boot up
-        :param fip: Creation of the floating ip for the server
+        :param num_servers: The number of servers to boot up.
+        :param fip: Creation of the floating ip for the server.
         :param test: Currently executed test. Provide test specific parameters.
         :param hyper: Hypervisor name for created server on (optional).
         :param avail_zone: Availability zone for created server (optional).
+        :param kwargs: See below.
+
+        :Keyword Arguments:
+            * use_mgmt_only: Boot the instance with mgmt network only.
 
         :return servers, fips
         """
@@ -987,6 +1001,12 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.assertTrue(test in self.test_setup_dict,
                         'The test requires {0} config in external_config_file'.
                         format(test))
+
+        # In case resources created externally, set them.
+        if self.external_resources_data is not None:
+            servers = self.external_resources_data['servers']
+            key_pair = self.external_resources_data['key_pair']
+            return servers, key_pair
 
         # Set availability zone if required
         if avail_zone and hyper is not None:
@@ -1045,6 +1065,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     self.create_floating_ip(server, self.public_network)['ip']
             else:
                 server['fip'] = port['fixed_ips'][0]['ip_address']
+                server['network_id'] = ports_list[num][0]['uuid']
         return servers, key_pair
 
     def _check_number_queues(self):
@@ -1211,3 +1232,40 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         sftp.close()
         ssh.close()
         return result
+
+    def ping_via_network_namespace(self, ping_to_ip, network_id):
+        cmd = ("sudo ip netns exec qdhcp-" + network_id +
+               " ping -c 10 " + ping_to_ip)
+        ctrl_ip = urlparse(CONF.identity.uri).netloc.split(':')[0]
+        result = self._run_command_over_ssh(ctrl_ip, cmd)
+        for line in result.split('\n'):
+            if 'packets transmitted' in line:
+                LOG.info("Ping via namespace result: %s", line)
+                received_str = line.split(',')[1].strip()
+                try:
+                    received = int(received_str.split(' ')[0])
+                except ValueError:
+                    break
+                if received > 0:
+                    return True
+                break
+        return False
+
+    def _read_and_validate_external_resources_data_file(self):
+        """Validate yaml file contains externally created resources"""
+        with open(CONF.hypervisor.external_resources_output_file, 'r') as f:
+            try:
+                self.external_resources_data = yaml.safe_load(f)
+            except yaml.YAMLError as exc:
+                pm = exc.problem_mark
+                raise Exception('The {} file has an issue on line {} at '
+                                'position {}.'.format(pm.name,
+                                                      pm.line,
+                                                      pm.column))
+
+        if self.external_resources_data['key_pair']['private_key'] is None:
+            raise Exception('The private key is missing from the yaml file.')
+        for srv in self.external_resources_data['servers']:
+            if not srv.viewkeys() >= {'name', 'id', 'fip'}:
+                raise ValueError('The yaml file missing of the following keys:'
+                                 ' name, id or fip.')

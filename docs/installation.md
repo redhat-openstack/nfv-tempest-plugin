@@ -11,7 +11,7 @@ By default nfv-tempest-plugin planned to run from TripleO Undercloud host (used 
 
 
 ### NFV plugin setup:
-1. The nfv-tempeset-plugin repository should be cloned near to the main tempest directory.
+1. The nfv-tempeset-plugin repository should be cloned near to the main tempest directory.  
    `$ git clone https://github.com/redhat-openstack/nfv-tempest-plugin.git`
 2. Activate the tempest virtual env.
 3. Browse to the nfv-tempest-plugin cloned directory and install the nfv plugin:  

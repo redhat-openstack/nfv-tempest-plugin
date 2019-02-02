@@ -37,8 +37,16 @@ HypervisorGroup = [
                        'nfv_tempest_plugin/tests/scenario/tests_scripts/'
                        'custom_net_config.py",'
                        '"guest_destination": "/var/lib/cloud/scripts/'
-                       'per-boot/custom_net_config.py"}]',
+                       'per-boot/custom_net_config.py"},'
+                       '{"client_source": "/home/stack/tempest/'
+                       'nfv-tempest-plugin/nfv_tempest_plugin/tests/scenario/'
+                       'tests_scripts/multicast_traffic.py",'
+                       '"guest_destination": "/usr/local/bin/'
+                       'multicast_traffic.py"}]',
                help=("List of dictionaries contanining paths and "
                      "destinations of files to be tranfered from "
                      "client to guest")),
+    cfg.StrOpt('external_resources_output_file',
+               default='/home/stack/resources_output_file.yml',
+               help="The path to the file output of the created resources"),
 ]
