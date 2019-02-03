@@ -15,19 +15,26 @@
 
 from oslo_config import cfg
 
-hypervisor_group = cfg.OptGroup(name="hypervisor",
-                                title="Hypervisor params")
+nfv_plugin_options = cfg.OptGroup(name="nfv_plugin_options",
+                                  title="NFV plugin params")
 
-HypervisorGroup = [
-    cfg.StrOpt('user',
+NfvPluginOptions = [
+    cfg.StrOpt('overcloud_node_user',
                default='heat-admin',
-               help="SSH login user"),
-    cfg.StrOpt('password',
+               help="SSH user for overcloud node - controller/compute"),
+    cfg.StrOpt('overcloud_node_pass',
                default=None,
-               help="SSH login password"),
-    cfg.StrOpt('private_key_file',
+               help="SSH password for overcloud node - controller/compute"),
+    cfg.StrOpt('overcloud_node_pkey_file',
                default='/home/stack/.ssh/id_rsa',
-               help="Private key string for imported key for ssh user"),
+               help="SSH private key path for overcloud node - "
+                    "controller/compute"),
+    cfg.StrOpt("instance_user",
+               default="cloud-user",
+               help="SSH user for the guest instance"),
+    cfg.StrOpt("instance_pass",
+               default="password",
+               help="SSH password for the guest instance"),
     cfg.StrOpt('external_config_file',
                default=None,
                help="The path to yml file for additional configurations"),
