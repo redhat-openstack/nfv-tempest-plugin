@@ -15,10 +15,10 @@
 
 from oslo_config import cfg
 
-hypervisor_group = cfg.OptGroup(name="hypervisor",
-                                title="Hypervisor params")
+nfv_plugin_options = cfg.OptGroup(name="nfv_plugin_options",
+                                  title="NFV plugin params")
 
-HypervisorGroup = [
+NfvPluginOptions = [
     cfg.StrOpt('user',
                default='heat-admin',
                help="SSH login user"),
