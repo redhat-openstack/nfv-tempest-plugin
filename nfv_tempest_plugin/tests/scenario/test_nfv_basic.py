@@ -122,7 +122,7 @@ class TestNfvBasic(base_test.BaseTest):
         if 'mtu' in self.test_setup_dict[test]:
             mtu = self.test_setup_dict[test]['mtu']
 
-        routers = self.routers_client.list_routers()['routers']
+        routers = self.os_admin.routers_client.list_routers()['routers']
         for router in routers:
             if router['external_gateway_info'] is not None:
                 gateway = router['external_gateway_info'][
