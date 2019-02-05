@@ -39,7 +39,7 @@ from tempest.lib import exceptions as lib_exc
 from tempest.scenario import manager
 
 CONF = config.CONF
-LOG = log.getLogger(__name__)
+LOG = log.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
 class BareMetalManager(api_version_utils.BaseMicroversionTest,
@@ -1048,7 +1048,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         :return servers, fips
         """
-
+        LOG.info('Creating resources...')
         servers, key_pair = ([], [])
 
         # Check for the test config file
@@ -1060,6 +1060,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if self.external_resources_data is not None:
             servers = self.external_resources_data['servers']
             key_pair = self.external_resources_data['key_pair']
+            LOG.info('The resources created by the external tool. '
+                     'Continue to the test.')
             return servers, key_pair
 
         # Set availability zone if required
@@ -1078,7 +1080,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 self.flavor_ref = self. \
                     create_flavor(**self.test_flavor_dict[flavor_name])
                 kwargs['flavor'] = self.flavor_ref
+                LOG.info('The flavor {} has been created'.format(
+                    self.flavor_ref))
 
+        LOG.info('Creating networks, keypair, security groups, router and '
+                 'prepare cloud init.')
         # Key pair creation
         key_pair = self.create_keypair()
         kwargs['key_name'] = key_pair['name']
@@ -1107,19 +1113,25 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 kwargs.pop('use_mgmt_only', None)
                 del (kwargs['networks'][1:])
 
+            LOG.info('Create instance - {}'.format(num + 1))
             servers.append(self.create_server(**kwargs))
         for num, server in enumerate(servers):
             waiters.wait_for_server_status(self.os_admin.servers_client,
                                            server['id'], 'ACTIVE')
+            LOG.info('The instance - {} is in an ACTIVE state'.format(num + 1))
             port = self.os_admin.ports_client.list_ports(device_id=server[
                 'id'], network_id=ports_list[num][0]['uuid'])['ports'][0]
 
             if fip:
                 server['fip'] = \
                     self.create_floating_ip(server, self.public_network)['ip']
+                LOG.info('The {} fip is allocated to the instance'.format(
+                    server['fip']))
             else:
                 server['fip'] = port['fixed_ips'][0]['ip_address']
                 server['network_id'] = ports_list[num][0]['uuid']
+                LOG.info('The {} fixed ip set for the instance'.format(
+                    server['fip']))
         return servers, key_pair
 
     def _check_number_queues(self):

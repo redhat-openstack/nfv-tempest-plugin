@@ -17,8 +17,8 @@ from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
 from tempest import config
 
-LOG = logging.getLogger(__name__)
 CONF = config.CONF
+LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
 class TestSriovScenarios(base_test.BaseTest):
@@ -40,6 +40,7 @@ class TestSriovScenarios(base_test.BaseTest):
         """
         trusted_vfs_mac_addresses = []
         servers, key_pair = self.create_and_verify_resources(test=test)
+        LOG.info('List ports and search for "trusted" in binding profile.')
         ports = self.ports_client.list_ports(device_id=servers[0]['id'])
         for port in ports['ports']:
             if 'trusted' in port['binding:profile'] and \
@@ -47,6 +48,7 @@ class TestSriovScenarios(base_test.BaseTest):
                 trusted_vfs_mac_addresses.append(port['mac_address'])
         self.assertNotEmpty(trusted_vfs_mac_addresses,
                             "No trusted VFs are attached to server")
+        LOG.info('Test the "trust on" interface on the hypervisor.')
         cmd = 'sudo ip link'
         result = self._run_command_over_ssh(servers[0]['hypervisor_ip'],
                                             cmd).split('\n')
@@ -54,4 +56,5 @@ class TestSriovScenarios(base_test.BaseTest):
             for line in result:
                 if mac_address in line:
                     self.assertIn('trust on', line)
+        LOG.info('The {} test passed.'.format(test))
         return True
