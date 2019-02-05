@@ -131,37 +131,37 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         with open(CONF.hypervisor.external_config_file, 'r') as f:
             self.external_config = yaml.load(f)
 
-        """
-        hold flavor list..
-        hold net list.. translate to id
-        """
-        networks = self.networks_client.list_networks()['networks']
-        flavors = self.flavors_client.list_flavors()['flavors']
-        images = self.image_client.list_images()['images']
+        if os.path.exists(CONF.hypervisor.external_resources_output_file):
+            """Hold flavor, net and images lists"""
+            networks = self.networks_client.list_networks()['networks']
+            flavors = self.flavors_client.list_flavors()['flavors']
+            images = self.image_client.list_images()['images']
 
-        """
-        Iterate over networks mandatory vars in external_config are:
-        port_type, gateway_ip
-        """
-        for net in self.external_config['networks']:
-            self.test_network_dict[net['name']] = {
-                'port_type': net['port_type'], 'gateway_ip': net['gateway_ip']}
+        if 'networks' in self.external_config:
             """
-            Check for existence of optionals vars:
-            router_name, external.
+            Iterate over networks mandatory vars in external_config are:
+            port_type, gateway_ip
             """
-            if 'external' in net:
-                self.test_network_dict[net['name']]['external'] = net[
-                    'external']
-            if 'router_name' in net:
-                self.test_network_dict[net['name']]['router'] = net[
-                    'router_name']
+            for net in self.external_config['networks']:
+                self.test_network_dict[net['name']] = {'port_type': net[
+                    'port_type'], 'gateway_ip': net['gateway_ip']}
+                """
+                Check for existence of optionals vars:
+                router_name, external.
+                """
+                if 'external' in net:
+                    self.test_network_dict[net['name']]['external'] = net[
+                        'external']
+                if 'router_name' in net:
+                    self.test_network_dict[net['name']]['router'] = net[
+                        'router_name']
 
-        # iterate networks
-        for net in self.test_network_dict.iterkeys():
-            for network in networks:
-                if network['name'] == net:
-                    self.test_network_dict[net]['net-id'] = network['id']
+            # iterate networks
+            for net in self.test_network_dict.iterkeys():
+                for network in networks:
+                    if network['name'] == net:
+                        self.test_network_dict[net]['net-id'] = network['id']
+
         # Insert here every new parameter.
         for test in self.external_config['tests-setup']:
             if 'flavor' in test and test['flavor'] is not None:
@@ -1059,7 +1059,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         # In case resources created externally, set them.
         if self.external_resources_data is not None:
             servers = self.external_resources_data['servers']
-            key_pair = self.external_resources_data['key_pair']
+            with open(self.external_resources_data['key_pair'], 'r') as key:
+                key_pair = {'private_key': key.read()}
             return servers, key_pair
 
         # Set availability zone if required
@@ -1317,7 +1318,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                                       pm.line,
                                                       pm.column))
 
-        if self.external_resources_data['key_pair']['private_key'] is None:
+        if self.external_resources_data['key_pair'] is None or not \
+                os.path.exists(self.external_resources_data['key_pair']):
             raise Exception('The private key is missing from the yaml file.')
         for srv in self.external_resources_data['servers']:
             if not srv.viewkeys() >= {'name', 'id', 'fip'}:
