@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3e6a8df_c13fcaeb",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2019-02-05T08:59:12Z",
+      "side": 1,
+      "message": "Question,\nPerhaps this section could be moved upwards (for example __init__.py) so it won\u0027t have to be declared in each file?",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 62
+      },
+      "revId": "164ccc62417f6bc9ffdab9283ec2e2980b62f2b1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
