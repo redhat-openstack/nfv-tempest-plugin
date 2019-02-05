@@ -18,8 +18,8 @@ from oslo_log import log as logging
 from tempest.common import waiters
 from tempest import config
 
-LOG = logging.getLogger(__name__)
 CONF = config.CONF
+LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
 class TestNfvBasic(base_test.BaseTest):
@@ -121,6 +121,7 @@ class TestNfvBasic(base_test.BaseTest):
 
         if 'mtu' in self.test_setup_dict[test]:
             mtu = self.test_setup_dict[test]['mtu']
+            LOG.info('Set {} mtu for the test'.format(mtu))
 
         routers = self.os_admin.routers_client.list_routers()['routers']
         for router in routers:
@@ -136,10 +137,12 @@ class TestNfvBasic(base_test.BaseTest):
                                             username=self.instance_user,
                                             private_key=key_pair[
                                                 'private_key'])
+        LOG.info('Execute ping test command')
         out = ssh_source.exec_command('ping -c 1 -M do -s %d %s' % (mtu,
                                                                     gateway))
         msg = "MTU Ping test failed - check your environment settings"
         self.assertTrue(out, msg)
+        LOG.info('The {} test passed.'.format(test))
 
     def test_numa0_provider_network(self, test='numa0'):
         """Verify numa configuration on instance
@@ -151,8 +154,10 @@ class TestNfvBasic(base_test.BaseTest):
         result = self._run_command_over_ssh(servers[0]['hypervisor_ip'],
                                             command)
         self.assertTrue(int(result[0]) == 2)
+        LOG.info('Check instance vcpu')
         self._check_vcpu_from_dumpxml(servers[0], servers[0]['hypervisor_ip'],
                                       test[4:])
+        LOG.info('The {} test passed.'.format(test))
 
     def test_numa1_provider_network(self, test='numa1'):
         """Verify numa configuration on instance
@@ -164,8 +169,10 @@ class TestNfvBasic(base_test.BaseTest):
         result = self._run_command_over_ssh(servers[0]['hypervisor_ip'],
                                             command)
         self.assertTrue(int(result[0]) == 2)
+        LOG.info('Check instance vcpu')
         self._check_vcpu_from_dumpxml(servers[0], servers[0]['hypervisor_ip'],
                                       test[4:])
+        LOG.info('The {} test passed.'.format(test))
 
     def test_numamix_provider_network(self, test='numamix'):
         """Verify numa configuration on instance
@@ -177,8 +184,10 @@ class TestNfvBasic(base_test.BaseTest):
         result = self._run_command_over_ssh(servers[0]['hypervisor_ip'],
                                             command)
         self.assertTrue(int(result[0]) == 2)
+        LOG.info('Check instance vcpu')
         self._check_vcpu_from_dumpxml(servers[0], servers[0]['hypervisor_ip'],
                                       test[4:])
+        LOG.info('The {} test passed.'.format(test))
 
     def test_packages_compute(self):
         self._test_check_package_version("check-compute-packages")
@@ -191,11 +200,14 @@ class TestNfvBasic(base_test.BaseTest):
         """
         servers, key_pair = self.create_and_verify_resources(test=test)
 
+        LOG.info('Starting the cold migration.')
         self.os_admin.servers_client. \
             migrate_server(server_id=servers[0]['id'])
         waiters.wait_for_server_status(self.servers_client,
                                        servers[0]['id'], 'VERIFY_RESIZE')
+        LOG.info('Confirm instance resize after the cold migration.')
         self.servers_client.confirm_resize_server(server_id=servers[0]['id'])
+        LOG.info('Verify instance connectivity after the cold migration.')
         msg = "Timed out waiting for %s to become reachable" % \
               servers[0]['fip']
         self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
@@ -206,6 +218,7 @@ class TestNfvBasic(base_test.BaseTest):
 
         msg = "Cold migration test id failing. Check your environment settings"
         self.assertTrue(succeed, msg)
+        LOG.info('The cold migration test passed.')
 
     def test_emulatorpin(self, test='emulatorpin'):
         """Test emulatorpin on the instance vs nova configuration
@@ -225,6 +238,7 @@ class TestNfvBasic(base_test.BaseTest):
         check_value = conf['check_value']
 
         for srv in servers:
+            LOG.info('Test emulatorpin for the {} instance'.format(srv['fip']))
             return_value = self. \
                 compare_emulatorpin_to_overcloud_config(srv,
                                                         srv['hypervisor_ip'],
@@ -234,3 +248,4 @@ class TestNfvBasic(base_test.BaseTest):
             self.assertTrue(return_value, 'The emulatorpin test failed. '
                                           'The values of the instance and '
                                           'nova does not match.')
+        LOG.info('The {} test passed.'.format(test))
