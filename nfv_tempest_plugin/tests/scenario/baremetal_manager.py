@@ -50,8 +50,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
     def __init__(self, *args, **kwargs):
         super(BareMetalManager, self).__init__(*args, **kwargs)
         self.public_network = CONF.network.public_network_id
-        self.ssh_user = CONF.validation.image_ssh_user
-        self.ssh_passwd = CONF.validation.image_ssh_password
+        self.instance_user = CONF.nfv_plugin_options.instance_user
+        self.instance_pass = CONF.nfv_plugin_options.instance_pass
         self.flavor_ref = CONF.compute.flavor_ref
         self.cpuregex = re.compile('^[0-9]{1,2}$')
         self.external_config = None
@@ -78,25 +78,28 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         External config file exist [not a must].
         """
         super(BareMetalManager, self).setUp()
-        self.assertIsNotNone(CONF.hypervisor.user,
+        self.assertIsNotNone(CONF.nfv_plugin_options.overcloud_node_user,
                              "Missing SSH user login in config")
 
-        if CONF.hypervisor.private_key_file:
-            key_str = open(CONF.hypervisor.private_key_file).read()
-            CONF.hypervisor.private_key = paramiko.RSAKey. \
-                from_private_key(StringIO.StringIO(key_str))
+        if CONF.nfv_plugin_options.overcloud_node_pkey_file:
+            key_str = open(
+                CONF.nfv_plugin_options.overcloud_node_pkey_file).read()
+            CONF.nfv_plugin_options.overcloud_node_pkey_file = \
+                paramiko.RSAKey.from_private_key(StringIO.StringIO(key_str))
         else:
-            self.assertIsNotNone(CONF.hypervisor.password,
-                                 'Missing SSH password or key_file')
-        if CONF.hypervisor.external_config_file:
-            if os.path.exists(CONF.hypervisor.external_config_file):
+            self.assertIsNotNone(
+                CONF.nfv_plugin_options.overcloud_node_pass,
+                'Missing SSH password or key_file')
+        if CONF.nfv_plugin_options.external_config_file:
+            if os.path.exists(CONF.nfv_plugin_options.external_config_file):
                 self.read_external_config_file()
 
         self.useFixture(api_microversion_fixture.APIMicroversionFixture(
             self.request_microversion))
 
-        if CONF.hypervisor.external_resources_output_file:
-            if os.path.exists(CONF.hypervisor.external_resources_output_file):
+        if CONF.nfv_plugin_options.external_resources_output_file:
+            if os.path.exists(
+                    CONF.nfv_plugin_options.external_resources_output_file):
                 self._read_and_validate_external_resources_data_file()
 
     @classmethod
@@ -128,7 +131,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         Reads config data and assign it to dictionaries
         """
-        with open(CONF.hypervisor.external_config_file, 'r') as f:
+        with open(CONF.nfv_plugin_options.external_config_file, 'r') as f:
             self.external_config = yaml.load(f)
 
         if os.path.exists(CONF.hypervisor.external_resources_output_file):
@@ -235,8 +238,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             self.test_instance_repo = self.external_config[
                 'test_instance_repo']
 
-        if 'user_data' in CONF.hypervisor:
-            self.user_data = CONF.hypervisor.user_data
+        if 'user_data' in CONF.nfv_plugin_options:
+            self.user_data = CONF.nfv_plugin_options.user_data
             self.assertTrue(os.path.exists(self.user_data),
                             "Specified user_data file can't be read")
         # Update the floating IP configuration (enable/disable)
@@ -570,12 +573,14 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """Assuming all check done in Setup,
         otherwise Assert failing the test
         """
-        if CONF.hypervisor.private_key:
-            ssh.connect(host, username=CONF.hypervisor.user,
-                        pkey=CONF.hypervisor.private_key)
+        if CONF.nfv_plugin_options.overcloud_node_pkey_file:
+            ssh.connect(host,
+                        username=CONF.nfv_plugin_options.overcloud_node_user,
+                        pkey=CONF.nfv_plugin_options.overcloud_node_pkey_file)
         else:
-            ssh.connect(host, username=CONF.hypervisor.user,
-                        password=CONF.hypervisor.password)
+            ssh.connect(host,
+                        username=CONF.nfv_plugin_options.overcloud_node_user,
+                        password=CONF.nfv_plugin_options.overcloud_node_pass)
 
         LOG.info("Executing command: %s" % command)
         stdin, stdout, stderr = ssh.exec_command(command)
@@ -862,7 +867,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         In case there is external router.. public network decided
         based on router_external=False and router is not None
         """
-        self.assertIsNotNone(CONF.hypervisor.external_config_file,
+        self.assertIsNotNone(CONF.nfv_plugin_options.external_config_file,
                              'This test require missing external_config, '
                              'for this test')
 
@@ -1003,9 +1008,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if kwargs['availability_zone'] is None:
                 kwargs.pop('availability_zone', None)
 
-        if 'transfer_files' in CONF.hypervisor:
+        if 'transfer_files' in CONF.nfv_plugin_options:
             if float(self.request_microversion) < 2.57:
-                files = jsonutils.loads(CONF.hypervisor.transfer_files)
+                files = jsonutils.loads(CONF.nfv_plugin_options.transfer_files)
                 kwargs['personality'] = []
                 for copy_file in files:
                     self.assertTrue(os.path.exists(copy_file['client_source']),
@@ -1173,11 +1178,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                              - systemctl restart network
                              '''.format(gateway='GATEWAY=',
                                         gw_ip=gw_ip,
-                                        user=self.ssh_user,
+                                        user=self.instance_user,
                                         py_script=('/var/lib/cloud/scripts/'
                                                    'per-boot/'
                                                    'custom_net_config.py'),
-                                        passwd=self.ssh_passwd)
+                                        passwd=self.instance_pass)
         if (self.test_instance_repo and 'name' in
                 self.test_instance_repo and not self.user_data):
             repo_name = self.external_config['test_instance_repo']['name']
@@ -1251,7 +1256,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         ssh_key = paramiko.RSAKey.from_private_key(private_key_file)
 
         if username is None:
-            username = self.ssh_user
+            username = self.instance_user
 
         timeout_start = time.time()
         ssh_success = False
@@ -1308,7 +1313,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
     def _read_and_validate_external_resources_data_file(self):
         """Validate yaml file contains externally created resources"""
-        with open(CONF.hypervisor.external_resources_output_file, 'r') as f:
+        with open(CONF.nfv_plugin_options.external_resources_output_file,
+                  'r') as f:
             try:
                 self.external_resources_data = yaml.safe_load(f)
             except yaml.YAMLError as exc:

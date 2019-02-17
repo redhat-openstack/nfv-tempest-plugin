@@ -20,7 +20,7 @@ In case of manual environment configuration, be aware of the following:
 - Tempest-nfv-plugin uses external tests configuration file.  
   The file should reside on the tester host and path of the file should be provided within the tempest.conf file under hypervisor section.
   ```
-  [hypervisor]
+  [nfv_plugin_options]
   external_config_file = /root/tempest/tests_config.yml
   ```
   The file name is not restricted to a specific name.
@@ -28,7 +28,7 @@ In case of manual environment configuration, be aware of the following:
 - nfv-tempest-plugin can use a custom user_data during instance booting by supplying the file within tempest.conf under hyervisor group.
   The file should reside on the tester host and path of the file should be provided within the tempest.conf file under hypervisor section.
   ```
-  [hypervisor]
+  [nfv_plugin_options]
   user_data = /path/to/user_data.yml
   ```
   The file name is not restricted to a specific name.
@@ -36,17 +36,17 @@ In case of manual environment configuration, be aware of the following:
 - Some of the tests will require to perform checks on the hypervisors.  
   For such case, specify the user and private key for the hypervisor ssh access under hypervisor section.
   ```
-  [hypervisor]
+  [nfv_plugin_options]
   private_key_file = /home/stack/.ssh/id_rsa
   user = heat-admin
   ```
 
 - Files can be transferred from tester node to guest instance using nova's personality API via metadata server.  
   Refer to [server personality documentation](https://developer.openstack.org/api-ref/compute/#servers-servers).  
-  Specify a list of dictionaries in **string** with the coressponding values under hypervisor group.
+  Specify a list of dictionaries in **string** with the corresponding values under nfv_plugin_options.
   NOTE: Personality is deprecated from compute microversion 2.57 and onwards and should be replaced by user_data.
   ```
-  [hypervisor]
+  [nfv_plugin_options]
   transfer_files = '[{"client_source": "/path/to/source.txt", "guest_destination": "/path/to/dest.txt"}]'
   ```
 
