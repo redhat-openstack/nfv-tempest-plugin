@@ -22,6 +22,30 @@
       "revId": "b9d142725f71699ff45e34cfe4fe9c97e50d2bad",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64a63eef_25c488f2",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-02-18T07:20:07Z",
+      "side": 1,
+      "message": "Sure.\n\n2019-02-18 02:02:01.795 434036 INFO nfv_tempest_plugin.tests.scenario.base_test [-] nfv_plugin_test [-] fip: 10.35.141.123, instance_id: bc2b6676-a26e-41a4-82fb-7ee23adac1a5",
+      "parentUuid": "23eb2dc5_816d34ed",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 66
+      },
+      "revId": "b9d142725f71699ff45e34cfe4fe9c97e50d2bad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
