@@ -83,6 +83,8 @@ class BaseTest(baremetal_manager.BareMetalManager):
                        srv['fip'])
                 self.assertTrue(self.ping_ip_address(srv['fip']), msg)
                 self.assertTrue(self.get_remote_client(srv['fip'],
+                                                       username=self.
+                                                       instance_user,
                                                        private_key=key_pair[
                                                            'private_key']))
             else:

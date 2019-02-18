@@ -133,6 +133,7 @@ class TestNfvBasic(base_test.BaseTest):
                              'Please assign it and re-run.')
 
         ssh_source = self.get_remote_client(servers[0]['fip'],
+                                            username=self.instance_user,
                                             private_key=key_pair[
                                                 'private_key'])
         out = ssh_source.exec_command('ping -c 1 -M do -s %d %s' % (mtu,
@@ -199,7 +200,8 @@ class TestNfvBasic(base_test.BaseTest):
               servers[0]['fip']
         self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
         self.assertTrue(self.get_remote_client(
-            servers[0]['fip'], private_key=key_pair['private_key']))
+            servers[0]['fip'], username=self.instance_user,
+            private_key=key_pair['private_key']))
         succeed = True
 
         msg = "Cold migration test id failing. Check your environment settings"

@@ -75,7 +75,8 @@ class TestDpdkScenarios(base_test.BaseTest):
         msg = "%s instance is not reachable by ping" % servers[0]['fip']
         self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
         self.assertTrue(self.get_remote_client(
-            servers[0]['fip'], private_key=key_pair['private_key']))
+            servers[0]['fip'], username=self.instance_user,
+            private_key=key_pair['private_key']))
         return True
 
     def _test_live_migration_block(self, test_setup_migration=None):
@@ -154,6 +155,7 @@ class TestDpdkScenarios(base_test.BaseTest):
             LOG.info('Executing multicast script on {} - {}.'
                      .format(srv['mcast_srv'], srv['fip']))
             ssh_source = self.get_remote_client(srv['fip'],
+                                                username=self.instance_user,
                                                 private_key=key_pair[
                                                     'private_key'])
             ssh_source.exec_command(send_cmd if 'traffic_runner' in
@@ -166,6 +168,8 @@ class TestDpdkScenarios(base_test.BaseTest):
                 LOG.info('Reading results from {} - {} instance.'
                          .format(receiver['mcast_srv'], receiver['fip']))
                 ssh_source = self.get_remote_client(receiver['fip'],
+                                                    username=self.
+                                                    instance_user,
                                                     private_key=key_pair[
                                                         'private_key'])
                 output = ssh_source.exec_command(get_mcast_results)

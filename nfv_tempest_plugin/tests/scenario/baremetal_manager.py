@@ -84,7 +84,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if CONF.nfv_plugin_options.overcloud_node_pkey_file:
             key_str = open(
                 CONF.nfv_plugin_options.overcloud_node_pkey_file).read()
-            CONF.nfv_plugin_options.overcloud_node_pkey_file = \
+            CONF.nfv_plugin_options.overcloud_node_pkey_file_rsa = \
                 paramiko.RSAKey.from_private_key(StringIO.StringIO(key_str))
         else:
             self.assertIsNotNone(
@@ -134,7 +134,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         with open(CONF.nfv_plugin_options.external_config_file, 'r') as f:
             self.external_config = yaml.load(f)
 
-        if os.path.exists(CONF.hypervisor.external_resources_output_file):
+        if not os.path.exists(
+                CONF.nfv_plugin_options.external_resources_output_file):
             """Hold flavor, net and images lists"""
             networks = self.networks_client.list_networks()['networks']
             flavors = self.flavors_client.list_flavors()['flavors']
@@ -573,10 +574,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """Assuming all check done in Setup,
         otherwise Assert failing the test
         """
-        if CONF.nfv_plugin_options.overcloud_node_pkey_file:
+        if CONF.nfv_plugin_options.overcloud_node_pkey_file_rsa:
             ssh.connect(host,
                         username=CONF.nfv_plugin_options.overcloud_node_user,
-                        pkey=CONF.nfv_plugin_options.overcloud_node_pkey_file)
+                        pkey=CONF.nfv_plugin_options.
+                        overcloud_node_pkey_file_rsa)
         else:
             ssh.connect(host,
                         username=CONF.nfv_plugin_options.overcloud_node_user,
