@@ -39,7 +39,7 @@ from tempest.lib import exceptions as lib_exc
 from tempest.scenario import manager
 
 CONF = config.CONF
-LOG = log.getLogger(__name__)
+LOG = log.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
 class BareMetalManager(api_version_utils.BaseMicroversionTest,
@@ -50,8 +50,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
     def __init__(self, *args, **kwargs):
         super(BareMetalManager, self).__init__(*args, **kwargs)
         self.public_network = CONF.network.public_network_id
-        self.ssh_user = CONF.validation.image_ssh_user
-        self.ssh_passwd = CONF.validation.image_ssh_password
+        self.instance_user = CONF.nfv_plugin_options.instance_user
+        self.instance_pass = CONF.nfv_plugin_options.instance_pass
         self.flavor_ref = CONF.compute.flavor_ref
         self.cpuregex = re.compile('^[0-9]{1,2}$')
         self.external_config = None
@@ -78,25 +78,28 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         External config file exist [not a must].
         """
         super(BareMetalManager, self).setUp()
-        self.assertIsNotNone(CONF.hypervisor.user,
+        self.assertIsNotNone(CONF.nfv_plugin_options.overcloud_node_user,
                              "Missing SSH user login in config")
 
-        if CONF.hypervisor.private_key_file:
-            key_str = open(CONF.hypervisor.private_key_file).read()
-            CONF.hypervisor.private_key = paramiko.RSAKey. \
-                from_private_key(StringIO.StringIO(key_str))
+        if CONF.nfv_plugin_options.overcloud_node_pkey_file:
+            key_str = open(
+                CONF.nfv_plugin_options.overcloud_node_pkey_file).read()
+            CONF.nfv_plugin_options.overcloud_node_pkey_file_rsa = \
+                paramiko.RSAKey.from_private_key(StringIO.StringIO(key_str))
         else:
-            self.assertIsNotNone(CONF.hypervisor.password,
-                                 'Missing SSH password or key_file')
-        if CONF.hypervisor.external_config_file:
-            if os.path.exists(CONF.hypervisor.external_config_file):
+            self.assertIsNotNone(
+                CONF.nfv_plugin_options.overcloud_node_pass,
+                'Missing SSH password or key_file')
+        if CONF.nfv_plugin_options.external_config_file:
+            if os.path.exists(CONF.nfv_plugin_options.external_config_file):
                 self.read_external_config_file()
 
         self.useFixture(api_microversion_fixture.APIMicroversionFixture(
             self.request_microversion))
 
-        if CONF.hypervisor.external_resources_output_file:
-            if os.path.exists(CONF.hypervisor.external_resources_output_file):
+        if CONF.nfv_plugin_options.external_resources_output_file:
+            if os.path.exists(
+                    CONF.nfv_plugin_options.external_resources_output_file):
                 self._read_and_validate_external_resources_data_file()
 
     @classmethod
@@ -128,40 +131,57 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         Reads config data and assign it to dictionaries
         """
-        with open(CONF.hypervisor.external_config_file, 'r') as f:
+        with open(CONF.nfv_plugin_options.external_config_file, 'r') as f:
             self.external_config = yaml.load(f)
 
-        """
-        hold flavor list..
-        hold net list.. translate to id
-        """
-        networks = self.networks_client.list_networks()['networks']
-        flavors = self.flavors_client.list_flavors()['flavors']
-        images = self.image_client.list_images()['images']
+        if not os.path.exists(
+                CONF.nfv_plugin_options.external_resources_output_file):
+            """Hold flavor, net and images lists"""
+            networks = self.networks_client.list_networks()['networks']
+            flavors = self.flavors_client.list_flavors()['flavors']
+            images = self.image_client.list_images()['images']
 
-        """
-        Iterate over networks mandatory vars in external_config are:
-        port_type, gateway_ip
-        """
-        for net in self.external_config['networks']:
-            self.test_network_dict[net['name']] = {
-                'port_type': net['port_type'], 'gateway_ip': net['gateway_ip']}
-            """
-            Check for existence of optionals vars:
-            router_name, external.
-            """
-            if 'external' in net:
-                self.test_network_dict[net['name']]['external'] = net[
-                    'external']
-            if 'router_name' in net:
-                self.test_network_dict[net['name']]['router'] = net[
-                    'router_name']
+            # iterate flavors_id
+            for test, test_param in self.test_setup_dict.iteritems():
+                if 'flavor' in test_param:
+                    for flavor in flavors:
+                        if test_param['flavor'] == flavor['name']:
+                            self.test_setup_dict[test]['flavor-id'] = flavor[
+                                'id']
 
-        # iterate networks
-        for net in self.test_network_dict.iterkeys():
-            for network in networks:
-                if network['name'] == net:
-                    self.test_network_dict[net]['net-id'] = network['id']
+            # iterate image_id
+            for test, test_param in self.test_setup_dict.iteritems():
+                if 'image' in test_param:
+                    for image in images:
+                        if test_param['image'] == image['name']:
+                            self.test_setup_dict[test]['image-id'] = \
+                                image['id']
+
+        if 'networks' in self.external_config:
+            """
+            Iterate over networks mandatory vars in external_config are:
+            port_type, gateway_ip
+            """
+            for net in self.external_config['networks']:
+                self.test_network_dict[net['name']] = {'port_type': net[
+                    'port_type'], 'gateway_ip': net['gateway_ip']}
+                """
+                Check for existence of optionals vars:
+                router_name, external.
+                """
+                if 'external' in net:
+                    self.test_network_dict[net['name']]['external'] = net[
+                        'external']
+                if 'router_name' in net:
+                    self.test_network_dict[net['name']]['router'] = net[
+                        'router_name']
+
+            # iterate networks
+            for net in self.test_network_dict.iterkeys():
+                for network in networks:
+                    if network['name'] == net:
+                        self.test_network_dict[net]['net-id'] = network['id']
+
         # Insert here every new parameter.
         for test in self.external_config['tests-setup']:
             if 'flavor' in test and test['flavor'] is not None:
@@ -212,20 +232,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 self.test_setup_dict[test['name']]['config_dict'] = \
                     jsonutils.loads(rx_tx_str)
 
-        # iterate flavors_id
-        for test, test_param in self.test_setup_dict.iteritems():
-            if 'flavor' in test_param:
-                for flavor in flavors:
-                    if test_param['flavor'] == flavor['name']:
-                        self.test_setup_dict[test]['flavor-id'] = flavor['id']
-
-        # iterate image_id
-        for test, test_param in self.test_setup_dict.iteritems():
-            if 'image' in test_param:
-                for image in images:
-                    if test_param['image'] == image['name']:
-                        self.test_setup_dict[test]['image-id'] = image['id']
-
         # iterate flavors parameters
         if 'test-flavors' in self.external_config:
             for flavor in self.external_config['test-flavors']:
@@ -235,8 +241,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             self.test_instance_repo = self.external_config[
                 'test_instance_repo']
 
-        if 'user_data' in CONF.hypervisor:
-            self.user_data = CONF.hypervisor.user_data
+        if 'user_data' in CONF.nfv_plugin_options:
+            self.user_data = CONF.nfv_plugin_options.user_data
             self.assertTrue(os.path.exists(self.user_data),
                             "Specified user_data file can't be read")
         # Update the floating IP configuration (enable/disable)
@@ -452,6 +458,60 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         return ','.join(value_data)
 
+    def _retrieve_content_from_files(self, node, files):
+        """Retrieve encoded base64 content from files on Linux hosts
+
+        Using a single SSH connection that executes a bash for loop that
+        iterates over files to construct a JSON containing file's name and
+        file's encoded content.
+
+        The retrieved content will be decoded from base64.
+
+        If file doesn't exist/can not be parsed, the content will be equal
+        to 'None'.
+
+        :param node: Which node to retrive content from
+        :param files: List of files to retrive content from
+
+        :return file_content
+        """
+
+        bash_list = ' '.join(files)
+        file_content = {}
+        # Create JSONs for each file with base64 encoded content
+        # if file doesn't exist/can't be decodded returns 'None'
+        cmd = '''
+              function construct_json() {{
+                  echo "{{\\"$1\\": \\"$2\\"}}"
+              }}
+
+              a=({list})
+              for file in ${{a[@]}}; do
+                  content="None"
+                  if [[ -f $file ]]; then
+                          output=$(sudo base64 $file -w 0)
+                          if [[ $output ]];then
+                              content=$output
+                         fi
+                  fi
+                  construct_json $file $content
+              done
+              '''.format(list=bash_list)
+
+        guest_content = self._run_command_over_ssh(node, cmd).split('\n')
+        # Output will always produce an additional unnecessary new line
+        del guest_content[-1]
+        # Parse and construct a JSON containing all the results
+        for result in guest_content:
+            file_content.update(jsonutils.loads(result))
+        # Decode content from base64
+        for content in file_content:
+            if file_content[content] != 'None':
+                parsed_content = base64.b64decode(file_content[content])
+                file_content[content] = parsed_content.split('\n')
+
+        return file_content
+
     def compare_emulatorpin_to_overcloud_config(self, server, overcloud_node,
                                                 config_path, check_section,
                                                 check_value):
@@ -516,12 +576,15 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """Assuming all check done in Setup,
         otherwise Assert failing the test
         """
-        if CONF.hypervisor.private_key:
-            ssh.connect(host, username=CONF.hypervisor.user,
-                        pkey=CONF.hypervisor.private_key)
+        if CONF.nfv_plugin_options.overcloud_node_pkey_file_rsa:
+            ssh.connect(host,
+                        username=CONF.nfv_plugin_options.overcloud_node_user,
+                        pkey=CONF.nfv_plugin_options.
+                        overcloud_node_pkey_file_rsa)
         else:
-            ssh.connect(host, username=CONF.hypervisor.user,
-                        password=CONF.hypervisor.password)
+            ssh.connect(host,
+                        username=CONF.nfv_plugin_options.overcloud_node_user,
+                        password=CONF.nfv_plugin_options.overcloud_node_pass)
 
         LOG.info("Executing command: %s" % command)
         stdin, stdout, stderr = ssh.exec_command(command)
@@ -808,7 +871,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         In case there is external router.. public network decided
         based on router_external=False and router is not None
         """
-        self.assertIsNotNone(CONF.hypervisor.external_config_file,
+        self.assertIsNotNone(CONF.nfv_plugin_options.external_config_file,
                              'This test require missing external_config, '
                              'for this test')
 
@@ -949,9 +1012,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if kwargs['availability_zone'] is None:
                 kwargs.pop('availability_zone', None)
 
-        if 'transfer_files' in CONF.hypervisor:
+        if 'transfer_files' in CONF.nfv_plugin_options:
             if float(self.request_microversion) < 2.57:
-                files = jsonutils.loads(CONF.hypervisor.transfer_files)
+                files = jsonutils.loads(CONF.nfv_plugin_options.transfer_files)
                 kwargs['personality'] = []
                 for copy_file in files:
                     self.assertTrue(os.path.exists(copy_file['client_source']),
@@ -994,7 +1057,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         :return servers, fips
         """
-
+        LOG.info('Creating resources...')
         servers, key_pair = ([], [])
 
         # Check for the test config file
@@ -1005,7 +1068,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         # In case resources created externally, set them.
         if self.external_resources_data is not None:
             servers = self.external_resources_data['servers']
-            key_pair = self.external_resources_data['key_pair']
+            with open(self.external_resources_data['key_pair'], 'r') as key:
+                key_pair = {'private_key': key.read()}
+            LOG.info('The resources created by the external tool. '
+                     'Continue to the test.')
             return servers, key_pair
 
         # Set availability zone if required
@@ -1024,7 +1090,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 self.flavor_ref = self. \
                     create_flavor(**self.test_flavor_dict[flavor_name])
                 kwargs['flavor'] = self.flavor_ref
+                LOG.info('The flavor {} has been created'.format(
+                    self.flavor_ref))
 
+        LOG.info('Creating networks, keypair, security groups, router and '
+                 'prepare cloud init.')
         # Key pair creation
         key_pair = self.create_keypair()
         kwargs['key_name'] = key_pair['name']
@@ -1053,19 +1123,25 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 kwargs.pop('use_mgmt_only', None)
                 del (kwargs['networks'][1:])
 
+            LOG.info('Create instance - {}'.format(num + 1))
             servers.append(self.create_server(**kwargs))
         for num, server in enumerate(servers):
             waiters.wait_for_server_status(self.os_admin.servers_client,
                                            server['id'], 'ACTIVE')
+            LOG.info('The instance - {} is in an ACTIVE state'.format(num + 1))
             port = self.os_admin.ports_client.list_ports(device_id=server[
                 'id'], network_id=ports_list[num][0]['uuid'])['ports'][0]
 
             if fip:
                 server['fip'] = \
                     self.create_floating_ip(server, self.public_network)['ip']
+                LOG.info('The {} fip is allocated to the instance'.format(
+                    server['fip']))
             else:
                 server['fip'] = port['fixed_ips'][0]['ip_address']
                 server['network_id'] = ports_list[num][0]['uuid']
+                LOG.info('The {} fixed ip set for the instance'.format(
+                    server['fip']))
         return servers, key_pair
 
     def _check_number_queues(self):
@@ -1118,11 +1194,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                              - systemctl restart network
                              '''.format(gateway='GATEWAY=',
                                         gw_ip=gw_ip,
-                                        user=self.ssh_user,
+                                        user=self.instance_user,
                                         py_script=('/var/lib/cloud/scripts/'
                                                    'per-boot/'
                                                    'custom_net_config.py'),
-                                        passwd=self.ssh_passwd)
+                                        passwd=self.instance_pass)
         if (self.test_instance_repo and 'name' in
                 self.test_instance_repo and not self.user_data):
             repo_name = self.external_config['test_instance_repo']['name']
@@ -1196,7 +1272,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         ssh_key = paramiko.RSAKey.from_private_key(private_key_file)
 
         if username is None:
-            username = self.ssh_user
+            username = self.instance_user
 
         timeout_start = time.time()
         ssh_success = False
@@ -1253,7 +1329,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
     def _read_and_validate_external_resources_data_file(self):
         """Validate yaml file contains externally created resources"""
-        with open(CONF.hypervisor.external_resources_output_file, 'r') as f:
+        with open(CONF.nfv_plugin_options.external_resources_output_file,
+                  'r') as f:
             try:
                 self.external_resources_data = yaml.safe_load(f)
             except yaml.YAMLError as exc:
@@ -1263,7 +1340,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                                       pm.line,
                                                       pm.column))
 
-        if self.external_resources_data['key_pair']['private_key'] is None:
+        if self.external_resources_data['key_pair'] is None or not \
+                os.path.exists(self.external_resources_data['key_pair']):
             raise Exception('The private key is missing from the yaml file.')
         for srv in self.external_resources_data['servers']:
             if not srv.viewkeys() >= {'name', 'id', 'fip'}:

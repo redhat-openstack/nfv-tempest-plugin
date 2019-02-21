@@ -19,8 +19,8 @@ from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
 from tempest import config
 
-LOG = logging.getLogger(__name__)
 CONF = config.CONF
+LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
 class TestDpdkScenarios(base_test.BaseTest):
@@ -51,7 +51,7 @@ class TestDpdkScenarios(base_test.BaseTest):
         Booting number of instances with various number of cpus based on the
         setup queues number.
         """
-
+        LOG.info('Prepare the queues functionality test')
         msg = "Hypervisor OVS not configured with MultiQueue"
         self.assertIsNotNone(self.maxqueues, msg)
 
@@ -66,16 +66,20 @@ class TestDpdkScenarios(base_test.BaseTest):
         else:
             queues = self.maxqueues
 
+        LOG.info('Create a flavor for the queues test.')
         queues_flavor = self.create_flavor(name='test-queues', vcpus=queues,
                                            **extra_specs)
         servers, key_pair = \
             self.create_server_with_resources(test='check-multiqueue-func',
                                               flavor=queues_flavor)
 
+        LOG.info('Check connectivity to the queues instance.')
         msg = "%s instance is not reachable by ping" % servers[0]['fip']
         self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
         self.assertTrue(self.get_remote_client(
-            servers[0]['fip'], private_key=key_pair['private_key']))
+            servers[0]['fip'], username=self.instance_user,
+            private_key=key_pair['private_key']))
+        LOG.info('The {} queues test passed.'.format(queues))
         return True
 
     def _test_live_migration_block(self, test_setup_migration=None):
@@ -94,7 +98,6 @@ class TestDpdkScenarios(base_test.BaseTest):
 
         host = self.os_admin.servers_client.show_server(
             servers[0]['id'])['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']
-        """ Run ping before migration """
         msg = "Timed out waiting for %s to become reachable" % \
               servers[0]['fip']
         self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
@@ -154,6 +157,7 @@ class TestDpdkScenarios(base_test.BaseTest):
             LOG.info('Executing multicast script on {} - {}.'
                      .format(srv['mcast_srv'], srv['fip']))
             ssh_source = self.get_remote_client(srv['fip'],
+                                                username=self.instance_user,
                                                 private_key=key_pair[
                                                     'private_key'])
             ssh_source.exec_command(send_cmd if 'traffic_runner' in
@@ -166,6 +170,8 @@ class TestDpdkScenarios(base_test.BaseTest):
                 LOG.info('Reading results from {} - {} instance.'
                          .format(receiver['mcast_srv'], receiver['fip']))
                 ssh_source = self.get_remote_client(receiver['fip'],
+                                                    username=self.
+                                                    instance_user,
                                                     private_key=key_pair[
                                                         'private_key'])
                 output = ssh_source.exec_command(get_mcast_results)
@@ -224,6 +230,7 @@ class TestDpdkScenarios(base_test.BaseTest):
         check_value = conf['check_value']
 
         for srv in servers:
+            LOG.info('Test RX/TX for the {} instance'.format(srv['fip']))
             return_value = self.\
                 compare_rx_tx_to_overcloud_config(srv, srv['hypervisor_ip'],
                                                   config_path,
@@ -232,3 +239,4 @@ class TestDpdkScenarios(base_test.BaseTest):
             self.assertTrue(return_value, 'The rx_tx test failed. '
                                           'The values of the instance and '
                                           'nova does not match.')
+        LOG.info('The {} test passed.'.format(test))

@@ -13,32 +13,4 @@ servers:
     addresses:
         - addr: 10.10.110.114
 
-key_pair:
-  private_key: |
-    -----BEGIN RSA PRIVATE KEY-----
-    MIIEogIBAAKCAQEAmaxc0CV27C3Hflp60pJn+nU+RK+2mpaL9zS7ScLd0mUPAKVH
-    cp5GjtOD/Hwen8sYLJ5zuKHEiHQj47SINE+b/Bf/1vYvXKaLvjGecVvLr4NdrPQ1
-    XLrUw5WjMVmrWKmKRZN2ITDBLwI04BcplXbqRK//zt36TfR2NqsNaCMtRWozG+2S
-    9F2ArRHz0nQwf0LdeRCdXZHFcvqxg5FZL+NQhHIrMXm/vzZA15/6zkKHJ4Wno3VI
-    ehDI3QE6a0R9U4T7zYkrWiANdD6WEZoNr9MLhx30uTioG/urO7CUy2+zMNKn8bAy
-    G2SelhlDBGYvI9OK9NClAG9IPD9kOYDh/UD0vwIDAQABAoIBAEu3jIeWXhEiwU+1
-    fxzvvEHAsOyg80UZ9l7YYYuHc0puNsUnqpuD9tn6x+aItYIgTIn3jKclNbPSHbjd
-    Q9saeo3suUcOR+nLucD9q8bI5wRUorxMG1rUR28S9LSlLPLjnliHvsW9wwHJgYoE
-    f53AWM99NHqWDvWIBRMMlu9/nZe8Z3ta0VIqpmrQRi3OxpY7qUbd7G/qTRy48Zdt
-    2apxfjqY0I+wbPw6bJ5DsQS/dv6Pv46Svjt5KS5xSx0kc4B4AZDIusv7deM2fgtW
-    ZtrirCu8gcMDl+mc3lpUYVyCfEFQTMPgHMt9hUBNQUSXDHm4A90ahukhkSAg02FM
-    0Z6DdWkCgYEAxpdoD4L5zsTuUipJUNGSGqzuxII4e0/pMOvrb2YhcviQQQji/UFK
-    1M7e1IzOaijwMs/kP+cyJCupOyMbGEpkn6vY89KqB2crMnXXoaPOYtn6f3AnxDq6
-    qiylZUIgTotLjHMOvbv/+9he882AbBVQCgCkp2vgUlca7zLVeOVUZJsCgYEAxhjT
-    lQTriPSas2QXRdhncIqLBjKjGSJo78tNhjYXQm2lJWJJzl7g7TrVJjhxkgivnhSp
-    Ak8XRmzXxlcX6JWCfcFo1l301uYDDjnq6pDs4/1bCWgBeph+S4gtIKQFPMVUgskz
-    l5+NGAco8l85aKQJvAIAwGtSVXPaX+/T5BuuaK0CgYAbDP6otj+O0bZgzM/FyXYs
-    WggADnjhGyZ5enlMaE4AGimUIkDBHIaz7CXgL/nh7geh9D10Eur6kFPx8Ts8mM2S
-    Dld0BusQLRZuPi0MIIL5ZhXADCfui81nZsN0wogiCslUrUuBvr0Eshlk/kYS8ug/
-    JI1JHOGmdaT+lh8L47kWJwKBgFz358yHC5cx3KyWK8nuvtT1YDufZiX0nTT0v8Rd
-    /FqDpL6/uw2sP3l2Y/RVBw/XHbxdy9e2kKDPkhCWbTUNfblRHMeGPtLgDc0OZ26A
-    Z3y0OZZXhmIn0RXXqf4onACiR4A9twXQrmH5ckEVaZbvbVYbxoiHlZNfFLxzjIkA
-    aMDdAoGAF9uOI4BX1SLADYou4tOwcsOgiJAv14LGXVEGTLdN5UZcqgOfa/lej/RQ
-    LjLYklLBPCnF+Fdljf/aCUmAFehmwujfF8fItLEyOUrrw+nIK62zxQ7Iojbozilk
-    0yJx0BSN/oAmRuYM0qgpku7LBrI4S381P2DN0yUOSumoCr9R/88=
-    -----END RSA PRIVATE KEY-----
+key_pair: "/home/stack/test_keypair.key"

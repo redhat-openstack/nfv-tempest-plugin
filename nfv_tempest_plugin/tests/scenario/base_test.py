@@ -19,8 +19,8 @@ from tempest import clients
 from tempest.common import credentials_factory as common_creds
 from tempest import config
 
-LOG = logging.getLogger(__name__)
 CONF = config.CONF
+LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
 class BaseTest(baremetal_manager.BareMetalManager):
@@ -61,6 +61,7 @@ class BaseTest(baremetal_manager.BareMetalManager):
 
         :return servers, key_pair
         """
+        LOG.info('Starting the {} test'.format(test))
         if fip is None:
             fip = self.fip
 
@@ -69,7 +70,8 @@ class BaseTest(baremetal_manager.BareMetalManager):
                                                               **kwargs)
 
         for srv in servers:
-            LOG.info("fip: %s, instance_id: %s", srv['fip'], srv['id'])
+            LOG.info('Instance details: fip: {}, instance_id: {}'.format(
+                srv['fip'], srv['id']))
 
             srv['hypervisor_ip'] = self._get_hypervisor_ip_from_undercloud(
                 **{'shell': '/home/stack/stackrc', 'server_id': srv['id']})[0]
@@ -77,12 +79,14 @@ class BaseTest(baremetal_manager.BareMetalManager):
                                 "_get_hypervisor_ip_from_undercloud "
                                 "returned empty ip list")
 
-            """Run ping and verify ssh connection"""
+            LOG.info('Test {} instance connectivity.'.format(srv['fip']))
             if fip:
                 msg = ("Timed out waiting for %s to become reachable" %
                        srv['fip'])
                 self.assertTrue(self.ping_ip_address(srv['fip']), msg)
                 self.assertTrue(self.get_remote_client(srv['fip'],
+                                                       username=self.
+                                                       instance_user,
                                                        private_key=key_pair[
                                                            'private_key']))
             else:
