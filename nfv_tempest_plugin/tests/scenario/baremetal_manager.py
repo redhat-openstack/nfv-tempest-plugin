@@ -141,22 +141,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             flavors = self.flavors_client.list_flavors()['flavors']
             images = self.image_client.list_images()['images']
 
-            # iterate flavors_id
-            for test, test_param in self.test_setup_dict.iteritems():
-                if 'flavor' in test_param:
-                    for flavor in flavors:
-                        if test_param['flavor'] == flavor['name']:
-                            self.test_setup_dict[test]['flavor-id'] = flavor[
-                                'id']
-
-            # iterate image_id
-            for test, test_param in self.test_setup_dict.iteritems():
-                if 'image' in test_param:
-                    for image in images:
-                        if test_param['image'] == image['name']:
-                            self.test_setup_dict[test]['image-id'] = \
-                                image['id']
-
         if 'networks' in self.external_config:
             """
             Iterate over networks mandatory vars in external_config are:
@@ -231,6 +215,24 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 rx_tx_str = jsonutils.dumps(test['rx_tx_config'])
                 self.test_setup_dict[test['name']]['config_dict'] = \
                     jsonutils.loads(rx_tx_str)
+
+        if not os.path.exists(
+                CONF.nfv_plugin_options.external_resources_output_file):
+            # iterate flavors_id
+            for test, test_param in self.test_setup_dict.iteritems():
+                if 'flavor' in test_param:
+                    for flavor in flavors:
+                        if test_param['flavor'] == flavor['name']:
+                            self.test_setup_dict[test]['flavor-id'] = flavor[
+                                'id']
+
+            # iterate image_id
+            for test, test_param in self.test_setup_dict.iteritems():
+                if 'image' in test_param:
+                    for image in images:
+                        if test_param['image'] == image['name']:
+                            self.test_setup_dict[test]['image-id'] = \
+                                image['id']
 
         # iterate flavors parameters
         if 'test-flavors' in self.external_config:
