@@ -14,13 +14,9 @@
 #    under the License.
 
 import base64
-import ConfigParser
-import io
 import os.path
 import paramiko
 import re
-from six.moves.urllib.parse import urlparse
-import StringIO
 import subprocess as sp
 import textwrap
 import time
@@ -37,6 +33,13 @@ from tempest.lib.common.utils import data_utils
 from tempest.lib.common.utils import test_utils
 from tempest.lib import exceptions as lib_exc
 from tempest.scenario import manager
+'''
+Python 2 and 3 support
+'''
+import six.moves
+from six.moves.urllib.parse import urlparse
+
+
 
 CONF = config.CONF
 LOG = log.getLogger('{} [-] nfv_plugin_test'.format(__name__))
@@ -85,7 +88,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             key_str = open(
                 CONF.nfv_plugin_options.overcloud_node_pkey_file).read()
             CONF.nfv_plugin_options.overcloud_node_pkey_file_rsa = \
-                paramiko.RSAKey.from_private_key(StringIO.StringIO(key_str))
+                paramiko.RSAKey.from_private_key(six.moves.StringIO(key_str))
         else:
             self.assertIsNotNone(
                 CONF.nfv_plugin_options.overcloud_node_pass,
@@ -161,7 +164,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         'router_name']
 
             # iterate networks
-            for net in self.test_network_dict.iterkeys():
+            for net in iter(self.test_network_dict.keys()):
                 for network in networks:
                     if network['name'] == net:
                         self.test_network_dict[net]['net-id'] = network['id']
@@ -195,7 +198,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'emulatorpin_config' in test and test['emulatorpin_config'] \
                     is not None:
                 for item in test['emulatorpin_config']:
-                    for key, value in item.iteritems():
+                    for key, value in iter(item.items()):
                         if not value:
                             raise ValueError('The {0} configuration is '
                                              'required for the emulatorpin '
@@ -206,7 +209,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     jsonutils.loads(epin_str)
             if 'rx_tx_config' in test and test['rx_tx_config'] is not None:
                 for item in test['rx_tx_config']:
-                    for key, value in item.iteritems():
+                    for key, value in iter(item.items()):
                         if not value:
                             raise ValueError('The {0} configuration is '
                                              'required for the tx/tx test, '
@@ -219,7 +222,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if not os.path.exists(
                 CONF.nfv_plugin_options.external_resources_output_file):
             # iterate flavors_id
-            for test, test_param in self.test_setup_dict.iteritems():
+            for test, test_param in iter(self.test_setup_dict.items()):
                 if 'flavor' in test_param:
                     for flavor in flavors:
                         if test_param['flavor'] == flavor['name']:
@@ -227,7 +230,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                 'id']
 
             # iterate image_id
-            for test, test_param in self.test_setup_dict.iteritems():
+            for test, test_param in iter(self.test_setup_dict.items()):
                 if 'image' in test_param:
                     for image in images:
                         if test_param['image'] == image['name']:
@@ -451,9 +454,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         ini_config = self._get_overcloud_config(overcloud_node, config_path)
 
         ini_config = unicode(ini_config, 'utf-8')
-        get_value = ConfigParser.ConfigParser(allow_no_value=True)
-        get_value.readfp(io.StringIO(ini_config))
-
+        # Python 2 and 3 support
+        get_value = six.moves.configparser.ConfigParser(allow_no_value=True)
+        get_value.readfp(six.moves.StringIO(ini_config))
         value_data = []
         for value in check_value.split(','):
             value_data.append(get_value.get(check_section, value))
@@ -775,7 +778,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         Create network and subnets
         """
-        for net_name, net_param in self.test_network_dict.iteritems():
+        for net_name, net_param in iter(self.test_network_dict.items()):
             network_kwargs.clear()
             network_kwargs['name'] = net_name
             if 'sec_groups' in net_param and not net_param['sec_groups']:
@@ -897,7 +900,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         elif len(public_network) == 1:
             self.test_network_dict['public'] = None
             remove_network = None
-            for net_name, net_param in self.test_network_dict.iteritems():
+            for net_name, net_param in iter(self.test_network_dict.items()):
                 if net_name != 'public' and 'router' in net_param \
                         and 'external' in net_param:
                     if not net_param['external']:
@@ -928,7 +931,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         for server in range(num_servers):
             networks_list = []
-            for net_name, net_param in self.test_network_dict.iteritems():
+            for net_name, net_param in iter(self.test_network_dict.items()):
                 create_port_body = {'binding:vnic_type': '',
                                     'namestart': 'port-smoke'}
                 if 'port_type' in net_param:
@@ -1268,7 +1271,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         result = None
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        private_key_file = StringIO.StringIO()
+        private_key_file = six.moves.StringIO()
+
         private_key_file.write(ssh_key)
         private_key_file.seek(0)
         ssh_key = paramiko.RSAKey.from_private_key(private_key_file)
