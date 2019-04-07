@@ -14,13 +14,11 @@
 #    under the License.
 
 import base64
-import ConfigParser
-import io
+
 import os.path
 import paramiko
 import re
 from six.moves.urllib.parse import urlparse
-import StringIO
 import subprocess as sp
 import textwrap
 import time
@@ -29,6 +27,7 @@ import yaml
 
 from oslo_log import log
 from oslo_serialization import jsonutils
+
 from tempest.api.compute import api_microversion_fixture
 from tempest.common import waiters
 from tempest import config
@@ -37,6 +36,19 @@ from tempest.lib.common.utils import data_utils
 from tempest.lib.common.utils import test_utils
 from tempest.lib import exceptions as lib_exc
 from tempest.scenario import manager
+
+'''
+Python 2 and 3 support
+'''
+try:
+    import configParser
+except ImportError:
+    import ConfigParser as configParser
+
+try:
+    from io import StringIO as stringIo
+except ImportError:
+    import StringIO as stringIo
 
 CONF = config.CONF
 LOG = log.getLogger('{} [-] nfv_plugin_test'.format(__name__))
@@ -85,7 +97,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             key_str = open(
                 CONF.nfv_plugin_options.overcloud_node_pkey_file).read()
             CONF.nfv_plugin_options.overcloud_node_pkey_file_rsa = \
-                paramiko.RSAKey.from_private_key(StringIO.StringIO(key_str))
+                paramiko.RSAKey.from_private_key(stringIo(key_str))
         else:
             self.assertIsNotNone(
                 CONF.nfv_plugin_options.overcloud_node_pass,
@@ -451,9 +463,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         ini_config = self._get_overcloud_config(overcloud_node, config_path)
 
         ini_config = unicode(ini_config, 'utf-8')
-        get_value = ConfigParser.ConfigParser(allow_no_value=True)
-        get_value.readfp(io.StringIO(ini_config))
-
+        # Python 2 and 3 support
+        get_value = configparser.ConfigParser(allow_no_value=True)
+        get_value.readfp(stringIo(ini_config))
         value_data = []
         for value in check_value.split(','):
             value_data.append(get_value.get(check_section, value))
@@ -1268,7 +1280,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         result = None
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        private_key_file = StringIO.StringIO()
+        private_key_file = stringIo()
         private_key_file.write(ssh_key)
         private_key_file.seek(0)
         ssh_key = paramiko.RSAKey.from_private_key(private_key_file)
