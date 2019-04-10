@@ -22,6 +22,30 @@
       "revId": "9188dbbd7a7575f8cb244faf8829290511896cb2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a8c735e_e21803a4",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-04-10T07:34:40Z",
+      "side": 1,
+      "message": "Personally, i think removing six will require additional changes not only on the imports, once we support only python3\n@vkhitrin? please refere to kuryer link",
+      "parentUuid": "2e277d81_cb6fe53e",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 31
+      },
+      "revId": "9188dbbd7a7575f8cb244faf8829290511896cb2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
