@@ -46,6 +46,30 @@
       "revId": "9188dbbd7a7575f8cb244faf8829290511896cb2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dac56ed_9d4eef47",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1014336
+      },
+      "writtenOn": "2019-04-10T09:18:23Z",
+      "side": 1,
+      "message": "@Yarboa I think that regardless we\u0027ll have compatibility issues down the road, and as long as the methods stayed the same and only naming changed, doing this and using six\u0027s import achieves the same result.\n\n@Maxim I think your approach will result in less spaghetti code and we use a tool which was designed for this cause.",
+      "parentUuid": "1a8c735e_e21803a4",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 31
+      },
+      "revId": "9188dbbd7a7575f8cb244faf8829290511896cb2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
