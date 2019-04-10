@@ -70,6 +70,30 @@
       "revId": "9188dbbd7a7575f8cb244faf8829290511896cb2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2bac3ef_4b351736",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-04-10T14:03:07Z",
+      "side": 1,
+      "message": "Correct it is ugly\nBut once we are going to python 3 no need to change running code, only remove the try and catch\n\nWhile in six you are staying with the code of six\nI will change it, although i do not agree :)",
+      "parentUuid": "6dac56ed_9d4eef47",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 31
+      },
+      "revId": "9188dbbd7a7575f8cb244faf8829290511896cb2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
