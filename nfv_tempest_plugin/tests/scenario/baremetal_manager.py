@@ -1044,7 +1044,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         return server
 
     def create_server_with_resources(self, num_servers=1, fip=True, test=None,
-                                     hyper=None, avail_zone=None, **kwargs):
+                                     hyper=None, avail_zone=None,
+                                     use_mgmt_only=False, **kwargs):
         """The method creates multiple instances
 
         :param num_servers: The number of servers to boot up.
@@ -1052,10 +1053,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         :param test: Currently executed test. Provide test specific parameters.
         :param hyper: Hypervisor name for created server on (optional).
         :param avail_zone: Availability zone for created server (optional).
+        :param use_mgmt_only: Boot instances with mgmt net only.
         :param kwargs: See below.
-
-        :Keyword Arguments:
-            * use_mgmt_only: Boot the instance with mgmt network only.
 
         :return servers, fips
         """
@@ -1121,8 +1120,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
             """ If this parameters exist, parse only mgmt network.
             Example live migration cannt run with SRIOV ports attached"""
-            if kwargs.get('use_mgmt_only'):
-                kwargs.pop('use_mgmt_only', None)
+            if use_mgmt_only:
                 del (kwargs['networks'][1:])
 
             LOG.info('Create instance - {}'.format(num + 1))
