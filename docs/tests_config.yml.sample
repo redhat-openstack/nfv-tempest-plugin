@@ -146,7 +146,6 @@ tests-setup:
     - tuned
     - openvswitch
   tuned-profile: cpu-partitioning
-  availability-zone: normal
 
 - name: test-ping-mtu
   flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0

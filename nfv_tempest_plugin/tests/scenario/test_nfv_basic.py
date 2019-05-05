@@ -26,7 +26,6 @@ class TestNfvBasic(base_test.BaseTest):
     def __init__(self, *args, **kwargs):
         super(TestNfvBasic, self).__init__(*args, **kwargs)
         self.hypervisor_ip = None
-        self.availability_zone = None
 
     def setUp(self):
         """Set up a single tenant with an accessible server.
@@ -50,9 +49,6 @@ class TestNfvBasic(base_test.BaseTest):
                         "test requires check-compute-packages "
                         "list in external_config_file")
         hyper_kwargs = {'shell': '/home/stack/stackrc'}
-        if 'availability-zone' in self.test_setup_dict[test_compute]:
-            hyper_kwargs = {'shell': '/home/stack/stackrc',
-                            'aggregation_name': self.availability_zone}
         self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
             **hyper_kwargs)[0]
 

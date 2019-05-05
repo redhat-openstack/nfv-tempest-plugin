@@ -26,6 +26,29 @@ For the details explanation of the file location and configuration, refer to the
 Following explanation will cover the content of the external configuration file.  
 For the full version of the external configuration file sample, refer to the sample file at the docs directory.
 
+### Common test configs
+-----------------------
+All the tests share some common configuration. Some of them are mandatory and some are optional.
+``` 
+flavor: name
+```
+- The name of the flavor that the test should use.
+```
+router: true
+```
+- Boolean var. Specify if the instance will get floating ip or direct SSH access.
+```
+aggregate:
+   hosts:
+     - computeovsdpdksriov-0
+   metadata: test=numa_aware_vswitch
+```
+- Aggregate config:  
+  Specify the hosts that should be attached to the aggregate.  
+  Specify the metadata flag that should be set on the aggregate.  
+  **Note!** - The "AggregateInstanceExtraSpecsFilter" is required for aggregate use.  
+  **Note!** - The metadata specified for the aggregate should be added as the extra specs to the flavor. 
+
 ### Tests:
 ----------
 #### TestBasicEpa:  
@@ -76,7 +99,6 @@ Tests included:
       - tuned
       - openvswitch
     tuned-profile: cpu-partitioning
-    availability-zone: normal
   ```
 
 - test_mtu_ping_test  
@@ -90,13 +112,11 @@ Tests included:
     flavor: nfv-test-flavor
     router: false
     mtu: 2972
-    availability-zone: normal
   ```
 
   flavor - specifies the flavor that the instance should boot with.  
   router - Sets if the booted instance will get floating ip or direct access config.  
   mtu - Specify the required mtu for the test. The calculation of testing mtu should be based on the deployed mtu size.  
-  availability-zone - Sets the zone in which the hypervisor exists (Parameter not required).
 
 - test_emulatorpin  
   Test explanation:  
