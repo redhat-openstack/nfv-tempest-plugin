@@ -14,13 +14,9 @@
 #    under the License.
 
 import base64
-import ConfigParser
-import io
 import os.path
 import paramiko
 import re
-from six.moves.urllib.parse import urlparse
-import StringIO
 import subprocess as sp
 import textwrap
 import time
@@ -37,6 +33,10 @@ from tempest.lib.common.utils import data_utils
 from tempest.lib.common.utils import test_utils
 from tempest.lib import exceptions as lib_exc
 from tempest.scenario import manager
+"""Python 2 and 3 support"""
+from six.moves.configparser import ConfigParser
+from six.moves import StringIO
+from six.moves.urllib.parse import urlparse
 
 CONF = config.CONF
 LOG = log.getLogger('{} [-] nfv_plugin_test'.format(__name__))
@@ -85,7 +85,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             key_str = open(
                 CONF.nfv_plugin_options.overcloud_node_pkey_file).read()
             CONF.nfv_plugin_options.overcloud_node_pkey_file_rsa = \
-                paramiko.RSAKey.from_private_key(StringIO.StringIO(key_str))
+                paramiko.RSAKey.from_private_key(StringIO(key_str))
         else:
             self.assertIsNotNone(
                 CONF.nfv_plugin_options.overcloud_node_pass,
@@ -161,7 +161,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         'router_name']
 
             # iterate networks
-            for net in self.test_network_dict.iterkeys():
+            for net in iter(self.test_network_dict.keys()):
                 for network in networks:
                     if network['name'] == net:
                         self.test_network_dict[net]['net-id'] = network['id']
@@ -173,10 +173,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'package-names' in test and test['package-names'] is not None:
                 self.test_setup_dict[test['name']] = \
                     {'package-names': test['package-names']}
-            if 'availability-zone' in test and \
-                    test['availability-zone'] is not None:
-                self.test_setup_dict[test['name']]['availability-zone'] = \
-                    test['availability-zone']
             if 'image' in test and test['image'] is not None:
                 self.test_setup_dict[test['name']]['image'] = \
                     test['image']
@@ -195,7 +191,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'emulatorpin_config' in test and test['emulatorpin_config'] \
                     is not None:
                 for item in test['emulatorpin_config']:
-                    for key, value in item.iteritems():
+                    for key, value in iter(item.items()):
                         if not value:
                             raise ValueError('The {0} configuration is '
                                              'required for the emulatorpin '
@@ -206,7 +202,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     jsonutils.loads(epin_str)
             if 'rx_tx_config' in test and test['rx_tx_config'] is not None:
                 for item in test['rx_tx_config']:
-                    for key, value in item.iteritems():
+                    for key, value in iter(item.items()):
                         if not value:
                             raise ValueError('The {0} configuration is '
                                              'required for the tx/tx test, '
@@ -215,11 +211,13 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 rx_tx_str = jsonutils.dumps(test['rx_tx_config'])
                 self.test_setup_dict[test['name']]['config_dict'] = \
                     jsonutils.loads(rx_tx_str)
+            self.test_setup_dict[test['name']]['aggregate'] = \
+                test.get('aggregate')
 
         if not os.path.exists(
                 CONF.nfv_plugin_options.external_resources_output_file):
             # iterate flavors_id
-            for test, test_param in self.test_setup_dict.iteritems():
+            for test, test_param in iter(self.test_setup_dict.items()):
                 if 'flavor' in test_param:
                     for flavor in flavors:
                         if test_param['flavor'] == flavor['name']:
@@ -227,7 +225,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                 'id']
 
             # iterate image_id
-            for test, test_param in self.test_setup_dict.iteritems():
+            for test, test_param in iter(self.test_setup_dict.items()):
                 if 'image' in test_param:
                     for image in images:
                         if test_param['image'] == image['name']:
@@ -451,9 +449,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         ini_config = self._get_overcloud_config(overcloud_node, config_path)
 
         ini_config = unicode(ini_config, 'utf-8')
-        get_value = ConfigParser.ConfigParser(allow_no_value=True)
-        get_value.readfp(io.StringIO(ini_config))
-
+        # Python 2 and 3 support
+        get_value = ConfigParser(allow_no_value=True)
+        get_value.readfp(StringIO(ini_config))
         value_data = []
         for value in check_value.split(','):
             value_data.append(get_value.get(check_section, value))
@@ -615,6 +613,32 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         result = pipe.stdout.read()
         return result.split()
 
+    def _create_and_set_aggregate(self, aggr_name, hyper_hosts, aggr_meta):
+        """Create aggregation and add an hypervisor to it
+
+        :param aggr_name: The name of the aggregation to be created
+        :param hyper_hosts: The list of the hypervisors to be attached
+        :param aggr_meta: The metadata for the aggregation
+        """
+        hyper_list = []
+        for hyper in self.hypervisor_client.list_hypervisors()['hypervisors']:
+            for host in hyper_hosts:
+                if hyper['hypervisor_hostname'].split('.')[0] in host:
+                    hyper_list.append(hyper['hypervisor_hostname'])
+
+        aggr = self.aggregates_client.create_aggregate(name=aggr_name)
+        meta_body = {aggr_meta.split('=')[0]: aggr_meta.split('=')[1]}
+        self.aggregates_client.set_metadata(aggr['aggregate']['id'],
+                                            metadata=meta_body)
+        self.addCleanup(self.aggregates_client.delete_aggregate,
+                        aggr['aggregate']['id'])
+
+        for host in hyper_list:
+            self.aggregates_client.add_host(aggr['aggregate']['id'], host=host)
+            self.addCleanup(self.aggregates_client.remove_host,
+                            aggr['aggregate']['id'], host=host)
+        return aggr['aggregate']['name']
+
     def _list_aggregate(self, name=None):
         """Aggregation listing
 
@@ -775,7 +799,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         Create network and subnets
         """
-        for net_name, net_param in self.test_network_dict.iteritems():
+        for net_name, net_param in iter(self.test_network_dict.items()):
             network_kwargs.clear()
             network_kwargs['name'] = net_name
             if 'sec_groups' in net_param and not net_param['sec_groups']:
@@ -897,7 +921,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         elif len(public_network) == 1:
             self.test_network_dict['public'] = None
             remove_network = None
-            for net_name, net_param in self.test_network_dict.iteritems():
+            for net_name, net_param in iter(self.test_network_dict.items()):
                 if net_name != 'public' and 'router' in net_param \
                         and 'external' in net_param:
                     if not net_param['external']:
@@ -928,7 +952,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         for server in range(num_servers):
             networks_list = []
-            for net_name, net_param in self.test_network_dict.iteritems():
+            for net_name, net_param in iter(self.test_network_dict.items()):
                 create_port_body = {'binding:vnic_type': '',
                                     'namestart': 'port-smoke'}
                 if 'port_type' in net_param:
@@ -1010,10 +1034,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         for network in networks:
             net_id.append({'uuid': network['id']})
 
-        if 'availability_zone' in kwargs:
-            if kwargs['availability_zone'] is None:
-                kwargs.pop('availability_zone', None)
-
         if 'transfer_files' in CONF.nfv_plugin_options:
             if float(self.request_microversion) < 2.57:
                 files = jsonutils.loads(CONF.nfv_plugin_options.transfer_files)
@@ -1044,18 +1064,14 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         return server
 
     def create_server_with_resources(self, num_servers=1, fip=True, test=None,
-                                     hyper=None, avail_zone=None, **kwargs):
+                                     use_mgmt_only=False, **kwargs):
         """The method creates multiple instances
 
         :param num_servers: The number of servers to boot up.
         :param fip: Creation of the floating ip for the server.
         :param test: Currently executed test. Provide test specific parameters.
-        :param hyper: Hypervisor name for created server on (optional).
-        :param avail_zone: Availability zone for created server (optional).
+        :param use_mgmt_only: Boot instances with mgmt net only.
         :param kwargs: See below.
-
-        :Keyword Arguments:
-            * use_mgmt_only: Boot the instance with mgmt network only.
 
         :return servers, fips
         """
@@ -1076,13 +1092,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                      'Continue to the test.')
             return servers, key_pair
 
-        # Set availability zone if required
-        if avail_zone and hyper is not None:
-            az = '{} : {}'.format(avail_zone, hyper)
-            kwargs['availability_zone'] = az
-        elif 'availability-zone' in self.test_setup_dict[test]:
-            kwargs['availability_zone'] = \
-                self.test_setup_dict[test]['availability-zone']
+        # Create and configure aggregation zone if specified
+        if self.test_setup_dict[test]['aggregate'] is not None:
+            aggr_hosts = self.test_setup_dict[test]['aggregate']['hosts']
+            aggr_meta = self.test_setup_dict[test]['aggregate']['metadata']
+            self._create_and_set_aggregate(test, aggr_hosts, aggr_meta)
 
         # Flavor creation
         if not kwargs.get('flavor'):
@@ -1121,8 +1135,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
             """ If this parameters exist, parse only mgmt network.
             Example live migration cannt run with SRIOV ports attached"""
-            if kwargs.get('use_mgmt_only'):
-                kwargs.pop('use_mgmt_only', None)
+            if use_mgmt_only:
                 del (kwargs['networks'][1:])
 
             LOG.info('Create instance - {}'.format(num + 1))
@@ -1268,7 +1281,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         result = None
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        private_key_file = StringIO.StringIO()
+        private_key_file = StringIO()
         private_key_file.write(ssh_key)
         private_key_file.seek(0)
         ssh_key = paramiko.RSAKey.from_private_key(private_key_file)
