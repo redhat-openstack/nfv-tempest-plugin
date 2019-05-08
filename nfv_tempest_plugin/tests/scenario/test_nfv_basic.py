@@ -51,11 +51,9 @@ class TestNfvBasic(base_test.BaseTest):
         hyper_kwargs = {'shell': '/home/stack/stackrc'}
         self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
             **hyper_kwargs)[0]
-
         self.assertNotEmpty(self.hypervisor_ip,
                             "_get_hypervisor_ip_from_undercloud "
                             "returned empty ip list")
-
         test_result = []
         if 'package-names' in self.test_setup_dict[test_compute]:
             packages = self.test_setup_dict[test_compute]['package-names']
@@ -63,10 +61,12 @@ class TestNfvBasic(base_test.BaseTest):
                 for package in packages:
                     cmd = "rpm -qa | grep {0}".format(package)
                     result = self._run_command_over_ssh(self.hypervisor_ip,
-                                                        cmd)
-                    if result is '':
-                        test_result.append("Package {0} is not found"
-                                           .format(package))
+                                                        cmd).split()
+                    if result is not '':
+                        test_result += result
+
+        LOG.info("Found the following packages: %s" % '\n'.join(test_result))
+        del test_result[:]
 
         if 'service-names' in self.test_setup_dict[test_compute]:
             services = self.test_setup_dict[test_compute]['service-names']
