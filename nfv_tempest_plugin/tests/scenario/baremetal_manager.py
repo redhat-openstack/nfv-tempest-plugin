@@ -588,7 +588,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         LOG.info("Executing command: %s" % command)
         stdin, stdout, stderr = ssh.exec_command(command)
-        result = stdout.read()
+        """
+        In python3 the result returned is in bytes instead of literal
+        We want to convert it to unicode
+        """
+        result = stdout.read().decode('UTF-8')
         ssh.close()
         return result
 
@@ -610,7 +614,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         else:
             pipe = sp.Popen(['/bin/bash', '-c', '%s' % command],
                             stdout=sp.PIPE)
-        result = pipe.stdout.read()
+        result = pipe.stdout.read().decode('UTF-8')
         return result.split()
 
     def _create_and_set_aggregate(self, aggr_name, hyper_hosts, aggr_meta):
