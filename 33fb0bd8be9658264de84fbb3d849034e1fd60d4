@@ -22,6 +22,30 @@
       "revId": "33fb0bd8be9658264de84fbb3d849034e1fd60d4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51b7632d_d07c4433",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2019-05-08T08:44:57Z",
+      "side": 1,
+      "message": "The test earlier was checking for exact package match, however frequently packages change and this keeps failing, hence its best to log and not check this.",
+      "parentUuid": "b71235e9_9966c04a",
+      "range": {
+        "startLine": 69,
+        "startChar": 8,
+        "endLine": 69,
+        "endChar": 26
+      },
+      "revId": "33fb0bd8be9658264de84fbb3d849034e1fd60d4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
