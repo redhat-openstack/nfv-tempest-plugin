@@ -447,8 +447,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
 
         ini_config = self._get_overcloud_config(overcloud_node, config_path)
-
-        ini_config = unicode(ini_config, 'utf-8')
         # Python 2 and 3 support
         get_value = ConfigParser(allow_no_value=True)
         get_value.readfp(StringIO(ini_config))
