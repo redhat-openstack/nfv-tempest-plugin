@@ -102,6 +102,13 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     CONF.nfv_plugin_options.external_resources_output_file):
                 self._read_and_validate_external_resources_data_file()
 
+        if CONF.nfv_plugin_options.quota_cores and \
+                CONF.nfv_plugin_options.quota_ram:
+            self.os_admin.quotas_client.update_quota_set(
+                self.os_primary.tenants_client.tenant_id,
+                cores=CONF.nfv_plugin_options.quota_cores,
+                ram=CONF.nfv_plugin_options.quota_ram)
+
     @classmethod
     def resource_setup(cls):
         super(BareMetalManager, cls).resource_setup()
