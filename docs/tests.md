@@ -18,6 +18,7 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_multicast
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_rx_tx
 - nfv_tempest_plugin.tests.scenario.test_nfv_sriov_usecases.TestSriovScenarios.test_sriov_trusted_vfs
+- nfv_tempest_plugin.tests.scenario.test_nfv_advanced_usecases.TestAdvancedScenarios.test_numa_aware_vswitch
 
 ### Tests configuration
 The nfv-tempest-plugin uses external configuration file in order to provide the proper configuration of the test execution to the tempest.  
@@ -214,3 +215,30 @@ Tests included:
 The test will look for the exist flavor.  
 In case the flavor exists, the test will use it.  
 Otherwise the test will create a flavor based on the parameters defined at the test-flavors within the tests-config.yml.
+
+----------
+#### TestAdvancedScenarios:
+Tests included:
+- test_numa_aware_vswitch
+  Test explanation:  
+  Test Numa aware vswitch feature.  
+  The feature allows to boot an instance in the selected numa node according to the config during the deployment.
+  
+  Prerequisites for the test:  
+  Overcloud feature configuration for the deployment.  
+  For more information, refer to the [feature spec doc](https://specs.openstack.org/openstack/nova-specs/specs/rocky/implemented/numa-aware-vswitches.html).
+  
+  ```
+  - name: numa_aware_vswitch
+    flavor: numa_aware_vswitch
+    router: true
+    aggregate:
+      hosts:
+        - computeovsdpdksriov-0
+      metadata: test=numa_aware_vswitch
+  ```
+
+**Note** - The test config require to use the aggregate during the test.  
+Definition of the aggregate should be in the test config **and** the flavor, as aggregate deature works.
+
+**Note** - The test suit only for OSP Rocky version and above, since the numa aware vswitch feature was implemented only in OSP Stein version and backported to OSP Rocky.
