@@ -213,6 +213,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     jsonutils.loads(rx_tx_str)
             self.test_setup_dict[test['name']]['aggregate'] = \
                 test.get('aggregate')
+            self.test_setup_dict[test['name']]['numas_net'] = \
+                test.get('numas_net')
 
         if not os.path.exists(
                 CONF.nfv_plugin_options.external_resources_output_file):

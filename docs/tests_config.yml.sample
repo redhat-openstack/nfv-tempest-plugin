@@ -183,3 +183,14 @@ tests-setup:
 - name: trustedvfs
   flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
   router: true
+
+- name: numa_aware_vswitch
+  flavor: numa_aware_vswitch
+  router: true
+  aggregate:
+    hosts:
+      - computeovsdpdksriov-0
+    metadata: test=numa_aware_vswitch
+  numas_net:
+    numa0: data1
+    numa1: dpdk-numa1
