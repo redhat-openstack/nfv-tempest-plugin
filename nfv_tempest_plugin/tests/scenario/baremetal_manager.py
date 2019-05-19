@@ -447,8 +447,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
 
         ini_config = self._get_overcloud_config(overcloud_node, config_path)
-
-        ini_config = unicode(ini_config, 'utf-8')
         # Python 2 and 3 support
         get_value = ConfigParser(allow_no_value=True)
         get_value.readfp(StringIO(ini_config))
@@ -588,7 +586,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         LOG.info("Executing command: %s" % command)
         stdin, stdout, stderr = ssh.exec_command(command)
-        result = stdout.read()
+        """
+        In python3 the result returned is in bytes instead of literal
+        We want to convert it to unicode
+        """
+        result = stdout.read().decode('UTF-8')
         ssh.close()
         return result
 
@@ -610,7 +612,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         else:
             pipe = sp.Popen(['/bin/bash', '-c', '%s' % command],
                             stdout=sp.PIPE)
-        result = pipe.stdout.read()
+        """
+        In python3 the result returned is in bytes instead of literal
+        We want to convert it to unicode
+        """
+        result = pipe.stdout.read().decode('UTF-8')
         return result.split()
 
     def _create_and_set_aggregate(self, aggr_name, hyper_hosts, aggr_meta):
