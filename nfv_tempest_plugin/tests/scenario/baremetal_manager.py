@@ -943,7 +943,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         remove_network = net_name
             self.test_network_dict.pop(remove_network)
 
-    def _create_ports_on_networks(self, num_servers=1, **kwargs):
+    def _create_ports_on_networks(self, num_ports=1, **kwargs):
         """Create ports on a test networks for instances
 
         The method will create a network ports as per test_network dict
@@ -954,7 +954,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         The ID of the security groups used for the ports creation, removed
         from the kwargs for the later instance creation.
 
-        :param num_servers: The number of loops for ports creation
+        :param num_ports: The number of loops for ports creation
         :param kwargs
 
         :return ports_list: A list of ports lists
@@ -963,7 +963,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         set public network first
         """
-        for server in range(num_servers):
+        for nport in range(num_ports):
             networks_list = []
             for net_name, net_param in iter(self.test_network_dict.items()):
                 create_port_body = {'binding:vnic_type': '',
@@ -1076,20 +1076,27 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.servers.append(server)
         return server
 
-    def create_server_with_resources(self, num_servers=1, fip=True, test=None,
+    def create_server_with_resources(self, num_servers=1, num_ports=None,
+                                     fip=True, test=None, srv_state='ACTIVE',
                                      use_mgmt_only=False, **kwargs):
         """The method creates multiple instances
 
         :param num_servers: The number of servers to boot up.
+        :param num_ports: The number of ports to the created.
+                          Default to (num_servers)
         :param fip: Creation of the floating ip for the server.
         :param test: Currently executed test. Provide test specific parameters.
         :param use_mgmt_only: Boot instances with mgmt net only.
+        :param srv_state: The status of the booted instance.
         :param kwargs: See below.
 
         :return servers, fips
         """
         LOG.info('Creating resources...')
         servers, key_pair = ([], [])
+
+        if num_ports is None:
+            num_ports = num_servers
 
         # Check for the test config file
         self.assertTrue(test in self.test_setup_dict,
@@ -1133,7 +1140,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         security_groups = self._set_security_groups()
         if security_groups is not None:
             kwargs['security_groups'] = security_groups
-        ports_list = self._create_ports_on_networks(num_servers=num_servers,
+        ports_list = self._create_ports_on_networks(num_ports=num_ports,
                                                     **kwargs)
         router_exist = True
         if 'router' in self.test_setup_dict[test]:
@@ -1147,7 +1154,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             kwargs['networks'] = ports_list[num]
 
             """ If this parameters exist, parse only mgmt network.
-            Example live migration cannt run with SRIOV ports attached"""
+            Example live migration can't run with SRIOV ports attached"""
             if use_mgmt_only:
                 del (kwargs['networks'][1:])
 
@@ -1155,8 +1162,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             servers.append(self.create_server(**kwargs))
         for num, server in enumerate(servers):
             waiters.wait_for_server_status(self.os_admin.servers_client,
-                                           server['id'], 'ACTIVE')
-            LOG.info('The instance - {} is in an ACTIVE state'.format(num + 1))
+                                           server['id'], srv_state)
+            LOG.info('The instance - {} is in an {} state'.format(num + 1,
+                     srv_state))
             port = self.os_admin.ports_client.list_ports(device_id=server[
                 'id'], network_id=ports_list[num][0]['uuid'])['ports'][0]
 
