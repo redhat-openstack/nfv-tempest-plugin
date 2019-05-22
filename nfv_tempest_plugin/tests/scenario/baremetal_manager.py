@@ -1194,13 +1194,16 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                                  count_pmd))
         # We ensure that a number is being parsed, otherwise we fail
         command = 'sudo ovs-vsctl show' \
-                  '| sed -n "s/.*n_rxq=.\([a-z]\).*/\\1/p"'
+                  '| sed -n "s/.*n_rxq=.\([1-9]\).*/\\1/p"'
         numqueues = self._run_command_over_ssh(self.ip_address[0], command)
         msg = "There are no queues available"
         self.assertNotEqual((numqueues.rstrip("\n")), '', msg)
         # Different multiple queues is not a supported scenario as per now
-        # Removed filter due to lack of solution to support py2 & py3
+        # Removed filter due to lack of support in a python2 & python3
         # http://python3porting.com/differences.html#filter
+        # Need to fix assertion, can't perform str.isdigit on unicode
+        self.assertTrue(str.isdigit(numqueues),
+                        "Queue recieved is not a digit")
         numqueues = int(numqueues.split("\n")[0])
         maxqueues = numqueues * numpmds
         return maxqueues
