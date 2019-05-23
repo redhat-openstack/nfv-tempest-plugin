@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3c9aa373_968395a6",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1206,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-23T13:07:25Z",
+      "side": 1,
+      "message": "It is. other wise it string \"\\n\" will no return false.",
+      "parentUuid": "30737f28_1b2c2359",
+      "range": {
+        "startLine": 1206,
+        "startChar": 0,
+        "endLine": 1206,
+        "endChar": 2
+      },
+      "revId": "f49cbed6aa19e1dff09de12defd24c434fc375fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d4a29959_82c2109b",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-05-23T12:06:25Z",
       "side": 1,
       "message": "In a multi queue scenario, this will fail, example:\nnumqueues \u003d \u00272\\n2\\n\u0027\nnumqueues.rstrip(\"\\n\") \u003d 2\\n2\nAssertion will fail",
+      "range": {
+        "startLine": 1207,
+        "startChar": 0,
+        "endLine": 1207,
+        "endChar": 5
+      },
+      "revId": "f49cbed6aa19e1dff09de12defd24c434fc375fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88e606d8_4f38ac89",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1207,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-23T13:07:25Z",
+      "side": 1,
+      "message": "In this patch and before, it was not dealing with more than one queue\nIn the beginning, what do you suggest? the test is not build for more than 1 Q since it needs\nto know the bridge, please supply an answer",
+      "parentUuid": "d4a29959_82c2109b",
       "range": {
         "startLine": 1207,
         "startChar": 0,
