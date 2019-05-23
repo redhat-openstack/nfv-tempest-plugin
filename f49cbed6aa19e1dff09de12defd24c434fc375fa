@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "8cfe2aa4_5984cc11",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1206,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-23T13:39:58Z",
+      "side": 1,
+      "message": "I do not know how it is tested\nsee 1198:\nnumqueues \u003d (self._run_command_over_ssh(self.ip_address[0],\n                                                command)).encode(\u0027ascii\u0027,\n                                                                 \u0027ignore\u0027)\ntype(numqueues) is str",
+      "parentUuid": "ec989dc6_a95f9c98",
+      "range": {
+        "startLine": 1206,
+        "startChar": 0,
+        "endLine": 1206,
+        "endChar": 2
+      },
+      "revId": "f49cbed6aa19e1dff09de12defd24c434fc375fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d4a29959_82c2109b",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 1
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "When we execute the OVS command:\ncommand \u003d \u0027sudo ovs-vsctl show\u0027 \\\n          \u0027| sed -n \"s/.*n_rxq\u003d.\\([1-9]\\).*/\\\\1/p\"\u0027\n\nIt returns \u00272\\n2\\n\u0027 since I have 2 DPDK ports on my setup, on your setup you had one and that why it worked.",
       "parentUuid": "88e606d8_4f38ac89",
+      "range": {
+        "startLine": 1207,
+        "startChar": 0,
+        "endLine": 1207,
+        "endChar": 5
+      },
+      "revId": "f49cbed6aa19e1dff09de12defd24c434fc375fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47c3494d_68dc6928",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1207,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-23T13:39:58Z",
+      "side": 1,
+      "message": "I will check",
+      "parentUuid": "2cd86666_ee13ee1d",
       "range": {
         "startLine": 1207,
         "startChar": 0,
