@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64f4bb47_256c5291",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-23T12:55:45Z",
+      "side": 1,
+      "message": "Is there an extra flavor needed for this test?\nIn case yes why there is no sample in test-flavors:",
+      "range": {
+        "startLine": 188,
+        "startChar": 1,
+        "endLine": 188,
+        "endChar": 28
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a659603_c38229a7",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-23T12:55:45Z",
+      "side": 1,
+      "message": "I would suggest searching the following sections in nova containers:\n[neutron_physnet_*]\n[neutron_tunnel]\n\nIn case it is not exist, tests should fail",
+      "range": {
+        "startLine": 36,
+        "startChar": 1,
+        "endLine": 36,
+        "endChar": 65
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b4a5452_4cd212fd",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-23T12:55:45Z",
+      "side": 1,
+      "message": "Consider using Upstream Names\nQueens/ Rocky instead of rhos1X",
+      "range": {
+        "startLine": 50,
+        "startChar": 17,
+        "endLine": 52,
+        "endChar": 37
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5648df5f_4a97dbf3",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-23T12:55:45Z",
+      "side": 1,
+      "message": "Test start here, assume want to run this test on ansible resource create,\nif running tempest against populated cloud, the test should run here.\n\nso:\n1) Consider moving the code from beginning till here to setup.\n2) The test should be reduced.",
+      "range": {
+        "startLine": 63,
+        "startChar": 7,
+        "endLine": 63,
+        "endChar": 79
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f86c827_c7b07513",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-23T12:55:45Z",
+      "side": 1,
+      "message": "Why not using test flavor?\nyou are using self.flavor_ref, this is tempest \nself.flavor_ref \u003d CONF.compute.flavor_ref, do you refer this image?\nsee my request regards flavor in readme",
+      "range": {
+        "startLine": 68,
+        "startChar": 45,
+        "endLine": 68,
+        "endChar": 60
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d11dd411_cf34275a",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-23T12:55:45Z",
+      "side": 1,
+      "message": "Assume server no In ERROR? maybe ACTIVE?\nDo you want to wait the whole 300 sec? \nWhy not using? wait_untill\u003d\u0027ACTIVE\u0027\nAnd check status, FAIL the TEST if ACTIVE, and in ERROR it will terminate any were",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 70
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcde2dcf_5b08ebde",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-23T12:55:45Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 75,
+        "startChar": 1,
+        "endLine": 75,
+        "endChar": 59
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
