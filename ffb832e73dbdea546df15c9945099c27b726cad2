@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d290b46_cc7dbd36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-05-23T15:16:34Z",
+      "side": 1,
+      "message": "Not critical, but no need to refer to another commit.\nAs mentioned in the baremetal_manager file, within a couple of months, when I will go over the git log, these lines will not give me any added value.\n\nWe need to hold only the explanation of the patch here.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 74
+      },
+      "revId": "ffb832e73dbdea546df15c9945099c27b726cad2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0af66d4_a403dae6",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1205,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-05-23T15:16:34Z",
+      "side": 1,
+      "message": "Remove these lines.\nI already don\u0027t remember which filter was here and in 3 month, this comments will be completely unuseful.",
+      "range": {
+        "startLine": 1204,
+        "startChar": 8,
+        "endLine": 1205,
+        "endChar": 59
+      },
+      "revId": "ffb832e73dbdea546df15c9945099c27b726cad2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
