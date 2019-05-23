@@ -1192,11 +1192,20 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         count_pmd = "ps -T -p {} | grep pmd | wc -l".format(ovs_process_pid)
         numpmds = int(self._run_command_over_ssh(self.ip_address[0],
                                                  count_pmd))
-        command = "sudo ovs-vsctl show | grep rxq | awk -F'rxq=' '{print $2}'"
-        numqueues = self._run_command_over_ssh(self.ip_address[0], command)
+        # We ensure that a number is being parsed, otherwise we fail
+        command = 'sudo ovs-vsctl show' \
+                  '| sed -n "s/.*n_rxq=.\([1-9]\).*/\\1/p"'
+        numqueues = (self._run_command_over_ssh(self.ip_address[0],
+                                                command)).encode('ascii',
+                                                                 'ignore')
         msg = "There are no queues available"
         self.assertNotEqual((numqueues.rstrip("\n")), '', msg)
-        numqueues = int(filter(str.isdigit, numqueues.split("\n")[0]))
+        # Different multiple queues is not a supported scenario as per now
+        # Removed filter due to lack of support in a python2 & python3
+        # http://python3porting.com/differences.html#filter
+        self.assertTrue(str.isdigit(numqueues.split("\n")[0]),
+                        "Queue recieved is not a digit")
+        numqueues = int(numqueues.split("\n")[0])
         maxqueues = numqueues * numpmds
         return maxqueues
 
