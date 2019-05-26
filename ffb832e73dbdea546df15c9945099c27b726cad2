@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "030d07e0_020c5893",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-26T14:32:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8d290b46_cc7dbd36",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 74
+      },
+      "revId": "ffb832e73dbdea546df15c9945099c27b726cad2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0af66d4_a403dae6",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "ffb832e73dbdea546df15c9945099c27b726cad2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46bc5374_9c352346",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1205,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-26T14:32:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b0af66d4_a403dae6",
+      "range": {
+        "startLine": 1204,
+        "startChar": 8,
+        "endLine": 1205,
+        "endChar": 59
+      },
+      "revId": "ffb832e73dbdea546df15c9945099c27b726cad2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
