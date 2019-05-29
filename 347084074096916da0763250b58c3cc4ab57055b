@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "928f2263_454e18cd",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-05-29T06:55:34Z",
+      "side": 1,
+      "message": "Added.",
+      "parentUuid": "64f4bb47_256c5291",
+      "range": {
+        "startLine": 188,
+        "startChar": 1,
+        "endLine": 188,
+        "endChar": 28
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a659603_c38229a7",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2019-05-23T12:55:45Z",
       "side": 1,
       "message": "I would suggest searching the following sections in nova containers:\n[neutron_physnet_*]\n[neutron_tunnel]\n\nIn case it is not exist, tests should fail",
+      "range": {
+        "startLine": 36,
+        "startChar": 1,
+        "endLine": 36,
+        "endChar": 65
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "379e28f5_f8bf6d55",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-05-29T06:55:34Z",
+      "side": 1,
+      "message": "Check for the numa aware config added.",
+      "parentUuid": "1a659603_c38229a7",
       "range": {
         "startLine": 36,
         "startChar": 1,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "00f8c79a_38196ed8",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-05-29T06:55:34Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "5b4a5452_4cd212fd",
+      "range": {
+        "startLine": 50,
+        "startChar": 17,
+        "endLine": 52,
+        "endChar": 37
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5648df5f_4a97dbf3",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2019-05-23T12:55:45Z",
       "side": 1,
       "message": "Test start here, assume want to run this test on ansible resource create,\nif running tempest against populated cloud, the test should run here.\n\nso:\n1) Consider moving the code from beginning till here to setup.\n2) The test should be reduced.",
+      "range": {
+        "startLine": 63,
+        "startChar": 7,
+        "endLine": 63,
+        "endChar": 79
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0d679e6_5cd547da",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-05-29T06:55:34Z",
+      "side": 1,
+      "message": "I\u0027m using the \"create_and_verify_resources\" method because here [1], we are checking for the external created resources.\nIn case the resources are created, the test will use them instead of creating a new ones.\n\n\n[1] - https://github.com/redhat-openstack/nfv-tempest-plugin/blob/devel/nfv_tempest_plugin/tests/scenario/baremetal_manager.py#L1106-L1113",
+      "parentUuid": "5648df5f_4a97dbf3",
       "range": {
         "startLine": 63,
         "startChar": 7,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "2261a287_53be0d00",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-05-29T06:55:34Z",
+      "side": 1,
+      "message": "We are actually rewriting the self.flavor_ref with the id of the created flavor here [1].\n\nIt is a bit confusing, I agree.\nMaybe we should change it.\nBut I prefer to perform it in a different patch because it is not related to the test I\u0027m adding.\n\n[1] - https://github.com/redhat-openstack/nfv-tempest-plugin/blob/devel/nfv_tempest_plugin/tests/scenario/baremetal_manager.py#L1121-L1130",
+      "parentUuid": "6f86c827_c7b07513",
+      "range": {
+        "startLine": 68,
+        "startChar": 45,
+        "endLine": 68,
+        "endChar": 60
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d11dd411_cf34275a",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 3
@@ -128,6 +248,30 @@
       "writtenOn": "2019-05-23T12:55:45Z",
       "side": 1,
       "message": "Assume server no In ERROR? maybe ACTIVE?\nDo you want to wait the whole 300 sec? \nWhy not using? wait_untill\u003d\u0027ACTIVE\u0027\nAnd check status, FAIL the TEST if ACTIVE, and in ERROR it will terminate any were",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 70
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "def72ab9_77428d12",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-05-29T06:55:34Z",
+      "side": 1,
+      "message": "Didn\u0027t get your point.\nIf I\u0027m using \"wait_until\u003d\u0027Active\u0027\" for the instance that should fail, the test will fail when actually the instance in the \u0027ERROR\u0027 state as I\u0027m expecting.",
+      "parentUuid": "d11dd411_cf34275a",
       "range": {
         "startLine": 70,
         "startChar": 8,
