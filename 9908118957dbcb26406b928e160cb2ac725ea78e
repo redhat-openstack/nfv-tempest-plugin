@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "922859ea_9b04b9f7",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-05-29T12:03:28Z",
+      "side": 1,
+      "message": "Renamed",
+      "parentUuid": "864de261_92d3e205",
+      "range": {
+        "startLine": 539,
+        "startChar": 8,
+        "endLine": 539,
+        "endChar": 28
+      },
+      "revId": "9908118957dbcb26406b928e160cb2ac725ea78e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a43ae10a_68564d68",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "39937d96_77eaeea2",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-05-29T12:03:28Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "a43ae10a_68564d68",
+      "range": {
+        "startLine": 540,
+        "startChar": 31,
+        "endLine": 540,
+        "endChar": 59
+      },
+      "revId": "9908118957dbcb26406b928e160cb2ac725ea78e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f39716c_c6f73d68",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2019-05-29T07:53:02Z",
       "side": 1,
       "message": "Consider sending all commands in one ssh, to reduce time of test.\nWe already did it in the past",
+      "range": {
+        "startLine": 556,
+        "startChar": 8,
+        "endLine": 556,
+        "endChar": 35
+      },
+      "revId": "9908118957dbcb26406b928e160cb2ac725ea78e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73b3ca21_5365ddf5",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-05-29T12:03:28Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "6f39716c_c6f73d68",
       "range": {
         "startLine": 556,
         "startChar": 8,
