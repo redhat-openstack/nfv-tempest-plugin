@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "864de261_92d3e205",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-29T07:53:02Z",
+      "side": 1,
+      "message": "Consider renaming:\nlocate_ovs_existing_networks, (no need for numa)\nThe method locate the numa aware and non numa aware networks.",
+      "range": {
+        "startLine": 539,
+        "startChar": 8,
+        "endLine": 539,
+        "endChar": 28
+      },
+      "revId": "9908118957dbcb26406b928e160cb2ac725ea78e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a43ae10a_68564d68",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-29T07:53:02Z",
+      "side": 1,
+      "message": "please remove dpdk. it is plain obs command\nIt can assist once ovs vanila, ovs HW offload, but not for sriov",
+      "range": {
+        "startLine": 540,
+        "startChar": 31,
+        "endLine": 540,
+        "endChar": 59
+      },
+      "revId": "9908118957dbcb26406b928e160cb2ac725ea78e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f39716c_c6f73d68",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-29T07:53:02Z",
+      "side": 1,
+      "message": "Consider sending all commands in one ssh, to reduce time of test.\nWe already did it in the past",
+      "range": {
+        "startLine": 556,
+        "startChar": 8,
+        "endLine": 556,
+        "endChar": 35
+      },
+      "revId": "9908118957dbcb26406b928e160cb2ac725ea78e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
