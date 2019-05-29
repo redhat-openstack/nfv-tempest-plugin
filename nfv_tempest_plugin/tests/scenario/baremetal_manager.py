@@ -517,6 +517,70 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         return file_content
 
+    def _retrieve_content_from_hiera(self, node, keys,
+                                     hiera_file='/etc/puppet/hiera.yaml'):
+        """Get configuration values using hiera tool
+
+        :param node: The node to retrieve the value from
+        :param keys: The keys that should be provided to retrieve the value
+                     Multiple keys should be provided as the comma separated
+        :param hiera_file: Hiera config file
+        :return: List of the values returned
+        """
+        hiera_template = 'sudo hiera -c {hiera_file} {key};'
+        hiera_command = ''
+        for key in keys.split(','):
+            hiera_command += hiera_template.format(hiera_file=hiera_file,
+                                                   key=key)
+        hiera_content = self._run_command_over_ssh(node, hiera_command)
+        hiera_content = hiera_content.split('\n')[:-1]
+        return hiera_content
+
+    def locate_ovs_networks(self, node, keys):
+        """Locate ovs existing networks
+
+        The method locate the ovs existing networks and create a dict with
+        the numa aware and non aware nets.
+        """
+        numa_net_content = self._retrieve_content_from_hiera(node=node,
+                                                             keys=keys)
+        # Identify the numa aware physnet
+        numa_aware_net = None
+        bridge_mapping = None
+        for physnet in numa_net_content:
+            if '=>' in physnet:
+                numa_aware_net = yaml.safe_load(physnet.replace('=>', ':'))
+            else:
+                bridge_mapping = yaml.safe_load(physnet)
+
+        numa_networks = {}
+        physnet_list = []
+        # In order to minimize the amount of remote ssh access, first the
+        # remote commands are grouped to one single command and then the
+        # remote command performed once.
+        ovs_cmd_template = 'sudo ovs-vsctl get Bridge {} datapath-type;'
+        ovs_cmd = ''
+        for item in bridge_mapping:
+            s = item.split(':')
+            physnet = s[0]
+            bridge = s[1]
+            ovs_cmd += ovs_cmd_template.format(bridge)
+            physnet_list.append(physnet)
+
+        dpath_type = \
+            self._run_command_over_ssh(node, ovs_cmd).strip('\n').split('\n')
+        physnet_dict = dict(zip(physnet_list, dpath_type))
+        for physnet, dpath in physnet_dict.items():
+            LOG.info('The {} network has the {} datapath'.format(physnet,
+                                                                 dpath))
+            if dpath == 'netdev' and physnet in numa_aware_net.keys():
+                LOG.info('The {} is a numa aware network'.format(physnet))
+                numa_networks['numa_aware_net'] = physnet
+            if dpath == 'netdev' and physnet not in numa_aware_net.keys():
+                LOG.info('The {} is a non numa aware network'.format(physnet))
+                numa_networks['non_numa_aware_net'] = physnet
+        return numa_networks
+
     def compare_emulatorpin_to_overcloud_config(self, server, overcloud_node,
                                                 config_path, check_section,
                                                 check_value):
