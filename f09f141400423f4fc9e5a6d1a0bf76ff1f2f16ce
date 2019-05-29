@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e18413ed_ceec545b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-29T07:18:52Z",
+      "side": 1,
+      "message": "I think it is recommended to mention this patch is dependent in other patch, see my comment regards the locate_numa_physnets",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "f09f141400423f4fc9e5a6d1a0bf76ff1f2f16ce",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67f78331_f0c0f6ab",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-29T07:18:52Z",
+      "side": 1,
+      "message": "I did not find the function\nAnyway, i see it is in second patch,",
+      "range": {
+        "startLine": 60,
+        "startChar": 26,
+        "endLine": 60,
+        "endChar": 46
+      },
+      "revId": "f09f141400423f4fc9e5a6d1a0bf76ff1f2f16ce",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f4cc9a8_197b785c",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-29T07:18:52Z",
+      "side": 1,
+      "message": "This should be set with default configuration,\nLike Config.locateNumaPysnets()",
+      "range": {
+        "startLine": 62,
+        "startChar": 52,
+        "endLine": 66,
+        "endChar": 61
+      },
+      "revId": "f09f141400423f4fc9e5a6d1a0bf76ff1f2f16ce",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

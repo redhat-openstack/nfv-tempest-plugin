@@ -237,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "edbed75e_2e8a8d57",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-29T07:18:52Z",
+      "side": 1,
+      "message": "OK,\nIf you are setting the self.flavor_ref\nBut look inside the function\ncreate_server_with_resources(...)\n if not kwargs.get(\u0027flavor\u0027):\nAnd you parse the flavor, default from tempest.\nYou just need to remove the flavor from parameters",
+      "parentUuid": "2261a287_53be0d00",
+      "range": {
+        "startLine": 68,
+        "startChar": 45,
+        "endLine": 68,
+        "endChar": 60
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d11dd411_cf34275a",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 3
@@ -272,6 +296,30 @@
       "side": 1,
       "message": "Didn\u0027t get your point.\nIf I\u0027m using \"wait_until\u003d\u0027Active\u0027\" for the instance that should fail, the test will fail when actually the instance in the \u0027ERROR\u0027 state as I\u0027m expecting.",
       "parentUuid": "d11dd411_cf34275a",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 70
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab11d2ff_443a952b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-05-29T07:18:52Z",
+      "side": 1,
+      "message": "Bacuse if there is configuration error and server enter ACTIVE. it will will wait for ACTIVE and assert the ERROR, you will save the time for waiting ERROR 300sec",
+      "parentUuid": "def72ab9_77428d12",
       "range": {
         "startLine": 70,
         "startChar": 8,
