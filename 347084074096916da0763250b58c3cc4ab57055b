@@ -261,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "33d7896a_e02e1830",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-05-29T07:27:23Z",
+      "side": 1,
+      "message": "When I\u0027m booting the first two instances, I\u0027m taking the flavor defined within the test and creating it in case of not existing. Then, I\u0027m rewriting the self.flavor_ref with the created flavor id.\n\nAll next instances I\u0027m booting are using the same flavor which is the flavor defined within the test.",
+      "parentUuid": "edbed75e_2e8a8d57",
+      "range": {
+        "startLine": 68,
+        "startChar": 45,
+        "endLine": 68,
+        "endChar": 60
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d11dd411_cf34275a",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 3
@@ -320,6 +344,30 @@
       "side": 1,
       "message": "Bacuse if there is configuration error and server enter ACTIVE. it will will wait for ACTIVE and assert the ERROR, you will save the time for waiting ERROR 300sec",
       "parentUuid": "def72ab9_77428d12",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 70
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1981c2ae_4ceeca25",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-05-29T07:27:23Z",
+      "side": 1,
+      "message": "I\u0027m not waiting 300sec for the ERROR status.\nThe \"wait\" for the error defined in line 71.",
+      "parentUuid": "ab11d2ff_443a952b",
       "range": {
         "startLine": 70,
         "startChar": 8,
