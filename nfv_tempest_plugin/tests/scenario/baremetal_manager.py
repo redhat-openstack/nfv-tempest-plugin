@@ -638,6 +638,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             for host in hyper_hosts:
                 if hyper['hypervisor_hostname'].split('.')[0] in host:
                     hyper_list.append(hyper['hypervisor_hostname'])
+        if not hyper_list:
+            raise ValueError('Provided host for the aggregate does not exist.')
 
         aggr = self.aggregates_client.create_aggregate(name=aggr_name)
         meta_body = {aggr_meta.split('=')[0]: aggr_meta.split('=')[1]}
