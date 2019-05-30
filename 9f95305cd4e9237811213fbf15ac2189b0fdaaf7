@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87392897_167ac866",
+        "filename": "docs/tests.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2019-05-30T10:47:35Z",
+      "side": 1,
+      "message": "spelling",
+      "range": {
+        "startLine": 242,
+        "startChar": 90,
+        "endLine": 242,
+        "endChar": 97
+      },
+      "revId": "9f95305cd4e9237811213fbf15ac2189b0fdaaf7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "784e67d3_288ca774",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2019-05-30T10:47:35Z",
+      "side": 1,
+      "message": "Looks like this function name has to be changed as per the other review? If the function so specific that it will do the numa mapping findings, then explicy keys argument is not required. It could have been handled inside the function itself.",
+      "range": {
+        "startLine": 59,
+        "startChar": 26,
+        "endLine": 59,
+        "endChar": 46
+      },
+      "revId": "9f95305cd4e9237811213fbf15ac2189b0fdaaf7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fc5f418_c2bf923e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2019-05-30T10:47:35Z",
+      "side": 1,
+      "message": "Can this be taken as array instead of comma separated? Improves readablity.\n\nHIERA_BRIDGE_MAPPING \u003d \"neutron::agents::ml2::ovs::bridge_mappings\nHIERA_NUMA_MAPPING \u003d \"nova::compute::neutron_physnets_numa_nodes_mapping\"\n\nkeys\u003d[HIERA_BRIDGE_MAPPING, HIERA_NUMA_MAPPING]",
+      "revId": "9f95305cd4e9237811213fbf15ac2189b0fdaaf7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "faf0d0ef_f10452b1",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2019-05-30T10:47:35Z",
+      "side": 1,
+      "message": "its better to use .get than accessor?",
+      "range": {
+        "startLine": 66,
+        "startChar": 15,
+        "endLine": 66,
+        "endChar": 25
+      },
+      "revId": "9f95305cd4e9237811213fbf15ac2189b0fdaaf7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
