@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "10dbda4e_567456d5",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-03T18:43:02Z",
+      "side": 1,
+      "message": "That\u0027s because the flavor contains the extra specs used for the aggregate.",
+      "parentUuid": "7e2de69a_5c998d12",
+      "revId": "54c42e337470256f13bf4bbf00c2152796488075",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "40a682a8_0e5d5b23",
         "filename": "docs/tests_config.yml.sample",
         "patchSetId": 8
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "9151cf94_4265bf66",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-03T18:43:02Z",
+      "side": 1,
+      "message": "In our CI, we have 2 physical computes.\nWhen I\u0027m running the numa_aware test, I need to fill up the numa0 with the instances.\nThen, another instance should try to boot from numa0 and fail.\nAnd the last instance should boot from the numa1.\n\nIn order to accomplish this kind of scenario, I need to ensure that the booted instances located on the same hypervisor node, because be default openstack balancing the creation of the instances. Each new instance created on a different compute node.\n\nI don\u0027t want to overload the test with unnecessary instance, so that\u0027s why I\u0027m using the aggregate feature.",
+      "parentUuid": "40a682a8_0e5d5b23",
+      "range": {
+        "startLine": 200,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 14
+      },
+      "revId": "54c42e337470256f13bf4bbf00c2152796488075",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7f22f61b_b80dee07",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 8
@@ -53,6 +95,24 @@
       "writtenOn": "2019-06-03T12:26:31Z",
       "side": 1,
       "message": "It would good if the numa aware network is passed for the this server creation and ensure that the server is created in the correct numa, by verifying the xml. If required it can be taken as a separate test, which will be basic testing of numa-aware feature. And a separate test for failure on same numa0 node. And another test for success on numa1 (when numa0 is full).",
+      "revId": "54c42e337470256f13bf4bbf00c2152796488075",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30ddda47_5d1b7751",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-03T18:43:02Z",
+      "side": 1,
+      "message": "I will add the verification of the booted servers within the correct numa node.\n\nAs we are testing a feature, I prefer not to split the test into parts.\nIt is not big so I don\u0027t see a reason to do it.",
+      "parentUuid": "7f22f61b_b80dee07",
       "revId": "54c42e337470256f13bf4bbf00c2152796488075",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
