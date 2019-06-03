@@ -56,4 +56,10 @@ NfvPluginOptions = [
     cfg.StrOpt('external_resources_output_file',
                default='/home/stack/resources_output_file.yml',
                help="The path to the file output of the created resources"),
+    cfg.StrOpt('quota_cores',
+               default=40,
+               help="The numbers of cpu cores for the tenant use"),
+    cfg.StrOpt('quota_ram',
+               default=81920,
+               help="The numbers of ram for the tenant use"),
 ]
