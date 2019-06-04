@@ -455,7 +455,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         ini_config = self._get_overcloud_config(overcloud_node, config_path)
         # Python 2 and 3 support
-        get_value = ConfigParser(allow_no_value=True)
+        get_value = ConfigParser(allow_no_value=True, strict=False)
         get_value.readfp(StringIO(ini_config))
         value_data = []
         for value in check_value.split(','):
@@ -1200,6 +1200,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         numqueues = (self._run_command_over_ssh(self.ip_address[0],
                                                 command)).encode('ascii',
                                                                  'ignore')
+        if not isinstance(numqueues, type(str())):
+            numqueues = numqueues.decode("utf-8")
         msg = "There are no queues available"
         self.assertNotEqual((numqueues.rstrip("\n")), '', msg)
         # Different multiple queues is not a supported scenario as per now
