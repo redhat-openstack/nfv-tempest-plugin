@@ -116,6 +116,24 @@
       "revId": "54c42e337470256f13bf4bbf00c2152796488075",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "008ce162_0d2f7124",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-05T08:39:41Z",
+      "side": 1,
+      "message": "Just got back to the patch and remember that I already doing the verification of all booted instances according to the numa placement.\n\nLines 94-95 for the first instances for numa0\nLines 100-101 for the numa node 1 instance",
+      "parentUuid": "30ddda47_5d1b7751",
+      "revId": "54c42e337470256f13bf4bbf00c2152796488075",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
