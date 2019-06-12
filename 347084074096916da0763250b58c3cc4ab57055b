@@ -357,6 +357,30 @@
     },
     {
       "key": {
+        "uuid": "904914c6_a590380c",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-12T11:15:02Z",
+      "side": 1,
+      "message": "There are Numa aware extra specs.\n\nThe flow is the following:\n1) At the \"init\", the self.flavor_ref is set from the CONF.compute.flavor_ref.\nhttps://github.com/redhat-openstack/nfv-tempest-plugin/blob/devel/nfv_tempest_plugin/tests/scenario/baremetal_manager.py#L55\n\n2) When the first resources are created (by calling the \"create_and_verify_resources\" method which calls the \"create_server_with_resources\").\nWithin this method, the flavor checked in the following steps.\n  a) If the flavor is not passed to the \"create_server_with_resources\" method (which is the default), the flavor existence is checked based on the test flavor definition.\n    *) If the flavor exists, its uuid is written to the \"self.flavor_ref\"\n    *) If the flavor does not exists, it is created and then the uuid of the created flavor is written to the \"self.flavor_ref\".\nhttps://github.com/redhat-openstack/nfv-tempest-plugin/blob/devel/nfv_tempest_plugin/tests/scenario/baremetal_manager.py#L1197-L1205\nhttps://github.com/redhat-openstack/nfv-tempest-plugin/blob/devel/nfv_tempest_plugin/tests/scenario/baremetal_manager.py#L258-L266\n\nBy the described above, the \"self.flavor_ref\" always holds the actual test flavor uuid.\n\n3) When the next instance is created directly by calling the \"create_server\" method, we are specifying the flavor as self.flavor_ref, which holds the actual flavor uuid.\n\n\"numa1_srv \u003d self.create_server(flavor\u003dself.flavor_ref,\n                                       wait_until\u003d\u0027ACTIVE\u0027, networks\u003dnet_id)\"\n\n\nAs a result, in every case the instance will get the right flavor.",
+      "parentUuid": "54b7230b_4ff32ffb",
+      "range": {
+        "startLine": 68,
+        "startChar": 45,
+        "endLine": 68,
+        "endChar": 60
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d11dd411_cf34275a",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 3
@@ -476,6 +500,30 @@
     },
     {
       "key": {
+        "uuid": "dd1dfcb8_ccb04403",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-12T11:15:02Z",
+      "side": 1,
+      "message": "That\u0027s right.\nIn case the instance that I expect to get in the \"ERROR\" state comes in \"ACTIVE\" state, I need to wait for the timeout.\n\nBut, I have no other way to minimize this.\nCheck the \"wait_for_server_status\" global tempest method. It is pretty limiting.\nhttps://github.com/openstack/tempest/blob/master/tempest/common/waiters.py#L34-L98",
+      "parentUuid": "e43d12b2_206ea9a7",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 70
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fcde2dcf_5b08ebde",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 3
@@ -487,6 +535,30 @@
       "writtenOn": "2019-05-23T12:55:45Z",
       "side": 1,
       "message": "same as above",
+      "range": {
+        "startLine": 75,
+        "startChar": 1,
+        "endLine": 75,
+        "endChar": 59
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cdd5808_e60f838b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-12T11:15:02Z",
+      "side": 1,
+      "message": "same as above.",
+      "parentUuid": "fcde2dcf_5b08ebde",
       "range": {
         "startLine": 75,
         "startChar": 1,
