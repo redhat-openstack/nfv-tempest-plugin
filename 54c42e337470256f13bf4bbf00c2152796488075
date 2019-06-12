@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "f02fa34b_a051b5af",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2019-06-12T09:21:34Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "9151cf94_4265bf66",
+      "range": {
+        "startLine": 200,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 14
+      },
+      "revId": "54c42e337470256f13bf4bbf00c2152796488075",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f22f61b_b80dee07",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 8
@@ -131,6 +155,24 @@
       "side": 1,
       "message": "Just got back to the patch and remember that I already doing the verification of all booted instances according to the numa placement.\n\nLines 94-95 for the first instances for numa0\nLines 100-101 for the numa node 1 instance",
       "parentUuid": "30ddda47_5d1b7751",
+      "revId": "54c42e337470256f13bf4bbf00c2152796488075",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84a80d8e_a72f8cc5",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2019-06-12T09:21:34Z",
+      "side": 1,
+      "message": "Ok. it would good if line 94-95 could be moved afte the server is creatd, because you need to execute the ERROR case only when this condition is satisfied. It should be fine for now. If you plan for another round, consider it.",
+      "parentUuid": "008ce162_0d2f7124",
       "revId": "54c42e337470256f13bf4bbf00c2152796488075",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
