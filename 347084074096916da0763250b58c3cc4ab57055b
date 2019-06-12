@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "f9e5ef27_dd570c86",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-06-12T10:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "379e28f5_f8bf6d55",
+      "range": {
+        "startLine": 36,
+        "startChar": 1,
+        "endLine": 36,
+        "endChar": 65
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b4a5452_4cd212fd",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 3
@@ -140,6 +164,30 @@
       "revId": "347084074096916da0763250b58c3cc4ab57055b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48de051b_62b03d1f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-06-12T10:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00f8c79a_38196ed8",
+      "range": {
+        "startLine": 50,
+        "startChar": 17,
+        "endLine": 52,
+        "endChar": 37
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -285,6 +333,30 @@
     },
     {
       "key": {
+        "uuid": "54b7230b_4ff32ffb",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-06-12T10:40:03Z",
+      "side": 1,
+      "message": "I do not see where you take the self.flavor_ref it is a default self.flavor_ref \nIn init self.flavor_ref \u003d CONF.compute.flavor_ref\nLooking in https://github.com/redhat-openstack/nfv-tempest-plugin/blob/devel/nfv_tempest_plugin/tests/scenario/baremetal_manager.py#L1093\n\nYou are parsing the flavor, there is no NUMA aware extraspec there",
+      "parentUuid": "33d7896a_e02e1830",
+      "range": {
+        "startLine": 68,
+        "startChar": 45,
+        "endLine": 68,
+        "endChar": 60
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d11dd411_cf34275a",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 3
@@ -368,6 +440,30 @@
       "side": 1,
       "message": "I\u0027m not waiting 300sec for the ERROR status.\nThe \"wait\" for the error defined in line 71.",
       "parentUuid": "ab11d2ff_443a952b",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 70
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e43d12b2_206ea9a7",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-06-12T10:40:03Z",
+      "side": 1,
+      "message": "Assume you have flavor not adapted to number of CPUS,\nAnd instead you are waiting for an ERROR, but it is actually in ACTIVE, see below\nYou Are waiting for no arrived ERROR, only on TO",
+      "parentUuid": "1981c2ae_4ceeca25",
       "range": {
         "startLine": 70,
         "startChar": 8,

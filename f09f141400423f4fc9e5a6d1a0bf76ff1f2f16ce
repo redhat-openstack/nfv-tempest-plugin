@@ -68,6 +68,30 @@
       "revId": "f09f141400423f4fc9e5a6d1a0bf76ff1f2f16ce",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebc88e99_a770edcf",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-06-12T10:40:03Z",
+      "side": 1,
+      "message": "In case we have puppet changes better to have some thing configured instead of another patch",
+      "parentUuid": "0f4cc9a8_197b785c",
+      "range": {
+        "startLine": 62,
+        "startChar": 52,
+        "endLine": 66,
+        "endChar": 61
+      },
+      "revId": "f09f141400423f4fc9e5a6d1a0bf76ff1f2f16ce",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
