@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d160c47e_7b38202d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-06-16T13:50:20Z",
+      "side": 1,
+      "message": "We have to support RHOS10,\nOK, Got it, please explain how the change works, such as, script encoding byte64 and copy into vm\nValid for all versions,\nVery Good solution\n\nDo, not forget to update gdoc, once it merge, we are sharing it among with others in RedHat",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "89370288b516f3f34a4f0b1ab8ab3132adeea642",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
