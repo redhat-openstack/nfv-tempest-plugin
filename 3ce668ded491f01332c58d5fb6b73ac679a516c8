@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cff90413_7246f5b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2019-06-16T13:34:41Z",
+      "side": 1,
+      "message": "python custom_net_config.py --no-ssh-dns --nic static,fa:16:3e:bb:e6:1c,60.20.135.108 --nic static,fa:16:3e:d0:00:64,70.20.135.119\n\nThis will trigger the default device role tagging and will configure the additional NICs passed by the \u0027--nic\u0027 arg.",
+      "parentUuid": "8f3b4827_238f87a4",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 55
+      },
+      "revId": "3ce668ded491f01332c58d5fb6b73ac679a516c8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0383428e_6fe0cdd9",
         "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/custom_net_config.py",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2019-06-16T13:30:00Z",
       "side": 1,
       "message": "Consider using nmcli, \nYou can use  nmcli connection add/edit\n\nIt will save file manipulation with 1 liner",
+      "range": {
+        "startLine": 147,
+        "startChar": 4,
+        "endLine": 147,
+        "endChar": 32
+      },
+      "revId": "3ce668ded491f01332c58d5fb6b73ac679a516c8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f725a35f_416787a6",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/custom_net_config.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2019-06-16T13:34:41Z",
+      "side": 1,
+      "message": "I completely forgot about that.\n\nWill work on nmcli implementation and report back if I\u0027m successful.",
+      "parentUuid": "0383428e_6fe0cdd9",
       "range": {
         "startLine": 147,
         "startChar": 4,
