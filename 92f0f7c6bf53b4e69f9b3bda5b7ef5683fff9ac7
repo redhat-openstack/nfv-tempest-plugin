@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "81f5a925_31ed6177",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-06-16T14:10:34Z",
+      "side": 1,
+      "message": "@Jagan, @Max\nI think it should be separate test, since it should work on the database, only\nAfter provisioning",
+      "parentUuid": "1116e7c8_65385b3a",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 2
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "57da33e0_35e12fcb",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
         "patchSetId": 1
@@ -294,6 +318,52 @@
         "startChar": 8,
         "endLine": 388,
         "endChar": 30
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e31413a4_a6cf6608",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-06-16T14:10:34Z",
+      "side": 1,
+      "message": "This should move into tempest config with default parameters (equal to hardcode)\nPlease refer the following file\nhttps://github.com/redhat-openstack/nfv-tempest-plugin/blob/devel/nfv_tempest_plugin/config.py",
+      "range": {
+        "startLine": 419,
+        "startChar": 12,
+        "endLine": 419,
+        "endChar": 31
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e3ed8ab_95f65ded",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-06-16T14:10:34Z",
+      "side": 1,
+      "message": "@Jagan\nI think you should explain in commit message, when (OpenStack phases) this test is running?\nAnyhow, i tend to agree that this test will have different path,",
+      "range": {
+        "startLine": 486,
+        "startChar": 8,
+        "endLine": 486,
+        "endChar": 31
       },
       "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
