@@ -22,6 +22,30 @@
       "revId": "89370288b516f3f34a4f0b1ab8ab3132adeea642",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a3a22ab_c877f865",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2019-06-16T13:54:44Z",
+      "side": 1,
+      "message": "Since it is all done through cloud-init, the guest image should have a version of cloud-init which supports \u0027write_files\u0027, that way we\u0027re not locked by any micro version of nova.\n\n\u0027write_files\u0027 supports several way of transferring data, all of them have to be encoded in some way, for all the examples refer to: https://cloudinit.readthedocs.io/en/latest/topics/examples.html#writing-out-arbitrary-files",
+      "parentUuid": "d160c47e_7b38202d",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "89370288b516f3f34a4f0b1ab8ab3132adeea642",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
