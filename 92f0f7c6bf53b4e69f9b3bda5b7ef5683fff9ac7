@@ -1,0 +1,303 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1116e7c8_65385b3a",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-16T13:42:40Z",
+      "side": 1,
+      "message": "Hi Jagan,\n\nThank you for your contribution.\n\nAs the first ask, please, submit the methods that the test is using as a separate patch.\nIt is very hard to review such patch in a single piece.\n\nAnd the second ask, could you move the test to the scenario file instead of a separate test file?\n\nThe nfv tempest plugin structure store the tests based on their scenario.\n\nExample:\n- nfv basic\n- nfv dpdk\n- nfv sriov\n\nThe full path of the tests could be found here:\nhttps://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/docs/tests.md\n\n\nSo as another example, the numa aware vswitch test, I\u0027m planning to place within the advanced usecase.\ntest_nfv_advanced_usecases.TestAdvancedScenarios.test_numa_aware_vswitch",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 2
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57da33e0_35e12fcb",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-16T13:42:40Z",
+      "side": 1,
+      "message": "Please, move all the supported methods to the baremetal manager.\nThe usecase should hold just the test.\n\nI\u0027m aware that the baremetal_manager file is full of mess.\nIn the near future, I\u0027m planning to spit and organize it.",
+      "range": {
+        "startLine": 39,
+        "startChar": 1,
+        "endLine": 39,
+        "endChar": 5
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e9c528e_4852b689",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-16T13:42:40Z",
+      "side": 1,
+      "message": "This \"if\" statement should not reside within the \"for\" loop because you are running on the same list over and over again.\n\nThe \"for\" loop checks for the dpdk interface.\nIf it founds it, it appends to the \"dpdk_nics\".\nThen the dpdk_nics checked and if not empty, the next flow runs on it.\n\nThe problem is the even if the dpdk interface is not found, the dpdk_nics flow executed anyway over the same list multiple times and at the end it blows the dpdk_nics_info list with duplicates.",
+      "range": {
+        "startLine": 101,
+        "startChar": 12,
+        "endLine": 101,
+        "endChar": 25
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e22f824_c3852510",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-16T13:42:40Z",
+      "side": 1,
+      "message": "In our plugin, the bottleneck is the remote commands, as we need to pull a lot of data from the overcloud nodes depend on the needs.\n\nHere we can reduce the remote commands.\nOnce you are created the dpdk_nics list, you can concatenate the ovs-vsctl commands (ovs-vsctl .... ; ovs-vsctl ....) depends on the len of the list items.\nThen you can loop over the output with the next checks you are performing.\n\nIt will decrease the remote commands and at the end our test time.",
+      "range": {
+        "startLine": 102,
+        "startChar": 16,
+        "endLine": 104,
+        "endChar": 71
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c24d82a7_f45c29bb",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-16T13:42:40Z",
+      "side": 1,
+      "message": "This method is a bit problematic in the context of the loop.\nThe issue here is that it makes a lot of remote commands when actually we can avoid it.\n\nYou could grab the output of the \"/var/lib/os-net-config/dpdk_mapping.yaml\" file (that is done within the method) once and then run over the stored data in a loop for each mac address.\n\nIt will decrease the number of remote commands.",
+      "range": {
+        "startLine": 113,
+        "startChar": 16,
+        "endLine": 113,
+        "endChar": 59
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06d58d84_5055105b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-16T13:42:40Z",
+      "side": 1,
+      "message": "The memory calculation is not working for me, because my mem_unit is \u0027gb\u0027 and there is no memory_gb check.",
+      "range": {
+        "startLine": 121,
+        "startChar": 7,
+        "endLine": 121,
+        "endChar": 28
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19c6c997_339fd93b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-16T13:42:40Z",
+      "side": 1,
+      "message": "The test fails with the following error:\n\nUnboundLocalError: local variable \u0027memory_kb\u0027 referenced before assignment",
+      "range": {
+        "startLine": 131,
+        "startChar": 20,
+        "endLine": 131,
+        "endChar": 30
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f85e7663_ab977b24",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-16T13:42:40Z",
+      "side": 1,
+      "message": "Maybe it preferred to combine these two methods into one single method.\nRun both remote commands once and return the output as an array.\nIt will reduce the remote command execution.",
+      "range": {
+        "startLine": 271,
+        "startChar": 4,
+        "endLine": 289,
+        "endChar": 32
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d20aadad_d5308623",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-16T13:42:40Z",
+      "side": 1,
+      "message": "Please remove.",
+      "range": {
+        "startLine": 301,
+        "startChar": 62,
+        "endLine": 301,
+        "endChar": 63
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5158725_4fd6ee30",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-16T13:42:40Z",
+      "side": 1,
+      "message": "Why is this hard coded?",
+      "range": {
+        "startLine": 308,
+        "startChar": 8,
+        "endLine": 309,
+        "endChar": 40
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c894d6a_bd67de3e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-16T13:42:40Z",
+      "side": 1,
+      "message": "The main issue of our tests is the requirement to perform many remote (ssh) commands.\nWe are trying to decrease the number of remote connections to the overcloud nodes by combining commands that we can into a single command.\n\nI think these two methods could be combined into a single remote command that will return an array of both dpdk and sriov status.",
+      "range": {
+        "startLine": 340,
+        "startChar": 4,
+        "endLine": 356,
+        "endChar": 24
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34869ce2_10642387",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-16T13:42:40Z",
+      "side": 1,
+      "message": "Agree that this is the recommended value, but maybe worth to check anyway as the value provided by the user could be wrong.",
+      "range": {
+        "startLine": 384,
+        "startChar": 12,
+        "endLine": 384,
+        "endChar": 61
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aab76477_ad729e82",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-16T13:42:40Z",
+      "side": 1,
+      "message": "Could we combine the remote commands here into a single remote command and then work with the output?",
+      "range": {
+        "startLine": 388,
+        "startChar": 8,
+        "endLine": 388,
+        "endChar": 30
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
