@@ -1299,6 +1299,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         gw_ip = self.test_network_dict[self.test_network_dict[
             'public']]['gateway_ip']
 
+        custom_net_script = ('../nfv-tempest-plugin/nfv_tempest_plugin/tests/'
+                             'scenario/tests_scripts/custom_net_config.py')
+        net_script_content = open(custom_net_script).read()
+        net_script_content_b64 = base64.b64encode(net_script_content)
+
         if not self.user_data:
             self.user_data = '''
                              #cloud-config
@@ -1307,12 +1312,18 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                              chpasswd: {{expire: False}}
                              ssh_pwauth: True
                              disable_root: 0
+                             write_files:
+                             -  encoding: b64
+                                content: {net_script}
+                                path: {py_script}
+                                permission: 0755
                              runcmd:
                              - chmod +x {py_script}
                              - python {py_script}
                              - echo {gateway}{gw_ip} >> /etc/sysconfig/network
                              - systemctl restart network
-                             '''.format(gateway='GATEWAY=',
+                             '''.format(net_script=net_script_content_b64,
+                                        gateway='GATEWAY=',
                                         gw_ip=gw_ip,
                                         user=self.instance_user,
                                         py_script=('/var/lib/cloud/scripts/'
