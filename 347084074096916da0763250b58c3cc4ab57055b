@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d3f24ebe_774e0ca9",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-06-16T12:16:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "928f2263_454e18cd",
+      "range": {
+        "startLine": 188,
+        "startChar": 1,
+        "endLine": 188,
+        "endChar": 28
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a659603_c38229a7",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 3
@@ -381,6 +405,30 @@
     },
     {
       "key": {
+        "uuid": "4875fa5c_f8265d10",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-06-16T12:16:37Z",
+      "side": 1,
+      "message": "Reply \n2)Correct,\nSo in the following marked line \nfail_srv \u003d self.create_server(flavor\u003dself.flavor_ref, wait_until\u003dNone,...)\nSo it is using create server with flavor w/o numa aware extra spec since there is nor create and verify. \n\n3)Reply\nThe logic looks ok, but maybe a check self.flavor_ref !\u003d CONF.compute.flavor_ref required with assertion.",
+      "parentUuid": "904914c6_a590380c",
+      "range": {
+        "startLine": 68,
+        "startChar": 45,
+        "endLine": 68,
+        "endChar": 60
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d11dd411_cf34275a",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 3
@@ -512,6 +560,30 @@
       "side": 1,
       "message": "That\u0027s right.\nIn case the instance that I expect to get in the \"ERROR\" state comes in \"ACTIVE\" state, I need to wait for the timeout.\n\nBut, I have no other way to minimize this.\nCheck the \"wait_for_server_status\" global tempest method. It is pretty limiting.\nhttps://github.com/openstack/tempest/blob/master/tempest/common/waiters.py#L34-L98",
       "parentUuid": "e43d12b2_206ea9a7",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 70
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efdecf1e_d6aa377c",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-06-16T12:16:37Z",
+      "side": 1,
+      "message": "OK :) at least we have an agreement,\nConsider using timer with a check (No ), \nlooking at the code here, https://github.com/openstack/tempest/blob/a2a3ff70ad1f8251ed7394037fc62476bb2433b6/tempest/common/waiters.py#L73\n\nBetter to wait for ACTIVE, When ever Error State occurred, waiter will return.\nWorth to wait ACTIVE, it makes the test shorter on unexpected results.\n\nYou know w/o waiting, if it is ACTIVE, do assertionFalse on the state if it is ACTIVE it will to continue other to fail the test.",
+      "parentUuid": "dd1dfcb8_ccb04403",
       "range": {
         "startLine": 70,
         "startChar": 8,
