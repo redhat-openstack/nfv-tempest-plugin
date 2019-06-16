@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f3b4827_238f87a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-06-16T13:30:00Z",
+      "side": 1,
+      "message": "Please give sample code for the appluication command line\nI will be thankful,",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 55
+      },
+      "revId": "3ce668ded491f01332c58d5fb6b73ac679a516c8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0383428e_6fe0cdd9",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/custom_net_config.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-06-16T13:30:00Z",
+      "side": 1,
+      "message": "Consider using nmcli, \nYou can use  nmcli connection add/edit\n\nIt will save file manipulation with 1 liner",
+      "range": {
+        "startLine": 147,
+        "startChar": 4,
+        "endLine": 147,
+        "endChar": 32
+      },
+      "revId": "3ce668ded491f01332c58d5fb6b73ac679a516c8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
