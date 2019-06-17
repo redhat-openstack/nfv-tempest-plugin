@@ -18,6 +18,7 @@ import os.path
 import paramiko
 import re
 import subprocess as sp
+import sys
 import textwrap
 import time
 import xml.etree.ElementTree as ELEMENTTree
@@ -455,7 +456,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         ini_config = self._get_overcloud_config(overcloud_node, config_path)
         # Python 2 and 3 support
-        get_value = ConfigParser(allow_no_value=True, strict=False)
+        get_value = ConfigParser(allow_no_value=True)
+        if sys.version_info[0] > 2:
+            get_value = ConfigParser(allow_no_value=True, strict=False)
         get_value.readfp(StringIO(ini_config))
         value_data = []
         for value in check_value.split(','):
