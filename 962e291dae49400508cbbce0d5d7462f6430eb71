@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13fcdbe6_2d6898c6",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1303,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-18T12:10:05Z",
+      "side": 1,
+      "message": "Please, try to see how we are able to use a relative path instead of hordcoded absolute.",
+      "range": {
+        "startLine": 1302,
+        "startChar": 30,
+        "endLine": 1303,
+        "endChar": 73
+      },
+      "revId": "962e291dae49400508cbbce0d5d7462f6430eb71",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
