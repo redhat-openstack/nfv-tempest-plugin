@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f94f6c4_26993e70",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/custom_net_config.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-20T07:40:23Z",
+      "side": 1,
+      "message": "Could you please provide an example of the script execution with the nic param within the description, so it will be available on help call.",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 64
+      },
+      "revId": "1f8af69cdedfe591c1b13b1f011a89ec440feeaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
