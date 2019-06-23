@@ -46,6 +46,30 @@
       "revId": "89370288b516f3f34a4f0b1ab8ab3132adeea642",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e8cb50d_346d8b6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-06-23T07:53:44Z",
+      "side": 1,
+      "message": "Please explain the change in more detail.\nIt will ease others to understand the new proposal",
+      "parentUuid": "9a3a22ab_c877f865",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "89370288b516f3f34a4f0b1ab8ab3132adeea642",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
