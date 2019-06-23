@@ -93,6 +93,30 @@
       "revId": "3ce668ded491f01332c58d5fb6b73ac679a516c8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "283abf1d_6d11a085",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/custom_net_config.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-06-23T07:47:46Z",
+      "side": 1,
+      "message": "Did you try that? seems easier than doing file manipulations",
+      "parentUuid": "f725a35f_416787a6",
+      "range": {
+        "startLine": 147,
+        "startChar": 4,
+        "endLine": 147,
+        "endChar": 32
+      },
+      "revId": "3ce668ded491f01332c58d5fb6b73ac679a516c8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
