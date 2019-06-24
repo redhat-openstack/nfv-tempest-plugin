@@ -620,6 +620,30 @@
     },
     {
       "key": {
+        "uuid": "1e78b190_b1ec8fd0",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-24T13:33:15Z",
+      "side": 1,
+      "message": "I have tested a number of parameters from the tempest.conf but unfortunately none of them can actually help us.\n\nThe line 73 in the waiter method you mentioned earlier doesn\u0027t help us and I can\u0027t wait for the \"ACTIVE\" state when my server needs to fail because when the state is equal to \"ERROR\" and raise_on_error is \"True\" it will not return but will raise an exception and fail the test.\n\nBecause of the reason above, the \"ready_wait\" and \"build_interval\" does not help us here.",
+      "parentUuid": "efdecf1e_d6aa377c",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 70
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fcde2dcf_5b08ebde",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 3
