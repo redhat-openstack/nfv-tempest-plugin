@@ -262,6 +262,30 @@
     },
     {
       "key": {
+        "uuid": "58779f04_eddd365f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-06-24T11:32:29Z",
+      "side": 1,
+      "message": "We identified a \"hole\" need to deal in the future\ncreate_and_verify_resources what it should decide if test_flavor \u003d\u003d NULL and flavors do not exist, we need to add at least a comment in Error logs that flavor is missing, and running with default flavor",
+      "parentUuid": "a0d679e6_5cd547da",
+      "range": {
+        "startLine": 63,
+        "startChar": 7,
+        "endLine": 63,
+        "endChar": 79
+      },
+      "revId": "347084074096916da0763250b58c3cc4ab57055b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f86c827_c7b07513",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 3
