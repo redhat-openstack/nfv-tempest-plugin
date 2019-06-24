@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1a20e2c6_d1c0b49c",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-06-24T08:15:07Z",
+      "side": 1,
+      "message": "@Max,\nAgree Yariv, I also think, this test is common for multiple scenario\u0027s like OvS-DPDK, SRIOV and HCI etc. We need to duplicate the code if we move this test to scenario basis.",
+      "parentUuid": "81f5a925_31ed6177",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 2
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "57da33e0_35e12fcb",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "writtenOn": "2019-06-16T13:42:40Z",
       "side": 1,
       "message": "Please, move all the supported methods to the baremetal manager.\nThe usecase should hold just the test.\n\nI\u0027m aware that the baremetal_manager file is full of mess.\nIn the near future, I\u0027m planning to spit and organize it.",
+      "range": {
+        "startLine": 39,
+        "startChar": 1,
+        "endLine": 39,
+        "endChar": 5
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46f42e33_aa26807e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-06-24T08:15:07Z",
+      "side": 1,
+      "message": "@Max,\nWe are going to have only one test for derive parameters and not like scenario tests (tests will be increased).  i think, increases complexity in baremetal manager file when moving derive parameters supported methods. moving methods will not be more complex in future if needed. so can we have supported method right now in the same test file?",
+      "parentUuid": "57da33e0_35e12fcb",
       "range": {
         "startLine": 39,
         "startChar": 1,
@@ -118,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "596674b9_0ab5efbb",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-06-24T08:15:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5e22f824_c3852510",
+      "range": {
+        "startLine": 102,
+        "startChar": 16,
+        "endLine": 104,
+        "endChar": 71
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c24d82a7_f45c29bb",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
         "patchSetId": 1
@@ -141,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "a5577d64_7b43c46e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-06-24T08:15:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c24d82a7_f45c29bb",
+      "range": {
+        "startLine": 113,
+        "startChar": 16,
+        "endLine": 113,
+        "endChar": 59
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06d58d84_5055105b",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
         "patchSetId": 1
@@ -152,6 +248,30 @@
       "writtenOn": "2019-06-16T13:42:40Z",
       "side": 1,
       "message": "The memory calculation is not working for me, because my mem_unit is \u0027gb\u0027 and there is no memory_gb check.",
+      "range": {
+        "startLine": 121,
+        "startChar": 7,
+        "endLine": 121,
+        "endChar": 28
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bcac7dc_8ce28515",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-06-24T08:15:07Z",
+      "side": 1,
+      "message": "@Max,\nWill update for gb as well.",
+      "parentUuid": "06d58d84_5055105b",
       "range": {
         "startLine": 121,
         "startChar": 7,
@@ -187,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "66e45958_e4745202",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-06-24T08:15:07Z",
+      "side": 1,
+      "message": "Will fix the issue",
+      "parentUuid": "19c6c997_339fd93b",
+      "range": {
+        "startLine": 131,
+        "startChar": 20,
+        "endLine": 131,
+        "endChar": 30
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f85e7663_ab977b24",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
         "patchSetId": 1
@@ -210,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "6766f14e_257b125e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-06-24T08:15:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f85e7663_ab977b24",
+      "range": {
+        "startLine": 271,
+        "startChar": 4,
+        "endLine": 289,
+        "endChar": 32
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d20aadad_d5308623",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
         "patchSetId": 1
@@ -230,6 +398,30 @@
       "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c85d8f43_9ddf7829",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-06-24T08:15:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d20aadad_d5308623",
+      "range": {
+        "startLine": 301,
+        "startChar": 62,
+        "endLine": 301,
+        "endChar": 63
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -279,6 +471,30 @@
     },
     {
       "key": {
+        "uuid": "e2dcf609_48c55e8e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-06-24T08:15:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1c894d6a_bd67de3e",
+      "range": {
+        "startLine": 340,
+        "startChar": 4,
+        "endLine": 356,
+        "endChar": 24
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34869ce2_10642387",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
         "patchSetId": 1
@@ -325,6 +541,30 @@
     },
     {
       "key": {
+        "uuid": "f10ed884_cb01453d",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-06-24T08:15:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "aab76477_ad729e82",
+      "range": {
+        "startLine": 388,
+        "startChar": 8,
+        "endLine": 388,
+        "endChar": 30
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e31413a4_a6cf6608",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
         "patchSetId": 1
@@ -348,6 +588,30 @@
     },
     {
       "key": {
+        "uuid": "dccea13c_82e2efc3",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-06-24T08:15:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e31413a4_a6cf6608",
+      "range": {
+        "startLine": 419,
+        "startChar": 12,
+        "endLine": 419,
+        "endChar": 31
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e3ed8ab_95f65ded",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
         "patchSetId": 1
@@ -368,6 +632,30 @@
       "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d7a274e_3e95eb16",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-06-24T08:15:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5e3ed8ab_95f65ded",
+      "range": {
+        "startLine": 486,
+        "startChar": 8,
+        "endLine": 486,
+        "endChar": 31
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
