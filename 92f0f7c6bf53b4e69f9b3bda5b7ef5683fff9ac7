@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "453a6e3c_6733be55",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-24T09:24:45Z",
+      "side": 1,
+      "message": "Ok, no problem with leave it as a separate test.",
+      "parentUuid": "1a20e2c6_d1c0b49c",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 2
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "57da33e0_35e12fcb",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
         "patchSetId": 1
@@ -108,6 +132,30 @@
       "side": 1,
       "message": "@Max,\nWe are going to have only one test for derive parameters and not like scenario tests (tests will be increased).  i think, increases complexity in baremetal manager file when moving derive parameters supported methods. moving methods will not be more complex in future if needed. so can we have supported method right now in the same test file?",
       "parentUuid": "57da33e0_35e12fcb",
+      "range": {
+        "startLine": 39,
+        "startChar": 1,
+        "endLine": 39,
+        "endChar": 5
+      },
+      "revId": "92f0f7c6bf53b4e69f9b3bda5b7ef5683fff9ac7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2dad909_7a0b924e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-06-24T09:24:45Z",
+      "side": 1,
+      "message": "Ok.\nIf need in the future, we can move the methods.",
+      "parentUuid": "46f42e33_aa26807e",
       "range": {
         "startLine": 39,
         "startChar": 1,
