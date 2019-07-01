@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4443258c_511895c4",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-01T11:50:44Z",
+      "side": 1,
+      "message": "Consider using list_comprehensions\n\nmem_info \u003d [ i.split(\u0027:\u0027)[1].strip()  for i in line_array ]\nsum ( [ int(i.split(\u0027 \u0027)[0])*1024 if i.split(\u0027 \u0027)[1].lower() \u003d\u003d \u0027mb\u0027 else int(i.split(\u0027 \u0027)[0])*1024*1024 for i in mem_info  ] )\n\nTwo fast lines",
+      "range": {
+        "startLine": 125,
+        "startChar": 1,
+        "endLine": 138,
+        "endChar": 0
+      },
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4137bf6e_3cdf08cc",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-01T11:50:44Z",
+      "side": 1,
+      "message": "See above. recommend to use list comprehensions, shorted",
+      "range": {
+        "startLine": 278,
+        "startChar": 5,
+        "endLine": 287,
+        "endChar": 39
+      },
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "613dde85_8b1691d4",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-01T11:50:44Z",
+      "side": 1,
+      "message": "Consider working with jsnutils\n sriovconfig \u003d \u0027[{\"IsolCpusList\":{\"action\": \"command\",\"cmd\": \"(pwd)\"}},{\"KernelArgs\":{\"action\": \"command\",\"cmd\": \"udo cat /proc/cmdline\"}}]\u0027\n\nPlease refer this parameter,\nOnce we have changes we w/a with configuration change",
+      "range": {
+        "startLine": 391,
+        "startChar": 8,
+        "endLine": 391,
+        "endChar": 24
+      },
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
