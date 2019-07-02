@@ -49,6 +49,23 @@
     },
     {
       "key": {
+        "uuid": "781fbf56_766d57a8",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-07-02T13:01:06Z",
+      "side": 1,
+      "message": "Jagan,\n\nI\u0027m not sure the logic here is right.\nThe \"numa_nodes_threads\" variable loaded with the cores based on the numa node assignment.\nBut it loads randomly.\n\nFor example, this is my output:\nipdb\u003e numa_nodes_threads\n{0: [12, 32, 6, 26, 2, 22, 18, 38, 0, 20, 4, 24, 14, 34, 8, 28, 16, 36, 10, 30], 1: [11, 31, 3, 23, 19, 39, 13, 33, 7, 27, 15, 35, 17, 37, 5, 25, 9, 29, 1, 21]}\n\nAs a result at the end the cores that chosen to be promoted as the dpdk pmd cores are: \"11,12,31,32\".\nWhich mean that these are the first cores taken from the list of each numa node.\n\nFrom my personal logic, when I created the templates, I took the first cores available from the numa nodes. They are - \"2,22,3,23\". Otherwise it looks like a random choice.\n\nWhy not sort the order of the cores before taking the cores from there?\n\nWhat do you think?",
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4137bf6e_3cdf08cc",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
         "patchSetId": 2
@@ -65,6 +82,53 @@
         "startChar": 5,
         "endLine": 287,
         "endChar": 39
+      },
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6319751_e5283adb",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-07-02T13:01:06Z",
+      "side": 1,
+      "message": "Again, as my above reply to the previous comment.\nThe code should be readable.\n\nIf the change of the code to one line makes it unreadable, it should not be done.",
+      "parentUuid": "4137bf6e_3cdf08cc",
+      "range": {
+        "startLine": 278,
+        "startChar": 5,
+        "endLine": 287,
+        "endChar": 39
+      },
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ed51574_cd65f70a",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-07-02T13:01:06Z",
+      "side": 1,
+      "message": "Hi,\n\nThe dpdk initialization status command is not available in 13 as the ovs version we are using is 2.9 and the initialization is supported from version 2.10.\nhttps://www.mail-archive.com/ovs-dev@openvswitch.org/msg22478.html\n\nNeed some workaround for this.",
+      "range": {
+        "startLine": 343,
+        "startChar": 16,
+        "endLine": 343,
+        "endChar": 66
       },
       "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
