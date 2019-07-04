@@ -228,6 +228,24 @@
     },
     {
       "key": {
+        "uuid": "47dce558_87cd4ec6",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-04T10:37:21Z",
+      "side": 1,
+      "message": "@Maxim\n\nThe sort is important only for  # Gets host cpus\nSo, over there starts in line 176 below\nsee line 188:\nfor numa_node in sorted(numa_nodes_threads.keys()):",
+      "parentUuid": "5f67fb9e_f06d5805",
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4137bf6e_3cdf08cc",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
         "patchSetId": 2
