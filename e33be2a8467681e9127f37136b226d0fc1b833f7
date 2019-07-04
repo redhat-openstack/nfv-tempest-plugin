@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "ccd8300c_22506d8a",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-04T07:45:31Z",
+      "side": 1,
+      "message": "OK, lets postpone this discussion for different patch",
+      "parentUuid": "6db16cdf_f6bc138a",
+      "range": {
+        "startLine": 125,
+        "startChar": 1,
+        "endLine": 138,
+        "endChar": 0
+      },
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "781fbf56_766d57a8",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
         "patchSetId": 2
@@ -101,6 +125,24 @@
       "writtenOn": "2019-07-04T07:26:16Z",
       "side": 1,
       "message": "Maxim,\nCurrently sorted at the end of the result of each parameters.",
+      "parentUuid": "781fbf56_766d57a8",
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbaef75a_55847363",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-04T07:45:31Z",
+      "side": 1,
+      "message": "@Jagan, i think the sort request is reasonable, correct?",
       "parentUuid": "781fbf56_766d57a8",
       "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
@@ -179,6 +221,30 @@
     },
     {
       "key": {
+        "uuid": "5ff361db_56e68642",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-04T07:45:31Z",
+      "side": 1,
+      "message": "OK, lets postpone this discussion for different patch",
+      "parentUuid": "c6319751_e5283adb",
+      "range": {
+        "startLine": 278,
+        "startChar": 5,
+        "endLine": 287,
+        "endChar": 39
+      },
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ed51574_cd65f70a",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
         "patchSetId": 2
@@ -213,6 +279,30 @@
       "writtenOn": "2019-07-04T07:26:16Z",
       "side": 1,
       "message": "Maxim, Agree and let it merge and i will place another patch to update the code for workaround.",
+      "parentUuid": "4ed51574_cd65f70a",
+      "range": {
+        "startLine": 343,
+        "startChar": 16,
+        "endLine": 343,
+        "endChar": 66
+      },
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04641023_4d0ee455",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-04T07:45:31Z",
+      "side": 1,
+      "message": "@jagan this is a a must, we need to brake this test in 13.\nYes, we have W/A for that,\nI have this idea below, but the /etc/puppet/hieradata/service_names.json\" only without ovs-command is OK also\novs-vswitchd --version | awk \u0027{ if ($1 \u003d\u003d \"DPDK\") print $1; }\u0027\nor \novs-vswitchd --version | awk \u0027{ if ($1 \u003d\u003d \"DPDK\") print 1; }\u0027 will return 1 else 0?",
       "parentUuid": "4ed51574_cd65f70a",
       "range": {
         "startLine": 343,
@@ -270,6 +360,30 @@
       "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d857ba5_b3f62c00",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-04T07:45:31Z",
+      "side": 1,
+      "message": "lets postpone it to different patch",
+      "parentUuid": "613dde85_8b1691d4",
+      "range": {
+        "startLine": 391,
+        "startChar": 8,
+        "endLine": 391,
+        "endChar": 24
+      },
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
