@@ -210,6 +210,24 @@
     },
     {
       "key": {
+        "uuid": "5f67fb9e_f06d5805",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-07-04T10:19:19Z",
+      "side": 1,
+      "message": "Maxim,\nIn dpdk core list logic, sorting order is not required and we can pick any core threads randomly for each numa except first core.\nLogic should be same here which is already used in ease of deployment feature.\nIf we update here, need to place a patch in ease of deployment code too.",
+      "parentUuid": "e4cc8439_111b3a8c",
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4137bf6e_3cdf08cc",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
         "patchSetId": 2
@@ -445,6 +463,30 @@
       "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27bd31ce_ccf059aa",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-07-04T10:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "804d7884_9344b6d7",
+      "range": {
+        "startLine": 343,
+        "startChar": 16,
+        "endLine": 343,
+        "endChar": 66
+      },
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
