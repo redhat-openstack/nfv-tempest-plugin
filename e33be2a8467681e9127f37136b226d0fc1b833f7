@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f7115629_de8db7d1",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-07-04T07:26:16Z",
+      "side": 1,
+      "message": "@Maxim, Ack",
+      "parentUuid": "6db16cdf_f6bc138a",
+      "range": {
+        "startLine": 125,
+        "startChar": 1,
+        "endLine": 138,
+        "endChar": 0
+      },
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "781fbf56_766d57a8",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
         "patchSetId": 2
@@ -60,6 +84,24 @@
       "writtenOn": "2019-07-02T13:01:06Z",
       "side": 1,
       "message": "Jagan,\n\nI\u0027m not sure the logic here is right.\nThe \"numa_nodes_threads\" variable loaded with the cores based on the numa node assignment.\nBut it loads randomly.\n\nFor example, this is my output:\nipdb\u003e numa_nodes_threads\n{0: [12, 32, 6, 26, 2, 22, 18, 38, 0, 20, 4, 24, 14, 34, 8, 28, 16, 36, 10, 30], 1: [11, 31, 3, 23, 19, 39, 13, 33, 7, 27, 15, 35, 17, 37, 5, 25, 9, 29, 1, 21]}\n\nAs a result at the end the cores that chosen to be promoted as the dpdk pmd cores are: \"11,12,31,32\".\nWhich mean that these are the first cores taken from the list of each numa node.\n\nFrom my personal logic, when I created the templates, I took the first cores available from the numa nodes. They are - \"2,22,3,23\". Otherwise it looks like a random choice.\n\nWhy not sort the order of the cores before taking the cores from there?\n\nWhat do you think?",
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16ab5b1a_692b4eaa",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-07-04T07:26:16Z",
+      "side": 1,
+      "message": "Maxim,\nCurrently sorted at the end of the result of each parameters.",
+      "parentUuid": "781fbf56_766d57a8",
       "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
@@ -113,6 +155,30 @@
     },
     {
       "key": {
+        "uuid": "3bd7eece_db0557fd",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-07-04T07:26:16Z",
+      "side": 1,
+      "message": "Maxim, Ack",
+      "parentUuid": "c6319751_e5283adb",
+      "range": {
+        "startLine": 278,
+        "startChar": 5,
+        "endLine": 287,
+        "endChar": 39
+      },
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ed51574_cd65f70a",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
         "patchSetId": 2
@@ -136,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "fcbfa638_dcdbf9af",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-07-04T07:26:16Z",
+      "side": 1,
+      "message": "Maxim, Agree and let it merge and i will place another patch to update the code for workaround.",
+      "parentUuid": "4ed51574_cd65f70a",
+      "range": {
+        "startLine": 343,
+        "startChar": 16,
+        "endLine": 343,
+        "endChar": 66
+      },
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "613dde85_8b1691d4",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
         "patchSetId": 2
@@ -147,6 +237,30 @@
       "writtenOn": "2019-07-01T11:50:44Z",
       "side": 1,
       "message": "Consider working with jsnutils\n sriovconfig \u003d \u0027[{\"IsolCpusList\":{\"action\": \"command\",\"cmd\": \"(pwd)\"}},{\"KernelArgs\":{\"action\": \"command\",\"cmd\": \"udo cat /proc/cmdline\"}}]\u0027\n\nPlease refer this parameter,\nOnce we have changes we w/a with configuration change",
+      "range": {
+        "startLine": 391,
+        "startChar": 8,
+        "endLine": 391,
+        "endChar": 24
+      },
+      "revId": "e33be2a8467681e9127f37136b226d0fc1b833f7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed9a8024_cdfec4b0",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_derive_params_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-07-04T07:26:16Z",
+      "side": 1,
+      "message": "Yariv, Agree and will work on another patch. let it merge.",
+      "parentUuid": "613dde85_8b1691d4",
       "range": {
         "startLine": 391,
         "startChar": 8,
