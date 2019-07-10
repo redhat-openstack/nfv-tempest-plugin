@@ -77,9 +77,9 @@ test-networks:
 # Note! - In case the resources created externally, the following section is not needed.
 test-flavors:
   - name: m1.medium.huge_pages_cpu_pinning_numa_node-0
-    ram: 2048
+    ram: 8192
     disk: 20
-    vcpus: 2
+    vcpus: 6
     extra_specs:
      - "hw:mem_page_size": "1GB"
        "hw:numa_mem.0": "2048"
@@ -89,9 +89,9 @@ test-flavors:
        "hw:emulator_threads_policy": "share"   # Note! - This extra spec should be applied only starting from RHOSP 14
 
   - name: m1.medium.huge_pages_cpu_pinning_numa_node-1
-    ram: 2048
+    ram: 8192
     disk: 20
-    vcpus: 2
+    vcpus: 6
     extra_specs:
      - "hw:mem_page_size": "1GB"
        "hw:numa_mem.1": "2048"
@@ -101,9 +101,9 @@ test-flavors:
        "hw:emulator_threads_policy": "share"   # Note! - This extra spec should be applied only starting from RHOSP 14
 
   - name: m1.medium.huge_pages_cpu_pinning_numa_node-mix
-    ram: 2048
+    ram: 8192
     disk: 20
-    vcpus: 2
+    vcpus: 6
     extra_specs:
      - "hw:numa_nodes": "2"
        "hw:mem_page_size": "1GB"
@@ -115,6 +115,16 @@ test-flavors:
        "hw:cpu_policy": "dedicated"
        "hw:emulator_threads_policy": "share"   # Note! - This extra spec should be applied only starting from RHOSP 14
 
+  - name: numa_aware_vswitch
+    ram: 8192
+    disk: 20
+    vcpus: 6
+    extra_specs:
+      - "hw:mem_page_size": "1GB"
+        "hw:cpu_policy": "dedicated"
+        "aggregate_instance_extra_specs:test": "numa_aware_vswitch"
+        "hw:emulator_threads_policy": "share"   # Note! - This extra spec should be applied only starting from RHOSP 14
+
 # Test repo to be used by the instance during the test (optional variable).
 # Note! - In case the resources created externally, the following section is not needed.
 test_instance_repo:
@@ -122,64 +132,72 @@ test_instance_repo:
   url: http://download.fedoraproject.org/pub/epel/7/x86_64/
 
 tests-setup:
-- name: numa0
-  flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-  router: true
+  - name: numa0
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
 
-- name: numa1
-  flavor: m1.medium.huge_pages_cpu_pinning_numa_node-1
-  router: true
+  - name: numa1
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-1
+    router: true
 
-- name: numamix
-  flavor: m1.medium.huge_pages_cpu_pinning_numa_node-mix
-  router: true
+  - name: numamix
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-mix
+    router: true
 
-- name: check-multiqueue-func
-  flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-  router: true
+  - name: check-multiqueue-func
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
 
-- name: check-compute-packages
-  package-names:
-    - tuned-2.8.0-5.el7.noarch
-    - openvswitch-2.6.1-16.git20161206.el7ost.x86_64
-  service-names:
-    - tuned
-    - openvswitch
-  tuned-profile: cpu-partitioning
+  - name: check-compute-packages
+    package-names:
+      - tuned-2.8.0-5.el7.noarch
+      - openvswitch-2.6.1-16.git20161206.el7ost.x86_64
+    service-names:
+      - tuned
+      - openvswitch
+    tuned-profile: cpu-partitioning
 
-- name: test-ping-mtu
-  flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-  router: true
-  mtu: 8972
+  - name: test-ping-mtu
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+    mtu: 8972
 
-- name: test_live_migration_basic
-  flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-  router: true
+  - name: test_live_migration_basic
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
 
-- name: multicast
-  flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-  router: true
+  - name: multicast
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
 
-- name: cold-migration
-  flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-  router: true
+  - name: cold-migration
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
 
-- name: emulatorpin
-  flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-  router: true
-  emulatorpin_config:
-    - config_path: '/var/lib/config-data/puppet-generated/nova_libvirt/etc/nova/nova.conf'
-      check_section: 'compute'
-      check_value: 'cpu_shared_set'
+  - name: emulatorpin
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+    emulatorpin_config:
+      - config_path: '/var/lib/config-data/puppet-generated/nova_libvirt/etc/nova/nova.conf'
+        check_section: 'compute'
+        check_value: 'cpu_shared_set'
 
-- name: rx_tx
-  flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-  router: true
-  rx_tx_config:
-    - config_path: '/var/lib/config-data/puppet-generated/nova_libvirt/etc/nova/nova.conf'
-      check_section: 'libvirt'
-      check_value: 'rx_queue_size,tx_queue_size'
+  - name: rx_tx
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+    rx_tx_config:
+      - config_path: '/var/lib/config-data/puppet-generated/nova_libvirt/etc/nova/nova.conf'
+        check_section: 'libvirt'
+        check_value: 'rx_queue_size,tx_queue_size'
 
-- name: trustedvfs
-  flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-  router: true
+  - name: trustedvfs
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+
+  - name: numa_aware_vswitch
+    flavor: numa_aware_vswitch
+    router: true
+    aggregate:
+      hosts:
+        - computeovsdpdksriov-0
+      metadata: test=numa_aware_vswitch
