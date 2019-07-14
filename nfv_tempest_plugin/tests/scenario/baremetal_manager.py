@@ -140,7 +140,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         Reads config data and assign it to dictionaries
         """
         with open(CONF.nfv_plugin_options.external_config_file, 'r') as f:
-            self.external_config = yaml.load(f)
+            self.external_config = yaml.safe_load(f)
 
         if not os.path.exists(
                 CONF.nfv_plugin_options.external_resources_output_file):

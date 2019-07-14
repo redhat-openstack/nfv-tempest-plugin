@@ -78,7 +78,7 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
     def _get_dpdk_nics_mapping(self, hypervisor_ip, mac):
         cmd = "sudo cat /var/lib/os-net-config/dpdk_mapping.yaml"
         output = self._run_command_over_ssh(hypervisor_ip, cmd)
-        dpdk_nics_map = yaml.load(output)
+        dpdk_nics_map = yaml.safe_load(output)
         for dpdk_nic_map in dpdk_nics_map:
             if dpdk_nic_map['mac_address'] == mac:
                 return dpdk_nic_map
