@@ -1201,11 +1201,16 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             flavor_check = self.check_flavor_existence(test)
             if flavor_check is False:
                 flavor_name = self.test_setup_dict[test]['flavor']
-                self.flavor_ref = self. \
-                    create_flavor(**self.test_flavor_dict[flavor_name])
-                kwargs['flavor'] = self.flavor_ref
-                LOG.info('The flavor {} has been created'.format(
-                    self.flavor_ref))
+                LOG.info('Flavor {} not found. Creating.'.format(flavor_name))
+                try:
+                    self.flavor_ref = self.create_flavor(
+                        **self.test_flavor_dict[flavor_name])
+                except KeyError as exc:
+                    err_msg = "Unable to locate {} flavor details for " \
+                              "the creation".format(exc)
+                    raise Exception(err_msg)
+
+            kwargs['flavor'] = self.flavor_ref
 
         LOG.info('Creating networks, keypair, security groups, router and '
                  'prepare cloud init.')
