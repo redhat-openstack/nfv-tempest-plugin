@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "c8b513d4_6e1bec0b",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/scapy_traffic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2019-07-18T07:09:49Z",
+      "side": 1,
+      "message": "Correct me if I’m wrong but this script will be executed from guest instances. If so, there is a need to install scapy inside the guest.",
+      "parentUuid": "a9a5fb42_10ddaccb",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 32
+      },
+      "revId": "2cbf990ea7e041987e0b12eed68fb0bfb0e27b70",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9cfa9cae_32b377ed",
         "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/scapy_traffic.py",
         "patchSetId": 1
