@@ -57,12 +57,14 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.cpuregex = re.compile('^[0-9]{1,2}$')
         self.external_config = None
         self.test_setup_dict = {}
-        self.key_pairs = {}
+        self.security_groups = []
+        self.security_groups_names = []
         self.servers = []
         self.test_network_dict = {}
         self.test_flavor_dict = {}
         self.test_instance_repo = {}
         self.user_data = {}
+        self.user_data_b64 = ''
         self.fip = True
         self.external_resources_data = None
 
@@ -1021,7 +1023,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         remove_network = net_name
             self.test_network_dict.pop(remove_network)
 
-    def _create_ports_on_networks(self, num_ports=1, **kwargs):
+    def _create_ports_on_networks(self, num_ports=1):
         """Create ports on a test networks for instances
 
         The method will create a network ports as per test_network dict
@@ -1049,10 +1051,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 if 'port_type' in net_param:
                     create_port_body['binding:vnic_type'] = \
                         net_param['port_type']
-                    if 'security_groups' in kwargs and net_name == \
+                    if self.security_groups and net_name == \
                             self.test_network_dict['public']:
                         create_port_body['security_groups'] = \
-                            [s['id'] for s in kwargs['security_groups']]
+                            [s['id'] for s in self.security_groups]
                     if 'trusted_vf' in net_param and \
                        net_param['trusted_vf'] and \
                        net_param['port_type'] == 'direct':
@@ -1067,8 +1069,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         if net_name != self.test_network_dict['public'] else \
                         networks_list.insert(0, net_var)
             ports_list.append(networks_list)
-        if 'security_groups' in kwargs:
-            [x.pop('id') for x in kwargs['security_groups']]
         return ports_list
 
     def _create_port(self, network_id, client=None, namestart='port-quotatest',
@@ -1108,7 +1108,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         if 'key_name' not in kwargs:
             key_pair = self.create_keypair()
-            self.key_pairs[key_pair['name']] = key_pair
             kwargs['key_name'] = key_pair['name']
 
         net_id = []
@@ -1220,11 +1219,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         # Network, subnet, router and security group creation
         self._create_test_networks()
-        security_groups = self._set_security_groups()
-        if security_groups is not None:
-            kwargs['security_groups'] = security_groups
-        ports_list = self._create_ports_on_networks(num_ports=num_ports,
-                                                    **kwargs)
+        self._set_security_groups()
+        if self.security_groups_names:
+            kwargs['security_groups'] = self.security_groups_names
+        ports_list = self._create_ports_on_networks(num_ports=num_ports)
         router_exist = True
         if 'router' in self.test_setup_dict[test]:
             router_exist = self.test_setup_dict[test]['router']
@@ -1353,8 +1351,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             self.user_data = "".join((self.user_data, package))
 
         user_data = textwrap.dedent(self.user_data).lstrip().encode('utf8')
-        user_data_b64 = base64.b64encode(user_data)
-        return user_data_b64
+        self.user_data_b64 = base64.b64encode(user_data)
+        return self.user_data_b64
 
     def _set_security_groups(self):
         """Security group creation
@@ -1365,14 +1363,13 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         Create security groups [icmp,ssh] for Deployed Guest Image
         """
-        security_group = None
         mgmt_net = self.test_network_dict['public']
         if not ('sec_groups' in self.test_network_dict[mgmt_net] and
                 not self.test_network_dict[mgmt_net]['sec_groups']):
             security_group = self._create_security_group()
-            security_group = [{'name': security_group['name'],
-                               'id': security_group['id']}]
-        return security_group
+            self.security_groups_names = [{'name': security_group['name']}]
+            self.security_groups = [{'name': security_group['name'],
+                                     'id': security_group['id']}]
 
     def copy_file_to_remote_host(self, host, ssh_key, username=None,
                                  files=None, src_path=None, dst_path=None,
