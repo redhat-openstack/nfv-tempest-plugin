@@ -265,6 +265,30 @@
     },
     {
       "key": {
+        "uuid": "fdcd122d_a4836235",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/scapy_traffic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-23T07:07:57Z",
+      "side": 1,
+      "message": "@Vadim? IMHO should be part of init script,\nscapy and python virtualenv will be mandatory for most of the test out of ping and ssh",
+      "parentUuid": "8264aff9_e3539b32",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 32
+      },
+      "revId": "2cbf990ea7e041987e0b12eed68fb0bfb0e27b70",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9cfa9cae_32b377ed",
         "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/scapy_traffic.py",
         "patchSetId": 1
