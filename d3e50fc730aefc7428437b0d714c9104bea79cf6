@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5ba8dab7_b24388f6",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-24T14:09:18Z",
+      "side": 1,
+      "message": "You can delete the variables if you want,\nIt is access from anywhere based on port creation with security group",
+      "parentUuid": "b6d0fb81_2477ab17",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 39
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c4daa73d_5d852992",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -143,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "14fefa17_0e204166",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-24T14:09:18Z",
+      "side": 1,
+      "message": "Use kwargs to parse parameters in free way, not like it is working today,\nThis way you can create ports with kwargs for port type and extra port capabilities in hw offload need to create direct port with extra capabilities.",
+      "parentUuid": "d8989422_ea7affc0",
+      "range": {
+        "startLine": 1026,
+        "startChar": 40,
+        "endLine": 1026,
+        "endChar": 51
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ff7ac92_267b6684",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -183,6 +231,99 @@
         "startChar": 23,
         "endLine": 1054,
         "endChar": 44
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "421f20cf_4dc4e815",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-24T14:09:18Z",
+      "side": 1,
+      "message": "I think vm security groups are not important if port created with security group",
+      "parentUuid": "1d3c6851_a86dac18",
+      "range": {
+        "startLine": 1054,
+        "startChar": 23,
+        "endLine": 1054,
+        "endChar": 44
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fc7adef_c5826eef",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-24T14:09:18Z",
+      "side": 1,
+      "message": "Old:   kwargs[\u0027security_groups\u0027] \u003d security_groups\nNew:   kwargs[\u0027security_groups\u0027] \u003d self.security_groups_names \n\nLooking at self._set_security_groups() maybe should be renamed to set_remote_ssh_sec_groups\nsee comment below",
+      "range": {
+        "startLine": 1224,
+        "startChar": 40,
+        "endLine": 1224,
+        "endChar": 66
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7244fc81_2a71f66a",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-24T14:09:18Z",
+      "side": 1,
+      "message": "This one is redundant i think, since you already created pingable rules in port security",
+      "range": {
+        "startLine": 1224,
+        "startChar": 12,
+        "endLine": 1224,
+        "endChar": 37
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d06f936_da1a7b45",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-24T14:09:18Z",
+      "side": 1,
+      "message": "This one _create_security_group() in tempest\nself._create_loginable_secgroup (rules for ping and ssh) this way we know it is only for remote access.\n\nYou can use this one \nsecurity_group_name\u003d\n       security_groups_name \u003d [{\u0027name\u0027: security_group[\u0027name\u0027]}]\n\nsecurity_groups\u003d\n       security_groups[{\u0027name\u0027: security_group[\u0027name\u0027],\n                        \u0027id\u0027: security_group[\u0027id\u0027] }])",
+      "range": {
+        "startLine": 1369,
+        "startChar": 12,
+        "endLine": 1369,
+        "endChar": 58
       },
       "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
