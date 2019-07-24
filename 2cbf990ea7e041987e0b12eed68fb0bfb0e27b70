@@ -337,6 +337,30 @@
     },
     {
       "key": {
+        "uuid": "7edbfa76_9e537cb6",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/scapy_traffic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-24T07:06:02Z",
+      "side": 1,
+      "message": "Sorry, \nI understood from the comment there is a suggestion for new script per test.\nAnd i meant to use in  custom_net_script we are using.",
+      "parentUuid": "2f3f678f_d388a38a",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 32
+      },
+      "revId": "2cbf990ea7e041987e0b12eed68fb0bfb0e27b70",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9cfa9cae_32b377ed",
         "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/scapy_traffic.py",
         "patchSetId": 1
