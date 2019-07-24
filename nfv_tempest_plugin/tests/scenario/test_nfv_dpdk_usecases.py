@@ -70,8 +70,8 @@ class TestDpdkScenarios(base_test.BaseTest):
         queues_flavor = self.create_flavor(name='test-queues', vcpus=queues,
                                            **extra_specs)
         servers, key_pair = \
-            self.create_server_with_resources(test='check-multiqueue-func',
-                                              flavor=queues_flavor)
+            self.create_resources(test='check-multiqueue-func',
+                                  flavor=queues_flavor)
 
         LOG.info('Check connectivity to the queues instance.')
         msg = "%s instance is not reachable by ping" % servers[0]['fip']
@@ -92,9 +92,9 @@ class TestDpdkScenarios(base_test.BaseTest):
         migration_flavor = self.create_flavor(name='live-migration', vcpus='2',
                                               **extra_specs)
         servers, key_pair = \
-            self.create_server_with_resources(test=test_setup_migration,
-                                              flavor=migration_flavor,
-                                              use_mgmt_only=True)
+            self.create_resources(test=test_setup_migration,
+                                  flavor=migration_flavor,
+                                  use_mgmt_only=True)
 
         host = self.os_admin.servers_client.show_server(
             servers[0]['id'])['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']
@@ -129,8 +129,7 @@ class TestDpdkScenarios(base_test.BaseTest):
         """The method boots three instances, runs mcast traffic between them"""
         LOG.info('Starting multicast test.')
         servers, key_pair = \
-            self.create_server_with_resources(test=test, num_servers=3,
-                                              use_mgmt_only=True)
+            self.create_resources(test=test, num_servers=3, use_mgmt_only=True)
         servers[0]['mcast_srv'] = 'listener1'
         servers[1]['mcast_srv'] = 'listener2'
         servers[2]['mcast_srv'] = 'traffic_runner'

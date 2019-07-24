@@ -65,9 +65,7 @@ class BaseTest(baremetal_manager.BareMetalManager):
         if fip is None:
             fip = self.fip
 
-        servers, key_pair = self.create_server_with_resources(test=test,
-                                                              fip=fip,
-                                                              **kwargs)
+        servers, key_pair = self.create_resources(test=test, fip=fip, **kwargs)
 
         for srv in servers:
             LOG.info('Instance details: fip: {}, instance_id: {}'.format(

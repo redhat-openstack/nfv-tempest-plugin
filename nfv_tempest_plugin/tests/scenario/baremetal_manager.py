@@ -1094,7 +1094,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         return port
 
     def create_server(self, name=None, image_id=None, flavor=None,
-                      validatable=False, wait_until=None,
+                      validatable=False, srv_state=None,
                       wait_on_delete=True, clients=None, **kwargs):
         """This Method Overrides Manager::Createserver to support Gates needs
 
@@ -1102,7 +1102,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         :param clients:
         :param image_id:
         :param wait_on_delete:
-        :param wait_until:
+        :param srv_state:
         :param flavor:
         :param name:
         """
@@ -1149,29 +1149,88 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                            networks=net_id,
                                            image_id=image_id,
                                            flavor=flavor,
-                                           wait_until=wait_until,
+                                           wait_until=srv_state,
                                            **kwargs)
         self.servers.append(server)
         return server
 
-    def create_server_with_resources(self, num_servers=1, num_ports=None,
-                                     fip=True, test=None, srv_state='ACTIVE',
-                                     use_mgmt_only=False, **kwargs):
-        """The method creates multiple instances
+    def create_server_with_fip(self, num_servers=1, use_mgmt_only=False,
+                               fip=True, networks=None, srv_state='ACTIVE',
+                               raise_on_error=True, **kwargs):
+        """Create defined number of the instances with floating ip.
+
+        :param num_servers: The number of servers to boot up.
+        :param use_mgmt_only: Boot instances with mgmt net only.
+        :param fip: Creation of the floating ip for the server.
+        :param networks: List of networks/ports for the servers.
+        :param srv_state: The state of the server to expect.
+        :param raise_on_error: Raise as error on failed build of the server.
+        :param kwargs:
+        :return: List of created servers
+        """
+        servers = []
+        port = {}
+
+        if not any(isinstance(el, list) for el in networks):
+            raise ValueError('Network expect to be as a list of lists')
+
+        for num in range(num_servers):
+            kwargs['networks'] = networks[num]
+
+            """ If this parameters exist, parse only mgmt network.
+            Example live migration can't run with SRIOV ports attached"""
+            if use_mgmt_only:
+                del (kwargs['networks'][1:])
+
+            LOG.info('Create instance - {}'.format(num + 1))
+            servers.append(self.create_server(**kwargs))
+        for num, server in enumerate(servers):
+            waiters.wait_for_server_status(self.os_admin.servers_client,
+                                           server['id'], srv_state,
+                                           raise_on_error=raise_on_error)
+            LOG.info('The instance - {} is in an {} state'.format(num + 1,
+                     srv_state))
+            if srv_state == 'ACTIVE':
+                port = self.os_admin.ports_client.list_ports(device_id=server[
+                    'id'], network_id=networks[num][0]['uuid'])['ports'][0]
+            if fip and srv_state == 'ACTIVE':
+                server['fip'] = \
+                    self.create_floating_ip(server, self.public_network)['ip']
+                LOG.info('The {} fip is allocated to the instance'.format(
+                    server['fip']))
+            elif srv_state == 'ACTIVE':
+                server['fip'] = port['fixed_ips'][0]['ip_address']
+                server['network_id'] = networks[num][0]['uuid']
+                LOG.info('The {} fixed ip set for the instance'.format(
+                    server['fip']))
+        return servers
+
+    def create_resources(self, num_servers=1, num_ports=None, test=None,
+                         **kwargs):
+        """The method creates resources and call for the servers method
+
+        The following resources are created:
+        - Aggregation
+        - Flavor creation / verification
+        - Key pair
+        - Security groups
+        - Test networks
+        - Networks ports
+        - Cloud init preparation
+        - Servers creation
+        - Floating ip attachment to the servers
 
         :param num_servers: The number of servers to boot up.
         :param num_ports: The number of ports to the created.
                           Default to (num_servers)
-        :param fip: Creation of the floating ip for the server.
         :param test: Currently executed test. Provide test specific parameters.
-        :param use_mgmt_only: Boot instances with mgmt net only.
-        :param srv_state: The status of the booted instance.
-        :param kwargs: See below.
-
-        :return servers, fips
+        :param kwargs:
+                fip: Creation of the floating ip for the server.
+                use_mgmt_only: Boot instances with mgmt net only.
+                srv_state: The status of the booted instance.
+        :return servers, key_pair
         """
         LOG.info('Creating resources...')
-        servers, key_pair = ([], [])
 
         if num_ports is None:
             num_ports = num_servers
@@ -1232,35 +1291,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             self._add_subnet_to_router()
         # Prepare cloudinit
         kwargs['user_data'] = self._prepare_cloudinit_file()
-
-        for num in range(num_servers):
-            kwargs['networks'] = ports_list[num]
-
-            """ If this parameters exist, parse only mgmt network.
-            Example live migration can't run with SRIOV ports attached"""
-            if use_mgmt_only:
-                del (kwargs['networks'][1:])
-
-            LOG.info('Create instance - {}'.format(num + 1))
-            servers.append(self.create_server(**kwargs))
-        for num, server in enumerate(servers):
-            waiters.wait_for_server_status(self.os_admin.servers_client,
-                                           server['id'], srv_state)
-            LOG.info('The instance - {} is in an {} state'.format(num + 1,
-                     srv_state))
-            port = self.os_admin.ports_client.list_ports(device_id=server[
-                'id'], network_id=ports_list[num][0]['uuid'])['ports'][0]
-
-            if fip:
-                server['fip'] = \
-                    self.create_floating_ip(server, self.public_network)['ip']
-                LOG.info('The {} fip is allocated to the instance'.format(
-                    server['fip']))
-            else:
-                server['fip'] = port['fixed_ips'][0]['ip_address']
-                server['network_id'] = ports_list[num][0]['uuid']
-                LOG.info('The {} fixed ip set for the instance'.format(
-                    server['fip']))
+        servers = self.create_server_with_fip(num_servers=num_servers,
+                                              networks=ports_list, **kwargs)
         return servers, key_pair
 
     def _check_number_queues(self):
