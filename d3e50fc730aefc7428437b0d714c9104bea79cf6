@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a48acb6_d796626d",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-24T07:03:41Z",
+      "side": 1,
+      "message": "see my comments below.\nI do not think it is wise, it reduce the options to maintain open port creation",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 39
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4daa73d_5d852992",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-24T07:03:41Z",
+      "side": 1,
+      "message": "Generic Note\nIf we would like to maintain different, calling this function with network to create ports on networks kwargs, we can not do that, think to maintain your game open",
+      "range": {
+        "startLine": 1026,
+        "startChar": 8,
+        "endLine": 1026,
+        "endChar": 33
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0009e2f5_8476df4c",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-24T07:03:41Z",
+      "side": 1,
+      "message": "I am not in favor of changing method APIs.\nConsider continue using (self,num_ports\u003d1, **kwargs)\ninstead,",
+      "range": {
+        "startLine": 1026,
+        "startChar": 40,
+        "endLine": 1026,
+        "endChar": 51
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ff7ac92_267b6684",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-24T07:03:41Z",
+      "side": 1,
+      "message": "I am not sure it is wise to hold security_groups as self.\nIf you want to create ports in the test on given network the following API \nis not dynamic enough.\nIf different ports will require different security_groups,\nThis could be maintained with kwargs for different networks.",
+      "range": {
+        "startLine": 1054,
+        "startChar": 23,
+        "endLine": 1054,
+        "endChar": 44
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
