@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "af6e1ba0_144972b1",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-07-25T05:40:22Z",
+      "side": 1,
+      "message": "But the thing is that I\u0027m not always creating a port. I can create an instance and pass only the network uuid to it [1]. As a result, I need to specify the security groups if I need to access the vm.\n\n[1] - https://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py#L77-L83",
+      "parentUuid": "5ba8dab7_b24388f6",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 39
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c4daa73d_5d852992",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -191,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "be77ae88_ff56203f",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-07-25T05:40:22Z",
+      "side": 1,
+      "message": "What do you mean?\n\nLet\u0027s say I created the initial resources.\nNow, some steps later, I need to create another instance.\nFor that instance I need to create a direct port. Where should I take the details of the security group for the port creation?",
+      "parentUuid": "14fefa17_0e204166",
+      "range": {
+        "startLine": 1026,
+        "startChar": 40,
+        "endLine": 1026,
+        "endChar": 51
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ff7ac92_267b6684",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -262,6 +310,30 @@
     },
     {
       "key": {
+        "uuid": "a0172aae_294c291d",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-07-25T05:40:22Z",
+      "side": 1,
+      "message": "Security groups are important because the following scenarios:\n\n1) A scenario where we are creating instances by providing the network only argument [1]. It is dpdk based network, so no need to create a port for it.\n\n2) A scenario where the initial resources are created and few test steps later, I need to create another instance with direct network port. Where should I get the security group id from?\n\n[1] - https://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py#L77-L83\n\nIn such a way I need to be able to reach the security group details from any place.",
+      "parentUuid": "421f20cf_4dc4e815",
+      "range": {
+        "startLine": 1054,
+        "startChar": 23,
+        "endLine": 1054,
+        "endChar": 44
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0fc7adef_c5826eef",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -308,6 +380,30 @@
     },
     {
       "key": {
+        "uuid": "3a1dc1a1_bcabda33",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-07-25T05:40:22Z",
+      "side": 1,
+      "message": "But I need to associate the security group name to the instance I\u0027m creating.",
+      "parentUuid": "7244fc81_2a71f66a",
+      "range": {
+        "startLine": 1224,
+        "startChar": 12,
+        "endLine": 1224,
+        "endChar": 37
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8d06f936_da1a7b45",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -319,6 +415,30 @@
       "writtenOn": "2019-07-24T14:09:18Z",
       "side": 1,
       "message": "This one _create_security_group() in tempest\nself._create_loginable_secgroup (rules for ping and ssh) this way we know it is only for remote access.\n\nYou can use this one \nsecurity_group_name\u003d\n       security_groups_name \u003d [{\u0027name\u0027: security_group[\u0027name\u0027]}]\n\nsecurity_groups\u003d\n       security_groups[{\u0027name\u0027: security_group[\u0027name\u0027],\n                        \u0027id\u0027: security_group[\u0027id\u0027] }])",
+      "range": {
+        "startLine": 1369,
+        "startChar": 12,
+        "endLine": 1369,
+        "endChar": 58
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "157ab4b2_f2b14673",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-07-25T05:40:22Z",
+      "side": 1,
+      "message": "As I said above:\n\nSecurity groups are important because the following scenarios:\n\n1) A scenario where we are creating instances by providing the network only argument [1]. It is dpdk based network, so no need to create a port for it.\n\n2) A scenario where the initial resources are created and few test steps later, I need to create another instance with direct network port. Where should I get the security group id from?\n\n[1] - https://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py#L77-L83\n\n\nIn such way I need to be able to reach the security group details from any place.",
+      "parentUuid": "8d06f936_da1a7b45",
       "range": {
         "startLine": 1369,
         "startChar": 12,
