@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "8bfa8ad5_45dc14a6",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-25T07:52:08Z",
+      "side": 1,
+      "message": "And it is not used for ssh at all correct? consider renaming variable in case it is important\nremote_ssh_sec_group\nThe logic of security groups is for ssh,ping i think, \nother wise you have to hold different security groups. \nAnd as per provider network use cases, we are not using security groups",
+      "parentUuid": "af6e1ba0_144972b1",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 39
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c4daa73d_5d852992",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -239,6 +263,30 @@
     },
     {
       "key": {
+        "uuid": "96fc8330_09a749cc",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-25T07:52:08Z",
+      "side": 1,
+      "message": "If you want to maintain port creation open enough, we can change current behavior of port creation, \nYou can control port creation and w/a the port template creation.",
+      "parentUuid": "be77ae88_ff56203f",
+      "range": {
+        "startLine": 1026,
+        "startChar": 40,
+        "endLine": 1026,
+        "endChar": 51
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ff7ac92_267b6684",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -334,6 +382,30 @@
     },
     {
       "key": {
+        "uuid": "0140e750_7d4772ca",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-25T07:52:08Z",
+      "side": 1,
+      "message": "Provider networks not recommended with security groups.\nSRIOV do not have security groups as per now,\nIt is conntrack ovs feature",
+      "parentUuid": "a0172aae_294c291d",
+      "range": {
+        "startLine": 1054,
+        "startChar": 23,
+        "endLine": 1054,
+        "endChar": 44
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0fc7adef_c5826eef",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -392,6 +464,30 @@
       "side": 1,
       "message": "But I need to associate the security group name to the instance I\u0027m creating.",
       "parentUuid": "7244fc81_2a71f66a",
+      "range": {
+        "startLine": 1224,
+        "startChar": 12,
+        "endLine": 1224,
+        "endChar": 37
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1738d3b_8d3f06e2",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-25T07:52:08Z",
+      "side": 1,
+      "message": "If normal port created, no need to parse it to vm\nYou are already doing it in port creation",
+      "parentUuid": "3a1dc1a1_bcabda33",
       "range": {
         "startLine": 1224,
         "startChar": 12,
