@@ -383,6 +383,30 @@
     },
     {
       "key": {
+        "uuid": "ffdbc51a_2ec9cb04",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-28T15:38:57Z",
+      "side": 1,
+      "message": "There is use, to override the external configurations\nAssume you parse network name and port type you want to create.\nPlease keep it open.\nAPI will always be the same. it is just kwargs values in it.",
+      "parentUuid": "7caea4e4_9b9c953e",
+      "range": {
+        "startLine": 1026,
+        "startChar": 40,
+        "endLine": 1026,
+        "endChar": 51
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ff7ac92_267b6684",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -514,6 +538,30 @@
       "side": 1,
       "message": "That\u0027s right.\nThat\u0027s why here, the security group attached to the port only if net_name equal public network.",
       "parentUuid": "0140e750_7d4772ca",
+      "range": {
+        "startLine": 1054,
+        "startChar": 23,
+        "endLine": 1054,
+        "endChar": 44
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "026198ce_631e78e1",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-28T15:38:57Z",
+      "side": 1,
+      "message": "If we want to b open enough the way it is written right now, is not ideal\nWe can create extra ports as we like with different types for advances use cases",
+      "parentUuid": "7eeabdaf_4686fbd7",
       "range": {
         "startLine": 1054,
         "startChar": 23,
@@ -704,6 +752,30 @@
       "side": 1,
       "message": "This is not related to the cloud at all.\nThis related to the pure tempest as well.\n\nDuring every test, we are creating the initial resources and then if needed as part of the test, creating/deleting/modifying resources.\n\nThat\u0027s the case here.",
       "parentUuid": "6c02216a_c0955fbf",
+      "range": {
+        "startLine": 1224,
+        "startChar": 12,
+        "endLine": 1224,
+        "endChar": 37
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e98543f5_1c82699c",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-28T15:38:57Z",
+      "side": 1,
+      "message": "As per now w/out ansible resource creator it is extra security group parsed to nova,\nWhile port already created.\nThis parameter always defined and kwargs always parsed to createserver. this is how it works now.\nThink about option to override this method in child class\nIf we call from child class to createserver with resources, same kwargs same function prototype\nAnd we can change this function.",
+      "parentUuid": "a7ffe2a7_bfc328e2",
       "range": {
         "startLine": 1224,
         "startChar": 12,
