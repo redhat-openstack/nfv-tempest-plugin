@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "5fca004b_267a4419",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-07-28T09:02:52Z",
+      "side": 1,
+      "message": "Later it could be used for the ssh.\nI will rename it to remote_ssh_sec_group.",
+      "parentUuid": "8bfa8ad5_45dc14a6",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 39
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c4daa73d_5d852992",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -287,6 +311,30 @@
     },
     {
       "key": {
+        "uuid": "f8398696_559aab15",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-07-28T09:02:52Z",
+      "side": 1,
+      "message": "I want to be able to control witch port for which network and for which instance I need to create.\nThat\u0027s my main problem.\nAs per our previous discussions.",
+      "parentUuid": "96fc8330_09a749cc",
+      "range": {
+        "startLine": 1026,
+        "startChar": 40,
+        "endLine": 1026,
+        "endChar": 51
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ff7ac92_267b6684",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -406,6 +454,30 @@
     },
     {
       "key": {
+        "uuid": "7eeabdaf_4686fbd7",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-07-28T09:02:52Z",
+      "side": 1,
+      "message": "That\u0027s right.\nThat\u0027s why here, the security group attached to the port only if net_name equal public network.",
+      "parentUuid": "0140e750_7d4772ca",
+      "range": {
+        "startLine": 1054,
+        "startChar": 23,
+        "endLine": 1054,
+        "endChar": 44
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0fc7adef_c5826eef",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -488,6 +560,30 @@
       "side": 1,
       "message": "If normal port created, no need to parse it to vm\nYou are already doing it in port creation",
       "parentUuid": "3a1dc1a1_bcabda33",
+      "range": {
+        "startLine": 1224,
+        "startChar": 12,
+        "endLine": 1224,
+        "endChar": 37
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5330530e_2b10afdc",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-07-28T09:02:52Z",
+      "side": 1,
+      "message": "That\u0027s right when I\u0027m making it as a part of the resources flow creation.\nBut when I\u0027m creating an instance directly as part of the test and providing network (which will create a normal port), I need to specify the security group as well.",
+      "parentUuid": "b1738d3b_8d3f06e2",
       "range": {
         "startLine": 1224,
         "startChar": 12,
