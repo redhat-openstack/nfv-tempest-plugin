@@ -335,6 +335,30 @@
     },
     {
       "key": {
+        "uuid": "1f7cf70d_9131b095",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-28T09:32:24Z",
+      "side": 1,
+      "message": "Cool\nYou can still kwargs[\u0027num_ports\u0027] \u003d 1 or (num_ports\u003d1, **kwargs)\nPlease remain kwargs, it will give this method a lot more opportunities to be open during test writing.\nAssume you have a flag for create network resources without ports.\nand later on you can call this method with kwargs to create different type of ports, instead of reading from ini-file\nKeep the code open",
+      "parentUuid": "f8398696_559aab15",
+      "range": {
+        "startLine": 1026,
+        "startChar": 40,
+        "endLine": 1026,
+        "endChar": 51
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ff7ac92_267b6684",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -596,6 +620,54 @@
     },
     {
       "key": {
+        "uuid": "6c02216a_c0955fbf",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-28T09:32:24Z",
+      "side": 1,
+      "message": "OK, so this flag should be dependent if test is running against a cloud \nSo you should think of solution, no to force all other use cases.\nThis creatserver should find, if it is working against created server.\nOnce you call this method parse it from the test with kwargs. you should help method to decide what to do.\nDo\u0027nt kill tempest standalone solutions, because of resource creator, please",
+      "parentUuid": "5330530e_2b10afdc",
+      "range": {
+        "startLine": 1224,
+        "startChar": 12,
+        "endLine": 1224,
+        "endChar": 37
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "339aa4ff_080d4ccf",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-28T09:32:24Z",
+      "side": 1,
+      "message": "@Maxin look on that suggestion",
+      "parentUuid": "0fc7adef_c5826eef",
+      "range": {
+        "startLine": 1224,
+        "startChar": 40,
+        "endLine": 1224,
+        "endChar": 66
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8d06f936_da1a7b45",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -631,6 +703,30 @@
       "side": 1,
       "message": "As I said above:\n\nSecurity groups are important because the following scenarios:\n\n1) A scenario where we are creating instances by providing the network only argument [1]. It is dpdk based network, so no need to create a port for it.\n\n2) A scenario where the initial resources are created and few test steps later, I need to create another instance with direct network port. Where should I get the security group id from?\n\n[1] - https://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py#L77-L83\n\n\nIn such way I need to be able to reach the security group details from any place.",
       "parentUuid": "8d06f936_da1a7b45",
+      "range": {
+        "startLine": 1369,
+        "startChar": 12,
+        "endLine": 1369,
+        "endChar": 58
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8195bea_a7dd6678",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-28T09:32:24Z",
+      "side": 1,
+      "message": "Correct, but only for ssh\nThis is why i suggested to change the name above,\nThis should be part of the class only for ssh and login.\nAll other provider network staff it is not important, this is why naming is confusing\n\nAnyway, use only one variables, you have sample above how to parse only the name from sec_group variable",
+      "parentUuid": "157ab4b2_f2b14673",
       "range": {
         "startLine": 1369,
         "startChar": 12,
