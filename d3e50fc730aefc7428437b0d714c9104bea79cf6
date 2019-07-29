@@ -407,6 +407,30 @@
     },
     {
       "key": {
+        "uuid": "7351a25c_9f130a78",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-07-29T09:08:00Z",
+      "side": 1,
+      "message": "Fix me if I\u0027m wrong, but within the method, you are not referring to anything like kwargs[something], so what is the matter of the kwargs?\nAnd external configuration stored in \"self\", and could be overridden without the kwargs.",
+      "parentUuid": "ffdbc51a_2ec9cb04",
+      "range": {
+        "startLine": 1026,
+        "startChar": 40,
+        "endLine": 1026,
+        "endChar": 51
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ff7ac92_267b6684",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -562,6 +586,30 @@
       "side": 1,
       "message": "If we want to b open enough the way it is written right now, is not ideal\nWe can create extra ports as we like with different types for advances use cases",
       "parentUuid": "7eeabdaf_4686fbd7",
+      "range": {
+        "startLine": 1054,
+        "startChar": 23,
+        "endLine": 1054,
+        "endChar": 44
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "919525a7_a0083ded",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-07-29T09:08:00Z",
+      "side": 1,
+      "message": "As I mentioned in the previous discussion, I do not want to create the ports during the initial resources setup because of 2 main reasons:\n\n1) In case I\u0027m creating multiple ports with different types, how should I know later which port should be attached to which instance.\n\n2) If the test runs with external resources creation, \"resource_creation\" method will not be used. But I still need to create ports.\n\n\nIn any case, we need to agree on the way ports should be created and rewrite the method.\nThis is a work for another patch.",
+      "parentUuid": "026198ce_631e78e1",
       "range": {
         "startLine": 1054,
         "startChar": 23,
@@ -776,6 +824,30 @@
       "side": 1,
       "message": "As per now w/out ansible resource creator it is extra security group parsed to nova,\nWhile port already created.\nThis parameter always defined and kwargs always parsed to createserver. this is how it works now.\nThink about option to override this method in child class\nIf we call from child class to createserver with resources, same kwargs same function prototype\nAnd we can change this function.",
       "parentUuid": "a7ffe2a7_bfc328e2",
+      "range": {
+        "startLine": 1224,
+        "startChar": 12,
+        "endLine": 1224,
+        "endChar": 37
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8072c511_677acc38",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-07-29T09:08:00Z",
+      "side": 1,
+      "message": "The security group created here passed to the port creation in the next line. The port is not created before that.\n\nCan you elaborate on the child class?\nHow exactly it should work and what are the benefits?",
+      "parentUuid": "e98543f5_1c82699c",
       "range": {
         "startLine": 1224,
         "startChar": 12,
