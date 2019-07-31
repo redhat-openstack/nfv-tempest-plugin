@@ -431,6 +431,30 @@
     },
     {
       "key": {
+        "uuid": "05cf9761_c482b4f5",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-31T09:41:25Z",
+      "side": 1,
+      "message": "OK, I will answer\nBareMetalManager::def _create_ports_on_networks(self, **kwargs)\n\nAssume i would like from a test to create port on specific network.\nI can create class TestClass(BaseTest)\nAnd create my own TestClass(BaseTest)::_create_ports_on_networks(self, **kwargs)\n\nThis method will be called once BareMetalManager::def _create_ports_on_networks is called\nThis is very flexible.\nSame method prototype, no change in code for inheritance :)\n\nWe can add an option to create resources with specific ports from the tests",
+      "parentUuid": "7351a25c_9f130a78",
+      "range": {
+        "startLine": 1026,
+        "startChar": 40,
+        "endLine": 1026,
+        "endChar": 51
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ff7ac92_267b6684",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -848,6 +872,30 @@
       "side": 1,
       "message": "The security group created here passed to the port creation in the next line. The port is not created before that.\n\nCan you elaborate on the child class?\nHow exactly it should work and what are the benefits?",
       "parentUuid": "e98543f5_1c82699c",
+      "range": {
+        "startLine": 1224,
+        "startChar": 12,
+        "endLine": 1224,
+        "endChar": 37
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb59eba1_6e92a0ba",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1224,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-07-31T09:41:25Z",
+      "side": 1,
+      "message": "see my reply above",
+      "parentUuid": "8072c511_677acc38",
       "range": {
         "startLine": 1224,
         "startChar": 12,
