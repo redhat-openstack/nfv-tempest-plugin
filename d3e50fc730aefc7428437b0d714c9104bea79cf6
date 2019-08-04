@@ -455,6 +455,54 @@
     },
     {
       "key": {
+        "uuid": "f20dfa93_dea80e57",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2019-08-04T18:51:07Z",
+      "side": 1,
+      "message": "Is the num_ports attribute is something that only could be overriden by tests?",
+      "parentUuid": "b61db20a_3413164c",
+      "range": {
+        "startLine": 1026,
+        "startChar": 8,
+        "endLine": 1026,
+        "endChar": 33
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c052849_34bbaed6",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2019-08-04T18:51:07Z",
+      "side": 1,
+      "message": "In what scenarios you\u0027ll override the base function?\n\nWouldn\u0027t you want the main function to expose all of the capabilities so it could be leveraged by all tests?\n\nIf I\u0027m understanding correctly, I don\u0027t think that an individual test should override a function, for example if HW offload tests require additional attributes to be passed by API, why would I want to only expose it at the test level and not globally? As you said OpenStack APIs won\u0027t change and we would like to have the option to leverage many scenarios on different tests.",
+      "parentUuid": "05cf9761_c482b4f5",
+      "range": {
+        "startLine": 1026,
+        "startChar": 40,
+        "endLine": 1026,
+        "endChar": 51
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ff7ac92_267b6684",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -634,6 +682,30 @@
       "side": 1,
       "message": "As I mentioned in the previous discussion, I do not want to create the ports during the initial resources setup because of 2 main reasons:\n\n1) In case I\u0027m creating multiple ports with different types, how should I know later which port should be attached to which instance.\n\n2) If the test runs with external resources creation, \"resource_creation\" method will not be used. But I still need to create ports.\n\n\nIn any case, we need to agree on the way ports should be created and rewrite the method.\nThis is a work for another patch.",
       "parentUuid": "026198ce_631e78e1",
+      "range": {
+        "startLine": 1054,
+        "startChar": 23,
+        "endLine": 1054,
+        "endChar": 44
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de9810c7_f6bb7773",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2019-08-04T18:51:07Z",
+      "side": 1,
+      "message": "@Yariv\nIn what scenario you would like to have more than a single security group?\n\nI think that if you want to test/block traffic, this could be done through policies. Perhaps it\u0027s worth to invest in a more robust policies functions.",
+      "parentUuid": "919525a7_a0083ded",
       "range": {
         "startLine": 1054,
         "startChar": 23,
