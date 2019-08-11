@@ -503,6 +503,30 @@
     },
     {
       "key": {
+        "uuid": "8a8963f0_56df30d2",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-08-11T04:55:32Z",
+      "side": 1,
+      "message": "I would like to avoid monolithic code blocks, that can not give the test writer any flexibility.\nThis way for instance, test will call create_resources w/o port creation.\nTest will decide which ports to create on each network.",
+      "parentUuid": "6c052849_34bbaed6",
+      "range": {
+        "startLine": 1026,
+        "startChar": 40,
+        "endLine": 1026,
+        "endChar": 51
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ff7ac92_267b6684",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
@@ -706,6 +730,30 @@
       "side": 1,
       "message": "@Yariv\nIn what scenario you would like to have more than a single security group?\n\nI think that if you want to test/block traffic, this could be done through policies. Perhaps it\u0027s worth to invest in a more robust policies functions.",
       "parentUuid": "919525a7_a0083ded",
+      "range": {
+        "startLine": 1054,
+        "startChar": 23,
+        "endLine": 1054,
+        "endChar": 44
+      },
+      "revId": "d3e50fc730aefc7428437b0d714c9104bea79cf6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a434eca4_87400794",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-08-11T04:55:32Z",
+      "side": 1,
+      "message": "I do not know yet :), but better to maintain the open approach.\nOne day for instance security group will be supported in HW offloads.\nso maybe we would like to have additional rules to ping ssh",
+      "parentUuid": "de9810c7_f6bb7773",
       "range": {
         "startLine": 1054,
         "startChar": 23,
