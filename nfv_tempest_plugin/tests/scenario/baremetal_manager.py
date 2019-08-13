@@ -219,6 +219,18 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 rx_tx_str = jsonutils.dumps(test['rx_tx_config'])
                 self.test_setup_dict[test['name']]['config_dict'] = \
                     jsonutils.loads(rx_tx_str)
+            if 'bonding_config' in test and test['bonding_config'] is not None:
+                for item in test['bonding_config']:
+                    for key, value in iter(item.items()):
+                        if not value:
+                            raise ValueError('The {0} configuration is '
+                                             'required for the bondig '
+                                             'test, but currently empty.'
+                                             .format(key))
+                bonding_str = jsonutils.dumps(test['bonding_config'])
+                self.test_setup_dict[test['name']] = {}
+                self.test_setup_dict[test['name']]['config_dict'] = \
+                    jsonutils.loads(bonding_str)
             self.test_setup_dict[test['name']]['aggregate'] = \
                 test.get('aggregate')
 
