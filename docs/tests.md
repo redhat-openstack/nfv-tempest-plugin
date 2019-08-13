@@ -19,6 +19,10 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_rx_tx
 - nfv_tempest_plugin.tests.scenario.test_nfv_sriov_usecases.TestSriovScenarios.test_sriov_trusted_vfs
 - nfv_tempest_plugin.tests.scenario.test_nfv_advanced_usecases.TestAdvancedScenarios.test_numa_aware_vswitch
+- nfv_tempest_plugin.tests.scenario.test_nfv_lacp_usecases.TestLacpScenarios.test_deployment_lacp
+- nfv_tempest_plugin.tests.scenario.test_nfv_lacp_usecases.TestLacpScenarios.test_balance_tcp
+- nfv_tempest_plugin.tests.scenario.test_nfv_lacp_usecases.TestLacpScenarios.test_restart_ovs
+
 
 ### Tests configuration
 The nfv-tempest-plugin uses external configuration file in order to provide the proper configuration of the test execution to the tempest.  
@@ -242,3 +246,55 @@ Tests included:
 Definition of the aggregate should be in the test config **and** the flavor, as aggregate feature works.
 
 **Note** - The test suit only for OSP Rocky version and above, since the numa aware vswitch feature was implemented only in OSP Stein version and backported to OSP Rocky.
+
+----------
+#### TestLacpScenarios
+Tests included:
+- test_deployment_lacp
+
+  Test explanation:
+  Test that balance-tcp and lacp is properly configured after deployment. More info in the following link:
+  https://docs.google.com/document/d/12Bd0jn2WBkQnepYUw2usSpmol51XnovyjpLKtJpMVqA/edit#bookmark=id.gffcyp4eped5
+
+  Test config:
+  - name: deployment_lacp
+    bonding_config:
+      - bond_name: 'dpdkbond1'
+        bond_mode: 'balance-tcp'
+        lacp_status: 'negotiated'
+        lacp_time: 'fast'
+        lacp_fallback_ab: 'true'
+
+- test_balance_tcp
+
+  Test explanation:
+  Check that ovs is balancing properly the traffic when balance-tcp is configured. More info in the following link:
+  https://docs.google.com/document/d/12Bd0jn2WBkQnepYUw2usSpmol51XnovyjpLKtJpMVqA/edit#bookmark=id.gxmru0tyfwmp
+
+  Test config:
+  - name: balance_tcp
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+    package-names:
+      - iperf
+    bonding_config:
+      - bond_name: 'dpdkbond1'
+        ports: [ 'dpdk2', 'dpdk3']
+    servers:
+       - name: 'server1'
+         ports:
+           - network: 'data1'
+           - network: 'data2'
+       - name: 'server2'
+         ports:
+           - network: 'data1'
+           - network: 'data2'
+
+- test_restart_ovs
+
+  Test explanation:
+  Check that lacp configuration is not lost after ovs restart. More info in the following link:
+  https://docs.google.com/document/d/12Bd0jn2WBkQnepYUw2usSpmol51XnovyjpLKtJpMVqA/edit#bookmark=id.rzqov7ncpceb
+
+  Test config:
+  - name: restart_ovs
