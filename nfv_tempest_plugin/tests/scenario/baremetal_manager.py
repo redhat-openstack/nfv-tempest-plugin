@@ -179,11 +179,13 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         # Insert here every new parameter.
         for test in self.external_config['tests-setup']:
+            self.test_setup_dict[test['name']] = {}
+            self.test_setup_dict[test['name']]['config_dict'] = {}
             if 'flavor' in test and test['flavor'] is not None:
-                self.test_setup_dict[test['name']] = {'flavor': test['flavor']}
+                self.test_setup_dict[test['name']]['flavor'] = test['flavor']
             if 'package-names' in test and test['package-names'] is not None:
-                self.test_setup_dict[test['name']] = \
-                    {'package-names': test['package-names']}
+                self.test_setup_dict[test['name']]['package-names'] = \
+                    test['package-names']
             if 'image' in test and test['image'] is not None:
                 self.test_setup_dict[test['name']]['image'] = \
                     test['image']
@@ -222,9 +224,49 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 rx_tx_str = jsonutils.dumps(test['rx_tx_config'])
                 self.test_setup_dict[test['name']]['config_dict'] = \
                     jsonutils.loads(rx_tx_str)
+            if 'bonding_config' in test and test['bonding_config'] is not None:
+                for item in test['bonding_config']:
+                    for key, value in iter(item.items()):
+                        if not value:
+                            raise ValueError('The {0} configuration is '
+                                             'required for the bondig '
+                                             'test, but currently empty.'
+                                             .format(key))
+                bonding_str = jsonutils.dumps(test['bonding_config'])
+                test_setup_dict = self.test_setup_dict[test['name']]
+                test_setup_dict['config_dict']['bonding_config'] = \
+                    jsonutils.loads(bonding_str)
+            if 'servers' in test and test['servers'] is not None:
+                servers = {}
+                for item in test['servers']:
+                    if 'name' in item.keys() and item['name'] is not None:
+                        servers[item['name']] = {'ports': set(), 'routes': {}}
+                    else:
+                        raise ValueError('name required for server config')
+                    if 'ports' in item.keys() and item['ports'] is not None:
+                        for item2 in item['ports']:
+                            if 'network' in item2.keys() and \
+                               item2['network'] is not None:
+                                servers[item['name']]['ports'] \
+                                    .add(item2['network'])
+                            else:
+                                raise ValueError('missing network in config')
+                    if 'routes' in item.keys() and item['routes'] is not None:
+                        for item2 in item['routes']:
+                            if 'network' in item2.keys() and \
+                                item2['network'] is not None and \
+                               'gateway' in item2.keys() and \
+                                item2['gateway'] is not None:
+                                srv_routes = servers[item['name']]['routes']
+                                srv_routes[item2['network']] = \
+                                    item2['gateway']
+                            else:
+                                raise ValueError('missing network and gateway'
+                                                 ' in route config')
+                self.test_setup_dict[test['name']]['config_dict']['servers'] \
+                    = servers
             self.test_setup_dict[test['name']]['aggregate'] = \
                 test.get('aggregate')
-
         if not os.path.exists(
                 CONF.nfv_plugin_options.external_resources_output_file):
             # iterate flavors_id
@@ -1024,7 +1066,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         remove_network = net_name
             self.test_network_dict.pop(remove_network)
 
-    def _create_ports_on_networks(self, num_ports=1):
+    def _create_ports_on_networks(self, num_ports=1, servers=None):
         """Create ports on a test networks for instances
 
         The method will create a network ports as per test_network dict
@@ -1036,7 +1078,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         from the kwargs for the later instance creation.
 
         :param num_ports: The number of loops for ports creation
-        :param kwargs
+        :param servers: ports for each server
 
         :return ports_list: A list of ports lists
         """
@@ -1044,31 +1086,38 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         set public network first
         """
+        if servers is not None:
+            num_ports = len(servers)
+
         for nport in range(num_ports):
             networks_list = []
             for net_name, net_param in iter(self.test_network_dict.items()):
-                create_port_body = {'binding:vnic_type': '',
-                                    'namestart': 'port-smoke'}
-                if 'port_type' in net_param:
-                    create_port_body['binding:vnic_type'] = \
-                        net_param['port_type']
-                    if self.remote_ssh_sec_groups and net_name == \
-                            self.test_network_dict['public']:
-                        create_port_body['security_groups'] = \
-                            [s['id'] for s in self.remote_ssh_sec_groups]
-                    if 'trusted_vf' in net_param and \
-                       net_param['trusted_vf'] and \
-                       net_param['port_type'] == 'direct':
-                        create_port_body['binding:profile'] = \
-                            {'trusted': 'true'}
-                    port = self._create_port(network_id=net_param['net-id'],
-                                             **create_port_body)
-                    net_var = {'uuid': net_param['net-id'], 'port': port['id']}
-                    if 'tag' in net_param:
-                        net_var['tag'] = net_param['tag']
-                    networks_list.append(net_var) \
-                        if net_name != self.test_network_dict['public'] else \
-                        networks_list.insert(0, net_var)
+                if servers is None or \
+                   net_name in servers.items()[nport][1]['ports']:
+                    create_port_body = {'binding:vnic_type': '',
+                                        'namestart': 'port-smoke'}
+                    if 'port_type' in net_param:
+                        create_port_body['binding:vnic_type'] = \
+                            net_param['port_type']
+                        if self.remote_ssh_sec_groups and net_name == \
+                                self.test_network_dict['public']:
+                            create_port_body['security_groups'] = \
+                                [s['id'] for s in self.remote_ssh_sec_groups]
+                        if 'trusted_vf' in net_param and \
+                           net_param['trusted_vf'] and \
+                           net_param['port_type'] == 'direct':
+                            create_port_body['binding:profile'] = \
+                                {'trusted': 'true'}
+                        port = self._create_port(
+                            network_id=net_param['net-id'],
+                            **create_port_body)
+                        net_var = {'uuid': net_param['net-id'],
+                                   'port': port['id']}
+                        if 'tag' in net_param:
+                            net_var['tag'] = net_param['tag']
+                        networks_list.append(net_var) \
+                            if net_name != self.test_network_dict['public'] \
+                            else networks_list.insert(0, net_var)
             ports_list.append(networks_list)
         return ports_list
 
@@ -1156,6 +1205,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
     def create_server_with_fip(self, num_servers=1, use_mgmt_only=False,
                                fip=True, networks=None, srv_state='ACTIVE',
+                               servers_config=None, key_pair=None,
                                raise_on_error=True, **kwargs):
         """Create defined number of the instances with floating ip.
 
@@ -1164,6 +1214,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         :param fip: Creation of the floating ip for the server.
         :param networks: List of networks/ports for the servers.
         :param srv_state: The state of the server to expect.
+        :param servers_config: servers configuration (networks to attach)
+        :param key_pair: key_pair data to connect to the servers
         :param raise_on_error: Raise as error on failed build of the server.
         :param kwargs:
         :return: List of created servers
@@ -1190,6 +1242,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                            raise_on_error=raise_on_error)
             LOG.info('The instance - {} is in an {} state'.format(num + 1,
                      srv_state))
+            # store ip addresses for each interface of the server
+            server['addresses'] = self.os_admin.servers_client \
+                .list_addresses(server['id'])['addresses']
             if srv_state == 'ACTIVE':
                 port = self.os_admin.ports_client.list_ports(device_id=server[
                     'id'], network_id=networks[num][0]['uuid'])['ports'][0]
@@ -1203,6 +1258,19 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 server['network_id'] = networks[num][0]['uuid']
                 LOG.info('The {} fixed ip set for the instance'.format(
                     server['fip']))
+            if servers_config is not None:
+                # configure routes in the servers
+                for net, gw in servers_config.items()[num][1]['routes']\
+                    .iteritems():
+                    net_ip = self.test_network_dict[net]['cidr']
+                    gw_ip = self.test_network_dict[gw]['gateway_ip']
+                    cmd = "sudo ip route add " + net_ip + " via " + gw_ip
+                    ssh_source = self.get_remote_client(
+                        server['fip'],
+                        username=self.instance_user,
+                        private_key=key_pair['private_key'])
+                    ssh_source.exec_command(cmd)
+
         return servers
 
     def create_server_with_resources(self, num_servers=1, num_ports=None,
@@ -1232,8 +1300,15 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         LOG.info('Creating resources...')
 
-        if num_ports is None:
-            num_ports = num_servers
+        server_list = None
+        if 'config_dict' in self.test_setup_dict[test].keys() and \
+           'servers' in self.test_setup_dict[test]['config_dict'].keys():
+            server_list = self.test_setup_dict[test]['config_dict']['servers']
+            num_servers = len(server_list)
+            num_ports = None
+        else:
+            if num_ports is None:
+                num_ports = num_servers
 
         # Check for the test config file
         self.assertTrue(test in self.test_setup_dict,
@@ -1280,25 +1355,37 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self._set_remote_ssh_sec_groups()
         if self.remote_ssh_sec_groups_names:
             kwargs['security_groups'] = self.remote_ssh_sec_groups_names
-        ports_list = self._create_ports_on_networks(num_ports=num_ports)
+        ports_list = self._create_ports_on_networks(num_ports=num_ports,
+                                                    servers=server_list)
         router_exist = True
         if 'router' in self.test_setup_dict[test]:
             router_exist = self.test_setup_dict[test]['router']
         if router_exist:
             self._add_subnet_to_router()
         # Prepare cloudinit
-        kwargs['user_data'] = self._prepare_cloudinit_file()
+        kwargs['user_data'] = self._prepare_cloudinit_file(
+            install_packages=self.test_setup_dict[test]['package-names'])
         servers = self.create_server_with_fip(num_servers=num_servers,
+                                              servers_config=server_list,
+                                              key_pair=key_pair,
                                               networks=ports_list, **kwargs)
         return servers, key_pair
 
+    def _get_pid_ovs(self, ip_address):
+        """This method checks if ovs pid exist
+
+        param ip_address: server ip address
+        return  ovs pid or None if it does not exist
+        """
+
+        ovs_process = "sudo pidof ovs-vswitchd"
+        return (self._run_command_over_ssh(ip_address,
+                                           ovs_process)).strip('\n')
     def _check_number_queues(self):
         """This method checks the number of max queues"""
         self.ip_address = self._get_hypervisor_ip_from_undercloud(
             **{'shell': '/home/stack/stackrc'})
-        ovs_process = "sudo pidof ovs-vswitchd"
-        ovs_process_pid = (self._run_command_over_ssh(self.ip_address[0],
-                                                      ovs_process)).strip('\n')
+        ovs_process_pid = self._get_pid_ovs(self.ip_address[0])
         if not ovs_process_pid:
             raise ValueError('The ovs-vswitchd process is missing.')
         count_pmd = "ps -T -p {} | grep pmd | wc -l".format(ovs_process_pid)
@@ -1357,27 +1444,27 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                                    'custom_net_config.py'),
                                         passwd=self.instance_pass)
         if (self.test_instance_repo and 'name' in
-                self.test_instance_repo and not self.user_data):
+                self.test_instance_repo):
             repo_name = self.external_config['test_instance_repo']['name']
             repo_url = self.external_config['test_instance_repo']['url']
             repo = '''
-                   yum_repos:
-                       {repo_name}:
-                          name: {repo_name}
-                          baseurl: {repo_url}
-                          enabled: true
-                          gpgcheck: false
+                             yum_repos:
+                                 {repo_name}:
+                                     name: {repo_name}
+                                     baseurl: {repo_url}
+                                     enabled: true
+                                     gpgcheck: false
                     '''.format(repo_name=repo_name,
                                repo_url=repo_url)
             self.user_data = "".join((self.user_data, repo))
 
-        if install_packages is not None and not self.user_data:
+        if install_packages is not None:
             header = '''
-                 packages:'''
+                             packages:'''
             body = ''
-            for package in install_packages.split(','):
+            for package in install_packages:
                 body += '''
-                 - {package}'''.format(package=package)
+                             - {package}'''.format(package=package)
             package = "".join((header, body))
             self.user_data = "".join((self.user_data, package))
 
@@ -1524,3 +1611,37 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         with open(self.external_resources_data['key_pair'], 'r') as key:
             key_pair = {'private_key': key.read()}
         return servers, key_pair
+
+    def get_ovs_interface_statistics(self, interfaces, previous_stats=None):
+        """This method get ovs interface statistics
+
+        :param interfaces: interfaces in which statistics will be retrieved
+        :param previous_stats: get the difference between current stats and
+                               previous stats
+        :return statistics
+        """
+        self.ip_address = self._get_hypervisor_ip_from_undercloud(
+            **{'shell': '/home/stack/stackrc'})
+        ovs_process_pid = self._get_pid_ovs(self.ip_address[0])
+        if not ovs_process_pid:
+            raise ValueError('The ovs-vswitchd process is missing.')
+        # We ensure that a number is being parsed, otherwise we fail
+        statistics = {}
+        for interface in interfaces:
+            command = 'sudo ovs-vsctl get Interface {} ' \
+                      'statistics'.format(interface)
+            statistics[interface] = yaml.safe_load(self._run_command_over_ssh(
+                self.ip_address[0], command).replace('"', '')
+                .replace('{', '{"').replace(', ', ', "')
+                .replace('=', '":'))
+            if previous_stats is not None and \
+               interface in previous_stats.keys():
+                for stat in statistics[interface].keys():
+                    if stat in previous_stats[interface].keys():
+                        statistics[interface][stat] -= \
+                            previous_stats[interface][stat]
+                    else:
+                        raise ValueError('missing ovs interface stat {} '
+                                         'to compare'.format(stat))
+
+        return statistics
