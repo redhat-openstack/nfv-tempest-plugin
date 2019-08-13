@@ -179,11 +179,13 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         # Insert here every new parameter.
         for test in self.external_config['tests-setup']:
+            self.test_setup_dict[test['name']] = {}
+            self.test_setup_dict[test['name']]['config_dict'] = {}
             if 'flavor' in test and test['flavor'] is not None:
-                self.test_setup_dict[test['name']] = {'flavor': test['flavor']}
+                self.test_setup_dict[test['name']]['flavor'] = test['flavor']
             if 'package-names' in test and test['package-names'] is not None:
-                self.test_setup_dict[test['name']] = \
-                    {'package-names': test['package-names']}
+                self.test_setup_dict[test['name']]['package-names'] = \
+                    test['package-names']
             if 'image' in test and test['image'] is not None:
                 self.test_setup_dict[test['name']]['image'] = \
                     test['image']
@@ -222,9 +224,20 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 rx_tx_str = jsonutils.dumps(test['rx_tx_config'])
                 self.test_setup_dict[test['name']]['config_dict'] = \
                     jsonutils.loads(rx_tx_str)
+            if 'bonding_config' in test and test['bonding_config'] is not None:
+                for item in test['bonding_config']:
+                    for key, value in iter(item.items()):
+                        if not value:
+                            raise ValueError('The {0} configuration is '
+                                             'required for the bondig '
+                                             'test, but currently empty.'
+                                             .format(key))
+                bonding_str = jsonutils.dumps(test['bonding_config'])
+                test_setup_dict = self.test_setup_dict[test['name']]
+                test_setup_dict['config_dict']['bonding_config'] = \
+                    jsonutils.loads(bonding_str)
             self.test_setup_dict[test['name']]['aggregate'] = \
                 test.get('aggregate')
-
         if not os.path.exists(
                 CONF.nfv_plugin_options.external_resources_output_file):
             # iterate flavors_id
@@ -1292,13 +1305,22 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                               networks=ports_list, **kwargs)
         return servers, key_pair
 
+    def _get_pid_ovs(self, ip_address):
+        """This method checks if ovs pid exist
+
+        param ip_address: server ip address
+        return  ovs pid or None if it does not exist
+        """
+
+        ovs_process = "sudo pidof ovs-vswitchd"
+        return (self._run_command_over_ssh(ip_address,
+                                           ovs_process)).strip('\n')
+
     def _check_number_queues(self):
         """This method checks the number of max queues"""
         self.ip_address = self._get_hypervisor_ip_from_undercloud(
             **{'shell': '/home/stack/stackrc'})
-        ovs_process = "sudo pidof ovs-vswitchd"
-        ovs_process_pid = (self._run_command_over_ssh(self.ip_address[0],
-                                                      ovs_process)).strip('\n')
+        ovs_process_pid = self._get_pid_ovs(self.ip_address[0])
         if not ovs_process_pid:
             raise ValueError('The ovs-vswitchd process is missing.')
         count_pmd = "ps -T -p {} | grep pmd | wc -l".format(ovs_process_pid)
@@ -1524,3 +1546,37 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         with open(self.external_resources_data['key_pair'], 'r') as key:
             key_pair = {'private_key': key.read()}
         return servers, key_pair
+
+    def get_ovs_interface_statistics(self, interfaces, previous_stats=None):
+        """This method get ovs interface statistics
+
+        :param interfaces: interfaces in which statistics will be retrieved
+        :param previous_stats: get the difference between current stats and
+                               previous stats
+        :return statistics
+        """
+        self.ip_address = self._get_hypervisor_ip_from_undercloud(
+            **{'shell': '/home/stack/stackrc'})
+        ovs_process_pid = self._get_pid_ovs(self.ip_address[0])
+        if not ovs_process_pid:
+            raise ValueError('The ovs-vswitchd process is missing.')
+        # We ensure that a number is being parsed, otherwise we fail
+        statistics = {}
+        for interface in interfaces:
+            command = 'sudo ovs-vsctl get Interface {} ' \
+                      'statistics'.format(interface)
+            statistics[interface] = yaml.safe_load(self._run_command_over_ssh(
+                self.ip_address[0], command).replace('"', '')
+                .replace('{', '{"').replace(', ', ', "')
+                .replace('=', '":'))
+            if previous_stats is not None and \
+               interface in previous_stats.keys():
+                for stat in statistics[interface].keys():
+                    if stat in previous_stats[interface].keys():
+                        statistics[interface][stat] -= \
+                            previous_stats[interface][stat]
+                    else:
+                        raise ValueError('missing ovs interface stat {} '
+                                         'to compare'.format(stat))
+
+        return statistics
