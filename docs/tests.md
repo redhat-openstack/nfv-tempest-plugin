@@ -19,6 +19,10 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_rx_tx
 - nfv_tempest_plugin.tests.scenario.test_nfv_sriov_usecases.TestSriovScenarios.test_sriov_trusted_vfs
 - nfv_tempest_plugin.tests.scenario.test_nfv_advanced_usecases.TestAdvancedScenarios.test_numa_aware_vswitch
+- nfv_tempest_plugin.tests.scenario.test_nfv_lacp_usecases.TestLacpScenarios.test_deployment_lacp
+- nfv_tempest_plugin.tests.scenario.test_nfv_lacp_usecases.TestLacpScenarios.test_balance_tcp
+- nfv_tempest_plugin.tests.scenario.test_nfv_lacp_usecases.TestLacpScenarios.test_restart_ovs
+
 
 ### Tests configuration
 The nfv-tempest-plugin uses external configuration file in order to provide the proper configuration of the test execution to the tempest.  
@@ -242,3 +246,52 @@ Tests included:
 Definition of the aggregate should be in the test config **and** the flavor, as aggregate feature works.
 
 **Note** - The test suit only for OSP Rocky version and above, since the numa aware vswitch feature was implemented only in OSP Stein version and backported to OSP Rocky.
+
+----------
+#### TestLacpScenarios
+Tests included:
+- test_deployment_lacp
+
+  Test explanation:
+  Test that balance-tcp and lacp is properly configured after deployment. Following values are checked:
+  * bond_name: There must be a bonding configured
+  * bond_mode: It must be set to balance-tcp
+  * lacp_status: It must be set to negotiated which indicates that the switch is properly configured too
+  * lacp_time: It must be set to fast (lacp messages sent very frecuently)
+  * lacp_fallback_ab: It must be set to true (change to active-backup if no lacp messages)
+
+  Test config:
+  - name: deployment_lacp
+    bonding_config:
+      - bond_name: 'dpdkbond1'
+        bond_mode: 'balance-tcp'
+        lacp_status: 'negotiated'
+        lacp_time: 'fast'
+        lacp_fallback_ab: 'true'
+
+- test_balance_tcp
+
+  Test explanation:
+  Check that ovs is balancing properly the traffic when balance-tcp is configured. 
+  - 1 flow: all the traffic through the same interface in the bonding, the other one is not used
+  - 2 flows: half of the traffic in each interface
+  - 3 flows: 33% in one interface and 66% in the other interface
+ 
+  Test config:
+  - name: balance_tcp
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+    package-names:
+      - iperf
+    bonding_config:
+      - bond_name: 'dpdkbond1'
+        ports: [ 'dpdk2', 'dpdk3']
+
+- test_restart_ovs
+
+  Test explanation:
+  Check that lacp configuration is not lost after ovs restart. 
+  Restart ovs and then execute test_deployment_lacp 
+
+  Test config:
+  - name: restart_ovs
