@@ -149,30 +149,31 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             flavors = self.flavors_client.list_flavors()['flavors']
             images = self.image_client.list_images()['images']
 
-        if 'networks' in self.external_config:
-            """
-            Iterate over networks mandatory vars in external_config are:
-            port_type, gateway_ip
-            """
-            for net in self.external_config['networks']:
-                self.test_network_dict[net['name']] = {'port_type': net[
-                    'port_type'], 'gateway_ip': net['gateway_ip']}
+            if 'networks' in self.external_config:
                 """
-                Check for existence of optionals vars:
-                router_name, external.
+                Iterate over networks mandatory vars in external_config are:
+                port_type, gateway_ip
                 """
-                if 'external' in net:
-                    self.test_network_dict[net['name']]['external'] = net[
-                        'external']
-                if 'router_name' in net:
-                    self.test_network_dict[net['name']]['router'] = net[
-                        'router_name']
+                for net in self.external_config['networks']:
+                    self.test_network_dict[net['name']] = {'port_type': net[
+                        'port_type'], 'gateway_ip': net['gateway_ip']}
+                    """
+                    Check for existence of optionals vars:
+                    router_name, external.
+                    """
+                    if 'external' in net:
+                        self.test_network_dict[net['name']]['external'] = net[
+                            'external']
+                    if 'router_name' in net:
+                        self.test_network_dict[net['name']]['router'] = net[
+                            'router_name']
 
-            # iterate networks
-            for net in iter(self.test_network_dict.keys()):
-                for network in networks:
-                    if network['name'] == net:
-                        self.test_network_dict[net]['net-id'] = network['id']
+                # iterate networks
+                for net in iter(self.test_network_dict.keys()):
+                    for network in networks:
+                        if network['name'] == net:
+                            self.test_network_dict[net]['net-id'] = \
+                                network['id']
 
         # Insert here every new parameter.
         for test in self.external_config['tests-setup']:
