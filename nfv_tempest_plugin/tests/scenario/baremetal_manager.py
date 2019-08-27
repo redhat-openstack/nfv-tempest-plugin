@@ -1243,9 +1243,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         # In case resources created externally, set them.
         if self.external_resources_data is not None:
-            servers = self.external_resources_data['servers']
-            with open(self.external_resources_data['key_pair'], 'r') as key:
-                key_pair = {'private_key': key.read()}
+            servers, key_pair = self._organize_external_created_resources(test)
             LOG.info('The resources created by the external tool. '
                      'Continue to the test.')
             return servers, key_pair
@@ -1490,6 +1488,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
     def _read_and_validate_external_resources_data_file(self):
         """Validate yaml file contains externally created resources"""
+        LOG.info("Found external resources file. Validating...")
         with open(CONF.nfv_plugin_options.external_resources_output_file,
                   'r') as f:
             try:
@@ -1505,6 +1504,25 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 os.path.exists(self.external_resources_data['key_pair']):
             raise Exception('The private key is missing from the yaml file.')
         for srv in self.external_resources_data['servers']:
-            if not srv.viewkeys() >= {'name', 'id', 'fip'}:
+            if not srv.viewkeys() >= {'name', 'id', 'fip', 'groups'}:
                 raise ValueError('The yaml file missing of the following keys:'
                                  ' name, id or fip.')
+
+    def _organize_external_created_resources(self, group=None):
+        """Organize the external created resource by test groups"""
+        groups = {}
+        bulk_servers = self.external_resources_data['servers']
+        for srv in bulk_servers:
+            for grp in srv['groups']:
+                if grp in groups:
+                    groups[grp].append(srv)
+                else:
+                    groups[grp] = [srv]
+        if group not in groups:
+            raise ValueError('The required group - "{}" is missing on '
+                             'existing resources'.format(group))
+        servers = groups[group]
+
+        with open(self.external_resources_data['key_pair'], 'r') as key:
+            key_pair = {'private_key': key.read()}
+        return servers, key_pair
