@@ -201,3 +201,8 @@ tests-setup:
       hosts:
         - computeovsdpdksriov-0
       metadata: test=numa_aware_vswitch
+
+  - name: double_tagging
+    vlan_config:
+      iface_vlan: 10
+      test_vlan: 12
