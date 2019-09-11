@@ -238,6 +238,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     jsonutils.loads(bonding_str)
             self.test_setup_dict[test['name']]['aggregate'] = \
                 test.get('aggregate')
+            self.test_setup_dict[test['name']]['vlan_config'] = \
+                test.get('vlan_config')
+
         if not os.path.exists(
                 CONF.nfv_plugin_options.external_resources_output_file):
             # iterate flavors_id
