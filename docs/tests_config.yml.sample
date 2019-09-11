@@ -207,3 +207,8 @@ tests-setup:
      # Name of the compute node with offload enabled and offload nics of node
      - node: computemellanox
        nics: ['p4p1', 'p4p2']
+
+  - name: double_tagging
+    vlan_config:
+      iface_vlan: 10
+      test_vlan: 12

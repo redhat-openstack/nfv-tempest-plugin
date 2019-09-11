@@ -18,6 +18,7 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_multicast
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_rx_tx
 - nfv_tempest_plugin.tests.scenario.test_nfv_sriov_usecases.TestSriovScenarios.test_sriov_trusted_vfs
+- nfv_tempest_plugin.tests.scenario.test_nfv_sriov_usecases.TestSriovScenarios.test_sriov_double_tagging
 - nfv_tempest_plugin.tests.scenario.test_nfv_advanced_usecases.TestAdvancedScenarios.test_numa_aware_vswitch
 - nfv_tempest_plugin.tests.scenario.test_nfv_lacp_usecases.TestLacpScenarios.test_deployment_lacp
 - nfv_tempest_plugin.tests.scenario.test_nfv_lacp_usecases.TestLacpScenarios.test_balance_tcp
@@ -219,6 +220,28 @@ Tests included:
 The test will look for the exist flavor.  
 In case the flavor exists, the test will use it.  
 Otherwise the test will create a flavor based on the parameters defined at the test-flavors within the tests-config.yml.
+
+- test_sriov_double_tagging
+  Test explanation:
+  The double tagging feature allows the vm on the sriov port to use a permitted list of vlans.
+  This test runs scapy icmp and mpls traffic on the instances with vlan based virtual interfaces set within the instances.
+  Refer to the following links for more information:
+  https://bugs.launchpad.net/neutron/+bug/1693240
+  https://bugzilla.redhat.com/show_bug.cgi?id=1497887
+  
+  ```
+  Test config:
+  - name: double_tagging
+    vlan_config:
+      iface_vlan: 10
+      test_vlan: 12
+  ```
+  
+  The iface_vlan is the vlan that will be used during the virtual interface creation.
+  The test_vlan will be used by scapy to send the packets from the virtual interface.
+  
+  **Note** - The "iface_vlan" and "test_vlan" must be configured on the switch ports that compute node are connected to.
+  **Note** - The test depends on the "resource creator" tool for the initial resources setup for the test, including the scripts.
 
 ----------
 #### TestAdvancedScenarios:
