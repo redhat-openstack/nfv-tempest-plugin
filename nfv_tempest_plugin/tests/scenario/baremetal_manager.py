@@ -179,6 +179,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         # Insert here every new parameter.
         for test in self.external_config['tests-setup']:
+            self.test_setup_dict[test['name']] = {}
             if 'flavor' in test and test['flavor'] is not None:
                 self.test_setup_dict[test['name']] = {'flavor': test['flavor']}
             if 'package-names' in test and test['package-names'] is not None:
