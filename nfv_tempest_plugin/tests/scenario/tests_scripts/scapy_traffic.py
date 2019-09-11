@@ -50,12 +50,17 @@ parser.add_argument('--dst-mac', help='Destination mac address',
                     required=False)
 parser.add_argument('--src-ip', help='Source ip address', required=False)
 parser.add_argument('--dst-ip', help='Destination ip address', required=False)
-parser.add_argument('--first-vlan', help='First vlan ID', type=int,
-                    required=False)
-parser.add_argument('--second-vlan', help='Second vlan ID', type=int,
-                    required=False)
+parser.add_argument('--iface-vlan', help='The vlan that will be set on the '
+                                         'virtual interface',
+                    type=int, required=False)
+parser.add_argument('--test-vlan', help='The vlan that will be used for '
+                                        'packets send',
+                    type=int, required=False)
 parser.add_argument('--raw-msg', help='Include raw massage into the packet',
                     required=False)
+parser.add_argument('--keep-sniff', help='Keep sniffing for the packets and'
+                                         'do not exit',
+                    required=False, action='store_true')
 args = parser.parse_args()
 
 logging.basicConfig(filename='/tmp/scapy_traffic.log', filemode='a',
@@ -79,8 +84,8 @@ class ScapyTraffic(object):
         self.dst_mac = args.dst_mac
         self.src_ip = args.src_ip
         self.dst_ip = args.dst_ip
-        self.first_vlan = args.first_vlan
-        self.second_vlan = args.second_vlan
+        self.iface_vlan = args.iface_vlan
+        self.test_vlan = args.test_vlan
         self.raw_msg = args.raw_msg
 
     def sniff_catch(self):
@@ -105,8 +110,8 @@ class ScapyTraffic(object):
 
     def send_icmp(self):
         icmp_eth = Ether(src=self.src_mac, dst=self.dst_mac)
-        icmp_id = Dot1Q(vlan=self.first_vlan, id=3, prio=2) / Dot1Q(
-            vlan=self.second_vlan, id=3, prio=2)
+        icmp_id = Dot1Q(vlan=self.iface_vlan, id=3, prio=2) / Dot1Q(
+            vlan=self.test_vlan, id=3, prio=2)
         icmp_ip = IP(src=self.src_ip, dst=self.dst_ip)
         icmp_icmp = ICMP()
         icmp_frame = icmp_eth / icmp_id / icmp_ip / icmp_icmp
@@ -120,7 +125,7 @@ class ScapyTraffic(object):
                         "the following details: \n{packet_details} "
                         "{second_vlan}".format(iface=self.iface,
                                                packet_details=send_icmp_log,
-                                               second_vlan=self.second_vlan))
+                                               second_vlan=self.test_vlan))
             sendp(icmp_frame, iface=self.iface, count=self.count)
         except Exception as e:
             logger.info("The ICMP traffic send failed due"
@@ -160,11 +165,14 @@ def main():
     logger.info("Start scapy traffic script")
 
     if scap.sniff:
-        logger.info("Start sniff on the {} interface".format(args.interface))
-        sniff_output = scap.sniff_catch()
-        sniff_parse_out = scap.sniff_parse(sniff_output)
-        logger.info("Sniff parsed output: {}".format(sniff_parse_out))
-        return sniff_parse_out
+        while True:
+            logger.info("Start sniff on the {} "
+                        "interface".format(args.interface))
+            sniff_output = scap.sniff_catch()
+            sniff_parse_out = scap.sniff_parse(sniff_output)
+            logger.info("Sniff parsed output: {}".format(sniff_parse_out))
+            if not args.keep_sniff:
+                return sniff_parse_out
 
     if scap.icmp:
         return scap.send_icmp()
