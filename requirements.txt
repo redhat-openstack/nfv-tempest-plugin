@@ -1,3 +1,2 @@
 tempest >= 16.1.0
 configparser == 3.5.0
-scapy == 2.4.2
