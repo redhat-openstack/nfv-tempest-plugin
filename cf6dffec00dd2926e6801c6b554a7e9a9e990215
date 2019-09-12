@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5dc50ef3_8cee8bc8",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/scapy_traffic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-09-12T15:43:19Z",
+      "side": 1,
+      "message": "Consider using json file\nand loop it, see sample\nhttps://codereview.stackexchange.com/questions/110108/using-argparse-with-parameters-defined-in-config-file",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 19
+      },
+      "revId": "cf6dffec00dd2926e6801c6b554a7e9a9e990215",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "120fb11a_2f00c1b0",
         "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/scapy_traffic.py",
         "patchSetId": 2
@@ -13,6 +36,30 @@
       "writtenOn": "2019-09-12T14:45:42Z",
       "side": 1,
       "message": "Should we add a way to end the loop when keep_sniff \u003d\u003d true?",
+      "range": {
+        "startLine": 168,
+        "startChar": 14,
+        "endLine": 168,
+        "endChar": 18
+      },
+      "revId": "cf6dffec00dd2926e6801c6b554a7e9a9e990215",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8abb3b40_945482d6",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/scapy_traffic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-09-12T15:43:19Z",
+      "side": 1,
+      "message": "+1, It should be \nWhile args.keep_sniff, since this is the only return i see in main\nbetter than endless loop",
+      "parentUuid": "120fb11a_2f00c1b0",
       "range": {
         "startLine": 168,
         "startChar": 14,
