@@ -221,8 +221,14 @@ Otherwise the test will create a flavor based on the parameters defined at the t
 Tests included:
 - test_numa_aware_vswitch
   Test explanation:  
-  Test Numa aware vswitch feature.  
-  The feature allows to boot an instance in the selected numa node according to the config during the deployment.
+  The test will verify the "Numa aware vswitch" feature by the following steps:
+  - Fill up the NUMA 0 by booting the instances using the "numa aware net".  
+    Try to boot another instance using the "numa aware net" and verify that it fails.  
+    Verify the instances placement in NUMA 0.
+  - Boot another instance using the "non numa aware net". The instance will be placed in NUMA 1.
+    Verify the instance placement in NUMA 1.
+
+  In case, "non numa aware" network does not exist, the test will verify only the first part of the test.
   
   Prerequisites for the test:  
   Overcloud feature configuration for the deployment.  
