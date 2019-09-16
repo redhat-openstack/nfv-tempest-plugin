@@ -308,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "39fac802_9a458096",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1273,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2019-09-16T09:58:20Z",
+      "side": 1,
+      "message": "yes, that is whay I am doing\nserver1 is connected to data2 and has a route to data3 through data2\nserver2 is connected to data3 and has a route to data2 through data3",
+      "parentUuid": "8db455d1_e0ed1417",
+      "range": {
+        "startLine": 1262,
+        "startChar": 12,
+        "endLine": 1273,
+        "endChar": 48
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a21c4304_df38dec5",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 12
