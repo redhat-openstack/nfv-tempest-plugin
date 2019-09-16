@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c95df70a_4293c2a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-16T07:03:56Z",
+      "side": 1,
+      "message": "Please, add documentation for the test.\nRefer to the docs folder.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 4
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddaab782_e5d75f99",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-16T07:03:56Z",
+      "side": 1,
+      "message": "I\u0027m really not sure if we actually need to add this type of server creation to the plugin.\nThis is the exact reason we decided to go with the resource creator as the tool for the complex scenarios.\n\nIn ansible manner, it is a lot simpler to create any kind of required resources structure.\n\nLet\u0027s hear other members regarding this.",
+      "range": {
+        "startLine": 240,
+        "startChar": 12,
+        "endLine": 240,
+        "endChar": 64
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0346a548_538afc4a",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-16T07:03:56Z",
+      "side": 1,
+      "message": "Why do you need this condition, if it looks like it executed in all cases?",
+      "range": {
+        "startLine": 1096,
+        "startChar": 16,
+        "endLine": 1097,
+        "endChar": 66
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4b845d1_2f323514",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1218,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-16T07:03:56Z",
+      "side": 1,
+      "message": "networks",
+      "range": {
+        "startLine": 1218,
+        "startChar": 54,
+        "endLine": 1218,
+        "endChar": 62
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a21c4304_df38dec5",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-16T07:03:56Z",
+      "side": 1,
+      "message": "key_pair coming within the kwargs. Line 1351-1352",
+      "range": {
+        "startLine": 1371,
+        "startChar": 46,
+        "endLine": 1371,
+        "endChar": 63
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24f08119_49413abc",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1622,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-16T07:03:56Z",
+      "side": 1,
+      "message": "Suggestion.\nWe are using the same ovs pid check in \"_check_number_queues\" method. Line 1281.\nMaybe, create a method \"get_ovs_pid\" and then call it from both methods.",
+      "range": {
+        "startLine": 1616,
+        "startChar": 8,
+        "endLine": 1622,
+        "endChar": 68
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bc80e4e_88fc1686",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_lacp_usecases.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-16T07:03:56Z",
+      "side": 1,
+      "message": "The test might fail on the first assertion.\nIt means that we will not know if other check passed on fail.\n\nI\u0027m suggesting to append the result of all the checks to a list and then if the list is not empty, fail the test and print the error from the list.",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 85,
+        "endChar": 58
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1744bdf_2a6f2b35",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_lacp_usecases.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-16T07:03:56Z",
+      "side": 1,
+      "message": "Same as the comment regarding the assertion in the previous test.",
+      "range": {
+        "startLine": 181,
+        "startChar": 12,
+        "endLine": 182,
+        "endChar": 65
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
