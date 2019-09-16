@@ -260,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "7572a992_7cba8104",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1273,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2019-09-16T08:58:09Z",
+      "side": 1,
+      "message": "I think this is a different feature not covered in that patch. In my setup I only have 1 compute. If I want to create 2 vms and have the traffic through the bonding what I do is to create each vm in a different network, configure both of the gateways in the switch, configure the switch as a router, and add 1 route in the vms so that they know how to arrive to the other network. With this configuration I can have traffic between two vms in the same compute going through the bonding.\nIn the ci, with 2 computes, this will not be required. But I find it useful for testing, because it allows to do tests having only 1 compute (better use of resources)\n\nRoutes are defined for each server:\n\n   servers:\n      - name: \u0027server1\u0027\n        ports:\n          - network: \u0027data1\u0027\n          - network: \u0027data2\u0027\n        routes:\n          - network: \u0027data3\u0027\n            gateway: \u0027data2\u0027\n      - name: \u0027server2\u0027\n        ports:\n          - network: \u0027data1\u0027\n          - network: \u0027data3\u0027\n        routes:\n          - network: \u0027data2\u0027\n            gateway: \u0027data3\u0027",
+      "parentUuid": "19f477d8_46619374",
+      "range": {
+        "startLine": 1262,
+        "startChar": 12,
+        "endLine": 1273,
+        "endChar": 48
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a21c4304_df38dec5",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 12
@@ -319,6 +343,30 @@
       "side": 1,
       "message": "If I get it right, you need the private key to connect to the instance to set the default gateway.\nSee the comment above. You will not need it shortly.",
       "parentUuid": "8ec3e643_edd92cd1",
+      "range": {
+        "startLine": 1371,
+        "startChar": 46,
+        "endLine": 1371,
+        "endChar": 63
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d164dd70_699ebf76",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2019-09-16T08:58:09Z",
+      "side": 1,
+      "message": "I think it is different, it is a route a a different network (see above)",
+      "parentUuid": "072b71bc_92ac8731",
       "range": {
         "startLine": 1371,
         "startChar": 46,
