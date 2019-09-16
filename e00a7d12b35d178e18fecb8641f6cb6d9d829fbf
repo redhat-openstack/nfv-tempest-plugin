@@ -284,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "8db455d1_e0ed1417",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1273,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-16T09:03:43Z",
+      "side": 1,
+      "message": "So what you are saying is that you are adding a route that contains a network not exists on the vm and route it through one of the networks exist on your vm.\nAm I right?\n\nIn that case, you are right. It is not covered on our script.",
+      "parentUuid": "7572a992_7cba8104",
+      "range": {
+        "startLine": 1262,
+        "startChar": 12,
+        "endLine": 1273,
+        "endChar": 48
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a21c4304_df38dec5",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 12
