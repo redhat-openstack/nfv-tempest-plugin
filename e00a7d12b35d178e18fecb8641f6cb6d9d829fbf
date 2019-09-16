@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5023ce28_599384d3",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-16T08:33:36Z",
+      "side": 1,
+      "message": "It adds an additional layer of maintenance to our plugin code, which is already solved by the resource creator.\nI have nothing against it.\nJust want to hear other guys opinion.",
+      "parentUuid": "570d33c0_52312b81",
+      "range": {
+        "startLine": 240,
+        "startChar": 12,
+        "endLine": 240,
+        "endChar": 64
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0346a548_538afc4a",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 12
@@ -213,6 +237,29 @@
     },
     {
       "key": {
+        "uuid": "19f477d8_46619374",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1273,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-16T08:33:36Z",
+      "side": 1,
+      "message": "Since this patch [1] has been approved and merged, I\u0027m working right now on integration of the same script in out tempest plugin instead of the current net_config script.\nAs a result, this route config will not be required.\n\n[1] - https://review.gerrithub.io/c/redhat-openstack/ansible-nfv/+/467151",
+      "range": {
+        "startLine": 1262,
+        "startChar": 12,
+        "endLine": 1273,
+        "endChar": 48
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a21c4304_df38dec5",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 12
@@ -248,6 +295,30 @@
       "side": 1,
       "message": "It is only the name of the keypair, I need the private key. How do I get the private key from the name. Maybe with a query to openstack?",
       "parentUuid": "a21c4304_df38dec5",
+      "range": {
+        "startLine": 1371,
+        "startChar": 46,
+        "endLine": 1371,
+        "endChar": 63
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "072b71bc_92ac8731",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-16T08:33:36Z",
+      "side": 1,
+      "message": "If I get it right, you need the private key to connect to the instance to set the default gateway.\nSee the comment above. You will not need it shortly.",
+      "parentUuid": "8ec3e643_edd92cd1",
       "range": {
         "startLine": 1371,
         "startChar": 46,
