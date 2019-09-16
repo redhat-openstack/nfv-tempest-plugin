@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "875b0949_8edce07e",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2019-09-16T07:57:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9cc27588_fdc9d2d5",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 20
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddaab782_e5d75f99",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 12
@@ -59,6 +83,30 @@
       "writtenOn": "2019-09-16T07:03:56Z",
       "side": 1,
       "message": "I\u0027m really not sure if we actually need to add this type of server creation to the plugin.\nThis is the exact reason we decided to go with the resource creator as the tool for the complex scenarios.\n\nIn ansible manner, it is a lot simpler to create any kind of required resources structure.\n\nLet\u0027s hear other members regarding this.",
+      "range": {
+        "startLine": 240,
+        "startChar": 12,
+        "endLine": 240,
+        "endChar": 64
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "570d33c0_52312b81",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2019-09-16T07:57:09Z",
+      "side": 1,
+      "message": "Testcase can be run either with resource creator or only tempest thanks to this feature. It may be interesting",
+      "parentUuid": "ddaab782_e5d75f99",
       "range": {
         "startLine": 240,
         "startChar": 12,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "08101a8c_a025b4a8",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2019-09-16T07:57:09Z",
+      "side": 1,
+      "message": "It will be executed when:\n* servers is None: Most of the testcases\n* servers is defined and this server has a port attached to this network according to the config\n\nIt will not be executed when the server is defined but it has not a port attached to the network",
+      "parentUuid": "0346a548_538afc4a",
+      "range": {
+        "startLine": 1096,
+        "startChar": 16,
+        "endLine": 1097,
+        "endChar": 66
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b4b845d1_2f323514",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 12
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "c7214458_8f283785",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1218,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2019-09-16T07:57:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b4b845d1_2f323514",
+      "range": {
+        "startLine": 1218,
+        "startChar": 54,
+        "endLine": 1218,
+        "endChar": 62
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a21c4304_df38dec5",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 12
@@ -128,6 +224,30 @@
       "writtenOn": "2019-09-16T07:03:56Z",
       "side": 1,
       "message": "key_pair coming within the kwargs. Line 1351-1352",
+      "range": {
+        "startLine": 1371,
+        "startChar": 46,
+        "endLine": 1371,
+        "endChar": 63
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ec3e643_edd92cd1",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2019-09-16T07:57:09Z",
+      "side": 1,
+      "message": "It is only the name of the keypair, I need the private key. How do I get the private key from the name. Maybe with a query to openstack?",
+      "parentUuid": "a21c4304_df38dec5",
       "range": {
         "startLine": 1371,
         "startChar": 46,
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "22aed35f_f57665bc",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1622,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2019-09-16T07:57:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "24f08119_49413abc",
+      "range": {
+        "startLine": 1616,
+        "startChar": 8,
+        "endLine": 1622,
+        "endChar": 68
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bc80e4e_88fc1686",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_lacp_usecases.py",
         "patchSetId": 12
@@ -186,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "e21a5090_80af043e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_lacp_usecases.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2019-09-16T07:57:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6bc80e4e_88fc1686",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 85,
+        "endChar": 58
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1744bdf_2a6f2b35",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_lacp_usecases.py",
         "patchSetId": 12
@@ -206,6 +374,30 @@
       "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb357163_a7f68a26",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_lacp_usecases.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2019-09-16T07:57:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f1744bdf_2a6f2b35",
+      "range": {
+        "startLine": 181,
+        "startChar": 12,
+        "endLine": 182,
+        "endChar": 65
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
