@@ -57,14 +57,12 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.cpuregex = re.compile('^[0-9]{1,2}$')
         self.external_config = None
         self.test_setup_dict = {}
-        self.remote_ssh_sec_groups = []
-        self.remote_ssh_sec_groups_names = []
+        self.key_pairs = {}
         self.servers = []
         self.test_network_dict = {}
         self.test_flavor_dict = {}
         self.test_instance_repo = {}
         self.user_data = {}
-        self.user_data_b64 = ''
         self.fip = True
         self.external_resources_data = None
 
@@ -142,7 +140,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         Reads config data and assign it to dictionaries
         """
         with open(CONF.nfv_plugin_options.external_config_file, 'r') as f:
-            self.external_config = yaml.safe_load(f)
+            self.external_config = yaml.load(f)
 
         if not os.path.exists(
                 CONF.nfv_plugin_options.external_resources_output_file):
@@ -151,31 +149,30 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             flavors = self.flavors_client.list_flavors()['flavors']
             images = self.image_client.list_images()['images']
 
-            if 'networks' in self.external_config:
+        if 'networks' in self.external_config:
+            """
+            Iterate over networks mandatory vars in external_config are:
+            port_type, gateway_ip
+            """
+            for net in self.external_config['networks']:
+                self.test_network_dict[net['name']] = {'port_type': net[
+                    'port_type'], 'gateway_ip': net['gateway_ip']}
                 """
-                Iterate over networks mandatory vars in external_config are:
-                port_type, gateway_ip
+                Check for existence of optionals vars:
+                router_name, external.
                 """
-                for net in self.external_config['networks']:
-                    self.test_network_dict[net['name']] = {'port_type': net[
-                        'port_type'], 'gateway_ip': net['gateway_ip']}
-                    """
-                    Check for existence of optionals vars:
-                    router_name, external.
-                    """
-                    if 'external' in net:
-                        self.test_network_dict[net['name']]['external'] = net[
-                            'external']
-                    if 'router_name' in net:
-                        self.test_network_dict[net['name']]['router'] = net[
-                            'router_name']
+                if 'external' in net:
+                    self.test_network_dict[net['name']]['external'] = net[
+                        'external']
+                if 'router_name' in net:
+                    self.test_network_dict[net['name']]['router'] = net[
+                        'router_name']
 
-                # iterate networks
-                for net in iter(self.test_network_dict.keys()):
-                    for network in networks:
-                        if network['name'] == net:
-                            self.test_network_dict[net]['net-id'] = \
-                                network['id']
+            # iterate networks
+            for net in iter(self.test_network_dict.keys()):
+                for network in networks:
+                    if network['name'] == net:
+                        self.test_network_dict[net]['net-id'] = network['id']
 
         # Insert here every new parameter.
         for test in self.external_config['tests-setup']:
@@ -930,10 +927,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             network_kwargs['ip_version'] = net_param['ip_version']
             if 'cidr' in net_param:
                 network_kwargs['cidr'] = net_param['cidr']
-            if 'gateway_ip' in net_param:
+            if 'gateway_ip' in net:
                 network_kwargs['gateway_ip'] = net_param['gateway_ip']
-            if 'dhcp' in net_param:
-                network_kwargs['enable_dhcp'] = net_param['dhcp']
+            if 'dhcp' in net and not net_param['dhcp']:
+                network_kwargs['dhcp'] = net_param['dhcp']
             if 'pool_start' in net_param:
                 network_kwargs['allocation_pools'] = \
                     [{'start': net_param['pool_start'],
@@ -1024,7 +1021,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         remove_network = net_name
             self.test_network_dict.pop(remove_network)
 
-    def _create_ports_on_networks(self, num_ports=1):
+    def _create_ports_on_networks(self, num_ports=1, **kwargs):
         """Create ports on a test networks for instances
 
         The method will create a network ports as per test_network dict
@@ -1052,10 +1049,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 if 'port_type' in net_param:
                     create_port_body['binding:vnic_type'] = \
                         net_param['port_type']
-                    if self.remote_ssh_sec_groups and net_name == \
+                    if 'security_groups' in kwargs and net_name == \
                             self.test_network_dict['public']:
                         create_port_body['security_groups'] = \
-                            [s['id'] for s in self.remote_ssh_sec_groups]
+                            [s['id'] for s in kwargs['security_groups']]
                     if 'trusted_vf' in net_param and \
                        net_param['trusted_vf'] and \
                        net_param['port_type'] == 'direct':
@@ -1070,6 +1067,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         if net_name != self.test_network_dict['public'] else \
                         networks_list.insert(0, net_var)
             ports_list.append(networks_list)
+        if 'security_groups' in kwargs:
+            [x.pop('id') for x in kwargs['security_groups']]
         return ports_list
 
     def _create_port(self, network_id, client=None, namestart='port-quotatest',
@@ -1095,7 +1094,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         return port
 
     def create_server(self, name=None, image_id=None, flavor=None,
-                      validatable=False, srv_state=None,
+                      validatable=False, wait_until=None,
                       wait_on_delete=True, clients=None, **kwargs):
         """This Method Overrides Manager::Createserver to support Gates needs
 
@@ -1103,12 +1102,13 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         :param clients:
         :param image_id:
         :param wait_on_delete:
-        :param srv_state:
+        :param wait_until:
         :param flavor:
         :param name:
         """
         if 'key_name' not in kwargs:
             key_pair = self.create_keypair()
+            self.key_pairs[key_pair['name']] = key_pair
             kwargs['key_name'] = key_pair['name']
 
         net_id = []
@@ -1149,88 +1149,29 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                            networks=net_id,
                                            image_id=image_id,
                                            flavor=flavor,
-                                           wait_until=srv_state,
+                                           wait_until=wait_until,
                                            **kwargs)
         self.servers.append(server)
         return server
 
-    def create_server_with_fip(self, num_servers=1, use_mgmt_only=False,
-                               fip=True, networks=None, srv_state='ACTIVE',
-                               raise_on_error=True, **kwargs):
-        """Create defined number of the instances with floating ip.
-
-        :param num_servers: The number of servers to boot up.
-        :param use_mgmt_only: Boot instances with mgmt net only.
-        :param fip: Creation of the floating ip for the server.
-        :param networks: List of networks/ports for the servers.
-        :param srv_state: The state of the server to expect.
-        :param raise_on_error: Raise as error on failed build of the server.
-        :param kwargs:
-        :return: List of created servers
-        """
-        servers = []
-        port = {}
-
-        if not any(isinstance(el, list) for el in networks):
-            raise ValueError('Network expect to be as a list of lists')
-
-        for num in range(num_servers):
-            kwargs['networks'] = networks[num]
-
-            """ If this parameters exist, parse only mgmt network.
-            Example live migration can't run with SRIOV ports attached"""
-            if use_mgmt_only:
-                del (kwargs['networks'][1:])
-
-            LOG.info('Create instance - {}'.format(num + 1))
-            servers.append(self.create_server(**kwargs))
-        for num, server in enumerate(servers):
-            waiters.wait_for_server_status(self.os_admin.servers_client,
-                                           server['id'], srv_state,
-                                           raise_on_error=raise_on_error)
-            LOG.info('The instance - {} is in an {} state'.format(num + 1,
-                     srv_state))
-            if srv_state == 'ACTIVE':
-                port = self.os_admin.ports_client.list_ports(device_id=server[
-                    'id'], network_id=networks[num][0]['uuid'])['ports'][0]
-            if fip and srv_state == 'ACTIVE':
-                server['fip'] = \
-                    self.create_floating_ip(server, self.public_network)['ip']
-                LOG.info('The {} fip is allocated to the instance'.format(
-                    server['fip']))
-            elif srv_state == 'ACTIVE':
-                server['fip'] = port['fixed_ips'][0]['ip_address']
-                server['network_id'] = networks[num][0]['uuid']
-                LOG.info('The {} fixed ip set for the instance'.format(
-                    server['fip']))
-        return servers
-
     def create_server_with_resources(self, num_servers=1, num_ports=None,
-                                     test=None, **kwargs):
-        """The method creates resources and call for the servers method
-
-        The following resources are created:
-        - Aggregation
-        - Flavor creation / verification
-        - Key pair
-        - Security groups
-        - Test networks
-        - Networks ports
-        - Cloud init preparation
-        - Servers creation
-        - Floating ip attachment to the servers
+                                     fip=True, test=None, srv_state='ACTIVE',
+                                     use_mgmt_only=False, **kwargs):
+        """The method creates multiple instances
 
         :param num_servers: The number of servers to boot up.
         :param num_ports: The number of ports to the created.
                           Default to (num_servers)
+        :param fip: Creation of the floating ip for the server.
         :param test: Currently executed test. Provide test specific parameters.
-        :param kwargs:
-                fip: Creation of the floating ip for the server.
-                use_mgmt_only: Boot instances with mgmt net only.
-                srv_state: The status of the booted instance.
-        :return servers, key_pair
+        :param use_mgmt_only: Boot instances with mgmt net only.
+        :param srv_state: The status of the booted instance.
+        :param kwargs: See below.
+
+        :return servers, fips
         """
         LOG.info('Creating resources...')
+        servers, key_pair = ([], [])
 
         if num_ports is None:
             num_ports = num_servers
@@ -1242,7 +1183,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         # In case resources created externally, set them.
         if self.external_resources_data is not None:
-            servers, key_pair = self._organize_external_created_resources(test)
+            servers = self.external_resources_data['servers']
+            with open(self.external_resources_data['key_pair'], 'r') as key:
+                key_pair = {'private_key': key.read()}
             LOG.info('The resources created by the external tool. '
                      'Continue to the test.')
             return servers, key_pair
@@ -1258,16 +1201,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             flavor_check = self.check_flavor_existence(test)
             if flavor_check is False:
                 flavor_name = self.test_setup_dict[test]['flavor']
-                LOG.info('Flavor {} not found. Creating.'.format(flavor_name))
-                try:
-                    self.flavor_ref = self.create_flavor(
-                        **self.test_flavor_dict[flavor_name])
-                except KeyError as exc:
-                    err_msg = "Unable to locate {} flavor details for " \
-                              "the creation".format(exc)
-                    raise Exception(err_msg)
-
-            kwargs['flavor'] = self.flavor_ref
+                self.flavor_ref = self. \
+                    create_flavor(**self.test_flavor_dict[flavor_name])
+                kwargs['flavor'] = self.flavor_ref
+                LOG.info('The flavor {} has been created'.format(
+                    self.flavor_ref))
 
         LOG.info('Creating networks, keypair, security groups, router and '
                  'prepare cloud init.')
@@ -1277,19 +1215,48 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         # Network, subnet, router and security group creation
         self._create_test_networks()
-        self._set_remote_ssh_sec_groups()
-        if self.remote_ssh_sec_groups_names:
-            kwargs['security_groups'] = self.remote_ssh_sec_groups_names
-        ports_list = self._create_ports_on_networks(num_ports=num_ports)
+        security_groups = self._set_security_groups()
+        if security_groups is not None:
+            kwargs['security_groups'] = security_groups
+        ports_list = self._create_ports_on_networks(num_ports=num_ports,
+                                                    **kwargs)
         router_exist = True
         if 'router' in self.test_setup_dict[test]:
             router_exist = self.test_setup_dict[test]['router']
         if router_exist:
             self._add_subnet_to_router()
         # Prepare cloudinit
-        kwargs['user_data'] = self._prepare_cloudinit_file()
-        servers = self.create_server_with_fip(num_servers=num_servers,
-                                              networks=ports_list, **kwargs)
+        kwargs['user_data'] = self._prepare_cloudinit_file(
+            install_packages=self.test_setup_dict[test]['package-names'])
+
+        for num in range(num_servers):
+            kwargs['networks'] = ports_list[num]
+
+            """ If this parameters exist, parse only mgmt network.
+            Example live migration can't run with SRIOV ports attached"""
+            if use_mgmt_only:
+                del (kwargs['networks'][1:])
+
+            LOG.info('Create instance - {}'.format(num + 1))
+            servers.append(self.create_server(**kwargs))
+        for num, server in enumerate(servers):
+            waiters.wait_for_server_status(self.os_admin.servers_client,
+                                           server['id'], srv_state)
+            LOG.info('The instance - {} is in an {} state'.format(num + 1,
+                     srv_state))
+            port = self.os_admin.ports_client.list_ports(device_id=server[
+                'id'], network_id=ports_list[num][0]['uuid'])['ports'][0]
+
+            if fip:
+                server['fip'] = \
+                    self.create_floating_ip(server, self.public_network)['ip']
+                LOG.info('The {} fip is allocated to the instance'.format(
+                    server['fip']))
+            else:
+                server['fip'] = port['fixed_ips'][0]['ip_address']
+                server['network_id'] = ports_list[num][0]['uuid']
+                LOG.info('The {} fixed ip set for the instance'.format(
+                    server['fip']))
         return servers, key_pair
 
     def _check_number_queues(self):
@@ -1357,27 +1324,27 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                                    'custom_net_config.py'),
                                         passwd=self.instance_pass)
         if (self.test_instance_repo and 'name' in
-                self.test_instance_repo and not self.user_data):
+                self.test_instance_repo):
             repo_name = self.external_config['test_instance_repo']['name']
             repo_url = self.external_config['test_instance_repo']['url']
             repo = '''
-                   yum_repos:
-                       {repo_name}:
-                          name: {repo_name}
-                          baseurl: {repo_url}
-                          enabled: true
-                          gpgcheck: false
+                             yum_repos:
+                                 {repo_name}:
+                                     name: {repo_name}
+                                     baseurl: {repo_url}
+                                     enabled: true
+                                     gpgcheck: false
                     '''.format(repo_name=repo_name,
                                repo_url=repo_url)
             self.user_data = "".join((self.user_data, repo))
 
-        if install_packages is not None and not self.user_data:
+        if install_packages is not None:
             header = '''
-                 packages:'''
+                             packages:'''
             body = ''
-            for package in install_packages.split(','):
+            for package in install_packages:
                 body += '''
-                 - {package}'''.format(package=package)
+                             - {package}'''.format(package=package)
             package = "".join((header, body))
             self.user_data = "".join((self.user_data, package))
 
@@ -1385,7 +1352,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.user_data_b64 = base64.b64encode(user_data)
         return self.user_data_b64
 
-    def _set_remote_ssh_sec_groups(self):
+    def _set_security_groups(self):
         """Security group creation
 
         This method create security group except network marked with security
@@ -1394,14 +1361,14 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         Create security groups [icmp,ssh] for Deployed Guest Image
         """
+        security_group = None
         mgmt_net = self.test_network_dict['public']
         if not ('sec_groups' in self.test_network_dict[mgmt_net] and
                 not self.test_network_dict[mgmt_net]['sec_groups']):
             security_group = self._create_security_group()
-            self.remote_ssh_sec_groups_names = \
-                [{'name': security_group['name']}]
-            self.remote_ssh_sec_groups = [{'name': security_group['name'],
-                                           'id': security_group['id']}]
+            security_group = [{'name': security_group['name'],
+                               'id': security_group['id']}]
+        return security_group
 
     def copy_file_to_remote_host(self, host, ssh_key, username=None,
                                  files=None, src_path=None, dst_path=None,
@@ -1486,7 +1453,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
     def _read_and_validate_external_resources_data_file(self):
         """Validate yaml file contains externally created resources"""
-        LOG.info("Found external resources file. Validating...")
         with open(CONF.nfv_plugin_options.external_resources_output_file,
                   'r') as f:
             try:
@@ -1502,25 +1468,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 os.path.exists(self.external_resources_data['key_pair']):
             raise Exception('The private key is missing from the yaml file.')
         for srv in self.external_resources_data['servers']:
-            if not srv.viewkeys() >= {'name', 'id', 'fip', 'groups'}:
+            if not srv.viewkeys() >= {'name', 'id', 'fip'}:
                 raise ValueError('The yaml file missing of the following keys:'
                                  ' name, id or fip.')
-
-    def _organize_external_created_resources(self, group=None):
-        """Organize the external created resource by test groups"""
-        groups = {}
-        bulk_servers = self.external_resources_data['servers']
-        for srv in bulk_servers:
-            for grp in srv['groups']:
-                if grp in groups:
-                    groups[grp].append(srv)
-                else:
-                    groups[grp] = [srv]
-        if group not in groups:
-            raise ValueError('The required group - "{}" is missing on '
-                             'existing resources'.format(group))
-        servers = groups[group]
-
-        with open(self.external_resources_data['key_pair'], 'r') as key:
-            key_pair = {'private_key': key.read()}
-        return servers, key_pair
