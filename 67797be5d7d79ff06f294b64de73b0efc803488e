@@ -46,6 +46,23 @@
       "revId": "67797be5d7d79ff06f294b64de73b0efc803488e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bd5c390_199758f0",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-09-17T11:02:36Z",
+      "side": 1,
+      "message": "@Maxim,\nCan you please share nfv_scripts code path?",
+      "revId": "67797be5d7d79ff06f294b64de73b0efc803488e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
