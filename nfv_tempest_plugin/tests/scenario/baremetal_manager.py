@@ -1287,7 +1287,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if router_exist:
             self._add_subnet_to_router()
         # Prepare cloudinit
-        kwargs['user_data'] = self._prepare_cloudinit_file()
+        kwargs['user_data'] = self._prepare_cloudinit_file(
+            install_packages=self.test_setup_dict[test]['package-names'])
         servers = self.create_server_with_fip(num_servers=num_servers,
                                               networks=ports_list, **kwargs)
         return servers, key_pair
@@ -1357,27 +1358,27 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                                    'custom_net_config.py'),
                                         passwd=self.instance_pass)
         if (self.test_instance_repo and 'name' in
-                self.test_instance_repo and not self.user_data):
+                self.test_instance_repo):
             repo_name = self.external_config['test_instance_repo']['name']
             repo_url = self.external_config['test_instance_repo']['url']
             repo = '''
-                   yum_repos:
-                       {repo_name}:
-                          name: {repo_name}
-                          baseurl: {repo_url}
-                          enabled: true
-                          gpgcheck: false
+                             yum_repos:
+                                 {repo_name}:
+                                     name: {repo_name}
+                                     baseurl: {repo_url}
+                                     enabled: true
+                                     gpgcheck: false
                     '''.format(repo_name=repo_name,
                                repo_url=repo_url)
             self.user_data = "".join((self.user_data, repo))
 
-        if install_packages is not None and not self.user_data:
+        if install_packages is not None:
             header = '''
-                 packages:'''
+                             packages:'''
             body = ''
-            for package in install_packages.split(','):
+            for package in install_packages:
                 body += '''
-                 - {package}'''.format(package=package)
+                             - {package}'''.format(package=package)
             package = "".join((header, body))
             self.user_data = "".join((self.user_data, package))
 
