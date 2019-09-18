@@ -63,6 +63,24 @@
       "revId": "67797be5d7d79ff06f294b64de73b0efc803488e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "522ce564_ecd83b42",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-18T08:45:58Z",
+      "side": 1,
+      "message": "All the tests used by the nfv tempest plugin resides within the following location:\nhttps://github.com/redhat-openstack/nfv-tempest-plugin/tree/devel/nfv_tempest_plugin/tests/scenario/tests_scripts\n\nScripts that will be used for the test, introduced as separate patches.\nThis test planed to work with the resource creator, so the copy of the scripts to the intances will be done by the resource creator.",
+      "parentUuid": "9bd5c390_199758f0",
+      "revId": "67797be5d7d79ff06f294b64de73b0efc803488e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
