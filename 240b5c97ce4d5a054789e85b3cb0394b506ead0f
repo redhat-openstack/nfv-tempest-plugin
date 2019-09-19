@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f45c914_7fa54814",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 18
+      },
+      "lineNbr": 1325,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-19T06:11:33Z",
+      "side": 1,
+      "message": "Could you please move it to the \"_get_pid_ovs\" method as well?\nIf I want to get the pid of the ovs, I would that the method will alert me if the process does not exist.\nIn such case I do not need to remember to add it in every test I call this method.",
+      "range": {
+        "startLine": 1324,
+        "startChar": 8,
+        "endLine": 1325,
+        "endChar": 68
+      },
+      "revId": "240b5c97ce4d5a054789e85b3cb0394b506ead0f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

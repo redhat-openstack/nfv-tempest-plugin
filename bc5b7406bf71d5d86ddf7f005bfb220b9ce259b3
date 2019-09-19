@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f03cb6a7_25f30d7a",
+        "filename": "docs/tests.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-19T06:11:33Z",
+      "side": 1,
+      "message": "A suggestion.\nMaybe some external link with the description of the feature.\nBecause, if someone from outside of redhat will take a look on the test, he will not able to access the doc.",
+      "range": {
+        "startLine": 257,
+        "startChar": 2,
+        "endLine": 257,
+        "endChar": 111
+      },
+      "revId": "bc5b7406bf71d5d86ddf7f005bfb220b9ce259b3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
