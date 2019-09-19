@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09b7c52b_0f5a876a",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_lacp_usecases.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-19T07:50:58Z",
+      "side": 1,
+      "message": "Migel, sorry for nagging.\n\nThis is the last comment.\nBeside it, everything looks cool.\n\nHere, you are checking for the hypervisor ip.\nThen the test calls for the \"test_deployment_lacp\" method.\nAnd inside the \"test_deployment_lacp\" method, you are checking the hypervisor ip for one more time.\n\nI think you can do the api call one time and then pass it to the \"test_deployment_lacp\" method.\n\nWhat do you think?",
+      "range": {
+        "startLine": 199,
+        "startChar": 8,
+        "endLine": 200,
+        "endChar": 43
+      },
+      "revId": "022acc72a965ed39f5ba22c700e8a85abfe41be1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
