@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a100ca75_d81b0e4c",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/scapy_traffic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-19T05:49:57Z",
+      "side": 1,
+      "message": "This is a simple script.\nWhat is the benefit of using json here?",
+      "parentUuid": "5dc50ef3_8cee8bc8",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 19
+      },
+      "revId": "cf6dffec00dd2926e6801c6b554a7e9a9e990215",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "120fb11a_2f00c1b0",
         "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/scapy_traffic.py",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "+1, It should be \nWhile args.keep_sniff, since this is the only return i see in main\nbetter than endless loop",
       "parentUuid": "120fb11a_2f00c1b0",
+      "range": {
+        "startLine": 168,
+        "startChar": 14,
+        "endLine": 168,
+        "endChar": 18
+      },
+      "revId": "cf6dffec00dd2926e6801c6b554a7e9a9e990215",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a42b740_7f1801db",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/scapy_traffic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-19T05:49:57Z",
+      "side": 1,
+      "message": "Timeout added.",
+      "parentUuid": "8abb3b40_945482d6",
       "range": {
         "startLine": 168,
         "startChar": 14,
