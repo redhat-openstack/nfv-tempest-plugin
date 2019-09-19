@@ -356,6 +356,30 @@
     },
     {
       "key": {
+        "uuid": "41a0c7fc_1274de90",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 1273,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-19T06:15:14Z",
+      "side": 1,
+      "message": "This configuration is pretty important.\nI think we could create a script that will deal with all the post created instance network config.\nMaybe we could extend this script [1].\n\nBy using the script we could cover both support usecases.\n1) Sent the required configuration when the resource created by tempest.\n2) 1) Sent the required configuration when the resource created by resource creator.\n\n\n[1] - \"https://review.gerrithub.io/c/redhat-openstack/nfv-tempest-plugin/+/468173\"",
+      "parentUuid": "3b82bf9d_4e2985c7",
+      "range": {
+        "startLine": 1262,
+        "startChar": 12,
+        "endLine": 1273,
+        "endChar": 48
+      },
+      "revId": "e00a7d12b35d178e18fecb8641f6cb6d9d829fbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a21c4304_df38dec5",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 12
