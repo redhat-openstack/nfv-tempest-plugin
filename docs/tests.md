@@ -23,6 +23,10 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_lacp_usecases.TestLacpScenarios.test_deployment_lacp
 - nfv_tempest_plugin.tests.scenario.test_nfv_lacp_usecases.TestLacpScenarios.test_balance_tcp
 - nfv_tempest_plugin.tests.scenario.test_nfv_lacp_usecases.TestLacpScenarios.test_restart_ovs
+- nfv_tempest_plugin.tests.scenario.test_igmp_snooping_usecases.TestIgmpSnoopingScenarios.test_igmp_snooping_deployment
+- nfv_tempest_plugin.tests.scenario.test_igmp_snooping_usecases.TestIgmpSnoopingScenarios.test_igmp_restart_ovs
+- nfv_tempest_plugin.tests.scenario.test_igmp_snooping_usecases.TestIgmpSnoopingScenarios.test_igmp_snooping
+
 
 
 ### Tests configuration
@@ -342,3 +346,40 @@ Tests included:
       - name: 'computemellanox'
         # Nics on offload compute node used for offload
         nics: ['p4p1']
+
+#### TestIgmpSnoopingScenarios
+Tests included:
+- test_igmp_snooping_deployment
+
+  Test explanation:
+  Test that igmp snooping is configured properly in each br-int switch for each 
+  compute. mcast_snooping_enable and mcast-snooping-disable-flood-unregistered
+  must be enabled
+
+  Test config:
+  - name: igmp_snooping_deployment
+
+- test_igmp_snooping
+
+  Test explanation:
+  Having 2 hypervisors and 3 vms in each hypervisor. We configure a vm in each 
+  hypervisor sending traffic to a different group. We configure a different
+  message for each group and different number of packets to be sent
+  Then we configure 2 vms in each hypervisor subscribed to each group.
+  It is checked the following:
+  - vms are properly subscribed
+  - traffic in each interface in br-int
+  - messages received in each vm and number of packets received 
+
+  Test config:
+  - name: igmp_snooping
+
+- test_igmp_restart_ovs
+
+  Test explanation:
+  Check that multicast configuration is not lost after ovs restart. 
+  Restart ovs and then execute test_igmp_snooping_deployment
+
+  Test config:
+  - name: igmp_restart_ovs
+
