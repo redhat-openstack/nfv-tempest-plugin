@@ -1582,3 +1582,30 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                          'to compare'.format(stat))
 
         return statistics
+
+    def get_ovs_multicast_groups(self, switch, multicast_ip=None):
+        """This method get ovs multicast groups
+
+        :param switch: ovs switch to get multicast groups
+        :param multicast_ip: filter by multicast ip
+        :return multicast groups
+        """
+        self.ip_address = self._get_hypervisor_ip_from_undercloud(
+            **{'shell': '/home/stack/stackrc'})
+        self._check_pid_ovs(self.ip_address[0])
+
+        command = 'sudo ovs-appctl mdb/show {}'.format(switch)
+        output = filter(None, self._run_command_over_ssh(
+            self.ip_address[0], command).split('\n'))
+        fields = None
+        output_data = []
+        for line in output:
+            data = filter(None, line.split(" "))
+            if fields is None:
+                fields = data
+            else:
+                data = dict(zip(fields, data))
+                if multicast_ip is None or \
+                   multicast_ip is not None and data['GROUP'] == multicast_ip:
+                    output_data.append(data)
+        return output_data
