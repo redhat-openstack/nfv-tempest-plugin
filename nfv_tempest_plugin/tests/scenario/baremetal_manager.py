@@ -1582,3 +1582,61 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                          'to compare'.format(stat))
 
         return statistics
+
+    def get_ovs_multicast_groups(self, switch, multicast_ip=None):
+        """This method get ovs multicast groups
+
+        :param switch: ovs switch to get multicast groups
+        :param multicast_ip: filter by multicast ip
+        :return multicast groups
+        """
+        self.ip_address = self._get_hypervisor_ip_from_undercloud(
+            **{'shell': '/home/stack/stackrc'})
+        self._check_pid_ovs(self.ip_address[0])
+
+        command = 'sudo ovs-appctl mdb/show {}'.format(switch)
+        output = filter(None, self._run_command_over_ssh(
+            self.ip_address[0], command).split('\n'))
+        fields = None
+        output_data = []
+        for line in output:
+            data = filter(None, line.split(" "))
+            if fields is None:
+                fields = data
+            else:
+                data = dict(zip(fields, data))
+                if multicast_ip is None or \
+                   multicast_ip is not None and data['GROUP'] == multicast_ip:
+                    output_data.append(data)
+        return output_data
+
+
+    def get_ovs_port_names(self, servers):
+        """This method get ovs port names for each server
+
+        for each server, this method will add mgmt_port and other_port
+        values
+        :param port list
+        """
+        # get the ports name used for sending/reciving multicast traffic
+        # it will be a different port than the management one that will be
+        # connected to a switch in which igmp snooping is configured
+        port_list = []
+        management_ips = []
+        floating_ips = (self.os_admin.floating_ips_client.list_floatingips()
+                        ['floatingips'])
+        for floating_ip in floating_ips:
+            management_ips.append(floating_ip['fixed_ip_address'])
+        for server in servers:
+            ports = self.os_admin.ports_client.list_ports(
+                device_id=server['id'])['ports']
+            for port in ports:
+                ovs_port_name = (port['binding:vif_details']
+                                 ['vhostuser_socket'].split('/')[-1])
+                if port['fixed_ips'][0]['ip_address'] not in management_ips:
+                    server['other_port'] = ovs_port_name
+                else:
+                    server['mgmt_port'] = ovs_port_name
+                port_list.append(ovs_port_name)
+        return port_list
+
