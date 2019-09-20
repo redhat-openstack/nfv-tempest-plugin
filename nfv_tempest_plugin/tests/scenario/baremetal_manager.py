@@ -1551,24 +1551,36 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             key_pair = {'private_key': key.read()}
         return servers, key_pair
 
-    def get_ovs_interface_statistics(self, interfaces, previous_stats=None):
+    def get_ovs_interface_statistics(self, interfaces, previous_stats=None,
+                                     hypervisor=None):
         """This method get ovs interface statistics
 
         :param interfaces: interfaces in which statistics will be retrieved
         :param previous_stats: get the difference between current stats and
                                previous stats
+        :param hypervisor: hypervisor ip, if None it will be selected the first
+                           one
         :return statistics
         """
         self.ip_address = self._get_hypervisor_ip_from_undercloud(
             **{'shell': '/home/stack/stackrc'})
-        self._check_pid_ovs(self.ip_address[0])
+        hypervisor_ip = self.ip_address[0]
+        if hypervisor is not None:
+            if hypervisor not in self.ip_address:
+                raise ValueError('invalid hypervisor ip {}, not in {}'
+                                 .format(hypervisor,
+                                         ' '.join(self.ip_address)))
+            else:
+                hypervisor_ip = hypervisor
+
+        self._check_pid_ovs(hypervisor_ip)
         # We ensure that a number is being parsed, otherwise we fail
         statistics = {}
         for interface in interfaces:
             command = 'sudo ovs-vsctl get Interface {} ' \
                       'statistics'.format(interface)
             statistics[interface] = yaml.safe_load(self._run_command_over_ssh(
-                self.ip_address[0], command).replace('"', '')
+                hypervisor_ip, command).replace('"', '')
                 .replace('{', '{"').replace(', ', ', "')
                 .replace('=', '":'))
             if previous_stats is not None and \
@@ -1582,3 +1594,73 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                          'to compare'.format(stat))
 
         return statistics
+
+    def get_ovs_multicast_groups(self, switch, multicast_ip=None,
+                                 hypervisor=None):
+        """This method get ovs multicast groups
+
+        :param switch: ovs switch to get multicast groups
+        :param multicast_ip: filter by multicast ip
+        :param hypervisor: hypervisor ip, if None it will be selected the first
+                           one
+        :return multicast groups
+        """
+        self.ip_address = self._get_hypervisor_ip_from_undercloud(
+            **{'shell': '/home/stack/stackrc'})
+        hypervisor_ip = self.ip_address[0]
+        if hypervisor is not None:
+            if hypervisor not in self.ip_address:
+                raise ValueError('invalid hypervisor ip {}, not in {}'
+                                 .format(hypervisor,
+                                         ' '.join(self.ip_address)))
+            else:
+                hypervisor_ip = hypervisor
+
+        self._check_pid_ovs(hypervisor_ip)
+
+        command = 'sudo ovs-appctl mdb/show {}'.format(switch)
+        output = filter(None, self._run_command_over_ssh(
+            hypervisor_ip, command).split('\n'))
+        fields = None
+        output_data = []
+        for line in output:
+            data = filter(None, line.split(" "))
+            if fields is None:
+                fields = data
+            else:
+                data = dict(zip(fields, data))
+                if multicast_ip is None or \
+                   multicast_ip is not None and data['GROUP'] == multicast_ip:
+                    output_data.append(data)
+        return output_data
+
+    def get_ovs_port_names(self, servers):
+        """This method get ovs port names for each server
+
+        for each server, this method will add mgmt_port and other_port
+        values
+        :param port list
+        """
+        # get the ports name used for sending/reciving multicast traffic
+        # it will be a different port than the management one that will be
+        # connected to a switch in which igmp snooping is configured
+        port_list = {}
+        management_ips = []
+        floating_ips = (self.os_admin.floating_ips_client.list_floatingips()
+                        ['floatingips'])
+        for floating_ip in floating_ips:
+            management_ips.append(floating_ip['fixed_ip_address'])
+        for server in servers:
+            if server['hypervisor_ip'] not in port_list.keys():
+                port_list[server['hypervisor_ip']] = []
+            ports = self.os_admin.ports_client.list_ports(
+                device_id=server['id'])['ports']
+            for port in ports:
+                ovs_port_name = (port['binding:vif_details']
+                                 ['vhostuser_socket'].split('/')[-1])
+                if port['fixed_ips'][0]['ip_address'] not in management_ips:
+                    server['other_port'] = ovs_port_name
+                else:
+                    server['mgmt_port'] = ovs_port_name
+                port_list[server['hypervisor_ip']].append(ovs_port_name)
+        return port_list
