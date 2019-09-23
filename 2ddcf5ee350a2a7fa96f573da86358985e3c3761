@@ -22,6 +22,30 @@
       "revId": "2ddcf5ee350a2a7fa96f573da86358985e3c3761",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15606727_bfba164c",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/post_net_bootstrap.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-09-23T12:51:41Z",
+      "side": 1,
+      "message": "Right. Forgot to update it from the previous patch.",
+      "parentUuid": "52074316_48eb02bd",
+      "range": {
+        "startLine": 151,
+        "startChar": 16,
+        "endLine": 151,
+        "endChar": 57
+      },
+      "revId": "2ddcf5ee350a2a7fa96f573da86358985e3c3761",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
