@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08aeed3d_07688adf",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2019-09-23T12:07:40Z",
+      "side": 1,
+      "message": "The error description is a bit confusing for me, it looks like it missing from the test config.",
+      "range": {
+        "startLine": 88,
+        "startChar": 3,
+        "endLine": 89,
+        "endChar": 59
+      },
+      "revId": "e2e9b7a8ace7bcdf6f00be7f7fb8d58b3a948822",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
