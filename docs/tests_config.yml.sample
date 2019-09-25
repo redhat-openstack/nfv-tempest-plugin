@@ -201,3 +201,9 @@ tests-setup:
       hosts:
         - computeovsdpdksriov-0
       metadata: test=numa_aware_vswitch
+
+ - name: offload
+   offload_config:
+     # Name of the compute node with offload enabled and offload nics of node
+     - node: computemellanox
+       nics: ['p4p1', 'p4p2']

@@ -236,6 +236,12 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 test_setup_dict = self.test_setup_dict[test['name']]
                 test_setup_dict['config_dict']['bonding_config'] = \
                     jsonutils.loads(bonding_str)
+            if 'offload_config' in test and test['offload_config'] is not None:
+                if not self.test_setup_dict.get(test['name']):
+                    self.test_setup_dict[test['name']] = {}
+                self.test_setup_dict[test['name']]['offload_config'] = \
+                    test['offload_config']
+
             self.test_setup_dict[test['name']]['aggregate'] = \
                 test.get('aggregate')
         if not os.path.exists(
