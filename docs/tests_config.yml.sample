@@ -201,3 +201,11 @@ tests-setup:
       hosts:
         - computeovsdpdksriov-0
       metadata: test=numa_aware_vswitch
+
+ - name: offload
+   flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+   router: true
+   offload_config:
+     # Name of the compute node with offload enabled and offload nics of node
+     - node: computemellanox
+       nics: ['p4p1', 'p4p2']
