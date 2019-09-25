@@ -295,3 +295,23 @@ Tests included:
 
   Test config:
   - name: restart_ovs
+
+----------
+#### TestNfvOffload
+Tests included:
+- test_offload_ovs_config
+- test_offload_nic_eswitch_mode
+
+  Test explanation:
+  * Check if other_config:hw-offload is enabled in ovsdb
+  * Check if the switchdev is enabled for the offload nics
+
+  Test config:
+  - name: offload
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+    offload_config
+      # Compute node name where offload is enabled
+      - name: 'computemellanox'
+        # Nics on offload compute node used for offload
+        nics: ['p4p1']
