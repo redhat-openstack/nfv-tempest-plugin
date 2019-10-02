@@ -16,6 +16,24 @@
       "revId": "94752402e603e1c68030ecb02256e4ed9e9a8ef0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da1b2e31_1dd1b2ce",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/scapy_traffic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-10-02T12:01:30Z",
+      "side": 1,
+      "message": "@Jagan, please elaborate more",
+      "parentUuid": "a1509eed_4092ee09",
+      "revId": "94752402e603e1c68030ecb02256e4ed9e9a8ef0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
