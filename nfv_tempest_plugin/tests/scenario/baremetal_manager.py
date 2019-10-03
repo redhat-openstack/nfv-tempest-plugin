@@ -1138,25 +1138,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         for network in networks:
             net_id.append({'uuid': network['id']})
 
-        if 'transfer_files' in CONF.nfv_plugin_options:
-            if float(self.request_microversion) < 2.57:
-                files = jsonutils.loads(CONF.nfv_plugin_options.transfer_files)
-                kwargs['personality'] = []
-                for copy_file in files:
-                    self.assertTrue(os.path.exists(copy_file['client_source']),
-                                    "Specified file {0} can't be read"
-                                    .format(copy_file['client_source']))
-                    content = open(copy_file['client_source']).read()
-                    content = textwrap.dedent(content).lstrip().encode('utf8')
-                    content_b64 = base64.b64encode(content)
-                    guest_destination = copy_file['guest_destination']
-                    kwargs['personality'].append({"path": guest_destination,
-                                                  "contents": content_b64})
-            else:
-                raise Exception("Personality (transfer-files) "
-                                "is deprecated from "
-                                "compute micro_version 2.57 and onwards")
-
         server = super(BareMetalManager,
                        self).create_server(name=name,
                                            networks=net_id,
@@ -1359,9 +1340,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                          Multiple packages should be separated by comma -
                          iperf,htop,vim
         """
-        gw_ip = self.test_network_dict[self.test_network_dict[
-            'public']]['gateway_ip']
-
         if not self.user_data:
             self.user_data = '''
                              #cloud-config
@@ -1370,17 +1348,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                              chpasswd: {{expire: False}}
                              ssh_pwauth: True
                              disable_root: 0
-                             runcmd:
-                             - chmod +x {py_script}
-                             - python {py_script}
-                             - echo {gateway}{gw_ip} >> /etc/sysconfig/network
-                             - systemctl restart network
-                             '''.format(gateway='GATEWAY=',
-                                        gw_ip=gw_ip,
-                                        user=self.instance_user,
-                                        py_script=('/var/lib/cloud/scripts/'
-                                                   'per-boot/'
-                                                   'custom_net_config.py'),
+                             '''.format(user=self.instance_user,
                                         passwd=self.instance_pass)
         if (self.test_instance_repo and 'name' in
                 self.test_instance_repo):
@@ -1406,6 +1374,42 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                              - {package}'''.format(package=package)
             package = "".join((header, body))
             self.user_data = "".join((self.user_data, package))
+
+        # Use cloud-config write_files module to copy files
+        if CONF.nfv_plugin_options.transfer_files_src and \
+                CONF.nfv_plugin_options.transfer_files_dest:
+            LOG.info('Locate tests scripts directory')
+            exec_dir = os.path.dirname(os.path.realpath(__file__))
+            scripts_dir = os.path.join(
+                exec_dir, CONF.nfv_plugin_options.transfer_files_src)
+            test_scripts = os.listdir(scripts_dir)
+            test_scripts = [fil for fil in test_scripts if fil.endswith('.py')]
+
+            header = '''
+                             write_files:'''
+            body = ''
+            for file_content in test_scripts:
+                file_dest = os.path.join(
+                    CONF.nfv_plugin_options.transfer_files_dest, file_content)
+                # The "custom_net_config" script should be placed in a
+                # separate location to be executed on every boot.
+                if file_content == 'custom_net_config.py':
+                    file_dest = '/var/lib/cloud/scripts/per-boot/' \
+                                'custom_net_config.py'
+                with open(os.path.join(scripts_dir, file_content), 'r') as f:
+                    content = f.read()
+                    content = base64.b64encode(content)
+                    body += '''
+                               - path: {file_dest}
+                                 owner: root:root
+                                 permissions: 0755
+                                 encoding: base64
+                                 content: |
+                                     {file_content}
+                            '''.format(file_dest=file_dest,
+                                       file_content=content)
+            files = "".join((header, body))
+            self.user_data = "".join((self.user_data, files))
 
         user_data = textwrap.dedent(self.user_data).lstrip().encode('utf8')
         self.user_data_b64 = base64.b64encode(user_data)

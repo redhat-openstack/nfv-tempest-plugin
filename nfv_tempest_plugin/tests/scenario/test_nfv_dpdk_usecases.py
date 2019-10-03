@@ -144,15 +144,12 @@ class TestDpdkScenarios(base_test.BaseTest):
         mcast_msg = 'mcast_pass'
         mcast_output = '/tmp/output'
         get_mcast_results = 'cat {}'.format(mcast_output)
-        receive_cmd = 'sudo python /usr/local/bin/multicast_traffic.py -r ' \
-                      '-g {0} -p {1} -c 1 > {2} &'.format(mcast_group,
-                                                          mcast_port,
-                                                          mcast_output)
-        send_cmd = 'sudo python /usr/local/bin/multicast_traffic.py -s -g' \
-                   ' {0} -p {1} -m {2} -c 1 > {3} &'.format(mcast_group,
-                                                            mcast_port,
-                                                            mcast_msg,
-                                                            mcast_output)
+        receive_cmd = 'sudo python /usr/local/bin/nfv_scripts/multicast_' \
+                      'traffic.py -r -g {0} -p {1} -c 1 > {2} ' \
+                      '&'.format(mcast_group, mcast_port, mcast_output)
+        send_cmd = 'sudo python /usr/local/bin/nfv_scripts/multicast_' \
+                   'traffic.py -s -g {0} -p {1} -m {2} -c 1 > {3} ' \
+                   '&'.format(mcast_group, mcast_port, mcast_msg, mcast_output)
         for srv in servers:
             LOG.info('Executing multicast script on {} - {}.'
                      .format(srv['mcast_srv'], srv['fip']))
