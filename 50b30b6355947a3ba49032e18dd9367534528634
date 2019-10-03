@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9db36a63_f70ef4c1",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/packages_deploy.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-10-03T13:29:41Z",
+      "side": 1,
+      "message": "I will leave it here because of two reasons.\n1) If I will move it under the main function, it will add unnecessary mess code to the method.\nHere it is pretty easy seen by anyone who is opening the file.\n2) I do not want to convert it to the function, because in that case, if some function will require an argument inside the function, I need to explicitly pass it as a parameter to the function.\nCurrently, the argument available to any code in any place within the script.",
+      "parentUuid": "4a4f2d54_673e224d",
+      "range": {
+        "startLine": 31,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 56
+      },
+      "revId": "50b30b6355947a3ba49032e18dd9367534528634",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "64f1573d_a12811a8",
         "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/packages_deploy.py",
         "patchSetId": 1
@@ -53,6 +77,48 @@
       "writtenOn": "2019-10-03T08:39:27Z",
       "side": 1,
       "message": "execute_shell_command raising an exception\nConsider catch it here and clean with error log here",
+      "range": {
+        "startLine": 80,
+        "startChar": 3,
+        "endLine": 81,
+        "endChar": 50
+      },
+      "revId": "50b30b6355947a3ba49032e18dd9367534528634",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8261848_526efcd7",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/packages_deploy.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-10-03T13:29:41Z",
+      "side": 1,
+      "message": "You are right.\nFixed.\nThanks for catching.",
+      "parentUuid": "64f1573d_a12811a8",
+      "revId": "50b30b6355947a3ba49032e18dd9367534528634",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a77a7e8_27f86cad",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/packages_deploy.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-10-03T13:29:41Z",
+      "side": 1,
+      "message": "The catch error exception exists within the \"execute_shell_command\" function.\nIf exists, printed to both log file and stdout.",
+      "parentUuid": "4644c5b3_165caed8",
       "range": {
         "startLine": 80,
         "startChar": 3,
