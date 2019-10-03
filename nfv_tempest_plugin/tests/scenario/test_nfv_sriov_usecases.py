@@ -111,18 +111,19 @@ class TestSriovScenarios(base_test.BaseTest):
                     srv['hypervisor_ip'], cmd)
                 trigger = 'stop'
 
-            vf_config = 'sudo python /usr/local/bin/nfv_scripts/packages_' \
-                        'deploy.py --pip-packages scapy; ' \
-                        'sudo python /usr/local/bin/nfv_scripts/post_net_' \
-                        'bootstrap.py --add-iface --port-type ' \
-                        '{port_type} --mac {mac} --vlan {iface_vlan} --addr ' \
-                        '{addr}/24'
+            vf_config = 'sudo python {script_path}/packages_deploy.py ' \
+                        '--pip-packages scapy; sudo python ' \
+                        '{script_path}/post_net_bootstrap.py --add-iface ' \
+                        '--port-type {port_type} --mac {mac} --vlan ' \
+                        '{iface_vlan} --addr {addr}/24'
             pf_config = vf_config + ' --base-vlan {base_vlan}'
-            vf_config = vf_config.format(port_type='vf',
+            vf_config = vf_config.format(script_path=self.nfv_scripts_path,
+                                         port_type='vf',
                                          mac=srv['test_mac_addr'],
                                          addr=srv['test_ip_addr'],
                                          iface_vlan=iface_vlan)
-            pf_config = pf_config.format(port_type='pf',
+            pf_config = pf_config.format(script_path=self.nfv_scripts_path,
+                                         port_type='pf',
                                          mac=srv['test_mac_addr'],
                                          addr=srv['test_ip_addr'],
                                          iface_vlan=iface_vlan,
@@ -140,14 +141,13 @@ class TestSriovScenarios(base_test.BaseTest):
 
         vf1 = servers[0]
 
-        scapy_sniff = 'sudo python /usr/local/bin/nfv_scripts/scapy_' \
-                      'traffic.py --sniff --keep-sniff -i {iface} -c 5 ' \
-                      '> /dev/null 2>&1 &'
-        scapy_icmp = 'sudo python /usr/local/bin/nfv_scripts/scapy_' \
-                     'traffic.py --{pkt_type} -i {iface} -c 5 --src-mac ' \
-                     '{src_mac} --src-ip {src_ip} --dst-mac {dst_mac} ' \
-                     '--dst-ip {dst_ip} --iface-vlan {iface_vlan} ' \
-                     '--test-vlan {test_vlan}'
+        scapy_sniff = 'sudo python {script_path}/scapy_traffic.py --sniff ' \
+                      '--keep-sniff -i {iface} -c 5 > /dev/null 2>&1 &'
+        scapy_icmp = 'sudo python {script_path}/scapy_traffic.py ' \
+                     '--{pkt_type} -i {iface} -c 5 --src-mac {src_mac} ' \
+                     '--src-ip {src_ip} --dst-mac {dst_mac} --dst-ip ' \
+                     '{dst_ip} --iface-vlan {iface_vlan} --test-vlan ' \
+                     '{test_vlan}'
         scapy_mpls = scapy_icmp + ' --raw-msg {raw_msg}'
 
         send_traffic_cmd = ''
@@ -160,14 +160,16 @@ class TestSriovScenarios(base_test.BaseTest):
                 LOG.info('Start sniffing on {}'.format(sniffer['test_name']))
                 ssh_source.exec_command(scapy_sniff.format(
                     iface=sniffer['test_nic']))
-                s1 = scapy_icmp.format(pkt_type='icmp', iface=vf1['test_nic'],
+                s1 = scapy_icmp.format(script_path=self.nfv_scripts_path,
+                                       pkt_type='icmp', iface=vf1['test_nic'],
                                        src_mac=vf1['test_mac_addr'],
                                        src_ip=vf1['test_ip_addr'],
                                        dst_mac=sniffer['test_mac_addr'],
                                        dst_ip=sniffer['test_ip_addr'],
                                        iface_vlan=iface_vlan,
                                        test_vlan=test_vlan)
-                s2 = scapy_mpls.format(pkt_type='mpls', iface=vf1['test_nic'],
+                s2 = scapy_mpls.format(script_path=self.nfv_scripts_path,
+                                       pkt_type='mpls', iface=vf1['test_nic'],
                                        src_mac=vf1['test_mac_addr'],
                                        src_ip=vf1['test_ip_addr'],
                                        dst_mac=sniffer['test_mac_addr'],
@@ -210,14 +212,16 @@ class TestSriovScenarios(base_test.BaseTest):
                                         '{}'.format(sniffer['test_name']))
 
         for srv in servers:
-            vf_remove = 'sudo python /usr/local/bin/nfv_scripts/post_net_' \
-                        'bootstrap.py --del-iface --port-type vf ' \
-                        '--mac {mac} --vlan {iface_vlan}'\
-                .format(mac=srv['test_mac_addr'], iface_vlan=iface_vlan)
-            pf_remove = 'sudo python /usr/local/bin/nfv_scripts/post_net_' \
-                        'bootstrap.py --del-iface --port-type pf ' \
-                        '--mac {mac} --base-vlan {base_vlan}'\
-                .format(mac=srv['test_mac_addr'], base_vlan=base_vlan)
+            vf_remove = 'sudo python {script_path}/post_net_bootstrap.py ' \
+                        '--del-iface --port-type vf --mac {mac} --vlan ' \
+                        '{iface_vlan}'\
+                .format(script_path=self.nfv_scripts_path,
+                        mac=srv['test_mac_addr'], iface_vlan=iface_vlan)
+            pf_remove = 'sudo python {script_path}/post_net_bootstrap.py ' \
+                        '--del-iface --port-type pf --mac {mac} --base-vlan ' \
+                        '{base_vlan}'.format(script_path=self.nfv_scripts_path,
+                                             mac=srv['test_mac_addr'],
+                                             base_vlan=base_vlan)
             remove_log_file = '; sudo rm -f /tmp/scapy_traffic.log'
             vf_remove += remove_log_file
             pf_remove += remove_log_file
