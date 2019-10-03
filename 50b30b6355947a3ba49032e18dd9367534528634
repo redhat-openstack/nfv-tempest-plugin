@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64f1573d_a12811a8",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/packages_deploy.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2019-10-03T08:28:24Z",
+      "side": 1,
+      "message": "It should be install_pip_packages(args.pip_packages)",
+      "revId": "50b30b6355947a3ba49032e18dd9367534528634",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
