@@ -34,6 +34,24 @@
       "revId": "94752402e603e1c68030ecb02256e4ed9e9a8ef0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9142d699_47b6fe78",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/scapy_traffic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-10-03T08:26:09Z",
+      "side": 1,
+      "message": "@Jagan, got your point\nSo lets take two packet send protos:\nFor ICMP and mpls: \nEther\nIP \nICMP \n\nSo this will enter into \ndef send_vlan_packets(param\u003dNone,**kwargs)\n  Ether(src\u003dself.src_mac, dst\u003dself.dst_mac)\n  IP(src\u003dself.src_ip, dst\u003dself.dst_ip)\n  ICMP(param)\n  if kwarsgs[]\n  \n\n  frame\u003d icmp_eth / icmp_id / icmp_ip / icmp_icmp\n         mpls_eth / mpls_lables / mpls_ip / mpls_icmp / mpls_raw\n\n  as per the following, packet assembly could be generic\nhttps://scapy.readthedocs.io/en/latest/usage.html\n  raw is packet assembly, so basic parameters can be parsed in kwargs to\nsend_vlan_packets()",
+      "parentUuid": "da1b2e31_1dd1b2ce",
+      "revId": "94752402e603e1c68030ecb02256e4ed9e9a8ef0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
