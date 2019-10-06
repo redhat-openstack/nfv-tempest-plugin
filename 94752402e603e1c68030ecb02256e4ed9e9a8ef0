@@ -52,6 +52,24 @@
       "revId": "94752402e603e1c68030ecb02256e4ed9e9a8ef0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65078c85_989f1a9c",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/scapy_traffic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-10-06T09:44:34Z",
+      "side": 1,
+      "message": "Hi Jagan,\n\nCould you explain in more detail, please? I\u0027m not sure I completely understand you.\n\nDid you mean that you would like to use the \"Dot1Q\" module as an optional parameter?.\nIf not defined, it will build the same packet without the \"Dot1Q\" module?",
+      "parentUuid": "9142d699_47b6fe78",
+      "revId": "94752402e603e1c68030ecb02256e4ed9e9a8ef0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
