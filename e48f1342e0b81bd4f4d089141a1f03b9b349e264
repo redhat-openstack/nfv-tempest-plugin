@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1cc6a387_80472ff1",
+        "filename": "docs/tests.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-10-22T06:40:13Z",
+      "side": 1,
+      "message": "I just did not see any resources creation process within the test.\nIf needed, the resource creation should be added.",
+      "parentUuid": "496051cd_6f9dfa9b",
+      "range": {
+        "startLine": 311,
+        "startChar": 4,
+        "endLine": 312,
+        "endChar": 16
+      },
+      "revId": "e48f1342e0b81bd4f4d089141a1f03b9b349e264",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f85fdf7_ce329434",
         "filename": "docs/tests_config.yml.sample",
         "patchSetId": 6
