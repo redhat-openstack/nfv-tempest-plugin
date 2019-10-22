@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "d011a311_ae7f115b",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/packages_deploy.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2019-10-22T15:13:48Z",
+      "side": 1,
+      "message": "Lets stick to design philosophy. I would vote for moving the code inside main.",
+      "parentUuid": "54e4e456_1e0ffc8f",
+      "range": {
+        "startLine": 31,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 56
+      },
+      "revId": "50b30b6355947a3ba49032e18dd9367534528634",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "64f1573d_a12811a8",
         "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/packages_deploy.py",
         "patchSetId": 1
