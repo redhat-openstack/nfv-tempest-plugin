@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "626326fb_44df7d50",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/packages_deploy.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2019-10-22T07:37:59Z",
+      "side": 1,
+      "message": "I think Yarboa meant that it should be under the main() function since it is logic that is only executed if the script is invoked directly (and not imported).",
+      "parentUuid": "9db36a63_f70ef4c1",
+      "range": {
+        "startLine": 31,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 56
+      },
+      "revId": "50b30b6355947a3ba49032e18dd9367534528634",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "64f1573d_a12811a8",
         "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/packages_deploy.py",
         "patchSetId": 1
