@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebe659bd_ae3db6a3",
+        "filename": "docs/tests.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-10-22T05:47:09Z",
+      "side": 1,
+      "message": "As your test does not actually boot any instance, you are not really need these values.",
+      "range": {
+        "startLine": 311,
+        "startChar": 4,
+        "endLine": 312,
+        "endChar": 16
+      },
+      "revId": "e48f1342e0b81bd4f4d089141a1f03b9b349e264",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f85fdf7_ce329434",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 6
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-10-22T05:47:09Z",
+      "side": 1,
+      "message": "As your test does not actually boot any instance, you are not really need these values.",
+      "range": {
+        "startLine": 206,
+        "startChar": 3,
+        "endLine": 207,
+        "endChar": 15
+      },
+      "revId": "e48f1342e0b81bd4f4d089141a1f03b9b349e264",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
