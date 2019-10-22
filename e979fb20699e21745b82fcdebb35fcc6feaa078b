@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db5ee750_00bbb8c3",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2019-10-22T07:31:00Z",
+      "side": 1,
+      "message": "Perhaps we should consider putting \u0027/usr/local/bin/nfv_scripts\u0027 as a default in variable since in Tempest config, \u0027transfer_files_dest\u0027 can be customized.",
+      "range": {
+        "startLine": 150,
+        "startChar": 32,
+        "endLine": 150,
+        "endChar": 59
+      },
+      "revId": "e979fb20699e21745b82fcdebb35fcc6feaa078b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
