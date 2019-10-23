@@ -50,6 +50,7 @@ class TestAdvancedScenarios(base_test.BaseTest):
                 version and backported to OSP Rocky.
         """
         LOG.info('Starting numa aware vswitch test.')
+        LOG.info('Test "numa aware network".')
         LOG.info('Booting instances to fill up the numa node 0.')
         numa0_srv, key_pair = \
             self.create_and_verify_resources(test=test, num_servers=2,
@@ -72,6 +73,14 @@ class TestAdvancedScenarios(base_test.BaseTest):
         fail_srv_state = self.os_primary.servers_client.show_server(
             fail_srv[0]['id'])['server']
         self.assertEqual(fail_srv_state['status'], 'ERROR')
+        LOG.info('Check placement of instances vcpu on NUMA node 0.')
+        [self._check_vcpu_from_dumpxml(srv, srv['hypervisor_ip'],
+                                       cell_id='0') for srv in numa0_srv]
+        if 'non_numa_aware_net' not in numas_phys:
+            LOG.warn('Skip "non numa aware" test phase as "non numa aware" '
+                     'network was not found')
+            return True
+        LOG.info('Test "non numa aware network".')
         numa1_net = self.networks_client.list_networks(
             **{'provider:physical_network': numas_phys[
                 'non_numa_aware_net']})['networks'][0]['id']
@@ -89,9 +98,6 @@ class TestAdvancedScenarios(base_test.BaseTest):
         if len(hyper) > 1:
             raise ValueError("The instances should reside on a single "
                              "hypervisor. Use aggregate to reach that state.")
-        LOG.info('Check placement of instances vcpu on NUMA node 0.')
-        [self._check_vcpu_from_dumpxml(srv, srv['hypervisor_ip'],
-                                       cell_id='0') for srv in numa0_srv]
         LOG.info('Check placement of instances vcpu on NUMA node 1.')
         numa1_srv[0]['hypervisor_ip'] = \
             self._get_hypervisor_ip_from_undercloud(
