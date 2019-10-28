@@ -15,7 +15,6 @@
 
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
-from tempest.common import waiters
 from tempest import config
 
 CONF = config.CONF
@@ -51,6 +50,7 @@ class TestAdvancedScenarios(base_test.BaseTest):
                 version and backported to OSP Rocky.
         """
         LOG.info('Starting numa aware vswitch test.')
+        LOG.info('Test "numa aware network".')
         LOG.info('Booting instances to fill up the numa node 0.')
         numa0_srv, key_pair = \
             self.create_and_verify_resources(test=test, num_servers=2,
@@ -65,37 +65,44 @@ class TestAdvancedScenarios(base_test.BaseTest):
         numa0_net = self.networks_client.list_networks(
             **{'provider:physical_network': numas_phys[
                 'numa_aware_net']})['networks'][0]['id']
-        net_id = [{'uuid': numa0_net}]
-        fail_srv = self.create_server(flavor=self.flavor_ref, wait_until=None,
-                                      networks=net_id)
-        waiters.wait_for_server_status(self.os_primary.servers_client,
-                                       fail_srv['id'], 'ERROR',
-                                       raise_on_error=False)
+        net_id = [[{'uuid': numa0_net}]]
+        fail_srv = self.create_server_with_fip(flavor=self.flavor_ref,
+                                               srv_state='ERROR',
+                                               raise_on_error=False,
+                                               networks=net_id)
         fail_srv_state = self.os_primary.servers_client.show_server(
-            fail_srv['id'])['server']
+            fail_srv[0]['id'])['server']
         self.assertEqual(fail_srv_state['status'], 'ERROR')
+        LOG.info('Check placement of instances vcpu on NUMA node 0.')
+        [self._check_vcpu_from_dumpxml(srv, srv['hypervisor_ip'],
+                                       cell_id='0') for srv in numa0_srv]
+        if 'non_numa_aware_net' not in numas_phys:
+            LOG.warn('Skip "non numa aware" test phase as "non numa aware" '
+                     'network was not found')
+            return True
+        LOG.info('Test "non numa aware network".')
         numa1_net = self.networks_client.list_networks(
             **{'provider:physical_network': numas_phys[
                 'non_numa_aware_net']})['networks'][0]['id']
-        net_id = [{'uuid': numa1_net}]
+        net_id = [[{'uuid': numa1_net}]]
         LOG.info('Booting an instance on numa node 1. Expect to success.')
-        numa1_srv = self.create_server(flavor=self.flavor_ref,
-                                       wait_until='ACTIVE', networks=net_id)
+        numa1_srv = self.create_server_with_fip(flavor=self.flavor_ref,
+                                                networks=net_id,
+                                                fip=False)
         LOG.info('Ensure all the instances are on the same hypervisor node.')
         srv_list = [srv['id'] for srv in numa0_srv]
-        srv_list.append(numa1_srv['id'])
+        srv_list.append(numa1_srv[0]['id'])
         hyper = [self.os_admin.servers_client.show_server(hp)['server']
                  ['OS-EXT-SRV-ATTR:hypervisor_hostname'] for hp in srv_list]
         hyper = list(set(hyper))
         if len(hyper) > 1:
             raise ValueError("The instances should reside on a single "
                              "hypervisor. Use aggregate to reach that state.")
-        LOG.info('Check placement of instances vcpu on NUMA node 0.')
-        [self._check_vcpu_from_dumpxml(srv, srv['hypervisor_ip'],
-                                       cell_id='0') for srv in numa0_srv]
         LOG.info('Check placement of instances vcpu on NUMA node 1.')
-        numa1_srv['hypervisor_ip'] = self._get_hypervisor_ip_from_undercloud(
-            **{'shell': '/home/stack/stackrc',
-               'server_id': numa1_srv['id']})[0]
-        self._check_vcpu_from_dumpxml(numa1_srv, numa1_srv['hypervisor_ip'],
+        numa1_srv[0]['hypervisor_ip'] = \
+            self._get_hypervisor_ip_from_undercloud(
+                **{'shell': '/home/stack/stackrc',
+                   'server_id': numa1_srv[0]['id']})[0]
+        self._check_vcpu_from_dumpxml(numa1_srv[0],
+                                      numa1_srv[0]['hypervisor_ip'],
                                       cell_id='1')
