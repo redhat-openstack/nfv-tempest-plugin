@@ -22,6 +22,30 @@
       "revId": "e979fb20699e21745b82fcdebb35fcc6feaa078b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb38edaf_86657e2f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-10-28T12:38:45Z",
+      "side": 1,
+      "message": "Right.\nFixed.",
+      "parentUuid": "db5ee750_00bbb8c3",
+      "range": {
+        "startLine": 150,
+        "startChar": 32,
+        "endLine": 150,
+        "endChar": 59
+      },
+      "revId": "e979fb20699e21745b82fcdebb35fcc6feaa078b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
