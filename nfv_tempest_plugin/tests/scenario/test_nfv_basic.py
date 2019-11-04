@@ -204,12 +204,9 @@ class TestNfvBasic(base_test.BaseTest):
         LOG.info('Confirm instance resize after the cold migration.')
         self.servers_client.confirm_resize_server(server_id=servers[0]['id'])
         LOG.info('Verify instance connectivity after the cold migration.')
-        msg = "Timed out waiting for %s to become reachable" % \
-              servers[0]['fip']
-        self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
-        self.assertTrue(self.get_remote_client(
-            servers[0]['fip'], username=self.instance_user,
-            private_key=key_pair['private_key']))
+        self.check_instance_connectivity(ip_addr=servers[0]['fip'],
+                                         user=self.instance_user,
+                                         key_pair=key_pair['private_key'])
         succeed = True
 
         msg = "Cold migration test id failing. Check your environment settings"

@@ -1594,3 +1594,16 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                          'to compare'.format(stat))
 
         return statistics
+
+    def check_instance_connectivity(self, ip_addr, user, key_pair):
+        """Check connectivity state of the instance
+
+        The function will test the following protocols: ICMP, SSH
+
+        :param ip_addr: The address of the instance
+        :param user: Connection user
+        :param key_pair: SSH key for the instance connection
+        """
+        msg = 'Timed out waiting for {} to become reachable'.format(ip_addr)
+        self.assertTrue(self.ping_ip_address(ip_addr), msg)
+        self.assertTrue(self.get_remote_client(ip_addr, user, key_pair), msg)

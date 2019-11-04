@@ -74,11 +74,9 @@ class TestDpdkScenarios(base_test.BaseTest):
                                               flavor=queues_flavor)
 
         LOG.info('Check connectivity to the queues instance.')
-        msg = "%s instance is not reachable by ping" % servers[0]['fip']
-        self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
-        self.assertTrue(self.get_remote_client(
-            servers[0]['fip'], username=self.instance_user,
-            private_key=key_pair['private_key']))
+        self.check_instance_connectivity(ip_addr=servers[0]['fip'],
+                                         user=self.instance_user,
+                                         key_pair=key_pair['private_key'])
         LOG.info('The {} queues test passed.'.format(queues))
         return True
 
@@ -98,9 +96,9 @@ class TestDpdkScenarios(base_test.BaseTest):
 
         host = self.os_admin.servers_client.show_server(
             servers[0]['id'])['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']
-        msg = "Timed out waiting for %s to become reachable" % \
-              servers[0]['fip']
-        self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
+        self.check_instance_connectivity(ip_addr=servers[0]['fip'],
+                                         user=self.instance_user,
+                                         key_pair=key_pair['private_key'])
         """ Migrate server """
         self.os_admin.servers_client.live_migrate_server(
             server_id=servers[0]['id'], block_migration=True, host=None)
@@ -120,8 +118,11 @@ class TestDpdkScenarios(base_test.BaseTest):
             if dest == self\
                     .os_admin.servers_client.show_server(servers[0][
                     'id'])['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']:
-                """ Run ping after migration """
-                self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
+                """Verify connectivity after migration"""
+                self.check_instance_connectivity(ip_addr=servers[0]['fip'],
+                                                 user=self.instance_user,
+                                                 key_pair=key_pair[
+                                                     'private_key'])
                 return True
         return False
 

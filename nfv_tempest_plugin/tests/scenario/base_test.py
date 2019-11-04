@@ -81,14 +81,10 @@ class BaseTest(baremetal_manager.BareMetalManager):
 
             LOG.info('Test {} instance connectivity.'.format(srv['fip']))
             if fip:
-                msg = ("Timed out waiting for %s to become reachable" %
-                       srv['fip'])
-                self.assertTrue(self.ping_ip_address(srv['fip']), msg)
-                self.assertTrue(self.get_remote_client(srv['fip'],
-                                                       username=self.
-                                                       instance_user,
-                                                       private_key=key_pair[
-                                                           'private_key']))
+                self.check_instance_connectivity(ip_addr=srv['fip'],
+                                                 user=self.instance_user,
+                                                 key_pair=key_pair[
+                                                     'private_key'])
             else:
                 LOG.info("FIP is disabled, ping %s using network namespaces" %
                          srv['fip'])
