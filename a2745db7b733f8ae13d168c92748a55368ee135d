@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e3da83f_3f8b11ed",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-11-04T07:37:41Z",
+      "side": 1,
+      "message": "Please, use it to the baremetal_manager.\nIn such case, if needed it will be available to any test.",
+      "range": {
+        "startLine": 31,
+        "startChar": 8,
+        "endLine": 34,
+        "endChar": 60
+      },
+      "revId": "a2745db7b733f8ae13d168c92748a55368ee135d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25c2d7e9_c4fd6792",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-11-04T07:37:41Z",
+      "side": 1,
+      "message": "Maybe worth to combine this command and \"muticast_traffic.py\" script execution to a single remote call.\nIn such case we are making one remote call less.\nIf will save us some time.",
+      "range": {
+        "startLine": 226,
+        "startChar": 8,
+        "endLine": 228,
+        "endChar": 63
+      },
+      "revId": "a2745db7b733f8ae13d168c92748a55368ee135d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
