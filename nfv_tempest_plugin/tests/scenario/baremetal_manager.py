@@ -74,6 +74,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         super(BareMetalManager, cls).setup_clients()
         cls.hypervisor_client = cls.manager.hypervisor_client
         cls.aggregates_client = cls.manager.aggregates_client
+        cls.volumes_client = cls.os_primary.volumes_client_latest
 
     def setUp(self):
         """Check hypervisor configuration:
@@ -320,6 +321,63 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.addCleanup(test_utils.call_and_ignore_notfound_exc,
                         self.os_admin.flavors_client.delete_flavor, flavor_id)
         return flavor_id
+
+    def create_volume(self, **volume_args):
+        """The method creates volume based on the args passed to the method.
+
+        In case method call with empty parameters, default values will
+        be used and default volume will be created.
+
+        :param volume_args: Dict of parameters for the volume that should be
+        created
+        :return volume_id: ID of the created volume.
+        """
+        if 'name' not in volume_args:
+            volume_args['name'] = data_utils.rand_name('volume')
+        if 'size' not in volume_args:
+            volume_args['size'] = CONF.volume.volume_size
+        if CONF.compute.compute_volume_common_az:
+            volume_wargs.setdefault('availability_zone',
+                                    CONF.compute.compute_volume_common_az)
+        volume = self.volumes_client.create_volume(**volume_args)['volume']
+        self.addClassResourceCleanup(
+            self.volumes_client.wait_for_resource_deletion, volume['id'])
+        self.addClassResourceCleanup(test_utils.call_and_ignore_notfound_exc,
+                                    self.volumes_client.delete_volume,
+                                    volume['id'])
+        waiters.wait_for_volume_resource_status(self.volumes_client,
+                                                volume['id'], 'available')
+        return volume
+
+    def _detach_volume(self, server, volume):
+        """Detaches a volume and ignores if not found or not in-use
+
+        param server: Created server details
+        param volume: Created volume details
+        """
+        try:
+            volume = self.volumes_client.show_volume(volume['id'])['volume']
+            if volume['status'] == 'in-use':
+                self.servers_client.detach_volume(server['id'], volume['id'])
+        except lib_exc.NotFound:
+            pass
+
+    def attach_volume(self, server, volume):
+        """Attaches volume to server
+
+        param server: Created server details
+        param volume: Created volume details
+        :return volume_attachment: Volume attachment information.
+        """
+        attach_args = dict(volumeId=volume['id'])
+        attachment = self.servers_client.attach_volume(
+            server['id'], **attach_args)['volumeAttachment']
+        self.addCleanup(waiters.wait_for_volume_resource_status,
+                        self.volumes_client, volume['id'], 'available')
+        self.addCleanup(self._detach_volume, server, volume)
+        waiters.wait_for_volume_resource_status(self.volumes_client,
+                                                volume['id'], 'in-use')
+        return attachment
 
     def _get_dumpxml_instance_data(self, server, hypervisor):
         """Get dumpxml data from the instance

@@ -155,6 +155,32 @@ class TestNfvBasic(base_test.BaseTest):
                                       test[4:])
         LOG.info('The {} test passed.'.format(test))
 
+    def test_hci_ovsdpdk_attach_volume_and_write(self, test='numa0'):
+        """Test creates the instance, creates a volume and attaching
+        this volume to the instance.
+
+        Also writing the content into the instance volume.
+        The test instance allocation on the selected numa cell.
+        """
+        servers, key_pair = self.create_and_verify_resources(test=test)
+        command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
+        result = self._run_command_over_ssh(servers[0]['hypervisor_ip'],
+                                            command)
+        self.assertTrue(int(result[0]) == 2)
+        LOG.info('Check instance vcpu')
+        self._check_vcpu_from_dumpxml(servers[0], servers[0]['hypervisor_ip'],
+                                      test[4:])
+        volume_id = self.create_volume()
+        attachment = self.attach_volume(servers[0], volume_id)
+        ssh_source = self.get_remote_client(servers[0]['fip'],
+                                            username=self.instance_user,
+                                            private_key=key_pair[
+                                                'private_key'])
+        LOG.info('Execute write test command')
+        cmd = 'sudo dd if=/dev/zero of=/dev/vdb bs=4096k count=256 oflag=direct'
+        out = ssh_source.exec_command(cmd)
+        LOG.info('The {} test passed.'.format(test))
+
     def test_numa1_provider_network(self, test='numa1'):
         """Verify numa configuration on instance
 
