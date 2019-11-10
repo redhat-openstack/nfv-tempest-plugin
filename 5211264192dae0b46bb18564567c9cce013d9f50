@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa3c40da_80ff1684",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2019-11-10T09:04:28Z",
+      "side": 1,
+      "message": "Perhaps it should be moved under \u0027test_nfv_dpdk_usecases.py\u0027 since it is a DPDK use case?\n\nAlso I think it should be a standalone test definition and not inherit from numa0 YAML definition.",
+      "range": {
+        "startLine": 158,
+        "startChar": 7,
+        "endLine": 158,
+        "endChar": 45
+      },
+      "revId": "5211264192dae0b46bb18564567c9cce013d9f50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
