@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "083ebf81_992fb02b",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-11-10T09:58:19Z",
+      "side": 1,
+      "message": "Availability zone is not recommended to be used in nfv.\nConsider using \"aggregate\".",
+      "range": {
+        "startLine": 339,
+        "startChar": 8,
+        "endLine": 341,
+        "endChar": 73
+      },
+      "revId": "5211264192dae0b46bb18564567c9cce013d9f50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fa3c40da_80ff1684",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 3
@@ -18,6 +41,76 @@
         "startChar": 7,
         "endLine": 158,
         "endChar": 45
+      },
+      "revId": "5211264192dae0b46bb18564567c9cce013d9f50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07bc3108_f0bb6ceb",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-11-10T09:58:19Z",
+      "side": 1,
+      "message": "The name should reflect the actual name of the test.",
+      "range": {
+        "startLine": 158,
+        "startChar": 58,
+        "endLine": 158,
+        "endChar": 63
+      },
+      "revId": "5211264192dae0b46bb18564567c9cce013d9f50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e96db974_328420a1",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-11-10T09:58:19Z",
+      "side": 1,
+      "message": "Agree.",
+      "parentUuid": "fa3c40da_80ff1684",
+      "range": {
+        "startLine": 158,
+        "startChar": 7,
+        "endLine": 158,
+        "endChar": 45
+      },
+      "revId": "5211264192dae0b46bb18564567c9cce013d9f50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb0fd9ac_e90e90fe",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-11-10T09:58:19Z",
+      "side": 1,
+      "message": "I assume this could be removed, as this is not a numa test.",
+      "range": {
+        "startLine": 167,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 47
       },
       "revId": "5211264192dae0b46bb18564567c9cce013d9f50",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
