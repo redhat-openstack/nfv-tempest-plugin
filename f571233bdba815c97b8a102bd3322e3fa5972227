@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9334b852_de30db87",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2019-11-10T09:24:21Z",
+      "side": 1,
+      "message": "Why are we allowing any \u0027Exception\u0027 to pass?",
+      "range": {
+        "startLine": 69,
+        "startChar": 19,
+        "endLine": 69,
+        "endChar": 28
+      },
+      "revId": "f571233bdba815c97b8a102bd3322e3fa5972227",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f74521ed_5a43a9de",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2019-11-10T09:24:21Z",
+      "side": 1,
+      "message": "Perhaps we should expose it as parameters in tempest config or external file config.",
+      "range": {
+        "startLine": 119,
+        "startChar": 8,
+        "endLine": 120,
+        "endChar": 76
+      },
+      "revId": "f571233bdba815c97b8a102bd3322e3fa5972227",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79ae929f_2b9b182d",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2019-11-10T09:24:21Z",
+      "side": 1,
+      "message": "Perhaps this logic should be moved to the snooping test, expose an option to execute the test with and without OVS restart.",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 142,
+        "endChar": 61
+      },
+      "revId": "f571233bdba815c97b8a102bd3322e3fa5972227",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87960d33_74722fb8",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2019-11-10T09:24:21Z",
+      "side": 1,
+      "message": "Perhaps should be parameter as well?",
+      "range": {
+        "startLine": 209,
+        "startChar": 8,
+        "endLine": 209,
+        "endChar": 27
+      },
+      "revId": "f571233bdba815c97b8a102bd3322e3fa5972227",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
