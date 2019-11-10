@@ -95,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "15b289b5_ee9c7fe4",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-11-10T23:07:35Z",
+      "side": 1,
+      "message": "@Vadim\nI do not tend to agree here, it could run with SRIOV also",
+      "parentUuid": "e96db974_328420a1",
+      "range": {
+        "startLine": 158,
+        "startChar": 7,
+        "endLine": 158,
+        "endChar": 45
+      },
+      "revId": "5211264192dae0b46bb18564567c9cce013d9f50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bb0fd9ac_e90e90fe",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 3
@@ -106,6 +130,30 @@
       "writtenOn": "2019-11-10T09:58:19Z",
       "side": 1,
       "message": "I assume this could be removed, as this is not a numa test.",
+      "range": {
+        "startLine": 167,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 47
+      },
+      "revId": "5211264192dae0b46bb18564567c9cce013d9f50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc9cc74f_afc31d20",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2019-11-10T23:07:35Z",
+      "side": 1,
+      "message": "I believe port of this should be moved from tests to create_and_verify_resources,\nuntil: self.assertTrue(int(result[0]) \u003d\u003d 2)\nThis is not relevant to this case correct,\nrelated to NUMA check there is only one NUMA performance can achieve better numbers,\nplease review https://docs.google.com/document/d/1Zdah8x_tTUzLYuG_SK0OJGxW68f4EG1Z-_dAmwdnU40/edit#bookmark\u003did.z4bkdktu8k0o\n \nBut in general we prefer NFV tests to run on more than single NUMA",
+      "parentUuid": "bb0fd9ac_e90e90fe",
       "range": {
         "startLine": 167,
         "startChar": 8,
