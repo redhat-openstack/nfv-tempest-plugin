@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "88326980_f622c1a8",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-11-11T06:46:41Z",
+      "side": 1,
+      "message": "@maxim, will remove it.",
+      "parentUuid": "083ebf81_992fb02b",
+      "range": {
+        "startLine": 339,
+        "startChar": 8,
+        "endLine": 341,
+        "endChar": 73
+      },
+      "revId": "5211264192dae0b46bb18564567c9cce013d9f50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa3c40da_80ff1684",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 3
@@ -119,6 +143,54 @@
     },
     {
       "key": {
+        "uuid": "17d6c93e_1001b53a",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-11-11T06:46:41Z",
+      "side": 1,
+      "message": "Agree Yarboa, i think we can keep this test case in test_nfv_basic now since we have SRIOV scenario as well. we can move it to other file later if needed.",
+      "parentUuid": "15b289b5_ee9c7fe4",
+      "range": {
+        "startLine": 158,
+        "startChar": 7,
+        "endLine": 158,
+        "endChar": 45
+      },
+      "revId": "5211264192dae0b46bb18564567c9cce013d9f50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c57447a1_8233810b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-11-11T06:46:41Z",
+      "side": 1,
+      "message": "@maxim,\ntest_add_volume_in_hci_dpdk_instance is this fine?",
+      "parentUuid": "07bc3108_f0bb6ceb",
+      "range": {
+        "startLine": 158,
+        "startChar": 58,
+        "endLine": 158,
+        "endChar": 63
+      },
+      "revId": "5211264192dae0b46bb18564567c9cce013d9f50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bb0fd9ac_e90e90fe",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 3
@@ -154,6 +226,30 @@
       "side": 1,
       "message": "I believe port of this should be moved from tests to create_and_verify_resources,\nuntil: self.assertTrue(int(result[0]) \u003d\u003d 2)\nThis is not relevant to this case correct,\nrelated to NUMA check there is only one NUMA performance can achieve better numbers,\nplease review https://docs.google.com/document/d/1Zdah8x_tTUzLYuG_SK0OJGxW68f4EG1Z-_dAmwdnU40/edit#bookmark\u003did.z4bkdktu8k0o\n \nBut in general we prefer NFV tests to run on more than single NUMA",
       "parentUuid": "bb0fd9ac_e90e90fe",
+      "range": {
+        "startLine": 167,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 47
+      },
+      "revId": "5211264192dae0b46bb18564567c9cce013d9f50",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0eb64bbe_fa836f4e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-11-11T06:46:41Z",
+      "side": 1,
+      "message": "@maxim,@yarboa,\nAgree, removing this code.",
+      "parentUuid": "bc9cc74f_afc31d20",
       "range": {
         "startLine": 167,
         "startChar": 8,
