@@ -22,6 +22,30 @@
       "revId": "6f4a1f797c16599455d1942b74e2a5a69e401164",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23e327e9_c2bee695",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2019-11-11T12:32:32Z",
+      "side": 1,
+      "message": "@vadim,\ntest_nfv_hci_basic_volume(self, test\u003d\u0027generic\u0027) is this fine?",
+      "parentUuid": "67164429_7825db88",
+      "range": {
+        "startLine": 158,
+        "startChar": 49,
+        "endLine": 158,
+        "endChar": 64
+      },
+      "revId": "6f4a1f797c16599455d1942b74e2a5a69e401164",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
