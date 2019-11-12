@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2cfaef05_13041463",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2019-11-12T15:49:02Z",
+      "side": 1,
+      "message": "I am checking below if I have all the data I need and reporting the error if something is missing",
+      "parentUuid": "9334b852_de30db87",
+      "range": {
+        "startLine": 69,
+        "startChar": 19,
+        "endLine": 69,
+        "endChar": 28
+      },
+      "revId": "f571233bdba815c97b8a102bd3322e3fa5972227",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f74521ed_5a43a9de",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
         "patchSetId": 24
@@ -36,6 +60,30 @@
       "writtenOn": "2019-11-10T09:24:21Z",
       "side": 1,
       "message": "Perhaps we should expose it as parameters in tempest config or external file config.",
+      "range": {
+        "startLine": 119,
+        "startChar": 8,
+        "endLine": 120,
+        "endChar": 76
+      },
+      "revId": "f571233bdba815c97b8a102bd3322e3fa5972227",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29574003_1acd71cb",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2019-11-12T15:49:02Z",
+      "side": 1,
+      "message": "moved to config file",
+      "parentUuid": "f74521ed_5a43a9de",
       "range": {
         "startLine": 119,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c4ba80ff_471fd844",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2019-11-12T15:49:02Z",
+      "side": 1,
+      "message": "I see this like a different testcase, that is the reason I implemented it in this way.",
+      "parentUuid": "79ae929f_2b9b182d",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 142,
+        "endChar": 61
+      },
+      "revId": "f571233bdba815c97b8a102bd3322e3fa5972227",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87960d33_74722fb8",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
         "patchSetId": 24
@@ -82,6 +154,30 @@
       "writtenOn": "2019-11-10T09:24:21Z",
       "side": 1,
       "message": "Perhaps should be parameter as well?",
+      "range": {
+        "startLine": 209,
+        "startChar": 8,
+        "endLine": 209,
+        "endChar": 27
+      },
+      "revId": "f571233bdba815c97b8a102bd3322e3fa5972227",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e5d687a_bdcff235",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2019-11-12T15:49:02Z",
+      "side": 1,
+      "message": "moved to config file",
+      "parentUuid": "87960d33_74722fb8",
       "range": {
         "startLine": 209,
         "startChar": 8,
