@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbac1401_4a433b6b",
+        "filename": "docs/tests.md",
+        "patchSetId": 25
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-11-17T13:19:48Z",
+      "side": 1,
+      "message": "Please, add the configurations of the test.",
+      "range": {
+        "startLine": 374,
+        "startChar": 2,
+        "endLine": 383,
+        "endChar": 14
+      },
+      "revId": "5444d898d5f71e1f47025739005d648ab07034fd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
