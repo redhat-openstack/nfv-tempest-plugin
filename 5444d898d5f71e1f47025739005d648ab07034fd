@@ -46,6 +46,30 @@
       "revId": "5444d898d5f71e1f47025739005d648ab07034fd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90a6ce53_cd411e88",
+        "filename": "docs/tests.md",
+        "patchSetId": 25
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2019-11-18T09:11:50Z",
+      "side": 1,
+      "message": "I can see here [1], that some configuration is used.\n\n[1] - https://code.engineering.redhat.com/gerrit/#/c/184288/7/ospd-13-vxlan-dpdk-sriov-ctlplane-dataplane-bonding-lacp-igmp-hybrid/ci_network_config.yml",
+      "parentUuid": "77aa7b68_2e77e13c",
+      "range": {
+        "startLine": 374,
+        "startChar": 2,
+        "endLine": 383,
+        "endChar": 14
+      },
+      "revId": "5444d898d5f71e1f47025739005d648ab07034fd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
