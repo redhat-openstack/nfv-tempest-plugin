@@ -22,6 +22,30 @@
       "revId": "5444d898d5f71e1f47025739005d648ab07034fd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77aa7b68_2e77e13c",
+        "filename": "docs/tests.md",
+        "patchSetId": 25
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2019-11-18T08:07:56Z",
+      "side": 1,
+      "message": "This testcase does not have any configuration parameter.",
+      "parentUuid": "bbac1401_4a433b6b",
+      "range": {
+        "startLine": 374,
+        "startChar": 2,
+        "endLine": 383,
+        "endChar": 14
+      },
+      "revId": "5444d898d5f71e1f47025739005d648ab07034fd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
