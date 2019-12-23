@@ -1348,8 +1348,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if 'package-names' in self.test_setup_dict[test].keys():
             packages = self.test_setup_dict[test]['package-names']
         kwargs['user_data'] = self._prepare_cloudinit_file(packages)
-        servers = self.create_server_with_fip(num_servers=num_servers,
-                                              networks=ports_list, **kwargs)
+        servers = []
+        if num_servers:
+            servers = self.create_server_with_fip(num_servers=num_servers,
+                                                  networks=ports_list,
+                                                  **kwargs)
         return servers, key_pair
 
     def _check_pid_ovs(self, ip_address):
