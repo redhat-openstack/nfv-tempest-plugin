@@ -135,8 +135,9 @@ class TestSriovScenarios(base_test.BaseTest):
                                                 private_key=key_pair[
                                                     'private_key'])
             output = ssh_source.exec_command(pf_config if
-                                             srv['test_port_type'] ==
-                                             'direct-physical' else vf_config)
+                                             srv['test_port_type']
+                                             == 'direct-physical'
+                                             else vf_config)
             srv['test_nic'] = output.split('\n')[-4].split(' ')[-1]
 
         vf1 = servers[0]
@@ -230,7 +231,7 @@ class TestSriovScenarios(base_test.BaseTest):
                                                 private_key=key_pair[
                                                     'private_key'])
             ssh_source.exec_command(pf_remove if
-                                    srv['test_port_type'] ==
-                                    'direct-physical' else vf_remove)
+                                    srv['test_port_type']
+                                    == 'direct-physical' else vf_remove)
 
         self.assertEmpty(test_results, test_results)
