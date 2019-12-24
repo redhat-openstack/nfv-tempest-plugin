@@ -213,13 +213,12 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
 
         # For DPDK numa node
         for nics_info in dpdk_nics_numa_info:
-            if (numa_node == nics_info['numa_node'] and
-                    not nics_info['mtu'] in distinct_mtu_per_node):
+            if (numa_node == nics_info['numa_node']
+                    and not nics_info['mtu'] in distinct_mtu_per_node):
                 distinct_mtu_per_node.append(nics_info['mtu'])
                 roundup_mtu = self._roundup_mtu_bytes(nics_info['mtu'])
-                socket_memory += (((roundup_mtu + overhead) *
-                                  packet_size_in_buffer) /
-                                  (1024 * 1024))
+                socket_memory += (((roundup_mtu + overhead)
+                                   * packet_size_in_buffer) / (1024 * 1024))
 
         # For Non DPDK numa node
         if socket_memory == 0:
@@ -300,8 +299,8 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
         if not self._is_supported_default_hugepages(cpu_flags):
             raise Exception("default huge page size 1GB is not supported")
         total_memory = self._get_physical_memory(hypervisor_ip)
-        hugepages = int(float((total_memory / 1024) - 4) *
-                        (hugepage_alloc_perc / float(100)))
+        hugepages = int(float((total_memory / 1024) - 4)
+                        * (hugepage_alloc_perc / float(100)))
         if cpu_model.startswith('Intel'):
             kernel_args['intel_iommu'] = 'on'
         kernel_args['iommu'] = 'pt'
@@ -350,8 +349,9 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
                 if '1' in params[0].strip('\n'):
                     dpdk_status = True
                 service_names = json.loads(params[1])
-                if (service_names['service_names'] and
-                    "neutron_sriov_agent" in service_names['service_names']):
+                if (service_names['service_names']
+                        and "neutron_sriov_agent"
+                        in service_names['service_names']):
                     sriov_status = True
         return dpdk_status, sriov_status
 
@@ -392,9 +392,9 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
         if sriov_status:
             retrive_host_params = {
                 'IsolCpusList': {'action': 'command',
-                                 'cmd': ("sudo cat /etc/tuned/bootcmdline | "
-                                         "grep -P -o 'nohz_full=.+?\s{1,}' | "
-                                         "sed 's/nohz_full=//'")},
+                                 'cmd': (r"sudo cat /etc/tuned/bootcmdline | "
+                                         r"grep -P -o 'nohz_full=.+?\s{1,}' |"
+                                         r" sed 's/nohz_full=//'")},
                 'KernelArgs': {'action': 'command',
                                'cmd': 'sudo cat /proc/cmdline'},
                 'NovaReservedHostMemory': {'action': 'ini',
@@ -419,9 +419,9 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
             retrive_host_params = {
 
                 'IsolCpusList': {'action': 'command',
-                                 'cmd': ("sudo cat /etc/tuned/bootcmdline | "
-                                         "grep -P -o 'nohz_full=.+?\s{1,}' | "
-                                         "sed 's/nohz_full=//'")},
+                                 'cmd': (r"sudo cat /etc/tuned/bootcmdline | "
+                                         r"grep -P -o 'nohz_full=.+?\s{1,}' |"
+                                         r" sed 's/nohz_full=//'")},
                 'KernelArgs': {'action': 'command',
                                'cmd': 'sudo cat /proc/cmdline'},
                 'NovaReservedHostMemory': {'action': 'ini',
@@ -441,9 +441,9 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
                                    'section': 'DEFAULT',
                                    'value': 'vcpu_pin_set'},
                 'OvsDpdkCoreList': {'action': 'command',
-                                    'cmd': ("sudo pgrep ovsdb-server | xargs "
-                                            "taskset -cp | grep -P -o '\d+' | "
-                                            "tail -n +2 | paste -s -d, -")},
+                                    'cmd': (r"sudo pgrep ovsdb-server | xargs "
+                                            r"taskset -cp | grep -P -o '\d+' |"
+                                            r" tail -n +2 | paste -s -d, -")},
                 'OvsDpdkSocketMemory': {'action': 'command',
                                         'cmd': ("sudo ovs-vsctl get "
                                                 "Open_vSwitch . other_config"
@@ -455,10 +455,10 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
                                            "sed -e 's/://' | paste -s -d, -")},
             }
         for param in retrive_host_params:
-            if retrive_host_params[param]['action'] is 'command':
+            if retrive_host_params[param]['action'] == 'command':
                 cmd = retrive_host_params[param]['cmd']
                 result = self._run_command_over_ssh(hypervisor_ip, cmd)
-            elif retrive_host_params[param]['action'] is 'ini':
+            elif retrive_host_params[param]['action'] == 'ini':
                 file_path = retrive_host_params[param]['file_path']
                 section = retrive_host_params[param]['section']
                 value = retrive_host_params[param]['value']
@@ -470,14 +470,14 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
                           'NovaVcpuPinSet', 'IsolCpusList']):
                 host_params[param] = \
                     self._convert_range_to_number_list(host_params[param])
-            elif param is 'KernelArgs':
+            elif param == 'KernelArgs':
                 kernel_args_str = host_params[param]
                 kernel_args = kernel_args_str.split(' ')
                 required_kernel_args = {}
                 for arg in kernel_args:
                     kernel_param = arg.split('=')
-                    if (('hugepages' in kernel_param[0]) or
-                        ('iommu' in kernel_param[0])):
+                    if (('hugepages' in kernel_param[0])
+                            or ('iommu' in kernel_param[0])):
                         required_kernel_args[str(kernel_param[0].strip())] = \
                             str(kernel_param[1].strip())
                 host_params[param] = required_kernel_args
