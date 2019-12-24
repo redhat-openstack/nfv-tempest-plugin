@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dee6a854_1dd1282d",
+        "filename": "tox.ini",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2019-12-24T11:48:10Z",
+      "side": 1,
+      "message": "Perhaps it\u0027s worth mentioning that it is outdated?",
+      "range": {
+        "startLine": 39,
+        "startChar": 24,
+        "endLine": 39,
+        "endChar": 28
+      },
+      "revId": "a676f7724587a7563409c784126d697450e39924",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
