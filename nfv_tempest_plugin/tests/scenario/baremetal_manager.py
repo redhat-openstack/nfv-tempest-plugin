@@ -901,7 +901,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if hosts in aggregations
         """
         if host:
-            host_name = re.split("\.", host[0])[0]
+            host_name = re.split(r"\.", host[0])[0]
             if host_name is None:
                 host_name = host
 
@@ -972,8 +972,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'mgmt' in net and 'dns_nameservers' in net:
                 self.test_network_dict[net['name']]['dns_nameservers'] = \
                     net['dns_nameservers']
-            if ('tag' in net and (2.32 <= float(self.request_microversion) <=
-                                  2.36 or self.request_microversion >= 2.42)):
+            if ('tag' in net and (2.32 <= float(self.request_microversion)
+                                  <= 2.36 or self.request_microversion
+                                  >= 2.42)):
                 self.test_network_dict[net['name']]['tag'] = net['tag']
             if 'trusted_vf' in net and net['trusted_vf']:
                 self.test_network_dict[net['name']]['trusted_vf'] = True
@@ -990,8 +991,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             """Added this for VxLAN no need of physical network or segmentation
             """
             if 'provider:network_type' in net_param and \
-                    (net_param['provider:network_type'] == 'vlan' or
-                     net_param['provider:network_type'] == 'flat'):
+                    (net_param['provider:network_type'] == 'vlan'
+                     or net_param['provider:network_type'] == 'flat'):
                 if 'provider:physical_network' in net_param:
                     network_kwargs['provider:physical_network'] =\
                         net_param['provider:physical_network']
@@ -1066,7 +1067,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 router, **kwargs)
         # if router is not found, this means it was deleted in the test
         except lib_exc.NotFound:
-                pass
+            pass
 
     def _detect_existing_networks(self):
         """Use method only when test require no network
@@ -1201,8 +1202,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         net_id = []
         networks = []
-        (CONF.compute_feature_enabled.config_drive and
-         kwargs.update({'config_drive': True}))
+        (CONF.compute_feature_enabled.config_drive
+         and kwargs.update({'config_drive': True}))
         if 'networks' in kwargs:
             net_id = kwargs['networks']
             kwargs.pop('networks', None)
@@ -1387,11 +1388,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         numpmds = int(self._run_command_over_ssh(self.ip_address[0],
                                                  count_pmd))
         # We ensure that a number is being parsed, otherwise we fail
-        command = 'sudo ovs-vsctl show' \
-                  '| sed -n "s/.*n_rxq=.\([1-9]\).*/\\1/p"'
+        cmd = r'sudo ovs-vsctl show | sed -n "s/.*n_rxq=.\([1-9]\).*/\\1/p"'
         numqueues = (self._run_command_over_ssh(self.ip_address[0],
-                                                command)).encode('ascii',
-                                                                 'ignore')
+                                                cmd)).encode('ascii', 'ignore')
         if not isinstance(numqueues, type(str())):
             numqueues = numqueues.decode("utf-8")
         msg = "There are no queues available"
@@ -1500,8 +1499,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         Create security groups [icmp,ssh] for Deployed Guest Image
         """
         mgmt_net = self.test_network_dict['public']
-        if not ('sec_groups' in self.test_network_dict[mgmt_net] and
-                not self.test_network_dict[mgmt_net]['sec_groups']):
+        if not ('sec_groups' in self.test_network_dict[mgmt_net]
+                and not self.test_network_dict[mgmt_net]['sec_groups']):
             security_group = self._create_security_group()
             self.remote_ssh_sec_groups_names = \
                 [{'name': security_group['name']}]
@@ -1572,8 +1571,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         return result
 
     def ping_via_network_namespace(self, ping_to_ip, network_id):
-        cmd = ("sudo ip netns exec qdhcp-" + network_id +
-               " ping -c 10 " + ping_to_ip)
+        cmd = ("sudo ip netns exec qdhcp-" + network_id
+               + " ping -c 10 " + ping_to_ip)
         ctrl_ip = urlparse(CONF.identity.uri).netloc.split(':')[0]
         result = self._run_command_over_ssh(ctrl_ip, cmd)
         for line in result.split('\n'):

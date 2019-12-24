@@ -1,2 +1,2 @@
 tempest >= 16.1.0
-configparser == 3.5.0
+configparser >= 3.5.0
