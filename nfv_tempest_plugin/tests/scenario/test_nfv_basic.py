@@ -62,7 +62,7 @@ class TestNfvBasic(base_test.BaseTest):
                     cmd = "rpm -qa | grep {0}".format(package)
                     result = self._run_command_over_ssh(self.hypervisor_ip,
                                                         cmd).split()
-                    if result is not '':
+                    if not result:
                         test_result += result
 
         LOG.info("Found the following packages: %s" % '\n'.join(test_result))
