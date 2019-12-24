@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1195d951_2fa9f6a3",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2019-12-24T11:49:41Z",
+      "side": 1,
+      "message": "should it be \"if result:\"?",
+      "range": {
+        "startLine": 65,
+        "startChar": 27,
+        "endLine": 65,
+        "endChar": 33
+      },
+      "revId": "a676f7724587a7563409c784126d697450e39924",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dee6a854_1dd1282d",
         "filename": "tox.ini",
         "patchSetId": 2
