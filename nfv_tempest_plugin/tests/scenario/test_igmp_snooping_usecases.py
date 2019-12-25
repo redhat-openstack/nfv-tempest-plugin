@@ -69,8 +69,8 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
             except Exception:
                 pass
 
-            diff_checks_cmd = (set(checks.keys()) -
-                               set(ovs_data_filt.keys()))
+            diff_checks_cmd = (set(checks.keys())
+                               - set(ovs_data_filt.keys()))
             if len(diff_checks_cmd) > 0:
                 result.append("{}. Missing checks: {}. Check ovs cmd output"
                               .format(hypervisor_ip,
@@ -115,8 +115,8 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
            len(igmp_dict['mcast_groups']) == 2:
             pass
         else:
-            raise ValueError('The test requires 2 multicast groups ' +
-                             'in configuration file.')
+            raise ValueError('The test requires 2 multicast groups in '
+                             'configuration file.')
 
         servers, key_pair = self.create_and_verify_resources(test=test)
         hypervisors = dict([[server['hypervisor_ip'], []]
@@ -125,8 +125,8 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
             hypervisors[server['hypervisor_ip']].append(index)
 
         if [len(hypervisors[hyp]) for hyp in hypervisors.keys()] != [3, 3]:
-            raise ValueError('The test requires 2 hypervisors and ' +
-                             '3 vms in each hypervisor.')
+            raise ValueError('The test requires 2 hypervisors and 3 vms in '
+                             'each hypervisor.')
 
         for group in igmp_dict['mcast_groups']:
             group['rx_pkts'] = 0  # to be calculated
@@ -257,7 +257,7 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
                 num_listeners = len([grp for grp in groups if
                                     grp['GROUP'] == mcast_groups[idx]['ip']])
                 if num_listeners != hypervisors[hyp][idx]['listeners']:
-                    errors.append("Multicast groups not created properly: " +
+                    errors.append("Multicast groups not created properly: "
                                   "{} {}. ".format(mcast_groups[idx]['ip'],
                                                    mcast_groups[idx]['port']))
 
@@ -308,12 +308,12 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
                      .format(server['fip'], tx_pkts_mcast, rx_pkts_mcast))
             LOG.info('{} Mgmt Traffic stats, tx_pkts: {}, rx_pkts {}.'
                      .format(server['fip'], tx_pkts_mgmt, rx_pkts_mgmt))
-            if not (rx_pkts_mcast >= server['tx_pkts'] and
-                    rx_pkts_mcast <= (server['tx_pkts'] + pkts_tolerance)):
+            if not (rx_pkts_mcast >= server['tx_pkts']
+                    and rx_pkts_mcast <= (server['tx_pkts'] + pkts_tolerance)):
                 errors.append("No traffic in traffic runner {}: {}. ".format(
                     server['fip'], rx_pkts_mcast))
-            if not (tx_pkts_mcast >= server['rx_pkts'] and
-                    tx_pkts_mcast <= server['rx_pkts'] + pkts_tolerance):
+            if not (tx_pkts_mcast >= server['rx_pkts']
+                    and tx_pkts_mcast <= server['rx_pkts'] + pkts_tolerance):
                 errors.append("No traffic in listener {}: {}. ".format(
                     server['fip'], tx_pkts_mcast))
 
@@ -332,8 +332,8 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
                     fail_results_msg = '{} unable to receive multicast ' \
                                        'traffic: {} '.format(server['fip'],
                                                              results)
-                    if results != (str(mcast_groups[group]['rx_pkts']) +
-                                   " " + mcast_groups[group]['msg']):
+                    if results != (str(mcast_groups[group]['rx_pkts'])
+                                   + " " + mcast_groups[group]['msg']):
                         errors.append(fail_results_msg)
                     else:
                         LOG.info('{} received multicast traffic.'
