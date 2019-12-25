@@ -273,8 +273,9 @@ Tests included:
     Verify the instances placement in NUMA 0.
   - Boot another instance using the "non numa aware net". The instance will be placed in NUMA 1.
     Verify the instance placement in NUMA 1.
+  - Cold migrate NUMA 0 instance and verify migration
 
-  In case, "non numa aware" network does not exist, the test will verify only the first part of the test.
+  In case, "non numa aware" network does not exist, the NUMA 1 staep will not be executed.
   
   Prerequisites for the test:  
   Overcloud feature configuration for the deployment.  
@@ -282,12 +283,8 @@ Tests included:
   
   ```
   - name: numa_aware_vswitch
-    flavor: numa_aware_vswitch
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
-    aggregate:
-      hosts:
-        - computeovsdpdksriov-0
-      metadata: test=numa_aware_vswitch
   ```
 
 **Note** - The test config require to use the aggregate during the test.  

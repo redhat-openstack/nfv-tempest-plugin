@@ -195,12 +195,8 @@ tests-setup:
     router: true
 
   - name: numa_aware_vswitch
-    flavor: numa_aware_vswitch
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
-    aggregate:
-      hosts:
-        - computeovsdpdksriov-0
-      metadata: test=numa_aware_vswitch
 
  - name: offload
    offload_config:
