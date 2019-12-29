@@ -1756,3 +1756,23 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     server['mgmt_port'] = ovs_port_name
                 port_list[server['hypervisor_ip']].append(ovs_port_name)
         return port_list
+
+    def list_available_resources_on_hypervisor(self, hypervisor):
+        """List available CPU and RAM on dedicated hypervisor"""
+        hyp_list = self.os_admin.hypervisor_client.list_hypervisors()[
+            'hypervisors']
+        if not any(hypervisor in a['hypervisor_hostname'] for a in hyp_list):
+            raise ValueError('Specifyed hypervisor has not been found.')
+
+        hyper_id = self.os_admin.hypervisor_client.search_hypervisor(
+            hypervisor)['hypervisors'][0]['id']
+        hyper_info = self.os_admin.hypervisor_client.show_hypervisor(
+            hyper_id)['hypervisor']
+        cpu_total = hyper_info['vcpus']
+        cpu_used = hyper_info['vcpus_used']
+        cpu_free = hyper_info['vcpus'] - hyper_info['vcpus_used']
+        cpu_free_per_numa = hyper_info['vcpus'] / 2 - hyper_info['vcpus_used']
+        ram_free = hyper_info['free_ram_mb'] / 1024
+        return {'cpu_total': cpu_total, 'cpu_used': cpu_used,
+                'cpu_free_per_numa': cpu_free_per_numa, 'cpu_free': cpu_free,
+                'ram_free': ram_free}
