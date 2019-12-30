@@ -684,6 +684,25 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 numa_networks['non_numa_aware_net'] = physnet
         return numa_networks
 
+    def locate_numa_aware_networks(self, numa_physnets):
+        """Locate numa aware networks
+
+        :param numa_physnets: Dict of numa aware and non aware physnets
+        :return numa_aware_net aware and non aware dict
+        """
+        numa_aware_net = self.networks_client.list_networks(
+            **{'provider:physical_network': numa_physnets['numa_aware_net'],
+               'router:external': False})['networks']
+        if numa_aware_net:
+            numa_aware_net = numa_aware_net[0]['id']
+        else:
+            nets = self.networks_client.list_networks(
+                **{'router:external': False})['networks']
+            for net in nets:
+                if net['provider:network_type'] == 'vxlan':
+                    numa_aware_net = net['id']
+        return numa_aware_net
+
     def compare_emulatorpin_to_overcloud_config(self, server, overcloud_node,
                                                 config_path, check_section,
                                                 check_value):
