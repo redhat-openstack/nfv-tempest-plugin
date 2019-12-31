@@ -70,6 +70,8 @@ test-networks:
     # Nova will set the binding profile of this port to trusted=true and will
     # set it as Trusted VF
     trusted_vf: true
+    # set if using HW-Offload port when OVS in is in switchdev mode
+    switchdev: true
 
 # Flavors used by the test.
 # Will be created by the tests during the execution
