@@ -997,6 +997,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 self.test_network_dict[net['name']]['tag'] = net['tag']
             if 'trusted_vf' in net and net['trusted_vf']:
                 self.test_network_dict[net['name']]['trusted_vf'] = True
+            if 'switchdev' in net and net['switchdev']:
+                self.test_network_dict[net['name']]['switchdev'] = True
         network_kwargs = {}
         """
         Create network and subnets
@@ -1156,7 +1158,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             networks_list = []
             for net_name, net_param in iter(self.test_network_dict.items()):
                 create_port_body = {'binding:vnic_type': '',
-                                    'namestart': 'port-smoke'}
+                                    'namestart': 'port-smoke',
+                                    'binding:profile': {}}
                 if 'port_type' in net_param:
                     create_port_body['binding:vnic_type'] = \
                         net_param['port_type']
@@ -1167,8 +1170,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     if 'trusted_vf' in net_param and \
                        net_param['trusted_vf'] and \
                        net_param['port_type'] == 'direct':
-                        create_port_body['binding:profile'] = \
-                            {'trusted': 'true'}
+                        create_port_body['binding:profile']['trusted'] = True
+                    if 'switchdev' in net_param and \
+                       net_param['switchdev'] and \
+                       net_param['port_type'] == 'direct':
+                        create_port_body['binding:profile']['capabilities'] = ['switchdev']
                     port = self._create_port(network_id=net_param['net-id'],
                                              **create_port_body)
                     net_var = {'uuid': net_param['net-id'], 'port': port['id']}
