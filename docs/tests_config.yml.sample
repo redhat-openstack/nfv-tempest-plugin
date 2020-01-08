@@ -201,10 +201,9 @@ tests-setup:
     router: true
 
  - name: offload
-   offload_config:
-     # Name of the compute node with offload enabled and offload nics of node
-     - node: computemellanox
-       nics: ['p4p1', 'p4p2']
+   offload_nics:
+     - p4p1
+     - p4p2
 
   - name: double_tagging
     vlan_config:

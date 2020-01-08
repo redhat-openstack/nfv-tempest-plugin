@@ -27,6 +27,8 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_igmp_snooping_usecases.TestIgmpSnoopingScenarios.test_igmp_snooping_deployment
 - nfv_tempest_plugin.tests.scenario.test_igmp_snooping_usecases.TestIgmpSnoopingScenarios.test_igmp_restart_ovs
 - nfv_tempest_plugin.tests.scenario.test_igmp_snooping_usecases.TestIgmpSnoopingScenarios.test_igmp_snooping
+- nfv_tempest_plugin.tests.scenario.test_nfv_offload.TestNfvOffload.test_offload_ovs_config
+- nfv_tempest_plugin.tests.scenario.test_nfv_offload.TestNfvOffload.test_offload_nic_eswitch_mode
 
 
 
@@ -353,11 +355,9 @@ Tests included:
 
   Test config:
   - name: offload
-    offload_config
-      # Compute node name where offload is enabled
-      - name: 'computemellanox'
-        # Nics on offload compute node used for offload
-        nics: ['p4p1']
+    offload_nics:
+      - p4p1
+      - p4p2
 
 #### TestIgmpSnoopingScenarios
 Tests included:
