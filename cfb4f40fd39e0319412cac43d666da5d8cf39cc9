@@ -22,6 +22,30 @@
       "revId": "cfb4f40fd39e0319412cac43d666da5d8cf39cc9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b16fd1f_2e101c67",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-01-09T14:07:55Z",
+      "side": 1,
+      "message": "I personally think that we should not have a deployment with only single smartnic.\nAll of our deployments so far are aligned with each other, I do not think that we should stray from that approach.\n\n@Saravanan, @Maxim what are your thoughts?",
+      "parentUuid": "381a737b_8a6aa633",
+      "range": {
+        "startLine": 204,
+        "startChar": 3,
+        "endLine": 207,
+        "endChar": 0
+      },
+      "revId": "cfb4f40fd39e0319412cac43d666da5d8cf39cc9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
