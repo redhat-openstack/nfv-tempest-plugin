@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62c1f120_14e2102a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2020-01-09T03:57:48Z",
+      "side": 1,
+      "message": "I think we should keep it configurable to run on only computes with hw offload.",
+      "range": {
+        "startLine": 7,
+        "startChar": 34,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "060abc6dcebaa1b22be66e9bcb672191d3377c58",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
