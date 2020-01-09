@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "381a737b_8a6aa633",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2020-01-09T03:55:48Z",
+      "side": 1,
+      "message": "what about mixed setup? say only one node has smartnic.",
+      "range": {
+        "startLine": 204,
+        "startChar": 3,
+        "endLine": 207,
+        "endChar": 0
+      },
+      "revId": "cfb4f40fd39e0319412cac43d666da5d8cf39cc9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
