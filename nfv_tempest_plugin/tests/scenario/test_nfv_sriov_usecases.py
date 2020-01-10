@@ -13,11 +13,14 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import json
 import re
 import time
 
+
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import base_test
+from nfv_tempest_plugin.tests.scenario.qos_manager import QoSManagerMixin
 from oslo_log import log as logging
 from tempest import config
 
@@ -25,7 +28,7 @@ CONF = config.CONF
 LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
-class TestSriovScenarios(base_test.BaseTest):
+class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
     def __init__(self, *args, **kwargs):
         super(TestSriovScenarios, self).__init__(*args, **kwargs)
 
@@ -296,3 +299,33 @@ class TestSriovScenarios(base_test.BaseTest):
         for server in servers:
             self.check_qos_attached_to_guest(server,
                                              min_bw=True)
+
+    def test_sriov_max_qos(self, test='max_qos'):
+        """Test SRIOV MAX QoS functionality
+
+        The test require [nfv_plugin_options ]
+        use_neutron_api_v2 = true in tempest.config.
+        Test also requires QoS neutron settings.
+        The test deploy 3 vms. one iperf server receive traffic from
+        two iperf clients, with max_qos defined run against iperf server.
+        The test search for Traffic per second and compare against ports
+        seeings
+        """
+
+        LOG.info('Start SRIOV Max QoS test.')
+
+        self.create_default_test_config(test)
+        kwargs = {}
+        qos_rules = \
+            json.loads(CONF.nfv_plugin_options.max_qos_rules)[0]
+        qos_rules_list = [x for x in qos_rules]
+        servers, key_pair = self.create_and_verify_resources(
+            test=test, num_servers=3, **kwargs)
+        if len(servers) != 3:
+            raise ValueError('The test requires 3 instances.')
+        # Max QoS configuration to server ports
+        LOG.info('Create QoS Policies...')
+        qos_policies = [self.create_qos_policy_with_rules(
+            use_default=False, **i) for i in qos_rules_list]
+        self.run_iperf_test(qos_policies, servers, key_pair)
+        self.collect_iperf_results(qos_rules_list, servers, key_pair)
