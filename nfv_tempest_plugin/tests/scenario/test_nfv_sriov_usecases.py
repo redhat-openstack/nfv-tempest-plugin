@@ -286,3 +286,49 @@ class TestSriovScenarios(base_test.BaseTest):
         for server in servers:
             self.check_qos_attached_to_guest(server,
                                              min_bw=True)
+    def test_sriov_max_qos(self, test='max_qos'):
+        """Test SRIOV MAX QoS functionality
+
+        The test require resource creator to setup initial test resources.
+        Refer to the documentation regarding the test configuration.
+        """
+        if self.external_resources_data is None:
+            raise ValueError('External resource data is required for the test')
+
+        LOG.info('Start SRIOV Max QoS test.')
+        servers, key_pair = self.create_and_verify_resources(test=test)
+        if len(servers) != 3:
+            raise ValueError('The test requires 3 instances.')
+
+        # Max QoS configuration to server ports
+        #---------------- pending
+
+        ssh_dest = self.get_remote_client(servers[2]['fip'],
+                                            username=self.instance_user,
+                                            private_key=key_pair[
+                                                'private_key'])
+        LOG.info('Receive iperf traffic from Server3...')
+        out_dest = ssh_dest.exec_command(
+            'iperf3 -s -p 5101 & iperf3 -s -p 5102 &')
+
+        # Need to parse out_dest to check the bandwidth- pending
+
+        ssh_source1 = self.get_remote_client(servers[0]['fip'],
+                                            username=self.instance_user,
+                                            private_key=key_pair[
+                                                'private_key'])
+        LOG.info('Send iperf traffic from Server1...')
+        out_source1 = ssh_source1.exec_command(
+            'iperf3 -c ' + ip_addr1 + ' -T s1 -p 5101 -t 600')
+
+       # Need to parse out_source1 to check the bandwidth
+
+        ssh_source2 = self.get_remote_client(servers[1]['fip'],
+                                            username=self.instance_user,
+                                            private_key=key_pair[
+                                                'private_key'])
+        LOG.info('Send iperf traffic from Server2...')
+        out_source2 = ssh_source2.exec_command(
+            'iperf3 -c '+ ip_addr2 + ' -T s2 -p 5102 -t 600')
+
+       # Need to parse out_source2 to check the bandwidth
