@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d14d13e6_f98c1050",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-01-10T11:05:08Z",
+      "side": 1,
+      "message": "I think this assignment will fail, maybe net_param[\u0027switchdev\u0027] ... or something else",
+      "range": {
+        "startLine": 1178,
+        "startChar": 30,
+        "endLine": 1178,
+        "endChar": 39
+      },
+      "revId": "46b49ba53c3ba0571edd82cbf22de5bce1db12fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
