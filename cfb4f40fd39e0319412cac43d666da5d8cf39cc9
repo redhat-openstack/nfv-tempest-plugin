@@ -46,6 +46,30 @@
       "revId": "cfb4f40fd39e0319412cac43d666da5d8cf39cc9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "660fe0bf_36c22248",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2020-01-10T11:43:43Z",
+      "side": 1,
+      "message": "Let us take the assumption that we will not support mixed mode deployment for now. The only need for it earlier was because of unavailability of nics. In order to support mixed mode, there are changes required from the network config input tempalte, there is no option to provide port\u0027s type in our template (we can say the network\u0027s port type, not on the individual port level). \n\nAnd supporting offload one side with differnt phynet and other side with different physnet are workarounds.\n\nIMO, we will not focus on mixed setup, until there is a product requirement for it.",
+      "parentUuid": "6b16fd1f_2e101c67",
+      "range": {
+        "startLine": 204,
+        "startChar": 3,
+        "endLine": 207,
+        "endChar": 0
+      },
+      "revId": "cfb4f40fd39e0319412cac43d666da5d8cf39cc9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
