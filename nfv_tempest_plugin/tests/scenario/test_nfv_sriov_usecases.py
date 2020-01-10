@@ -13,9 +13,12 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import re
+import time
+
+from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
-import re
 from tempest import config
 
 CONF = config.CONF
@@ -50,7 +53,7 @@ class TestSriovScenarios(base_test.BaseTest):
         self.assertNotEmpty(trusted_vfs_mac_addresses,
                             "No trusted VFs are attached to server")
         LOG.info('Test the "trust on" interface on the hypervisor.')
-        result = self. \
+        result = shell_utils.\
             get_interfaces_from_overcloud_node(servers[0]['hypervisor_ip'])
         for mac_address in trusted_vfs_mac_addresses:
             re_string = r'.*{}.*'.format(mac_address)
@@ -113,7 +116,7 @@ class TestSriovScenarios(base_test.BaseTest):
             if trigger is None:
                 cmd = "sudo ip link | awk -F ',' '/{}/ {{print $2}}' " \
                       "| tr -dc '0-9'".format(srv['test_mac_addr'])
-                base_vlan = self._run_command_over_ssh(
+                base_vlan = shell_utils.run_command_over_ssh(
                     srv['hypervisor_ip'], cmd)
                 trigger = 'stop'
 
@@ -283,6 +286,86 @@ class TestSriovScenarios(base_test.BaseTest):
         # Update QoS of the port
         self.update_port(min_qos_port,
                          **{'qos_policy_id': self.qos_policy_groups['id']})
+        # Wait the qos_policy update
+        msg = "qos policy was not added to port {}".join(min_qos_port)
+        time.sleep(5)
+        client = self.os_admin.ports_client
+        self.assertIsNotNone(
+            client.show_port(min_qos_port)['port']['qos_policy_id'],
+            msg)
         for server in servers:
             self.check_qos_attached_to_guest(server,
                                              min_bw=True)
+
+    def test_sriov_max_qos(self, test='max_qos'):
+        """Test SRIOV MAX QoS functionality
+
+        The test require resource creator to setup initial test resources.
+        Refer to the documentation regarding the test configuration.
+        """
+
+        LOG.info('Start SRIOV Max QoS test.')
+        kwargs = {}
+        kwargs['ignore_ext_config'] = True
+        kwargs['flavor'] = self.flavor_ref
+        servers, key_pair = self.create_and_verify_resources(
+            test=test, num_servers=3, **kwargs)
+        if len(servers) != 3:
+            raise ValueError('The test requires 3 instances.')
+
+        # Max QoS configuration to server ports
+        # ---------------- pending
+
+        # in case of iperf server, need to find direct port on server,
+        # and its ip address, based on that store network-id and run
+        # clients on the same ports
+        ports = self.os_admin.\
+            ports_client.list_ports(device_id=servers[2]['id'])
+        ip_addr = [port['fixed_ips'][0]['ip_address']
+                   for port in ports['ports']
+                   if port['binding:vnic_type'] == 'direct']
+        ip_addr1 = ip_addr[0]
+        ssh_dest = self.get_remote_client(servers[2]['fip'],
+                                          username=self.instance_user,
+                                          private_key=key_pair[
+                                          'private_key'])
+        server_command = "sudo yum install iperf -y; "
+        server_command += \
+            "(nohup iperf -s -B {} -p 5102 >> /tmp/listen-5102.txt 2>&1)& ".\
+            format(ip_addr1)
+        server_command += \
+            "(nohup iperf -s -B {} -p 5101 >> /tmp/listen-5101.txt 2>&1)& ".\
+            format(ip_addr1)
+
+        LOG.info('Receive iperf traffic from Server3...')
+        # out_dest =
+        ssh_dest.exec_command(server_command)
+
+        # Need to parse out_dest to check the bandwidth- pending
+
+        ssh_source1 = self.\
+            get_remote_client(servers[0]['fip'],
+                              username=self.instance_user,
+                              private_key=key_pair['private_key'])
+        LOG.info('Send iperf traffic from Server1...')
+        client_command = "sudo yum install iperf -y; "
+        client_command += \
+            "iperf -c {} -T s1 -p {} -t 600".format(ip_addr1, '5101')
+        # out_source1 =
+        ssh_source1.exec_command(client_command)
+
+        # Need to parse out_source1 to check the bandwidth
+
+        ssh_source2 = self.\
+            get_remote_client(servers[1]['fip'],
+                              username=self.instance_user,
+                              private_key=key_pair['private_key'])
+        LOG.info('Send iperf traffic from Server2...')
+        client_command = "sudo yum install iperf -y; "
+        client_command += \
+            "iperf -c {} -T s2 -p {} -t 600".format(ip_addr1, '5102')
+
+        # out_source2 =
+        ssh_source2.exec_command(client_command)
+
+        # Need to parse out_source2 to check the bandwidth
