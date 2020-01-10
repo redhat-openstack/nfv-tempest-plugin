@@ -301,3 +301,21 @@ def check_guest_interface_config(ssh_client, provider_networks,
         LOG.info("Guest '{h}' has interface '{g}' configured with "
                  "IP address '{i}".format(h=hostname, g=guest_interface,
                                           i=ip))
+
+
+def find_vm_interface(ports=[],
+                      vnic_type='normal'):
+    """find vm interface
+
+    The function receive port list and search for requested
+    vnic_type.
+
+    :param ports: ports connected to specific server
+    :param vnic_type: vnic_type nomal/direct/direct_physical
+
+    return port_id, ip_address
+    """
+    assert len(ports), 'ports is empty or None'
+    return [[port['id'], port['fixed_ips'][0]['ip_address']]
+            for port in ports['ports']
+            if port['binding:vnic_type'] == vnic_type][0]

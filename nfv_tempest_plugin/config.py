@@ -64,10 +64,18 @@ NfvPluginOptions = [
                        '{"protocol": "icmp", "direction": "ingress"}]',
                help='Configuration for test security groups.'
                     'The format is JSON. '
-                    '"protocol:<icmp/udp/tcp> - string '
-                    '"direction:":<ingress/egress> - string '
-                    '"port_range_max"<max_port_range> - string '
-                    '"port_range_min"<min_port_range> - string '),
+                    '"protocol":<icmp/udp/tcp> - string '
+                    '"direction":<ingress/egress> - string '
+                    '"port_range_max":<max_port_range> - string '
+                    '"port_range_min":<min_port_range> - string '),
+    cfg.StrOpt('max_qos_rules',
+               default='[{"max_kbps": 4000000, "max_burst_kbps": 4000000 }'
+                       ','
+                       ' {"max_kbps": 9000000, "max_burst_kbps": 4000000 }]',
+               help='Configuration for max qos rules.'
+                    'The format is JSON. '
+                    '"max_kbps":<kbps> - string '
+                    '"max_burst_kbps":<kbps> - string '),
     cfg.BoolOpt('use_neutron_api_v2',
                 default=False,
                 help="Use neutron-tempest-plugin clients"),
