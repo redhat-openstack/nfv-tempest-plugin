@@ -235,3 +235,17 @@ class TestSriovScenarios(base_test.BaseTest):
                                     == 'direct-physical' else vf_remove)
 
         self.assertEmpty(test_results, test_results)
+
+    def test_sriov_max_qos(self, test='max_qos'):
+        """Test SRIOV MAX QoS functionality
+
+        The test require resource creator to setup initial test resources.
+        Refer to the documentation regarding the test configuration.
+        """
+        if self.external_resources_data is None:
+            raise ValueError('External resource data is required for the test')
+
+        LOG.info('Start SRIOV double tagging test.')
+        servers, key_pair = self.create_and_verify_resources(test=test)
+        if len(servers) != 4:
+            raise ValueError('The test requires 4 instances.')
