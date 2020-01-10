@@ -617,6 +617,41 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             qos_min_bw_client.delete_minimum_bandwidth_rule, policy_id,
             qos_rule['id'])
 
+    def create_max_bw_qos_rule(self, policy_id=None, max_kbps=None,
+                               max_burst_kbps=None,
+                               direction='egress'):
+        """Creates a maximum bandwidth QoS rule
+
+        Only egress (guest --> outside) traffic is currently supported.
+
+        :param policy_id
+        :param max_kbps: Maximum kbps bandwidth to apply to rule
+        :param max_burst_kbits: max burst bandwidth to apply to rule
+        :param direction: Traffic direction that the rule applies to
+        """
+
+        SUPPORTED_DIRECTIONS = 'egress'
+        if not policy_id:
+            policy_id = self.qos_policy_groups[0]['id']
+        if direction not in SUPPORTED_DIRECTIONS:
+            raise ValueError('{d} is not a supported direction, supported '
+                             'directions: {s_p}'
+                             .format(d=direction,
+                                     s_p=SUPPORTED_DIRECTIONS.join(', ')))
+        bw_rules = {'direction': direction,
+                    'max_kbps': max_kbps,
+                    'max_burst_kbps': max_burst_kbps}
+        qos_max_bw_client = self.os_admin_v2.network_client_v2
+        result = qos_max_bw_client.create_bandwidth_limit_rule(policy_id,
+                                                               **bw_rules)
+        self.assertIsNotNone(result, 'Unable to create maximum bandwidth '
+                                     'QoS rule')
+        qos_rule = result['bandwidth_limit_rule']
+        self.addCleanup(
+            test_utils.call_and_ignore_notfound_exc,
+            qos_max_bw_client.delete_bandwidth_limit_rule, policy_id,
+            qos_rule['id'])
+
     def update_port(self, port_id, **kwargs):
         """update port
 
@@ -789,9 +824,14 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             num_ports = num_servers
 
         # Check for the test config file
-        self.assertTrue(test in self.test_setup_dict,
-                        'The test requires {0} config in external_config_file'.
-                        format(test))
+        if 'ignore_ext_config' not in kwargs\
+                or not kwargs['ignore_ext_config']:
+            self.assertTrue(
+                test in self.test_setup_dict,
+                'The test requires {0} config in external_config_file'.
+                format(test))
+        elif 'ignore_ext_config' in kwargs:
+            kwargs.pop('ignore_ext_config')
 
         # In case resources created externally, set them.
         if self.external_resources_data is not None:
@@ -806,9 +846,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             kwargs['availability_zone'] = \
                 self.create_and_set_availability_zone(
                     **avail_zone)['availability_zone']
-
         # Create and configure aggregation zone if specified
-        if self.test_setup_dict[test]['aggregate'] is not None:
+        if test in self.test_setup_dict and \
+                self.test_setup_dict[test]['aggregate'] is not None:
             aggr_hosts = self.test_setup_dict[test]['aggregate']['hosts']
             aggr_meta = self.test_setup_dict[test]['aggregate']['metadata']
             self.create_and_set_aggregate(test, aggr_hosts, aggr_meta)
@@ -847,8 +887,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if 'set_qos' in kwargs:
             kwargs.pop('set_qos')
         router_exist = True
-        if 'router' in self.test_setup_dict[test]:
-            router_exist = self.test_setup_dict[test]['router']
+        if test in self.test_setup_dict:
+            if 'router' in self.test_setup_dict[test]:
+                router_exist = self.test_setup_dict[test]['router']
         if router_exist:
             mgmt_subnet_only = False
             if kwargs.get('mgmt_subnet_only'):
@@ -857,8 +898,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             self._add_subnet_to_router(mgmt_subnet_only)
         # Prepare cloudinit
         packages = None
-        if 'package-names' in self.test_setup_dict[test].keys():
-            packages = self.test_setup_dict[test]['package-names']
+        if test in self.test_setup_dict:
+            if 'package-names' in self.test_setup_dict[test].keys():
+                packages = self.test_setup_dict[test]['package-names']
         kwargs['user_data'] = self._prepare_cloudinit_file(packages)
         servers = []
         if num_servers:

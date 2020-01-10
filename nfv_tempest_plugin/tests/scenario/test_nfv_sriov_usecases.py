@@ -296,3 +296,124 @@ class TestSriovScenarios(base_test.BaseTest):
         for server in servers:
             self.check_qos_attached_to_guest(server,
                                              min_bw=True)
+
+    def test_sriov_max_qos(self, test='max_qos'):
+        """Test SRIOV MAX QoS functionality
+
+        The test require [nfv_plugin_options ]
+        use_neutron_api_v2 = true in tempest.config.
+        Test also requires QoS neutron settings.
+        The test deploy 3 vms. one iperf server receive traffic from
+        two iperf clients, with max_qos defined run against iperf server.
+        The test search for Traffic per second and compare against ports
+        seetings
+        """
+        LOG.info('Start SRIOV Max QoS test.')
+        kwargs = {}
+        max_burst = 4000000
+        max_kbps_1 = 4000000
+        max_kbps_2 = 9000000
+        qos1_rules = {'max_kbps': str(max_kbps_1),
+                      'max_burst_kbps': str(max_burst)}
+        qos2_rules = {'max_kbps': str(max_kbps_2),
+                      'max_burst_kbps': str(max_burst)}
+        kwargs['ignore_ext_config'] = True
+        kwargs['flavor'] = self.flavor_ref
+        servers, key_pair = self.create_and_verify_resources(
+            test=test, num_servers=3, **kwargs)
+        if len(servers) != 3:
+            raise ValueError('The test requires 3 instances.')
+
+        # Max QoS configuration to server ports
+        qos1 = self.create_qos_policy_with_rules(use_default=False,
+                                                 **qos1_rules)
+        qos2 = self.create_qos_policy_with_rules(use_default=False,
+                                                 **qos2_rules)
+        # Find machnes direct ports
+        ports = self.os_admin.\
+            ports_client.list_ports(device_id=servers[2]['id'])
+        port_id, ip_addr = \
+            shell_utils.find_vm_interface(ports, vnic_type='direct')
+        ports = self.os_admin.\
+            ports_client.list_ports(device_id=servers[0]['id'])
+        port_id1, ip_addr1 = \
+            shell_utils.find_vm_interface(ports, vnic_type='direct')
+        ports = self.os_admin.\
+            ports_client.list_ports(device_id=servers[1]['id'])
+        port_id2, ip_addr2 = \
+            shell_utils.find_vm_interface(ports, vnic_type='direct')
+        # Set pors with QoS
+        LOG.info('Send iperf traffic from Server2...')
+        self.update_port(port_id1,
+                         **{'qos_policy_id': qos1['id']})
+        self.update_port(port_id2,
+                         **{'qos_policy_id': qos2['id']})
+
+        LOG.info('Run iperf server on server3...')
+        ssh_dest = self.get_remote_client(servers[2]['fip'],
+                                          username=self.instance_user,
+                                          private_key=key_pair[
+                                          'private_key'])
+        server_command = "sudo yum install iperf -y; "
+        log_5102 = "/tmp/listen-5102.txt"
+        log_5101 = "/tmp/listen-5101.txt"
+        server_command += \
+            "(nohup iperf -s -B {} -p 5102 -i 10 >> {} 2>&1)& ".format(
+                ip_addr, log_5102)
+        server_command += \
+            "(nohup iperf -s -B {} -p 5101 -i 10 >> {} 2>&1)& ".format(
+                ip_addr, log_5101)
+        LOG.info('Receive iperf traffic from Server3...')
+        ssh_dest.exec_command(server_command)
+
+        ssh_source1 = self.\
+            get_remote_client(servers[0]['fip'],
+                              username=self.instance_user,
+                              private_key=key_pair['private_key'])
+        LOG.info('Send iperf traffic from Server1...')
+        client_command = "sudo yum install iperf -y; "
+        client_command += \
+            "iperf -c {} -T s1 -p {} -t 60".format(ip_addr, '5101')
+        ssh_source1.exec_command(client_command)
+
+        ssh_source2 = self.\
+            get_remote_client(servers[1]['fip'],
+                              username=self.instance_user,
+                              private_key=key_pair['private_key'])
+        LOG.info('Send iperf traffic from Server2...')
+        client_command = "sudo yum install iperf -y; "
+        client_command += \
+            "iperf -c {} -T s2 -p {} -t 60".format(ip_addr, '5102')
+
+        ssh_source2.exec_command(client_command)
+        # Run grep command over iperf server to verify BW is OK
+        LOG.info('Collect iperf logs from iperf server, server3...')
+        command = r"cat {} | while read line ;do  "
+        command += r"if [[ \"$line\" =~ [[:space:]]"
+        command += r"([0-9]\.[0-9]{2})[[:space:]]Gbits ]]; "
+        command += r"then echo \"${BASH_REMATCH[1]}\"; fi; done| sort| uniq"
+        # Recive result with number
+        out_testing = ssh_dest.exec_command(command.replace('{}', log_5101))
+        # Assert result
+        iperf_rep = \
+            [i for i in (out_testing.encode('utf8')).split("\n") if i != '']
+        self.assertNotEmpty(
+            iperf_rep,
+            "Please check QoS definitions, iperf result for in file {}"
+            " is empty or low".format(log_5101))
+        for rep in iperf_rep:
+            dev = abs(float(rep.replace('\"', ''))
+                      * 10**6 - max_kbps_1) / float(max_kbps_1)
+            self.assertLess(dev, 0.03, "report is greater than 0.03")
+        out_testing = ssh_dest.exec_command(command.replace('{}', log_5102))
+        # Assert result
+        iperf_rep = \
+            [i for i in (out_testing.encode('utf8')).split("\n") if i != '']
+        self.assertNotEmpty(
+            iperf_rep,
+            "Please check QoS definitions, iperf result for in file {}"
+            " is empty or low".format(log_5102))
+        for rep in iperf_rep:
+            dev = abs(float(rep.replace('\"', ''))
+                      * 10**6 - max_kbps_2) / float(max_kbps_2)
+            self.assertLess(dev, 0.03, "report is greater than 0.03")
