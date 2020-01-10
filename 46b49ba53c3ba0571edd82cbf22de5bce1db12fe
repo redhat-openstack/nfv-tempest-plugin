@@ -22,6 +22,30 @@
       "revId": "46b49ba53c3ba0571edd82cbf22de5bce1db12fe",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e584f13a_5fc5b51e",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2020-01-10T11:35:39Z",
+      "side": 1,
+      "message": "The expectationn here is to create port body with binding:profile[\u0027capabilities\u0027 \u003d [\u0027switchdev\u0027], as a translation of this cli command. \n\nopenstack port create --network sriov3-net --vnic-type\u003ddirect --binding-profile \u0027{\"capabilities\": [\"switchdev\"]}\u0027 sriov3_port1\n\nSo this statement is correct.",
+      "parentUuid": "d14d13e6_f98c1050",
+      "range": {
+        "startLine": 1178,
+        "startChar": 30,
+        "endLine": 1178,
+        "endChar": 39
+      },
+      "revId": "46b49ba53c3ba0571edd82cbf22de5bce1db12fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
