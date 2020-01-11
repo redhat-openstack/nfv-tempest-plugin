@@ -50,6 +50,20 @@ In case of manual environment configuration, be aware of the following:
   transfer_files = '[{"client_source": "/path/to/source.txt", "guest_destination": "/path/to/dest.txt"}]'
   ```
 
+- During instance creation, the plugin can verify all provider networks attached to guest.  
+  The verification process includes:
+  - Checking if guest interface are configured with layer3 settings
+  - If multiple servers are created, tests ICMP traffic across all provider networks
+
+  The verification procedure requires guests instances to have a floating ip attached to them.  
+  In order to enable the verification, configure the following attribute under nfv_plugin_options section in tempest:
+
+  **Note:** This may significantly increase test duration.
+  ```
+  [nfv_plugin_options]
+  test_all_provider_networks = true
+  ```
+
 - Live migration test requires explicit parameter enabled within the tempest.conf file.
   ```
   [compute-feature-enabled]
