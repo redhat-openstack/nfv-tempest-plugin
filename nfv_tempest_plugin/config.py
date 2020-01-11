@@ -53,4 +53,7 @@ NfvPluginOptions = [
     cfg.StrOpt('quota_ram',
                default=81920,
                help="The numbers of ram for the tenant use"),
+    cfg.BoolOpt('test_all_provider_networks',
+                default=False,
+                help="Verify provider networks attached to guests"),
 ]
