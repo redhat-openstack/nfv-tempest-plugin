@@ -53,4 +53,8 @@ NfvPluginOptions = [
     cfg.StrOpt('quota_ram',
                default=81920,
                help="The numbers of ram for the tenant use"),
+    cfg.BoolOpt('test_all_provider_networks',
+                default=False,
+                help="Whether all provider networks should attempt to ping"
+                     "gateway/other hosts as part of base_setup"),
 ]
