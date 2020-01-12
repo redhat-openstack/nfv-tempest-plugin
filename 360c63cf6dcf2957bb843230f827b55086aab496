@@ -22,6 +22,30 @@
       "revId": "360c63cf6dcf2957bb843230f827b55086aab496",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d13ea66_36824943",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-01-12T04:29:14Z",
+      "side": 1,
+      "message": "It it possible in Linux, but I\u0027m not sure about the implementation in neutron.\n\nRegardless, we will only attempt to parse the first fixed IP address for the port.",
+      "parentUuid": "21cd1002_5293be99",
+      "range": {
+        "startLine": 73,
+        "startChar": 21,
+        "endLine": 74,
+        "endChar": 68
+      },
+      "revId": "360c63cf6dcf2957bb843230f827b55086aab496",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
