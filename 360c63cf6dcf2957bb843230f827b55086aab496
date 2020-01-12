@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21cd1002_5293be99",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2020-01-12T04:21:46Z",
+      "side": 1,
+      "message": "1 mac address can be used for multiple ip address?",
+      "range": {
+        "startLine": 73,
+        "startChar": 21,
+        "endLine": 74,
+        "endChar": 68
+      },
+      "revId": "360c63cf6dcf2957bb843230f827b55086aab496",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
