@@ -630,33 +630,40 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         hiera_content = hiera_content.split('\n')[:-1]
         return hiera_content
 
-    def locate_ovs_networks(self, node, keys=None):
-        """Locate ovs existing networks
+    def locate_ovs_physnets(self, node=None, keys=None):
+        """Locate ovs existing physnets
 
-        The method locate the ovs existing networks and create a dict with
-        the numa aware and non aware nets.
+        The method locate the ovs existing physnets and create a dict with
+        the numa aware and non aware physnets.
 
         :param node: The node that the query should executed on.
         :param keys: The hiera mapping that should be queried.
-        :return The numa network dict is returned
+        :return The numa physnets dict is returned
         """
+        if node is None:
+            hyper_kwargs = {'shell': '/home/stack/stackrc'}
+            node = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)[0]
         if not keys:
             hiera_bridge_mapping = "neutron::agents::ml2::ovs::bridge_mappings"
             hiera_numa_mapping = "nova::compute::neutron_physnets_numa_" \
                                  "nodes_mapping"
-            keys = [hiera_bridge_mapping, hiera_numa_mapping]
-        numa_net_content = self._retrieve_content_from_hiera(node=node,
-                                                             keys=keys)
+            hiera_numa_tun = "nova::compute::neutron_tunnel_numa_nodes"
+            keys = [hiera_bridge_mapping, hiera_numa_mapping, hiera_numa_tun]
+        numa_phys_content = self._retrieve_content_from_hiera(node=node,
+                                                              keys=keys)
         # Identify the numa aware physnet
-        numa_aware_net = None
+        numa_aware_phys = None
         bridge_mapping = None
-        for physnet in numa_net_content:
+        numa_aware_tun = None
+        for physnet in numa_phys_content:
             if '=>' in physnet:
-                numa_aware_net = yaml.safe_load(physnet.replace('=>', ':'))
-            else:
+                numa_aware_phys = yaml.safe_load(physnet.replace('=>', ':'))
+            elif ':' in physnet:
                 bridge_mapping = yaml.safe_load(physnet)
+            else:
+                numa_aware_tun = yaml.safe_load(physnet)
 
-        numa_networks = {}
+        numa_physnets = {}
         physnet_list = []
         # In order to minimize the amount of remote ssh access, first the
         # remote commands are grouped to one single command and then the
@@ -676,13 +683,16 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         for physnet, dpath in physnet_dict.items():
             LOG.info('The {} network has the {} datapath'.format(physnet,
                                                                  dpath))
-            if dpath == 'netdev' and physnet in numa_aware_net.keys():
+            if dpath == 'netdev' and physnet in numa_aware_phys.keys():
                 LOG.info('The {} is a numa aware network'.format(physnet))
-                numa_networks['numa_aware_net'] = physnet
-            if dpath == 'netdev' and physnet not in numa_aware_net.keys():
+                numa_physnets['numa_aware_net'] = physnet
+            if dpath == 'netdev' and physnet not in numa_aware_phys.keys():
                 LOG.info('The {} is a non numa aware network'.format(physnet))
-                numa_networks['non_numa_aware_net'] = physnet
-        return numa_networks
+                numa_physnets['non_numa_aware_net'] = physnet
+
+        if numa_aware_tun is not None:
+            numa_physnets['numa_aware_tunnel'] = numa_aware_tun[0]
+        return numa_physnets
 
     def locate_numa_aware_networks(self, numa_physnets):
         """Locate numa aware networks
