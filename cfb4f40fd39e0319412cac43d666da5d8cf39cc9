@@ -70,6 +70,30 @@
       "revId": "cfb4f40fd39e0319412cac43d666da5d8cf39cc9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4eb34199_b7ced2c9",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-01-12T10:47:14Z",
+      "side": 1,
+      "message": "@skramaja +1",
+      "parentUuid": "660fe0bf_36c22248",
+      "range": {
+        "startLine": 204,
+        "startChar": 3,
+        "endLine": 207,
+        "endChar": 0
+      },
+      "revId": "cfb4f40fd39e0319412cac43d666da5d8cf39cc9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
