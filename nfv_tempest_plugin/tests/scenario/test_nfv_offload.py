@@ -33,51 +33,79 @@ class TestNfvOffload(base_test.BaseTest):
         """
         super(TestNfvOffload, self).setUp()
 
-    def _get_hypervisor_ip(self, offload_test_config):
-        hyper_kwargs = {'shell': '/home/stack/stackrc'}
-        if offload_test_config.get('node'):
-            hyper_kwargs['hyper_name'] = offload_test_config.get('node')
-        hypervisor_ip = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)
-        return hypervisor_ip
+    def test_offload_ovs_config(self):
+        """Check ovs config for offload on all hypervisors
 
-    def test_offload_ovs_config(self, test="offload"):
-        """Check ovs config for offload
+        """
+        # Command to check if hw-offload is enabled in OVS
+        cmd = ("sudo ovs-vsctl get open_vswitch . "
+               "other_config:hw-offload")
+        # Retrieve all hypvervisors
+        hypervisors = self._get_hypervisor_ip_from_undercloud(
+            shell='/home/stack/stackrc')
+        # Intialize results list
+        result = []
+        # Expected result is a list of dicts, each dict contains
+        # a key which is hypervisor's IP and the value 'true'
+        # Example:
+        # [{192.0.60.1: 'true'}, {192.0.60.2: 'true'}]
+        expected_result = [{ip: 'true'} for ip in hypervisors]
+        for hypervisor in hypervisors:
+            out = self._run_command_over_ssh(hypervisor, cmd)
+            if out:
+                # Strip newlines and remove double quotes
+                output = out.rstrip().replace('"', '')
+            # HW-Offload not enabled if no text returned
+            else:
+                output = 'false'
+            LOG.info("Hypervisor '{h}' is OVS HW-offload "
+                     "capable: '{r}'".format(h=hypervisor,
+                                             r=output))
+            result.append({hypervisor: output})
+        msg = "Not all hypervisors have OVS HW-Offload enabled"
+        self.assertItemsEqual(expected_result, result, msg)
+
+    def test_offload_nic_eswitch_mode(self, test='offload'):
+        """Check eswitch mode of nic for offload on all hypervisors
 
         :param test: Test name from the external config file.
-        :param node: Name of the offload compute node, if not provided
-                     all compute nodes will be used
         """
-        configs = self.test_setup_dict['offload']['offload_config']
-        for item in configs:
-            hypervisor_ip = self._get_hypervisor_ip(item)
-            for ip in hypervisor_ip:
-                cmd = ("sudo ovs-vsctl get open_vswitch . "
-                       "other_config:hw-offload")
-                out = self._run_command_over_ssh(ip, cmd)
-                msg = ("other_config:hw-offload is set as 'true' in ovsdb "
-                       "of node %s" % ip)
-                self.assertIn("true", out, msg)
-
-    def test_offload_nic_eswitch_mode(self, test="offload"):
-        """Check eswitch mode of nic for offload
-
-        :param test: Test name from the external config file.
-        :param node: Name of the offload compute node, if not provided
-                     all compute nodes will be used
-        """
-        configs = self.test_setup_dict['offload']['offload_config']
-        for item in configs:
-            nics = item.get('nics')
-            self.assertIsNotNone(nics, 'nics should be provided in '
-                                 'offload tests-setup')
-            hypervisor_ip = self._get_hypervisor_ip(item)
-            for ip in hypervisor_ip:
-                for nic in nics:
-                    cmd = ("sudo ethtool -i " + nic + " | grep bus-info "
-                           "| cut -d ':' -f 2,3,4 | awk '{$1=$1};1'")
-                    out = self._run_command_over_ssh(ip, cmd)
-                    cmd = "sudo devlink dev eswitch show pci/" + out
-                    out = self._run_command_over_ssh(ip, cmd)
-                    msg = ('switchdev is not enabled for nic %s '
-                           'of node %s' % (nic, ip))
-                    self.assertIn('switchdev', out, msg)
+        test_dict = self.test_setup_dict[test]
+        if 'offload_nics' in test_dict:
+            offload_nics = test_dict['offload_nics']
+        else:
+            raise ValueError('offload_nics is not defined in offload test')
+        # Retrieve all hypvervisors
+        hypervisors = self._get_hypervisor_ip_from_undercloud(
+            shell='/home/stack/stackrc')
+        # ethtool cmd to retrieve PCI bus of interface
+        ethtool_cmd = ("sudo ethtool -i {} | grep bus-info "
+                       "| cut -d ':' -f 2,3,4 | awk '{{$1=$1}};1'")
+        # devlink cmd to retrieve switch mode of interface
+        devlink_cmd = "sudo devlink dev eswitch show pci/{}"
+        # Intialize results list
+        result = []
+        # Expected result is a list of dicts containing a dict of
+        # hypervisor's IP, its offload nics as keys and the value 'true'
+        # Example:
+        # [{'192.0.160.1': [{'p6p1': 'true'}, {'p6p2': 'true'}]},
+        #  {'192.0.160.2': [{'p6p1': 'true'}, {'p6p2': 'true'}]}]
+        expected_result = [{ip: [{nic: 'true'} for nic in offload_nics]}
+                           for ip in hypervisors]
+        for hypervisor in hypervisors:
+            dev_result = []
+            for nic in offload_nics:
+                pci = self._run_command_over_ssh(hypervisor,
+                                                 ethtool_cmd.format(nic))
+                dev_query = self._run_command_over_ssh(hypervisor,
+                                                       devlink_cmd.format(pci))
+                if 'switchdev' in dev_query:
+                    output = 'true'
+                else:
+                    output = 'false'
+                LOG.info("Hypervisor '{h}' NIC '{n}' is in switchdev mode: {r}"
+                         .format(h=hypervisor, n=nic, r=output))
+                dev_result.append({nic: output})
+            result.append({hypervisor: dev_result})
+        msg = "Not all hypervisors contains nics in switchev mode"
+        self.assertItemsEqual(expected_result, result, msg)

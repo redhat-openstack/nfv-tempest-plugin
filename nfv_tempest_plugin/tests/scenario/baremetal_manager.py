@@ -238,9 +238,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 test_setup_dict = self.test_setup_dict[test['name']]
                 test_setup_dict['config_dict']['bonding_config'] = \
                     jsonutils.loads(bonding_str)
-            if 'offload_config' in test and test['offload_config'] is not None:
-                self.test_setup_dict[test['name']]['offload_config'] = \
-                    test['offload_config']
             if 'igmp_config' in test and test['igmp_config'] is not None:
                 for item in test['igmp_config']:
                     for key, value in iter(item.items()):
@@ -258,6 +255,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 test.get('aggregate')
             self.test_setup_dict[test['name']]['vlan_config'] = \
                 test.get('vlan_config')
+
+            if 'offload_nics' in test and test['offload_nics'] is not None:
+                self.test_setup_dict[test['name']]['offload_nics'] = \
+                    test['offload_nics']
 
         if not os.path.exists(
                 CONF.nfv_plugin_options.external_resources_output_file):
