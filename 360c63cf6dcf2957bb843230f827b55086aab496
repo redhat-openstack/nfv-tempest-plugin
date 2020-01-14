@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "13699a83_9226aecd",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1734,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-01-14T20:05:09Z",
+      "side": 1,
+      "message": "The wording is confusing.\n\nThis means that it checks the NICs only if they\u0027re bound to guest kernel.\nWe do not bound the NICs to user space during regression.\n\nI\u0027ll change the wording.\n\nThanks.",
+      "parentUuid": "29452456_d02c1b26",
+      "range": {
+        "startLine": 1734,
+        "startChar": 20,
+        "endLine": 1734,
+        "endChar": 26
+      },
+      "revId": "360c63cf6dcf2957bb843230f827b55086aab496",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cd44f46_f78e46b3",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c0c7f21b_d4809d68",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1753,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-01-14T20:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cd44f46_f78e46b3",
+      "range": {
+        "startLine": 1753,
+        "startChar": 40,
+        "endLine": 1753,
+        "endChar": 41
+      },
+      "revId": "360c63cf6dcf2957bb843230f827b55086aab496",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "991665e8_e42cc94f",
         "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
         "patchSetId": 3
@@ -62,6 +110,24 @@
       "revId": "360c63cf6dcf2957bb843230f827b55086aab496",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adeb5301_1ea2d723",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-01-14T20:05:09Z",
+      "side": 1,
+      "message": "You are correct,\n\nI\u0027m unsure on why I removed/readded object in the first place.\n\nFixed, thanks.",
+      "parentUuid": "991665e8_e42cc94f",
+      "revId": "360c63cf6dcf2957bb843230f827b55086aab496",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -85,6 +151,30 @@
       "revId": "360c63cf6dcf2957bb843230f827b55086aab496",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd9ab30b_d74d7311",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-01-14T20:05:09Z",
+      "side": 1,
+      "message": "Thanks but this is not relevant due to comment above (reply to Saravanan).",
+      "parentUuid": "4ca5dc70_56fbe627",
+      "range": {
+        "startLine": 63,
+        "startChar": 12,
+        "endLine": 63,
+        "endChar": 48
+      },
+      "revId": "360c63cf6dcf2957bb843230f827b55086aab496",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -132,6 +222,30 @@
       "revId": "360c63cf6dcf2957bb843230f827b55086aab496",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "702d1d62_32c208df",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-01-14T20:05:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d13ea66_36824943",
+      "range": {
+        "startLine": 73,
+        "startChar": 21,
+        "endLine": 74,
+        "endChar": 68
+      },
+      "revId": "360c63cf6dcf2957bb843230f827b55086aab496",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
