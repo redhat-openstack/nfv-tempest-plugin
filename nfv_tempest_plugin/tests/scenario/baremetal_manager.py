@@ -1646,7 +1646,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 os.path.exists(self.external_resources_data['key_pair']):
             raise Exception('The private key is missing from the yaml file.')
         for srv in self.external_resources_data['servers']:
-            if not srv.viewkeys() >= {'name', 'id', 'fip', 'groups'}:
+            if not srv.keys() >= {'name', 'id', 'fip', 'groups'}:
                 raise ValueError('The yaml file missing of the following keys:'
                                  ' name, id or fip.')
 
