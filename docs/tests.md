@@ -333,6 +333,7 @@ Tests included:
     bonding_config:
       - bond_name: 'dpdkbond1'
         ports: [ 'dpdk2', 'dpdk3']
+        traffic_network_name: 'data'
 
 - test_restart_ovs
 
