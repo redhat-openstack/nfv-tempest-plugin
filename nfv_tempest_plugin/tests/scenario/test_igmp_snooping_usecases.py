@@ -133,8 +133,8 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
             group['msg'] = ''.join(random.choice(string.ascii_lowercase)
                                    for i in range(group['pkt_size']))
         # servers to be used
-        hyp_0 = hypervisors.items()[0][1]
-        hyp_1 = hypervisors.items()[1][1]
+        hyp_0 = list(hypervisors.items())[0][1]
+        hyp_1 = list(hypervisors.items())[1][1]
         servers[hyp_0[0]]['mcast'] = [{'role': 'traffic-runner', 'group': 0}]
         servers[hyp_0[1]]['mcast'] = [{'role': 'listener', 'group': 0}]
         servers[hyp_0[2]]['mcast'] = [{'role': 'listener', 'group': 1}]
