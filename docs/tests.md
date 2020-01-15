@@ -29,6 +29,7 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_igmp_snooping_usecases.TestIgmpSnoopingScenarios.test_igmp_snooping
 - nfv_tempest_plugin.tests.scenario.test_nfv_offload.TestNfvOffload.test_offload_ovs_config
 - nfv_tempest_plugin.tests.scenario.test_nfv_offload.TestNfvOffload.test_offload_nic_eswitch_mode
+- nfv_tempest_plugin.tests.scenario.test_nfv_offload.TestNfvOffload.test_offload_ovs_flows
 
 
 
@@ -348,16 +349,22 @@ Tests included:
 Tests included:
 - test_offload_ovs_config
 - test_offload_nic_eswitch_mode
+- test_offload_ovs_flows
 
   Test explanation:
   * Check if other_config:hw-offload is enabled in ovsdb
   * Check if the switchdev is enabled for the offload nics
+  * Check if flows are offloaded to OVS
 
   Test config:
   - name: offload
     offload_nics:
       - p4p1
       - p4p2
+
+  - name: offload_flows
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
 
 #### TestIgmpSnoopingScenarios
 Tests included:

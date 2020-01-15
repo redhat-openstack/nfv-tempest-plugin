@@ -109,3 +109,40 @@ class TestNfvOffload(base_test.BaseTest):
             result.append({hypervisor: dev_result})
         msg = "Not all hypervisors contains nics in switchev mode"
         self.assertItemsEqual(expected_result, result, msg)
+
+    def test_offload_ovs_flows(self, test='offload_flows'):
+        """Check OVS offloaded flows
+
+        :param test: Test name from the external config file.
+        """
+        # Retrieve all hypvervisors
+        hypervisors = self._get_hypervisor_ip_from_undercloud(
+            shell='/home/stack/stackrc')
+        # Command to check offloaded flows in OVS
+        cmd = 'sudo ovs-appctl dpctl/dump-flows type=offloaded'
+        for hypervisor in hypervisors:
+            out = self._run_command_over_ssh(hypervisor,
+                                             cmd)
+            msg = 'Hypervisor {} has no offloaded flows in OVS'.format(
+                hypervisor)
+            self.assertNotEmpty(out, msg)
+            LOG.info('Hypercisor {} has offloaded flows in OVS'.format(
+                hypervisor))
+
+        # Create servers
+        servers, key_pair = self.create_and_verify_resources(test=test,
+                                                             num_servers=4)
+
+        # Iterate over created servers
+        for server in servers:
+            out = self._run_command_over_ssh(server['hypervisor_ip'],
+                                             cmd)
+            ports =  \
+                self.os_admin.ports_client.list_ports(device_id=server['id'])
+            msg = ('Port with mac address {} is expected to be part of '
+                   'offloaded flows')
+            for port in ports['ports']:
+                if 'capabilities' in port['binding:profile'] and \
+                    'switchdev' in port['binding:profile']['capabilities']:
+                    self.assertIn(port['mac_address', out,
+                                  msg.format(port['mac_address'])])
