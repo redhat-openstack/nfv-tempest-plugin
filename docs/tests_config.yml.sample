@@ -205,6 +205,10 @@ tests-setup:
      - p4p1
      - p4p2
 
+ - name: offload_flows
+   flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+   router: true
+
   - name: double_tagging
     vlan_config:
       iface_vlan: 10
