@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6659bde_5ff9a57c",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1778,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-01-17T11:59:56Z",
+      "side": 1,
+      "message": "Yes, i think it will be very slow. It is not needed to test ping all with all. I think that for each provider network it would be enough to ping from one server to the other ones.",
+      "range": {
+        "startLine": 1778,
+        "startChar": 34,
+        "endLine": 1778,
+        "endChar": 45
+      },
+      "revId": "10b454667a602d08edcfd7ccefc5e9deeab9ebf4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96b71f27_4931932d",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-01-17T11:59:56Z",
+      "side": 1,
+      "message": "Having the provider networks data in the server structure could be interesting for creating other testcases even if this feature is not enabled.",
+      "range": {
+        "startLine": 73,
+        "startChar": 16,
+        "endLine": 73,
+        "endChar": 22
+      },
+      "revId": "10b454667a602d08edcfd7ccefc5e9deeab9ebf4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
