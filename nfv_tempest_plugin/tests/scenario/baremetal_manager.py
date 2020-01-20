@@ -1511,8 +1511,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     file_dest = '/var/lib/cloud/scripts/per-boot/' \
                                 'custom_net_config.py'
                 with open(os.path.join(scripts_dir, file_content), 'r') as f:
-                    content = f.read()
-                    content = base64.b64encode(content)
+                    content = f.read().encode('utf8')
+                    content = str(base64.b64encode(content).decode('ascii'))
                     body += '''
                                - path: {file_dest}
                                  owner: root:root
