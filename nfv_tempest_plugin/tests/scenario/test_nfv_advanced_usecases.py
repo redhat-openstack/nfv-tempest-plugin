@@ -68,7 +68,7 @@ class TestAdvancedScenarios(base_test.BaseTest):
             {'extra_specs': {'hw:mem_page_size': str("large"),
                              'hw:cpu_policy': str("dedicated"),
                              'aggregate_instance_extra_specs:test': test}}
-        srv_num_to_boot = resources['cpu_free_per_numa'] / 6
+        srv_num_to_boot = resources['cpu_free_per_numa'] // 6
         numa_flavor = self.create_flavor(name='numa0_aware', vcpus=6,
                                          **extra_specs)
         net_id = []
