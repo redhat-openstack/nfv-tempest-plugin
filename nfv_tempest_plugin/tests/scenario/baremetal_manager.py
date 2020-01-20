@@ -1750,12 +1750,12 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self._check_pid_ovs(hypervisor_ip)
 
         command = 'sudo ovs-appctl mdb/show {}'.format(switch)
-        output = filter(None, self._run_command_over_ssh(
-            hypervisor_ip, command).split('\n'))
+        output = list(filter(None, self._run_command_over_ssh(
+            hypervisor_ip, command).split('\n')))
         fields = None
         output_data = []
         for line in output:
-            data = filter(None, line.split(" "))
+            data = list(filter(None, line.split(" ")))
             if fields is None:
                 fields = data
             else:
