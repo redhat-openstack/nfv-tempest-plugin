@@ -141,6 +141,30 @@
       "revId": "10b454667a602d08edcfd7ccefc5e9deeab9ebf4",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "458359f3_ae78ca6e",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-01-21T19:03:48Z",
+      "side": 1,
+      "message": "So for now we will have it in the scope of this method?",
+      "parentUuid": "bb9985ab_5987deb1",
+      "range": {
+        "startLine": 73,
+        "startChar": 16,
+        "endLine": 73,
+        "endChar": 22
+      },
+      "revId": "10b454667a602d08edcfd7ccefc5e9deeab9ebf4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
