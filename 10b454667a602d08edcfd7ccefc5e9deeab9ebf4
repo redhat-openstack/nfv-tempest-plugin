@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a618a461_d799c9ea",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1778,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-01-21T04:45:11Z",
+      "side": 1,
+      "message": "I think it\u0027s worth to test connectivity of every instance. In my opinion we can not assume that every instance will behave the same way.\n\n@Maxim, any opions?",
+      "parentUuid": "e6659bde_5ff9a57c",
+      "range": {
+        "startLine": 1778,
+        "startChar": 34,
+        "endLine": 1778,
+        "endChar": 45
+      },
+      "revId": "10b454667a602d08edcfd7ccefc5e9deeab9ebf4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "96b71f27_4931932d",
         "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2020-01-17T11:59:56Z",
       "side": 1,
       "message": "Having the provider networks data in the server structure could be interesting for creating other testcases even if this feature is not enabled.",
+      "range": {
+        "startLine": 73,
+        "startChar": 16,
+        "endLine": 73,
+        "endChar": 22
+      },
+      "revId": "10b454667a602d08edcfd7ccefc5e9deeab9ebf4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ccfe66d_d4d7af12",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-01-21T04:45:11Z",
+      "side": 1,
+      "message": "This is a great idea, but I\u0027m not sure on the implementation:\n1) If we\u0027ll use tempest to create resources, we can move it to the create server method.\n2) If we\u0027ll use Ansible to create resources, we\u0027ll have to have a custom method that parses it and appends it to servers.\n\n@Maxim, @Miguel, any ideas on what should I do with this?",
+      "parentUuid": "96b71f27_4931932d",
       "range": {
         "startLine": 73,
         "startChar": 16,
