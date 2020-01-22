@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "fb6b48db_e32a0974",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-01-22T20:47:14Z",
+      "side": 1,
+      "message": "Thank you both,\n\nI did not thought about a scenario where instance emulator pin will also have a range.\nShould be fixed now.",
+      "parentUuid": "569c1126_8d787798",
+      "range": {
+        "startLine": 743,
+        "startChar": 12,
+        "endLine": 743,
+        "endChar": 61
+      },
+      "revId": "7f659993f2090207bb531ebef55b4157fd6b9761",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ca8952e1_f006aad0",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 2
