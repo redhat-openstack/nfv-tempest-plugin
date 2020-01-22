@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9aab623_7822567c",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-01-22T09:10:06Z",
+      "side": 1,
+      "message": "The emulatorpin numbers I get from dumpxml is the following: \u00270-1,20-21\u0027.\nAs a result, it fails on the \"int(x)\" iteration.\nError: \"ValueError: invalid literal for int() with base 10: \u00270-1\u0027\"",
+      "range": {
+        "startLine": 743,
+        "startChar": 12,
+        "endLine": 743,
+        "endChar": 61
+      },
+      "revId": "7f659993f2090207bb531ebef55b4157fd6b9761",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
