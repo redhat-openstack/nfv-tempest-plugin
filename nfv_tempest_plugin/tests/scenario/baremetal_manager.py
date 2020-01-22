@@ -1900,8 +1900,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         cpu_total = hyper_info['vcpus']
         cpu_used = hyper_info['vcpus_used']
         cpu_free = hyper_info['vcpus'] - hyper_info['vcpus_used']
-        cpu_free_per_numa = hyper_info['vcpus'] / 2 - hyper_info['vcpus_used']
-        ram_free = hyper_info['free_ram_mb'] / 1024
+        cpu_free_per_numa = hyper_info['vcpus'] // 2 - hyper_info['vcpus_used']
+        ram_free = hyper_info['free_ram_mb'] // 1024
         return {'cpu_total': cpu_total, 'cpu_used': cpu_used,
                 'cpu_free_per_numa': cpu_free_per_numa, 'cpu_free': cpu_free,
                 'ram_free': ram_free}
