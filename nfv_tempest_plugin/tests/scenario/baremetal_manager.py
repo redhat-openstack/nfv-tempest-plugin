@@ -55,6 +55,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.instance_pass = CONF.nfv_plugin_options.instance_pass
         self.nfv_scripts_path = CONF.nfv_plugin_options.transfer_files_dest
         self.flavor_ref = CONF.compute.flavor_ref
+        self.test_all_provider_networks = \
+            CONF.nfv_plugin_options.test_all_provider_networks
         self.cpuregex = re.compile('^[0-9]{1,2}$')
         self.external_config = None
         self.test_setup_dict = {}
@@ -1725,6 +1727,93 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         msg = 'Timed out waiting for {} to become reachable'.format(ip_addr)
         self.assertTrue(self.ping_ip_address(ip_addr), msg)
         self.assertTrue(self.get_remote_client(ip_addr, user, key_pair), msg)
+
+    def check_guest_interface_config(self, ssh_client, provider_networks,
+                                     hostname):
+        """Check guest inteface network configuration
+
+        The function aims to check if all provider networks are configured
+        on guest operating system.
+
+        :param ssh_client: SSH client configured to connect to server
+        :param provider_networks: Server's provider networks details
+        """
+        for provider_network in provider_networks:
+            mac = provider_network['mac_address']
+            ip = provider_network['ip_address']
+            # Attempt to discover guest interface using a MAC address
+            guest_interface = ssh_client.get_nic_name_by_mac(mac)
+            msg = ("Guest '{h}' has no interface with mac '{m}")
+            self.assertNotEmpty(guest_interface, msg.format(h=hostname,
+                                                            m=mac))
+            LOG.info("Located '{m}' in guest '{h}' on interface '{g}'".format(
+                m=mac, h=hostname, g=guest_interface))
+            # Attempt to discover guest interface using an IP address
+            ip_interface = ssh_client.get_nic_name_by_ip(ip)
+            msg = ("Guest '{h}' exepected to have interface '{g}' to be "
+                   "configured with IP address '{i}'")
+            self.assertNotEmpty(ip_interface, msg.format(h=hostname,
+                                                         g=guest_interface,
+                                                         i=ip))
+            LOG.info("Guest '{h}' has interface '{g}' configured with "
+                     "IP address '{i}".format(h=hostname, g=guest_interface,
+                                              i=ip))
+
+    def check_guest_provider_networks(self, servers, key_pair):
+        """Check guest provider networks
+
+        This function tests ICMP traffic on all provider networks
+        between multiple servers.
+
+        :param servers: List of servers to verify
+        :param key-pair: Key pair used to authenticate with server
+        """
+        # In the current itteration, if only a single server is spawned
+        # no pings will be performed.
+        # TODO(vkhitrin): In the future, consider pinging default gateway
+        if len(servers) == 1:
+            LOG.info('Only one server was spawned, no neigbors to ping')
+            return True
+
+        for server in servers:
+            # Copy servers list to a helper variable
+            neighbor_servers = servers[:]
+            # Initialize a list of neighbors IPs
+            neighbors_ips = []
+            # Remove current server from potential server neigbors list
+            neighbor_servers.remove(server)
+            # Retrieve neighbors IPs from their provier networks
+            for neighbor_server in neighbor_servers:
+                # Iterate over provider networks for current server and
+                # neighbor servers and append potential IP to ping only if
+                # both the neighbor and current server are attached to
+                # same network
+                # Currently it is inefficient to loop this way, consider
+                # improving itteration logic
+                for neighbor_network in neighbor_server['provider_networks']:
+                    for server_network in server['provider_networks']:
+                        if neighbor_network['network_id'] == \
+                            server_network['network_id']:
+                            neighbors_ips.append(
+                                neighbor_network['ip_address'])
+
+            ssh_client = self.get_remote_client(server['fip'],
+                                                self.instance_user,
+                                                key_pair['private_key'])
+
+            hostname = server['name']
+            for neighbors_ip in neighbors_ips:
+                LOG.info("Guest '{h}' will attempt to "
+                         "ping {i}".format(h=hostname, i=neighbors_ip))
+                try:
+                    ssh_client.icmp_check(neighbors_ip)
+                except lib_exc.SSHExecCommandFailed:
+                    msg = ("Guest '{h}' failed to ping "
+                           "IP '{i}'".format(h=hostname, i=neighbors_ip))
+                    raise AssertionError(msg)
+
+                LOG.info("Guest '{h}' successfully was able to ping "
+                         "IP '{i}'".format(h=hostname, i=neighbors_ip))
 
     def get_ovs_multicast_groups(self, switch, multicast_ip=None,
                                  hypervisor=None):
