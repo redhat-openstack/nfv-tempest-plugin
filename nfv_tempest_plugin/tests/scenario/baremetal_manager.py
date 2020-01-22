@@ -716,6 +716,24 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     numa_aware_net = net['id']
         return numa_aware_net
 
+    def parse_int_ranges_from_number_string(self, input_string):
+        """Parses integers from number string
+
+        :param input_string
+        """
+        # Assign helper variable
+        parsed_input = []
+        # Construct a list of integers from given number string,range
+        for cell in input_string.split(','):
+            if '-' in cell:
+                start, end = cell.split('-')
+                start, end = int(start), int(end)
+                parsed_range = list(range(start, end + 1))
+                parsed_input.extend(parsed_range)
+            else:
+                parsed_input.append(int(cell))
+        return parsed_input
+
     def compare_emulatorpin_to_overcloud_config(self, server, overcloud_node,
                                                 config_path, check_section,
                                                 check_value):
@@ -734,11 +752,17 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                                            config_path,
                                                            check_section,
                                                            check_value)
-        instance_emulatorpin = sorted(instance_emulatorpin.replace('-', ',')
-                                      .split(','))
-        nova_emulatorpin = sorted(nova_emulatorpin.split(','))
+        # Construct a list of integers of instance emulatorpin threads
+        parsed_instance_emulatorpin = \
+            self.parse_int_ranges_from_number_string(instance_emulatorpin)
 
-        if instance_emulatorpin == nova_emulatorpin:
+        # Construct a list of integers of nova emulator pin threads
+        parsed_nova_emulatorpin = \
+            self.parse_int_ranges_from_number_string(nova_emulatorpin)
+
+        # Check if all parsed instance emulatorpin threads are part of
+        # configured nova emulator pin threads
+        if set(parsed_instance_emulatorpin).issubset(parsed_nova_emulatorpin):
             return True
         return False
 
