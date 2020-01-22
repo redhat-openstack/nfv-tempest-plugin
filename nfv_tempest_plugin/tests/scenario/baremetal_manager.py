@@ -728,17 +728,33 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         :param check_value
         """
 
+        # Assign helper variables
+        parsed_instance_emulatorpin = []
+        parsed_nova_emulatorpin = []
+
         instance_emulatorpin = \
             self._check_emulatorpin_from_dumpxml(server, overcloud_node)
         nova_emulatorpin = self._get_value_from_ini_config(overcloud_node,
                                                            config_path,
                                                            check_section,
                                                            check_value)
-        instance_emulatorpin = sorted(instance_emulatorpin.replace('-', ',')
-                                      .split(','))
-        nova_emulatorpin = sorted(nova_emulatorpin.split(','))
+        # Construct a list of integers of instance emulatorpin threads
+        parsed_instance_emulatorpin = \
+            [int(x) for x in instance_emulatorpin.split(',')]
+        # Construct a list of integers of configured emulatorpin threads
+        # This converts ranges into integers
+        for cell in nova_emulatorpin.split(','):
+            if '-' in cell:
+                start, end = cell.split('-')
+                start, end = int(start), int(end)
+                parsed_range = list(range(start, end + 1))
+                parsed_nova_emulatorpin.extend(parsed_range)
+            else:
+                parsed_nova_emulatorpin.append(int(cell))
 
-        if instance_emulatorpin == nova_emulatorpin:
+        # Check if all parsed instance emulatorpin threads are part of
+        # configured nova emulator pin threads
+        if set(parsed_instance_emulatorpin).issubset(parsed_nova_emulatorpin):
             return True
         return False
 
