@@ -131,7 +131,7 @@ class TestLacpScenarios(base_test.BaseTest):
         servers[1]['role'] = 'listener'
 
         tests = [{'desc': '1 flow', 'iperf_option': '-P 1',
-                  'threshold_1': 0, 'threshold_2': 1},
+                  'threshold_1': 0, 'threshold_2': 2},
                  {'desc': '2 flows', 'iperf_option': '-P 2',
                   'threshold_1': 99, 'threshold_2': 101},
                  {'desc': '3 flows', 'iperf_option': '-P 3',
@@ -147,7 +147,7 @@ class TestLacpScenarios(base_test.BaseTest):
             receive_cmd = '(if pgrep iperf; then sudo pkill iperf; fi;' \
                           ' sudo iperf -s -u) > /dev/null 2>&1 &'
             srv = self.os_admin.servers_client.list_addresses(servers[1]['id'])
-            server_addr = srv['addresses'].items()[1][1][0]['addr']
+            server_addr = list(srv['addresses'].items())[1][1][0]['addr']
             send_cmd = '(if pgrep iperf; then sudo pkill iperf; fi;' \
                        ' sudo iperf -c {} {} -u -t 1000) > /dev/null 2>&1 &' \
                        .format(server_addr, test['iperf_option'])

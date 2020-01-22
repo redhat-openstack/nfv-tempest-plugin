@@ -53,7 +53,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.public_network = CONF.network.public_network_id
         self.instance_user = CONF.nfv_plugin_options.instance_user
         self.instance_pass = CONF.nfv_plugin_options.instance_pass
+        self.nfv_scripts_path = CONF.nfv_plugin_options.transfer_files_dest
         self.flavor_ref = CONF.compute.flavor_ref
+        self.test_all_provider_networks = \
+            CONF.nfv_plugin_options.test_all_provider_networks
         self.cpuregex = re.compile('^[0-9]{1,2}$')
         self.external_config = None
         self.test_setup_dict = {}
@@ -73,6 +76,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         super(BareMetalManager, cls).setup_clients()
         cls.hypervisor_client = cls.manager.hypervisor_client
         cls.aggregates_client = cls.manager.aggregates_client
+        cls.volumes_client = cls.os_primary.volumes_client_latest
 
     def setUp(self):
         """Check hypervisor configuration:
@@ -236,14 +240,27 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 test_setup_dict = self.test_setup_dict[test['name']]
                 test_setup_dict['config_dict']['bonding_config'] = \
                     jsonutils.loads(bonding_str)
-            if 'offload_config' in test and test['offload_config'] is not None:
-                self.test_setup_dict[test['name']]['offload_config'] = \
-                    test['offload_config']
+            if 'igmp_config' in test and test['igmp_config'] is not None:
+                for item in test['igmp_config']:
+                    for key, value in iter(item.items()):
+                        if not value:
+                            raise ValueError('The {0} configuration is '
+                                             'required for the igmp '
+                                             'test, but currently empty.'
+                                             .format(key))
+                igmp_str = jsonutils.dumps(test['igmp_config'])
+                test_setup_dict = self.test_setup_dict[test['name']]
+                test_setup_dict['config_dict']['igmp_config'] = \
+                    jsonutils.loads(igmp_str)
 
             self.test_setup_dict[test['name']]['aggregate'] = \
                 test.get('aggregate')
             self.test_setup_dict[test['name']]['vlan_config'] = \
                 test.get('vlan_config')
+
+            if 'offload_nics' in test and test['offload_nics'] is not None:
+                self.test_setup_dict[test['name']]['offload_nics'] = \
+                    test['offload_nics']
 
         if not os.path.exists(
                 CONF.nfv_plugin_options.external_resources_output_file):
@@ -319,6 +336,60 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.addCleanup(test_utils.call_and_ignore_notfound_exc,
                         self.os_admin.flavors_client.delete_flavor, flavor_id)
         return flavor_id
+
+    def create_volume(self, **volume_args):
+        """The method creates volume based on the args passed to the method.
+
+        In case method call with empty parameters, default values will
+        be used and default volume will be created.
+
+        :param volume_args: Dict of parameters for the volume that should be
+        created
+        :return volume_id: ID of the created volume.
+        """
+        if 'name' not in volume_args:
+            volume_args['name'] = data_utils.rand_name('volume')
+        if 'size' not in volume_args:
+            volume_args['size'] = CONF.volume.volume_size
+        volume = self.volumes_client.create_volume(**volume_args)['volume']
+        self.addClassResourceCleanup(
+            self.volumes_client.wait_for_resource_deletion, volume['id'])
+        self.addClassResourceCleanup(test_utils.call_and_ignore_notfound_exc,
+                                     self.volumes_client.delete_volume,
+                                     volume['id'])
+        waiters.wait_for_volume_resource_status(self.volumes_client,
+                                                volume['id'], 'available')
+        return volume
+
+    def _detach_volume(self, server, volume):
+        """Detaches a volume and ignores if not found or not in-use
+
+        param server: Created server details
+        param volume: Created volume details
+        """
+        try:
+            volume = self.volumes_client.show_volume(volume['id'])['volume']
+            if volume['status'] == 'in-use':
+                self.servers_client.detach_volume(server['id'], volume['id'])
+        except lib_exc.NotFound:
+            pass
+
+    def attach_volume(self, server, volume):
+        """Attaches volume to server
+
+        param server: Created server details
+        param volume: Created volume details
+        :return volume_attachment: Volume attachment information.
+        """
+        attach_args = dict(volumeId=volume['id'])
+        attachment = self.servers_client.attach_volume(
+            server['id'], **attach_args)['volumeAttachment']
+        self.addCleanup(waiters.wait_for_volume_resource_status,
+                        self.volumes_client, volume['id'], 'available')
+        self.addCleanup(self._detach_volume, server, volume)
+        waiters.wait_for_volume_resource_status(self.volumes_client,
+                                                volume['id'], 'in-use')
+        return attachment
 
     def _get_dumpxml_instance_data(self, server, hypervisor):
         """Get dumpxml data from the instance
@@ -562,33 +633,40 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         hiera_content = hiera_content.split('\n')[:-1]
         return hiera_content
 
-    def locate_ovs_networks(self, node, keys=None):
-        """Locate ovs existing networks
+    def locate_ovs_physnets(self, node=None, keys=None):
+        """Locate ovs existing physnets
 
-        The method locate the ovs existing networks and create a dict with
-        the numa aware and non aware nets.
+        The method locate the ovs existing physnets and create a dict with
+        the numa aware and non aware physnets.
 
         :param node: The node that the query should executed on.
         :param keys: The hiera mapping that should be queried.
-        :return The numa network dict is returned
+        :return The numa physnets dict is returned
         """
+        if node is None:
+            hyper_kwargs = {'shell': '/home/stack/stackrc'}
+            node = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)[0]
         if not keys:
             hiera_bridge_mapping = "neutron::agents::ml2::ovs::bridge_mappings"
             hiera_numa_mapping = "nova::compute::neutron_physnets_numa_" \
                                  "nodes_mapping"
-            keys = [hiera_bridge_mapping, hiera_numa_mapping]
-        numa_net_content = self._retrieve_content_from_hiera(node=node,
-                                                             keys=keys)
+            hiera_numa_tun = "nova::compute::neutron_tunnel_numa_nodes"
+            keys = [hiera_bridge_mapping, hiera_numa_mapping, hiera_numa_tun]
+        numa_phys_content = self._retrieve_content_from_hiera(node=node,
+                                                              keys=keys)
         # Identify the numa aware physnet
-        numa_aware_net = None
+        numa_aware_phys = None
         bridge_mapping = None
-        for physnet in numa_net_content:
+        numa_aware_tun = None
+        for physnet in numa_phys_content:
             if '=>' in physnet:
-                numa_aware_net = yaml.safe_load(physnet.replace('=>', ':'))
-            else:
+                numa_aware_phys = yaml.safe_load(physnet.replace('=>', ':'))
+            elif ':' in physnet:
                 bridge_mapping = yaml.safe_load(physnet)
+            else:
+                numa_aware_tun = yaml.safe_load(physnet)
 
-        numa_networks = {}
+        numa_physnets = {}
         physnet_list = []
         # In order to minimize the amount of remote ssh access, first the
         # remote commands are grouped to one single command and then the
@@ -608,13 +686,35 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         for physnet, dpath in physnet_dict.items():
             LOG.info('The {} network has the {} datapath'.format(physnet,
                                                                  dpath))
-            if dpath == 'netdev' and physnet in numa_aware_net.keys():
+            if dpath == 'netdev' and physnet in numa_aware_phys.keys():
                 LOG.info('The {} is a numa aware network'.format(physnet))
-                numa_networks['numa_aware_net'] = physnet
-            if dpath == 'netdev' and physnet not in numa_aware_net.keys():
+                numa_physnets['numa_aware_net'] = physnet
+            if dpath == 'netdev' and physnet not in numa_aware_phys.keys():
                 LOG.info('The {} is a non numa aware network'.format(physnet))
-                numa_networks['non_numa_aware_net'] = physnet
-        return numa_networks
+                numa_physnets['non_numa_aware_net'] = physnet
+
+        if numa_aware_tun is not None:
+            numa_physnets['numa_aware_tunnel'] = numa_aware_tun[0]
+        return numa_physnets
+
+    def locate_numa_aware_networks(self, numa_physnets):
+        """Locate numa aware networks
+
+        :param numa_physnets: Dict of numa aware and non aware physnets
+        :return numa_aware_net aware and non aware dict
+        """
+        numa_aware_net = self.networks_client.list_networks(
+            **{'provider:physical_network': numa_physnets['numa_aware_net'],
+               'router:external': False})['networks']
+        if numa_aware_net:
+            numa_aware_net = numa_aware_net[0]['id']
+        else:
+            nets = self.networks_client.list_networks(
+                **{'router:external': False})['networks']
+            for net in nets:
+                if net['provider:network_type'] == 'vxlan':
+                    numa_aware_net = net['id']
+        return numa_aware_net
 
     def compare_emulatorpin_to_overcloud_config(self, server, overcloud_node,
                                                 config_path, check_section,
@@ -833,7 +933,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if hosts in aggregations
         """
         if host:
-            host_name = re.split("\.", host[0])[0]
+            host_name = re.split(r"\.", host[0])[0]
             if host_name is None:
                 host_name = host
 
@@ -904,11 +1004,14 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'mgmt' in net and 'dns_nameservers' in net:
                 self.test_network_dict[net['name']]['dns_nameservers'] = \
                     net['dns_nameservers']
-            if ('tag' in net and (2.32 <= float(self.request_microversion) <=
-                                  2.36 or self.request_microversion >= 2.42)):
+            if ('tag' in net and (2.32 <= float(self.request_microversion)
+                                  <= 2.36 or self.request_microversion
+                                  >= 2.42)):
                 self.test_network_dict[net['name']]['tag'] = net['tag']
             if 'trusted_vf' in net and net['trusted_vf']:
                 self.test_network_dict[net['name']]['trusted_vf'] = True
+            if 'switchdev' in net and net['switchdev']:
+                self.test_network_dict[net['name']]['switchdev'] = True
         network_kwargs = {}
         """
         Create network and subnets
@@ -922,8 +1025,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             """Added this for VxLAN no need of physical network or segmentation
             """
             if 'provider:network_type' in net_param and \
-                    (net_param['provider:network_type'] == 'vlan' or
-                     net_param['provider:network_type'] == 'flat'):
+                    (net_param['provider:network_type'] == 'vlan'
+                     or net_param['provider:network_type'] == 'flat'):
                 if 'provider:physical_network' in net_param:
                     network_kwargs['provider:physical_network'] =\
                         net_param['provider:physical_network']
@@ -998,7 +1101,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 router, **kwargs)
         # if router is not found, this means it was deleted in the test
         except lib_exc.NotFound:
-                pass
+            pass
 
     def _detect_existing_networks(self):
         """Use method only when test require no network
@@ -1068,7 +1171,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             networks_list = []
             for net_name, net_param in iter(self.test_network_dict.items()):
                 create_port_body = {'binding:vnic_type': '',
-                                    'namestart': 'port-smoke'}
+                                    'namestart': 'port-smoke',
+                                    'binding:profile': {}}
                 if 'port_type' in net_param:
                     create_port_body['binding:vnic_type'] = \
                         net_param['port_type']
@@ -1079,8 +1183,12 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     if 'trusted_vf' in net_param and \
                        net_param['trusted_vf'] and \
                        net_param['port_type'] == 'direct':
-                        create_port_body['binding:profile'] = \
-                            {'trusted': 'true'}
+                        create_port_body['binding:profile']['trusted'] = True
+                    if 'switchdev' in net_param and \
+                       net_param['switchdev'] and \
+                       net_param['port_type'] == 'direct':
+                        create_port_body['binding:profile']['capabilities'] = \
+                            ['switchdev']
                     port = self._create_port(network_id=net_param['net-id'],
                                              **create_port_body)
                     net_var = {'uuid': net_param['net-id'], 'port': port['id']}
@@ -1133,8 +1241,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         net_id = []
         networks = []
-        (CONF.compute_feature_enabled.config_drive and
-         kwargs.update({'config_drive': True}))
+        (CONF.compute_feature_enabled.config_drive
+         and kwargs.update({'config_drive': True}))
         if 'networks' in kwargs:
             net_id = kwargs['networks']
             kwargs.pop('networks', None)
@@ -1144,25 +1252,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         for network in networks:
             net_id.append({'uuid': network['id']})
-
-        if 'transfer_files' in CONF.nfv_plugin_options:
-            if float(self.request_microversion) < 2.57:
-                files = jsonutils.loads(CONF.nfv_plugin_options.transfer_files)
-                kwargs['personality'] = []
-                for copy_file in files:
-                    self.assertTrue(os.path.exists(copy_file['client_source']),
-                                    "Specified file {0} can't be read"
-                                    .format(copy_file['client_source']))
-                    content = open(copy_file['client_source']).read()
-                    content = textwrap.dedent(content).lstrip().encode('utf8')
-                    content_b64 = base64.b64encode(content)
-                    guest_destination = copy_file['guest_destination']
-                    kwargs['personality'].append({"path": guest_destination,
-                                                  "contents": content_b64})
-            else:
-                raise Exception("Personality (transfer-files) "
-                                "is deprecated from "
-                                "compute micro_version 2.57 and onwards")
 
         server = super(BareMetalManager,
                        self).create_server(name=name,
@@ -1311,8 +1400,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if 'package-names' in self.test_setup_dict[test].keys():
             packages = self.test_setup_dict[test]['package-names']
         kwargs['user_data'] = self._prepare_cloudinit_file(packages)
-        servers = self.create_server_with_fip(num_servers=num_servers,
-                                              networks=ports_list, **kwargs)
+        servers = []
+        if num_servers:
+            servers = self.create_server_with_fip(num_servers=num_servers,
+                                                  networks=ports_list,
+                                                  **kwargs)
         return servers, key_pair
 
     def _check_pid_ovs(self, ip_address):
@@ -1338,11 +1430,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         numpmds = int(self._run_command_over_ssh(self.ip_address[0],
                                                  count_pmd))
         # We ensure that a number is being parsed, otherwise we fail
-        command = 'sudo ovs-vsctl show' \
-                  '| sed -n "s/.*n_rxq=.\([1-9]\).*/\\1/p"'
+        cmd = r'sudo ovs-vsctl show | sed -n "s/.*n_rxq=.\([1-9]\).*/\\1/p"'
         numqueues = (self._run_command_over_ssh(self.ip_address[0],
-                                                command)).encode('ascii',
-                                                                 'ignore')
+                                                cmd)).encode('ascii', 'ignore')
         if not isinstance(numqueues, type(str())):
             numqueues = numqueues.decode("utf-8")
         msg = "There are no queues available"
@@ -1366,9 +1456,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                          Multiple packages should be separated by comma -
                          iperf,htop,vim
         """
-        gw_ip = self.test_network_dict[self.test_network_dict[
-            'public']]['gateway_ip']
-
         if not self.user_data:
             self.user_data = '''
                              #cloud-config
@@ -1377,17 +1464,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                              chpasswd: {{expire: False}}
                              ssh_pwauth: True
                              disable_root: 0
-                             runcmd:
-                             - chmod +x {py_script}
-                             - python {py_script}
-                             - echo {gateway}{gw_ip} >> /etc/sysconfig/network
-                             - systemctl restart network
-                             '''.format(gateway='GATEWAY=',
-                                        gw_ip=gw_ip,
-                                        user=self.instance_user,
-                                        py_script=('/var/lib/cloud/scripts/'
-                                                   'per-boot/'
-                                                   'custom_net_config.py'),
+                             '''.format(user=self.instance_user,
                                         passwd=self.instance_pass)
         if (self.test_instance_repo and 'name' in
                 self.test_instance_repo):
@@ -1414,6 +1491,42 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             package = "".join((header, body))
             self.user_data = "".join((self.user_data, package))
 
+        # Use cloud-config write_files module to copy files
+        if CONF.nfv_plugin_options.transfer_files_src and \
+                CONF.nfv_plugin_options.transfer_files_dest:
+            LOG.info('Locate tests scripts directory')
+            exec_dir = os.path.dirname(os.path.realpath(__file__))
+            scripts_dir = os.path.join(
+                exec_dir, CONF.nfv_plugin_options.transfer_files_src)
+            test_scripts = os.listdir(scripts_dir)
+            test_scripts = [fil for fil in test_scripts if fil.endswith('.py')]
+
+            header = '''
+                             write_files:'''
+            body = ''
+            for file_content in test_scripts:
+                file_dest = os.path.join(
+                    CONF.nfv_plugin_options.transfer_files_dest, file_content)
+                # The "custom_net_config" script should be placed in a
+                # separate location to be executed on every boot.
+                if file_content == 'custom_net_config.py':
+                    file_dest = '/var/lib/cloud/scripts/per-boot/' \
+                                'custom_net_config.py'
+                with open(os.path.join(scripts_dir, file_content), 'r') as f:
+                    content = f.read().encode('utf8')
+                    content = str(base64.b64encode(content).decode('ascii'))
+                    body += '''
+                               - path: {file_dest}
+                                 owner: root:root
+                                 permissions: 0755
+                                 encoding: base64
+                                 content: |
+                                     {file_content}
+                            '''.format(file_dest=file_dest,
+                                       file_content=content)
+            files = "".join((header, body))
+            self.user_data = "".join((self.user_data, files))
+
         user_data = textwrap.dedent(self.user_data).lstrip().encode('utf8')
         self.user_data_b64 = base64.b64encode(user_data)
         return self.user_data_b64
@@ -1428,8 +1541,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         Create security groups [icmp,ssh] for Deployed Guest Image
         """
         mgmt_net = self.test_network_dict['public']
-        if not ('sec_groups' in self.test_network_dict[mgmt_net] and
-                not self.test_network_dict[mgmt_net]['sec_groups']):
+        if not ('sec_groups' in self.test_network_dict[mgmt_net]
+                and not self.test_network_dict[mgmt_net]['sec_groups']):
             security_group = self._create_security_group()
             self.remote_ssh_sec_groups_names = \
                 [{'name': security_group['name']}]
@@ -1500,8 +1613,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         return result
 
     def ping_via_network_namespace(self, ping_to_ip, network_id):
-        cmd = ("sudo ip netns exec qdhcp-" + network_id +
-               " ping -c 10 " + ping_to_ip)
+        cmd = ("sudo ip netns exec qdhcp-" + network_id
+               + " ping -c 10 " + ping_to_ip)
         ctrl_ip = urlparse(CONF.identity.uri).netloc.split(':')[0]
         result = self._run_command_over_ssh(ctrl_ip, cmd)
         for line in result.split('\n'):
@@ -1535,7 +1648,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 os.path.exists(self.external_resources_data['key_pair']):
             raise Exception('The private key is missing from the yaml file.')
         for srv in self.external_resources_data['servers']:
-            if not srv.viewkeys() >= {'name', 'id', 'fip', 'groups'}:
+            if not srv.keys() >= {'name', 'id', 'fip', 'groups'}:
                 raise ValueError('The yaml file missing of the following keys:'
                                  ' name, id or fip.')
 
@@ -1558,24 +1671,36 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             key_pair = {'private_key': key.read()}
         return servers, key_pair
 
-    def get_ovs_interface_statistics(self, interfaces, previous_stats=None):
+    def get_ovs_interface_statistics(self, interfaces, previous_stats=None,
+                                     hypervisor=None):
         """This method get ovs interface statistics
 
         :param interfaces: interfaces in which statistics will be retrieved
         :param previous_stats: get the difference between current stats and
                                previous stats
+        :param hypervisor: hypervisor ip, if None it will be selected the first
+                           one
         :return statistics
         """
         self.ip_address = self._get_hypervisor_ip_from_undercloud(
             **{'shell': '/home/stack/stackrc'})
-        self._check_pid_ovs(self.ip_address[0])
+        hypervisor_ip = self.ip_address[0]
+        if hypervisor is not None:
+            if hypervisor not in self.ip_address:
+                raise ValueError('invalid hypervisor ip {}, not in {}'
+                                 .format(hypervisor,
+                                         ' '.join(self.ip_address)))
+            else:
+                hypervisor_ip = hypervisor
+
+        self._check_pid_ovs(hypervisor_ip)
         # We ensure that a number is being parsed, otherwise we fail
         statistics = {}
         for interface in interfaces:
             command = 'sudo ovs-vsctl get Interface {} ' \
                       'statistics'.format(interface)
             statistics[interface] = yaml.safe_load(self._run_command_over_ssh(
-                self.ip_address[0], command).replace('"', '')
+                hypervisor_ip, command).replace('"', '')
                 .replace('{', '{"').replace(', ', ', "')
                 .replace('=', '":'))
             if previous_stats is not None and \
@@ -1589,3 +1714,194 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                          'to compare'.format(stat))
 
         return statistics
+
+    def check_instance_connectivity(self, ip_addr, user, key_pair):
+        """Check connectivity state of the instance
+
+        The function will test the following protocols: ICMP, SSH
+
+        :param ip_addr: The address of the instance
+        :param user: Connection user
+        :param key_pair: SSH key for the instance connection
+        """
+        msg = 'Timed out waiting for {} to become reachable'.format(ip_addr)
+        self.assertTrue(self.ping_ip_address(ip_addr), msg)
+        self.assertTrue(self.get_remote_client(ip_addr, user, key_pair), msg)
+
+    def check_guest_interface_config(self, ssh_client, provider_networks,
+                                     hostname):
+        """Check guest inteface network configuration
+
+        The function aims to check if all provider networks are configured
+        on guest operating system.
+
+        :param ssh_client: SSH client configured to connect to server
+        :param provider_networks: Server's provider networks details
+        """
+        for provider_network in provider_networks:
+            mac = provider_network['mac_address']
+            ip = provider_network['ip_address']
+            # Attempt to discover guest interface using a MAC address
+            guest_interface = ssh_client.get_nic_name_by_mac(mac)
+            msg = ("Guest '{h}' has no interface with mac '{m}")
+            self.assertNotEmpty(guest_interface, msg.format(h=hostname,
+                                                            m=mac))
+            LOG.info("Located '{m}' in guest '{h}' on interface '{g}'".format(
+                m=mac, h=hostname, g=guest_interface))
+            # Attempt to discover guest interface using an IP address
+            ip_interface = ssh_client.get_nic_name_by_ip(ip)
+            msg = ("Guest '{h}' exepected to have interface '{g}' to be "
+                   "configured with IP address '{i}'")
+            self.assertNotEmpty(ip_interface, msg.format(h=hostname,
+                                                         g=guest_interface,
+                                                         i=ip))
+            LOG.info("Guest '{h}' has interface '{g}' configured with "
+                     "IP address '{i}".format(h=hostname, g=guest_interface,
+                                              i=ip))
+
+    def check_guest_provider_networks(self, servers, key_pair):
+        """Check guest provider networks
+
+        This function tests ICMP traffic on all provider networks
+        between multiple servers.
+
+        :param servers: List of servers to verify
+        :param key-pair: Key pair used to authenticate with server
+        """
+        # In the current itteration, if only a single server is spawned
+        # no pings will be performed.
+        # TODO(vkhitrin): In the future, consider pinging default gateway
+        if len(servers) == 1:
+            LOG.info('Only one server was spawned, no neigbors to ping')
+            return True
+
+        for server in servers:
+            # Copy servers list to a helper variable
+            neighbor_servers = servers[:]
+            # Initialize a list of neighbors IPs
+            neighbors_ips = []
+            # Remove current server from potential server neigbors list
+            neighbor_servers.remove(server)
+            # Retrieve neighbors IPs from their provier networks
+            for neighbor_server in neighbor_servers:
+                # Iterate over provider networks for current server and
+                # neighbor servers and append potential IP to ping only if
+                # both the neighbor and current server are attached to
+                # same network
+                # Currently it is inefficient to loop this way, consider
+                # improving itteration logic
+                for neighbor_network in neighbor_server['provider_networks']:
+                    for server_network in server['provider_networks']:
+                        if neighbor_network['network_id'] == \
+                            server_network['network_id']:
+                            neighbors_ips.append(
+                                neighbor_network['ip_address'])
+
+            ssh_client = self.get_remote_client(server['fip'],
+                                                self.instance_user,
+                                                key_pair['private_key'])
+
+            hostname = server['name']
+            for neighbors_ip in neighbors_ips:
+                LOG.info("Guest '{h}' will attempt to "
+                         "ping {i}".format(h=hostname, i=neighbors_ip))
+                try:
+                    ssh_client.icmp_check(neighbors_ip)
+                except lib_exc.SSHExecCommandFailed:
+                    msg = ("Guest '{h}' failed to ping "
+                           "IP '{i}'".format(h=hostname, i=neighbors_ip))
+                    raise AssertionError(msg)
+
+                LOG.info("Guest '{h}' successfully was able to ping "
+                         "IP '{i}'".format(h=hostname, i=neighbors_ip))
+
+    def get_ovs_multicast_groups(self, switch, multicast_ip=None,
+                                 hypervisor=None):
+        """This method get ovs multicast groups
+
+        :param switch: ovs switch to get multicast groups
+        :param multicast_ip: filter by multicast ip
+        :param hypervisor: hypervisor ip, if None it will be selected the first
+                           one
+        :return multicast groups
+        """
+        self.ip_address = self._get_hypervisor_ip_from_undercloud(
+            **{'shell': '/home/stack/stackrc'})
+        hypervisor_ip = self.ip_address[0]
+        if hypervisor is not None:
+            if hypervisor not in self.ip_address:
+                raise ValueError('invalid hypervisor ip {}, not in {}'
+                                 .format(hypervisor,
+                                         ' '.join(self.ip_address)))
+            else:
+                hypervisor_ip = hypervisor
+
+        self._check_pid_ovs(hypervisor_ip)
+
+        command = 'sudo ovs-appctl mdb/show {}'.format(switch)
+        output = list(filter(None, self._run_command_over_ssh(
+            hypervisor_ip, command).split('\n')))
+        fields = None
+        output_data = []
+        for line in output:
+            data = list(filter(None, line.split(" ")))
+            if fields is None:
+                fields = data
+            else:
+                data = dict(zip(fields, data))
+                if multicast_ip is None or \
+                   multicast_ip is not None and data['GROUP'] == multicast_ip:
+                    output_data.append(data)
+        return output_data
+
+    def get_ovs_port_names(self, servers):
+        """This method get ovs port names for each server
+
+        for each server, this method will add mgmt_port and other_port
+        values
+        :param servers: server list
+        return list of ports of each hypervisor
+        """
+        # get the ports name used for sending/reciving multicast traffic
+        # it will be a different port than the management one that will be
+        # connected to a switch in which igmp snooping is configured
+        port_list = {}
+        management_ips = []
+        floating_ips = (self.os_admin.floating_ips_client.list_floatingips()
+                        ['floatingips'])
+        for floating_ip in floating_ips:
+            management_ips.append(floating_ip['fixed_ip_address'])
+        for server in servers:
+            if server['hypervisor_ip'] not in port_list.keys():
+                port_list[server['hypervisor_ip']] = []
+            ports = self.os_admin.ports_client.list_ports(
+                device_id=server['id'])['ports']
+            for port in ports:
+                ovs_port_name = (port['binding:vif_details']
+                                 ['vhostuser_socket'].split('/')[-1])
+                if port['fixed_ips'][0]['ip_address'] not in management_ips:
+                    server['other_port'] = ovs_port_name
+                else:
+                    server['mgmt_port'] = ovs_port_name
+                port_list[server['hypervisor_ip']].append(ovs_port_name)
+        return port_list
+
+    def list_available_resources_on_hypervisor(self, hypervisor):
+        """List available CPU and RAM on dedicated hypervisor"""
+        hyp_list = self.os_admin.hypervisor_client.list_hypervisors()[
+            'hypervisors']
+        if not any(hypervisor in a['hypervisor_hostname'] for a in hyp_list):
+            raise ValueError('Specifyed hypervisor has not been found.')
+
+        hyper_id = self.os_admin.hypervisor_client.search_hypervisor(
+            hypervisor)['hypervisors'][0]['id']
+        hyper_info = self.os_admin.hypervisor_client.show_hypervisor(
+            hyper_id)['hypervisor']
+        cpu_total = hyper_info['vcpus']
+        cpu_used = hyper_info['vcpus_used']
+        cpu_free = hyper_info['vcpus'] - hyper_info['vcpus_used']
+        cpu_free_per_numa = hyper_info['vcpus'] // 2 - hyper_info['vcpus_used']
+        ram_free = hyper_info['free_ram_mb'] // 1024
+        return {'cpu_total': cpu_total, 'cpu_used': cpu_used,
+                'cpu_free_per_numa': cpu_free_per_numa, 'cpu_free': cpu_free,
+                'ram_free': ram_free}

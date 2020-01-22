@@ -70,6 +70,8 @@ test-networks:
     # Nova will set the binding profile of this port to trusted=true and will
     # set it as Trusted VF
     trusted_vf: true
+    # set if using HW-Offload port when OVS in is in switchdev mode
+    switchdev: true
 
 # Flavors used by the test.
 # Will be created by the tests during the execution
@@ -195,18 +197,17 @@ tests-setup:
     router: true
 
   - name: numa_aware_vswitch
-    flavor: numa_aware_vswitch
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
-    aggregate:
-      hosts:
-        - computeovsdpdksriov-0
-      metadata: test=numa_aware_vswitch
 
  - name: offload
-   offload_config:
-     # Name of the compute node with offload enabled and offload nics of node
-     - node: computemellanox
-       nics: ['p4p1', 'p4p2']
+   offload_nics:
+     - p4p1
+     - p4p2
+
+ - name: offload_flows
+   flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+   router: true
 
   - name: double_tagging
     vlan_config:

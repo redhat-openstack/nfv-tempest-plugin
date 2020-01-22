@@ -62,7 +62,7 @@ class TestNfvBasic(base_test.BaseTest):
                     cmd = "rpm -qa | grep {0}".format(package)
                     result = self._run_command_over_ssh(self.hypervisor_ip,
                                                         cmd).split()
-                    if result is not '':
+                    if result:
                         test_result += result
 
         LOG.info("Found the following packages: %s" % '\n'.join(test_result))
@@ -204,12 +204,9 @@ class TestNfvBasic(base_test.BaseTest):
         LOG.info('Confirm instance resize after the cold migration.')
         self.servers_client.confirm_resize_server(server_id=servers[0]['id'])
         LOG.info('Verify instance connectivity after the cold migration.')
-        msg = "Timed out waiting for %s to become reachable" % \
-              servers[0]['fip']
-        self.assertTrue(self.ping_ip_address(servers[0]['fip']), msg)
-        self.assertTrue(self.get_remote_client(
-            servers[0]['fip'], username=self.instance_user,
-            private_key=key_pair['private_key']))
+        self.check_instance_connectivity(ip_addr=servers[0]['fip'],
+                                         user=self.instance_user,
+                                         key_pair=key_pair['private_key'])
         succeed = True
 
         msg = "Cold migration test id failing. Check your environment settings"
@@ -244,4 +241,25 @@ class TestNfvBasic(base_test.BaseTest):
             self.assertTrue(return_value, 'The emulatorpin test failed. '
                                           'The values of the instance and '
                                           'nova does not match.')
+        LOG.info('The {} test passed.'.format(test))
+
+    def test_volume_in_hci_nfv_setup(self, test='nfv_hci_basic_volume'):
+        """Test attaches the volume to the instance and writes it.
+
+        Also writing the content into the instance volume.
+
+        :param test: Test name from the config file
+        """
+        servers, key_pair = self.create_and_verify_resources(test=test)
+        volume_id = self.create_volume()
+        attachment = self.attach_volume(servers[0], volume_id)
+        self.assertTrue('device' in attachment)
+        ssh_source = self.get_remote_client(servers[0]['fip'],
+                                            username=self.instance_user,
+                                            private_key=key_pair[
+                                                'private_key'])
+        LOG.info('Execute write test command')
+        out = ssh_source.exec_command(
+            'sudo dd if=/dev/zero of=/dev/vdb bs=4096k count=256 oflag=direct')
+        self.assertEmpty(out)
         LOG.info('The {} test passed.'.format(test))

@@ -10,6 +10,7 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_mtu_ping_test
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_cold_migration
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_emulatorpin
+- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_volume_in_hci_nfv_setup
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_min_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_equal_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_max_queues_functionality
@@ -23,6 +24,13 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_lacp_usecases.TestLacpScenarios.test_deployment_lacp
 - nfv_tempest_plugin.tests.scenario.test_nfv_lacp_usecases.TestLacpScenarios.test_balance_tcp
 - nfv_tempest_plugin.tests.scenario.test_nfv_lacp_usecases.TestLacpScenarios.test_restart_ovs
+- nfv_tempest_plugin.tests.scenario.test_igmp_snooping_usecases.TestIgmpSnoopingScenarios.test_igmp_snooping_deployment
+- nfv_tempest_plugin.tests.scenario.test_igmp_snooping_usecases.TestIgmpSnoopingScenarios.test_igmp_restart_ovs
+- nfv_tempest_plugin.tests.scenario.test_igmp_snooping_usecases.TestIgmpSnoopingScenarios.test_igmp_snooping
+- nfv_tempest_plugin.tests.scenario.test_nfv_offload.TestNfvOffload.test_offload_ovs_config
+- nfv_tempest_plugin.tests.scenario.test_nfv_offload.TestNfvOffload.test_offload_nic_eswitch_mode
+- nfv_tempest_plugin.tests.scenario.test_nfv_offload.TestNfvOffload.test_offload_ovs_flows
+
 
 
 ### Tests configuration
@@ -142,6 +150,20 @@ Tests included:
         check_value: 'cpu_shared_set'
   ```
 
+- test_volume_in_hci_nfv_setup
+  Test explanation:
+  The HCI test boots an instance, attaches new volume with this instance, connects to the instance using ssh, and writes the full disk.
+
+  ```
+  Test config:
+  - name: nfv-hci-basic-volume
+    flavor: nfv-test-flavor
+    router: false
+  ```
+
+  flavor - specifies the flavor that the instance should boot with.
+  router - Sets if the booted instance will get floating ip or direct access config.  
+
 ----------
 #### TestDpdkScenarios:  
 Tests included:
@@ -254,8 +276,9 @@ Tests included:
     Verify the instances placement in NUMA 0.
   - Boot another instance using the "non numa aware net". The instance will be placed in NUMA 1.
     Verify the instance placement in NUMA 1.
+  - Cold migrate NUMA 0 instance and verify migration
 
-  In case, "non numa aware" network does not exist, the test will verify only the first part of the test.
+  In case, "non numa aware" network does not exist, the NUMA 1 staep will not be executed.
   
   Prerequisites for the test:  
   Overcloud feature configuration for the deployment.  
@@ -263,12 +286,8 @@ Tests included:
   
   ```
   - name: numa_aware_vswitch
-    flavor: numa_aware_vswitch
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
-    aggregate:
-      hosts:
-        - computeovsdpdksriov-0
-      metadata: test=numa_aware_vswitch
   ```
 
 **Note** - The test config require to use the aggregate during the test.  
@@ -330,15 +349,69 @@ Tests included:
 Tests included:
 - test_offload_ovs_config
 - test_offload_nic_eswitch_mode
+- test_offload_ovs_flows
 
   Test explanation:
   * Check if other_config:hw-offload is enabled in ovsdb
   * Check if the switchdev is enabled for the offload nics
+  * Check if flows are offloaded to OVS
 
   Test config:
   - name: offload
-    offload_config
-      # Compute node name where offload is enabled
-      - name: 'computemellanox'
-        # Nics on offload compute node used for offload
-        nics: ['p4p1']
+    offload_nics:
+      - p4p1
+      - p4p2
+
+  - name: offload_flows
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+
+#### TestIgmpSnoopingScenarios
+Tests included:
+- test_igmp_snooping_deployment
+
+  Test explanation:
+  Test that igmp snooping is configured properly in each br-int switch for each 
+  compute. mcast_snooping_enable and mcast-snooping-disable-flood-unregistered
+  must be enabled
+
+  Test config:
+  - name: igmp_snooping_deployment
+
+- test_igmp_snooping
+
+  Test explanation:
+  Having 2 hypervisors and 3 vms in each hypervisor. We configure a vm in each 
+  hypervisor sending traffic to a different group. We configure a different
+  message for each group and different number of packets to be sent
+  Then we configure 2 vms in each hypervisor subscribed to each group.
+  It is checked the following:
+  - vms are properly subscribed
+  - traffic in each interface in br-int
+  - messages received in each vm and number of packets received 
+
+  Test config:
+  - name: igmp_snooping
+    igmp_config:
+      # packets tolerance when counting packets in ovs interfaces
+      - pkts_tolerance: 50
+      # expected two multicast groups
+        mcast_groups:
+          - ip: '239.0.0.1'
+            port: '10000'
+            tx_pkts: 200
+            pkt_size: 20
+          - ip: '238.0.0.5'
+            port: '5000'
+            tx_pkts: 300
+            pkt_size: 20
+
+- test_igmp_restart_ovs
+
+  Test explanation:
+  Check that multicast configuration is not lost after ovs restart. 
+  Restart ovs and then execute test_igmp_snooping_deployment
+
+  Test config:
+  - name: igmp_restart_ovs
+
