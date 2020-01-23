@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79317493_226cdc41",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-01-23T10:10:05Z",
+      "side": 1,
+      "message": "@Vadim\nI think this line redundant\njust use the following:\nparsed_range \u003d list(range(int(start), int(end) + 1))",
+      "range": {
+        "startLine": 730,
+        "startChar": 16,
+        "endLine": 730,
+        "endChar": 49
+      },
+      "revId": "fb6511ec48e84fe6c97ef6bb7be600e479e4eb1b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
