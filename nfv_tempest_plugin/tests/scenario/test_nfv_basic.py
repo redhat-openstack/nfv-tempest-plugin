@@ -13,10 +13,14 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from collections import namedtuple
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
+import re
 from tempest.common import waiters
 from tempest import config
+from tempest.lib import exceptions as lib_exc
+
 
 CONF = config.CONF
 LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
@@ -263,3 +267,239 @@ class TestNfvBasic(base_test.BaseTest):
             'sudo dd if=/dev/zero of=/dev/vdb bs=4096k count=256 oflag=direct')
         self.assertEmpty(out)
         LOG.info('The {} test passed.'.format(test))
+
+    def test_ovs_bond_connectivity(self, test='ovs_bond_connectivity'):
+        """Test link aggregation for OVS bonds
+
+        :param test: Test name from the config file
+        """
+        test_dict = self.test_setup_dict[test]
+        if 'bond_interfaces' in test_dict:
+            bond_dict = test_dict['bond_interfaces']
+        else:
+            raise ValueError('bond_interfaces is not defined in '
+                             'bond_connectivity test')
+
+        # Dictionary containing utilities to interact with supported modes
+        bond_utils = {
+            'bond_query_cmd': 'sudo ovs-appctl bond/show {}',
+            'ovs_query_cmd': 'sudo ovs-vsctl show | grep {} -B100',
+            're_filter': r'bond_mode:\s+.*',
+            're_sub_filter': r'bond_mode:\s+(.*)',
+            'bridge_re_filter':
+                r'Bridge ".*"',
+            'bridge_re_sub_filter':
+                r'Bridge "(.*)"',
+            'supported_modes': {
+                'active-backup': {
+                    'type': 'no_loadbalancing',
+                    'active_slave_re_filter':
+                        r'active slave mac:\s+.*',
+                    'active_slave_sub_re_filter':
+                        r'active slave mac:\s+.*\((.*)\)',
+                    'interface_down_cmd':
+                        'sudo ovs-ofctl mod-port {b} {i} down',
+                    'interface_up_cmd':
+                        'sudo ovs-ofctl mod-port {b} {i} up'
+                }
+            }
+        }
+        # Construct a namedtuple to be used to describe a bond
+        bond = namedtuple('Bond', [
+            'hypervisor',
+            'interface',
+            'type',
+            'master_interface',
+            'ovs_bridge',
+            'networks',
+            'ifup_cmd',
+            'ifdown_cmd'
+        ])
+        # Initialize bonds list
+        bonds = []
+        # Retrieve all hypvervisors
+        hypervisors = self._get_hypervisor_ip_from_undercloud(
+            shell='/home/stack/stackrc')
+        # Iterate over hypervisors
+        for hypervisor in hypervisors:
+            check_bond_cmd = bond_utils['bond_query_cmd']
+            bond_mode_re_filter = bond_utils['re_filter']
+            bond_mode_re_sub_filter = bond_utils['re_sub_filter']
+            # Iterate over user supplied bond dict
+            for bond_object in bond_dict:
+                bond_interface = bond_object['interface']
+                guest_networks = bond_object['guest_networks']
+                # Query bond interface on hypervisor
+                out = self._run_command_over_ssh(hypervisor,
+                                                 check_bond_cmd
+                                                 .format(bond_interface))
+                msg = ("Bond '{b}' not present on hypervisor '{h}'"
+                       .format(h=hypervisor, b=bond_interface))
+                self.assertNotEmpty(out, msg)
+                LOG.info("Bond '{b}' present on hypervisor '{h}'"
+                         .format(h=hypervisor, b=bond_interface))
+                re_result = re.search(bond_mode_re_filter, out)
+                msg = "Could not find bonding mode from bond query output"
+                self.assertIsNotNone(re_result, msg)
+                re_bond_output = re_result.group(0)
+                bond_mode = re.sub(bond_mode_re_sub_filter, r'\1',
+                                   re_bond_output)
+                if bond_mode not in bond_utils['supported_modes']:
+                    raise ValueError('bond mode {} is not supported'
+                                     .format(bond_mode))
+                LOG.info("Bond '{b}' is set to mode '{m}'"
+                         .format(b=bond_interface, m=bond_mode))
+                bond_mode_type = \
+                    bond_utils['supported_modes'][bond_mode]['type']
+                # Execute logic based on bonding operation mode
+                # Currently supporting only non loadbalancing bond modes
+                if bond_mode_type == "no_loadbalancing":
+                    re_result = re.search(bond_utils['supported_modes']
+                                          [bond_mode]
+                                          ['active_slave_re_filter'],
+                                          out)
+                    re_bond_output = re_result.group(0)
+                    bond_master = re.sub(bond_utils['supported_modes']
+                                         [bond_mode]
+                                         ['active_slave_sub_re_filter'],
+                                         r'\1', re_bond_output)
+                    LOG.info("NIC '{m}' is set as master NIC in bond '{b}' on "
+                             "hypervisor '{h}'".format(m=bond_master,
+                                                       b=bond_interface,
+                                                       h=hypervisor))
+                else:
+                    raise ValueError('Currenty only supporting bond modes '
+                                     'that are not set to load balance '
+                                     'traffic')
+
+                cmd = bond_utils['ovs_query_cmd']
+                # Fetch OVS general info
+                out = self._run_command_over_ssh(hypervisor,
+                                                 cmd.format(bond_master))
+                ovs_bridge_re_filter = bond_utils['bridge_re_filter']
+                ovs_bridge_re_sub_filter = bond_utils['bridge_re_sub_filter']
+                # Construct interface up/down commands
+                bond_if_up_cmd = \
+                    (bond_utils['supported_modes'][bond_mode]
+                     ['interface_up_cmd'])
+                bond_if_down_cmd = \
+                    (bond_utils['supported_modes'][bond_mode]
+                     ['interface_down_cmd'])
+                re_result = re.search(ovs_bridge_re_filter, out)
+                ovs_bridge_output = re_result.group(0)
+                ovs_user_bridge = \
+                    re.sub(ovs_bridge_re_sub_filter, r'\1', ovs_bridge_output)
+                # Apply required variables for interface commands
+                bond_if_up_cmd = bond_if_up_cmd.format(b=ovs_user_bridge,
+                                                       i=bond_master)
+                bond_if_down_cmd = bond_if_down_cmd.format(b=ovs_user_bridge,
+                                                           i=bond_master)
+
+            # Initialize a namedtuple of current bond
+            current_bond = bond(hypervisor, bond_interface, bond_mode,
+                                bond_master, ovs_user_bridge,
+                                guest_networks, bond_if_up_cmd,
+                                bond_if_down_cmd)
+            # Add bond interface to bonds list
+            bonds.append(current_bond)
+        # Create servers
+        servers, key_pair = self.create_and_verify_resources(test=test,
+                                                             num_servers=2)
+        # Create OpenStack admin clients
+        network_client = self.os_admin.networks_client
+        subnet_client = self.os_admin.subnets_client
+        # Overcloud username
+        overcloud_username = CONF.nfv_plugin_options.overcloud_node_user
+        # Overcloud private key
+        overcloud_private_key = \
+            open(CONF.nfv_plugin_options.overcloud_node_pkey_file).read()
+        for server in servers:
+            # Initialize helper variables
+            failover_failed = False
+            hypervisor_ip = server['hypervisor_ip']
+            # Create SSH client to guest
+            guest_ssh = \
+                self.get_remote_client(server['fip'],
+                                       username=self.instance_user,
+                                       private_key=key_pair['private_key'])
+            # Create SSH client to hypervisor hosting the guest
+            hypervisor_ssh = \
+                self.get_remote_client(hypervisor_ip,
+                                       username=overcloud_username,
+                                       private_key=overcloud_private_key)
+            # Iterate over fetched bonds
+            for bond in bonds:
+                # If bond is present on hypervisor
+                if bond.hypervisor == hypervisor_ip:
+                    # Intialize helper variables
+                    master_interface = bond.master_interface
+                    bond_interface = bond.interface
+                    # Iterate over supplied guest networks attached to bond
+                    for net in guest_networks:
+                        net_obj = (network_client.list_networks(name=net)
+                                   ['networks'][0])
+                        msg = "Failed to discover network '{}'".format(net)
+                        self.assertNotEmpty(net_obj, msg)
+                        net_id = net_obj['id']
+                        subnet_obj = (subnet_client.list_subnets(
+                                      network_id=net_id)['subnets'][0])
+                        msg = ("Failed to discover subnets attached to "
+                               "network '{}'".format(net))
+                        self.assertNotEmpty(subnet_obj, msg)
+                        subnet_gateway = subnet_obj['gateway_ip']
+                        LOG.info("Default gateway for network '{n}' is set "
+                                 "to '{g}'".format(n=net, g=subnet_gateway))
+                        # Attempt to ping network's default gateway
+                        try:
+                            guest_ssh.icmp_check(subnet_gateway)
+                        except lib_exc.SSHExecCommandFailed:
+                            msg = ("Failed to ping networks '{n}' default "
+                                   "gateway '{g}'".format(n=net,
+                                                          g=subnet_gateway))
+                            raise AssertionError(msg)
+                        LOG.info("Initial ping is successful, will attempt "
+                                 "to perform failover for bond '{b}' on "
+                                 "hyperviosr '{h}'".format(b=bond_interface,
+                                                           h=hypervisor_ip))
+                        # Attempt to bring down master interface - failover
+                        try:
+                            hypervisor_ssh.exec_command(bond.ifdown_cmd)
+                        except lib_exc.SSHExecCommandFailed:
+                            msg = ("Failed to bring down interface '{i}' "
+                                   "in bond '{b}' on hypervisor {h}"
+                                   .format(i=master_interface,
+                                           b=bond_interface,
+                                           h=hypervisor_ip))
+                            raise AssertionError(msg)
+                        LOG.info("Performed failover in bond '{b}', "
+                                 "interface '{i}' is no longer master on "
+                                 "hypervisor '{h}'".format(b=bond_interface,
+                                                           i=master_interface,
+                                                           h=hypervisor_ip))
+                        LOG.info("Will attempt to ping default gateway "
+                                 "'{g}' on network '{n}'"
+                                 .format(g=subnet_gateway, n=net))
+                        # Attempt to ping network's default gateway
+                        try:
+                            guest_ssh.icmp_check(subnet_gateway)
+                        except lib_exc.SSHExecCommandFailed:
+                            LOG.info("Failed to ping networks '{n}' default "
+                                     "gateway '{g}' post failover"
+                                     .format(n=net, g=subnet_gateway))
+                            failover_failed = True
+                        finally:
+                            # Attempt to bring up master interface
+                            try:
+                                hypervisor_ssh.exec_command(bond.ifup_cmd)
+                            except lib_exc.SSHExecCommandFailed:
+                                msg = ("Failed to bring up interface '{i} "
+                                       "in bond '{b}' on hypervisor '{h}' ,"
+                                       "check hypervisor for more details"
+                                       .format(i=master_interface,
+                                               b=bond_interface,
+                                               h=hypervisor_ip))
+                                raise AssertionError(msg)
+                        self.assertFalse(failover_failed)
+                        LOG.info("Failover scenario is successful for bond "
+                                 "'{b}' on hypervisor '{h}'"
+                                 .format(b=bond_interface, h=hypervisor_ip))

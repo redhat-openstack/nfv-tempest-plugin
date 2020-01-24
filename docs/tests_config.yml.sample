@@ -209,6 +209,14 @@ tests-setup:
    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
    router: true
 
+ - name: ovs_bond_connectivity
+   flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+   router: true
+   bond_interfaces:
+     - interface: dpdkbond0
+       guest_networks:
+         - data1
+
   - name: double_tagging
     vlan_config:
       iface_vlan: 10
