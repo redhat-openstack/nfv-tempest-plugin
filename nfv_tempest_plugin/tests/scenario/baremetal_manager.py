@@ -26,6 +26,7 @@ import time
 import xml.etree.ElementTree as ELEMENTTree
 import yaml
 
+from collections import namedtuple
 from math import ceil
 from oslo_log import log
 from oslo_serialization import jsonutils
@@ -280,6 +281,18 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'qos_rules' in test and test['qos_rules'] is not None:
                 self.test_setup_dict[test['name']]['qos_rules'] = \
                     jsonutils.loads(jsonutils.dumps(test['qos_rules']))
+            if 'bond_interfaces' in test and test['bond_interfaces'] \
+                is not None:
+                for bond_object in test['bond_interfaces']:
+                    # Test if interface key is present in bond_interface
+                    if 'interface' not in bond_object:
+                        raise ValueError('interface is not present in '
+                                         'bond_interfaces')
+                    if 'guest_networks' not in bond_object:
+                        raise ValueError('guest_networks is not present in '
+                                         'bond_interfaces')
+                self.test_setup_dict[test['name']]['bond_interfaces'] = \
+                    test['bond_interfaces']
 
         if not os.path.exists(
                 CONF.nfv_plugin_options.external_resources_output_file):
@@ -2289,3 +2302,126 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     self.assertEqual(min_mbps, qos)
         if not found_qos:
             raise ValueError('No QoS policies were applied to ports')
+
+    def construct_ovs_bond_tuple_from_hypervsior(self, hypervisor,
+                                                 bond_object):
+        """Queries hypervisor node and constructs a NamedTuple object
+
+        The NamedTuple object stores information and commands associated to
+        OVS bond.
+
+        :param hypervisor: hypervisor IP address to fetch info from
+        :param bond_obect: dictionary containing info regarding bont to query
+
+        :returns ovs_bond: namedtuple of OVS bond query
+        """
+        # Dictionary containing utilities to interact with supported modes
+        bond_utils = {
+            'bond_query_cmd': 'sudo ovs-appctl bond/show {}',
+            'ovs_query_cmd': 'sudo ovs-vsctl show | grep {} -B100',
+            're_filter': r'bond_mode:\s+.*',
+            're_sub_filter': r'bond_mode:\s+(.*)',
+            'bridge_re_filter':
+                r'Bridge ".*"',
+            'bridge_re_sub_filter':
+                r'Bridge "(.*)"',
+            'supported_modes': {
+                'active-backup': {
+                    'type': 'no_loadbalancing',
+                    'active_slave_re_filter':
+                        r'active slave mac:\s+.*',
+                    'active_slave_sub_re_filter':
+                        r'active slave mac:\s+.*\((.*)\)',
+                    'interface_down_cmd':
+                        'sudo ovs-ofctl mod-port {b} {i} down',
+                    'interface_up_cmd':
+                        'sudo ovs-ofctl mod-port {b} {i} up'
+                }
+            }
+        }
+        # Construct a namedtuple to be used to describe a bond
+        bond = namedtuple('Bond', [
+            'hypervisor',
+            'interface',
+            'type',
+            'master_interface',
+            'ovs_bridge',
+            'networks',
+            'ifup_cmd',
+            'ifdown_cmd'
+        ])
+        check_bond_cmd = bond_utils['bond_query_cmd']
+        bond_mode_re_filter = bond_utils['re_filter']
+        bond_mode_re_sub_filter = bond_utils['re_sub_filter']
+        bond_interface = bond_object['interface']
+        guest_networks = bond_object['guest_networks']
+        # Query bond interface on hypervisor
+        out = self._run_command_over_ssh(hypervisor,
+                                         check_bond_cmd
+                                         .format(bond_interface))
+        msg = ("Bond '{b}' not present on hypervisor '{h}'"
+               .format(h=hypervisor, b=bond_interface))
+        self.assertNotEmpty(out, msg)
+        LOG.info("Bond '{b}' present on hypervisor '{h}'"
+                 .format(h=hypervisor, b=bond_interface))
+        re_result = re.search(bond_mode_re_filter, out)
+        msg = "Could not find bonding mode from bond query output"
+        self.assertIsNotNone(re_result, msg)
+        re_bond_output = re_result.group(0)
+        bond_mode = re.sub(bond_mode_re_sub_filter, r'\1',
+                           re_bond_output)
+        if bond_mode not in bond_utils['supported_modes']:
+            raise ValueError('bond mode {} is not supported'
+                             .format(bond_mode))
+        LOG.info("Bond '{b}' is set to mode '{m}'"
+                 .format(b=bond_interface, m=bond_mode))
+        bond_mode_type = \
+            bond_utils['supported_modes'][bond_mode]['type']
+        # Execute logic based on bonding operation mode
+        # Currently supporting only non loadbalancing bond modes
+        if bond_mode_type == "no_loadbalancing":
+            re_result = re.search(bond_utils['supported_modes']
+                                  [bond_mode]
+                                  ['active_slave_re_filter'],
+                                  out)
+            re_bond_output = re_result.group(0)
+            bond_master = re.sub(bond_utils['supported_modes']
+                                 [bond_mode]
+                                 ['active_slave_sub_re_filter'],
+                                 r'\1', re_bond_output)
+            LOG.info("NIC '{m}' is set as master NIC in bond '{b}' on "
+                     "hypervisor '{h}'".format(m=bond_master,
+                                               b=bond_interface,
+                                               h=hypervisor))
+        else:
+            raise ValueError('Currenty only supporting bond modes '
+                             'that are not set to load balance '
+                             'traffic')
+        cmd = bond_utils['ovs_query_cmd']
+        # Fetch OVS general info
+        out = self._run_command_over_ssh(hypervisor,
+                                         cmd.format(bond_master))
+        ovs_bridge_re_filter = bond_utils['bridge_re_filter']
+        ovs_bridge_re_sub_filter = bond_utils['bridge_re_sub_filter']
+        # Construct interface up/down commands
+        bond_if_up_cmd = \
+            (bond_utils['supported_modes'][bond_mode]
+             ['interface_up_cmd'])
+        bond_if_down_cmd = \
+            (bond_utils['supported_modes'][bond_mode]
+             ['interface_down_cmd'])
+        re_result = re.search(ovs_bridge_re_filter, out)
+        ovs_bridge_output = re_result.group(0)
+        ovs_user_bridge = \
+            re.sub(ovs_bridge_re_sub_filter, r'\1', ovs_bridge_output)
+        # Apply required variables for interface commands
+        bond_if_up_cmd = bond_if_up_cmd.format(b=ovs_user_bridge,
+                                               i=bond_master)
+        bond_if_down_cmd = bond_if_down_cmd.format(b=ovs_user_bridge,
+                                                   i=bond_master)
+        # Initialize a namedtuple of current bond
+        ovs_bond = bond(hypervisor, bond_interface, bond_mode,
+                        bond_master, ovs_user_bridge,
+                        guest_networks, bond_if_up_cmd,
+                        bond_if_down_cmd)
+        return ovs_bond
