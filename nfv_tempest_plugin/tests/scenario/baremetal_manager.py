@@ -262,6 +262,19 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 self.test_setup_dict[test['name']]['offload_nics'] = \
                     test['offload_nics']
 
+            if 'bond_interface' in test and test['bond_interface'] \
+                is not None:
+                # Test if interface key is present in bond_interface
+                if 'interface' not in test['bond_interface']:
+                    raise ValueError('interface is not present in '
+                                     'bond_interface')
+                # Test if interface name present in bond interface
+                if 'type' not in test['bond_interface']:
+                    raise ValueError('type is not present in bond_interface')
+
+                self.test_setup_dict[test['name']]['bond_interface'] = \
+                    test['bond_interface']
+
         if not os.path.exists(
                 CONF.nfv_plugin_options.external_resources_output_file):
             # iterate flavors_id

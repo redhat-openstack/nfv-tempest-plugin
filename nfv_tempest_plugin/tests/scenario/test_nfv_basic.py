@@ -17,6 +17,7 @@ from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
 from tempest.common import waiters
 from tempest import config
+import re
 
 CONF = config.CONF
 LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
@@ -263,3 +264,117 @@ class TestNfvBasic(base_test.BaseTest):
             'sudo dd if=/dev/zero of=/dev/vdb bs=4096k count=256 oflag=direct')
         self.assertEmpty(out)
         LOG.info('The {} test passed.'.format(test))
+
+    def test_bond_connectivity(self, test='bond_connectivity'):
+        test_dict = self.test_setup_dict[test]
+        if 'bond_interface' in test_dict:
+            bond_dict = test_dict['bond_interface']
+        else:
+            raise ValueError('bond_interface is not defined in '
+                             'bond_connectivity test')
+
+        # Dictionary containing utilities to interact with supported bonds
+        bond_utils = {
+            'ovs_dpdk_bond': {
+                'query_cmd': 'sudo ovs-appctl bond/show {}',
+                're_filter': r'bond_mode:\s+.*',
+                're_sub_filter': r'bond_mode:\s+(.*)',
+                'supported_modes': {
+                    'active-backup': {
+                        'type': 'no_loadbalancing',
+                        'active_slave_re_filter':
+                            r'active slave mac:\s+.*',
+                        'active_slave_sub_re_filter':
+                            r'active slave mac:\s+.*\((.*)\)',
+                    }
+                }
+            },
+            'linux_bond': {
+                'query_cmd': 'sudo cat /proc/net/bonding/{}',
+                're_filter': r'Bonding Mode:.*',
+                're_sub_filter': r'Bonding Mode:\s+.*\((.*)\)',
+                'supported_modes': {
+                    'active-backup': {
+                        'type': 'no_loadbalancing',
+                        'active_slave_re_filter':
+                            r'Currently Active Slave:\s+.*',
+                        'active_slave_sub_re_filter':
+                            r'Currently Active Slave:\s+(.*)',
+                    }
+                }
+            }
+        }
+
+        bond_type = bond_dict['type']
+        bond_interface = bond_dict['interface']
+        # Check if supplied bond type is supported
+        if bond_type not in bond_utils:
+            raise ValueError('bond type {} is not supported'
+                             .format(bond_type))
+
+        # Retrieve all hypvervisors
+        hypervisors = self._get_hypervisor_ip_from_undercloud(
+            shell='/home/stack/stackrc')
+        for hypervisor in hypervisors:
+            check_bond_cmd = (bond_utils[bond_type]['query_cmd']
+                              .format(bond_interface))
+            bond_mode_re_filter = bond_utils[bond_type]['re_filter']
+            bond_mode_re_sub_filter = bond_utils[bond_type]['re_sub_filter']
+            out = self._run_command_over_ssh(hypervisor,
+                                             check_bond_cmd)
+            msg = ("Bond '{b}' not present on hypervisor '{h}'"
+                   .format(h=hypervisor, b=bond_interface))
+            self.assertNotEmpty(out, msg)
+            LOG.info("Bond '{b}' present on hypervisor '{h}'"
+                     .format(h=hypervisor, b=bond_interface))
+            re_result = re.search(bond_mode_re_filter, out)
+            msg = "Could not find bonding mode from bond query output"
+            self.assertIsNotNone(re_result, msg)
+            re_bond_output = re_result.group(0)
+            bond_mode = re.sub(bond_mode_re_sub_filter, r'\1', re_bond_output)
+            if bond_mode not in bond_utils[bond_type]['supported_modes']:
+                raise ValueError('bond mode {} is not supported'
+                                 .format(bond_mode))
+            LOG.info("Bond '{b}' is set to mode '{m}'".format(b=bond_interface,
+                                                              m=bond_mode))
+            bond_mode_type = \
+                bond_utils[bond_type]['supported_modes'][bond_mode]['type']
+            # Execute logic based on bonding operation mode
+            # If bond is not set as a loadbalancing type, save current master
+            if bond_mode_type == "no_loadbalancing":
+                re_result = re.search(bond_utils[bond_type]['supported_modes']
+                                      [bond_mode]['active_slave_re_filter'],
+                                      out)
+                re_bond_output = re_result.group(0)
+                bond_master = re.sub(bond_utils[bond_type]['supported_modes']
+                                     [bond_mode]['active_slave_sub_re_filter'],
+                                     r'\1', re_bond_output)
+                LOG.info("NIC '{m}' is set as master NIC in bond '{b}' on "
+                         "hypervisor '{h}'".format(m=bond_master,
+                                                   b=bond_interface,
+                                                   h=hypervisor))
+            else:
+                raise ValueError('Currenty only supporting bond modes that '
+                                 'are not set to load balance traffic')
+
+        # Create servers
+        servers, key_pair = self.create_and_verify_resources(test=test,
+                                                             num_servers=2)
+
+        routers = self.os_admin.routers_client.list_routers()['routers']
+        for router in routers:
+            if router['external_gateway_info'] is not None:
+                gateway = router['external_gateway_info'][
+                    'external_fixed_ips'][0]['ip_address']
+                break
+        else:
+            raise ValueError('The gateway of given network does not exists. '
+                             'Please assign it and re-run.')
+
+        for server in servers:
+            ssh_source = self.get_remote_client(server['fip'],
+                                                username=self.instance_user,
+                                                private_key=key_pair[
+                                                    'private_key'])
+            out = ssh_source.exec_command('ping -c 1 {}'.format(gateway))
+            print(out)
