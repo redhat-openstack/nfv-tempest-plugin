@@ -10,6 +10,7 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_mtu_ping_test
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_cold_migration
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_emulatorpin
+- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_volume_in_hci_nfv_setup
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_min_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_equal_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_max_queues_functionality
@@ -36,8 +37,7 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_hci_usecases.TestHciScenarios.test_boot_instance_with_volume_in_hci_nfv_setup
 - nfv_tempest_plugin.tests.scenario.test_nfv_hci_usecases.TestHciScenarios.test_volume_using_img_in_hci_nfv_setup
 - nfv_tempest_plugin.tests.scenario.test_nfv_hci_usecases.TestHciScenarios.test_ceph_health_status_in_hci_nfv_setup
-
-
+- nfv_tempest_plugin.tests.scenario.test_nfv_ovs_usecases.TestOvsScenarios.test_ovs_bond_connectivity
 
 ### Tests configuration
 The nfv-tempest-plugin uses external configuration file in order to provide the proper configuration of the test execution to the tempest.  
@@ -154,6 +154,39 @@ Tests included:
       - config_path: '/var/lib/config-data/puppet-generated/nova_libvirt/etc/nova/nova.conf'
         check_section: 'compute'
         check_value: 'cpu_shared_set'
+  ```
+
+- test_volume_in_hci_nfv_setup
+  Test explanation:
+  The HCI test boots an instance, attaches new volume with this instance, connects to the instance using ssh, and writes the full disk.
+
+  ```
+  Test config:
+  - name: nfv-hci-basic-volume
+    flavor: nfv-test-flavor
+    router: false
+  ```
+
+  flavor - specifies the flavor that the instance should boot with.
+  router - Sets if the booted instance will get floating ip or direct access config.  
+
+- test_ovs_bond_connectivity  
+  Test explanation:  
+  Attempts to verify that OVS bond is working as expected.  
+  Currently only supports bonds of type `active-backup`.  
+  Multiple bonds can be tested, **assuming** they all exist on all hypervisors in deployment.  
+  Multiple networks attached to bond can be tested.  
+  Failover will be attempted for bond during test.
+
+  ```
+  Test config:
+  - name: ovs_bond_connectivity
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+    bond_interfaces:
+      - interface: dpdkbond0
+        guest_networks:
+          - data1
   ```
 
 ----------
@@ -513,3 +546,28 @@ Tests included:
   ```
   Test config:
   - name: nfv_hci_ceph_health
+
+#### TestOvsScenarios:
+
+Tests included:
+
+- test_ovs_bond_connectivity
+
+  Test explanation:  
+  Attempts to verify that OVS bond is working as expected.  
+  Currently only supports bonds of type `active-backup`.  
+  Multiple bonds can be tested, **assuming** they all exist on all hypervisors in deployment.  
+  Multiple networks attached to bond can be tested.  
+  Failover will be attempted for bond during test.
+
+  Test config:
+
+  ```yaml
+  - name: ovs_bond_connectivity
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+    bond_interfaces:
+      - interface: dpdkbond0
+        guest_networks:
+          - data1
+  ```
