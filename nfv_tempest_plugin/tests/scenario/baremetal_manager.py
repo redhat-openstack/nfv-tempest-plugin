@@ -402,8 +402,18 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         server_details = \
             self.os_admin.servers_client.show_server(server['id'])['server']
-        get_dumpxml = 'sudo virsh -c qemu:///system dumpxml {0}'.format(
-            server_details['OS-EXT-SRV-ATTR:instance_name'])
+        # Check OSP release from hypervisor node
+        osp_release = self._run_command_over_ssh(hypervisor,
+                                                 'cat /etc/rhosp-release')
+        # If OSP version is 16, use podman container to retrieve instance XML
+        if '16' in osp_release:
+            get_dumpxml = ('sudo podman exec -it nova_libvirt virsh -c '
+                           'qemu:///system dumpxml {}'.format(
+                               server_details['OS-EXT-SRV-ATTR:instance_name'])
+                           )
+        else:
+            get_dumpxml = 'sudo virsh -c qemu:///system dumpxml {0}'.format(
+                server_details['OS-EXT-SRV-ATTR:instance_name'])
         dumpxml_data = self._run_command_over_ssh(hypervisor, get_dumpxml)
         dumpxml_string = ELEMENTTree.fromstring(dumpxml_data)
 
