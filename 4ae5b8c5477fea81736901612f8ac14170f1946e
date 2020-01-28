@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "72f1929e_03aef3e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-01-28T08:51:46Z",
+      "side": 1,
+      "message": "It is a basic scenario that will be executed as part of regression.\n\nI completely understand you, I was considering creating a new generic OVS hierarchy.\n\nMost of the DPDK tests are unique to OVS DPDK usecase, the same reason why we have HWOffload hierarchy.\n\nThis is a good point to discuss where the test should be located.",
+      "parentUuid": "b620a8b1_6967dae0",
+      "range": {
+        "startLine": 9,
+        "startChar": 21,
+        "endLine": 9,
+        "endChar": 36
+      },
+      "revId": "4ae5b8c5477fea81736901612f8ac14170f1946e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e85b2c2a_5a0475eb",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "4ae5b8c5477fea81736901612f8ac14170f1946e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8abc3bb_b7927abf",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-01-28T08:51:46Z",
+      "side": 1,
+      "message": "Sorry, completely forgot to add doctext.\nWill add this.\n\nNo this is no a LACP bond test. This is regular link aggregation test for OVS bond.\n\nLACP tests are in a different hierarchy.",
+      "parentUuid": "e85b2c2a_5a0475eb",
+      "range": {
+        "startLine": 271,
+        "startChar": 7,
+        "endLine": 271,
+        "endChar": 34
+      },
+      "revId": "4ae5b8c5477fea81736901612f8ac14170f1946e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "01705152_d3253e8f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-01-28T08:51:46Z",
+      "side": 1,
+      "message": "This dictionary will not be used for LACP since LACP is a separate test, this dict is unique to this test.\nPerhaps in the future we\u0027ll have additional OVS bond modes.\nInitially, I was planning to also support linux_bond, but then I assumed that we will not use linux_bond as of now for our provider networks.",
+      "parentUuid": "933c7dd9_8e5a25df",
+      "range": {
+        "startLine": 280,
+        "startChar": 7,
+        "endLine": 280,
+        "endChar": 22
+      },
+      "revId": "4ae5b8c5477fea81736901612f8ac14170f1946e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbc8058d_c99f81cd",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2020-01-28T06:29:46Z",
       "side": 1,
       "message": "same review as above",
+      "range": {
+        "startLine": 304,
+        "startChar": 8,
+        "endLine": 304,
+        "endChar": 33
+      },
+      "revId": "4ae5b8c5477fea81736901612f8ac14170f1946e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bb6b600_6876f50a",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-01-28T08:51:46Z",
+      "side": 1,
+      "message": "This is unique to this test as of now.\nLACP test case is under a different hierarchy.",
+      "parentUuid": "fbc8058d_c99f81cd",
       "range": {
         "startLine": 304,
         "startChar": 8,
