@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b620a8b1_6967dae0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-01-28T06:29:46Z",
+      "side": 1,
+      "message": "IS it basic test? \nI think we should have new hierarchy for OVS tests (OVS+DPDK and HW offload)\n\nMaybe other tests we call DPDK today should be renamed :)\n\nWe already have advanced scenarios..",
+      "range": {
+        "startLine": 9,
+        "startChar": 21,
+        "endLine": 9,
+        "endChar": 36
+      },
+      "revId": "4ae5b8c5477fea81736901612f8ac14170f1946e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e85b2c2a_5a0475eb",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-01-28T06:29:46Z",
+      "side": 1,
+      "message": "Please describe what test is doing?\nDo we have any documented test explaining what we are checking? Is it LACP bond test?",
+      "range": {
+        "startLine": 271,
+        "startChar": 7,
+        "endLine": 271,
+        "endChar": 34
+      },
+      "revId": "4ae5b8c5477fea81736901612f8ac14170f1946e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "933c7dd9_8e5a25df",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-01-28T06:29:46Z",
+      "side": 1,
+      "message": "Do you think that this dictionary will be used by other tests?\nsuch as LACP? \nMaybe it should be build in baremetal manager?",
+      "range": {
+        "startLine": 280,
+        "startChar": 7,
+        "endLine": 280,
+        "endChar": 22
+      },
+      "revId": "4ae5b8c5477fea81736901612f8ac14170f1946e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbc8058d_c99f81cd",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-01-28T06:29:46Z",
+      "side": 1,
+      "message": "same review as above",
+      "range": {
+        "startLine": 304,
+        "startChar": 8,
+        "endLine": 304,
+        "endChar": 33
+      },
+      "revId": "4ae5b8c5477fea81736901612f8ac14170f1946e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
