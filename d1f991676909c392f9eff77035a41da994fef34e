@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06899d18_afdb1cb0",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-01-28T10:27:36Z",
+      "side": 1,
+      "message": "For me it has been dificult to read and understand this testcase because is it too long. I think I would create several functions and have this test shorter. For example, functions to read and parse ovs commands. So, they could be used for other test cases.",
+      "range": {
+        "startLine": 271,
+        "startChar": 8,
+        "endLine": 271,
+        "endChar": 34
+      },
+      "revId": "d1f991676909c392f9eff77035a41da994fef34e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da49562b_24934612",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-01-28T10:27:36Z",
+      "side": 1,
+      "message": "Not sure how useful could be this test as it is. When I was creating testcases for lacp I also had this testcase in the same way and what I was told by Hekai Wang which test OVS: Downing a port at the kernel level does not properly test fail-over.\nMaybe, we should try to put the port down in the switch.\nIn any case, if OVS team are already testing this scenario, should we test it again?",
+      "range": {
+        "startLine": 466,
+        "startChar": 61,
+        "endLine": 466,
+        "endChar": 71
+      },
+      "revId": "d1f991676909c392f9eff77035a41da994fef34e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
