@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ea0d4f4e_1e21b949",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-01-28T13:36:22Z",
+      "side": 1,
+      "message": "This is a good thought.\nWill try to see how this test could be split to several functions.",
+      "parentUuid": "06899d18_afdb1cb0",
+      "range": {
+        "startLine": 271,
+        "startChar": 8,
+        "endLine": 271,
+        "endChar": 34
+      },
+      "revId": "d1f991676909c392f9eff77035a41da994fef34e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da49562b_24934612",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2020-01-28T10:27:36Z",
       "side": 1,
       "message": "Not sure how useful could be this test as it is. When I was creating testcases for lacp I also had this testcase in the same way and what I was told by Hekai Wang which test OVS: Downing a port at the kernel level does not properly test fail-over.\nMaybe, we should try to put the port down in the switch.\nIn any case, if OVS team are already testing this scenario, should we test it again?",
+      "range": {
+        "startLine": 466,
+        "startChar": 61,
+        "endLine": 466,
+        "endChar": 71
+      },
+      "revId": "d1f991676909c392f9eff77035a41da994fef34e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04dd6b2d_17e8d973",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-01-28T13:36:22Z",
+      "side": 1,
+      "message": "As far as I know regarding OVS:\nIn an OVS DPDK scenario, the NICs in the bond are not part of kernel anymore, so the only way to interact with them is through the userspace. Since OVS is bundled with DPDK bindings tat are able to interact with the NICs in userspace, this is our only way to control the NICs and perform a failover.\n\nIn an OVS HW-Offload scenario, the NICs are SR-IOV based and are still part of the kernel. Perhaps in that scenario this test is not ideal.\n\nI have yet to try this test on OVS HW-Offload deployment.\n\nInvesting in switch automation in tempest might be beneficial to us regardless.",
+      "parentUuid": "da49562b_24934612",
       "range": {
         "startLine": 466,
         "startChar": 61,
