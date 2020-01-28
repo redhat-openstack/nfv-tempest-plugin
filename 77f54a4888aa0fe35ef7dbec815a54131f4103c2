@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e36788e_a664cef5",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-01-28T06:09:50Z",
+      "side": 1,
+      "message": "Consider this as compact version :)\n\ncommand_string \u003d \u0027sudo virsh -c qemu:///system dumpxml {0}\u0027\nif \u002716\u0027 in osp_release\u0027: \n    command_string \u003d \u0027sudo podman exec -it nova_libvirt virsh -c \u0027\n                           \u0027qemu:///system dumpxml {}\u0027\nget_dumpxml \u003d command_string.format(server_details[\u0027OS-EXT-SRV-ATTR:instance_name\u0027])",
+      "range": {
+        "startLine": 407,
+        "startChar": 2,
+        "endLine": 416,
+        "endChar": 64
+      },
+      "revId": "77f54a4888aa0fe35ef7dbec815a54131f4103c2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
