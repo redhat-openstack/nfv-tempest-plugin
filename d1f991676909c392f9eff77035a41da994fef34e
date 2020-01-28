@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "bc4627bd_de4eca59",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-01-28T13:55:05Z",
+      "side": 1,
+      "message": "I would recommend to split the test for two methods.\n\nAlthough i think solution here for commands is super kill for the test.\nLooking at the test you are searching for bond and its sub ports correct? \nrun ping,\nbring master port down\nverify slave is up \nrun ping correct?\n\nPlease create only those command in the test.\nIMHO, all other should move to utility method,",
+      "parentUuid": "ea0d4f4e_1e21b949",
+      "range": {
+        "startLine": 271,
+        "startChar": 8,
+        "endLine": 271,
+        "endChar": 34
+      },
+      "revId": "d1f991676909c392f9eff77035a41da994fef34e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da49562b_24934612",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 3
