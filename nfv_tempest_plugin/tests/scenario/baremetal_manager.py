@@ -1221,6 +1221,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                        net_param['port_type'] == 'direct':
                         create_port_body['binding:profile']['capabilities'] = \
                             ['switchdev']
+                    if len(create_port_body['binding:profile']) == 0:
+                        del create_port_body['binding:profile']
                     port = self._create_port(network_id=net_param['net-id'],
                                              **create_port_body)
                     net_var = {'uuid': net_param['net-id'], 'port': port['id']}
