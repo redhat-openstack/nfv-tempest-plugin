@@ -213,3 +213,7 @@ tests-setup:
     vlan_config:
       iface_vlan: 10
       test_vlan: 12
+
+  - name: pinned_srv_live_migration
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
