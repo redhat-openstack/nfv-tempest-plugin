@@ -151,8 +151,8 @@ class TestNfvBasic(base_test.BaseTest):
                                             command)
         self.assertTrue(int(result[0]) == 2)
         LOG.info('Check instance vcpu')
-        self._check_vcpu_from_dumpxml(servers[0], servers[0]['hypervisor_ip'],
-                                      test[4:])
+        self.match_vcpu_to_numa_node(servers[0], servers[0]['hypervisor_ip'],
+                                     test[4:])
         LOG.info('The {} test passed.'.format(test))
 
     def test_numa1_provider_network(self, test='numa1'):
@@ -166,8 +166,8 @@ class TestNfvBasic(base_test.BaseTest):
                                             command)
         self.assertTrue(int(result[0]) == 2)
         LOG.info('Check instance vcpu')
-        self._check_vcpu_from_dumpxml(servers[0], servers[0]['hypervisor_ip'],
-                                      test[4:])
+        self.match_vcpu_to_numa_node(servers[0], servers[0]['hypervisor_ip'],
+                                     test[4:])
         LOG.info('The {} test passed.'.format(test))
 
     def test_numamix_provider_network(self, test='numamix'):
@@ -181,8 +181,8 @@ class TestNfvBasic(base_test.BaseTest):
                                             command)
         self.assertTrue(int(result[0]) == 2)
         LOG.info('Check instance vcpu')
-        self._check_vcpu_from_dumpxml(servers[0], servers[0]['hypervisor_ip'],
-                                      test[4:])
+        self.match_vcpu_to_numa_node(servers[0], servers[0]['hypervisor_ip'],
+                                     test[4:])
         LOG.info('The {} test passed.'.format(test))
 
     def test_packages_compute(self):

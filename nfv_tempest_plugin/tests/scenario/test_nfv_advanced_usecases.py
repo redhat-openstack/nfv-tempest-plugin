@@ -99,8 +99,8 @@ class TestAdvancedScenarios(base_test.BaseTest):
             fail_srv[0]['id'])['server']
         self.assertEqual(fail_srv_state['status'], 'ERROR')
         LOG.info('Check placement of instances vcpu on NUMA node 0.')
-        [self._check_vcpu_from_dumpxml(srv, srv['hypervisor_ip'],
-                                       cell_id='0') for srv in numa0_srv]
+        [self.match_vcpu_to_numa_node(srv, srv['hypervisor_ip'],
+                                      numa_node='0') for srv in numa0_srv]
         srv_list = [srv['id'] for srv in numa0_srv]
 
         if 'non_numa_aware_net' in numas_phys:
@@ -119,9 +119,9 @@ class TestAdvancedScenarios(base_test.BaseTest):
                     **{'shell': '/home/stack/stackrc',
                        'server_id': numa1_srv[0]['id']})[0]
             LOG.info('Check placement of instance vcpu on NUMA node 1.')
-            self._check_vcpu_from_dumpxml(numa1_srv[0],
-                                          numa1_srv[0]['hypervisor_ip'],
-                                          cell_id='1')
+            self.match_vcpu_to_numa_node(numa1_srv[0],
+                                         numa1_srv[0]['hypervisor_ip'],
+                                         numa_node='1')
             srv_list.append(numa1_srv[0]['id'])
         else:
             LOG.warn('Skip "non numa aware" test phase as "non numa aware" '
