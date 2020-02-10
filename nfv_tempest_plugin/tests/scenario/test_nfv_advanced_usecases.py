@@ -160,3 +160,66 @@ class TestAdvancedScenarios(base_test.BaseTest):
                                          key_pair=key_pair['private_key'])
         LOG.info('Cold migration passed.')
         LOG.info('Numa aware test completed.')
+
+    def test_pinned_srv_live_migration(self, test='pinned_srv_live_migration'):
+        """Test live migration of pinned instances.
+
+        The test performs the following actions:
+        - Boot the cpu pinned instance on the first hypervisor
+        - Live migrate the cpu pinned instance to the second hypervisor
+          Expect live migration to success
+        - Boot seconds pinned instance on the first hypervisor
+        - Live migrate the first instance back to the first hypervisor
+        - Verify by the virsh xml that the first vm was rescheduled on the cpu.
+        """
+        LOG.info('Pinned instance live migration test')
+        srv1, key_pair = self.create_and_verify_resources(test=test,
+                                                          use_mgmt_only=True)
+        srv1_vcpus_before_migration = \
+            self.get_instance_vcpu(srv1[0], srv1[0]['hypervisor_ip'])
+        LOG.info('The cores of srv1 on the first hypervisor are {}'.format(
+            srv1_vcpus_before_migration))
+        LOG.info('Live migrate the instance to the second hypervisor')
+        self.os_admin.servers_client.live_migrate_server(
+            server_id=srv1[0]['id'], block_migration=True, host=None)
+        waiters.wait_for_server_status(self.servers_client, srv1[0]['id'],
+                                       'ACTIVE')
+        mgmt_net = self.test_network_dict['public']
+        mgmt_net_id = [[{'uuid': self.test_network_dict[mgmt_net]['net-id']}]]
+        kwargs = {'security_groups': self.remote_ssh_sec_groups_names,
+                  'key_name': key_pair['name']}
+        LOG.info('Boot second instance on the first hypervisor')
+        srv2 = self.create_server_with_fip(flavor=self.flavor_ref,
+                                           networks=mgmt_net_id, **kwargs)
+        srv2_vcpus = self.get_instance_vcpu(srv2[0], srv1[0]['hypervisor_ip'])
+        LOG.info('The cores of srv2 on the first hypervisor are {}'.format(
+            srv2_vcpus))
+        LOG.info('Live migrate srv1 back to the first hypervisor')
+        self.os_admin.servers_client.live_migrate_server(
+            server_id=srv1[0]['id'], block_migration=True, host=None)
+        waiters.wait_for_server_status(self.servers_client, srv1[0]['id'],
+                                       'ACTIVE')
+        self.check_instance_connectivity(ip_addr=srv1[0]['fip'],
+                                         user=self.instance_user,
+                                         key_pair=key_pair['private_key'])
+        srv1_vcpus_after_migration = \
+            self.get_instance_vcpu(srv1[0], srv1[0]['hypervisor_ip'])
+        LOG.info('The cores of srv1 on the first hypervisor after migration '
+                 'are {}'.format(srv1_vcpus_after_migration))
+        LOG.info('Ensure srv2 uses released cores of migrated srv1 instance')
+        self.assertEqual(srv1_vcpus_before_migration, srv2_vcpus,
+                         'The cores are not equal: {srv1} - {srv2}. '
+                         'The second boot instance should take the same cores'
+                         ' released by the migrated instance'.format(
+                             srv1=srv1_vcpus_before_migration,
+                             srv2=srv2_vcpus))
+        LOG.info('Ensure that srv1 migrated back to the first hypervisor, '
+                 'rescheduled its cores')
+        self.assertNotEqual(srv2_vcpus, srv1_vcpus_after_migration,
+                            'The cores a equal: {srv1} - {srv2}. '
+                            'The cores should not use the same cores on the '
+                            'same hypervisor. The first instance migrated back'
+                            ' to the first hypervisor should reschedule the '
+                            'cores.'.format(srv1=srv1_vcpus_after_migration,
+                                            srv2=srv2_vcpus))
+        LOG.info('The pinned instance live migration test passed')
