@@ -97,6 +97,24 @@ def check_existing_interfaces():
         ifaces.append({nic: mac})
     return ifaces
 
+def create_network_file(nic_name,nic_mac):
+    """Create network file"""
+    nic_skeleton = '''
+                   DEVICE={0}
+                   HWADDR={1}
+                   BOOTPROTO=dhcp
+                   BOOTPROTOv6=dhcp
+                   ONBOOT=yes
+                   TYPE=Ethernet
+                   USERCTL=yes
+                   PEERDNS=yes
+                   IPV6INIT=yes
+                   PERSISTENT_DHCLIENT=1
+                   '''.format(nic_name, nic_mac)
+    nic_skeleton_clean = (textwrap.dedent(nic_skeleton)
+                          .lstrip().encode('utf8'))
+    open("/etc/sysconfig/network-scripts/ifcfg-{0}".format(nic_name),
+         "w").write(nic_skeleton_clean)
 
 def dump_interfaces_config(nics=None, tag=None):
     """Dumps ifcfg files data and route metric"""
@@ -112,32 +130,34 @@ def dump_interfaces_config(nics=None, tag=None):
         for nic_name, nic_mac in iter(nic.items()):
             ifcfg_path = '/etc/sysconfig/network-scripts/' \
                          'ifcfg-{}'.format(nic_name)
-            if os.path.exists(ifcfg_path):
-                logger.info('The {} interface found'.format(nic_name))
+            if tag and nic_mac == tag['mac'] and tag['tag'] == args.tag:
+                if not os.path.exists(ifcfg_path):
+                    logger.info('The {} interface not found, '
+                                'regenerating it'.format(nic_name))
+                    create_network_file(nic_name,nic_mac)
+                else:
+                    logger.info('The {} interface found'.format(nic_name))
                 try:
                     with open(ifcfg_path, 'r') as iface_file:
                         iface_dump = iface_file.readlines()
                         logger.info('Read {} file content'.format(ifcfg_path))
                 except IOError:
                     logger.info('Unable to read {} file.'.format(ifcfg_path))
-
                 iface_content[nic_mac] = []
                 for opt in iface_dump:
                     iface_content[nic_mac].append(opt)
-
-                if tag and nic_mac == tag['mac'] and tag['tag'] == args.tag:
-                    logger.info('Dump lower gateway metric for {} '
-                                'interface'.format(nic_name))
-                    iface_content[nic_mac].append('IPV4_ROUTE_METRIC=10\n')
-            else:
-                logger.info('The {} interface is missing'.format(nic_name))
-    try:
-        with open(data_path, 'w') as jsonfile:
-            json.dump(iface_content, jsonfile)
-            logger.info('Write ifaces data to {}'.format(data_path))
-    except IOError:
-        logger.info('Unable to write data to {} file'.format(data_path))
-    logger.info('Network data has been successfully dumped')
+                logger.info('Dump lower gateway metric for {} '
+                            'interface'.format(nic_name))
+                iface_content[nic_mac].append('IPV4_ROUTE_METRIC=10\n')
+                try:
+                    with open(data_path, 'w') as jsonfile:
+                        json.dump(iface_content, jsonfile)
+                        logger.info('Write ifaces data '
+                                    'to {}'.format(data_path))
+                    except IOError:
+                        logger.info('Unable to write data to '
+                                    '{} file'.format(data_path))
+                    logger.info('Network data has been successfully dumped')
 
 
 def recreate_interfaces_config(dump_config_file, nics=None):
