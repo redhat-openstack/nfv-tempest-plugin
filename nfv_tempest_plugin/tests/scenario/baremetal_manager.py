@@ -1939,3 +1939,51 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         return {'cpu_total': cpu_total, 'cpu_used': cpu_used,
                 'cpu_free_per_numa': cpu_free_per_numa, 'cpu_free': cpu_free,
                 'ram_free': ram_free}
+
+    def _test_live_migration(self, test_setup_migration=None,
+                             use_block_migration=False):
+        """Method boots an instance and wait until ACTIVE state
+
+        Migrates the instance to the next available hypervisor.
+        """
+
+        extra_specs = {'extra_specs': {'hw:mem_page_size': str("large")}}
+        migration_flavor = self.create_flavor(name='live-migration', vcpus='2',
+                                              **extra_specs)
+        servers, key_pair = \
+            self.create_server_with_resources(test=test_setup_migration,
+                                              flavor=migration_flavor,
+                                              use_mgmt_only=True)
+
+        host = self.os_admin.servers_client.show_server(
+            servers[0]['id'])['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']
+        self.check_instance_connectivity(ip_addr=servers[0]['fip'],
+                                         user=self.instance_user,
+                                         key_pair=key_pair['private_key'])
+        """ Migrate server """
+        self.os_admin.servers_client.live_migrate_server(
+            server_id=servers[0]['id'], block_migration=use_block_migration,
+            host=None)
+        """ Switch hypervisor id (compute-0 <=> compute-1) """
+        count = 1
+        if host.find('0') > 0:
+            dest = list(host)
+            dest[dest.index('0')] = '1'
+            dest = ''.join(dest)
+        else:
+            dest = list(host)
+            dest[dest.index('1')] = '0'
+            dest = ''.join(dest)
+        while count < 30:
+            count += 1
+            time.sleep(3)
+            if dest == self\
+                    .os_admin.servers_client.show_server(servers[0][
+                    'id'])['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']:
+                """Verify connectivity after migration"""
+                self.check_instance_connectivity(ip_addr=servers[0]['fip'],
+                                                 user=self.instance_user,
+                                                 key_pair=key_pair[
+                                                     'private_key'])
+                return True
+        return False
