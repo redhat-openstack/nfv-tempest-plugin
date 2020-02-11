@@ -80,7 +80,8 @@ class TestDpdkScenarios(base_test.BaseTest):
         LOG.info('The {} queues test passed.'.format(queues))
         return True
 
-    def _test_live_migration_block(self, test_setup_migration=None):
+    def _test_live_migration(self, test_setup_migration=None,
+                             use_block_migration=False):
         """Method boots an instance and wait until ACTIVE state
 
         Migrates the instance to the next available hypervisor.
@@ -101,7 +102,8 @@ class TestDpdkScenarios(base_test.BaseTest):
                                          key_pair=key_pair['private_key'])
         """ Migrate server """
         self.os_admin.servers_client.live_migrate_server(
-            server_id=servers[0]['id'], block_migration=True, host=None)
+            server_id=servers[0]['id'], block_migration=use_block_migration,
+            host=None)
         """ Switch hypervisor id (compute-0 <=> compute-1) """
         count = 1
         if host.find('0') > 0:
@@ -207,10 +209,14 @@ class TestDpdkScenarios(base_test.BaseTest):
         self.assertTrue(self._test_queue_functionality(queues="odd"), msg)
 
     def test_live_migration_block(self):
-        """Make sure CONF.compute_feature_enabled.live_migration is True"""
+        """Test live migration with block migration
+
+        Make sure CONF.compute_feature_enabled.live_migration is True
+        """
         msg = "Live migration Failed"
-        self.assertTrue(self._test_live_migration_block(
-            test_setup_migration="test_live_migration_basic"), msg)
+        self.assertTrue(self._test_live_migration(
+            test_setup_migration="test_live_migration_basic",
+            use_block_migration=True), msg)
 
     def test_rx_tx(self, test='rx_tx'):
         """Test RX/TX on the instance vs nova configuration
