@@ -98,6 +98,60 @@ def check_existing_interfaces():
     return ifaces
 
 
+def get_ifcfg_files():
+    """Get ifaces with configuration file"""
+    files = os.listdir('/etc/sysconfig/network-scripts/')
+    ifaces = [file.replace('ifcfg-', '') for file in files if 'ifcfg' in file]
+    ifaces.remove('lo')
+    return ifaces
+
+
+def verify_interfaces_config(ifaces, tag):
+    """Verify interfaces configuration
+
+       In older versions of OSP, the metadata could be provided partially.
+       As a result, just one single interface of multiple interfaces is
+       configured by the cloud-init within the ifcfg files.
+       In such, verification of the interfaces should be done.
+       In case a single interface configuration is detected in multiple
+       interface instance, only the external interface will be configured.
+       Using the mac address of the external interface, the proper ifcfg-eth
+       file will be configured.
+    """
+    files = get_ifcfg_files()
+    if set(files) == set([nic.keys()[0] for nic in ifaces]):
+        return ifaces
+    logger.info('Applying osp10 workaroud. Expected '
+                '{} network files, found {}'.format(len(ifaces),
+                                                    ' '.join(files)))
+    for nic in ifaces:
+        for nic_name, nic_mac in iter(nic.items()):
+            if tag and nic_mac == tag['mac'] and tag['tag'] == args.tag:
+                file_name_template = '/etc/sysconfig/network-scripts/ifcfg-{}'
+                source_file = file_name_template.format(files[0])
+                destination_file = file_name_template.format(nic_name)
+                os.rename(source_file, destination_file)
+                iface_dump = []
+                try:
+                    with open(destination_file, 'r') as iface_file:
+                        iface_dump = iface_file.readlines()
+                    with open(destination_file, 'w') as iface_file:
+                        for line in iface_dump:
+                            if line.strip().startswith('DEVICE='):
+                                line = 'DEVICE={}'.format(nic_name)
+                            elif line.strip().startswith('HWADDR'):
+                                line = 'HWADDR={}'.format(nic_mac)
+                            iface_file.write('{}\n'.format(line))
+                except IOError:
+                    logger.info('Unable to read/write '
+                                '{} file.'.format(destination_file))
+                logger.info('Applied osp10 workaround')
+                return [nic]
+    msg = 'Not able to apply osp10 workaround'
+    logger.info(msg)
+    raise ValueError(msg)
+
+
 def dump_interfaces_config(nics=None, tag=None):
     """Dumps ifcfg files data and route metric"""
     if not nics:
@@ -153,10 +207,12 @@ def recreate_interfaces_config(dump_config_file, nics=None):
 
     for nic in nics:
         for nic_name, nic_mac in iter(nic.items()):
+            ifcfg_path = '/etc/sysconfig/network-scripts/' \
+                         'ifcfg-{}'.format(nic_name)
+            if os.path.exists(ifcfg_path):
+                os.remove(ifcfg_path)
             for mac in dump_config:
                 if nic_mac == mac:
-                    ifcfg_path = '/etc/sysconfig/network-scripts/' \
-                                 'ifcfg-{}'.format(nic_name)
                     for num, item in enumerate(dump_config[mac]):
                         if 'DEVICE' in item:
                             dump_config[mac][num] = 'DEVICE={}' \
@@ -240,6 +296,8 @@ def main():
     if args.init or not os.path.exists(args.nics_data_path):
         logger.info('Check for port tag')
         tag = get_tag()
+        logger.info('Verify interfaces config')
+        ifaces = verify_interfaces_config(ifaces, tag)
         logger.info('Dump interfaces config')
         dump_interfaces_config(ifaces, tag)
         if tag:
