@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fe3c136_6a4e0ebf",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1943,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-02-12T09:15:21Z",
+      "side": 1,
+      "message": "I suggest to change the name of the method to \"perform_live_migration\".\nNo need to add \"_\" before the name of the method because you are calling it from other class.",
+      "range": {
+        "startLine": 1943,
+        "startChar": 8,
+        "endLine": 1943,
+        "endChar": 14
+      },
+      "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d57269a_d1783e5f",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1952,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-02-12T09:15:21Z",
+      "side": 1,
+      "message": "Why not to use the flavors provided by the test?",
+      "range": {
+        "startLine": 1950,
+        "startChar": 8,
+        "endLine": 1952,
+        "endChar": 60
+      },
+      "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd08ae7b_7d5a4a22",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1959,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-02-12T09:15:21Z",
+      "side": 1,
+      "message": "If the method is global and could be used by multiple tests, it should migrate the instance that the user pass to it and not to hardcode the first instance to be migrated.",
+      "range": {
+        "startLine": 1959,
+        "startChar": 12,
+        "endLine": 1959,
+        "endChar": 39
+      },
+      "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a66c0f1b_f0993291",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1965,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-02-12T09:15:21Z",
+      "side": 1,
+      "message": "Same as above",
+      "range": {
+        "startLine": 1965,
+        "startChar": 12,
+        "endLine": 1965,
+        "endChar": 38
+      },
+      "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9b0f157_2fa2a14d",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1983,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-02-12T09:15:21Z",
+      "side": 1,
+      "message": "Maybe worth to add a check for the expected state of the instance - ACTIVE.",
+      "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e3119dd_8ef9ffcf",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_hci_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-02-12T09:15:21Z",
+      "side": 1,
+      "message": "The test is identical to the regular live migration.\nWhy to create a separate test with the different name but identical content?",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 68
+      },
+      "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
