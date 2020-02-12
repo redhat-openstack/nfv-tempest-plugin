@@ -131,6 +131,30 @@
       "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31182050_6346cfae",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_hci_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-02-12T12:05:31Z",
+      "side": 1,
+      "message": "In my opinion, this should be a separate test:\n1) It is a migration of different scenario. You are not migrating blocks in this case, you are migrating on top of shared storage. This leverages a different value in method argument.\n2 While reporting our regression, we should report unique scenarios and this is a unique scenario.",
+      "parentUuid": "3e3119dd_8ef9ffcf",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 68
+      },
+      "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
