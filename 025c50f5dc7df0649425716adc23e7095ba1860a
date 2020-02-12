@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d70ffbe_89c54f19",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/custom_net_config.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-02-12T15:11:08Z",
+      "side": 1,
+      "message": "We could save dependency of fnmatch package by performing the following:\n\nfiles \u003d os.listdir(\u0027/etc/sysconfig/network-scripts/\u0027)\nifaces \u003d [file.replace(\u0027ifcfg-\u0027, \u0027\u0027) for file in files if \u0027ifcfg\u0027 in file]\nifaces.remove(\u0027lo\u0027)\nreturn ifaces\n\n\nWhat do you say?",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 59
+      },
+      "revId": "025c50f5dc7df0649425716adc23e7095ba1860a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd0134c5_a6ea9be5",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/custom_net_config.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-02-12T15:11:08Z",
+      "side": 1,
+      "message": "I don\u0027t think we should explicitly call a function \"workaround\".\nMaybe \"verify_interfaces_config\"\n\nAnd in description something like:\n\"In older versions of OSP, the metadata could be provided partially.\nAs a result, just one single interface of multiple interfaces is configured by the cloud-init within the ifcfg files.\nIn such, verification of the interfaces should be done.\nIn case a single interface configuration is detected in multiple interface instance, the following steps will be applied:\n\u003cThe steps you described\u003e...",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 20
+      },
+      "revId": "025c50f5dc7df0649425716adc23e7095ba1860a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5f85900_a1e494b5",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/custom_net_config.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-02-12T15:11:08Z",
+      "side": 1,
+      "message": "Could you wrap it with the try/except so in case of read/write error we will throw an error?\nExample: lines 171-176",
+      "range": {
+        "startLine": 139,
+        "startChar": 16,
+        "endLine": 147,
+        "endChar": 61
+      },
+      "revId": "025c50f5dc7df0649425716adc23e7095ba1860a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
