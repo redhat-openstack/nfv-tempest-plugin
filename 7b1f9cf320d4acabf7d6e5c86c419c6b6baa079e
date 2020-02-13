@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2ef97269_241111f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-02-13T13:44:14Z",
+      "side": 1,
+      "message": "The whole point of the test is to verify the behavior of the test like it present now.\n\nThe reason for it, is that the feature of the pinned instance is to reschedule the cores allocation for the instance.\n\nBy default, when I\u0027m booting the instance, it gets core allocation from the controller. When I migrate the instance to the second hypervisor and then migrate it back to the first hypervisor, the instance will take back the same cores that controller allocated to it during the spawning.\n\nWhen I\u0027m migrating the first instance to the second hypervisor, it releases the conres it used and they are taken by the second spawned instance.\n\nSo the whole point of the feature is to ensure that when the first instance migrated back to the first hypervisor, controller is able to re-schedule the cores allocation and provide free cores instead of the cores that were used while spawning.\n\nThat is something that was not supported in the previous versions.\n\nThe following BZ talk especially about that:\nhttps://bugzilla.redhat.com/show_bug.cgi?id\u003d1222414\n\nNote the comment number 68.",
+      "parentUuid": "35683244_d4103aec",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 71
+      },
+      "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "70ed2db7_af2717c2",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 1
