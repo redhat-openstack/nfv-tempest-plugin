@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "35683244_d4103aec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-02-13T13:35:46Z",
+      "side": 1,
+      "message": "Hi Max\nI would like to suggest a change in test steps to reduce time of execution:\n\n- Boot 2 cpu instances on the 1st hypervisor\n- Live migrate 1 VM to second hypervisor,\n  This way you could maintain steps 1 \u0026 2 in the comment, but you already have 2 guests installed\n- Live migrate back st instance and verify",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 71
+      },
+      "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "70ed2db7_af2717c2",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 1
