@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "f0af67d9_9052a032",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-02-13T14:49:17Z",
+      "side": 1,
+      "message": "+1 \nconsider using the following:\nsrv1[0][\u0027hypervisor_name\u0027]",
+      "parentUuid": "70ed2db7_af2717c2",
+      "range": {
+        "startLine": 180,
+        "startChar": 43,
+        "endLine": 180,
+        "endChar": 48
+      },
+      "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "442e9ea7_4d865d7d",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 1
@@ -107,6 +131,47 @@
       "writtenOn": "2020-02-11T05:33:05Z",
       "side": 1,
       "message": "How to ensure that the server is migrated to a different hypervisor?",
+      "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ada837a_e6fe68cd",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-02-13T14:49:17Z",
+      "side": 1,
+      "message": "+1 \nConsider checking the the srv1[0][\u0027hypervisor_ip\u0027] !\u003d provious hypervisor",
+      "parentUuid": "442e9ea7_4d865d7d",
+      "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06ec8394_9b9db761",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-02-13T14:49:17Z",
+      "side": 1,
+      "message": "Did you forget verifying connectivity?\nlike below?\nself.check_instance_connectivity(ip_addr\u003dsrv1[0][\u0027fip\u0027],\n                                         user\u003dself.instance_user,\n                                         key_pair\u003dkey_pair[\u0027private_key\u0027])",
+      "range": {
+        "startLine": 185,
+        "startChar": 8,
+        "endLine": 185,
+        "endChar": 66
+      },
       "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
