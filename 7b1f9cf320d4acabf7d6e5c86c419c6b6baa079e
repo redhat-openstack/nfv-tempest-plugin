@@ -175,6 +175,71 @@
       "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e0364f0_eb1cd53f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-02-14T12:30:17Z",
+      "side": 1,
+      "message": "What I understand is in the flavor it is specified to create vms in cores 0,1. Then:\n1. first vm will be created in one hypervisors, cores 0,1\n2. first vm will migrate to the other hypervisor, cores 0,1\n3. second vm will be created in the first hypervisor, cores 0,1\n\nI think that he check it with this condition:\nself.assertEqual(srv1_vcpus_before_migration, srv2_vcpus  --\u003esecond vm uses the same cores in first hypervisor that first vm, so it migrated the first time",
+      "parentUuid": "6ada837a_e6fe68cd",
+      "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cc3a3df_f5480d41",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-02-14T12:30:17Z",
+      "side": 1,
+      "message": "+1 I would check connectivity each time I spawn or migrate",
+      "parentUuid": "06ec8394_9b9db761",
+      "range": {
+        "startLine": 185,
+        "startChar": 8,
+        "endLine": 185,
+        "endChar": 66
+      },
+      "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3a2ad19_a77a2973",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-02-14T12:30:17Z",
+      "side": 1,
+      "message": "i think that srv2_vcpus should be calculated again as cores were rescheduled, this value is from the time it was created. It contains the values",
+      "range": {
+        "startLine": 218,
+        "startChar": 28,
+        "endLine": 218,
+        "endChar": 38
+      },
+      "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
