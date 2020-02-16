@@ -240,6 +240,76 @@
       "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf77b321_45eede30",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-02-16T11:04:28Z",
+      "side": 1,
+      "message": "@nieto, Test deploy srv2 on 1st hypervisor, once srv1 on the other one\nI think it is ok\nsrv1 cpus should be verified and srv2, since it was there after 1st migration",
+      "parentUuid": "f3a2ad19_a77a2973",
+      "range": {
+        "startLine": 218,
+        "startChar": 28,
+        "endLine": 218,
+        "endChar": 38
+      },
+      "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4de3cc60_f6cecc5d",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-02-16T11:04:28Z",
+      "side": 1,
+      "message": "typo: are",
+      "range": {
+        "startLine": 219,
+        "startChar": 39,
+        "endLine": 219,
+        "endChar": 42
+      },
+      "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b445c443_44dfd46d",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-02-16T11:04:28Z",
+      "side": 1,
+      "message": "not clear: consider changing it to:\nNo core reschedule detected!!\n once vm migrated back to hypervisor {srv1} its cores should be different from cores before migration {srv2}",
+      "range": {
+        "startLine": 220,
+        "startChar": 33,
+        "endLine": 220,
+        "endChar": 39
+      },
+      "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
