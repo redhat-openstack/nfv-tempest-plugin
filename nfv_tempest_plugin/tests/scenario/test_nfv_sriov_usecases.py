@@ -235,3 +235,28 @@ class TestSriovScenarios(base_test.BaseTest):
                                     == 'direct-physical' else vf_remove)
 
         self.assertEmpty(test_results, test_results)
+
+    def test_guests_with_min_bw(self, test='sriov_min_bw_qos'):
+        """Test SR-IOV minimum bandwith (Nova)
+
+        Spawn a guest with a minimum already applied to port
+        """
+        # Create servers
+        servers, key_pair = self.create_and_verify_resources(test=test,
+                                                             attach_qos=True)
+        # Iterate over servers
+        for server in servers:
+            self.check_qos_attached_to_guest(server,
+                                             min_bw=True)
+
+    def test_guests_set_min_qos(self, test='sriov_min_bw_qos'):
+        """Test SR-IOV minimum QoS
+
+        Spawn a guest and set (neutron) minimum QoS to port already up
+        """
+        # Create servers
+        servers, key_pair = self.create_and_verify_resources(test=test)
+        # Iterate over servers
+        for server in servers:
+            self.check_qos_attached_to_guest(server,
+                                             min_bw=True)
