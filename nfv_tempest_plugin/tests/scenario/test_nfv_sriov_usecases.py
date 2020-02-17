@@ -15,6 +15,7 @@
 
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
+import re
 from tempest import config
 
 CONF = config.CONF
@@ -49,13 +50,18 @@ class TestSriovScenarios(base_test.BaseTest):
         self.assertNotEmpty(trusted_vfs_mac_addresses,
                             "No trusted VFs are attached to server")
         LOG.info('Test the "trust on" interface on the hypervisor.')
-        cmd = 'sudo ip link'
-        result = self._run_command_over_ssh(servers[0]['hypervisor_ip'],
-                                            cmd).split('\n')
+        result = self. \
+            get_interfaces_from_overcloud_node(servers[0]['hypervisor_ip'])
         for mac_address in trusted_vfs_mac_addresses:
-            for line in result:
-                if mac_address in line:
-                    self.assertIn('trust on', line)
+            re_string = r'.*{}.*'.format(mac_address)
+            line = re.search(re_string, result)
+            # Failed to locate MAC address on hypervisor
+            if not line:
+                raise ValueError("Failed to locate interface with MAC "
+                                 "'{}' on hypervisor".format(mac_address))
+            line = line.group(0)
+            if mac_address in line:
+                self.assertIn('trust on', line)
         LOG.info('The {} test passed.'.format(test))
         return True
 
@@ -235,3 +241,48 @@ class TestSriovScenarios(base_test.BaseTest):
                                     == 'direct-physical' else vf_remove)
 
         self.assertEmpty(test_results, test_results)
+
+    def test_guests_with_min_bw(self, test='sriov_min_bw_qos'):
+        """Test SR-IOV minimum bandwith (Nova)
+
+        Spawn a guest with a minimum already applied to port
+        """
+        # Create servers
+        qos_rules = {}
+        for rule in self.test_setup_dict[test]['qos_rules']:
+            qos_rules.update(rule)
+        self.test_setup_dict[test]
+        self.create_qos_policy_with_rules(**qos_rules)
+        resource_args = {'set_qos': True}
+        servers, key_pair = self.create_and_verify_resources(test=test,
+                                                             **resource_args)
+        # Iterate over servers
+        for server in servers:
+            self.check_qos_attached_to_guest(server,
+                                             min_bw=True)
+
+    def test_guests_set_min_qos(self, test='sriov_min_bw_qos'):
+        """Test SR-IOV minimum QoS
+
+        Spawn a guest and set (neutron) minimum QoS to port already up
+        """
+        qos_rules = {}
+        for rule in self.test_setup_dict[test]['qos_rules']:
+            qos_rules.update(rule)
+        self.create_qos_policy_with_rules(**qos_rules)
+        # Create servers
+        resource_args = {'set_qos': False}
+        servers, key_pair = self.create_and_verify_resources(test=test,
+                                                             **resource_args)
+        # search for min_qos port
+        min_qos_port = ''
+        for port in self.os_admin.ports_client.list_ports(
+                device_id=self.servers[0]['id'])['ports']:
+            if 'min-qos' in port['name']:
+                min_qos_port = port['id']
+        # Update QoS of the port
+        self.update_port(min_qos_port,
+                         **{'qos_policy_id': self.qos_policy_groups['id']})
+        for server in servers:
+            self.check_qos_attached_to_guest(server,
+                                             min_bw=True)
