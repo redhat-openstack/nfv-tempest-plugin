@@ -72,6 +72,8 @@ test-networks:
     trusted_vf: true
     # set if using HW-Offload port when OVS in is in switchdev mode
     switchdev: true
+    # set on SRIOV nics support.
+    min_qos: true
 
 # Flavors used by the test.
 # Will be created by the tests during the execution
@@ -193,6 +195,10 @@ tests-setup:
         check_value: 'rx_queue_size,tx_queue_size'
 
   - name: trustedvfs
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+
+  - name: sriov_min_bw_qos 
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
 
