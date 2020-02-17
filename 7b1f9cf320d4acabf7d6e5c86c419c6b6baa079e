@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "9396cbf4_e83c67b3",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-02-17T07:48:54Z",
+      "side": 1,
+      "message": "Added proper logging all over the test.",
+      "parentUuid": "f0af67d9_9052a032",
+      "range": {
+        "startLine": 180,
+        "startChar": 43,
+        "endLine": 180,
+        "endChar": 48
+      },
+      "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "442e9ea7_4d865d7d",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 1
@@ -220,6 +244,48 @@
     },
     {
       "key": {
+        "uuid": "0c40ae91_5b0683b3",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-02-17T07:48:54Z",
+      "side": 1,
+      "message": "Added connectivity check.",
+      "parentUuid": "3cc3a3df_f5480d41",
+      "range": {
+        "startLine": 185,
+        "startChar": 8,
+        "endLine": 185,
+        "endChar": 66
+      },
+      "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eb3470e_55b95f28",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-02-17T07:48:54Z",
+      "side": 1,
+      "message": "Added verification of the migration.",
+      "parentUuid": "0e0364f0_eb1cd53f",
+      "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f3a2ad19_a77a2973",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 1
@@ -267,6 +333,30 @@
     },
     {
       "key": {
+        "uuid": "b3cc68f8_6c106bc8",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-02-17T07:48:54Z",
+      "side": 1,
+      "message": "Since the srv2 does not making any changes, the cpus are not re-scheduled.\nSo no need to recheck them.",
+      "parentUuid": "bf77b321_45eede30",
+      "range": {
+        "startLine": 218,
+        "startChar": 28,
+        "endLine": 218,
+        "endChar": 38
+      },
+      "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4de3cc60_f6cecc5d",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 1
@@ -290,6 +380,30 @@
     },
     {
       "key": {
+        "uuid": "21a381dd_85843769",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-02-17T07:48:54Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "4de3cc60_f6cecc5d",
+      "range": {
+        "startLine": 219,
+        "startChar": 39,
+        "endLine": 219,
+        "endChar": 42
+      },
+      "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b445c443_44dfd46d",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 1
@@ -301,6 +415,30 @@
       "writtenOn": "2020-02-16T11:04:28Z",
       "side": 1,
       "message": "not clear: consider changing it to:\nNo core reschedule detected!!\n once vm migrated back to hypervisor {srv1} its cores should be different from cores before migration {srv2}",
+      "range": {
+        "startLine": 220,
+        "startChar": 33,
+        "endLine": 220,
+        "endChar": 39
+      },
+      "revId": "7b1f9cf320d4acabf7d6e5c86c419c6b6baa079e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74eab5a1_7078b5ec",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-02-17T07:48:54Z",
+      "side": 1,
+      "message": "Updated.",
+      "parentUuid": "b445c443_44dfd46d",
       "range": {
         "startLine": 220,
         "startChar": 33,
