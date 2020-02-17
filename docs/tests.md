@@ -18,6 +18,8 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_rx_tx
 - nfv_tempest_plugin.tests.scenario.test_nfv_sriov_usecases.TestSriovScenarios.test_sriov_trusted_vfs
 - nfv_tempest_plugin.tests.scenario.test_nfv_sriov_usecases.TestSriovScenarios.test_sriov_double_tagging
+- nfv_tempest_plugin.tests.scenario.test_nfv_sriov_usecases.TestSriovScenarios.test_guests_set_min_qos
+- nfv_tempest_plugin.tests.scenario.test_nfv_sriov_usecases.TestSriovScenarios.test_guests_with_min_bw
 - nfv_tempest_plugin.tests.scenario.test_nfv_advanced_usecases.TestAdvancedScenarios.test_numa_aware_vswitch
 - nfv_tempest_plugin.tests.scenario.test_nfv_lacp_usecases.TestLacpScenarios.test_deployment_lacp
 - nfv_tempest_plugin.tests.scenario.test_nfv_lacp_usecases.TestLacpScenarios.test_balance_tcp
@@ -243,6 +245,34 @@ Otherwise the test will create a flavor based on the parameters defined at the t
   
   **Note** - The "iface_vlan" and "test_vlan" must be configured on the switch ports that compute node are connected to.
   **Note** - The test depends on the "resource creator" tool for the initial resources setup for the test, including the scripts.
+
+- test_guests_set_min_qos
+  Test explanation:
+  Test Neutron SRIOV min QoS capabilities
+  This test tells neutron to create min_qos on sriov ports, provider.
+  **NOTE** - Network cabable Min Qos must be marked in test_betwork as min_qos=true 
+  **NOTE** - Test config is shared with t_guests_with_min_bw
+
+  ```
+  Test config:
+  - name: sriov_min_bw_qos 
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+  ```
+
+- test_guests_with_min_bw
+  Test explanation:
+  Test Nova SRIOV min BW capabilities
+  This test create vm with port direct port set with min_qos.
+  **NOTE** - Network cabable Min Qos must be marked in test_betwork as min_qos=true
+  **NOTE** - Test config is shared with t_guests_set_min_qos
+
+  ```
+  Test config:
+  - name: sriov_min_bw_qos
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+  ```
 
 ----------
 #### TestAdvancedScenarios:
