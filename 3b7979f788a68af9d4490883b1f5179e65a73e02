@@ -22,6 +22,30 @@
       "revId": "3b7979f788a68af9d4490883b1f5179e65a73e02",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dbf1bbc_24eb63d1",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_scripts/custom_net_config.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-02-17T12:02:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff9278a6_d84a75c0",
+      "range": {
+        "startLine": 130,
+        "startChar": 31,
+        "endLine": 131,
+        "endChar": 39
+      },
+      "revId": "3b7979f788a68af9d4490883b1f5179e65a73e02",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
