@@ -1941,3 +1941,15 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         return {'cpu_total': cpu_total, 'cpu_used': cpu_used,
                 'cpu_free_per_numa': cpu_free_per_numa, 'cpu_free': cpu_free,
                 'ram_free': ram_free}
+
+    def _get_controllers_ip_from_undercloud(self, **kwargs):
+        """This method returns the list of controllers ip
+
+        :param kwargs['shell']
+        """
+        command = 'openstack server list -c \'Name\' -c ' \
+                  '\'Networks\' -f value | grep -i {0} | ' \
+                  'cut -d\"=\" -f2'.format('controller')
+        ip_address_list = self. _run_local_cmd_shell_with_venv(
+            command, kwargs['shell'])
+        return ip_address_list
