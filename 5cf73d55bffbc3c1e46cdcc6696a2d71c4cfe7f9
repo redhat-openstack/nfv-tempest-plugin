@@ -225,6 +225,24 @@
     },
     {
       "key": {
+        "uuid": "5d5d026a_79e9b0a8",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1983,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2020-02-19T03:34:04Z",
+      "side": 1,
+      "message": "@Maxim,\nplanning to use new file for live migration as Miguel mentioned, is this fine?",
+      "parentUuid": "71aec3f8_701649b1",
+      "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e3119dd_8ef9ffcf",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_hci_usecases.py",
         "patchSetId": 5
