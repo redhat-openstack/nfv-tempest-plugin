@@ -11,7 +11,6 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_cold_migration
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_emulatorpin
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_volume_in_hci_nfv_setup
-- nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_min_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_equal_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_max_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_odd_queues_functionality
@@ -30,6 +29,10 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_offload.TestNfvOffload.test_offload_ovs_config
 - nfv_tempest_plugin.tests.scenario.test_nfv_offload.TestNfvOffload.test_offload_nic_eswitch_mode
 - nfv_tempest_plugin.tests.scenario.test_nfv_offload.TestNfvOffload.test_offload_ovs_flows
+- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestHciScenarios.test_volume_in_hci_nfv_setup
+- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestHciScenarios.test_boot_instance_with_volume_in_hci_nfv_setup
+- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestHciScenarios.test_volume_using_img_in_hci_nfv_setup
+- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestHciScenarios.test_ceph_health_status_in_hci_nfv_setup
 
 
 
@@ -149,20 +152,6 @@ Tests included:
         check_section: 'compute'
         check_value: 'cpu_shared_set'
   ```
-
-- test_volume_in_hci_nfv_setup
-  Test explanation:
-  The HCI test boots an instance, attaches new volume with this instance, connects to the instance using ssh, and writes the full disk.
-
-  ```
-  Test config:
-  - name: nfv-hci-basic-volume
-    flavor: nfv-test-flavor
-    router: false
-  ```
-
-  flavor - specifies the flavor that the instance should boot with.
-  router - Sets if the booted instance will get floating ip or direct access config.  
 
 ----------
 #### TestDpdkScenarios:  
@@ -427,3 +416,49 @@ Tests included:
   Test config:
   - name: igmp_restart_ovs
 
+----------
+#### TestHciScenarios:  
+Tests included:
+
+- test_volume_in_hci_nfv_setup
+  Test explanation:
+  The HCI test boots an instance, attaches new volume with this instance, connects to the instance using ssh, and writes the full disk.
+
+  ```
+  Test config:
+  - name: nfv-hci-basic-volume
+    flavor: nfv-test-flavor
+    router: false
+  ```
+
+- test_boot_instance_with_volume_in_hci_nfv_setup
+  Test explanation:
+  The HCI test boots an instance with the volume, connects to the instance using ssh, and writes the full disk.
+
+  ```
+  Test config:
+  - name: nfv_hci_instance_volume
+    flavor: nfv-test-flavor
+    router: false
+  ```
+
+- test_volume_using_img_in_hci_nfv_setup
+  Test explanation:
+  The HCI test boots an instance, attaches new volume which is created using image with this instance, connects to the instance using ssh, and writes the full disk.
+
+  ```
+  Test config:
+  - name: nfv_hci_image_volume
+    flavor: nfv-test-flavor
+    router: false
+  ```
+
+- test_ceph_health_status_in_hci_nfv_setup
+  Test explanation:
+  The HCI test checks the ceph health status.
+
+  ```
+  Test config:
+  - name: nfv_hci_ceph_health
+
+----------
