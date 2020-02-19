@@ -242,24 +242,3 @@ class TestNfvBasic(base_test.BaseTest):
                                           'The values of the instance and '
                                           'nova does not match.')
         LOG.info('The {} test passed.'.format(test))
-
-    def test_volume_in_hci_nfv_setup(self, test='nfv_hci_basic_volume'):
-        """Test attaches the volume to the instance and writes it.
-
-        Also writing the content into the instance volume.
-
-        :param test: Test name from the config file
-        """
-        servers, key_pair = self.create_and_verify_resources(test=test)
-        volume_id = self.create_volume()
-        attachment = self.attach_volume(servers[0], volume_id)
-        self.assertTrue('device' in attachment)
-        ssh_source = self.get_remote_client(servers[0]['fip'],
-                                            username=self.instance_user,
-                                            private_key=key_pair[
-                                                'private_key'])
-        LOG.info('Execute write test command')
-        out = ssh_source.exec_command(
-            'sudo dd if=/dev/zero of=/dev/vdb bs=4096k count=256 oflag=direct')
-        self.assertEmpty(out)
-        LOG.info('The {} test passed.'.format(test))
