@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b4120da4_31b70400",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1943,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2020-02-19T03:22:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1fe3c136_6a4e0ebf",
+      "range": {
+        "startLine": 1943,
+        "startChar": 8,
+        "endLine": 1943,
+        "endChar": 14
+      },
+      "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d57269a_d1783e5f",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93efcff4_b1884ad3",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1952,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2020-02-19T03:22:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6d57269a_d1783e5f",
+      "range": {
+        "startLine": 1950,
+        "startChar": 8,
+        "endLine": 1952,
+        "endChar": 60
+      },
+      "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "e3dc6b72_832179fe",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1959,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2020-02-19T03:22:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fd08ae7b_7d5a4a22",
+      "range": {
+        "startLine": 1959,
+        "startChar": 12,
+        "endLine": 1959,
+        "endChar": 39
+      },
+      "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a66c0f1b_f0993291",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 5
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "e6affa31_4003d735",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1965,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2020-02-19T03:22:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a66c0f1b_f0993291",
+      "range": {
+        "startLine": 1965,
+        "startChar": 12,
+        "endLine": 1965,
+        "endChar": 38
+      },
+      "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9b0f157_2fa2a14d",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 5
@@ -108,6 +204,24 @@
       "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71aec3f8_701649b1",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1983,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2020-02-19T03:22:25Z",
+      "side": 1,
+      "message": "Ack\n\n@Maxim, Also planning to move this perform live migration method to base_test.py file instead of baremetal_manager.py",
+      "parentUuid": "e9b0f157_2fa2a14d",
+      "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -155,6 +269,30 @@
       "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c085b19_2630f6da",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_hci_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2020-02-19T03:22:25Z",
+      "side": 1,
+      "message": "@Maxim, Ack Vadim since having this test for only shared storage.",
+      "parentUuid": "31182050_6346cfae",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 68
+      },
+      "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
