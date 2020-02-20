@@ -295,6 +295,18 @@ Definition of the aggregate should be in the test config **and** the flavor, as 
 
 **Note** - The test suit only for OSP Rocky version and above, since the numa aware vswitch feature was implemented only in OSP Stein version and backported to OSP Rocky.
 
+- pinned_srv_live_migration
+  Test explanation:
+  The test will verify live migration of the pinned instance and proper
+  reschedule of the instance cores during the movement between the hypervisors.
+  Test steps:
+  - Boot the cpu pinned instance on the first hypervisor
+  - Live migrate the cpu pinned instance to the second hypervisor
+    Expect live migration to success
+  - Boot seconds pinned instance on the first hypervisor
+  - Live migrate the first instance back to the first hypervisor
+  - Verify by the virsh xml that the first vm was rescheduled on the cpu.
+
 ----------
 #### TestLacpScenarios
 Tests included:

@@ -165,10 +165,12 @@ class TestLacpScenarios(base_test.BaseTest):
             # 10 tries  to stabilize, usually is stabilized between try 1 and 2
             for i in range(1, 10):
                 stats_begin = self.get_ovs_interface_statistics(
-                    bonding_dict['ports'])
+                    bonding_dict['ports'],
+                    hypervisor=servers[0]['hypervisor_ip'])
                 time.sleep(10)  # measured time
                 stats_end = self.get_ovs_interface_statistics(
-                    bonding_dict['ports'], stats_begin)
+                    bonding_dict['ports'], stats_begin,
+                    servers[0]['hypervisor_ip'])
                 tx_pks_1 = stats_end[bonding_dict['ports'][0]]['tx_packets']
                 tx_pks_2 = stats_end[bonding_dict['ports'][1]]['tx_packets']
                 tx_pkts_max = max(tx_pks_1, tx_pks_2)

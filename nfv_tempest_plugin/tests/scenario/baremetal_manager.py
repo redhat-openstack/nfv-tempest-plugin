@@ -418,48 +418,50 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         return dumpxml_string
 
-    def _check_vcpu_from_dumpxml(self, server, hypervisor, cell_id='0'):
-        """Instance vcpu check
+    def get_instance_vcpu(self, instance, hypervisor):
+        """Get a list of vcpu cores used by the instance
 
-        This method checks vcpu value within the provided dumpxml data
-
-        :param server
+        :param instance
         :param hypervisor
-        :param cell_id
+        :return list of instance vcpu
         """
+        dumpxml_string = self._get_dumpxml_instance_data(instance, hypervisor)
+        vcpupin = dumpxml_string.findall('./cputune/vcpupin')
+        vcpu_list = [int(vcpu.get('cpuset'))
+                     for vcpu in vcpupin if vcpu is not None]
+        return vcpu_list
 
-        dumpxml_string = self._get_dumpxml_instance_data(server, hypervisor)
+    def match_vcpu_to_numa_node(self, instance, hypervisor, numa_node='0'):
+        """Verify that provided vcpu list resides within the specified numa
 
-        dumpxml = dumpxml_string.findall('cputune')[0]
-        pinned_cpu_list = []
-        for numofcpus in dumpxml.findall('vcpupin'):
-            self.assertFalse(self.cpuregex.match(
-                numofcpus.items()[1][1]) is None)
-            pinned_cpu_list.append(numofcpus.items()[1][1])
-        format_list = " ".join(['{}'.format(x) for x in pinned_cpu_list])
-
+        :param instance: The instance that should check the vcpu on
+        :param hypervisor: Check cores on specified hypervisor (ip address)
+        :param numa_node: Specify the numa node to check vcpu in
+                          String choices: 0, 1, mix
         """
-        In case of mix topology checking only node0 and verifying
-        pinned_cpu_list > res.split()
-        """
-        mix_mode = 'mix' if cell_id == 'mix' else cell_id
+        # In case of mix topology checking only node0 and verifying
+        # dumpxml_vcpu_list > hyper_vcpu_list
+        mix_mode = True if numa_node == 'mix' else False
 
-        command = '''
+        dumpxml_vcpu_list = self.get_instance_vcpu(instance, hypervisor)
+        bash_array = " ".join(['{}'.format(x) for x in dumpxml_vcpu_list])
+        cmd = '''
         array=( {cpu_list} ); for i in "${{array[@]}}";do
         if [ -d /sys/devices/system/cpu/cpu$i/node{cell} ];then
-        echo $i; fi; done'''.format(cell=cell_id, cpu_list=format_list)
-        res = self._run_command_over_ssh(hypervisor, command)
-        # !!! In case of Mix search for res smaller than pinned_cpu_list
-        if mix_mode != 'mix':
-            self.assertEqual(res.split(), pinned_cpu_list,
-                             'number of vCPUs on cell '
-                             '{cell} does not match to config {result}'.format(
-                                 cell=cell_id, result=res.split))
+        echo $i; fi; done'''.format(cell=numa_node, cpu_list=bash_array)
+        hyper_vcpu_list = self._run_command_over_ssh(hypervisor, cmd).split()
+        hyper_vcpu_list = [int(core) for core in hyper_vcpu_list]
+        # !!! In case of Mix search for hyper_vcpu_list smaller than vcpu_list
+        if mix_mode:
+            self.assertIsNot(len(hyper_vcpu_list), len(dumpxml_vcpu_list),
+                             'Number of mix vCPUs on numa node {numa} is equal'
+                             ' to config {result}'.format(
+                                 numa=numa_node, result=hyper_vcpu_list))
         else:
-            self.assertIsNot(len(res.split()), len(pinned_cpu_list),
-                             'number of mix vCPUs on cell '
-                             '{cell} is equal to config {result}'.format(
-                                 cell=cell_id, result=res.split))
+            self.assertEqual(hyper_vcpu_list, dumpxml_vcpu_list,
+                             'Number of vCPUs on numa node {numa} does not '
+                             'match to config {result}'.format(
+                                 numa=numa_node, result=hyper_vcpu_list))
 
     def _check_numa_from_dumpxml(self, server, hypervisor):
         """Instance number of cells check
@@ -725,6 +727,23 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     numa_aware_net = net['id']
         return numa_aware_net
 
+    def parse_int_ranges_from_number_string(self, input_string):
+        """Parses integers from number string
+
+        :param input_string
+        """
+        # Assign helper variable
+        parsed_input = []
+        # Construct a list of integers from given number string,range
+        for cell in input_string.split(','):
+            if '-' in cell:
+                start, end = cell.split('-')
+                parsed_range = list(range(int(start), int(end) + 1))
+                parsed_input.extend(parsed_range)
+            else:
+                parsed_input.append(int(cell))
+        return parsed_input
+
     def compare_emulatorpin_to_overcloud_config(self, server, overcloud_node,
                                                 config_path, check_section,
                                                 check_value):
@@ -743,11 +762,17 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                                            config_path,
                                                            check_section,
                                                            check_value)
-        instance_emulatorpin = sorted(instance_emulatorpin.replace('-', ',')
-                                      .split(','))
-        nova_emulatorpin = sorted(nova_emulatorpin.split(','))
+        # Construct a list of integers of instance emulatorpin threads
+        parsed_instance_emulatorpin = \
+            self.parse_int_ranges_from_number_string(instance_emulatorpin)
 
-        if instance_emulatorpin == nova_emulatorpin:
+        # Construct a list of integers of nova emulator pin threads
+        parsed_nova_emulatorpin = \
+            self.parse_int_ranges_from_number_string(nova_emulatorpin)
+
+        # Check if all parsed instance emulatorpin threads are part of
+        # configured nova emulator pin threads
+        if set(parsed_instance_emulatorpin).issubset(parsed_nova_emulatorpin):
             return True
         return False
 
@@ -1198,6 +1223,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                        net_param['port_type'] == 'direct':
                         create_port_body['binding:profile']['capabilities'] = \
                             ['switchdev']
+                    if len(create_port_body['binding:profile']) == 0:
+                        del create_port_body['binding:profile']
                     port = self._create_port(network_id=net_param['net-id'],
                                              **create_port_body)
                     net_var = {'uuid': net_param['net-id'], 'port': port['id']}
@@ -1657,7 +1684,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 os.path.exists(self.external_resources_data['key_pair']):
             raise Exception('The private key is missing from the yaml file.')
         for srv in self.external_resources_data['servers']:
-            if not srv.keys() >= {'name', 'id', 'fip', 'groups'}:
+            if not set(srv.keys()) >= {'name', 'id', 'fip', 'groups'}:
                 raise ValueError('The yaml file missing of the following keys:'
                                  ' name, id or fip.')
 
