@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a56d2088_fb72c99f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_live_migration_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-02-21T12:12:54Z",
+      "side": 1,
+      "message": "i think it would be more portable (it does not depend in our hypervisor names) if you just check that the new hypervisor is different that the previous one\nif host !\u003d self..os_admin.servers_client.show_server(server[\u0027id\u0027])[\u0027server\u0027][\u0027OS-EXT-SRV-ATTR:hypervisor_hostname\u0027]:\n\nI think that this should be enough to check that it migrated.",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 76
+      },
+      "revId": "ec849026ce544a42e3cd24d0b7480d0a467faeed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "751df3c5_939fcf79",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_live_migration_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-02-21T12:12:54Z",
+      "side": 1,
+      "message": "Should it be verified in the testcase?",
+      "range": {
+        "startLine": 81,
+        "startChar": 65,
+        "endLine": 81,
+        "endChar": 69
+      },
+      "revId": "ec849026ce544a42e3cd24d0b7480d0a467faeed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f97f7a48_f78cd288",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_live_migration_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-02-21T12:12:54Z",
+      "side": 1,
+      "message": "Should it be verified in the testcase?",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 50
+      },
+      "revId": "ec849026ce544a42e3cd24d0b7480d0a467faeed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
