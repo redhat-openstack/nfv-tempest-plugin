@@ -56,4 +56,11 @@ NfvPluginOptions = [
     cfg.BoolOpt('test_all_provider_networks',
                 default=False,
                 help="Verify provider networks attached to guests"),
+    cfg.StrOpt('overcloud_release',
+               default=False,
+               help="Overcloud release, for Red Hat OpenStack based clouds "
+                    "use release numbers (10,13,16), for RDO based clouds "
+                    "use release names ('Newton', 'Queens', 'Train').\n"
+                    "This will expose different functionality during "
+                    "invocation"),
 ]

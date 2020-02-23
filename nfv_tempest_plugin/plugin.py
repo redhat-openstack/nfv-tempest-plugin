@@ -21,6 +21,14 @@ from tempest.test_discover import plugins
 
 from nfv_tempest_plugin import config as project_config
 
+SUPPORTED_VERSIONS = {
+    'Newton': 10,
+    'Queens': 13,
+    'Rocky': 14,
+    'Stein': 15,
+    'Train': 16
+}
+
 _opts = [
     (project_config.nfv_plugin_options, project_config.NfvPluginOptions),
 ]
