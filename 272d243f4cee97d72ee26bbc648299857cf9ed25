@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c5b679a_88f26d3a",
+        "filename": "contribution.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2020-02-24T09:55:00Z",
+      "side": 1,
+      "message": "if there is a little more info on how to verify the patch, would be good. I would also like to have a description of minimum env setup for this to work",
+      "range": {
+        "startLine": 12,
+        "startChar": 13,
+        "endLine": 13,
+        "endChar": 95
+      },
+      "revId": "272d243f4cee97d72ee26bbc648299857cf9ed25",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10df7bc4_84a9bf12",
+        "filename": "contribution.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2020-02-24T09:55:00Z",
+      "side": 1,
+      "message": "pls. add the irc channel to request for help and mailing address. We also need to have this into a self service model in the long run.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 48
+      },
+      "revId": "272d243f4cee97d72ee26bbc648299857cf9ed25",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
