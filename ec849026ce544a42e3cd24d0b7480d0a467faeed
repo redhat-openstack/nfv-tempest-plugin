@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "125893a6_fb0f8c38",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_live_migration_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2020-02-25T11:40:11Z",
+      "side": 1,
+      "message": "@Miguel,\n[Not Worked] self.os_admin.servers_client.show_server(server[\u0027id\u0027])[\u0027server\u0027][\u0027OS-EXT-SRV-ATTR:hypervisor_hostname\u0027] value looks same even after live migration. Only existing code works to check whether different compute or not.",
+      "parentUuid": "89e0609e_063ed823",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 76
+      },
+      "revId": "ec849026ce544a42e3cd24d0b7480d0a467faeed",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "751df3c5_939fcf79",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_live_migration_usecases.py",
         "patchSetId": 7
