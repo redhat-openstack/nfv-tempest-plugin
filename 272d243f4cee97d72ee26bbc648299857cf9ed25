@@ -93,6 +93,30 @@
       "revId": "272d243f4cee97d72ee26bbc648299857cf9ed25",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "986b1696_828908aa",
+        "filename": "contribution.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-02-26T12:03:49Z",
+      "side": 1,
+      "message": "Since our nfv mailing list is not available outside of redhat, added a note to open an issue in the repository in case of problem or question.",
+      "parentUuid": "e7815d40_ead57615",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 48
+      },
+      "revId": "272d243f4cee97d72ee26bbc648299857cf9ed25",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
