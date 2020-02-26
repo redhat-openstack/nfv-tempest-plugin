@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6232199_017409d7",
+        "filename": "docs/tests.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-02-26T08:38:53Z",
+      "side": 1,
+      "message": "This test should be fixed also, i think since it is moved to new hierarchy\nTestLiveMigrationScenarios.test_nfv_live_migration_usecases",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 18,
+        "endChar": 102
+      },
+      "revId": "8bcdd411d395e97415a1bf396e87a1e6ff0ec5a6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}

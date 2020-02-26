@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "28fc11c3_f40fe446",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1943,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-02-26T08:38:53Z",
+      "side": 1,
+      "message": "+2\nI would prefer, moving this test to basic tests, since even SRIOV live migration will be supported soon\nYou can control the running tests with parameters in ci_network_config",
+      "parentUuid": "1fe3c136_6a4e0ebf",
+      "range": {
+        "startLine": 1943,
+        "startChar": 8,
+        "endLine": 1943,
+        "endChar": 14
+      },
+      "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6d57269a_d1783e5f",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 5
@@ -93,6 +117,53 @@
       "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed190c4a_5c6fe4fc",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1952,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-02-26T08:38:53Z",
+      "side": 1,
+      "message": "+2\nConsider calling method with minimum must variables set to the method like \ntest_setup_migration\u003d, use_block_migration, migration_flavor\u003d, host\u003d, **kwargs\nfor future use, and not breaking old api calls",
+      "parentUuid": "6d57269a_d1783e5f",
+      "range": {
+        "startLine": 1950,
+        "startChar": 8,
+        "endLine": 1952,
+        "endChar": 60
+      },
+      "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e330d7d5_1fea08e4",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1957,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-02-26T08:38:53Z",
+      "side": 1,
+      "message": "This and flavor should be created in the test,\nThe following method should live migrate and check it is passed w/ success",
+      "range": {
+        "startLine": 1953,
+        "startChar": 5,
+        "endLine": 1957,
+        "endChar": 0
+      },
+      "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     },
     {
       "key": {
@@ -240,6 +311,24 @@
       "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5575fd5d_15cbe761",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1983,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-02-26T08:38:53Z",
+      "side": 1,
+      "message": "Consider improving old behavior,\nPut waiter for live migration to end with compute check !\u003d host, you already have from code initialization.",
+      "parentUuid": "e9b0f157_2fa2a14d",
+      "revId": "5cf73d55bffbc3c1e46cdcc6696a2d71c4cfe7f9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     },
     {
       "key": {
