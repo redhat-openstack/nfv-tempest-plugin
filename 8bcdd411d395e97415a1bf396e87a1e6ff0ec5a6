@@ -22,6 +22,53 @@
       "revId": "8bcdd411d395e97415a1bf396e87a1e6ff0ec5a6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c8d4803_6f3d809c",
+        "filename": "docs/tests.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-02-26T08:53:09Z",
+      "side": 1,
+      "message": "Still Valid from previous patch, sorry",
+      "parentUuid": "a6232199_017409d7",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 18,
+        "endChar": 102
+      },
+      "revId": "8bcdd411d395e97415a1bf396e87a1e6ff0ec5a6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "269a3787_0d2233a8",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_live_migration_usecases.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-02-26T08:53:09Z",
+      "side": 1,
+      "message": "Consider improving old behavior,\nPut waiter for live migration to end with compute check !\u003d host, you already have from code initialization.",
+      "range": {
+        "startLine": 55,
+        "startChar": 1,
+        "endLine": 55,
+        "endChar": 17
+      },
+      "revId": "8bcdd411d395e97415a1bf396e87a1e6ff0ec5a6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
