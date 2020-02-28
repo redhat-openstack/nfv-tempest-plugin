@@ -15,7 +15,6 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_equal_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_max_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_odd_queues_functionality
-- nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_live_migration_block
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_multicast
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_rx_tx
 - nfv_tempest_plugin.tests.scenario.test_nfv_sriov_usecases.TestSriovScenarios.test_sriov_trusted_vfs
@@ -30,8 +29,8 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_offload.TestNfvOffload.test_offload_ovs_config
 - nfv_tempest_plugin.tests.scenario.test_nfv_offload.TestNfvOffload.test_offload_nic_eswitch_mode
 - nfv_tempest_plugin.tests.scenario.test_nfv_offload.TestNfvOffload.test_offload_ovs_flows
-
-
+- nfv_tempest_plugin.tests.scenario.test_nfv_hci_usecases.TestLiveMigrationScenarios.test_live_migration_block
+- nfv_tempest_plugin.tests.scenario.test_nfv_hci_usecases.TestLiveMigrationScenarios.test_live_migration_shared
 
 ### Tests configuration
 The nfv-tempest-plugin uses external configuration file in order to provide the proper configuration of the test execution to the tempest.  
@@ -179,17 +178,6 @@ Tests included:
   ```
   Test config:  
   - name: check-multiqueue-func
-    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-    router: true
-  ```
-
-- test_live_migration_basic  
-  Test explanation:  
-  The test boot an instance, checks availability and migrates the instance to the next available hypervisor.  
-
-  ```
-  Test config:  
-  - name: test_live_migration_basic
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
   ```
@@ -427,3 +415,27 @@ Tests included:
   Test config:
   - name: igmp_restart_ovs
 
+#### TestLiveMigrationScenarios:
+Tests included:
+- test_live_migration_block
+
+  Test explanation:
+  The test boot an instance, checks availability and migrates the instance and block storage to the next available hypervisor.
+
+  ```
+  Test config:
+  - name: test_live_migration_block
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+  ```
+
+- test_live_migration_shared
+
+  Test explanation:
+  The test boot an instance, checks availability and migrates the instance using shared storage to the next available hypervisor.  
+
+  ```
+  Test config:
+  - name: test_live_migration_shared
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
