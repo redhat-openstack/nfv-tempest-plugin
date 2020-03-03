@@ -93,6 +93,30 @@
       "revId": "36ef0a7c67616ca37ca8e2708b141b0bca5a49a5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f5127c2_62feada8",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_hci_usecases.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-03T09:13:50Z",
+      "side": 1,
+      "message": "ok.",
+      "parentUuid": "5846d4fa_e1c3ba45",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 56,
+        "endChar": 29
+      },
+      "revId": "36ef0a7c67616ca37ca8e2708b141b0bca5a49a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
