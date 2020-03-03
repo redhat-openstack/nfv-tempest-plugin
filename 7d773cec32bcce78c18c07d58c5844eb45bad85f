@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77f4378b_977945d4",
+        "filename": "contribution.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-03T09:37:58Z",
+      "side": 1,
+      "message": "Consider the following:\n.... as well, indicates patch owner in case of linting errors/warnings.",
+      "range": {
+        "startLine": 20,
+        "startChar": 59,
+        "endLine": 20,
+        "endChar": 132
+      },
+      "revId": "7d773cec32bcce78c18c07d58c5844eb45bad85f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b95ac794_04b87e10",
+        "filename": "contribution.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-03T09:37:58Z",
+      "side": 1,
+      "message": "Consider this,\nPatch owner, ...should set Verified \"+1\" to indicate patch is verified/tested by him",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 24
+      },
+      "revId": "7d773cec32bcce78c18c07d58c5844eb45bad85f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c38d191a_1fa42a66",
+        "filename": "contribution.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-03T09:37:58Z",
+      "side": 1,
+      "message": "Consider this,\n\nThe reviewer,could choose verifying the patch.\nPatch owner should not rely on the above, and test/verify the changes.\n  Reviewer responsibility concerns code structure, logic and not testing it.",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 106
+      },
+      "revId": "7d773cec32bcce78c18c07d58c5844eb45bad85f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aaa8bd82_e45c700e",
+        "filename": "contribution.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-03T09:37:58Z",
+      "side": 1,
+      "message": "Consider this,\n\nit will be merged by core maintainers.",
+      "range": {
+        "startLine": 25,
+        "startChar": 63,
+        "endLine": 25,
+        "endChar": 120
+      },
+      "revId": "7d773cec32bcce78c18c07d58c5844eb45bad85f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9aa78382_a413866f",
+        "filename": "contribution.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-03T09:37:58Z",
+      "side": 1,
+      "message": "Consider this,\n\n- **Note** - In cases, patch owner could not test/verify its changes, due to the specific environment requirements, his responsibility to reach our core reviewers and explain the needs  ...., Core reviewers will find the the resource and time to verify the patch....",
+      "range": {
+        "startLine": 26,
+        "startChar": 12,
+        "endLine": 26,
+        "endChar": 133
+      },
+      "revId": "7d773cec32bcce78c18c07d58c5844eb45bad85f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
