@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "24e531ce_6a4870ca",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1953,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2020-03-03T08:43:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "945eef18_26e8f3e8",
+      "range": {
+        "startLine": 1953,
+        "startChar": 31,
+        "endLine": 1953,
+        "endChar": 32
+      },
+      "revId": "36ef0a7c67616ca37ca8e2708b141b0bca5a49a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "410a26c1_485baae8",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_hci_usecases.py",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2020-03-03T08:27:32Z",
       "side": 1,
       "message": "Do you think validation of empty output should be enough to validate the working test?\nI mean maybe we need to read some specific data to ensure that the output match our expectations?",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 56,
+        "endChar": 29
+      },
+      "revId": "36ef0a7c67616ca37ca8e2708b141b0bca5a49a5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5846d4fa_e1c3ba45",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_hci_usecases.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2020-03-03T08:43:12Z",
+      "side": 1,
+      "message": "As discussed with karthik, checking write operation (write all zero\u0027s to entire volume) is enough and read operation is not required to test the volume.\nWrite operation is successful and no errors if out variable is empty. so i think, above condition is enough.",
+      "parentUuid": "410a26c1_485baae8",
       "range": {
         "startLine": 56,
         "startChar": 8,
