@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "88ec5c63_be123296",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1950,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2020-03-05T11:28:05Z",
+      "side": 1,
+      "message": "@Miguel, Ack, will analyse and do it this change as separate patch.",
+      "parentUuid": "31516267_fcd45885",
+      "range": {
+        "startLine": 1950,
+        "startChar": 8,
+        "endLine": 1950,
+        "endChar": 15
+      },
+      "revId": "ec13c1b22c0eeef383a3dcc1fbf33f48c88448fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe92c0f3_3f7351cb",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_hci_usecases.py",
         "patchSetId": 5
@@ -60,6 +84,30 @@
       "writtenOn": "2020-03-05T10:35:14Z",
       "side": 1,
       "message": "I would put in comments what it is the output of this command in order to understand how it is filtered with sed,grep, ... and for debuging purposses",
+      "range": {
+        "startLine": 115,
+        "startChar": 15,
+        "endLine": 115,
+        "endChar": 19
+      },
+      "revId": "ec13c1b22c0eeef383a3dcc1fbf33f48c88448fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c05a84d5_3202cc7f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_hci_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2020-03-05T11:28:05Z",
+      "side": 1,
+      "message": "@Miguel,\ncommand output is just health status either HEALTH_OK or HEALTH_WARN etc, test fails if health status is not ok.\nSure, will add comments in separate patch along with api code change comments.",
+      "parentUuid": "fe92c0f3_3f7351cb",
       "range": {
         "startLine": 115,
         "startChar": 15,
