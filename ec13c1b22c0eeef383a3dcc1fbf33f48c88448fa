@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31516267_fcd45885",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1950,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-03-05T10:35:14Z",
+      "side": 1,
+      "message": "Though we have used many times commands, i was wondering if we should use tempest api instead ... I think It would be something like this\nparams \u003d {\u0027flavor\u0027: \u0027controller\u0027}\nservers \u003d self.os_admin.servers_client.list_servers(**params)[\u0027servers\u0027]",
+      "range": {
+        "startLine": 1950,
+        "startChar": 8,
+        "endLine": 1950,
+        "endChar": 15
+      },
+      "revId": "ec13c1b22c0eeef383a3dcc1fbf33f48c88448fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe92c0f3_3f7351cb",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_hci_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-03-05T10:35:14Z",
+      "side": 1,
+      "message": "I would put in comments what it is the output of this command in order to understand how it is filtered with sed,grep, ... and for debuging purposses",
+      "range": {
+        "startLine": 115,
+        "startChar": 15,
+        "endLine": 115,
+        "endChar": 19
+      },
+      "revId": "ec13c1b22c0eeef383a3dcc1fbf33f48c88448fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
