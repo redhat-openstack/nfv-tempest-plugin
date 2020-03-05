@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f6c68a2a_d0c4f5a4",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1950,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-05T11:15:10Z",
+      "side": 1,
+      "message": "@nieto, Do you have an idea, how to set stackrc vs overcloudrc variables?\nThis is the reason for that ssh vs no TempestAPIs",
+      "parentUuid": "31516267_fcd45885",
+      "range": {
+        "startLine": 1950,
+        "startChar": 8,
+        "endLine": 1950,
+        "endChar": 15
+      },
+      "revId": "ec13c1b22c0eeef383a3dcc1fbf33f48c88448fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fe92c0f3_3f7351cb",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_hci_usecases.py",
         "patchSetId": 5
