@@ -1311,6 +1311,18 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         :param srv_state: The state of the server to expect.
         :param raise_on_error: Raise as error on failed build of the server.
         :param kwargs:
+                fip: Creation of the floating ip for the server.
+                use_mgmt_only: Boot instances with mgmt net only.
+                srv_state: The status of the booted instance.
+                srv_details: Provide per server override options.
+                             Supported options:
+                                - flavor (flavor id)
+                                - image (image id)
+                             For example:
+                             srv_details = {0: {'flavor': <flavor_id>},
+                                            1: {'flavor': <flavor_id>,
+                                                'image': <image_id>}}
+
         :return: List of created servers
         """
         servers = []
@@ -1319,8 +1331,16 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if not any(isinstance(el, list) for el in networks):
             raise ValueError('Network expect to be as a list of lists')
 
+        if kwargs.get('srv_details'):
+            override_details = kwargs.pop('srv_details')
+
         for num in range(num_servers):
             kwargs['networks'] = networks[num]
+
+            if 'flavor' in override_details[num]:
+                kwargs['flavor'] = override_details[num]['flavor']
+            if 'image' in override_details[num]:
+                kwargs['image_id'] = override_details[num]['image']
 
             """ If this parameters exist, parse only mgmt network.
             Example live migration can't run with SRIOV ports attached"""
@@ -1373,6 +1393,15 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 fip: Creation of the floating ip for the server.
                 use_mgmt_only: Boot instances with mgmt net only.
                 srv_state: The status of the booted instance.
+                srv_details: Provide per server override options.
+                             Supported options:
+                                - flavor (flavor id)
+                                - image (image id)
+                             For example:
+                             srv_details = {0: {'flavor': <flavor_id>},
+                                            1: {'flavor': <flavor_id>,
+                                                'image': <image_id>}}
+
         :return servers, key_pair
         """
         LOG.info('Creating resources...')
