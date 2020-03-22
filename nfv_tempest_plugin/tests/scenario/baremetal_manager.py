@@ -1301,7 +1301,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
     def create_server_with_fip(self, num_servers=1, use_mgmt_only=False,
                                fip=True, networks=None, srv_state='ACTIVE',
-                               raise_on_error=True, **kwargs):
+                               raise_on_error=True, srv_details=None,
+                               **kwargs):
         """Create defined number of the instances with floating ip.
 
         :param num_servers: The number of servers to boot up.
@@ -1310,6 +1311,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         :param networks: List of networks/ports for the servers.
         :param srv_state: The state of the server to expect.
         :param raise_on_error: Raise as error on failed build of the server.
+        :param: srv_details: Provide per server extra details.
+                             For example: flavor_id
+                             srv_details = {0: {'flavor_id': <flavors_id>},
+                                            1: {'flavor_id': <flavors_id>}}
         :param kwargs:
         :return: List of created servers
         """
@@ -1321,6 +1326,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         for num in range(num_servers):
             kwargs['networks'] = networks[num]
+
+            if srv_details and srv_details[num].get('flavor_id'):
+                kwargs['flavor'] = srv_details[num]['flavor_id']
 
             """ If this parameters exist, parse only mgmt network.
             Example live migration can't run with SRIOV ports attached"""
@@ -1351,7 +1359,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         return servers
 
     def create_server_with_resources(self, num_servers=1, num_ports=None,
-                                     test=None, **kwargs):
+                                     test=None, srv_details=None, **kwargs):
         """The method creates resources and call for the servers method
 
         The following resources are created:
@@ -1369,6 +1377,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         :param num_ports: The number of ports to the created.
                           Default to (num_servers)
         :param test: Currently executed test. Provide test specific parameters.
+        :param: srv_details: Provide per server extra details.
+                             For example: flavor_id
+                             srv_details = {0: {'flavor_id': <flavors_id>},
+                                            1: {'flavor_id': <flavors_id>}}
         :param kwargs:
                 fip: Creation of the floating ip for the server.
                 use_mgmt_only: Boot instances with mgmt net only.
@@ -1440,6 +1452,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if num_servers:
             servers = self.create_server_with_fip(num_servers=num_servers,
                                                   networks=ports_list,
+                                                  srv_details=srv_details,
                                                   **kwargs)
         return servers, key_pair
 
