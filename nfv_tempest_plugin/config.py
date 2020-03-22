@@ -56,4 +56,17 @@ NfvPluginOptions = [
     cfg.BoolOpt('test_all_provider_networks',
                 default=False,
                 help="Verify provider networks attached to guests"),
+    cfg.StrOpt('login_security_group_rules',
+               default='[{"protocol": "tcp", "direction": "ingress"'
+                       ','
+                       '"port_range_max": "22", "port_range_min": "22"}'
+                       ','
+                       '{"protocol": "icmp", "direction": "ingress"}]',
+               help='Configuration for test security groups.'
+                    'The format is JSON. '
+                    '"protocol:<icmp/udp/tcp> - string '
+                    '"direction:":<ingress/egress> - string '
+                    '"port_range_max"<max_port_range> - string '
+                    '"port_range_min"<min_port_range> - string '),
+
 ]
