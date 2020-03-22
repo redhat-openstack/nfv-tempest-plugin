@@ -77,6 +77,17 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         cls.hypervisor_client = cls.manager.hypervisor_client
         cls.aggregates_client = cls.manager.aggregates_client
         cls.volumes_client = cls.os_primary.volumes_client_latest
+        """
+        security groups client
+        floating ip client to support
+        nova microversion>=2.36 changes
+        """
+        cls.security_groups_client = (
+            cls.os_primary.security_groups_client)
+        cls.security_group_rules_client = (
+            cls.os_primary.security_group_rules_client)
+        cls.floating_ips_client = (
+            cls.os_primary.floating_ips_client)
 
     def setUp(self):
         """Check hypervisor configuration:
@@ -1039,7 +1050,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 self.test_network_dict[net['name']]['dns_nameservers'] = \
                     net['dns_nameservers']
             if ('tag' in net and (2.32 <= float(self.request_microversion)
-                                  <= 2.36 or self.request_microversion
+                                  <= 2.36 or float(self.request_microversion)
                                   >= 2.42)):
                 self.test_network_dict[net['name']]['tag'] = net['tag']
             if 'trusted_vf' in net and net['trusted_vf']:
@@ -1340,7 +1351,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     'id'], network_id=networks[num][0]['uuid'])['ports'][0]
             if fip and srv_state == 'ACTIVE':
                 server['fip'] = \
-                    self.create_floating_ip(server, self.public_network)['ip']
+                    self.create_floating_ip(server,
+                                            port['id'],
+                                            self.public_network)[
+                        'floating_ip_address']
                 LOG.info('The {} fip is allocated to the instance'.format(
                     server['fip']))
             elif srv_state == 'ACTIVE':
@@ -1584,6 +1598,77 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 [{'name': security_group['name']}]
             self.remote_ssh_sec_groups = [{'name': security_group['name'],
                                            'id': security_group['id']}]
+
+    def _create_security_group(self):
+        """Security group creation
+
+        to conform changes in nova clients on microversions>=2.36
+        Create security groups and call method create rules
+        [icmp,ssh]
+        """
+
+        sg_name = data_utils.rand_name(self.__class__.__name__)
+        sg_desc = sg_name + " description"
+        client = self.security_groups_client
+        secgroup = client.create_security_group(
+            name=sg_name, description=sg_desc)['security_group']
+        self.assertEqual(secgroup['name'], sg_name)
+        self.assertEqual(secgroup['description'], sg_desc)
+        self.addCleanup(
+            test_utils.call_and_ignore_notfound_exc,
+            self.security_groups_client.delete_security_group,
+            secgroup['id'])
+
+        # Add rules to the security group
+        self._create_loginable_secgroup_rule(secgroup['id'])
+
+        return secgroup
+
+    def _create_loginable_secgroup_rule(self, secgroup_id=None):
+        """Add secgroups rules
+
+        To conform changes in nova clients on microversions>=2.36
+        This method add sg rules with neutron client
+        This method find default security group or specific one
+        and add icmp and ssh rules
+        """
+        rule_list = [{'protocol': 'tcp', 'direction': 'ingress',
+                     'port_range_max': '22', 'port_range_min': '22'},
+                     {'protocol': 'icmp', 'direction': 'ingress'}]
+        client = self.security_groups_client
+        client_rules = self.security_group_rules_client
+        if not secgroup_id:
+            sgs = client.list_security_group['security_groups']
+            for sg in sgs:
+                if sg['name'] == 'default':
+                    secgroup_id = sg['id']
+                    break
+
+        for rule in rule_list:
+            direction = rule.pop('direction')
+            client_rules.create_security_group_rule(
+                direction=direction,
+                security_group_id=secgroup_id,
+                **rule)
+
+    def create_floating_ip(self, server, mgmt_port_id, public_network_id):
+        """Create floating ip to server
+
+        To conform changes in nova clients on microversions>=2.36
+        This method create fip with neutron client
+        """
+        fip_client = self.floating_ips_client
+        floating_ip_args = {
+            'floating_network_id': public_network_id,
+            'port_id': mgmt_port_id,
+            'tenant_id': server['tenant_id']
+        }
+        floating_ip = \
+            fip_client.create_floatingip(**floating_ip_args)['floatingip']
+        self.addCleanup(test_utils.call_and_ignore_notfound_exc,
+                        fip_client.delete_floatingip,
+                        floating_ip['id'])
+        return floating_ip
 
     def copy_file_to_remote_host(self, host, ssh_key, username=None,
                                  files=None, src_path=None, dst_path=None,
