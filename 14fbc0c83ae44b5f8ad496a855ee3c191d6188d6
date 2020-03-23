@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "098a7fa8_b5c66566",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1362,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-23T11:58:10Z",
+      "side": 1,
+      "message": "I remember we spoke about it, but at the end it is not so easy to do it.\nI gave a brief explanation at the patch body and will give one more in details below.\n\nLet\u0027s say, I\u0027m providing the following dict as part of the kwargs:\n\nsrv_details \u003d {0: {\u0027flavor_id\u0027: \u003cflavors_id\u003e},\n               1: {\u0027flavor_id\u0027: \u003cflavors_id\u003e}}\n\nIt passed from the test to the \"create_server_with_resources\" method and from there to the \"create_server_with_fip\" method.\nWithin the \"create_server_with_fip\" method in line 1327 (look above), the servers created using the for loop as by the number of servers that has been provided to be created.\nIn line 1330 and 1331, if the \"srv_details\" exists, I\u0027m taking the details of the flavor for each server I\u0027m going to create.\n\nThe actual problem starts when I\u0027m passing the kwargs to the \"create_server\" method.\nBecause the kwargs holds the \"srv_details\" for this server and for the next servers, it will fail as the \"create_server\" method don\u0027t know what to do with the extra data and as a result, pops an error on the server creation.\nI can\u0027t pop out the \"srv_details\" as it holds the details for the next servers so it leaves me with providing the details as by a specific param.",
+      "parentUuid": "7de375e2_4072d3da",
+      "range": {
+        "startLine": 1362,
+        "startChar": 48,
+        "endLine": 1362,
+        "endChar": 74
+      },
+      "revId": "14fbc0c83ae44b5f8ad496a855ee3c191d6188d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f96e0677_8341e210",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "+2 using  kwargs will eliminate so many issues",
       "parentUuid": "f96e0677_8341e210",
+      "range": {
+        "startLine": 1414,
+        "startChar": 34,
+        "endLine": 1414,
+        "endChar": 35
+      },
+      "revId": "14fbc0c83ae44b5f8ad496a855ee3c191d6188d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f1548e0_c6fe1003",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1414,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-23T11:58:10Z",
+      "side": 1,
+      "message": "Yariv, answered above.\n\nMiguel,\nI thought that the user will provide the flavors id that has been created earlier in the test, because it is not a common flavor to be used.\nMaybe we should give the option to provide a name of the flavor that should be created.\nThe user may be able to provide \"flavor_id\" or \"flavor_name\".\nIn case of \"flavor_name\" it will be checked.\nWhat do you think?",
+      "parentUuid": "587cc13e_52cea618",
       "range": {
         "startLine": 1414,
         "startChar": 34,
