@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b11e5641_ce1b5888",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1362,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-23T14:27:55Z",
+      "side": 1,
+      "message": "As per my opinion, it is not wise to solve some thing if the initial code is not designed well\n\nhold a list of kwargs [{id:, flavor:,fip:, image:},{id:, flavor:,fip:, image:},{id:, flavor:,fip:, image:}] \n\nWhen you parse it to create_server_with_fip or other name\njust iterate the kwargs, init and parse like \n\nLets go to create_server_with_fip \n\n    for num, server in enumerate(servers):\n             fip \u003d kwargs[num].pop(\u0027fip\u0027)\n             waiters.wait_for_server_status(self.os_admin.servers_client,\n                                           server[\u0027id\u0027], kwargs,\n                                           raise_on_error\u003draise_on_error)",
+      "parentUuid": "098a7fa8_b5c66566",
+      "range": {
+        "startLine": 1362,
+        "startChar": 48,
+        "endLine": 1362,
+        "endChar": 74
+      },
+      "revId": "14fbc0c83ae44b5f8ad496a855ee3c191d6188d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f96e0677_8341e210",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 1
