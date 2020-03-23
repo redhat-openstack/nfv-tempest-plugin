@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "a3fd9dd2_92be20f5",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1362,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-23T15:47:57Z",
+      "side": 1,
+      "message": "You missed my point 😊\nAs i said earlier use list of kwargs per each compute, it requires small change\neach compute will hold its specific kwrags, when your srv_kwargs will override the flavor for the compute\nIt will enable to you to deploy 3 vm with different parameters without additional methods.\nI hope i explained myself.\n [{id:, flavor:,fip:, image:},{id:, flavor:,fip:, image:},{id:, flavor:,fip:, image:}] \nthis will be initiaed by test at the beginning if there are num_srv \u003e1",
+      "parentUuid": "86a33839_b996098f",
+      "range": {
+        "startLine": 1362,
+        "startChar": 48,
+        "endLine": 1362,
+        "endChar": 74
+      },
+      "revId": "14fbc0c83ae44b5f8ad496a855ee3c191d6188d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f96e0677_8341e210",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 1
