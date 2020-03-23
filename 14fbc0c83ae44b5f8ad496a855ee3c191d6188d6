@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f96e0677_8341e210",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1414,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-03-23T09:40:06Z",
+      "side": 1,
+      "message": "should we also check that flavor is not in srv_details too?",
+      "range": {
+        "startLine": 1414,
+        "startChar": 34,
+        "endLine": 1414,
+        "endChar": 35
+      },
+      "revId": "14fbc0c83ae44b5f8ad496a855ee3c191d6188d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
