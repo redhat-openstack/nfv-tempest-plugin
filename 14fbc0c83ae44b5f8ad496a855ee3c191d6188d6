@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "d8c3f410_b4af224e",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1362,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-24T06:18:56Z",
+      "side": 1,
+      "message": "I\u0027m not sure I completely understand.\nDo the kwargs for the instances will be passed alongside with the other kwargs or separated?\n\nI can\u0027t use a list for the kwargs, because it requires a mapping object (dict), so it could be:\n{0: {\u0027flavor_id\u0027: \u003cflavors_id\u003e, \u0027image\u0027: \u003cimage\u003e}, 1: {\u0027flavor_id\u0027: \u003cflavors_id\u003e, \u0027fip\u0027: \u003cfip\u003e}}\nThe reference could be the same.\n\nIf it is passed alongside, the behavior will be as I described in the previous comment.\nOr I don\u0027t get it?",
+      "parentUuid": "a3fd9dd2_92be20f5",
+      "range": {
+        "startLine": 1362,
+        "startChar": 48,
+        "endLine": 1362,
+        "endChar": 74
+      },
+      "revId": "14fbc0c83ae44b5f8ad496a855ee3c191d6188d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f96e0677_8341e210",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 1
