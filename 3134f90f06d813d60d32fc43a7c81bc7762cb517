@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b864d52f_7ca03eb4",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1637,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-24T06:25:51Z",
+      "side": 1,
+      "message": "Maybe we should keep this configuration in config.py file?\nIn case we will need to open additional ports in more complex scenarios.",
+      "range": {
+        "startLine": 1635,
+        "startChar": 20,
+        "endLine": 1637,
+        "endChar": 66
+      },
+      "revId": "3134f90f06d813d60d32fc43a7c81bc7762cb517",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
