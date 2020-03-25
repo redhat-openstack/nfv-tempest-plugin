@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "0be08d6d_e9d382be",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1362,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-25T21:38:42Z",
+      "side": 1,
+      "message": "As agreed by the personal discussion, implemented it as part of the kwargs in order to not change the interface of the tests.",
+      "parentUuid": "9c312f92_ae4928cd",
+      "range": {
+        "startLine": 1362,
+        "startChar": 48,
+        "endLine": 1362,
+        "endChar": 74
+      },
+      "revId": "14fbc0c83ae44b5f8ad496a855ee3c191d6188d6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f96e0677_8341e210",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 1
