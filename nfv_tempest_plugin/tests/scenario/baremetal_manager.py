@@ -870,13 +870,33 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         result = pipe.stdout.read().decode('UTF-8')
         return result.split()
 
-    def _create_and_set_aggregate(self, aggr_name, hyper_hosts, aggr_meta):
+    def create_and_set_availability_zone(self, zone_name=None, **kwargs):
+        """Create availability zone with aggregation
+
+        The method creates an aggregate and add the availability zone label
+        :param zone_name: Availability zone name
+        :param kwargs:
+                aggr_name: The name of the aggregation to be created
+                hyper_hosts: The list of the hypervisors to be attached
+                aggr_meta: The metadata for the aggregation
+        """
+        if not zone_name:
+            zone_name = data_utils.rand_name('availability-zone')
+        aggr = self.create_and_set_aggregate(**kwargs)
+        zone = self.aggregates_client.update_aggregate(
+            aggregate_id=aggr['id'], availability_zone=zone_name)
+        return zone['aggregate']
+
+    def create_and_set_aggregate(self, hyper_hosts, aggr_name=None,
+                                 aggr_meta=None):
         """Create aggregation and add an hypervisor to it
 
-        :param aggr_name: The name of the aggregation to be created
         :param hyper_hosts: The list of the hypervisors to be attached
-        :param aggr_meta: The metadata for the aggregation
+        :param aggr_name: The name of the aggregation to be created
+        :param aggr_meta: The metadata for the aggregation (optional)
         """
+        if not aggr_name:
+            aggr_name = data_utils.rand_name('aggregate')
         hyper_list = []
         for hyper in self.hypervisor_client.list_hypervisors()['hypervisors']:
             for host in hyper_hosts:
@@ -886,17 +906,17 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             raise ValueError('Provided host for the aggregate does not exist.')
 
         aggr = self.aggregates_client.create_aggregate(name=aggr_name)
-        meta_body = {aggr_meta.split('=')[0]: aggr_meta.split('=')[1]}
-        self.aggregates_client.set_metadata(aggr['aggregate']['id'],
-                                            metadata=meta_body)
         self.addCleanup(self.aggregates_client.delete_aggregate,
                         aggr['aggregate']['id'])
-
+        if aggr_meta:
+            meta_body = {aggr_meta.split('=')[0]: aggr_meta.split('=')[1]}
+            self.aggregates_client.set_metadata(aggr['aggregate']['id'],
+                                                metadata=meta_body)
         for host in hyper_list:
             self.aggregates_client.add_host(aggr['aggregate']['id'], host=host)
             self.addCleanup(self.aggregates_client.remove_host,
                             aggr['aggregate']['id'], host=host)
-        return aggr['aggregate']['name']
+        return aggr['aggregate']
 
     def _list_aggregate(self, name=None):
         """Aggregation listing
@@ -1410,7 +1430,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if self.test_setup_dict[test]['aggregate'] is not None:
             aggr_hosts = self.test_setup_dict[test]['aggregate']['hosts']
             aggr_meta = self.test_setup_dict[test]['aggregate']['metadata']
-            self._create_and_set_aggregate(test, aggr_hosts, aggr_meta)
+            self.create_and_set_aggregate(test, aggr_hosts, aggr_meta)
 
         # Flavor creation
         if not kwargs.get('flavor'):

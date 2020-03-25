@@ -63,7 +63,8 @@ class TestAdvancedScenarios(base_test.BaseTest):
         hyper = self.os_admin.hypervisor_client.list_hypervisors()[
             'hypervisors'][0]['hypervisor_hostname']
         resources = self.list_available_resources_on_hypervisor(hyper)
-        self._create_and_set_aggregate(test, [hyper], 'test={}'.format(test))
+        self.create_and_set_aggregate(aggr_name=test, hyper_hosts=[hyper],
+                                      aggr_meta='test={}'.format(test))
         extra_specs = \
             {'extra_specs': {'hw:mem_page_size': str("large"),
                              'hw:cpu_policy': str("dedicated"),
