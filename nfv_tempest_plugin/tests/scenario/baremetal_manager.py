@@ -1424,6 +1424,14 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         :param num_ports: The number of ports to the created.
                           Default to (num_servers)
         :param test: Currently executed test. Provide test specific parameters.
+        :param kwargs:
+                availability_zone: Create and set availability zone
+                    zone_name: Name of availability zone (optional)
+                    aggr_name: Name of aggregate (optional)
+                    hyper_hosts: The list of the hypervisors to be attached
+                    aggr_meta: Metadata for aggregate (optional)
+
+                    Example: {'availability_zone': {'hyper_hosts': 'compute0'}}
 
         :return servers, key_pair
         """
@@ -1443,6 +1451,13 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             LOG.info('The resources created by the external tool. '
                      'Continue to the test.')
             return servers, key_pair
+
+        # Create and configure availability zone
+        if kwargs.get('availability_zone'):
+            avail_zone = kwargs.pop('availability_zone')
+            kwargs['availability_zone'] = \
+                self.create_and_set_availability_zone(
+                    **avail_zone)['availability_zone']
 
         # Create and configure aggregation zone if specified
         if self.test_setup_dict[test]['aggregate'] is not None:
