@@ -1410,6 +1410,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         :return servers, key_pair
         """
         LOG.info('Creating resources...')
+        LOG.info('test')
 
         if num_ports is None:
             num_ports = num_servers
