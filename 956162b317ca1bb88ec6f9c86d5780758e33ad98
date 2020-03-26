@@ -1,0 +1,297 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "051957e6_bb1d4027",
+        "filename": "docs/tests.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-26T09:45:47Z",
+      "side": 1,
+      "message": "capable",
+      "range": {
+        "startLine": 254,
+        "startChar": 21,
+        "endLine": 254,
+        "endChar": 28
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ede74c4a_66157fae",
+        "filename": "docs/tests.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-26T09:45:47Z",
+      "side": 1,
+      "message": "capable",
+      "range": {
+        "startLine": 269,
+        "startChar": 21,
+        "endLine": 269,
+        "endChar": 28
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06d00ae4_992aa859",
+        "filename": "docs/tests.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-26T09:45:47Z",
+      "side": 1,
+      "message": "release",
+      "range": {
+        "startLine": 271,
+        "startChar": 43,
+        "endLine": 271,
+        "endChar": 49
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8983a51_b75fb385",
+        "filename": "docs/tests.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-26T09:45:47Z",
+      "side": 1,
+      "message": "works",
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61fb47d5_9b23b1f5",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1214,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-26T09:45:47Z",
+      "side": 1,
+      "message": "Please, place it under the kwargs.\nIt will be more convenient for the user to see which params are main and which supported under kwargs.\n\nhttps://github.com/redhat-openstack/nfv-tempest-plugin/blob/devel/nfv_tempest_plugin/tests/scenario/baremetal_manager.py#L878-L881",
+      "range": {
+        "startLine": 1214,
+        "startChar": 8,
+        "endLine": 1214,
+        "endChar": 65
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12edcc1c_81b86331",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-26T09:45:47Z",
+      "side": 1,
+      "message": "Suggestion 😊\nIf the method documentation includes just a subject, it could be passed in a single line include quotes.\n\n\"\"\"Creates a network QOS policy\"\"\"\n\nIt will save us two lines. 🎉",
+      "range": {
+        "startLine": 1294,
+        "startChar": 8,
+        "endLine": 1294,
+        "endChar": 11
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c7f87a9_acbf1962",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1325,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-26T09:45:47Z",
+      "side": 1,
+      "message": "directions",
+      "range": {
+        "startLine": 1325,
+        "startChar": 30,
+        "endLine": 1325,
+        "endChar": 40
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08607a85_7cd85744",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1343,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-26T09:45:47Z",
+      "side": 1,
+      "message": "Could you add a possible arguments that are used in kwargs, please.\nAt least those you are using.\n\nIt will help later when someone would like to use that method.",
+      "range": {
+        "startLine": 1343,
+        "startChar": 8,
+        "endLine": 1343,
+        "endChar": 21
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1f380bc_976d6024",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1527,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-26T09:45:47Z",
+      "side": 1,
+      "message": "Add if condition: if kwargs.get(\u0027set_qos\u0027):\n\nOtherwise, when the \"set_qos\" will not be passed, it will fail.",
+      "range": {
+        "startLine": 1527,
+        "startChar": 8,
+        "endLine": 1527,
+        "endChar": 29
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38a88120_99e6688a",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 2126,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-26T09:45:47Z",
+      "side": 1,
+      "message": "If you created this method, maybe worth to update the following test to use it?\n\nhttps://github.com/redhat-openstack/nfv-tempest-plugin/blob/c01e7afc7be83af29ca6f383b55161c269e521b4/nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py#L52-L54",
+      "range": {
+        "startLine": 2126,
+        "startChar": 8,
+        "endLine": 2126,
+        "endChar": 42
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bcabd05_4fed2331",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-26T09:45:47Z",
+      "side": 1,
+      "message": "Why do you think it should reside in base_test?",
+      "range": {
+        "startLine": 136,
+        "startChar": 8,
+        "endLine": 136,
+        "endChar": 36
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0389a1ae_1cc114ff",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-26T09:45:47Z",
+      "side": 1,
+      "message": "Could you add more description on what test is doing.\n\nSimilar to:\nhttps://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py#L165-L173",
+      "range": {
+        "startLine": 242,
+        "startChar": 8,
+        "endLine": 242,
+        "endChar": 60
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f8714d8_5feba88f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-03-26T09:45:47Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 256,
+        "startChar": 8,
+        "endLine": 258,
+        "endChar": 70
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
