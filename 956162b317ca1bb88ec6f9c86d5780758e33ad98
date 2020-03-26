@@ -88,6 +88,29 @@
     },
     {
       "key": {
+        "uuid": "093cb764_6546178b",
+        "filename": "docs/tests_prerequisites_config.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-03-26T09:47:57Z",
+      "side": 1,
+      "message": "We do not force the microversion enforcement per release.\nDuring ansible-nfv we populate the value in Tempest.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 101
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61fb47d5_9b23b1f5",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 11
@@ -104,6 +127,29 @@
         "startChar": 8,
         "endLine": 1214,
         "endChar": 65
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63fd2510_006707af",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1214,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-03-26T09:47:57Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it be set_qos according to the code below?",
+      "range": {
+        "startLine": 1214,
+        "startChar": 15,
+        "endLine": 1214,
+        "endChar": 25
       },
       "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
@@ -272,6 +318,29 @@
     },
     {
       "key": {
+        "uuid": "7b275d0d_082c8e95",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-03-26T09:47:57Z",
+      "side": 1,
+      "message": "Hard coding a QoS amount is not the approach we should aim for in my opinion.\nEspecially if the rest of the plugin expects an input. It seems like a mismatch in workflow.",
+      "range": {
+        "startLine": 245,
+        "startChar": 8,
+        "endLine": 245,
+        "endChar": 38
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3f8714d8_5feba88f",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
         "patchSetId": 11
@@ -288,6 +357,29 @@
         "startChar": 8,
         "endLine": 258,
         "endChar": 70
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74ad3c3d_721fd4b8",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-03-26T09:47:57Z",
+      "side": 1,
+      "message": "Same as line 245.",
+      "range": {
+        "startLine": 260,
+        "startChar": 8,
+        "endLine": 260,
+        "endChar": 38
       },
       "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
