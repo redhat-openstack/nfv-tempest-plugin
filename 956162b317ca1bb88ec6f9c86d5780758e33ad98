@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "46d23d58_18c2a3b9",
+        "filename": "docs/tests.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-26T16:01:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "051957e6_bb1d4027",
+      "range": {
+        "startLine": 254,
+        "startChar": 21,
+        "endLine": 254,
+        "endChar": 28
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ede74c4a_66157fae",
         "filename": "docs/tests.md",
         "patchSetId": 11
@@ -45,6 +69,30 @@
       "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32de27e4_c4f8d481",
+        "filename": "docs/tests.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-26T16:01:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ede74c4a_66157fae",
+      "range": {
+        "startLine": 269,
+        "startChar": 21,
+        "endLine": 269,
+        "endChar": 28
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +136,71 @@
     },
     {
       "key": {
+        "uuid": "206075c1_3633e413",
+        "filename": "docs/tests.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-26T16:01:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f8983a51_b75fb385",
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27b3ebc0_b6e55ef2",
+        "filename": "docs/tests.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-26T16:01:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "06d00ae4_992aa859",
+      "range": {
+        "startLine": 271,
+        "startChar": 43,
+        "endLine": 271,
+        "endChar": 49
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66ffe15e_81d410b3",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 11
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-26T16:01:14Z",
+      "side": 1,
+      "message": "should be true/false",
+      "range": {
+        "startLine": 76,
+        "startChar": 12,
+        "endLine": 76,
+        "endChar": 17
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "093cb764_6546178b",
         "filename": "docs/tests_prerequisites_config.md",
         "patchSetId": 11
@@ -99,6 +212,30 @@
       "writtenOn": "2020-03-26T09:47:57Z",
       "side": 1,
       "message": "We do not force the microversion enforcement per release.\nDuring ansible-nfv we populate the value in Tempest.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 101
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6f90dcb_f999f0e2",
+        "filename": "docs/tests_prerequisites_config.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-26T16:01:14Z",
+      "side": 1,
+      "message": "the repo stands for itself,\nI will move it to docs/tests.md under the test itself",
+      "parentUuid": "093cb764_6546178b",
       "range": {
         "startLine": 10,
         "startChar": 0,
@@ -157,6 +294,54 @@
     },
     {
       "key": {
+        "uuid": "3807b2c3_836ad642",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1214,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-26T16:01:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "63fd2510_006707af",
+      "range": {
+        "startLine": 1214,
+        "startChar": 15,
+        "endLine": 1214,
+        "endChar": 25
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdd7b723_61392f51",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1214,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-26T16:01:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "61fb47d5_9b23b1f5",
+      "range": {
+        "startLine": 1214,
+        "startChar": 8,
+        "endLine": 1214,
+        "endChar": 65
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12edcc1c_81b86331",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 11
@@ -177,6 +362,30 @@
       "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2612569c_8fc3978f",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-26T16:01:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "12edcc1c_81b86331",
+      "range": {
+        "startLine": 1294,
+        "startChar": 8,
+        "endLine": 1294,
+        "endChar": 11
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -203,6 +412,30 @@
     },
     {
       "key": {
+        "uuid": "eb1475ac_5decba13",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1325,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-26T16:01:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9c7f87a9_acbf1962",
+      "range": {
+        "startLine": 1325,
+        "startChar": 30,
+        "endLine": 1325,
+        "endChar": 40
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08607a85_7cd85744",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 11
@@ -223,6 +456,30 @@
       "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "453775f6_b08594db",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1343,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-26T16:01:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "08607a85_7cd85744",
+      "range": {
+        "startLine": 1343,
+        "startChar": 8,
+        "endLine": 1343,
+        "endChar": 21
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -249,6 +506,30 @@
     },
     {
       "key": {
+        "uuid": "0554c397_0b00447d",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1527,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-26T16:01:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f1f380bc_976d6024",
+      "range": {
+        "startLine": 1527,
+        "startChar": 8,
+        "endLine": 1527,
+        "endChar": 29
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38a88120_99e6688a",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 11
@@ -272,6 +553,30 @@
     },
     {
       "key": {
+        "uuid": "33c462b4_7ddd5ccf",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 2126,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-26T16:01:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "38a88120_99e6688a",
+      "range": {
+        "startLine": 2126,
+        "startChar": 8,
+        "endLine": 2126,
+        "endChar": 42
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bcabd05_4fed2331",
         "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
         "patchSetId": 11
@@ -283,6 +588,30 @@
       "writtenOn": "2020-03-26T09:45:47Z",
       "side": 1,
       "message": "Why do you think it should reside in base_test?",
+      "range": {
+        "startLine": 136,
+        "startChar": 8,
+        "endLine": 136,
+        "endChar": 36
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ae891d4_63c6a286",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-26T16:01:14Z",
+      "side": 1,
+      "message": "since it is base_test, \ncreate_qos_policy with rule\ncreate_logine_rules etc could be here\nsince they are mixing api calls",
+      "parentUuid": "2bcabd05_4fed2331",
       "range": {
         "startLine": 136,
         "startChar": 8,
@@ -318,6 +647,30 @@
     },
     {
       "key": {
+        "uuid": "25791c2f_f1e1fb7d",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-26T16:01:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0389a1ae_1cc114ff",
+      "range": {
+        "startLine": 242,
+        "startChar": 8,
+        "endLine": 242,
+        "endChar": 60
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b275d0d_082c8e95",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
         "patchSetId": 11
@@ -338,6 +691,30 @@
       "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afa38b75_df27ef9e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-26T16:01:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7b275d0d_082c8e95",
+      "range": {
+        "startLine": 245,
+        "startChar": 8,
+        "endLine": 245,
+        "endChar": 38
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -364,6 +741,30 @@
     },
     {
       "key": {
+        "uuid": "dec7da26_85487556",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-26T16:01:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3f8714d8_5feba88f",
+      "range": {
+        "startLine": 256,
+        "startChar": 8,
+        "endLine": 258,
+        "endChar": 70
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74ad3c3d_721fd4b8",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
         "patchSetId": 11
@@ -384,6 +785,30 @@
       "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "643ed14c_bbaf970b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-03-26T16:01:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "74ad3c3d_721fd4b8",
+      "range": {
+        "startLine": 260,
+        "startChar": 8,
+        "endLine": 260,
+        "endChar": 38
+      },
+      "revId": "956162b317ca1bb88ec6f9c86d5780758e33ad98",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
