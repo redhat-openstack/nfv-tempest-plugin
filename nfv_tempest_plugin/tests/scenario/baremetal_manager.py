@@ -438,9 +438,13 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         dumpxml_string = self._get_dumpxml_instance_data(instance, hypervisor)
         vcpupin = dumpxml_string.findall('./cputune/vcpupin')
-        vcpu_list = [int(vcpu.get('cpuset'))
+        vcpu_list = [(vcpu.get('cpuset'))
                      for vcpu in vcpupin if vcpu is not None]
-        return vcpu_list
+        if ',' in vcpu_list[0]:
+            split_list = [vcpu.split(',') for vcpu in vcpu_list if ',' in vcpu]
+            vcpu_list = [vcpu for sublist in split_list for vcpu in sublist]
+        vcpu_list = [int(vcpu) for vcpu in vcpu_list]
+        return list(set(vcpu_list))
 
     def match_vcpu_to_numa_node(self, instance, hypervisor, numa_node='0'):
         """Verify that provided vcpu list resides within the specified numa
