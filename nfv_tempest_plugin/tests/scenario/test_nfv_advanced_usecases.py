@@ -256,3 +256,62 @@ class TestAdvancedScenarios(base_test.BaseTest):
                                     srv1=srv1[0]['id'],
                                     hyper=srv1[0]['hypervisor_ip']))
         LOG.info('The pinned instance live migration test passed')
+
+    def test_pinned_and_non_pinned_srv(self, test='pinned_and_non_pinned_srv'):
+        """Test pinned and non pinned instances on the same compute
+
+        The test performs the following actions:
+        - Boot pinned instance (using specific flavor)
+        - Boot non pinned instance (using specific flavor) on the same host
+        """
+        LOG.info('Pinned and non pinned instances test')
+        LOG.info('Create flavors for pinned and non pinned instances')
+        flavors_id = []
+        flavors = [{'name': 'flavor_dedicated', 'vcpus': 4,
+                    'extra_specs': {'hw:mem_page_size': "large",
+                                    'resources:PCPU': '4',
+                                    'hw:emulator_threads_policy': 'share'}},
+                   {'name': 'flavor_shared', 'vcpus': 2,
+                    'extra_specs': {'hw:mem_page_size': "large",
+                                    'resources:VCPU': '2',
+                                    'hw:emulator_threads_policy': 'share'}}]
+        for flavor in flavors:
+            flavors_id.append(self.create_flavor(**flavor))
+        srv_details = {'srv_details': {0: {'flavor': flavors_id[0]},
+                                       1: {'flavor': flavors_id[1]}}}
+        hyper = self.hypervisor_client.list_hypervisors()['hypervisors']
+        kwargs = {'availability_zone':
+                  {'hyper_hosts': [hyper[0]['hypervisor_hostname']]}}
+        kwargs.update(srv_details)
+        servers, _ = self.create_and_verify_resources(test=test, num_servers=2,
+                                                      use_mgmt_only=True,
+                                                      **kwargs)
+        LOG.info('Ensure all the instances are on the same hypervisor node.')
+        srv_id = []
+        for srv in servers:
+            srv_id.append(srv['id'])
+        hyper = [self.os_admin.servers_client.show_server(hp)['server']
+                 ['OS-EXT-SRV-ATTR:hypervisor_hostname'] for hp in srv_id]
+        hyper = list(set(hyper))
+        if len(hyper) > 1:
+            raise ValueError("The instances should reside on a single "
+                             "hypervisor. Use aggregate to reach that state.")
+        LOG.info('Check instances vcpu placement')
+        srv_dedicated = self.get_instance_vcpu(servers[0],
+                                               servers[0]['hypervisor_ip'])
+        srv_shared = self.get_instance_vcpu(servers[1],
+                                            servers[1]['hypervisor_ip'])
+        LOG.info('Take the dedicated and share cpu set from hypervisor')
+        dedicated_set, shared_set = self.locate_dedicated_and_shared_cpu_set()
+        LOG.info('CHeck results')
+        test_results = []
+        if not all(cpu in shared_set for cpu in srv_shared):
+            test_results.append('The vcpu\'s used by the shared instance - {} '
+                                'does not exist in shared '
+                                'set - {}.'.format(srv_shared, shared_set))
+        if not all(cpu in dedicated_set for cpu in srv_dedicated):
+            test_results.append('The vcpu\'s used by the dedicated instance '
+                                '- {} does not exist in dedicated set '
+                                '- {}.'.format(srv_dedicated, dedicated_set))
+        self.assertEmpty(test_results, test_results)
+        LOG.info('Pinned and non pinned instances test passed')
