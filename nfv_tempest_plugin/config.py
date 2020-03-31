@@ -68,5 +68,8 @@ NfvPluginOptions = [
                     '"direction:":<ingress/egress> - string '
                     '"port_range_max"<max_port_range> - string '
                     '"port_range_min"<min_port_range> - string '),
+    cfg.BoolOpt('nfv_plugin_options.use_neutron_api_v2',
+                default=False,
+                help="Use neutron-tempest-plugin clients"),
 
 ]
