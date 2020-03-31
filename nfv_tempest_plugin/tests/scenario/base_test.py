@@ -13,6 +13,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from importlib import import_module
 from nfv_tempest_plugin.tests.scenario import baremetal_manager
 from oslo_log import log as logging
 from tempest import clients
@@ -26,6 +27,39 @@ LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 class BaseTest(baremetal_manager.BareMetalManager):
     def __init__(self, *args, **kwargs):
         super(BaseTest, self).__init__(*args, **kwargs)
+
+    @classmethod
+    def get_client_manager(cls, credential_type=None, roles=None,
+                           force_new=None):
+        """Method, manages two client managers.
+
+        Neutron tempest plugin ,maintain its own client.manager,
+        it also save upstream manager w/ primary credential.
+        This methos maintain nfv_tempest_plugin upstream client.manager
+        and save neutron_tempest_plugin in class member
+        """
+        manager = super(BaseTest, cls).get_client_manager(
+            credential_type=credential_type,
+            roles=roles,
+            force_new=force_new
+        )
+        """Apply dynamic package check to import nfv_tempest_plugin service
+        Load packages only when use_neutron_api_v2 is set and
+        neutron_tempest_plugin is installed
+        """
+        if CONF.nfv_plugin_options.use_neutron_api_v2 and \
+                credential_type == 'admin':
+            try:
+                import_module('neutron_tempest_plugin')
+                network_client_v2 = \
+                    import_module('nfv_tempest_plugin.services'
+                                  '.network_client_v2')
+                cls.os_admin_v2 = \
+                    network_client_v2.Manager(manager.credentials)
+            except ImportError:
+                LOG.info("Failed to load neutron_tempest_plugin, \
+                         please check use_neutron_api_v2 set to False")
+        return manager
 
     @classmethod
     def setup_credentials(cls):
