@@ -727,6 +727,31 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             numa_physnets['numa_aware_tunnel'] = numa_aware_tun[0]
         return numa_physnets
 
+    def locate_dedicated_and_shared_cpu_set(self, node=None, keys=None):
+        """Locate dedicated and shared cpu set
+
+        The method locates the cpus provided by the compute for the instances.
+        The cpus divided into two groups: dedicated and shared
+
+        :param node: The node that the query should executed on.
+        :param keys: The hiera mapping that should be queried.
+        :return Two lists of dedicated and shared cpus set
+        """
+        if not node:
+            hyper_kwargs = {'shell': '/home/stack/stackrc'}
+            node = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)[0]
+        if not keys:
+            hiera_dedicated_cpus = "nova::compute::cpu_dedicated_set"
+            hiera_shared_cpus = "nova::compute::cpu_shared_set"
+            keys = [hiera_dedicated_cpus, hiera_shared_cpus]
+        dedicated, shared = self._retrieve_content_from_hiera(node=node,
+                                                              keys=keys)
+        dedicated = dedicated.strip('[""]')
+        dedicated = self.parse_int_ranges_from_number_string(dedicated)
+        shared = shared.strip('[]').split(', ')
+        shared = [int(vcpu) for vcpu in shared]
+        return dedicated, shared
+
     def locate_numa_aware_networks(self, numa_physnets):
         """Locate numa aware networks
 
