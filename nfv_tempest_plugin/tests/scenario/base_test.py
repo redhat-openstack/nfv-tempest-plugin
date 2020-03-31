@@ -13,11 +13,13 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from nfv_tempest_plugin.services import network_client_v2
 from nfv_tempest_plugin.tests.scenario import baremetal_manager
 from oslo_log import log as logging
 from tempest import clients
 from tempest.common import credentials_factory as common_creds
 from tempest import config
+from tempest.lib.base import testtools
 
 CONF = config.CONF
 LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
@@ -26,6 +28,27 @@ LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 class BaseTest(baremetal_manager.BareMetalManager):
     def __init__(self, *args, **kwargs):
         super(BaseTest, self).__init__(*args, **kwargs)
+
+    @classmethod
+    def get_client_manager(cls, credential_type=None, roles=None,
+                           force_new=None):
+        """Method, manages two client managers.
+
+        Neutron tempest plugin ,maintain its own client.manager,
+        it also save upstream manager w/ primary credential.
+        This methos maintain nfv_tempest_plugin upstream client.manager
+        and save neutron_tempest_plugin in class member
+        """
+        manager = super(BaseTest, cls).get_client_manager(
+            credential_type=credential_type,
+            roles=roles,
+            force_new=force_new
+        )
+        # save the neutron clients, admin credentials
+        if credential_type == 'admin':
+            cls.os_admin_v2 = \
+                network_client_v2.Manager(manager.credentials)
+        return manager
 
     @classmethod
     def setup_credentials(cls):
@@ -46,6 +69,8 @@ class BaseTest(baremetal_manager.BareMetalManager):
         super(BaseTest, self).setUp()
         # pre setup creations and checks read from config files
 
+    @testtools.skipUnless(CONF.nfv_plugin_options.use_neutron_api_v2,
+                          'Use neutron-tempest-plugin clients')
     def verify_provider_networks(self, servers=None, key_pair=None):
         """Verifies provider networks attached to guest
 
