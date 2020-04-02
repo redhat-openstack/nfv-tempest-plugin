@@ -664,7 +664,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             hiera_command += hiera_template.format(hiera_file=hiera_file,
                                                    key=key)
         hiera_content = self._run_command_over_ssh(node, hiera_command)
-        hiera_content = hiera_content.split('\n')[:-1]
+        hiera_content = hiera_content.replace(',\n', ',').strip().split('\n')
         return hiera_content
 
     def locate_ovs_physnets(self, node=None, keys=None):
