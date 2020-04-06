@@ -315,6 +315,21 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         # Update the floating IP configuration (enable/disable)
         self.fip = self.external_config.get('floating_ip', True)
 
+    def get_osp_release(self, hypervisor=None):
+        """Gather OSP release
+
+        Takes the OSP release from the hypervisor
+
+        :param hypervisor: Ip of the hypervisor to work on (optional)
+        :return OSP version integer
+        """
+        if not hypervisor:
+            hyper_kwargs = {'shell': '/home/stack/stackrc'}
+            hypervisor = self._get_hypervisor_ip_from_undercloud(
+                **hyper_kwargs)[0]
+        ver = self._run_command_over_ssh(hypervisor, 'cat /etc/rhosp-release')
+        return int(re.findall(r'\d+', ver)[0])
+
     def check_flavor_existence(self, testname):
         """Check test specific flavor existence.
 
@@ -421,11 +436,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         server_details = \
             self.os_admin.servers_client.show_server(server['id'])['server']
-        # Check OSP release from hypervisor node
-        osp_release = self._run_command_over_ssh(hypervisor,
-                                                 'cat /etc/rhosp-release')
+        osp_release = self.get_osp_release(hypervisor)
         # If OSP version is 16, use podman container to retrieve instance XML
-        if '16' in osp_release:
+        if osp_release >= 16:
             cmd = ('sudo podman exec -it nova_libvirt virsh -c '
                    'qemu:///system dumpxml {}')
         else:
