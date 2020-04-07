@@ -83,7 +83,8 @@ class TestLiveMigrationScenarios(base_test.BaseTest):
         msg = "live migration is not configured"
         self.assertTrue(CONF.compute_feature_enabled.live_migration, msg)
         msg = "Live migration Failed"
-        servers, key_pair = self.create_and_verify_resources(test=test)
+        servers, key_pair = \
+            self.create_and_verify_resources(test=test, use_mgmt_only=True)
         self.assertTrue(self._perform_live_migration(
             servers[0], key_pair, use_block_migration=True), msg)
 
@@ -95,6 +96,7 @@ class TestLiveMigrationScenarios(base_test.BaseTest):
         msg = "live migration is not configured"
         self.assertTrue(CONF.compute_feature_enabled.live_migration, msg)
         msg = "Live migration Failed"
-        servers, key_pair = self.create_and_verify_resources(test=test)
+        servers, key_pair = \
+            self.create_and_verify_resources(test=test, use_mgmt_only=True)
         self.assertTrue(self._perform_live_migration(servers[0], key_pair),
                         msg)
