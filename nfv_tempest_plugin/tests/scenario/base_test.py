@@ -132,3 +132,15 @@ class BaseTest(baremetal_manager.BareMetalManager):
             self.verify_provider_networks(servers, key_pair)
 
         return servers, key_pair
+
+    def create_qos_policy_with_rules(self, **kwargs):
+        """Create_qos_policy with rules
+
+        :param kwargs['min_kbps'] parameter indicates minimum qos requested
+        """
+        self.qos_policy_groups = \
+            self.create_network_qos_policy()
+        if 'min_kbps' in kwargs:
+            self.create_min_bw_qos_rule(
+                policy_id=self.qos_policy_groups['id'],
+                min_kbps=kwargs['min_kbps'])

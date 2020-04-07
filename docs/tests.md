@@ -10,16 +10,16 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_mtu_ping_test
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_cold_migration
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_emulatorpin
-- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_volume_in_hci_nfv_setup
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_min_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_equal_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_max_queues_functionality
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_odd_queues_functionality
-- nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_live_migration_block
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_multicast
 - nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_rx_tx
 - nfv_tempest_plugin.tests.scenario.test_nfv_sriov_usecases.TestSriovScenarios.test_sriov_trusted_vfs
 - nfv_tempest_plugin.tests.scenario.test_nfv_sriov_usecases.TestSriovScenarios.test_sriov_double_tagging
+- nfv_tempest_plugin.tests.scenario.test_nfv_sriov_usecases.TestSriovScenarios.test_guests_set_min_qos
+- nfv_tempest_plugin.tests.scenario.test_nfv_sriov_usecases.TestSriovScenarios.test_guests_with_min_bw
 - nfv_tempest_plugin.tests.scenario.test_nfv_advanced_usecases.TestAdvancedScenarios.test_numa_aware_vswitch
 - nfv_tempest_plugin.tests.scenario.test_nfv_lacp_usecases.TestLacpScenarios.test_deployment_lacp
 - nfv_tempest_plugin.tests.scenario.test_nfv_lacp_usecases.TestLacpScenarios.test_balance_tcp
@@ -30,6 +30,12 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_offload.TestNfvOffload.test_offload_ovs_config
 - nfv_tempest_plugin.tests.scenario.test_nfv_offload.TestNfvOffload.test_offload_nic_eswitch_mode
 - nfv_tempest_plugin.tests.scenario.test_nfv_offload.TestNfvOffload.test_offload_ovs_flows
+- nfv_tempest_plugin.tests.scenario.test_nfv_live_migration_usecases.TestLiveMigrationScenarios.test_live_migration_block
+- nfv_tempest_plugin.tests.scenario.test_nfv_live_migration_usecases.TestLiveMigrationScenarios.test_live_migration_shared
+- nfv_tempest_plugin.tests.scenario.test_nfv_hci_usecases.TestHciScenarios.test_volume_in_hci_nfv_setup
+- nfv_tempest_plugin.tests.scenario.test_nfv_hci_usecases.TestHciScenarios.test_boot_instance_with_volume_in_hci_nfv_setup
+- nfv_tempest_plugin.tests.scenario.test_nfv_hci_usecases.TestHciScenarios.test_volume_using_img_in_hci_nfv_setup
+- nfv_tempest_plugin.tests.scenario.test_nfv_hci_usecases.TestHciScenarios.test_ceph_health_status_in_hci_nfv_setup
 
 
 
@@ -150,20 +156,6 @@ Tests included:
         check_value: 'cpu_shared_set'
   ```
 
-- test_volume_in_hci_nfv_setup
-  Test explanation:
-  The HCI test boots an instance, attaches new volume with this instance, connects to the instance using ssh, and writes the full disk.
-
-  ```
-  Test config:
-  - name: nfv-hci-basic-volume
-    flavor: nfv-test-flavor
-    router: false
-  ```
-
-  flavor - specifies the flavor that the instance should boot with.
-  router - Sets if the booted instance will get floating ip or direct access config.  
-
 ----------
 #### TestDpdkScenarios:  
 Tests included:
@@ -179,17 +171,6 @@ Tests included:
   ```
   Test config:  
   - name: check-multiqueue-func
-    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-    router: true
-  ```
-
-- test_live_migration_basic  
-  Test explanation:  
-  The test boot an instance, checks availability and migrates the instance to the next available hypervisor.  
-
-  ```
-  Test config:  
-  - name: test_live_migration_basic
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
   ```
@@ -264,6 +245,41 @@ Otherwise the test will create a flavor based on the parameters defined at the t
   
   **Note** - The "iface_vlan" and "test_vlan" must be configured on the switch ports that compute node are connected to.
   **Note** - The test depends on the "resource creator" tool for the initial resources setup for the test, including the scripts.
+
+- test_guests_set_min_qos
+  Test explanation:
+  Test Neutron SRIOV min QoS capabilities
+  This test tells neutron to create min_qos on sriov ports, provider.
+  
+  **Note** - Network capable Min Qos must be marked in test_network as min_qos=true/false. 
+  **Note** - Test config is shared with test_guests_with_min_bw. 
+  
+  ```
+  Test config:
+  - name: sriov_min_bw_qos 
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+    qos_rules: [{'min_kbps': '4000'}]
+  ```
+  
+- test_guests_with_min_bw
+  Test explanation:
+  Test Nova SRIOV min BW capabilities
+  This test create vm with port direct port set with min_qos policy. 
+  
+  **Note** - Network capable Min Qos must be marked in test_network as min_qos=true/false.
+  **Note** - Test config is shared with test_guests_set_min_qos.
+  **Note** - Train release test requires:
+             - tempest microversion set to 2.72
+             - nova parameter resource_provider_bandwidths 
+  
+  ```
+  Test config:
+  - name: sriov_min_bw_qos
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+    qos_rules: [{'min_kbps': '4000'}]
+  ```
 
 ----------
 #### TestAdvancedScenarios:
@@ -427,3 +443,73 @@ Tests included:
   Test config:
   - name: igmp_restart_ovs
 
+----------
+#### TestLiveMigrationScenarios:
+Tests included:
+- test_live_migration_block
+
+  Test explanation:
+  The test boot an instance, checks availability and migrates the instance and block storage to the next available hypervisor.
+
+  ```
+  Test config:
+  - name: test_live_migration_block
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+  ```
+
+- test_live_migration_shared
+
+  Test explanation:
+  The test boot an instance, checks availability and migrates the instance using shared storage to the next available hypervisor.  
+
+  ```
+  Test config:
+  - name: test_live_migration_shared
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+
+----------
+#### TestHciScenarios:  
+Tests included:
+
+- test_volume_in_hci_nfv_setup
+  Test explanation:
+  The HCI test boots an instance, attaches new volume with this instance, connects to the instance using ssh, and writes the full disk.
+
+  ```
+  Test config:
+  - name: nfv-hci-basic-volume
+    flavor: nfv-test-flavor
+    router: false
+  ```
+
+- test_boot_instance_with_volume_in_hci_nfv_setup
+  Test explanation:
+  The HCI test boots an instance with the volume, connects to the instance using ssh, and writes the full disk.
+
+  ```
+  Test config:
+  - name: nfv_hci_instance_volume
+    flavor: nfv-test-flavor
+    router: false
+  ```
+
+- test_volume_using_img_in_hci_nfv_setup
+  Test explanation:
+  The HCI test boots an instance, attaches new volume which is created using image with this instance, connects to the instance using ssh, and writes the full disk.
+
+  ```
+  Test config:
+  - name: nfv_hci_image_volume
+    flavor: nfv-test-flavor
+    router: false
+  ```
+
+- test_ceph_health_status_in_hci_nfv_setup
+  Test explanation:
+  The HCI test checks the ceph health status.
+
+  ```
+  Test config:
+  - name: nfv_hci_ceph_health

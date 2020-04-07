@@ -13,6 +13,8 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from __future__ import division  # Use Python3 divison in Python2
+
 import base64
 import os.path
 import paramiko
@@ -24,6 +26,7 @@ import time
 import xml.etree.ElementTree as ELEMENTTree
 import yaml
 
+from math import ceil
 from oslo_log import log
 from oslo_serialization import jsonutils
 from tempest.api.compute import api_microversion_fixture
@@ -62,6 +65,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.test_setup_dict = {}
         self.remote_ssh_sec_groups = []
         self.remote_ssh_sec_groups_names = []
+        self.qos_policy_groups = []
         self.servers = []
         self.test_network_dict = {}
         self.test_flavor_dict = {}
@@ -77,6 +81,17 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         cls.hypervisor_client = cls.manager.hypervisor_client
         cls.aggregates_client = cls.manager.aggregates_client
         cls.volumes_client = cls.os_primary.volumes_client_latest
+        """
+        security groups client
+        floating ip client to support
+        nova microversion>=2.36 changes
+        """
+        cls.security_groups_client = (
+            cls.os_primary.security_groups_client)
+        cls.security_group_rules_client = (
+            cls.os_primary.security_group_rules_client)
+        cls.floating_ips_client = (
+            cls.os_primary.floating_ips_client)
 
     def setUp(self):
         """Check hypervisor configuration:
@@ -262,6 +277,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 self.test_setup_dict[test['name']]['offload_nics'] = \
                     test['offload_nics']
 
+            if 'qos_rules' in test and test['qos_rules'] is not None:
+                self.test_setup_dict[test['name']]['qos_rules'] = \
+                    jsonutils.loads(jsonutils.dumps(test['qos_rules']))
+
         if not os.path.exists(
                 CONF.nfv_plugin_options.external_resources_output_file):
             # iterate flavors_id
@@ -427,9 +446,13 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         dumpxml_string = self._get_dumpxml_instance_data(instance, hypervisor)
         vcpupin = dumpxml_string.findall('./cputune/vcpupin')
-        vcpu_list = [int(vcpu.get('cpuset'))
+        vcpu_list = [(vcpu.get('cpuset'))
                      for vcpu in vcpupin if vcpu is not None]
-        return vcpu_list
+        if ',' in vcpu_list[0]:
+            split_list = [vcpu.split(',') for vcpu in vcpu_list if ',' in vcpu]
+            vcpu_list = [vcpu for sublist in split_list for vcpu in sublist]
+        vcpu_list = [int(vcpu) for vcpu in vcpu_list]
+        return list(set(vcpu_list))
 
     def match_vcpu_to_numa_node(self, instance, hypervisor, numa_node='0'):
         """Verify that provided vcpu list resides within the specified numa
@@ -641,7 +664,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             hiera_command += hiera_template.format(hiera_file=hiera_file,
                                                    key=key)
         hiera_content = self._run_command_over_ssh(node, hiera_command)
-        hiera_content = hiera_content.split('\n')[:-1]
+        hiera_content = hiera_content.replace(',\n', ',').strip().split('\n')
         return hiera_content
 
     def locate_ovs_physnets(self, node=None, keys=None):
@@ -707,6 +730,31 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if numa_aware_tun is not None:
             numa_physnets['numa_aware_tunnel'] = numa_aware_tun[0]
         return numa_physnets
+
+    def locate_dedicated_and_shared_cpu_set(self, node=None, keys=None):
+        """Locate dedicated and shared cpu set
+
+        The method locates the cpus provided by the compute for the instances.
+        The cpus divided into two groups: dedicated and shared
+
+        :param node: The node that the query should executed on.
+        :param keys: The hiera mapping that should be queried.
+        :return Two lists of dedicated and shared cpus set
+        """
+        if not node:
+            hyper_kwargs = {'shell': '/home/stack/stackrc'}
+            node = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)[0]
+        if not keys:
+            hiera_dedicated_cpus = "nova::compute::cpu_dedicated_set"
+            hiera_shared_cpus = "nova::compute::cpu_shared_set"
+            keys = [hiera_dedicated_cpus, hiera_shared_cpus]
+        dedicated, shared = self._retrieve_content_from_hiera(node=node,
+                                                              keys=keys)
+        dedicated = dedicated.strip('[""]')
+        dedicated = self.parse_int_ranges_from_number_string(dedicated)
+        shared = shared.strip('[]').split(', ')
+        shared = [int(vcpu) for vcpu in shared]
+        return dedicated, shared
 
     def locate_numa_aware_networks(self, numa_physnets):
         """Locate numa aware networks
@@ -859,13 +907,33 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         result = pipe.stdout.read().decode('UTF-8')
         return result.split()
 
-    def _create_and_set_aggregate(self, aggr_name, hyper_hosts, aggr_meta):
+    def create_and_set_availability_zone(self, zone_name=None, **kwargs):
+        """Create availability zone with aggregation
+
+        The method creates an aggregate and add the availability zone label
+        :param zone_name: Availability zone name
+        :param kwargs:
+                aggr_name: The name of the aggregation to be created
+                hyper_hosts: The list of the hypervisors to be attached
+                aggr_meta: The metadata for the aggregation
+        """
+        if not zone_name:
+            zone_name = data_utils.rand_name('availability-zone')
+        aggr = self.create_and_set_aggregate(**kwargs)
+        zone = self.aggregates_client.update_aggregate(
+            aggregate_id=aggr['id'], availability_zone=zone_name)
+        return zone['aggregate']
+
+    def create_and_set_aggregate(self, hyper_hosts, aggr_name=None,
+                                 aggr_meta=None):
         """Create aggregation and add an hypervisor to it
 
-        :param aggr_name: The name of the aggregation to be created
         :param hyper_hosts: The list of the hypervisors to be attached
-        :param aggr_meta: The metadata for the aggregation
+        :param aggr_name: The name of the aggregation to be created
+        :param aggr_meta: The metadata for the aggregation (optional)
         """
+        if not aggr_name:
+            aggr_name = data_utils.rand_name('aggregate')
         hyper_list = []
         for hyper in self.hypervisor_client.list_hypervisors()['hypervisors']:
             for host in hyper_hosts:
@@ -875,17 +943,17 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             raise ValueError('Provided host for the aggregate does not exist.')
 
         aggr = self.aggregates_client.create_aggregate(name=aggr_name)
-        meta_body = {aggr_meta.split('=')[0]: aggr_meta.split('=')[1]}
-        self.aggregates_client.set_metadata(aggr['aggregate']['id'],
-                                            metadata=meta_body)
         self.addCleanup(self.aggregates_client.delete_aggregate,
                         aggr['aggregate']['id'])
-
+        if aggr_meta:
+            meta_body = {aggr_meta.split('=')[0]: aggr_meta.split('=')[1]}
+            self.aggregates_client.set_metadata(aggr['aggregate']['id'],
+                                                metadata=meta_body)
         for host in hyper_list:
             self.aggregates_client.add_host(aggr['aggregate']['id'], host=host)
             self.addCleanup(self.aggregates_client.remove_host,
                             aggr['aggregate']['id'], host=host)
-        return aggr['aggregate']['name']
+        return aggr['aggregate']
 
     def _list_aggregate(self, name=None):
         """Aggregation listing
@@ -1039,13 +1107,16 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 self.test_network_dict[net['name']]['dns_nameservers'] = \
                     net['dns_nameservers']
             if ('tag' in net and (2.32 <= float(self.request_microversion)
-                                  <= 2.36 or self.request_microversion
+                                  <= 2.36 or float(self.request_microversion)
                                   >= 2.42)):
                 self.test_network_dict[net['name']]['tag'] = net['tag']
             if 'trusted_vf' in net and net['trusted_vf']:
                 self.test_network_dict[net['name']]['trusted_vf'] = True
             if 'switchdev' in net and net['switchdev']:
                 self.test_network_dict[net['name']]['switchdev'] = True
+            if 'min_qos' in net and net['min_qos']:
+                self.test_network_dict[net['name']]['min_qos'] = \
+                    net['min_qos']
         network_kwargs = {}
         """
         Create network and subnets
@@ -1181,7 +1252,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         remove_network = net_name
             self.test_network_dict.pop(remove_network)
 
-    def _create_ports_on_networks(self, num_ports=1):
+    def _create_ports_on_networks(self, num_ports=1, **kwargs):
         """Create ports on a test networks for instances
 
         The method will create a network ports as per test_network dict
@@ -1194,6 +1265,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         :param num_ports: The number of loops for ports creation
         :param kwargs
+               set_qos: true/false set qos policy during port creation
 
         :return ports_list: A list of ports lists
         """
@@ -1223,10 +1295,23 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                        net_param['port_type'] == 'direct':
                         create_port_body['binding:profile']['capabilities'] = \
                             ['switchdev']
+
                     if len(create_port_body['binding:profile']) == 0:
                         del create_port_body['binding:profile']
                     port = self._create_port(network_id=net_param['net-id'],
                                              **create_port_body)
+                    # No option to create port with QoS, due to neutron API
+                    # Using update port
+                    if 'min_qos' in net_param and \
+                        net_param['min_qos'] and \
+                        net_param['port_type'] == 'direct' and \
+                        'set_qos' in kwargs:
+                        port_name = data_utils.rand_name('port-min-qos')
+                        port_args = {'name': port_name}
+                        if kwargs['set_qos']:
+                            port_args['qos_policy_id'] = \
+                                self.qos_policy_groups['id']
+                        self.update_port(port['id'], **port_args)
                     net_var = {'uuid': net_param['net-id'], 'port': port['id']}
                     if 'tag' in net_param:
                         net_var['tag'] = net_param['tag']
@@ -1257,6 +1342,68 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         port = result['port']
         self.addCleanup(self.ports_client.delete_port, port['id'])
         return port
+
+    def create_network_qos_policy(self, namestart='qos-policy'):
+        """Creates a network QoS policy"""
+        qos_client = self.os_admin.qos_client
+        result = qos_client.create_qos_policy(
+            name=data_utils.rand_name(namestart))
+        self.assertIsNotNone(result, 'Unable to create policy')
+        qos_policy = result['policy']
+        self.addCleanup(test_utils.call_and_ignore_notfound_exc,
+                        qos_client.delete_qos_policy,
+                        qos_policy['id'])
+        return qos_policy
+
+    def create_min_bw_qos_rule(self, policy_id=None, min_kbps=None,
+                               direction='egress'):
+        """Creates a minimum bandwidth QoS rule
+
+        NOTE: Not all kernel versions support minimum bandwidth for all
+        NIC drivers.
+
+        Only egress (guest --> outside) traffic is currently supported.
+
+        :param policy_id
+        :param min_kbps: Minimum kbps bandwidth to apply to rule
+        :param direction: Traffic direction that the rule applies to
+        """
+        SUPPORTED_DIRECTIONS = 'egress'
+        if not policy_id:
+            policy_id = self.qos_policy_groups[0]['id']
+        if direction not in SUPPORTED_DIRECTIONS:
+            raise ValueError('{d} is not a supported direction, supported '
+                             'directions: {s_p}'
+                             .format(d=direction,
+                                     s_p=SUPPORTED_DIRECTIONS.join(', ')))
+        qos_min_bw_client = self.os_admin.qos_min_bw_client
+        result = qos_min_bw_client.create_minimum_bandwidth_rule(
+            policy_id, **{'min_kbps': min_kbps, 'direction': direction})
+        self.assertIsNotNone(result, 'Unable to create minimum bandwidth '
+                                     'QoS rule')
+        qos_rule = result['minimum_bandwidth_rule']
+        self.addCleanup(
+            test_utils.call_and_ignore_notfound_exc,
+            qos_min_bw_client.delete_minimum_bandwidth_rule, policy_id,
+            qos_rule['id'])
+
+    def update_port(self, port_id, **kwargs):
+        """update port
+
+        The method, used to update port_body of port.
+        kwargs patam should includ additional parameters to be set
+        as per the following:
+        https://docs.openstack.org/api-ref/network/v2/ \
+                ?expanded=update-port-detail#update-port
+        :param port_id
+        :param kwargs
+               qos_policy_id: id of policy to be attached to the port
+        """
+        ports_client = self.os_admin.ports_client
+        ports_client.update_port(port_id, **kwargs)
+        self.addCleanup(
+            test_utils.call_and_ignore_notfound_exc,
+            ports_client.update_port, port_id, qos_policy_id=None)
 
     def create_server(self, name=None, image_id=None, flavor=None,
                       validatable=False, srv_state=None,
@@ -1311,6 +1458,15 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         :param srv_state: The state of the server to expect.
         :param raise_on_error: Raise as error on failed build of the server.
         :param kwargs:
+                srv_details: Provide per server override options.
+                             Supported options:
+                                - flavor (flavor id)
+                                - image (image id)
+                             For example:
+                             srv_details = {0: {'flavor': <flavor_id>},
+                                            1: {'flavor': <flavor_id>,
+                                                'image': <image_id>}}
+
         :return: List of created servers
         """
         servers = []
@@ -1319,8 +1475,20 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if not any(isinstance(el, list) for el in networks):
             raise ValueError('Network expect to be as a list of lists')
 
+        override_details = None
+        if kwargs.get('srv_details'):
+            override_details = kwargs.pop('srv_details')
+
         for num in range(num_servers):
             kwargs['networks'] = networks[num]
+
+            if override_details:
+                if 'flavor' in override_details[num]:
+                    kwargs['flavor'] = override_details[num]['flavor']
+                if 'image' in override_details[num]:
+                    kwargs['image_id'] = override_details[num]['image']
+                if 'srv_state' in override_details[num]:
+                    kwargs['srv_state'] = override_details[num]['srv_state']
 
             """ If this parameters exist, parse only mgmt network.
             Example live migration can't run with SRIOV ports attached"""
@@ -1340,7 +1508,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     'id'], network_id=networks[num][0]['uuid'])['ports'][0]
             if fip and srv_state == 'ACTIVE':
                 server['fip'] = \
-                    self.create_floating_ip(server, self.public_network)['ip']
+                    self.create_floating_ip(server,
+                                            port['id'],
+                                            self.public_network)[
+                        'floating_ip_address']
                 LOG.info('The {} fip is allocated to the instance'.format(
                     server['fip']))
             elif srv_state == 'ACTIVE':
@@ -1364,15 +1535,22 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         - Cloud init preparation
         - Servers creation
         - Floating ip attachment to the servers
+        - QoS attachments to port
 
         :param num_servers: The number of servers to boot up.
         :param num_ports: The number of ports to the created.
                           Default to (num_servers)
         :param test: Currently executed test. Provide test specific parameters.
         :param kwargs:
-                fip: Creation of the floating ip for the server.
-                use_mgmt_only: Boot instances with mgmt net only.
-                srv_state: The status of the booted instance.
+                set_qos: true/false create port with qos_policy
+                availability_zone: Create and set availability zone
+                    zone_name: Name of availability zone (optional)
+                    aggr_name: Name of aggregate (optional)
+                    hyper_hosts: The list of the hypervisors to be attached
+                    aggr_meta: Metadata for aggregate (optional)
+
+                    Example: {'availability_zone': {'hyper_hosts': 'compute0'}}
+
         :return servers, key_pair
         """
         LOG.info('Creating resources...')
@@ -1392,11 +1570,18 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                      'Continue to the test.')
             return servers, key_pair
 
+        # Create and configure availability zone
+        if kwargs.get('availability_zone'):
+            avail_zone = kwargs.pop('availability_zone')
+            kwargs['availability_zone'] = \
+                self.create_and_set_availability_zone(
+                    **avail_zone)['availability_zone']
+
         # Create and configure aggregation zone if specified
         if self.test_setup_dict[test]['aggregate'] is not None:
             aggr_hosts = self.test_setup_dict[test]['aggregate']['hosts']
             aggr_meta = self.test_setup_dict[test]['aggregate']['metadata']
-            self._create_and_set_aggregate(test, aggr_hosts, aggr_meta)
+            self.create_and_set_aggregate(test, aggr_hosts, aggr_meta)
 
         # Flavor creation
         if not kwargs.get('flavor'):
@@ -1425,7 +1610,12 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self._set_remote_ssh_sec_groups()
         if self.remote_ssh_sec_groups_names:
             kwargs['security_groups'] = self.remote_ssh_sec_groups_names
-        ports_list = self._create_ports_on_networks(num_ports=num_ports)
+        ports_list = \
+            self._create_ports_on_networks(num_ports=num_ports,
+                                           **kwargs)
+        # After port creation remove kwargs['set_qos']
+        if 'set_qos' in kwargs:
+            kwargs.pop('set_qos')
         router_exist = True
         if 'router' in self.test_setup_dict[test]:
             router_exist = self.test_setup_dict[test]['router']
@@ -1584,6 +1774,76 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 [{'name': security_group['name']}]
             self.remote_ssh_sec_groups = [{'name': security_group['name'],
                                            'id': security_group['id']}]
+
+    def _create_security_group(self):
+        """Security group creation
+
+        to conform changes in nova clients on microversions>=2.36
+        Create security groups and call method create rules
+        [icmp,ssh]
+        """
+
+        sg_name = data_utils.rand_name(self.__class__.__name__)
+        sg_desc = sg_name + " description"
+        client = self.security_groups_client
+        secgroup = client.create_security_group(
+            name=sg_name, description=sg_desc)['security_group']
+        self.assertEqual(secgroup['name'], sg_name)
+        self.assertEqual(secgroup['description'], sg_desc)
+        self.addCleanup(
+            test_utils.call_and_ignore_notfound_exc,
+            self.security_groups_client.delete_security_group,
+            secgroup['id'])
+
+        # Add rules to the security group
+        self._create_loginable_secgroup_rule(secgroup['id'])
+
+        return secgroup
+
+    def _create_loginable_secgroup_rule(self, secgroup_id=None):
+        """Add secgroups rules
+
+        To conform changes in nova clients on microversions>=2.36
+        This method add sg rules with neutron client
+        This method find default security group or specific one
+        and add icmp and ssh rules
+        """
+        rule_list = \
+            jsonutils.loads(CONF.nfv_plugin_options.login_security_group_rules)
+        client = self.security_groups_client
+        client_rules = self.security_group_rules_client
+        if not secgroup_id:
+            sgs = client.list_security_group['security_groups']
+            for sg in sgs:
+                if sg['name'] == 'default':
+                    secgroup_id = sg['id']
+                    break
+
+        for rule in rule_list:
+            direction = rule.pop('direction')
+            client_rules.create_security_group_rule(
+                direction=direction,
+                security_group_id=secgroup_id,
+                **rule)
+
+    def create_floating_ip(self, server, mgmt_port_id, public_network_id):
+        """Create floating ip to server
+
+        To conform changes in nova clients on microversions>=2.36
+        This method create fip with neutron client
+        """
+        fip_client = self.floating_ips_client
+        floating_ip_args = {
+            'floating_network_id': public_network_id,
+            'port_id': mgmt_port_id,
+            'tenant_id': server['tenant_id']
+        }
+        floating_ip = \
+            fip_client.create_floatingip(**floating_ip_args)['floatingip']
+        self.addCleanup(test_utils.call_and_ignore_notfound_exc,
+                        fip_client.delete_floatingip,
+                        floating_ip['id'])
+        return floating_ip
 
     def copy_file_to_remote_host(self, host, ssh_key, username=None,
                                  files=None, src_path=None, dst_path=None,
@@ -1941,3 +2201,78 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         return {'cpu_total': cpu_total, 'cpu_used': cpu_used,
                 'cpu_free_per_numa': cpu_free_per_numa, 'cpu_free': cpu_free,
                 'ram_free': ram_free}
+
+    def _get_controllers_ip_from_undercloud(self, **kwargs):
+        """This method returns the list of controllers ip
+
+        :param kwargs['shell']
+        """
+        command = 'openstack server list -c \'Name\' -c ' \
+                  '\'Networks\' -f value | grep -i {0} | ' \
+                  'cut -d\"=\" -f2'.format('controller')
+        ip_address_list = self._run_local_cmd_shell_with_venv(
+            command, kwargs['shell'])
+        return ip_address_list
+
+    def get_interfaces_from_overcloud_node(self, node_ip):
+        """Retrieve interfaces from overcloud node
+
+        :param node_ip
+        """
+        cmd = 'sudo ip link show'
+        output = self._run_command_over_ssh(node_ip, cmd)
+        return output
+
+    def check_qos_attached_to_guest(self, server, min_bw=False):
+        """Check QoS attachment to guest
+
+        This method checks if QoS is applied to an interface on hypervisor
+        that is attached to guest
+
+        :param server
+        :param min_bw: Check for minimum bandwidth QoS
+        """
+        # Initialize parameters
+        found_qos = False
+        interface_data = self.get_interfaces_from_overcloud_node(
+            server['hypervisor_ip'])
+        ports_client = self.os_admin.ports_client
+        ports = ports_client.list_ports(device_id=server['id'])
+        # Iterate over ports
+        for port in ports['ports']:
+            # If port has a QoS policy
+            if port['qos_policy_id']:
+                found_qos = True
+                # Construct regular expression to locate port's MAC address
+                re_string = r'.*{}.*'.format(port['mac_address'])
+                line = re.search(re_string, interface_data)
+                # Failed to locate MAC address on hypervisor
+                if not line:
+                    raise ValueError("Failed to locate interface with MAC "
+                                     "'{}' on hypervisor"
+                                     .format(port['mac_address']))
+                line = line.group(0)
+                # Check minimum bandwidth QoS
+                if min_bw:
+                    qos_min_bw_client = self.os_admin.qos_min_bw_client
+                    min_qos_rule = \
+                        qos_min_bw_client.list_minimum_bandwidth_rules(
+                            port['qos_policy_id'])['minimum_bandwidth_rules']
+                    # OpenStack API displays the size in Kbps
+                    min_kbps = min_qos_rule[0]['min_kbps']
+                    # Construct string to match Linux operating system
+                    min_mbps = str(int(ceil(min_kbps / 1000)))
+                    min_mbps = '{}Mbps'.format(min_mbps)
+                    # Linux operating system displays the size in Mbps
+                    qos = re.search(r'min_tx_rate \w+', line)
+                    # Failed to locate min QoS
+                    if not qos:
+                        raise ValueError("Failed to dicover min QoS for "
+                                         "interface with MAC '{}'"
+                                         .format(port['mac_address']))
+                    qos = qos.group(0)
+                    # Filter QoS number
+                    qos = qos.replace('min_tx_rate ', '')
+                    self.assertEqual(min_mbps, qos)
+        if not found_qos:
+            raise ValueError('No QoS policies were applied to ports')

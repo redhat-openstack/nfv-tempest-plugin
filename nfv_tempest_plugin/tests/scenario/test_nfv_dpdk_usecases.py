@@ -13,8 +13,6 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-import time
-
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
 from tempest import config
@@ -79,52 +77,6 @@ class TestDpdkScenarios(base_test.BaseTest):
                                          key_pair=key_pair['private_key'])
         LOG.info('The {} queues test passed.'.format(queues))
         return True
-
-    def _test_live_migration_block(self, test_setup_migration=None):
-        """Method boots an instance and wait until ACTIVE state
-
-        Migrates the instance to the next available hypervisor.
-        """
-
-        extra_specs = {'extra_specs': {'hw:mem_page_size': str("large")}}
-        migration_flavor = self.create_flavor(name='live-migration', vcpus='2',
-                                              **extra_specs)
-        servers, key_pair = \
-            self.create_server_with_resources(test=test_setup_migration,
-                                              flavor=migration_flavor,
-                                              use_mgmt_only=True)
-
-        host = self.os_admin.servers_client.show_server(
-            servers[0]['id'])['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']
-        self.check_instance_connectivity(ip_addr=servers[0]['fip'],
-                                         user=self.instance_user,
-                                         key_pair=key_pair['private_key'])
-        """ Migrate server """
-        self.os_admin.servers_client.live_migrate_server(
-            server_id=servers[0]['id'], block_migration=True, host=None)
-        """ Switch hypervisor id (compute-0 <=> compute-1) """
-        count = 1
-        if host.find('0') > 0:
-            dest = list(host)
-            dest[dest.index('0')] = '1'
-            dest = ''.join(dest)
-        else:
-            dest = list(host)
-            dest[dest.index('1')] = '0'
-            dest = ''.join(dest)
-        while count < 30:
-            count += 1
-            time.sleep(3)
-            if dest == self\
-                    .os_admin.servers_client.show_server(servers[0][
-                    'id'])['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']:
-                """Verify connectivity after migration"""
-                self.check_instance_connectivity(ip_addr=servers[0]['fip'],
-                                                 user=self.instance_user,
-                                                 key_pair=key_pair[
-                                                     'private_key'])
-                return True
-        return False
 
     def test_multicast(self, test='multicast'):
         """The method boots three instances, runs mcast traffic between them"""
@@ -205,12 +157,6 @@ class TestDpdkScenarios(base_test.BaseTest):
         msg = "Could not create, ping or ssh to the instance with flavor " \
               "contains odd number of vcpus"
         self.assertTrue(self._test_queue_functionality(queues="odd"), msg)
-
-    def test_live_migration_block(self):
-        """Make sure CONF.compute_feature_enabled.live_migration is True"""
-        msg = "Live migration Failed"
-        self.assertTrue(self._test_live_migration_block(
-            test_setup_migration="test_live_migration_basic"), msg)
 
     def test_rx_tx(self, test='rx_tx'):
         """Test RX/TX on the instance vs nova configuration
