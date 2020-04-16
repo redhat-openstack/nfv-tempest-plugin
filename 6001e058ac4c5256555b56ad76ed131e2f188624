@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3154cda4_7d9d8275",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-04-16T03:34:32Z",
+      "side": 1,
+      "message": "Correct me if I\u0027m wrong, but there should not be a dependency between provider network connectivity test and Neutron client.\n\nNeutron client are only required for max QoS for now.",
+      "revId": "6001e058ac4c5256555b56ad76ed131e2f188624",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
