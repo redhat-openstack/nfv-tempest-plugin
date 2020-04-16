@@ -16,6 +16,24 @@
       "revId": "6001e058ac4c5256555b56ad76ed131e2f188624",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83fa6eff_cd7f2290",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-04-16T07:50:53Z",
+      "side": 1,
+      "message": "It is not verified yet.\nBut obvious one can see that annotation is not the place, it should move to get_client_manager\nIs it changing your opinion?",
+      "parentUuid": "3154cda4_7d9d8275",
+      "revId": "6001e058ac4c5256555b56ad76ed131e2f188624",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
