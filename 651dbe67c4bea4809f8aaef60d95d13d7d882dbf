@@ -48,6 +48,40 @@
     },
     {
       "key": {
+        "uuid": "b45fff16_d8866510",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 2319,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2020-04-20T06:10:16Z",
+      "side": 1,
+      "message": "It looks like utility function itself has complex derivations. Can we create simple utiltity functions without and additional map?",
+      "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c20f35d5_2f56c1d1",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2020-04-20T06:10:16Z",
+      "side": 1,
+      "message": "Can you add the testing process in the description?",
+      "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b52077fb_8fc50f4f",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
         "patchSetId": 7
