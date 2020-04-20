@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97548713_9c9aec3c",
+        "filename": "docs/tests.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-04-20T06:07:56Z",
+      "side": 1,
+      "message": "I think we should start moving out of setting these configurations out of the test.\nIn my opinion, the test should identify by itself the required network and bond that exists in the system.\n\nWhat do you think?",
+      "range": {
+        "startLine": 536,
+        "startChar": 6,
+        "endLine": 538,
+        "endChar": 17
+      },
+      "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee50f027_fdca94c6",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 2306,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-04-20T06:07:56Z",
+      "side": 1,
+      "message": "Will go deeper into this method in the few coming days.",
+      "range": {
+        "startLine": 2306,
+        "startChar": 8,
+        "endLine": 2306,
+        "endChar": 48
+      },
+      "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b52077fb_8fc50f4f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-04-20T06:07:56Z",
+      "side": 1,
+      "message": "Use availability zones or aggregation (choose what you would like), and you don\u0027t need to assume where the instances will be spawned.",
+      "range": {
+        "startLine": 53,
+        "startChar": 26,
+        "endLine": 53,
+        "endChar": 34
+      },
+      "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b401a0b_a6fb5608",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-04-20T06:07:56Z",
+      "side": 1,
+      "message": "Why do you need to explicitly define the \"hypervisor_ssh\"?\nWhy not to use the \"_run_command_over_ssh\" method?",
+      "range": {
+        "startLine": 82,
+        "startChar": 12,
+        "endLine": 82,
+        "endChar": 26
+      },
+      "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
