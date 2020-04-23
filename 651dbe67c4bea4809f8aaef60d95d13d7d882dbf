@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fe146dd5_749f7089",
+        "filename": "docs/tests.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-04-23T11:14:01Z",
+      "side": 1,
+      "message": "Allowing self discovery mechanism would be beneficial.\nI\u0027m unsure on how we\u0027re going to detect bonds and the networks attached to them, this sound complex. We\u0027ll have to query neutron networks, thier physnets and their mappings to physical devices and etc\u0027.\n\nIf you think that this is the approach that we should take then we can bring up the discussion.",
+      "parentUuid": "97548713_9c9aec3c",
+      "range": {
+        "startLine": 536,
+        "startChar": 6,
+        "endLine": 538,
+        "endChar": 17
+      },
+      "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ee50f027_fdca94c6",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 7
@@ -65,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8763772b_a42228a8",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 2319,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-04-23T11:14:01Z",
+      "side": 1,
+      "message": "I wanted to have some kind of a generic map that can be used for several bond types.\nSince we\u0027re only using active-backup as of now, perhaps I should only focus on it.",
+      "parentUuid": "b45fff16_d8866510",
+      "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c20f35d5_2f56c1d1",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
         "patchSetId": 7
@@ -76,6 +118,24 @@
       "writtenOn": "2020-04-20T06:10:16Z",
       "side": 1,
       "message": "Can you add the testing process in the description?",
+      "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd446df4_ec0fc641",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-04-23T11:14:01Z",
+      "side": 1,
+      "message": "Of course, will add this.",
+      "parentUuid": "c20f35d5_2f56c1d1",
       "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
@@ -105,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "72bc2eee_f8aa3bda",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-04-23T11:14:01Z",
+      "side": 1,
+      "message": "I want to spawn an instance on all hypervisors ideally.\n\nNot sure how to achieve this, I don\u0027t want to create an extra flavor during test.",
+      "parentUuid": "b52077fb_8fc50f4f",
+      "range": {
+        "startLine": 53,
+        "startChar": 26,
+        "endLine": 53,
+        "endChar": 34
+      },
+      "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b401a0b_a6fb5608",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
         "patchSetId": 7
@@ -116,6 +200,30 @@
       "writtenOn": "2020-04-20T06:07:56Z",
       "side": 1,
       "message": "Why do you need to explicitly define the \"hypervisor_ssh\"?\nWhy not to use the \"_run_command_over_ssh\" method?",
+      "range": {
+        "startLine": 82,
+        "startChar": 12,
+        "endLine": 82,
+        "endChar": 26
+      },
+      "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75a2e44d_6a595fbd",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-04-23T11:14:01Z",
+      "side": 1,
+      "message": "I wanted to use this instead of \u0027_run_command_over_ssh\u0027 because it raises an exception on failures.\n\nIf I\u0027m not mistaken, \u0027_run_command_over_ssh\u0027 returns an empty result if command has failed.\nIt is much more convenient in to use the native client in my opinion.",
+      "parentUuid": "1b401a0b_a6fb5608",
       "range": {
         "startLine": 82,
         "startChar": 12,
