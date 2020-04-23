@@ -16,6 +16,24 @@
       "revId": "914c2917403e8a705315b04989dba619fe24778a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41078288_3774f9d1",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1015848
+      },
+      "writtenOn": "2020-04-23T08:56:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8f7695cf_4fb1fc00",
+      "revId": "914c2917403e8a705315b04989dba619fe24778a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
