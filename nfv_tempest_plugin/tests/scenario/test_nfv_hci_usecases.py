@@ -114,6 +114,7 @@ class TestHciScenarios(base_test.BaseTest):
             _get_controllers_ip_from_undercloud(**hyper_kwargs)[0]
         cmd = "sudo docker exec ceph-mon-`hostname` ceph -s | grep health | "\
               "cut -d':' -f2 | sed 's/^[ \t]*//;s/[ \t]*$//'"
-        result = self._run_command_over_ssh(controller_ip, cmd)
+        result = \
+            self._run_command_over_ssh(controller_ip, cmd).replace("\n", "")
         self.assertEqual(result, 'HEALTH_OK')
         LOG.info('The {} test passed.'.format(test))
