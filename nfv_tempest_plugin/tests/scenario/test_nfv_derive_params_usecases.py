@@ -17,6 +17,7 @@ import json
 import math
 import yaml
 
+from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
 from tempest import config
@@ -40,7 +41,7 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
     def _get_numa_nodes(self, hypervisor_ip):
         nodes = []
         cmd = "sudo lscpu -p=NODE | grep -v ^#"
-        output = self._run_command_over_ssh(hypervisor_ip, cmd)
+        output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
         for line in output.split('\n'):
             if line:
                 node = int(line.strip(' '))
@@ -51,7 +52,7 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
     def _get_nodes_cores_info(self, hypervisor_ip):
         dict_cpus = {}
         cmd = "sudo lscpu -p=NODE,CORE,CPU | grep -v ^#"
-        output = self._run_command_over_ssh(hypervisor_ip, cmd)
+        output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
         for line in output.split('\n'):
             if line:
                 cpu_info = line.split(',')
@@ -77,7 +78,7 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
     # for the given MAC.
     def _get_dpdk_nics_mapping(self, hypervisor_ip, mac):
         cmd = "sudo cat /var/lib/os-net-config/dpdk_mapping.yaml"
-        output = self._run_command_over_ssh(hypervisor_ip, cmd)
+        output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
         dpdk_nics_map = yaml.safe_load(output)
         for dpdk_nic_map in dpdk_nics_map:
             if dpdk_nic_map['mac_address'] == mac:
@@ -93,7 +94,7 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
         dpdk_nics = []
         cmd = ("sudo ovs-vsctl --columns=name,type,admin_state "
                "--format=json list interface")
-        output = self._run_command_over_ssh(hypervisor_ip, cmd)
+        output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
         nics = json.loads(output)
         for nic in nics.get('data', []):
             if nic and str(nic[1]) == 'dpdk' and str(nic[2]) == 'up':
@@ -101,7 +102,7 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
         if dpdk_nics:
             cmd = ("sudo ovs-vsctl --column=mac-in-use,mtu,status "
                    "--format=json list interface " + ' '.join(dpdk_nics))
-            output = self._run_command_over_ssh(hypervisor_ip, cmd)
+            output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
             nics_info = json.loads(output)
             for nic_info in nics_info.get('data', []):
                 data = {}
@@ -121,7 +122,7 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
     def _get_physical_memory(self, hypervisor_ip):
         mem_total_kb = 0
         cmd = "sudo dmidecode --type memory | grep 'Size' | grep '[0-9]'"
-        output = self._run_command_over_ssh(hypervisor_ip, cmd)
+        output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
         for line in output.split('\n'):
             if line:
                 mem_info = line.split(':')[1].strip()
@@ -272,7 +273,7 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
     # Gets the CPU model and flags
     def _get_cpu_details(self, hypervisor_ip):
         cmd = "sudo lscpu | grep 'Model name';sudo lscpu | grep 'Flags'"
-        output = self._run_command_over_ssh(hypervisor_ip, cmd)
+        output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
         if output:
             cpu_model = ""
             cpu_flags = []
@@ -342,7 +343,7 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
         cmd = ("sudo ovs-vswitchd --version | "
                "awk '{ if ($1 == \"DPDK\") print 1; }';"
                "echo '|';sudo cat /etc/puppet/hieradata/service_names.json")
-        output = self._run_command_over_ssh(hypervisor_ip, cmd)
+        output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
         if output:
             params = output.split('|')
             if params:
@@ -457,14 +458,15 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
         for param in retrive_host_params:
             if retrive_host_params[param]['action'] == 'command':
                 cmd = retrive_host_params[param]['cmd']
-                result = self._run_command_over_ssh(hypervisor_ip, cmd)
+                result = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
             elif retrive_host_params[param]['action'] == 'ini':
                 file_path = retrive_host_params[param]['file_path']
                 section = retrive_host_params[param]['section']
                 value = retrive_host_params[param]['value']
-                result = self._get_value_from_ini_config(hypervisor_ip,
-                                                         file_path, section,
-                                                         value)
+                result = shell_utils.\
+                    get_value_from_ini_config(hypervisor_ip,
+                                              file_path, section,
+                                              value)
             host_params[param] = result.strip('\n').strip('"').strip()
             if (param in ['OvsDpdkCoreList', 'OvsPmdCoreList',
                           'NovaVcpuPinSet', 'IsolCpusList']):
