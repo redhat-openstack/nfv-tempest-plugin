@@ -13,6 +13,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
 from tempest import config
@@ -110,11 +111,11 @@ class TestHciScenarios(base_test.BaseTest):
         """
         LOG.info('Execute ceph health status test command')
         hyper_kwargs = {'shell': '/home/stack/stackrc'}
-        controller_ip = self.\
-            _get_controllers_ip_from_undercloud(**hyper_kwargs)[0]
+        controller_ip = shell_utils.\
+            get_controllers_ip_from_undercloud(**hyper_kwargs)[0]
         cmd = "sudo docker exec ceph-mon-`hostname` ceph -s | grep health | "\
               "cut -d':' -f2 | sed 's/^[ \t]*//;s/[ \t]*$//'"
-        result = \
-            self._run_command_over_ssh(controller_ip, cmd).replace("\n", "")
+        result = shell_utils.\
+            run_command_over_ssh(controller_ip, cmd).replace("\n", "")
         self.assertEqual(result, 'HEALTH_OK')
         LOG.info('The {} test passed.'.format(test))
