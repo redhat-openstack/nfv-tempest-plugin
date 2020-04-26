@@ -13,6 +13,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
 from tempest.common import waiters
@@ -60,8 +61,9 @@ class TestNfvBasic(base_test.BaseTest):
             if packages is not None:
                 for package in packages:
                     cmd = "rpm -qa | grep {0}".format(package)
-                    result = self._run_command_over_ssh(self.hypervisor_ip,
-                                                        cmd).split()
+                    result = shell_utils.\
+                        run_command_over_ssh(self.hypervisor_ip,
+                                             cmd).split()
                     if result:
                         test_result += result
 
@@ -73,8 +75,9 @@ class TestNfvBasic(base_test.BaseTest):
             if services is not None:
                 for service in services:
                     cmd = "systemctl is-active {0}".format(service)
-                    result = self._run_command_over_ssh(
-                        self.hypervisor_ip, cmd).strip('\n')
+                    result = shell_utils.\
+                        run_command_over_ssh(self.hypervisor_ip,
+                                             cmd).strip('\n')
                     if result != 'active':
                         test_result.append("The {0} service is not Active"
                                            .format(service))
@@ -83,7 +86,7 @@ class TestNfvBasic(base_test.BaseTest):
             tuned = self.test_setup_dict[test_compute]['tuned-profile']
             if tuned is not None:
                 cmd = "sudo tuned-adm active | awk '{print $4}'"
-                result = self._run_command_over_ssh(
+                result = shell_utils.run_command_over_ssh(
                     self.hypervisor_ip, cmd).strip('\n')
                 if result != tuned:
                     test_result.append("Tuned {0} profile is not Active"
@@ -91,7 +94,8 @@ class TestNfvBasic(base_test.BaseTest):
 
         kernel_args = ['nohz', 'nohz_full', 'rcu_nocbs', 'intel_pstate']
         check_grub_cmd = "sudo cat /proc/cmdline"
-        result = self._run_command_over_ssh(self.hypervisor_ip, check_grub_cmd)
+        result = shell_utils.\
+            run_command_over_ssh(self.hypervisor_ip, check_grub_cmd)
         for arg in kernel_args:
             if arg not in result:
                 test_result.append("Tuned not set in grub. Need to reboot?")
@@ -147,8 +151,9 @@ class TestNfvBasic(base_test.BaseTest):
         """
         servers, key_pair = self.create_and_verify_resources(test=test)
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
-        result = self._run_command_over_ssh(servers[0]['hypervisor_ip'],
-                                            command)
+        result = shell_utils.\
+            run_command_over_ssh(servers[0]['hypervisor_ip'],
+                                 command)
         self.assertTrue(int(result[0]) == 2)
         LOG.info('Check instance vcpu')
         self.match_vcpu_to_numa_node(servers[0], servers[0]['hypervisor_ip'],
@@ -162,8 +167,9 @@ class TestNfvBasic(base_test.BaseTest):
         """
         servers, key_pair = self.create_and_verify_resources(test=test)
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
-        result = self._run_command_over_ssh(servers[0]['hypervisor_ip'],
-                                            command)
+        result = shell_utils.\
+            run_command_over_ssh(servers[0]['hypervisor_ip'],
+                                 command)
         self.assertTrue(int(result[0]) == 2)
         LOG.info('Check instance vcpu')
         self.match_vcpu_to_numa_node(servers[0], servers[0]['hypervisor_ip'],
@@ -177,8 +183,9 @@ class TestNfvBasic(base_test.BaseTest):
         """
         servers, key_pair = self.create_and_verify_resources(test=test)
         command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
-        result = self._run_command_over_ssh(servers[0]['hypervisor_ip'],
-                                            command)
+        result = shell_utils.\
+            run_command_over_ssh(servers[0]['hypervisor_ip'],
+                                 command)
         self.assertTrue(int(result[0]) == 2)
         LOG.info('Check instance vcpu')
         self.match_vcpu_to_numa_node(servers[0], servers[0]['hypervisor_ip'],
