@@ -13,6 +13,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
 from tempest import config
@@ -51,7 +52,7 @@ class TestNfvOffload(base_test.BaseTest):
         # [{192.0.60.1: 'true'}, {192.0.60.2: 'true'}]
         expected_result = [{ip: 'true'} for ip in hypervisors]
         for hypervisor in hypervisors:
-            out = self._run_command_over_ssh(hypervisor, cmd)
+            out = shell_utils.run_command_over_ssh(hypervisor, cmd)
             if out:
                 # Strip newlines and remove double quotes
                 output = out.rstrip().replace('"', '')
@@ -95,10 +96,11 @@ class TestNfvOffload(base_test.BaseTest):
         for hypervisor in hypervisors:
             dev_result = []
             for nic in offload_nics:
-                pci = self._run_command_over_ssh(hypervisor,
-                                                 ethtool_cmd.format(nic))
-                dev_query = self._run_command_over_ssh(hypervisor,
-                                                       devlink_cmd.format(pci))
+                pci = shell_utils.run_command_over_ssh(hypervisor,
+                                                       ethtool_cmd.format(nic))
+                dev_query = shell_utils.\
+                    run_command_over_ssh(hypervisor,
+                                         devlink_cmd.format(pci))
                 if 'switchdev' in dev_query:
                     output = 'true'
                 else:
@@ -121,8 +123,8 @@ class TestNfvOffload(base_test.BaseTest):
         # Command to check offloaded flows in OVS
         cmd = 'sudo ovs-appctl dpctl/dump-flows type=offloaded'
         for hypervisor in hypervisors:
-            out = self._run_command_over_ssh(hypervisor,
-                                             cmd)
+            out = shell_utils.run_command_over_ssh(hypervisor,
+                                                   cmd)
             msg = 'Hypervisor {} has no offloaded flows in OVS'.format(
                 hypervisor)
             self.assertNotEmpty(out, msg)
@@ -135,8 +137,9 @@ class TestNfvOffload(base_test.BaseTest):
 
         # Iterate over created servers
         for server in servers:
-            out = self._run_command_over_ssh(server['hypervisor_ip'],
-                                             cmd)
+            out = shell_utils.\
+                run_command_over_ssh(server['hypervisor_ip'],
+                                     cmd)
             ports =  \
                 self.os_admin.ports_client.list_ports(device_id=server['id'])
             msg = ('Port with mac address {} is expected to be part of '
