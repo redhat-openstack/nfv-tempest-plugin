@@ -14,6 +14,7 @@
 #    under the License.
 
 from importlib import import_module
+from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import baremetal_manager
 from oslo_log import log as logging
 from tempest import clients
@@ -109,9 +110,10 @@ class BaseTest(baremetal_manager.BareMetalManager):
             ssh_client = self.get_remote_client(server['fip'],
                                                 self.instance_user,
                                                 key_pair['private_key'])
-            self.check_guest_interface_config(ssh_client,
-                                              server['provider_networks'],
-                                              server['name'])
+            shell_utils.\
+                check_guest_interface_config(ssh_client,
+                                             server['provider_networks'],
+                                             server['name'])
 
         self.check_guest_provider_networks(servers, key_pair)
 
