@@ -45,6 +45,23 @@
       "revId": "0a487261396366dc8dd54d8da386410eff098569",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30fefce2_71176f87",
+        "filename": "nfv_tempest_plugin/tests/scenario/tests_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2020-04-27T05:59:38Z",
+      "side": 1,
+      "message": "Why does it need to be a class?",
+      "revId": "0a487261396366dc8dd54d8da386410eff098569",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
