@@ -1093,6 +1093,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         Do not use this method if the test
         need to run on pre-configured networks..
         see _detect_existing_networks() method
+        fsdf
         """
         if len(self.external_config['test-networks']) > 0:
             self.test_network_dict.clear()
