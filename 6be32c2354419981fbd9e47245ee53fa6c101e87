@@ -22,6 +22,30 @@
       "revId": "6be32c2354419981fbd9e47245ee53fa6c101e87",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f716b129_84892d34",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 2208,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-05-04T15:41:32Z",
+      "side": 1,
+      "message": "Unfortunately, placement api does not allow to get this information.\nI have checked the documentation of the rest api in multiple microversions.",
+      "parentUuid": "35ac3f7c_aeb553bf",
+      "range": {
+        "startLine": 2207,
+        "startChar": 10,
+        "endLine": 2208,
+        "endChar": 56
+      },
+      "revId": "6be32c2354419981fbd9e47245ee53fa6c101e87",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
