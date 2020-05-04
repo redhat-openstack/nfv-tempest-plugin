@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35ac3f7c_aeb553bf",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 2208,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-05-04T14:34:48Z",
+      "side": 1,
+      "message": "Why not using placement API?\nhttps://github.com/openstack/tempest/blob/ceb882169a369c2a00c5b8d95e98fe5bf49c2d9e/releasenotes/notes/Placement-client-for-placement-based-minimum-bw-allocation-27ed0938118752b6.yaml",
+      "range": {
+        "startLine": 2207,
+        "startChar": 10,
+        "endLine": 2208,
+        "endChar": 56
+      },
+      "revId": "6be32c2354419981fbd9e47245ee53fa6c101e87",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
