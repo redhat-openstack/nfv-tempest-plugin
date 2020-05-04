@@ -22,6 +22,30 @@
       "revId": "6efdfdb7d94683b910020ab57a2a2344e7ff9407",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "672d1dab_ba912d01",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-05-04T18:46:21Z",
+      "side": 1,
+      "message": "I do not understand, can you explain?",
+      "parentUuid": "b2d21d3e_6f5ec404",
+      "range": {
+        "startLine": 23,
+        "startChar": 5,
+        "endLine": 23,
+        "endChar": 59
+      },
+      "revId": "6efdfdb7d94683b910020ab57a2a2344e7ff9407",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
