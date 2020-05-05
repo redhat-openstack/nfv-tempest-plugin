@@ -46,6 +46,52 @@
       "revId": "6efdfdb7d94683b910020ab57a2a2344e7ff9407",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bff6160_a616cd4a",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2020-05-05T04:20:38Z",
+      "side": 1,
+      "message": "Where is this class?",
+      "range": {
+        "startLine": 44,
+        "startChar": 37,
+        "endLine": 44,
+        "endChar": 53
+      },
+      "revId": "6efdfdb7d94683b910020ab57a2a2344e7ff9407",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f04f5e0_b78f5a09",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2020-05-05T04:20:38Z",
+      "side": 1,
+      "message": "What does this name signify? \"Mixin\"? Something like ManagerBase or ManagerAbstract more relatable.",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 18
+      },
+      "revId": "6efdfdb7d94683b910020ab57a2a2344e7ff9407",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
