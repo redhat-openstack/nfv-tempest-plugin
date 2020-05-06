@@ -1130,6 +1130,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'min_qos' in net and net['min_qos']:
                 self.test_network_dict[net['name']]['min_qos'] = \
                     net['min_qos']
+            if net.get('skip_srv_attach') and net['skip_srv_attach']:
+                self.test_network_dict[net['name']]['skip_srv_attach'] = True
         network_kwargs = {}
         """
         Create network and subnets
@@ -1286,9 +1288,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         set public network first
         """
-        for nport in range(num_ports):
+        for _ in range(num_ports):
             networks_list = []
             for net_name, net_param in iter(self.test_network_dict.items()):
+                if 'skip_srv_attach' in net_param:
+                    continue
                 create_port_body = {'binding:vnic_type': '',
                                     'namestart': 'port-smoke',
                                     'binding:profile': {}}

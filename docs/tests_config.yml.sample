@@ -74,6 +74,8 @@ test-networks:
     switchdev: true
     # set on SRIOV nics support.
     min_qos: true
+    # (Optional) - Do not attach the network to the instance by default
+    skip_srv_attach: true
 
 # Flavors used by the test.
 # Will be created by the tests during the execution
