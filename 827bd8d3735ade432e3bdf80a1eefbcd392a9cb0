@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c515acc_99abdbd7",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-05-07T09:12:10Z",
+      "side": 1,
+      "message": "Reading nieto Comments\nWhy not decide in the test which network to use?",
+      "range": {
+        "startLine": 1294,
+        "startChar": 11,
+        "endLine": 1294,
+        "endChar": 50
+      },
+      "revId": "827bd8d3735ade432e3bdf80a1eefbcd392a9cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
