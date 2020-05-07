@@ -22,6 +22,30 @@
       "revId": "827bd8d3735ade432e3bdf80a1eefbcd392a9cb0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "862c9292_fc660143",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-05-07T09:16:07Z",
+      "side": 1,
+      "message": "Our plugin by default attach every network to every spawned instance.\nWhen I\u0027m running a bulk of tests, I\u0027m need just the numa aware vswitch test to use the numa aware dedicated network.\n\nWithout this flag, each instance from each test will be attached to that network. And that is something I want to avoid.",
+      "parentUuid": "3c515acc_99abdbd7",
+      "range": {
+        "startLine": 1294,
+        "startChar": 11,
+        "endLine": 1294,
+        "endChar": 50
+      },
+      "revId": "827bd8d3735ade432e3bdf80a1eefbcd392a9cb0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
