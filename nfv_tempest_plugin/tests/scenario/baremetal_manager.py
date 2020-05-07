@@ -702,9 +702,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         numa_phys_content = self._retrieve_content_from_hiera(node=node,
                                                               keys=keys)
         # Identify the numa aware physnet
-        numa_aware_phys = None
-        bridge_mapping = None
-        numa_aware_tun = None
+        numa_aware_phys = {}
+        bridge_mapping = []
+        numa_aware_tun = []
         for physnet in numa_phys_content:
             if '=>' in physnet:
                 numa_aware_phys = yaml.safe_load(physnet.replace('=>', ':'))
@@ -740,7 +740,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 LOG.info('The {} is a non numa aware network'.format(physnet))
                 numa_physnets['non_numa_aware_net'] = physnet
 
-        if numa_aware_tun is not None:
+        if numa_aware_tun:
             numa_physnets['numa_aware_tunnel'] = numa_aware_tun[0]
         return numa_physnets
 
@@ -2206,17 +2206,57 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if not any(hypervisor in a['hypervisor_hostname'] for a in hyp_list):
             raise ValueError('Specifyed hypervisor has not been found.')
 
-        hyper_id = self.os_admin.hypervisor_client.search_hypervisor(
-            hypervisor)['hypervisors'][0]['id']
-        hyper_info = self.os_admin.hypervisor_client.show_hypervisor(
-            hyper_id)['hypervisor']
-        cpu_total = hyper_info['vcpus']
-        cpu_used = hyper_info['vcpus_used']
-        cpu_free = hyper_info['vcpus'] - hyper_info['vcpus_used']
-        cpu_free_per_numa = hyper_info['vcpus'] // 2 - hyper_info['vcpus_used']
-        ram_free = hyper_info['free_ram_mb'] // 1024
-        return {'cpu_total': cpu_total, 'cpu_used': cpu_used,
-                'cpu_free_per_numa': cpu_free_per_numa, 'cpu_free': cpu_free,
+        osp_release = self.get_osp_release()
+        if osp_release >= 16:
+            cmd = "openstack hypervisor list -c ID -c " \
+                  "'Hypervisor Hostname' --format value"
+            hypers = \
+                self._run_local_cmd_shell_with_venv(cmd,
+                                                    '/home/stack/overcloudrc')
+            host_id = None
+            for hyper_id, hostname in zip(hypers[::2], hypers[1::2]):
+                if hostname in hypervisor:
+                    host_id = hyper_id
+            hyper_resources = {'resources': 'VCPU:1,PCPU:1,MEMORY_MB:1'}
+            hyper_info = \
+                self.os_admin.placement_client.list_allocation_candidates(
+                    **hyper_resources)
+            hyper_info = hyper_info['provider_summaries'][host_id]['resources']
+            pcpu_total = hyper_info['PCPU']['capacity']
+            pcpu_used = hyper_info['PCPU']['used']
+            pcpu_free = \
+                hyper_info['PCPU']['capacity'] - hyper_info['PCPU']['used']
+            pcpu_free_per_numa = hyper_info['PCPU']['capacity'] \
+                // 2 - hyper_info['PCPU']['used']
+            vcpu_total = hyper_info['VCPU']['capacity']
+            vcpu_used = hyper_info['VCPU']['used']
+            vcpu_free = \
+                hyper_info['VCPU']['capacity'] - hyper_info['VCPU']['used']
+            vcpu_free_per_numa = hyper_info['VCPU']['capacity'] \
+                // 2 - hyper_info['VCPU']['used']
+            ram_free = (hyper_info['MEMORY_MB']['capacity']
+                        - hyper_info['MEMORY_MB']['used']) // 1024
+        else:
+            hyper_id = self.os_admin.hypervisor_client.search_hypervisor(
+                hypervisor)['hypervisors'][0]['id']
+            hyper_info = self.os_admin.hypervisor_client.show_hypervisor(
+                hyper_id)['hypervisor']
+            pcpu_total = hyper_info['vcpus']
+            pcpu_used = hyper_info['vcpus_used']
+            pcpu_free = hyper_info['vcpus'] - hyper_info['vcpus_used']
+            pcpu_free_per_numa = \
+                hyper_info['vcpus'] // 2 - hyper_info['vcpus_used']
+            vcpu_total = None
+            vcpu_used = None
+            vcpu_free = None
+            vcpu_free_per_numa = None
+            ram_free = hyper_info['free_ram_mb'] // 1024
+        return {'pcpu_total': pcpu_total, 'pcpu_used': pcpu_used,
+                'pcpu_free': pcpu_free,
+                'pcpu_free_per_numa': pcpu_free_per_numa,
+                'vcpu_total': vcpu_total, 'vcpu_used': vcpu_used,
+                'vcpu_free': vcpu_free,
+                'vcpu_free_per_numa': vcpu_free_per_numa,
                 'ram_free': ram_free}
 
     def _get_controllers_ip_from_undercloud(self, **kwargs):
