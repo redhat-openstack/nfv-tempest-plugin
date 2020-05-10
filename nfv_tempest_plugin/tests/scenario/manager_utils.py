@@ -941,7 +941,7 @@ class ManagerMixin(object):
         if not any(hypervisor in a['hypervisor_hostname'] for a in hyp_list):
             raise ValueError('Specifyed hypervisor has not been found.')
 
-        osp_release = shell_utils.get_osp_release()
+        osp_release = self.get_osp_release()
         if osp_release >= 16:
             cmd = "openstack hypervisor list -c ID -c " \
                   "'Hypervisor Hostname' --format value"

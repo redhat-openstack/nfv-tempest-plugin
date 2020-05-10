@@ -15,7 +15,6 @@
 
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import base_test
-from nfv_tempest_plugin.tests.scenario import manager_utils
 from oslo_log import log as logging
 import re
 from tempest import config
@@ -52,7 +51,7 @@ class TestSriovScenarios(base_test.BaseTest):
         self.assertNotEmpty(trusted_vfs_mac_addresses,
                             "No trusted VFs are attached to server")
         LOG.info('Test the "trust on" interface on the hypervisor.')
-        result = manager_utils.\
+        result = shell_utils.\
             get_interfaces_from_overcloud_node(servers[0]['hypervisor_ip'])
         for mac_address in trusted_vfs_mac_addresses:
             re_string = r'.*{}.*'.format(mac_address)
