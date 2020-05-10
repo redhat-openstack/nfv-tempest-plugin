@@ -200,7 +200,7 @@ class TestAdvancedScenarios(base_test.BaseTest):
         LOG.info('The {} instance has been migrated to the {} hypervisor'
                  .format(srv1[0]['id'], second_hyper))
 
-        mgmt_net = self.test_network_dict['public']
+        mgmt_net = self.mgmt_network
         mgmt_net_id = [[{'uuid': self.test_network_dict[mgmt_net]['net-id']}]]
         kwargs = {'security_groups': self.remote_ssh_sec_groups_names,
                   'key_name': key_pair['name']}

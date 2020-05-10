@@ -48,6 +48,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
     def __init__(self, *args, **kwargs):
         super(BareMetalManager, self).__init__(*args, **kwargs)
         self.public_network = CONF.network.public_network_id
+        self.mgmt_network = None
         self.instance_user = CONF.nfv_plugin_options.instance_user
         self.instance_pass = CONF.nfv_plugin_options.instance_pass
         self.nfv_scripts_path = CONF.nfv_plugin_options.transfer_files_dest
@@ -402,7 +403,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                             self.subnets_client.delete_subnet, subnet['id'])
             self.test_network_dict[net_name]['subnet-id'] = subnet['id']
         if mgmt_network is not None:
-            self.test_network_dict['public'] = mgmt_network
+            self.mgmt_network = mgmt_network
 
     def _add_subnet_to_router(self):
         """Adding subnet as an interface to the router
@@ -410,8 +411,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         For VxLAN network type there is additional fork to be Done
         The following add to admin router mgmt subnet and create flowing ip
         """
-        public_name = self.test_network_dict['public']
-        public_net = self.test_network_dict[public_name]
+        mgmt_net_name = self.mgmt_network
+        mgmt_net = self.test_network_dict[mgmt_net_name]
         """
         search for admin router name
 
@@ -420,10 +421,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.assertEqual(len(seen_routers), 1,
                          "Test require 1 admin router. please check")
         self.os_admin.routers_client.add_router_interface(
-            seen_routers[0]['id'], subnet_id=public_net['subnet-id'])
+            seen_routers[0]['id'], subnet_id=mgmt_net['subnet-id'])
         self.addCleanup(self._try_remove_router_subnet,
                         seen_routers[0]['id'],
-                        subnet_id=public_net['subnet-id'])
+                        subnet_id=mgmt_net['subnet-id'])
 
     def _try_remove_router_subnet(self, router, **kwargs):
         # delete router, if it exists
@@ -464,16 +465,16 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         name must not be public, router exist and network external false
         """
         if len(public_network) == 0:
-            self.test_network_dict['public'] = self.test_network_dict.keys()[0]
+            self.mgmt_network = self.test_network_dict.keys()[0]
 
         elif len(public_network) == 1:
-            self.test_network_dict['public'] = None
+            self.mgmt_network = None
             remove_network = None
             for net_name, net_param in iter(self.test_network_dict.items()):
                 if net_name != 'public' and 'router' in net_param \
                         and 'external' in net_param:
                     if not net_param['external']:
-                        self.test_network_dict['public'] = net_name
+                        self.mgmt_network = net_name
                     else:
                         remove_network = net_name
             self.test_network_dict.pop(remove_network)
@@ -511,7 +512,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     create_port_body['binding:vnic_type'] = \
                         net_param['port_type']
                     if self.remote_ssh_sec_groups and net_name == \
-                            self.test_network_dict['public']:
+                            self.mgmt_network:
                         create_port_body['security_groups'] = \
                             [s['id'] for s in self.remote_ssh_sec_groups]
                     if 'trusted_vf' in net_param and \
@@ -544,7 +545,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     if 'tag' in net_param:
                         net_var['tag'] = net_param['tag']
                     networks_list.append(net_var) \
-                        if net_name != self.test_network_dict['public'] else \
+                        if net_name != self.mgmt_network else \
                         networks_list.insert(0, net_var)
             ports_list.append(networks_list)
         return ports_list
@@ -870,7 +871,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         Create security groups [icmp,ssh] for Deployed Guest Image
         """
-        mgmt_net = self.test_network_dict['public']
+        mgmt_net = self.mgmt_network
         if not ('sec_groups' in self.test_network_dict[mgmt_net]
                 and not self.test_network_dict[mgmt_net]['sec_groups']):
             security_group = self._create_security_group()
