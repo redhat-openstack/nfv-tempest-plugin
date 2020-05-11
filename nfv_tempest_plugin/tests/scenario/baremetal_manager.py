@@ -405,35 +405,35 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if mgmt_network is not None:
             self.mgmt_network = mgmt_network
 
-    def _add_subnet_to_router(self):
-        """Adding subnet as an interface to the router
+    def _add_subnet_to_router(self, mgmt_subnet_only=False):
+        """Add subnets of existing networks to the router
 
-        For VxLAN network type there is additional fork to be Done
-        The following add to admin router mgmt subnet and create flowing ip
+        The subnets attached to the router will get the ability for the
+        instances to get dhcp allocations on the instance interfaces
+
+        :param mgmt_subnet_only: Attach only mgmt network subnet to router
         """
         mgmt_net_name = self.mgmt_network
         mgmt_net = self.test_network_dict[mgmt_net_name]
-        """
-        search for admin router name
 
-        """
+        subnets = []
+        if not mgmt_subnet_only:
+            nets = self.os_admin.networks_client.list_networks()['networks']
+            for net in nets:
+                if not net['router:external'] \
+                        and 'HA network tenant' not in net['name']:
+                    subnets.append(net['subnets'][0])
+        else:
+            subnets.append(mgmt_net['subnet-id'])
         seen_routers = self.os_admin.routers_client.list_routers()['routers']
         self.assertEqual(len(seen_routers), 1,
                          "Test require 1 admin router. please check")
-        self.os_admin.routers_client.add_router_interface(
-            seen_routers[0]['id'], subnet_id=mgmt_net['subnet-id'])
-        self.addCleanup(self._try_remove_router_subnet,
-                        seen_routers[0]['id'],
-                        subnet_id=mgmt_net['subnet-id'])
-
-    def _try_remove_router_subnet(self, router, **kwargs):
-        # delete router, if it exists
-        try:
-            self.os_admin.routers_client.remove_router_interface(
-                router, **kwargs)
-        # if router is not found, this means it was deleted in the test
-        except lib_exc.NotFound:
-            pass
+        for subnet in subnets:
+            self.os_admin.routers_client.add_router_interface(
+                seen_routers[0]['id'], subnet_id=subnet)
+            self.addCleanup(self.os_admin.routers_client.
+                            remove_router_interface, seen_routers[0]['id'],
+                            subnet_id=subnet)
 
     def _detect_existing_networks(self):
         """Use method only when test require no network
@@ -849,7 +849,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if 'router' in self.test_setup_dict[test]:
             router_exist = self.test_setup_dict[test]['router']
         if router_exist:
-            self._add_subnet_to_router()
+            mgmt_subnet_only = False
+            if kwargs.get('mgmt_subnet_only'):
+                mgmt_subnet_only = True
+                kwargs.pop('mgmt_subnet_only')
+            self._add_subnet_to_router(mgmt_subnet_only)
         # Prepare cloudinit
         packages = None
         if 'package-names' in self.test_setup_dict[test].keys():
