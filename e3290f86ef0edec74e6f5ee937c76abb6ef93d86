@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "34484ec0_98899da6",
+        "filename": "docs/tests.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-05-12T16:38:20Z",
+      "side": 1,
+      "message": "+1 nieto\nsee my next comment in the test itself",
+      "parentUuid": "8cf6c34a_ad768ff8",
+      "range": {
+        "startLine": 297,
+        "startChar": 78,
+        "endLine": 297,
+        "endChar": 79
+      },
+      "revId": "e3290f86ef0edec74e6f5ee937c76abb6ef93d86",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1865cde4_ad01b646",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 1
@@ -89,6 +113,29 @@
         "startChar": 61,
         "endLine": 67,
         "endChar": 62
+      },
+      "revId": "e3290f86ef0edec74e6f5ee937c76abb6ef93d86",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78a1b2d1_49c65bf3",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-05-12T16:38:20Z",
+      "side": 1,
+      "message": "Please correct me if i am wrong\nSo as mentioned in other comment, it is two tests.\nEither the test is:\n1) numas_phys.get(\u0027non_numa_aware_net\u0027):\n2) numas_phys[\u0027numa_aware_net\u0027][\u0027numa_node\u0027])\n\nso you know that in advance, before test starts\nfrom line 66 you already know that but you are failing the test in case it is not exist.\n\nWhat is the use case here? in line 180? and 184? \nAs mentioned it should be different tests\n\nI think you should take the whole code till line 184 and call from two different tests",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 48
       },
       "revId": "e3290f86ef0edec74e6f5ee937c76abb6ef93d86",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
