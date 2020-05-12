@@ -391,7 +391,8 @@ class ManagerMixin(object):
         :return numa_aware_net aware and non aware dict
         """
         numa_aware_net = self.networks_client.list_networks(
-            **{'provider:physical_network': numa_physnets['numa_aware_net'],
+            **{'provider:physical_network':
+                numa_physnets['numa_aware_net']['net'],
                'router:external': False})['networks']
         if numa_aware_net:
             numa_aware_net = numa_aware_net[0]['id']
@@ -888,9 +889,8 @@ class ManagerMixin(object):
                                  "nodes_mapping"
             hiera_numa_tun = "nova::compute::neutron_tunnel_numa_nodes"
             keys = [hiera_bridge_mapping, hiera_numa_mapping, hiera_numa_tun]
-        numa_phys_content = shell_utils.\
-            retrieve_content_from_hiera(node=node,
-                                        keys=keys)
+        numa_phys_content = shell_utils.retrieve_content_from_hiera(node=node,
+                                                                    keys=keys)
         # Identify the numa aware physnet
         numa_aware_phys = {}
         bridge_mapping = []
@@ -903,7 +903,9 @@ class ManagerMixin(object):
             else:
                 numa_aware_tun = yaml.safe_load(physnet)
 
-        numa_physnets = {}
+        numa_physnets = {'numa_aware_net': {},
+                         'non_numa_aware_net': [],
+                         'numa_aware_tunnel': {}}
         physnet_list = []
         # In order to minimize the amount of remote ssh access, first the
         # remote commands are grouped to one single command and then the
@@ -925,13 +927,15 @@ class ManagerMixin(object):
                                                                  dpath))
             if dpath == 'netdev' and physnet in numa_aware_phys.keys():
                 LOG.info('The {} is a numa aware network'.format(physnet))
-                numa_physnets['numa_aware_net'] = physnet
+                numa_physnets['numa_aware_net'] = \
+                    {'net': physnet, 'numa_node': numa_aware_phys[physnet][0]}
             if dpath == 'netdev' and physnet not in numa_aware_phys.keys():
                 LOG.info('The {} is a non numa aware network'.format(physnet))
-                numa_physnets['non_numa_aware_net'] = physnet
+                numa_physnets['non_numa_aware_net'].append(physnet)
 
         if numa_aware_tun:
-            numa_physnets['numa_aware_tunnel'] = numa_aware_tun[0]
+            numa_physnets['numa_aware_tunnel'] = \
+                {'numa_node': numa_aware_tun[0]}
         return numa_physnets
 
     def list_available_resources_on_hypervisor(self, hypervisor):
