@@ -82,6 +82,15 @@ test-networks:
 # if no flavor with such name exists.
 # Note! - In case the resources created externally, the following section is not needed.
 test-flavors:
+  - name: nfv_qe_base_flavor
+    ram: 8192
+    disk: 20
+    vcpus: 6
+    extra_specs:
+     - "hw:mem_page_size": "large"
+       "hw:cpu_policy": "dedicated"
+       "hw:emulator_threads_policy": "share"   # Note! - This extra spec should be applied only starting from RHOSP 14
+
   - name: m1.medium.huge_pages_cpu_pinning_numa_node-0
     ram: 8192
     disk: 20
