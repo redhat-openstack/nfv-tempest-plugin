@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5727ce2f_d07e815e",
+        "filename": "docs/tests.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-05-12T15:20:17Z",
+      "side": 1,
+      "message": "wouldnt it be better to fail if something is missing?\nWhat I see is that we have 2 different tests with the same name. If for example the test pass, we do not know if the \"non numa aware\" was tested or not",
+      "range": {
+        "startLine": 297,
+        "startChar": 78,
+        "endLine": 297,
+        "endChar": 79
+      },
+      "revId": "e3290f86ef0edec74e6f5ee937c76abb6ef93d86",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1865cde4_ad01b646",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-05-12T15:20:17Z",
+      "side": 1,
+      "message": "should we take \u00276\u0027 from flavor or configuration?",
+      "range": {
+        "startLine": 67,
+        "startChar": 61,
+        "endLine": 67,
+        "endChar": 62
+      },
+      "revId": "e3290f86ef0edec74e6f5ee937c76abb6ef93d86",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66a53402_46d24b51",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-05-12T15:20:17Z",
+      "side": 1,
+      "message": "should we check numa node in this second hypervisor?",
+      "range": {
+        "startLine": 140,
+        "startChar": 8,
+        "endLine": 140,
+        "endChar": 12
+      },
+      "revId": "e3290f86ef0edec74e6f5ee937c76abb6ef93d86",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
