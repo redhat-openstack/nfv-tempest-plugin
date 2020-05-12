@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8cf6c34a_ad768ff8",
+        "filename": "docs/tests.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-05-12T15:34:36Z",
+      "side": 1,
+      "message": "For me, testing the non_numa_aware step of the test, is a \"nice to have\".\nI\u0027m still testing the numa aware feature, including the migration.\nSo for me, it\u0027s not a problem, if the non numa aware network will not be available.",
+      "parentUuid": "5727ce2f_d07e815e",
+      "range": {
+        "startLine": 297,
+        "startChar": 78,
+        "endLine": 297,
+        "endChar": 79
+      },
+      "revId": "e3290f86ef0edec74e6f5ee937c76abb6ef93d86",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1865cde4_ad01b646",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a5fe0a2c_8c221add",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-05-12T15:34:36Z",
+      "side": 1,
+      "message": "That\u0027s a good idea.\nWill implement it.",
+      "parentUuid": "1865cde4_ad01b646",
+      "range": {
+        "startLine": 67,
+        "startChar": 61,
+        "endLine": 67,
+        "endChar": 62
+      },
+      "revId": "e3290f86ef0edec74e6f5ee937c76abb6ef93d86",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "66a53402_46d24b51",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2020-05-12T15:20:17Z",
       "side": 1,
       "message": "should we check numa node in this second hypervisor?",
+      "range": {
+        "startLine": 140,
+        "startChar": 8,
+        "endLine": 140,
+        "endChar": 12
+      },
+      "revId": "e3290f86ef0edec74e6f5ee937c76abb6ef93d86",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "751b7a33_208a3f61",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-05-12T15:34:36Z",
+      "side": 1,
+      "message": "I think that is not important.\nIf the non numa aware instance, were able to spawn and boot, in mean the numa aware feature works as expected and doesn\u0027t block the whole system.\nThe numa node placement is not so important here.",
+      "parentUuid": "66a53402_46d24b51",
       "range": {
         "startLine": 140,
         "startChar": 8,
