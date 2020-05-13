@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "b60940c7_fa7e03c1",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-05-13T05:44:31Z",
+      "side": 1,
+      "message": "I think you gave the wrong line numbers.\nBut in any case, let me explain from what I see.\n\nThe test has three steps:\n1) Fill up numa aware numa node and boot up another instance to ensure it fails.\n2) Boot another instance from the non numa aware network to ensure is boot successfully.\n3) Live migrate the first numa aware instance to ensure the migration works properly with the numa aware feature.\n\nI made this one single test because it is not efficient to separate it a different tests.\nThe reason for this is that every piece of the test require to make the phase 1.\nSo if the test is split, you are actually retesting the first step over and over again.\n\nI can make the phase 2 mandatory within the same test, but it has no reason to split it as in that case we will make a duplication.\n\nWe already spoke about it when I wrote the test from the beginning.",
+      "parentUuid": "78a1b2d1_49c65bf3",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 48
+      },
+      "revId": "e3290f86ef0edec74e6f5ee937c76abb6ef93d86",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "66a53402_46d24b51",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 1
