@@ -41,10 +41,6 @@ class TestAdvancedScenarios(base_test.BaseTest):
 
         Note!
         - The test require NUMATopologyFilter to be set.
-        - The test require the use of aggregation.
-          - Aggregation host should be defined in test config.
-          - Metadata for the aggregation should be defined in test config.
-          - The flavor should have the aggregation metadata set.
 
         Note! - The test suit only for OSP Rocky version and above, since the
                 numa aware vswitch feature was implemented only in OSP Stein
@@ -52,37 +48,37 @@ class TestAdvancedScenarios(base_test.BaseTest):
         """
         LOG.info('Starting numa aware vswitch test.')
         LOG.info('Create resources for the test.')
-        no_srv, key_pair = self.create_and_verify_resources(test=test,
-                                                            num_servers=0)
+        hyper = self.os_admin.hypervisor_client.list_hypervisors()[
+            'hypervisors']
+        kwargs = {'availability_zone': {'zone_name': 'numa_aware_avail_zone',
+                                        'hyper_hosts':
+                                            [hyper[0]['hypervisor_hostname']]}}
+        _, key_pair = self.create_and_verify_resources(test=test,
+                                                       num_servers=0,
+                                                       **kwargs)
         LOG.info('Gather numa aware and non numa aware network details.')
         numas_phys = self.locate_ovs_physnets()
         if not numas_phys.get('numa_aware_net'):
             raise ValueError('Numa aware physnet configuration is missing')
         numa_net = self.locate_numa_aware_networks(numas_phys)
 
-        hyper = self.os_admin.hypervisor_client.list_hypervisors()[
-            'hypervisors'][0]['hypervisor_hostname']
-        resources = self.list_available_resources_on_hypervisor(hyper)
-        self.create_and_set_aggregate(aggr_name=test, hyper_hosts=[hyper],
-                                      aggr_meta='test={}'.format(test))
-        extra_specs = \
-            {'extra_specs': {'hw:mem_page_size': str("large"),
-                             'hw:cpu_policy': str("dedicated"),
-                             'aggregate_instance_extra_specs:test': test}}
-        srv_num_to_boot = resources['cpu_free_per_numa'] // 6
-        numa_flavor = self.create_flavor(name='numa0_aware', vcpus=6,
-                                         **extra_specs)
+        resources = self.list_available_resources_on_hypervisor(
+            hyper[0]['hypervisor_hostname'])
+        flavor_vcpu = self.os_primary.flavors_client.show_flavor(
+            self.flavor_ref)['flavor']['vcpus']
+        srv_num_to_boot = resources['pcpu_free_per_numa'] // flavor_vcpu
         net_id = []
         for _ in range(srv_num_to_boot):
             net_id.append([{'uuid': numa_net}])
         kwargs = {'security_groups': self.remote_ssh_sec_groups_names,
+                  'availability_zone': 'numa_aware_avail_zone',
                   'key_name': key_pair['name']}
         LOG.info('Booting instances on numa node 0. Expect to succeed.')
-        numa0_srv = self.create_server_with_fip(num_servers=srv_num_to_boot,
-                                                flavor=numa_flavor,
-                                                networks=net_id,
-                                                **kwargs)
-        for srv in numa0_srv:
+        numa_aware_srv = \
+            self.create_server_with_fip(num_servers=srv_num_to_boot,
+                                        flavor=self.flavor_ref,
+                                        networks=net_id, **kwargs)
+        for srv in numa_aware_srv:
             LOG.info('Instance details: fip: {}, instance_id: {}'.format(
                 srv['fip'], srv['id']))
             srv['hypervisor_ip'] = self._get_hypervisor_ip_from_undercloud(
@@ -91,74 +87,63 @@ class TestAdvancedScenarios(base_test.BaseTest):
                                 "_get_hypervisor_ip_from_undercloud "
                                 "returned empty ip list")
 
-        LOG.info('Booting up another instance on numa node 0. Expect to fail.')
-        fail_srv = self.create_server_with_fip(flavor=numa_flavor,
+        LOG.info('Booting up another numa aware instance. Expect to fail.')
+        fail_srv = self.create_server_with_fip(flavor=self.flavor_ref,
                                                srv_state='ERROR',
                                                raise_on_error=False,
-                                               networks=net_id)
+                                               networks=net_id,
+                                               **kwargs)
         fail_srv_state = self.os_primary.servers_client.show_server(
             fail_srv[0]['id'])['server']
         self.assertEqual(fail_srv_state['status'], 'ERROR')
-        LOG.info('Check placement of instances vcpu on NUMA node 0.')
-        [self.match_vcpu_to_numa_node(srv, srv['hypervisor_ip'],
-                                      numa_node='0') for srv in numa0_srv]
-        srv_list = [srv['id'] for srv in numa0_srv]
+        LOG.info('Check vcpu placement of numa aware instances.')
+        [self.match_vcpu_to_numa_node(
+            srv, srv['hypervisor_ip'],
+            numa_node=numas_phys['numa_aware_net']['numa_node'])
+         for srv in numa_aware_srv]
+        srv_list = [srv['id'] for srv in numa_aware_srv]
 
-        if 'non_numa_aware_net' in numas_phys:
-            LOG.info('Test "non numa aware network".')
-            numa1_net = self.networks_client.list_networks(
+        if numas_phys.get('non_numa_aware_net'):
+            LOG.info('Test non numa aware network')
+            non_numa_net = self.networks_client.list_networks(
                 **{'provider:physical_network': numas_phys[
                     'non_numa_aware_net']})['networks'][0]['id']
-            net_id = [[{'uuid': numa1_net}]]
-            LOG.info('Booting an instance on numa node 1. Expect to success.')
-            numa1_srv = self.create_server_with_fip(flavor=numa_flavor,
-                                                    networks=net_id,
-                                                    fip=False)
-            LOG.info('Check placement of instances vcpu on NUMA node 1.')
-            numa1_srv[0]['hypervisor_ip'] = \
-                self._get_hypervisor_ip_from_undercloud(
-                    **{'shell': '/home/stack/stackrc',
-                       'server_id': numa1_srv[0]['id']})[0]
-            LOG.info('Check placement of instance vcpu on NUMA node 1.')
-            self.match_vcpu_to_numa_node(numa1_srv[0],
-                                         numa1_srv[0]['hypervisor_ip'],
-                                         numa_node='1')
-            srv_list.append(numa1_srv[0]['id'])
+            net_id = [[{'uuid': non_numa_net}]]
+            LOG.info('Booting an non numa aware instance. Expect to success.')
+            non_numa_srv = self.create_server_with_fip(flavor=self.flavor_ref,
+                                                       networks=net_id,
+                                                       **kwargs)
+            srv_list.append(non_numa_srv[0]['id'])
         else:
             LOG.warn('Skip "non numa aware" test phase as "non numa aware" '
                      'network was not found')
 
         LOG.info('Ensure all the instances are on the same hypervisor node.')
-        hyper = [self.os_admin.servers_client.show_server(hp)['server']
-                 ['OS-EXT-SRV-ATTR:hypervisor_hostname'] for hp in srv_list]
-        hyper = list(set(hyper))
-        if len(hyper) > 1:
+        host = [self.os_admin.servers_client.show_server(hp)['server']
+                ['OS-EXT-SRV-ATTR:hypervisor_hostname'] for hp in srv_list]
+        host = list(set(host))
+        if len(host) > 1:
             raise ValueError("The instances should reside on a single "
-                             "hypervisor. Use aggregate to reach that state.")
-
-        LOG.info('Resize instance to another flavor for cold migration, as'
-                 ' current flavor holds aggregate settings.')
-        extra_specs = {'extra_specs': {'hw:mem_page_size': str("large")}}
-        migration_flavor = self.create_flavor(name='migration_flavor',
-                                              vcpus='6', **extra_specs)
-        self.servers_client.resize_server(server_id=numa0_srv[0]['id'],
-                                          flavor_ref=migration_flavor)
-        waiters.wait_for_server_status(self.servers_client, numa0_srv[0]['id'],
-                                       'VERIFY_RESIZE')
-        self.servers_client.confirm_resize_server(server_id=numa0_srv[0]['id'])
-        waiters.wait_for_server_status(self.servers_client, numa0_srv[0]['id'],
-                                       'ACTIVE')
+                             "hypervisor. Use availability zone to reach "
+                             "that state.")
         LOG.info('Migrate the instance')
-        self.os_admin.servers_client.migrate_server(
-            server_id=numa0_srv[0]['id'])
-        waiters.wait_for_server_status(self.servers_client, numa0_srv[0]['id'],
-                                       'VERIFY_RESIZE')
-        LOG.info('Confirm instance resize after the cold migration.')
-        self.servers_client.confirm_resize_server(server_id=numa0_srv[0]['id'])
+        self.os_admin.servers_client.live_migrate_server(
+            server_id=numa_aware_srv[0]['id'], block_migration=True,
+            host=hyper[1]['hypervisor_hostname'], force=True)
+        waiters.wait_for_server_status(self.servers_client,
+                                       numa_aware_srv[0]['id'], 'ACTIVE')
         LOG.info('Verify instance connectivity after the cold migration.')
-        self.check_instance_connectivity(ip_addr=numa0_srv[0]['fip'],
+        self.check_instance_connectivity(ip_addr=numa_aware_srv[0]['fip'],
                                          user=self.instance_user,
                                          key_pair=key_pair['private_key'])
+        second_hyper = self._get_hypervisor_ip_from_undercloud(
+            **{'shell': '/home/stack/stackrc',
+               'server_id': numa_aware_srv[0]['id']})[0]
+        self.assertNotEqual(numa_aware_srv[0]['hypervisor_ip'], second_hyper,
+                            'The instance was not able to migrate to '
+                            'another hypervisor')
+        LOG.info('The {} instance has been migrated to the {} hypervisor'
+                 .format(numa_aware_srv[0]['id'], second_hyper))
         LOG.info('Cold migration passed.')
         LOG.info('Numa aware test completed.')
 
@@ -200,7 +185,7 @@ class TestAdvancedScenarios(base_test.BaseTest):
         LOG.info('The {} instance has been migrated to the {} hypervisor'
                  .format(srv1[0]['id'], second_hyper))
 
-        mgmt_net = self.test_network_dict['public']
+        mgmt_net = self.mgmt_network
         mgmt_net_id = [[{'uuid': self.test_network_dict[mgmt_net]['net-id']}]]
         kwargs = {'security_groups': self.remote_ssh_sec_groups_names,
                   'key_name': key_pair['name']}

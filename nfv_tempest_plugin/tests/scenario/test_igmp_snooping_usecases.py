@@ -13,6 +13,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
 from tempest import config
@@ -54,7 +55,7 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
                   'mcast-snooping-disable-flood-unregistered': 'true'}
 
         for hypervisor_ip in hypervisors:
-            output = self._run_command_over_ssh(hypervisor_ip, cmd)
+            output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
             # ovs command returns boolean in small letters
             ovs_data = json.loads(output)
             ovs_data_filt = {}
@@ -162,7 +163,7 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
             shell='/home/stack/stackrc')
         cmd = 'sudo systemctl restart openvswitch.service'
         for hyp in hypervisor_ips:
-            self._run_command_over_ssh(hyp, cmd)
+            shell_utils.run_command_over_ssh(hyp, cmd)
         self.test_igmp_snooping_deployment()
 
     def test_multicast_functionality(self, servers, key_pair, mcast_groups,

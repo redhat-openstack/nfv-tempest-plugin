@@ -287,14 +287,14 @@ Tests included:
 - test_numa_aware_vswitch
   Test explanation:  
   The test will verify the "Numa aware vswitch" feature by the following steps:
-  - Fill up the NUMA 0 by booting the instances using the "numa aware net".  
+  - Fill up the appropriate numa node by booting the instances using the "numa aware net".  
     Try to boot another instance using the "numa aware net" and verify that it fails.  
-    Verify the instances placement in NUMA 0.
-  - Boot another instance using the "non numa aware net". The instance will be placed in NUMA 1.
-    Verify the instance placement in NUMA 1.
-  - Cold migrate NUMA 0 instance and verify migration
+    Verify the instances placement in appropriate numa node.
+  - Boot another instance using the "non numa aware net".
+    Ensure the instance boots successfully.
+  - Live migrate the numa aware net instance to another hypervisor and verify migration.
 
-  In case, "non numa aware" network does not exist, the NUMA 1 staep will not be executed.
+  In case, "non numa aware" network does not exist, skip that step in the test.
   
   Prerequisites for the test:  
   Overcloud feature configuration for the deployment.  
@@ -302,12 +302,9 @@ Tests included:
   
   ```
   - name: numa_aware_vswitch
-    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    flavor: nfv_qe_base_flavor
     router: true
   ```
-
-**Note** - The test config require to use the aggregate during the test.  
-Definition of the aggregate should be in the test config **and** the flavor, as aggregate feature works.
 
 **Note** - The test suit only for OSP Rocky version and above, since the numa aware vswitch feature was implemented only in OSP Stein version and backported to OSP Rocky.
 

@@ -15,6 +15,7 @@
 
 import time
 
+from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
 from tempest import config
@@ -67,7 +68,7 @@ class TestLacpScenarios(base_test.BaseTest):
               'egrep "^bond_mode|^lacp_status|^lacp_fallback_ab"; '\
               'sudo ovs-appctl lacp/show {0} | '\
               'egrep "lacp_time"'.format(bonding_dict['bond_name'])
-        output = self._run_command_over_ssh(hypervisor_ip, cmd) \
+        output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd) \
             .replace('\t', '').replace(' ', '').split('\n')
         bond_data = {}
         for i in range(len(output)):
@@ -203,5 +204,5 @@ class TestLacpScenarios(base_test.BaseTest):
             shell='/home/stack/stackrc')[0]
 
         cmd = 'sudo systemctl restart openvswitch.service'
-        self._run_command_over_ssh(hypervisor_ip, cmd)
+        shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
         self.test_deployment_lacp(hypervisor_ip=hypervisor_ip)
