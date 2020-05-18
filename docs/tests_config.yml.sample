@@ -218,14 +218,14 @@ tests-setup:
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
 
- - name: offload
-   offload_nics:
-     - p4p1
-     - p4p2
+  - name: offload
+    offload_nics:
+      - p4p1
+      - p4p2
 
- - name: offload_flows
-   flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-   router: true
+  - name: offload_flows
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
 
   - name: double_tagging
     vlan_config:
@@ -235,3 +235,11 @@ tests-setup:
   - name: pinned_srv_live_migration
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
+
+  - name: ovs_bond_connectivity
+    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
+    router: true
+    bond_interfaces:
+      - interface: dpdkbond0
+        guest_networks:
+          - data1
