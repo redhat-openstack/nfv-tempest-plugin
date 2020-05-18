@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed5b7c14_33c9aaf1",
+        "filename": "docs/tests.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-05-18T08:22:42Z",
+      "side": 1,
+      "message": "I think we should consider going away from the test specific configuration as much as we can as it adds complexity to our plugin.\nThe test should discover these values dynamically.\n\nWhat do you say?",
+      "range": {
+        "startLine": 532,
+        "startChar": 4,
+        "endLine": 536,
+        "endChar": 5
+      },
+      "revId": "a51d009d84ea48b03723f230f1df8b7d59848f58",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "481cd672_60d28367",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-05-18T08:22:42Z",
+      "side": 1,
+      "message": "Assume could be removed.",
+      "range": {
+        "startLine": 341,
+        "startChar": 4,
+        "endLine": 341,
+        "endChar": 7
+      },
+      "revId": "a51d009d84ea48b03723f230f1df8b7d59848f58",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69803279_30d65a45",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-05-18T08:22:42Z",
+      "side": 1,
+      "message": "Assume could be removed.",
+      "range": {
+        "startLine": 347,
+        "startChar": 4,
+        "endLine": 347,
+        "endChar": 8
+      },
+      "revId": "a51d009d84ea48b03723f230f1df8b7d59848f58",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d96f57a_1aa3b707",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-05-18T08:22:42Z",
+      "side": 1,
+      "message": "Here we have a scenario for failure.\nIf condition in line 359 will not match, the \"bond_master\" variable will not be defined and as a result this command will fail.",
+      "range": {
+        "startLine": 374,
+        "startChar": 4,
+        "endLine": 374,
+        "endChar": 67
+      },
+      "revId": "a51d009d84ea48b03723f230f1df8b7d59848f58",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "149ac344_51e88317",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-05-18T08:22:42Z",
+      "side": 1,
+      "message": "You can\u0027t expect it will actually happen.\nIt should happen by default, but I had some times where two first instances were spawned on a single hypervisor.\nIf spawn the instances on different hypervisors is mandatory, use availability zone or aggregate.",
+      "range": {
+        "startLine": 61,
+        "startChar": 26,
+        "endLine": 62,
+        "endChar": 33
+      },
+      "revId": "a51d009d84ea48b03723f230f1df8b7d59848f58",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0efa9318_f1d89936",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-05-18T08:22:42Z",
+      "side": 1,
+      "message": "Why not to perform all the checks, insert the results into a list and then at the end of the test, if any error exists, fail the test.\nOtherwise, if the first assertion will fail, we will not know if other checks are working or not.",
+      "range": {
+        "startLine": 125,
+        "startChar": 28,
+        "endLine": 125,
+        "endChar": 53
+      },
+      "revId": "a51d009d84ea48b03723f230f1df8b7d59848f58",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
