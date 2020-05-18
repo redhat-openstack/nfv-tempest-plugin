@@ -15,9 +15,11 @@
 
 import base64
 import paramiko
+import re
 import subprocess as sp
 import sys
 
+from collections import namedtuple
 from oslo_log import log
 from oslo_serialization import jsonutils
 from tempest import config
@@ -301,3 +303,78 @@ def check_guest_interface_config(ssh_client, provider_networks,
         LOG.info("Guest '{h}' has interface '{g}' configured with "
                  "IP address '{i}".format(h=hostname, g=guest_interface,
                                           i=ip))
+
+
+def construct_ovs_bond_tuple_from_hypervsior(hypervisor, bond_object):
+    """Queries hypervisor node and constructs a namedtuple object
+
+    The namedtuple object stores information and commands associated to
+    OVS bond.
+    Currently only supports 'active-backup' bond.
+
+    :param hypervisor: hypervisor IP address to fetch info from
+    :param bond_obect: dictionary containing info regarding bond to query
+
+    :returns ovs_bond: namedtuple of OVS bond query
+    """
+    bond = namedtuple('Bond', [
+        'hypervisor',
+        'interface',
+        'type',
+        'master_interface',
+        'ovs_bridge',
+        'networks',
+        'ifup_cmd',
+        'ifdown_cmd'
+    ])
+    check_bond_cmd = 'sudo ovs-appctl bond/show {}'
+    bond_mode_re_filter = r'bond_mode:\s+.*'
+    bond_mode_re_sub_filter = r'bond_mode:\s+(.*)'
+    bond_interface = bond_object['interface']
+    guest_networks = bond_object['guest_networks']
+    # Query bond interface on hypervisor
+    out = run_command_over_ssh(hypervisor,
+                               check_bond_cmd.format(bond_interface))
+    msg = ("Bond '{b}' not present on hypervisor '{h}'"
+           .format(h=hypervisor, b=bond_interface))
+    assert out != '', msg
+    LOG.info("Bond '{b}' present on hypervisor '{h}'"
+             .format(h=hypervisor, b=bond_interface))
+    re_result = re.search(bond_mode_re_filter, out)
+    msg = "Could not find bonding mode from bond query output"
+    assert re_result is not None, msg
+    re_bond_output = re_result.group(0)
+    bond_mode = re.sub(bond_mode_re_sub_filter, r'\1',
+                       re_bond_output)
+    if bond_mode not in 'active-backup':
+        raise ValueError('bond mode {} is not supported'
+                         .format(bond_mode))
+    LOG.info("Bond '{b}' is set to mode '{m}'"
+             .format(b=bond_interface, m=bond_mode))
+    re_result = re.search(r'active slave mac:\s+.*', out)
+    re_bond_output = re_result.group(0)
+    bond_master = re.sub(r'active slave mac:\s+.*\((.*)\)',
+                         r'\1', re_bond_output)
+    LOG.info("NIC '{m}' is set as master NIC in bond '{b}' on "
+             "hypervisor '{h}'".format(m=bond_master,
+                                       b=bond_interface,
+                                       h=hypervisor))
+    cmd = 'sudo ovs-vsctl port-to-br {}'
+    # Fetch OVS general info
+    ovs_bridge = run_command_over_ssh(hypervisor,
+                                      cmd.format(bond_interface)).replace('\n',
+                                                                          '')
+    # Construct interface up/down commands
+    bond_if_up_cmd = 'sudo ovs-ofctl mod-port {b} {i} up'
+    bond_if_down_cmd = 'sudo ovs-ofctl mod-port {b} {i} down'
+    # Apply required variables for interface commands
+    bond_if_up_cmd = bond_if_up_cmd.format(b=ovs_bridge,
+                                           i=bond_master)
+    bond_if_down_cmd = bond_if_down_cmd.format(b=ovs_bridge,
+                                               i=bond_master)
+    # Initialize a namedtuple of current bond
+    ovs_bond = bond(hypervisor, bond_interface, bond_mode,
+                    bond_master, ovs_bridge,
+                    guest_networks, bond_if_up_cmd,
+                    bond_if_down_cmd)
+    return ovs_bond
