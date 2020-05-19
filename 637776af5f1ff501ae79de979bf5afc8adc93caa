@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1baec590_05a339db",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-05-19T19:18:01Z",
+      "side": 1,
+      "message": "What is the meaning of the change?",
+      "range": {
+        "startLine": 218,
+        "startChar": 4,
+        "endLine": 228,
+        "endChar": 54
+      },
+      "revId": "637776af5f1ff501ae79de979bf5afc8adc93caa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2a4e922_33bb9082",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-05-19T19:18:01Z",
+      "side": 1,
+      "message": "Why this has been added?",
+      "range": {
+        "startLine": 573,
+        "startChar": 35,
+        "endLine": 573,
+        "endChar": 63
+      },
+      "revId": "637776af5f1ff501ae79de979bf5afc8adc93caa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35dfd9b4_bd369d63",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-05-19T19:18:01Z",
+      "side": 1,
+      "message": "Hard coding the path might be a problem.\nShouldn\u0027t we run this test in osp 10 as well?",
+      "range": {
+        "startLine": 300,
+        "startChar": 21,
+        "endLine": 300,
+        "endChar": 73
+      },
+      "revId": "637776af5f1ff501ae79de979bf5afc8adc93caa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
