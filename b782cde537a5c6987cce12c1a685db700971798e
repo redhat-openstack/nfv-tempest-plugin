@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "4c539041_f912b5a6",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-05-19T16:10:23Z",
+      "side": 1,
+      "message": "This is too complex right now and should be addressed in later iteration.\nLooking at ports:\n\u0027admin_state_up\u0027: True, \u0027status\u0027: \u0027ACTIVE\u0027, \u0027device_id\u0027: \u002752e67558-f09e-4e48-b92f-fdadf3dd8557\u0027, \u0027device_owner\u0027: \u0027compute:nova\u0027, \u0027fixed_ips\u0027: [{\u0027subnet_id\u0027: \u0027f50f3f12-5717-4c78-92b0-28f9d1ad74d8\u0027, \u0027ip_address\u0027: \u002710.10.135.178\u0027}], \u0027allowed_address_pairs\u0027: [], \u0027extra_dhcp_opts\u0027: [], \u0027security_groups\u0027: [\u0027428072e6-73d8-4400-9c69-8cc6fc98243d\u0027], \u0027description\u0027: \u0027\u0027, \u0027binding:vnic_type\u0027: \u0027normal\u0027, \u0027binding:profile\u0027: {}, \u0027binding:host_id\u0027: \u0027computeovsdpdksriovrt-1.localdomain\u0027, \u0027binding:vif_type\u0027: \u0027vhostuser\u0027, \u0027binding:vif_details\u0027: {\u0027port_filter\u0027: False, \u0027ovs_hybrid_plug\u0027: False, \u0027vhostuser_mode\u0027: \u0027server\u0027, \u0027vhostuser_ovs_plug\u0027: True, \u0027vhostuser_socket\u0027: \u0027/var/lib/vhost_sockets/vhuebccc834-b1\u0027, \u0027datapath_type\u0027: \u0027netdev\u0027, \u0027bridge_name\u0027: \u0027br-int\u0027}, \u0027qos_policy_id\u0027: None, \u0027port_security_enabled\u0027: True, \u0027resource_request\u0027: None, \u0027ip_allocation\u0027: \u0027immediate\u0027, \u0027tags\u0027: [], \u0027created_at\u0027: \u00272020-05-19T16:00:00Z\u0027, \u0027updated_at\u0027: \u00272020-05-19T16:00:39Z\u0027, \u0027revision_number\u0027: 4, \u0027project_id\u0027: \u0027cf16143488804bfabe40c3b81e6c36ea\u0027}]\n\nWe might be able to parse the vhost to bridge\n\nIdeally, if we were not using VxLAN we could\u0027ve use network API to fetch the physnet and then compare it to OVS bridge mappings in ml2 plugin:\n\n[{\u0027id\u0027: \u002707dd6247-e0eb-4351-8525-3bac72476b64\u0027, \u0027name\u0027: \u0027dpdk-mgmt\u0027, \u0027tenant_id\u0027: \u0027ed2aea74b6f64afa9cc22bbb6c5241dc\u0027, \u0027admin_state_up\u0027: True, \u0027mtu\u0027: 8950, \u0027status\u0027: \u0027ACTIVE\u0027, \u0027subnets\u0027: [\u0027a228497e-aaff-4a73-8cf8-3b914367e087\u0027], \u0027shared\u0027: False, \u0027availability_zone_hints\u0027: [], \u0027availability_zones\u0027: [\u0027nova\u0027], \u0027ipv4_address_scope\u0027: None, \u0027ipv6_address_scope\u0027: None, \u0027router:external\u0027: False, \u0027description\u0027: \u0027\u0027, \u0027qos_policy_id\u0027: None, \u0027port_security_enabled\u0027: True, \u0027l2_adjacency\u0027: True, \u0027tags\u0027: [], \u0027created_at\u0027: \u00272020-05-19T15:42:35Z\u0027, \u0027updated_at\u0027: \u00272020-05-19T15:42:36Z\u0027, \u0027revision_number\u0027: 2, \u0027project_id\u0027: \u0027ed2aea74b6f64afa9cc22bbb6c5241dc\u0027, \u0027provider:network_type\u0027: \u0027vxlan\u0027, \u0027provider:physical_network\u0027: None, \u0027provider:segmentation_id\u0027: 2}]\n\nNot in my scope right now to solve this.",
+      "parentUuid": "a7912c80_2549019c",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 54
+      },
+      "revId": "b782cde537a5c6987cce12c1a685db700971798e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eb929f22_bb26ac52",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
         "patchSetId": 11
@@ -84,6 +108,30 @@
       "writtenOn": "2020-05-19T15:50:53Z",
       "side": 1,
       "message": "Why no running the interference as a single thread, while ping is running \nThis way you have will have one ping running while you try to interfer?",
+      "range": {
+        "startLine": 127,
+        "startChar": 28,
+        "endLine": 127,
+        "endChar": 72
+      },
+      "revId": "b782cde537a5c6987cce12c1a685db700971798e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b01f152_4cc731cb",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-05-19T16:10:23Z",
+      "side": 1,
+      "message": "Yes, this is a todo like mentioned in the commit.\nNot in the current scope of this patch.",
+      "parentUuid": "eb929f22_bb26ac52",
       "range": {
         "startLine": 127,
         "startChar": 28,
