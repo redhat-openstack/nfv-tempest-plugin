@@ -570,7 +570,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         result = client.create_port(name=name, network_id=network_id, **kwargs)
         self.assertIsNotNone(result, 'Unable to allocate port')
         port = result['port']
-        self.addCleanup(self.ports_client.delete_port, port['id'])
+        self.addCleanup(test_utils.call_and_ignore_notfound_exc,
+                        self.ports_client.delete_port, port['id'])
         return port
 
     def create_network_qos_policy(self, namestart='qos-policy'):

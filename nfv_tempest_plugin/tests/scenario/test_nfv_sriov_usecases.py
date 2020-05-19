@@ -13,10 +13,12 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import json
+import re
+
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
-import re
 from tempest import config
 
 CONF = config.CONF
@@ -287,3 +289,63 @@ class TestSriovScenarios(base_test.BaseTest):
         for server in servers:
             self.check_qos_attached_to_guest(server,
                                              min_bw=True)
+
+    def verify_sriov_free_resource(self):
+        """Verify_sriov_free_resources
+
+        The method checks if sriov nics are released after guest deletion.
+        Verification it is called from tests as service method
+        """
+        # passthrough_whitelist in nove at compute
+        file_path = '/var/lib/config-data/nova_libvirt/etc/nova/nova.conf'
+        section = 'pci'
+        value = 'passthrough_whitelist'
+        cmd = ''
+        hypervisor_ip = self.\
+            _get_hypervisor_ip_from_undercloud(shell='/home/stack/stackrc')
+        for hypervisor in hypervisor_ip:
+            result = shell_utils. \
+                get_value_from_ini_config(hypervisor,
+                                          file_path, section,
+                                          value)
+            msg = "No passthrough_whitelist found in"
+            self.assertNotEmpty(result,
+                                "{} {}".format(msg, hypervisor))
+
+            result = "[" + result + "]"
+            dev_names = [x['devname'] for x in json.loads(result)]
+            for device in dev_names:
+                cmd += "sudo ip link show {};".format(device)
+            result = shell_utils. \
+                run_command_over_ssh(hypervisor, cmd)
+            # Search for parameters not set off
+            nic_stat = re.\
+                findall('vf [0-9].*spoof checking .*trust on.*\n', result)
+            msg = "VF parameters not reset in"
+            self.assertNotEmpty(nic_stat,
+                                "{} {}".format(msg, hypervisor))
+
+    def test_sriov_free_resource(self, test='sriov_reset_resources'):
+        """Test_sriov_free_resources
+
+        The method checks if sriov nics are released after guest/port deletion.
+        Verification is run before test starts and at the end
+        """
+        # Check resources are free in computes
+        self.test_setup_dict['sriov_reset_resources'] = \
+            {'flavor-id': self.flavor_ref, 'router': True, 'aggregate': None}
+
+        self.verify_sriov_free_resource()
+        # Create resources:
+        self.create_and_verify_resources(test=test)
+        # need to delete computes amd ports
+        # Check resources are free in computes
+        for server in self.servers:
+            ports_list = (
+                self.os_admin.ports_client.list_ports(
+                    device_id=server['id']))['ports']
+            delete_ports = [x['id'] for x in ports_list]
+            self.os_primary.servers_client.delete_server(server['id'])
+            for port in delete_ports:
+                self.os_admin.ports_client.delete_port(port)
+        self.verify_sriov_free_resource()
