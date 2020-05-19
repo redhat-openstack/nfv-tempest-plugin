@@ -14,7 +14,9 @@
 #    under the License.
 
 import base64
+import json
 import paramiko
+import re
 import subprocess as sp
 import sys
 
@@ -203,7 +205,8 @@ def get_overcloud_config(overcloud_node, config_path):
 
 
 def get_value_from_ini_config(overcloud_node, config_path,
-                              check_section, check_value):
+                              check_section, check_value,
+                              multi_key_values=False):
     """Get value from INI configuration file
 
     :param overcloud_node: The node that config should be pulled from
@@ -212,19 +215,31 @@ def get_value_from_ini_config(overcloud_node, config_path,
     :param check_value: Value that should be checked within the config
                         The variable could hold multiple values separated
                         by comma.
-
     :return return_value
     """
-
+    class M(dict):
+        def __setitem__(self, key, value):
+            if len(value) > 1:
+                return
+            if key in self:
+                items = self[key]
+                new = value[0] if type(value) is list else value
+                if new not in items:
+                    items.append(new)
+            else:
+                super(M, self).__setitem__(key, value)
     ini_config = get_overcloud_config(overcloud_node, config_path)
+    config_parser_args = {'allow_no_value': True}
+    if multi_key_values:
+        config_parser_args['dict_type'] = M
     # Python 2 and 3 support
-    get_value = ConfigParser(allow_no_value=True)
     if sys.version_info[0] > 2:
-        get_value = ConfigParser(allow_no_value=True, strict=False)
+        config_parser_args['strict'] = False
+    get_value = ConfigParser(**config_parser_args)
     get_value.readfp(StringIO(ini_config))
     value_data = []
     for value in check_value.split(','):
-        value_data.append(get_value.get(check_section, value))
+        value_data.extend(get_value.get(check_section, value))
 
     return ','.join(value_data)
 
@@ -301,3 +316,37 @@ def check_guest_interface_config(ssh_client, provider_networks,
         LOG.info("Guest '{h}' has interface '{g}' configured with "
                  "IP address '{i}".format(h=hostname, g=guest_interface,
                                           i=ip))
+
+
+def check_required_nic_params(file_path, search_param,
+                              servers_ips, nic_req_stat, multi_key_values):
+    """Check_required_nic_params
+
+    The method checks if sriov nics are released after guest deletion.
+    Verification it is called from tests as service method
+
+    :param file_path: configuration ini file path
+    :param search_param: search section-value in ini file
+    :param servers_ips: host ip addresses hosting files and devices
+    :param nic_req_stat: regular expresion to search on ip link show
+    """
+    cmd = ''
+    for hypervisor in servers_ips:
+        result = get_value_from_ini_config(hypervisor,
+                                           file_path,
+                                           search_param['section'],
+                                           search_param['value'],
+                                           multi_key_values)
+        msg = "No {} found in".format(search_param)
+        assert result != '', "{} {}".format(msg, hypervisor)
+
+        result = "[" + result + "]"
+        dev_names = [x['devname'] for x in json.loads(result)]
+        for device in dev_names:
+            cmd += "sudo ip link show {};".format(device)
+            result = run_command_over_ssh(hypervisor, cmd)
+            # Search for parameters regexp to search
+            nic_stat = re.\
+                findall(nic_req_stat, result)
+            msg = "Parameters not in required state \n {}".format(nic_stat)
+            assert len(nic_stat) == 0, "{} {}".format(msg, hypervisor)

@@ -296,3 +296,48 @@ class TestSriovScenarios(base_test.BaseTest):
         for server in servers:
             self.check_qos_attached_to_guest(server,
                                              min_bw=True)
+
+    def test_sriov_free_resource(self, test='sriov_reset_resources'):
+        """Test_sriov_free_resources
+
+        The method checks if sriov nics are released after guest/port deletion.
+        Verification is run before test starts and at the end
+        """
+        # Check resources are free in computes
+        self.test_setup_dict['sriov_reset_resources'] = \
+            {'flavor-id': self.flavor_ref, 'router': True, 'aggregate': None}
+        resource_args = {'num_servers': 4}
+
+        # Set test parameters
+        kw_args = {}
+        osp_release = self.get_osp_release()
+        # Starting from OSP13, installation is containerized
+        kw_args['file_path'] = \
+            '/var/lib/config-data/nova_libvirt/etc/nova/nova.conf'
+        if osp_release < 13:
+            kw_args['file_path'] = '/etc/nova/nova.conf'
+        kw_args['search_param'] = \
+            {'section': 'pci', 'value': 'passthrough_whitelist'}
+        kw_args['nic_req_stat'] = 'vf [0-9].*spoof checking .*trust on.*\n'
+        kw_args['servers_ips'] = self.\
+            _get_hypervisor_ip_from_undercloud(shell='/home/stack/stackrc')
+        kw_args['multi_key_values'] = True
+
+        # Verify empty machines are reset back from previous tests
+        shell_utils.\
+            check_required_nic_params(**kw_args)
+        # Create resources:
+        self.create_and_verify_resources(test=test, **resource_args)
+        # Check resources are free in computes
+        for server in self.servers:
+            ports_list = (
+                self.os_admin.ports_client.list_ports(
+                    device_id=server['id']))['ports']
+            delete_ports = [x['id'] for x in ports_list]
+            # Delete computes and ports
+            self.os_primary.servers_client.delete_server(server['id'])
+            for port in delete_ports:
+                self.os_admin.ports_client.delete_port(port)
+        # Verify empty machines are reset back after tests
+        shell_utils.\
+            check_required_nic_params(**kw_args)
