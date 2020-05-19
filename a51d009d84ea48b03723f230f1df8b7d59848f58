@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "796cefe8_b1768e67",
+        "filename": "docs/tests.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-05-19T08:28:06Z",
+      "side": 1,
+      "message": "Like previously discussed, I think this is a great idea.\nI do not know how to implement it.\nThe only idea I have in mind is perhaps exposing an option per network to specify if the network is OVS based. This is for DPDK/Hardware offload networks.\n\nDo you got any suggestions?",
+      "parentUuid": "ed5b7c14_33c9aaf1",
+      "range": {
+        "startLine": 532,
+        "startChar": 4,
+        "endLine": 536,
+        "endChar": 5
+      },
+      "revId": "a51d009d84ea48b03723f230f1df8b7d59848f58",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "481cd672_60d28367",
         "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
         "patchSetId": 9
@@ -45,6 +69,30 @@
       "revId": "a51d009d84ea48b03723f230f1df8b7d59848f58",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9120e43e_74bae970",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-05-19T08:28:06Z",
+      "side": 1,
+      "message": "Ack thanks missed it.",
+      "parentUuid": "481cd672_60d28367",
+      "range": {
+        "startLine": 341,
+        "startChar": 4,
+        "endLine": 341,
+        "endChar": 7
+      },
+      "revId": "a51d009d84ea48b03723f230f1df8b7d59848f58",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "57b32d9c_052158cc",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-05-19T08:28:06Z",
+      "side": 1,
+      "message": "Ack thanks missed it.",
+      "parentUuid": "69803279_30d65a45",
+      "range": {
+        "startLine": 347,
+        "startChar": 4,
+        "endLine": 347,
+        "endChar": 8
+      },
+      "revId": "a51d009d84ea48b03723f230f1df8b7d59848f58",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d96f57a_1aa3b707",
         "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
         "patchSetId": 9
@@ -91,6 +163,30 @@
       "revId": "a51d009d84ea48b03723f230f1df8b7d59848f58",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0b445dd_ff16fd61",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-05-19T08:28:06Z",
+      "side": 1,
+      "message": "Will resolve this, thanks.",
+      "parentUuid": "4d96f57a_1aa3b707",
+      "range": {
+        "startLine": 374,
+        "startChar": 4,
+        "endLine": 374,
+        "endChar": 67
+      },
+      "revId": "a51d009d84ea48b03723f230f1df8b7d59848f58",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "2c3548ba_58d59939",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-05-19T08:28:06Z",
+      "side": 1,
+      "message": "Yes you are right.\nNot sure on how to approach this, to have it scale with the amount of hypervisors.\n\nWill think/look at other code examples.",
+      "parentUuid": "149ac344_51e88317",
+      "range": {
+        "startLine": 61,
+        "startChar": 26,
+        "endLine": 62,
+        "endChar": 33
+      },
+      "revId": "a51d009d84ea48b03723f230f1df8b7d59848f58",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0efa9318_f1d89936",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
         "patchSetId": 9
@@ -128,6 +248,30 @@
       "writtenOn": "2020-05-18T08:22:42Z",
       "side": 1,
       "message": "Why not to perform all the checks, insert the results into a list and then at the end of the test, if any error exists, fail the test.\nOtherwise, if the first assertion will fail, we will not know if other checks are working or not.",
+      "range": {
+        "startLine": 125,
+        "startChar": 28,
+        "endLine": 125,
+        "endChar": 53
+      },
+      "revId": "a51d009d84ea48b03723f230f1df8b7d59848f58",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "183597f9_c220108b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-05-19T08:28:06Z",
+      "side": 1,
+      "message": "Everything discovered that might be problematic is logged, so it should be traceable.\n\nWill still look into implementing your approach.",
+      "parentUuid": "0efa9318_f1d89936",
       "range": {
         "startLine": 125,
         "startChar": 28,
