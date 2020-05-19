@@ -215,16 +215,27 @@ def get_value_from_ini_config(overcloud_node, config_path,
 
     :return return_value
     """
-
+    class M(dict):
+        def __setitem__(self, key, value):
+            if len(value) > 1:
+                return
+            if key in self:
+                items = self[key]
+                new = value[0] if type(value) is list else value
+                if new not in items:
+                    items.append(new)
+            else:
+                super(M, self).__setitem__(key, value)
     ini_config = get_overcloud_config(overcloud_node, config_path)
     # Python 2 and 3 support
-    get_value = ConfigParser(allow_no_value=True)
+    get_value = ConfigParser(dict_type=M, allow_no_value=True)
     if sys.version_info[0] > 2:
-        get_value = ConfigParser(allow_no_value=True, strict=False)
+        get_value = ConfigParser(dict_type=M,
+                                 allow_no_value=True, strict=False)
     get_value.readfp(StringIO(ini_config))
     value_data = []
     for value in check_value.split(','):
-        value_data.append(get_value.get(check_section, value))
+        value_data.extend(get_value.get(check_section, value))
 
     return ','.join(value_data)
 
