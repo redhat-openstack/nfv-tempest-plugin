@@ -22,6 +22,30 @@
       "revId": "b782cde537a5c6987cce12c1a685db700971798e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ca74dc6_512b89a9",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-05-19T15:47:54Z",
+      "side": 1,
+      "message": "Sorry, did not get your point.",
+      "parentUuid": "4f130a8f_b6f9477a",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 54
+      },
+      "revId": "b782cde537a5c6987cce12c1a685db700971798e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
