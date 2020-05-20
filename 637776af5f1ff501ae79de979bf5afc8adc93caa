@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e24013df_d604caf5",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-05-20T03:47:23Z",
+      "side": 1,
+      "message": "Yariv, please correct me if I\u0027m wrong.\nSo the default behavior for ConfigParaser is the following:\nIf you have several entries of same key in section:\n\n[section]\nduplicate_key \u003d value1\nduplicate_key \u003d value2\nduplicate_key \u003d value3\n\nIf you attempt to read it, only one value will be parsed.\n\nWhat is being achieved here is to add an option to parse multiple values of same key, the example is that during install, several \u0027passthrough_whitelist\u0027 entries are being generated for each PCI device.",
+      "parentUuid": "1baec590_05a339db",
+      "range": {
+        "startLine": 218,
+        "startChar": 4,
+        "endLine": 228,
+        "endChar": 54
+      },
+      "revId": "637776af5f1ff501ae79de979bf5afc8adc93caa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2a4e922_33bb9082",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 3
@@ -48,6 +72,53 @@
     },
     {
       "key": {
+        "uuid": "19c55894_804794eb",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-05-20T03:47:23Z",
+      "side": 1,
+      "message": "I think that this appears in all other cleanups but was missing here.",
+      "parentUuid": "c2a4e922_33bb9082",
+      "range": {
+        "startLine": 573,
+        "startChar": 35,
+        "endLine": 573,
+        "endChar": 63
+      },
+      "revId": "637776af5f1ff501ae79de979bf5afc8adc93caa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c822d50_e05f4a63",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-05-20T03:47:23Z",
+      "side": 1,
+      "message": "I have a small nitpick, I think that this should fall under the \u0027API\u0027 and not \u0027scenario\u0027. We\u0027re testing implementation of something that can be tested during various stages of deployment life cycle.",
+      "range": {
+        "startLine": 293,
+        "startChar": 8,
+        "endLine": 293,
+        "endChar": 34
+      },
+      "revId": "637776af5f1ff501ae79de979bf5afc8adc93caa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "35dfd9b4_bd369d63",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
         "patchSetId": 3
@@ -59,6 +130,30 @@
       "writtenOn": "2020-05-19T19:18:01Z",
       "side": 1,
       "message": "Hard coding the path might be a problem.\nShouldn\u0027t we run this test in osp 10 as well?",
+      "range": {
+        "startLine": 300,
+        "startChar": 21,
+        "endLine": 300,
+        "endChar": 73
+      },
+      "revId": "637776af5f1ff501ae79de979bf5afc8adc93caa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b1d60b7_7b45c750",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-05-20T03:47:23Z",
+      "side": 1,
+      "message": "Maxim is right.\n\nWe can do something like this:\n    osp_release \u003d self.get_osp_release()\n    # Starting from OSP13, installation is containerized\n    if osp_release \u003c 13:\n        file_path \u003d \u0027/etc/nova/nova.conf\u0027\n    else:\n        file_path \u003d \u0027/var/lib/config-data/nova_libvirt/etc/nova/nova.conf\u0027",
+      "parentUuid": "35dfd9b4_bd369d63",
       "range": {
         "startLine": 300,
         "startChar": 21,
