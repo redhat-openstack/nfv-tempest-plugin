@@ -263,6 +263,30 @@
     },
     {
       "key": {
+        "uuid": "fdf1daf0_4329b1ba",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-05-20T07:13:16Z",
+      "side": 1,
+      "message": "In 2nd thought it should go two different methods into 1 global method, 2 will be SRIOV\nand for HW offload or Qos different regex with different config file parsed to method1\nto summerise, \nmethod 1 will checks networking options vs file content\n\nmethosd will be in the scope of test classes. \nI am ready to here reviews 😊",
+      "parentUuid": "581c57c0_c902f2b5",
+      "range": {
+        "startLine": 293,
+        "startChar": 8,
+        "endLine": 293,
+        "endChar": 34
+      },
+      "revId": "637776af5f1ff501ae79de979bf5afc8adc93caa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "35dfd9b4_bd369d63",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
         "patchSetId": 3
@@ -322,6 +346,30 @@
       "side": 1,
       "message": "IMHO 10 has regression only.",
       "parentUuid": "7b1d60b7_7b45c750",
+      "range": {
+        "startLine": 300,
+        "startChar": 21,
+        "endLine": 300,
+        "endChar": 73
+      },
+      "revId": "637776af5f1ff501ae79de979bf5afc8adc93caa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4063e60_b7ef32d5",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-05-20T07:13:16Z",
+      "side": 1,
+      "message": "I will do that no worries, ACK",
+      "parentUuid": "11eba21a_007b2680",
       "range": {
         "startLine": 300,
         "startChar": 21,
