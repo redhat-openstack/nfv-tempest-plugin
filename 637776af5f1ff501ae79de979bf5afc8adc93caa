@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "0c3e784c_dbb5dc23",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-05-20T06:39:22Z",
+      "side": 1,
+      "message": "Currently there is no default to hold multiple values for 1 key.\nI always received one value, on python2\nOne code is working for python2 and python3\nPlease vote for the dict_type as parameter yes/or not",
+      "parentUuid": "46bfcbb8_87ae0019",
+      "range": {
+        "startLine": 218,
+        "startChar": 4,
+        "endLine": 228,
+        "endChar": 54
+      },
+      "revId": "637776af5f1ff501ae79de979bf5afc8adc93caa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2a4e922_33bb9082",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 3
@@ -144,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "25f76bce_02cbeefd",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-05-20T06:39:22Z",
+      "side": 1,
+      "message": "Since test is deleting ports and machines already registered for port clean up,\nIf this is not used, test will fail on Cleanup.\nThis tells cleanup if not found continue the test and idnore the error",
+      "parentUuid": "19c55894_804794eb",
+      "range": {
+        "startLine": 573,
+        "startChar": 35,
+        "endLine": 573,
+        "endChar": 63
+      },
+      "revId": "637776af5f1ff501ae79de979bf5afc8adc93caa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9c822d50_e05f4a63",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
         "patchSetId": 3
@@ -155,6 +203,30 @@
       "writtenOn": "2020-05-20T03:47:23Z",
       "side": 1,
       "message": "I have a small nitpick, I think that this should fall under the \u0027API\u0027 and not \u0027scenario\u0027. We\u0027re testing implementation of something that can be tested during various stages of deployment life cycle.",
+      "range": {
+        "startLine": 293,
+        "startChar": 8,
+        "endLine": 293,
+        "endChar": 34
+      },
+      "revId": "637776af5f1ff501ae79de979bf5afc8adc93caa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "581c57c0_c902f2b5",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-05-20T06:39:22Z",
+      "side": 1,
+      "message": "Once we would like to run the test on HW offload, i think it matters,\ncurrently, it is only for sriov",
+      "parentUuid": "9c822d50_e05f4a63",
       "range": {
         "startLine": 293,
         "startChar": 8,
@@ -202,6 +274,30 @@
       "side": 1,
       "message": "Maxim is right.\n\nWe can do something like this:\n    osp_release \u003d self.get_osp_release()\n    # Starting from OSP13, installation is containerized\n    if osp_release \u003c 13:\n        file_path \u003d \u0027/etc/nova/nova.conf\u0027\n    else:\n        file_path \u003d \u0027/var/lib/config-data/nova_libvirt/etc/nova/nova.conf\u0027",
       "parentUuid": "35dfd9b4_bd369d63",
+      "range": {
+        "startLine": 300,
+        "startChar": 21,
+        "endLine": 300,
+        "endChar": 73
+      },
+      "revId": "637776af5f1ff501ae79de979bf5afc8adc93caa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11eba21a_007b2680",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-05-20T06:39:22Z",
+      "side": 1,
+      "message": "IMHO 10 has regression only.",
+      "parentUuid": "7b1d60b7_7b45c750",
       "range": {
         "startLine": 300,
         "startChar": 21,
