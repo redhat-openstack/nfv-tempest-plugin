@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "c9c8eed9_69c5ecd5",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-05-20T06:41:23Z",
+      "side": 1,
+      "message": "i meant using the following parameters inside the test if file network_config file is empty.\nUse default behavior in the test, consider the following sample:\n\nself.test_setup_dict[\u0027sriov_reset_resources\u0027] \u003d \\\n            {\u0027flavor-id\u0027: self.flavor_ref, \u0027router\u0027: True, \u0027aggregate\u0027: None}",
+      "parentUuid": "4c539041_f912b5a6",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 54
+      },
+      "revId": "b782cde537a5c6987cce12c1a685db700971798e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eb929f22_bb26ac52",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
         "patchSetId": 11
@@ -141,6 +165,30 @@
       "revId": "b782cde537a5c6987cce12c1a685db700971798e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0758b8a3_77a77c8b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-05-20T06:41:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6b01f152_4cc731cb",
+      "range": {
+        "startLine": 127,
+        "startChar": 28,
+        "endLine": 127,
+        "endChar": 72
+      },
+      "revId": "b782cde537a5c6987cce12c1a685db700971798e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
