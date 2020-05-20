@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c0f99f0c_6fb23004",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-05-20T05:04:17Z",
+      "side": 1,
+      "message": "I would say that if multiple values return is required, method should has an option to choose which option should be returned old or new.",
+      "parentUuid": "e24013df_d604caf5",
+      "range": {
+        "startLine": 218,
+        "startChar": 4,
+        "endLine": 228,
+        "endChar": 54
+      },
+      "revId": "637776af5f1ff501ae79de979bf5afc8adc93caa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2a4e922_33bb9082",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 3
