@@ -13,10 +13,12 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import re
+import time
+
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
-import re
 from tempest import config
 
 CONF = config.CONF
@@ -284,6 +286,13 @@ class TestSriovScenarios(base_test.BaseTest):
         # Update QoS of the port
         self.update_port(min_qos_port,
                          **{'qos_policy_id': self.qos_policy_groups['id']})
+        # Wait the qos_policy update
+        msg = "qos policy was not added to port {}".join(min_qos_port)
+        time.sleep(5)
+        self.assertIsNotNone(
+            self.os_admin.ports_client. \
+                show_port(min_qos_port)['port']['qos_policy_id'],
+            msg)
         for server in servers:
             self.check_qos_attached_to_guest(server,
                                              min_bw=True)
