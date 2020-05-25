@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f37176c_fa2b7b9d",
+        "filename": "docs/tempest-deployer-input.conf.sample",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-05-25T13:58:45Z",
+      "side": 1,
+      "message": "Please add placement api section as well.\nIt is used for the numa aware vswitch tests.\n\n[placement]\nmin_microversion 1.12\nmax_microversion 1.12",
+      "revId": "1f07b009e2dd0fdab5ac01be0d6bf9cf10aa3cac",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
