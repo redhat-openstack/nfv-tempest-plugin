@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc4d5efa_ad15fa63",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-05-26T08:00:30Z",
+      "side": 1,
+      "message": "The name of the method is too much generic.\nCould you please make it more understandable to what it is doing?",
+      "range": {
+        "startLine": 321,
+        "startChar": 4,
+        "endLine": 321,
+        "endChar": 29
+      },
+      "revId": "b5396df56e3e170a645078b1d27127fa0577579b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
