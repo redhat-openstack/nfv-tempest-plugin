@@ -22,6 +22,30 @@
       "revId": "b5396df56e3e170a645078b1d27127fa0577579b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fee832dd_0c9b1766",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-05-26T08:56:02Z",
+      "side": 1,
+      "message": "Correct, it is very generic, the explanation is not good\nI will fix it",
+      "parentUuid": "dc4d5efa_ad15fa63",
+      "range": {
+        "startLine": 321,
+        "startChar": 4,
+        "endLine": 321,
+        "endChar": 29
+      },
+      "revId": "b5396df56e3e170a645078b1d27127fa0577579b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
