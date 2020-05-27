@@ -309,8 +309,12 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         # Check resources are free in computes
         self.test_setup_dict['sriov_reset_resources'] = \
             {'flavor-id': self.flavor_ref, 'router': True, 'aggregate': None}
-        resource_args = {'num_servers': 4}
-
+        default_port_type = {'attach_networks': 'external,direct'}
+        resource_args = {'num_servers': 4,
+                         'srv_details': {0: default_port_type,
+                                         1: default_port_type,
+                                         2: default_port_type,
+                                         3: default_port_type}}
         # Set test parameters
         kw_args = {}
         osp_release = self.get_osp_release()
