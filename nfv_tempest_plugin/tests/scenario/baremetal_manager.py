@@ -499,33 +499,33 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         set public network first
         """
-        for _ in range(num_ports):
-            networks_list = []
-            for net_name, net_param in iter(self.test_network_dict.items()):
-                if 'skip_srv_attach' in net_param:
-                    continue
-                create_port_body = {'binding:vnic_type': '',
-                                    'namestart': 'port-smoke',
-                                    'binding:profile': {}}
-                if 'port_type' in net_param:
-                    create_port_body['binding:vnic_type'] = \
-                        net_param['port_type']
-                    if self.remote_ssh_sec_groups and net_name == \
-                            self.mgmt_network:
-                        create_port_body['security_groups'] = \
-                            [s['id'] for s in self.remote_ssh_sec_groups]
-                    if 'trusted_vf' in net_param and \
-                       net_param['trusted_vf'] and \
-                       net_param['port_type'] == 'direct':
-                        create_port_body['binding:profile']['trusted'] = True
-                    if 'switchdev' in net_param and \
-                       net_param['switchdev'] and \
-                       net_param['port_type'] == 'direct':
-                        create_port_body['binding:profile']['capabilities'] = \
-                            ['switchdev']
+        for net_name, net_param in iter(self.test_network_dict.items()):
+            if 'skip_srv_attach' in net_param:
+                continue
+            create_port_body = {'binding:vnic_type': '',
+                                'namestart': 'port-smoke',
+                                'binding:profile': {}}
+            if 'port_type' in net_param:
+                create_port_body['binding:vnic_type'] = \
+                    net_param['port_type']
+                if self.remote_ssh_sec_groups and net_name == \
+                        self.mgmt_network:
+                    create_port_body['security_groups'] = \
+                        [s['id'] for s in self.remote_ssh_sec_groups]
+                if 'trusted_vf' in net_param and \
+                        net_param['trusted_vf'] and \
+                        net_param['port_type'] == 'direct':
+                    create_port_body['binding:profile']['trusted'] = True
+                if 'switchdev' in net_param and \
+                        net_param['switchdev'] and \
+                        net_param['port_type'] == 'direct':
+                    create_port_body['binding:profile']['capabilities'] = \
+                        ['switchdev']
 
-                    if len(create_port_body['binding:profile']) == 0:
-                        del create_port_body['binding:profile']
+                if len(create_port_body['binding:profile']) == 0:
+                    del create_port_body['binding:profile']
+
+                for port_index in range(num_ports):
                     port = self._create_port(network_id=net_param['net-id'],
                                              **create_port_body)
                     # No option to create port with QoS, due to neutron API
@@ -543,10 +543,14 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     net_var = {'uuid': net_param['net-id'], 'port': port['id']}
                     if 'tag' in net_param:
                         net_var['tag'] = net_param['tag']
-                    networks_list.append(net_var) \
-                        if net_name != self.mgmt_network else \
-                        networks_list.insert(0, net_var)
-            ports_list.append(networks_list)
+                    # Mark port type, as tag
+                    else:
+                        net_var['tag'] = net_param['port_type']
+                    if len(ports_list) == port_index:
+                        ports_list.insert(port_index, [net_var])
+                    else:
+                        ports_list[port_index].append(net_var)
+
         return ports_list
 
     def _create_port(self, network_id, client=None, namestart='port-quotatest',
@@ -663,7 +667,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         override_details = None
         if kwargs.get('srv_details'):
             override_details = kwargs.pop('srv_details')
-
         for num in range(num_servers):
             kwargs['networks'] = networks[num]
 
@@ -674,6 +677,12 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     kwargs['image_id'] = override_details[num]['image']
                 if 'srv_state' in override_details[num]:
                     kwargs['srv_state'] = override_details[num]['srv_state']
+                if 'attach_networks' in override_details[num]:
+                    for net in kwargs['networks']:
+                        if net['tag'] \
+                                not in \
+                                override_details[num]['attach_networks']:
+                            kwargs['networks'].remove(net)
 
             """ If this parameters exist, parse only mgmt network.
             Example live migration can't run with SRIOV ports attached"""
