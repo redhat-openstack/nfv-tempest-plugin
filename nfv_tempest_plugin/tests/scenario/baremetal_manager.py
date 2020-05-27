@@ -501,41 +501,44 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         set public network first
         """
-        for _ in range(num_ports):
+        for net_name, net_param in iter(self.test_network_dict.items()):
             networks_list = []
-            for net_name, net_param in iter(self.test_network_dict.items()):
-                if 'skip_srv_attach' in net_param:
-                    continue
-                create_port_body = {'binding:vnic_type': '',
-                                    'namestart': 'port-smoke',
-                                    'binding:profile': {}}
-                if 'port_type' in net_param:
-                    create_port_body['binding:vnic_type'] = \
-                        net_param['port_type']
-                    if self.remote_ssh_sec_groups and net_name == \
-                            self.mgmt_network:
-                        create_port_body['security_groups'] = \
-                            [s['id'] for s in self.remote_ssh_sec_groups]
-                    if 'trusted_vf' in net_param and \
-                       net_param['trusted_vf'] and \
-                       net_param['port_type'] == 'direct':
-                        create_port_body['binding:profile']['trusted'] = True
-                    if 'switchdev' in net_param and \
-                       net_param['switchdev'] and \
-                       net_param['port_type'] == 'direct':
-                        create_port_body['binding:profile']['capabilities'] = \
-                            ['switchdev']
+            # TODO(Yarboa) Add Query of physnets, in keywardArgs and modify \
+            #   ports params
+            if 'skip_srv_attach' in net_param:
+                continue
+            create_port_body = {'binding:vnic_type': '',
+                                'namestart': 'port-smoke',
+                                'binding:profile': {}}
+            if 'port_type' in net_param:
+                create_port_body['binding:vnic_type'] = \
+                    net_param['port_type']
+                if self.remote_ssh_sec_groups and net_name == \
+                        self.mgmt_network:
+                    create_port_body['security_groups'] = \
+                        [s['id'] for s in self.remote_ssh_sec_groups]
+                if 'trusted_vf' in net_param and \
+                        net_param['trusted_vf'] and \
+                        net_param['port_type'] == 'direct':
+                    create_port_body['binding:profile']['trusted'] = True
+                if 'switchdev' in net_param and \
+                        net_param['switchdev'] and \
+                        net_param['port_type'] == 'direct':
+                    create_port_body['binding:profile']['capabilities'] = \
+                        ['switchdev']
 
-                    if len(create_port_body['binding:profile']) == 0:
-                        del create_port_body['binding:profile']
+                if len(create_port_body['binding:profile']) == 0:
+                    del create_port_body['binding:profile']
+
+                for _ in range(num_ports):
                     port = self._create_port(network_id=net_param['net-id'],
                                              **create_port_body)
                     # No option to create port with QoS, due to neutron API
                     # Using update port
                     if 'min_qos' in net_param and \
-                        net_param['min_qos'] and \
-                        net_param['port_type'] == 'direct' and \
-                        'set_qos' in kwargs:
+                            net_param['min_qos'] and \
+                            net_param['port_type'] == 'direct' and \
+                            'set_qos' in kwargs:
                         port_name = data_utils.rand_name('port-min-qos')
                         port_args = {'name': port_name}
                         if kwargs['set_qos']:
