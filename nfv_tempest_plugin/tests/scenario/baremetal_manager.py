@@ -501,33 +501,36 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         set public network first
         """
-        for _ in range(num_ports):
-            networks_list = []
-            for net_name, net_param in iter(self.test_network_dict.items()):
-                if 'skip_srv_attach' in net_param:
-                    continue
-                create_port_body = {'binding:vnic_type': '',
-                                    'namestart': 'port-smoke',
-                                    'binding:profile': {}}
-                if 'port_type' in net_param:
-                    create_port_body['binding:vnic_type'] = \
-                        net_param['port_type']
-                    if self.remote_ssh_sec_groups and net_name == \
-                            self.mgmt_network:
-                        create_port_body['security_groups'] = \
-                            [s['id'] for s in self.remote_ssh_sec_groups]
-                    if 'trusted_vf' in net_param and \
-                       net_param['trusted_vf'] and \
-                       net_param['port_type'] == 'direct':
-                        create_port_body['binding:profile']['trusted'] = True
-                    if 'switchdev' in net_param and \
-                       net_param['switchdev'] and \
-                       net_param['port_type'] == 'direct':
-                        create_port_body['binding:profile']['capabilities'] = \
-                            ['switchdev']
+        for net_name, net_param in iter(self.test_network_dict.items()):
+            # TODO(Yarboa) Add Query of physnets, in keywardArgs and modify \
+            #   ports params
+            if 'skip_srv_attach' in net_param:
+                continue
+            create_port_body = {'binding:vnic_type': '',
+                                'namestart': 'port-smoke',
+                                'binding:profile': {}}
+            if 'port_type' in net_param:
+                create_port_body['binding:vnic_type'] = \
+                    net_param['port_type']
+                if self.remote_ssh_sec_groups and net_name == \
+                        self.mgmt_network:
+                    create_port_body['security_groups'] = \
+                        [s['id'] for s in self.remote_ssh_sec_groups]
+                if 'trusted_vf' in net_param and \
+                        net_param['trusted_vf'] and \
+                        net_param['port_type'] == 'direct':
+                    create_port_body['binding:profile']['trusted'] = True
+                if 'switchdev' in net_param and \
+                        net_param['switchdev'] and \
+                        net_param['port_type'] == 'direct':
+                    create_port_body['binding:profile']['capabilities'] = \
+                        ['switchdev']
 
-                    if len(create_port_body['binding:profile']) == 0:
-                        del create_port_body['binding:profile']
+                if len(create_port_body['binding:profile']) == 0:
+                    del create_port_body['binding:profile']
+
+                for _ in range(num_ports):
+                    networks_list = []
                     port = self._create_port(network_id=net_param['net-id'],
                                              **create_port_body)
                     # No option to create port with QoS, due to neutron API
@@ -545,10 +548,13 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     net_var = {'uuid': net_param['net-id'], 'port': port['id']}
                     if 'tag' in net_param:
                         net_var['tag'] = net_param['tag']
-                    networks_list.append(net_var) \
-                        if net_name != self.mgmt_network else \
-                        networks_list.insert(0, net_var)
+                    networks_list.append(net_var)
+
             ports_list.append(networks_list)
+            if 'tag' in networks_list[0]:
+                ports_list. \
+                    insert(0,
+                           ports_list.pop(ports_list.index(networks_list)))
         return ports_list
 
     def _create_port(self, network_id, client=None, namestart='port-quotatest',
