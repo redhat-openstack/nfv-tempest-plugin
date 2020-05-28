@@ -103,21 +103,6 @@ class TestAdvancedScenarios(base_test.BaseTest):
          for srv in numa_aware_srv]
         srv_list = [srv['id'] for srv in numa_aware_srv]
 
-        if numas_phys.get('non_numa_aware_net'):
-            LOG.info('Test non numa aware network')
-            non_numa_net = self.networks_client.list_networks(
-                **{'provider:physical_network': numas_phys[
-                    'non_numa_aware_net']})['networks'][0]['id']
-            net_id = [[{'uuid': non_numa_net}]]
-            LOG.info('Booting an non numa aware instance. Expect to success.')
-            non_numa_srv = self.create_server_with_fip(flavor=self.flavor_ref,
-                                                       networks=net_id,
-                                                       **kwargs)
-            srv_list.append(non_numa_srv[0]['id'])
-        else:
-            LOG.warn('Skip "non numa aware" test phase as "non numa aware" '
-                     'network was not found')
-
         LOG.info('Ensure all the instances are on the same hypervisor node.')
         host = [self.os_admin.servers_client.show_server(hp)['server']
                 ['OS-EXT-SRV-ATTR:hypervisor_hostname'] for hp in srv_list]
