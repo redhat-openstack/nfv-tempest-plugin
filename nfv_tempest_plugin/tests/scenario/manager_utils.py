@@ -888,16 +888,21 @@ class ManagerMixin(object):
             hiera_numa_mapping = "nova::compute::neutron_physnets_numa_" \
                                  "nodes_mapping"
             hiera_numa_tun = "nova::compute::neutron_tunnel_numa_nodes"
-            keys = [hiera_bridge_mapping, hiera_numa_mapping, hiera_numa_tun]
+            hiera_pci_whitelist = "nova::compute::pci::passthrough"
+            keys = [hiera_bridge_mapping, hiera_numa_mapping, hiera_numa_tun,
+                    hiera_pci_whitelist]
         numa_phys_content = shell_utils.retrieve_content_from_hiera(node=node,
                                                                     keys=keys)
         # Identify the numa aware physnet
         numa_aware_phys = {}
         bridge_mapping = []
         numa_aware_tun = []
+        pci_whitelist = []
         for physnet in numa_phys_content:
             if '=>' in physnet:
                 numa_aware_phys = yaml.safe_load(physnet.replace('=>', ':'))
+            elif 'physical_network' in physnet:
+                pci_whitelist = yaml.safe_load(physnet)
             elif ':' in physnet:
                 bridge_mapping = yaml.safe_load(physnet)
             else:
@@ -932,6 +937,13 @@ class ManagerMixin(object):
             if dpath == 'netdev' and physnet not in numa_aware_phys.keys():
                 LOG.info('The {} is a non numa aware network'.format(physnet))
                 numa_physnets['non_numa_aware_net'].append(physnet)
+
+        # Exclude sriov networks from non numa aware list
+        sriov_nets = [sriov_net['physical_network']
+                      for sriov_net in pci_whitelist]
+        numa_physnets['non_numa_aware_net'] = \
+            [non_numa for non_numa in numa_physnets['non_numa_aware_net']
+             if non_numa not in sriov_nets]
 
         if numa_aware_tun:
             numa_physnets['numa_aware_tunnel'] = \

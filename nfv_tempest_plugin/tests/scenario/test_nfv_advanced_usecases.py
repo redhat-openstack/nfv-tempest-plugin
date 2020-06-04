@@ -104,16 +104,22 @@ class TestAdvancedScenarios(base_test.BaseTest):
         srv_list = [srv['id'] for srv in numa_aware_srv]
 
         if numas_phys.get('non_numa_aware_net'):
-            LOG.info('Test non numa aware network')
+            non_numa_net = None
+            # Exclude external network to avoid issue with booting instance
+            # and assign external network and internal to the instance.
             non_numa_net = self.networks_client.list_networks(
                 **{'provider:physical_network': numas_phys[
-                    'non_numa_aware_net']})['networks'][0]['id']
-            net_id = [[{'uuid': non_numa_net}]]
-            LOG.info('Booting an non numa aware instance. Expect to success.')
-            non_numa_srv = self.create_server_with_fip(flavor=self.flavor_ref,
-                                                       networks=net_id,
-                                                       **kwargs)
-            srv_list.append(non_numa_srv[0]['id'])
+                    'non_numa_aware_net'], 'router:external': False})
+            if non_numa_net:
+                LOG.info('Test non numa aware network')
+                non_numa_net = non_numa_net['networks'][0]['id']
+                net_id = [[{'uuid': non_numa_net}]]
+                LOG.info('Booting an non numa aware instance.'
+                         'Expect to success.')
+                non_numa_srv = \
+                    self.create_server_with_fip(flavor=self.flavor_ref,
+                                                networks=net_id, **kwargs)
+                srv_list.append(non_numa_srv[0]['id'])
         else:
             LOG.warn('Skip "non numa aware" test phase as "non numa aware" '
                      'network was not found')
