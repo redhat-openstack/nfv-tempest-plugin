@@ -116,6 +116,29 @@
       "revId": "261f4c72fdc208abc9537a59c96ac375c70be8b5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f3639d6_c9fd6a05",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1017201
+      },
+      "writtenOn": "2020-06-08T09:52:34Z",
+      "side": 1,
+      "message": "This won\u0027t work with new iproute2 CLI output. Please review\n- https://bugzilla.redhat.com/show_bug.cgi?id\u003d1828834\n- https://bugs.launchpad.net/neutron/+bug/1878042\n\nD/S workaroung until U/S patch using pyroute2 is merged:\n\n  MAC_PATTERN \u003d r\"(MAC|link\\/ether)\\s+(?P\u003cmac\u003e[a-fA-F0-9:]+)\"\n\nFrom: https://code.engineering.redhat.com/gerrit/#/c/200863/2/neutron/plugins/ml2/drivers/mech_sriov/agent/pci_lib.py",
+      "range": {
+        "startLine": 323,
+        "startChar": 27,
+        "endLine": 323,
+        "endChar": 30
+      },
+      "revId": "261f4c72fdc208abc9537a59c96ac375c70be8b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
