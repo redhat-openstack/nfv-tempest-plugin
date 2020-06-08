@@ -49,6 +49,29 @@
     },
     {
       "key": {
+        "uuid": "bdd633ba_986bda6b",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-06-08T09:37:22Z",
+      "side": 1,
+      "message": "Still same generic name of the method.\nSee my previous comment.",
+      "range": {
+        "startLine": 321,
+        "startChar": 4,
+        "endLine": 321,
+        "endChar": 39
+      },
+      "revId": "261f4c72fdc208abc9537a59c96ac375c70be8b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3304cc2f_62faeb45",
         "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
         "patchSetId": 7
