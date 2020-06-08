@@ -211,6 +211,30 @@
       "revId": "261f4c72fdc208abc9537a59c96ac375c70be8b5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3394cef_8543fef6",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-06-08T13:55:08Z",
+      "side": 1,
+      "message": "Thanks, so ad for queens release MAC address is not reset either, FYI",
+      "parentUuid": "b20d7392_8932bee0",
+      "range": {
+        "startLine": 323,
+        "startChar": 27,
+        "endLine": 323,
+        "endChar": 30
+      },
+      "revId": "261f4c72fdc208abc9537a59c96ac375c70be8b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
