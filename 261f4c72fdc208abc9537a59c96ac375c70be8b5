@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a385ee2_46858b84",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-06-08T07:07:29Z",
+      "side": 1,
+      "message": "missing multi_key_values description",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 33
+      },
+      "revId": "261f4c72fdc208abc9537a59c96ac375c70be8b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3304cc2f_62faeb45",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-06-08T07:07:29Z",
+      "side": 1,
+      "message": "missing multi_key_values description",
+      "range": {
+        "startLine": 335,
+        "startChar": 0,
+        "endLine": 335,
+        "endChar": 67
+      },
+      "revId": "261f4c72fdc208abc9537a59c96ac375c70be8b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
