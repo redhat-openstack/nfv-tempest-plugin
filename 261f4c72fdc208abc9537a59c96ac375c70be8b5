@@ -187,6 +187,30 @@
       "revId": "261f4c72fdc208abc9537a59c96ac375c70be8b5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b20d7392_8932bee0",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1017201
+      },
+      "writtenOn": "2020-06-08T13:39:51Z",
+      "side": 1,
+      "message": "For VFs, MAC should be reset, but I have no idea about spoofchk and trusted. Nova does not reset those values and I don\u0027t remember/know the driver should do this.",
+      "parentUuid": "e94c0d94_fee7ad99",
+      "range": {
+        "startLine": 323,
+        "startChar": 27,
+        "endLine": 323,
+        "endChar": 30
+      },
+      "revId": "261f4c72fdc208abc9537a59c96ac375c70be8b5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
