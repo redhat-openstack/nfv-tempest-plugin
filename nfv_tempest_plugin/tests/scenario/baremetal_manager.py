@@ -20,6 +20,7 @@ import paramiko
 import re
 
 from math import ceil
+from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import manager_utils
 from oslo_log import log
 from oslo_serialization import jsonutils
@@ -1066,8 +1067,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """
         # Initialize parameters
         found_qos = False
-        interface_data = manager_utils.get_interfaces_from_overcloud_node(
-            server['hypervisor_ip'])
+        interface_data = shell_utils. \
+            get_interfaces_from_overcloud_node(server['hypervisor_ip'])
         ports_client = self.os_admin.ports_client
         ports = ports_client.list_ports(device_id=server['id'])
         # Iterate over ports

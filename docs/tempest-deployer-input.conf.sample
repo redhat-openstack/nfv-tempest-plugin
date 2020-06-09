@@ -1,0 +1,24 @@
+[compute]
+region = regionOne
+min_microversion = 2.32
+max_microversion = 2.32
+image_ssh_user = cloud-user
+
+[compute-feature-enabled]
+live_migration = true
+console_output = false
+
+[validation]
+image_ssh_user = cloud-user
+
+[placement]
+min_microversion = 1.12
+max_microversion = 1.12
+
+[nfv_plugin_options]
+external_config_file = /home/stack/ci_network_config.yml
+test_all_provider_networks = true
+
+[neutron_plugin_options]
+default_image_is_advanced = true
+max_networks_per_project = 1
