@@ -45,6 +45,54 @@
       "revId": "784452d70b98ed44edad154642bc327fdb398bef",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bfa9cda_7e4f8e1c",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-06-15T14:45:03Z",
+      "side": 1,
+      "message": "As per your comment, above if we are caching trusted on and MAC ether 00:00:00 we are failing the test,\nBase on what has written in your reply, how can the test verify the resources are released?\nIs there a way to enforce the usage of the same vfs ? please advise 😊",
+      "parentUuid": "75400b3b_46a298a6",
+      "range": {
+        "startLine": 323,
+        "startChar": 28,
+        "endLine": 323,
+        "endChar": 47
+      },
+      "revId": "784452d70b98ed44edad154642bc327fdb398bef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1610b344_d71e0c75",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-06-15T14:45:03Z",
+      "side": 1,
+      "message": "I am searching here, for required state, MAC 00.. and trust off\nIn case not i am failing the test, do not want to receive groups etc",
+      "parentUuid": "4e97a9a7_4859044f",
+      "range": {
+        "startLine": 323,
+        "startChar": 21,
+        "endLine": 323,
+        "endChar": 25
+      },
+      "revId": "784452d70b98ed44edad154642bc327fdb398bef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
