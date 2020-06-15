@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e97a9a7_4859044f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1017201
+      },
+      "writtenOn": "2020-06-15T12:38:30Z",
+      "side": 1,
+      "message": "I\u0027m not sure about what are you searching for with this section.",
+      "range": {
+        "startLine": 323,
+        "startChar": 21,
+        "endLine": 323,
+        "endChar": 25
+      },
+      "revId": "784452d70b98ed44edad154642bc327fdb398bef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75400b3b_46a298a6",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1017201
+      },
+      "writtenOn": "2020-06-15T12:38:30Z",
+      "side": 1,
+      "message": "Just to let you know: not all drivers will reset the MAC address once is bound again to the kernel. The MAC address could be a random one.\n\nWhat are you searching with this regex?",
+      "range": {
+        "startLine": 323,
+        "startChar": 28,
+        "endLine": 323,
+        "endChar": 47
+      },
+      "revId": "784452d70b98ed44edad154642bc327fdb398bef",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
