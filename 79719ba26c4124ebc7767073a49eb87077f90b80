@@ -658,6 +658,30 @@
       "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fcae299_d64d13dd",
+        "filename": "tox_check.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-06-24T10:49:37Z",
+      "side": 1,
+      "message": "So in that case just set it as:\nexport TOXENV\u003d\"pep8,py27,py3\"\n\nIt is better to test it for both versions instead of just the version that exists on the gate.\n\nOur gate is rhel8.2 so it has only python3, but I will install python2 alongside with it.",
+      "parentUuid": "84f5ffc2_e8211f67",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 9
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
