@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3999a328_47edb659",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-06-24T07:44:54Z",
+      "side": 1,
+      "message": "i think we should check if self.test_setup_dict[test] is null",
+      "range": {
+        "startLine": 860,
+        "startChar": 35,
+        "endLine": 860,
+        "endChar": 50
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d86cb892_82234896",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-06-24T07:44:54Z",
+      "side": 1,
+      "message": "would it be interesting to have this constants in the ci_network_file as parameters for the test?",
+      "range": {
+        "startLine": 313,
+        "startChar": 0,
+        "endLine": 313,
+        "endChar": 27
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "538ea262_a1c3c938",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-06-24T07:44:54Z",
+      "side": 1,
+      "message": "is it working? shoudnt we have a \";\" between both iperf commands?",
+      "range": {
+        "startLine": 361,
+        "startChar": 62,
+        "endLine": 361,
+        "endChar": 63
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb1396dc_02c81e41",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-06-24T07:44:54Z",
+      "side": 1,
+      "message": "For me it is difficult to understand this command, I think it should be useful to put in comments the output of the file and what it is being extracted from the file. It would help to understand this command.",
+      "range": {
+        "startLine": 394,
+        "startChar": 8,
+        "endLine": 394,
+        "endChar": 15
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21a9248a_a6d17a4f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-06-24T07:44:54Z",
+      "side": 1,
+      "message": "Receive",
+      "range": {
+        "startLine": 395,
+        "startChar": 10,
+        "endLine": 395,
+        "endChar": 16
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
