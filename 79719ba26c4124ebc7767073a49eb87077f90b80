@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "b810f173_831777bc",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-06-24T08:17:03Z",
+      "side": 1,
+      "message": "I think it should be initiated within the __init__ method as none or such.",
+      "range": {
+        "startLine": 635,
+        "startChar": 24,
+        "endLine": 635,
+        "endChar": 46
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36411504_bcb820af",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-06-24T08:17:03Z",
+      "side": 1,
+      "message": "This is pretty important change.\nPlease, for the next time, add such change as a separate patch, otherwise, it will be really hard to find that change in the git log later by the commit message/body.\nI has number of time when I needed to look for a change made in the log.\n\nAdd, the argument in the doc section of the method under the kwargs param section.\nBelow line 817.",
+      "range": {
+        "startLine": 827,
+        "startChar": 8,
+        "endLine": 827,
+        "endChar": 11
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3999a328_47edb659",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 5
@@ -18,6 +64,29 @@
         "startChar": 35,
         "endLine": 860,
         "endChar": 50
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fe648a2_49403e15",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-06-24T08:17:03Z",
+      "side": 1,
+      "message": "It is not critical, but I think the name of this test and the test above should be similar as they are doing similar test (with the change of min and max of course).",
+      "range": {
+        "startLine": 300,
+        "startChar": 8,
+        "endLine": 300,
+        "endChar": 26
       },
       "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
@@ -48,6 +117,52 @@
     },
     {
       "key": {
+        "uuid": "4bdfff21_7a6109e4",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-06-24T08:17:03Z",
+      "side": 1,
+      "message": "You could decrease the lines by looping this.\nUse enumerate function and you will be able to assign the index number for each port_id and ip_addr.",
+      "range": {
+        "startLine": 333,
+        "startChar": 8,
+        "endLine": 344,
+        "endChar": 68
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b55965d_86d8c35b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-06-24T08:17:03Z",
+      "side": 1,
+      "message": "It is not mandatory, but we have a packages_deploy.py script that loads with the cloud-init and is able to install any provided package.",
+      "range": {
+        "startLine": 357,
+        "startChar": 26,
+        "endLine": 357,
+        "endChar": 51
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "538ea262_a1c3c938",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
         "patchSetId": 5
@@ -59,6 +174,30 @@
       "writtenOn": "2020-06-24T07:44:54Z",
       "side": 1,
       "message": "is it working? shoudnt we have a \";\" between both iperf commands?",
+      "range": {
+        "startLine": 361,
+        "startChar": 62,
+        "endLine": 361,
+        "endChar": 63
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00c167e6_8cd33233",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-06-24T08:17:03Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "538ea262_a1c3c938",
       "range": {
         "startLine": 361,
         "startChar": 62,
@@ -94,6 +233,30 @@
     },
     {
       "key": {
+        "uuid": "f9fb2e5f_5429e530",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-06-24T08:17:03Z",
+      "side": 1,
+      "message": "Why not to fetch the file from the vm and use the pythonic way of reading and verifying the output?\nIt would be more readable.",
+      "parentUuid": "bb1396dc_02c81e41",
+      "range": {
+        "startLine": 394,
+        "startChar": 8,
+        "endLine": 394,
+        "endChar": 15
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "21a9248a_a6d17a4f",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
         "patchSetId": 5
@@ -110,6 +273,75 @@
         "startChar": 10,
         "endLine": 395,
         "endChar": 16
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12c70382_618aa768",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-06-24T08:17:03Z",
+      "side": 1,
+      "message": "Could you please explain why are these numbers?\nEven put a comment that explains it in the code for the later use/maintenance/debug.",
+      "range": {
+        "startLine": 406,
+        "startChar": 24,
+        "endLine": 406,
+        "endChar": 29
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3d066f9_5e3c399b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-06-24T08:17:03Z",
+      "side": 1,
+      "message": "Please, put the assertion in a loop.\nToo much duplication code.",
+      "range": {
+        "startLine": 409,
+        "startChar": 8,
+        "endLine": 409,
+        "endChar": 23
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e525534_9a3e7f4d",
+        "filename": "tox_check.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-06-24T08:17:03Z",
+      "side": 1,
+      "message": "It should be proposed as a separate patch.\nHas nothing related to the test.\n\nI think we could hardcode the python version to py3.\nDon\u0027t see any reason to keep testing it for py2.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 9
       },
       "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
