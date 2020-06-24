@@ -706,6 +706,30 @@
       "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b241604_e7a072d8",
+        "filename": "tox_check.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-06-24T13:03:38Z",
+      "side": 1,
+      "message": "I have installed python2 on the gate.\nSo currently it has both python versions.",
+      "parentUuid": "dd26dc69_b3bf6c58",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 9
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
