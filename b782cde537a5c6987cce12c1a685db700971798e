@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f5b9f6bf_fa295360",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 11
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-06-25T07:03:01Z",
+      "side": 1,
+      "message": "You can avoid this one also,\nPlease refer the following patch, i am waiting with method reduces the configuration\nhttps://review.gerrithub.io/c/redhat-openstack/nfv-tempest-plugin/+/493805/12/nfv_tempest_plugin/tests/common/shell_utilities.py#212\n\nYou can search for PCI and run command with bus-info on the nic",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 12
+      },
+      "revId": "b782cde537a5c6987cce12c1a685db700971798e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4f130a8f_b6f9477a",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
         "patchSetId": 11
