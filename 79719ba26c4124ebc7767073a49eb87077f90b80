@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "c7dba681_15e5e780",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-06-29T07:28:21Z",
+      "side": 1,
+      "message": "ok.",
+      "parentUuid": "87ceb4c4_201bb509",
+      "range": {
+        "startLine": 827,
+        "startChar": 8,
+        "endLine": 827,
+        "endChar": 11
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3999a328_47edb659",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 5
@@ -178,6 +202,30 @@
       "side": 1,
       "message": "I am not sure, \nIt above min_qos are needed, once we have iperf for min_qos also.\nOnce we will have full coverage of iperf, i think all functional verifications should not run, or be there ?",
       "parentUuid": "4fe648a2_49403e15",
+      "range": {
+        "startLine": 300,
+        "startChar": 8,
+        "endLine": 300,
+        "endChar": 26
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a918fbcd_8304179d",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-06-29T07:28:21Z",
+      "side": 1,
+      "message": "Yes, it could be replaced.",
+      "parentUuid": "66aeed82_c59b1ff2",
       "range": {
         "startLine": 300,
         "startChar": 8,
@@ -331,6 +379,30 @@
     },
     {
       "key": {
+        "uuid": "56fb4e3e_19a570fd",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-06-29T07:28:21Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "5386a5da_c8233435",
+      "range": {
+        "startLine": 357,
+        "startChar": 26,
+        "endLine": 357,
+        "endChar": 51
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "538ea262_a1c3c938",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
         "patchSetId": 5
@@ -461,6 +533,30 @@
       "side": 1,
       "message": "Test duration pretty long, ssh with grep faster than copy and parse it and grep it.\nAnd more code is needed, i think the effort is too much, that is the power of regexp :)\nI will, add comment, and how files line looks",
       "parentUuid": "f9fb2e5f_5429e530",
+      "range": {
+        "startLine": 394,
+        "startChar": 8,
+        "endLine": 394,
+        "endChar": 15
+      },
+      "revId": "79719ba26c4124ebc7767073a49eb87077f90b80",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b7bee1e_bb6f0a9f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-06-29T07:28:21Z",
+      "side": 1,
+      "message": "thx. A comment will be very helpful.",
+      "parentUuid": "9e81c705_4e4f5fc4",
       "range": {
         "startLine": 394,
         "startChar": 8,
