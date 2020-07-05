@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62e1acae_ac3de270",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-07-05T09:55:52Z",
+      "side": 1,
+      "message": "Missed double quote",
+      "range": {
+        "startLine": 77,
+        "startChar": 37,
+        "endLine": 77,
+        "endChar": 38
+      },
+      "revId": "009203c75ef0d8807fe47f5b0b4a0b5de5259e95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27401bb5_b4e6fca7",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-07-05T09:55:52Z",
+      "side": 1,
+      "message": "As I said before, such change is very important and welcomed.\nAnd for the future reference I prefer such changes to be submitted as a separate patch.",
+      "range": {
+        "startLine": 1013,
+        "startChar": 8,
+        "endLine": 1013,
+        "endChar": 34
+      },
+      "revId": "009203c75ef0d8807fe47f5b0b4a0b5de5259e95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdd6c174_16476a49",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-07-05T09:55:52Z",
+      "side": 1,
+      "message": "Why not to place the managers in a dedicated directory?\nPlacing them alongside with the tests may create a mess when a new managers will be created.",
+      "revId": "009203c75ef0d8807fe47f5b0b4a0b5de5259e95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9fcc0bf_3aae5d2e",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-07-05T09:55:52Z",
+      "side": 1,
+      "message": "You are using the self.qos_policy_groups that are defined in create_qos_policy_with_rules.\nThe create_qos_policy_with_rules defined only if \"use_default\" param is true.\nWhat will happen if the create_qos_policy_with_rules method will be called with \"use_default\" param \"False\"?\n\nIn that case, the self.qos_policy_groups will not be defined and will fail.\n\nMaybe add the check here?",
+      "range": {
+        "startLine": 70,
+        "startChar": 24,
+        "endLine": 70,
+        "endChar": 46
+      },
+      "revId": "009203c75ef0d8807fe47f5b0b4a0b5de5259e95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82b403fe_22416997",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-07-05T09:55:52Z",
+      "side": 1,
+      "message": "Same as in above method.",
+      "range": {
+        "startLine": 102,
+        "startChar": 24,
+        "endLine": 102,
+        "endChar": 46
+      },
+      "revId": "009203c75ef0d8807fe47f5b0b4a0b5de5259e95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
