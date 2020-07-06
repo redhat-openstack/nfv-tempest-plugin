@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f6532da4_2300d0ea",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-07-06T09:34:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "62e1acae_ac3de270",
+      "range": {
+        "startLine": 77,
+        "startChar": 37,
+        "endLine": 77,
+        "endChar": 38
+      },
+      "revId": "009203c75ef0d8807fe47f5b0b4a0b5de5259e95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27401bb5_b4e6fca7",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 11
@@ -36,6 +60,30 @@
       "writtenOn": "2020-07-05T09:55:52Z",
       "side": 1,
       "message": "As I said before, such change is very important and welcomed.\nAnd for the future reference I prefer such changes to be submitted as a separate patch.",
+      "range": {
+        "startLine": 1013,
+        "startChar": 8,
+        "endLine": 1013,
+        "endChar": 34
+      },
+      "revId": "009203c75ef0d8807fe47f5b0b4a0b5de5259e95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c6bbed6_08c7cfd9",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-07-06T09:34:49Z",
+      "side": 1,
+      "message": "I thinks this change is not crucial,\nIn previous patch it was really risky, you were totally correct\n\nHere there is a population of the config from the test,\nBefore it read the external config, and than it will not\n require any change while reading the internal config",
+      "parentUuid": "27401bb5_b4e6fca7",
       "range": {
         "startLine": 1013,
         "startChar": 8,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "0f82f757_1f78bd07",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-07-06T09:34:49Z",
+      "side": 1,
+      "message": "What do you suggest?",
+      "parentUuid": "fdd6c174_16476a49",
+      "revId": "009203c75ef0d8807fe47f5b0b4a0b5de5259e95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d9fcc0bf_3aae5d2e",
         "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
         "patchSetId": 11
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "e9a4a343_c2d5e83f",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-07-06T09:34:49Z",
+      "side": 1,
+      "message": "Sorry, trying to follow you\n\nLook in the test it is called with False and with qos_id,\nIt will fail for sure in the case of param set to False w/o qos_id.\nDo you suggest to add another check with guiding message?",
+      "parentUuid": "d9fcc0bf_3aae5d2e",
+      "range": {
+        "startLine": 70,
+        "startChar": 24,
+        "endLine": 70,
+        "endChar": 46
+      },
+      "revId": "009203c75ef0d8807fe47f5b0b4a0b5de5259e95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "82b403fe_22416997",
         "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
         "patchSetId": 11
@@ -99,6 +189,30 @@
       "writtenOn": "2020-07-05T09:55:52Z",
       "side": 1,
       "message": "Same as in above method.",
+      "range": {
+        "startLine": 102,
+        "startChar": 24,
+        "endLine": 102,
+        "endChar": 46
+      },
+      "revId": "009203c75ef0d8807fe47f5b0b4a0b5de5259e95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a7378ea_6a430ae8",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-07-06T09:34:49Z",
+      "side": 1,
+      "message": "See above?",
+      "parentUuid": "82b403fe_22416997",
       "range": {
         "startLine": 102,
         "startChar": 24,
