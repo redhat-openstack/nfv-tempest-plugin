@@ -36,12 +36,6 @@ class TestDpdkScenarios(base_test.BaseTest):
         If multi-host is enabled, save created server uuids.
         """
         super(TestDpdkScenarios, self).setUp()
-        try:
-            self.maxqueues = super(TestDpdkScenarios, self) \
-                ._check_number_queues()
-        except Exception:
-            print("Hypervisor OVS not configured with MultiQueue")
-        """ pre setup creations and checks read from config files """
 
     def _test_queue_functionality(self, queues):
         """Checks DPDK queues functionality
@@ -50,8 +44,7 @@ class TestDpdkScenarios(base_test.BaseTest):
         setup queues number.
         """
         LOG.info('Prepare the queues functionality test')
-        msg = "Hypervisor OVS not configured with MultiQueue"
-        self.assertIsNotNone(self.maxqueues, msg)
+        self.maxqueues = self.check_number_queues()
 
         extra_specs = {'extra_specs': {'hw:mem_page_size': str("large"),
                                        'hw:cpu_policy': str("dedicated")}}
