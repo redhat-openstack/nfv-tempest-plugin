@@ -460,7 +460,7 @@ class ManagerMixin(object):
             return True
         return False
 
-    def _check_number_queues(self):
+    def check_number_queues(self):
         """This method checks the number of max queues"""
         self.ip_address = self._get_hypervisor_ip_from_undercloud(
             **{'shell': '/home/stack/stackrc'})
