@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "12b0c667_9bfaf91a",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-07-12T08:20:39Z",
+      "side": 1,
+      "message": "Sorry :) i do not understand your answer,\nDo you think it is risky? why, the test call the method, if it is already defined in external config, it will not do a thing",
+      "parentUuid": "de80666b_252ecb51",
+      "range": {
+        "startLine": 1013,
+        "startChar": 8,
+        "endLine": 1013,
+        "endChar": 34
+      },
+      "revId": "009203c75ef0d8807fe47f5b0b4a0b5de5259e95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fdd6c174_16476a49",
         "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
         "patchSetId": 11
@@ -167,6 +191,24 @@
       "side": 1,
       "message": "I suggest to create a directory called \"managers\" under \"nfv-tempest-plugin/nfv_tempest_plugin/\" or \"nfv-tempest-plugin/nfv_tempest_plugin/tests/\" path and place all the managers over there.\n\nFrom my point of view, it will be much more logically structured.\nWe will be able to separate some of the methods into the smaller parts (like - hypervisor, network and such).",
       "parentUuid": "0f82f757_1f78bd07",
+      "revId": "009203c75ef0d8807fe47f5b0b4a0b5de5259e95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b9b84ad_0ce8c65c",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-07-12T08:20:39Z",
+      "side": 1,
+      "message": "Sorry again, it is hard to me to follow\nWhat di yiu suggest?\nDo you think creating the directory in this patch and what additional work to do here?\n\nqos_manager as is \nqos_manager in new directory?\nall managers? \nor moving all managers as stand alone patch?",
+      "parentUuid": "8875d0c1_44361067",
       "revId": "009203c75ef0d8807fe47f5b0b4a0b5de5259e95",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
@@ -241,6 +283,30 @@
       "revId": "009203c75ef0d8807fe47f5b0b4a0b5de5259e95",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9245659a_54c83f0d",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-07-12T08:20:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cff8a7ba_08422274",
+      "range": {
+        "startLine": 70,
+        "startChar": 24,
+        "endLine": 70,
+        "endChar": 46
+      },
+      "revId": "009203c75ef0d8807fe47f5b0b4a0b5de5259e95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     },
     {
       "key": {
