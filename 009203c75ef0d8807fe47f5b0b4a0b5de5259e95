@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "01a420dd_aebfe911",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-07-12T08:32:16Z",
+      "side": 1,
+      "message": "No.\nI don\u0027t think the change is risky. We had to do it times ago.\nWhat I would like to say, it that sometimes, after any change, that could be very minimal, the whole behavior of the software flow, could change to an unexpected direction.\n\nIn such case, I will look for that specific commit and a change.\nSo if that change will be defined separately, I will easily find it.",
+      "parentUuid": "12b0c667_9bfaf91a",
+      "range": {
+        "startLine": 1013,
+        "startChar": 8,
+        "endLine": 1013,
+        "endChar": 34
+      },
+      "revId": "009203c75ef0d8807fe47f5b0b4a0b5de5259e95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fdd6c174_16476a49",
         "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
         "patchSetId": 11
@@ -209,6 +233,24 @@
       "side": 1,
       "message": "Sorry again, it is hard to me to follow\nWhat di yiu suggest?\nDo you think creating the directory in this patch and what additional work to do here?\n\nqos_manager as is \nqos_manager in new directory?\nall managers? \nor moving all managers as stand alone patch?",
       "parentUuid": "8875d0c1_44361067",
+      "revId": "009203c75ef0d8807fe47f5b0b4a0b5de5259e95",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51a65892_6f80b821",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-07-12T08:32:16Z",
+      "side": 1,
+      "message": "For now, place the qos manager as is.\nLater, if another patch, move all other manages over there.\n\nAt least I think it will be more logically structured.\nWill be happy to heat others opinion.",
+      "parentUuid": "7b9b84ad_0ce8c65c",
       "revId": "009203c75ef0d8807fe47f5b0b4a0b5de5259e95",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
