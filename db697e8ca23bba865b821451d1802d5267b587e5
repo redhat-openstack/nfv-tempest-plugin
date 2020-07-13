@@ -94,6 +94,30 @@
       "revId": "db697e8ca23bba865b821451d1802d5267b587e5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "232867ae_78d722a1",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-07-13T12:46:14Z",
+      "side": 1,
+      "message": "The scenario with the following topology cpus2\u003d\u002722-25,14\u0027 will probably will not happen.\nThe topologies that could exists are:\n* [\u00272\u0027, \u00274\u0027, \u00278\u0027, \u002712\u0027]\n* [\u00270,1\u0027, \u00270,1\u0027]\n* [\u00270-1\u0027, \u00270-1\u0027]\n\nIt depends on the spawned instance that could be with dedicated or shared cpus.\nIn a dedicated cpus, the first option will appear.\nIn a shared cpus, second and third option could appear.\n\nI will add a check for the fourth option which is:\n* [\u00270-1\u0027, \u00270,1\u0027]\n\nThis topology will probably will never happen, but I will cover it.",
+      "parentUuid": "3f385895_a1af02dd",
+      "range": {
+        "startLine": 264,
+        "startChar": 54,
+        "endLine": 264,
+        "endChar": 63
+      },
+      "revId": "db697e8ca23bba865b821451d1802d5267b587e5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
