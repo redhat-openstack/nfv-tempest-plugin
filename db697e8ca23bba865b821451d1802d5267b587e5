@@ -70,6 +70,30 @@
       "revId": "db697e8ca23bba865b821451d1802d5267b587e5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f385895_a1af02dd",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-07-13T12:07:05Z",
+      "side": 1,
+      "message": "consider using this\ncpus2\u003d\u002722-25,14\u0027\n\u003e\u003e\u003e tt\u003dcpus2.split(\u0027,\u0027)\n\u003e\u003e\u003e tt\n[\u002722-25\u0027, \u002714\u0027]\n\u003e\u003e\u003e for i in tt:\n...     if \u0027-\u0027 in i:\n...        rr\u003di.split(\u0027-\u0027)\n...        tt.remove(i)\n...        tt.extend(range(int(rr[0]), int(rr[1])+1))",
+      "parentUuid": "0aa66d1e_d313980f",
+      "range": {
+        "startLine": 264,
+        "startChar": 54,
+        "endLine": 264,
+        "endChar": 63
+      },
+      "revId": "db697e8ca23bba865b821451d1802d5267b587e5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
