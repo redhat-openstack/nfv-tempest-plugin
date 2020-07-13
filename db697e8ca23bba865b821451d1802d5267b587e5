@@ -46,6 +46,30 @@
       "revId": "db697e8ca23bba865b821451d1802d5267b587e5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0aa66d1e_d313980f",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-07-13T11:17:37Z",
+      "side": 1,
+      "message": "You are both right.\nThe cores may appear in to possible ways: as a list of as a range.\nWill update the code to check it in all iterations.",
+      "parentUuid": "c63ab00a_4480eaae",
+      "range": {
+        "startLine": 264,
+        "startChar": 54,
+        "endLine": 264,
+        "endChar": 63
+      },
+      "revId": "db697e8ca23bba865b821451d1802d5267b587e5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
