@@ -22,6 +22,30 @@
       "revId": "db697e8ca23bba865b821451d1802d5267b587e5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c63ab00a_4480eaae",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-07-13T11:15:13Z",
+      "side": 1,
+      "message": "Because he is searching for a range also\nI think maxim\nYou can split(,) and than iterate the list members, if you find a range replace the the a-d with a, b ,c,d",
+      "parentUuid": "eb7cf20e_f1147029",
+      "range": {
+        "startLine": 264,
+        "startChar": 54,
+        "endLine": 264,
+        "endChar": 63
+      },
+      "revId": "db697e8ca23bba865b821451d1802d5267b587e5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
