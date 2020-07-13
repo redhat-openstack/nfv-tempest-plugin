@@ -259,8 +259,12 @@ class ManagerMixin(object):
         vcpupin = dumpxml_string.findall('./cputune/vcpupin')
         vcpu_list = [(vcpu.get('cpuset'))
                      for vcpu in vcpupin if vcpu is not None]
-        if ',' in vcpu_list[0]:
-            split_list = [vcpu.split(',') for vcpu in vcpu_list if ',' in vcpu]
+        if ',' in vcpu_list[0] or '-' in vcpu_list[0]:
+            sep = ',' if ',' in vcpu_list[0] else '-'
+            split_list = [vcpu.split(sep) for vcpu in vcpu_list if sep in vcpu]
+            if '-' in vcpu_list[0]:
+                split_list = [list(range(int(vcpu[0]), int(vcpu[1]) + 1)) for
+                              vcpu in split_list]
             vcpu_list = [vcpu for sublist in split_list for vcpu in sublist]
         vcpu_list = [int(vcpu) for vcpu in vcpu_list]
         return list(set(vcpu_list))
