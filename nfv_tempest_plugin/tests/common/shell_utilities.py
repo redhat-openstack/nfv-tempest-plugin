@@ -246,7 +246,10 @@ def get_value_from_ini_config(overcloud_node, config_path,
     get_value.readfp(StringIO(ini_config))
     value_data = []
     for value in check_value.split(','):
-        value_data.extend(get_value.get(check_section, value))
+        if multi_key_values:
+            value_data.extend(get_value.get(check_section, value))
+        else:
+            value_data.append(get_value.get(check_section, value))
 
     return ','.join(value_data)
 
