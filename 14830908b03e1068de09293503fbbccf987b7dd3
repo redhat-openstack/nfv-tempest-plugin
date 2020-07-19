@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3c007ac_9ab022b7",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-07-19T12:55:21Z",
+      "side": 1,
+      "message": "Ahhm interesting, while multiple values in a key.\nUsing this:\n\u003e\u003e\u003e tt.extend([\u0027eth4\u0027, \u0027eth5\u0027])\n\u003e\u003e\u003e tt\n[\u0027eth4\u0027, \u0027eth5\u0027]\n\nWhile this:\n\u003e\u003e\u003e tt \u003d []\n\u003e\u003e\u003e tt.extend(\u0027eth4\u0027)\n\u003e\u003e\u003e tt\n[\u0027e\u0027, \u0027t\u0027, \u0027h\u0027, \u00274\u0027]\n\nDid you try using this method with param: multi_key_values?",
+      "range": {
+        "startLine": 246,
+        "startChar": 4,
+        "endLine": 246,
+        "endChar": 42
+      },
+      "revId": "14830908b03e1068de09293503fbbccf987b7dd3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
