@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e9375af_f9af929b",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-07-21T12:17:27Z",
+      "side": 1,
+      "message": "Everything looks good.\nJust a suggestion from the previous review round regarding the placement of the managers in our plugin.\n\nI suggest to create a directory called \"managers\" under \"nfv-tempest-plugin/nfv_tempest_plugin/\" or \"nfv-tempest-plugin/nfv_tempest_plugin/tests/\" path and place all the managers over there.\n\nFrom my point of view, it will be much more logically structured.\nWe will be able to separate some of the methods into the smaller parts (like - hypervisor, network and such).\n\n\nWill be happy to hear others opinion.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 3
+      },
+      "revId": "f5de2bfcc176176b80ea279a58ef495e80bb941c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
