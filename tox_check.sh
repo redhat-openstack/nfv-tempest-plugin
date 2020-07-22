@@ -37,4 +37,3 @@ while (( $# )); do
 done
 
 python -m tox
-
