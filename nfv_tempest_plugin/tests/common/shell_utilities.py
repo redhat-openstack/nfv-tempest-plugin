@@ -18,13 +18,13 @@ import json
 import paramiko
 import re
 import subprocess as sp
-import sys
 
+from backports.configparser import ConfigParser
+from collections import OrderedDict
 from oslo_log import log
 from oslo_serialization import jsonutils
 from tempest import config
 """Python 2 and 3 support"""
-from six.moves.configparser import ConfigParser
 from six.moves import StringIO
 
 CONF = config.CONF
@@ -224,29 +224,27 @@ def get_value_from_ini_config(overcloud_node, config_path,
                              single key from ini file
     :return return_value
     """
-    class M(dict):
+
+    class M(OrderedDict):
         def __setitem__(self, key, value):
-            if len(value) > 1:
-                return
-            if key in self:
-                items = self[key]
-                new = value[0] if type(value) is list else value
-                if new not in items:
-                    items.append(new)
+            v_val = self.get(key)
+            if v_val is not None and type(value) == list:
+                v_val.append(value[0])
             else:
-                super(M, self).__setitem__(key, value)
+                v_val = value
+            # still using python2.7 super, for backport portability
+            super(M, self).__setitem__(key, v_val)
+
     ini_config = get_overcloud_config(overcloud_node, config_path)
     config_parser_args = {'allow_no_value': True}
     if multi_key_values:
         config_parser_args['dict_type'] = M
-    # Python 2 and 3 support
-    if sys.version_info[0] > 2:
-        config_parser_args['strict'] = False
+    config_parser_args['strict'] = False
     get_value = ConfigParser(**config_parser_args)
-    get_value.readfp(StringIO(ini_config))
+    get_value.read_file(StringIO(ini_config))
     value_data = []
     for value in check_value.split(','):
-        value_data.extend(get_value.get(check_section, value))
+        value_data.append(get_value.get(check_section, value))
 
     return ','.join(value_data)
 
@@ -359,7 +357,7 @@ def run_hypervisor_command_build_from_config(file_path, search_param,
         msg = "No {} found in".format(search_param)
         assert result != '', "{} {}".format(msg, hypervisor)
 
-        result = "[" + result + "]"
+        result = "[" + result.replace('\n', ", ") + "]"
         dev_names = [x['devname'] for x in json.loads(result)]
         cmd = ''
         for device in dev_names:
