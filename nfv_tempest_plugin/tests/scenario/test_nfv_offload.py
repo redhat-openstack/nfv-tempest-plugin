@@ -115,8 +115,39 @@ class TestNfvOffload(base_test.BaseTest):
     def test_offload_ovs_flows(self, test='offload_flows'):
         """Check OVS offloaded flows
 
+        The following test deploy vms, on hw-offload computes.
+        It sends async ping and check offload flows exist in ovs.
+
         :param test: Test name from the external config file.
         """
+
+        LOG.info('Start test_offload_ovs_flows test.')
+        LOG.info('test_offload_ovs_flows create vms')
+        # Create servers
+        servers, key_pair = self.create_and_verify_resources(test=test,
+                                                             num_servers=4)
+        cmd = 'sudo ovs-appctl dpctl/dump-flows type=offloaded'
+        # Iterate over created servers
+        for server in servers:
+
+            shell_utils.continuous_ping(server['fip'],
+                                        duration=30)
+            LOG.info('test_offload_ovs_flows verify flows on geust {}'.
+                     format(server['fip']))
+
+            out = shell_utils.\
+                run_command_over_ssh(server['hypervisor_ip'],
+                                     cmd)
+            ports =  \
+                self.os_admin.ports_client.list_ports(device_id=server['id'])
+            msg = ('Port with mac address {} is expected to be part of '
+                   'offloaded flows')
+            for port in ports['ports']:
+                if 'capabilities' in port['binding:profile'] and 'switchdev'\
+                        in port['binding:profile']['capabilities']:
+                    self.assertIn(port['mac_address'], out,
+                                  msg.format(port['mac_address']))
+        # Pings are running check flows exist
         # Retrieve all hypvervisors
         hypervisors = self._get_hypervisor_ip_from_undercloud(
             shell='/home/stack/stackrc')
@@ -131,21 +162,5 @@ class TestNfvOffload(base_test.BaseTest):
             LOG.info('Hypercisor {} has offloaded flows in OVS'.format(
                 hypervisor))
 
-        # Create servers
-        servers, key_pair = self.create_and_verify_resources(test=test,
-                                                             num_servers=4)
-
-        # Iterate over created servers
-        for server in servers:
-            out = shell_utils.\
-                run_command_over_ssh(server['hypervisor_ip'],
-                                     cmd)
-            ports =  \
-                self.os_admin.ports_client.list_ports(device_id=server['id'])
-            msg = ('Port with mac address {} is expected to be part of '
-                   'offloaded flows')
-            for port in ports['ports']:
-                if 'capabilities' in port['binding:profile'] and \
-                    'switchdev' in port['binding:profile']['capabilities']:
-                    self.assertIn(port['mac_address'], out,
-                                  msg.format(port['mac_address']))
+        # send stop statistics signal
+        shell_utils.stop_continuous_ping()
