@@ -120,7 +120,8 @@ class TestNfvOffload(base_test.BaseTest):
         # Retrieve all hypvervisors
         hypervisors = self._get_hypervisor_ip_from_undercloud(
             shell='/home/stack/stackrc')
-        # Command to check offloaded flows in OVS
+        # Command to check offloaded flows in OVS due to vxlan tunneling
+        # if exists
         cmd = 'sudo ovs-appctl dpctl/dump-flows type=offloaded'
         for hypervisor in hypervisors:
             out = shell_utils.run_command_over_ssh(hypervisor,
@@ -145,7 +146,7 @@ class TestNfvOffload(base_test.BaseTest):
             msg = ('Port with mac address {} is expected to be part of '
                    'offloaded flows')
             for port in ports['ports']:
-                if 'capabilities' in port['binding:profile'] and \
-                    'switchdev' in port['binding:profile']['capabilities']:
+                if 'capabilities' in port['binding:profile'] and 'switchdev'\
+                        in port['binding:profile']['capabilities']:
                     self.assertIn(port['mac_address'], out,
                                   msg.format(port['mac_address']))
