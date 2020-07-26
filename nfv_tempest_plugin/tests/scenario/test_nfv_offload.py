@@ -115,28 +115,26 @@ class TestNfvOffload(base_test.BaseTest):
     def test_offload_ovs_flows(self, test='offload_flows'):
         """Check OVS offloaded flows
 
+        The following test deploy vms, on hw-offload computes.
+        It sends async ping and check offload flows exist in ovs.
+
         :param test: Test name from the external config file.
         """
-        # Retrieve all hypvervisors
-        hypervisors = self._get_hypervisor_ip_from_undercloud(
-            shell='/home/stack/stackrc')
-        # Command to check offloaded flows in OVS
-        cmd = 'sudo ovs-appctl dpctl/dump-flows type=offloaded'
-        for hypervisor in hypervisors:
-            out = shell_utils.run_command_over_ssh(hypervisor,
-                                                   cmd)
-            msg = 'Hypervisor {} has no offloaded flows in OVS'.format(
-                hypervisor)
-            self.assertNotEmpty(out, msg)
-            LOG.info('Hypercisor {} has offloaded flows in OVS'.format(
-                hypervisor))
 
+        LOG.info('Start test_offload_ovs_flows test.')
+        LOG.info('test_offload_ovs_flows create vms')
         # Create servers
         servers, key_pair = self.create_and_verify_resources(test=test,
                                                              num_servers=4)
-
+        cmd = 'sudo ovs-appctl dpctl/dump-flows type=offloaded'
         # Iterate over created servers
         for server in servers:
+
+            shell_utils.continuous_ping(server['fip'],
+                                        duration=30)
+            LOG.info('test_offload_ovs_flows verify flows on geust {}'.
+                     format(server['fip']))
+
             out = shell_utils.\
                 run_command_over_ssh(server['hypervisor_ip'],
                                      cmd)
@@ -145,7 +143,9 @@ class TestNfvOffload(base_test.BaseTest):
             msg = ('Port with mac address {} is expected to be part of '
                    'offloaded flows')
             for port in ports['ports']:
-                if 'capabilities' in port['binding:profile'] and \
-                    'switchdev' in port['binding:profile']['capabilities']:
+                if 'capabilities' in port['binding:profile'] and 'switchdev'\
+                        in port['binding:profile']['capabilities']:
                     self.assertIn(port['mac_address'], out,
                                   msg.format(port['mac_address']))
+        # send stop statistics signal
+        shell_utils.stop_continuous_ping()
