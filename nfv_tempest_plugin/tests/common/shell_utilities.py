@@ -17,6 +17,7 @@ import base64
 import json
 import paramiko
 import re
+import shlex
 import subprocess as sp
 
 from backports.configparser import ConfigParser
@@ -390,3 +391,29 @@ def find_vm_interface(ports=[],
     return [[port['id'], port['fixed_ips'][0]['ip_address']]
             for port in ports['ports']
             if port['binding:vnic_type'] == vnic_type][0]
+
+
+def continuous_ping(ip_dest,
+                    mtu=1422,
+                    duration=10):
+    """continuous_ping
+
+    The function send ping command in background mode
+    from tempest host to fip vm
+
+    :param ip_dest: comma separated ip dests
+    :param mtu: ping mtu size to check
+    :param duration: duration of ping test.
+    """
+    cmd = "nohup ping -i 1 -c {duration} -q " \
+          "-s {mtu} {ip_dest}"
+    msg = "no ping dest '{h}' "
+    assert ip_dest, msg.format(h=ip_dest)
+    ip_list = ip_dest.split(",")
+    for ping_ip in ip_list:
+        cmd_line = cmd.format(mtu=mtu, duration=duration, ip_dest=ping_ip)
+        log_file = "ping-{ip_dest}.txt".format(ip_dest=ping_ip)
+        with open(log_file, 'w') as out:
+            sp.Popen(shlex.split(cmd_line), stdout=out,
+                     stderr=out)
+        LOG.debug('pinging %(ping_ip)s for %(duration)s ')

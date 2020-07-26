@@ -120,16 +120,18 @@ class TestNfvOffload(base_test.BaseTest):
         # Retrieve all hypvervisors
         hypervisors = self._get_hypervisor_ip_from_undercloud(
             shell='/home/stack/stackrc')
-        # Command to check offloaded flows in OVS
+        # Command to check offloaded flows in OVS due to vxlan tunneling
+        # if exists
         cmd = 'sudo ovs-appctl dpctl/dump-flows type=offloaded'
         for hypervisor in hypervisors:
             out = shell_utils.run_command_over_ssh(hypervisor,
                                                    cmd)
             msg = 'Hypervisor {} has no offloaded flows in OVS'.format(
                 hypervisor)
-            self.assertNotEmpty(out, msg)
-            LOG.info('Hypercisor {} has offloaded flows in OVS'.format(
-                hypervisor))
+            if len(out) > 2:
+                msg = 'Hypervisor {} has offloaded flows in OVS'.format(
+                    hypervisor)
+            LOG.info(msg)
 
         # Create servers
         servers, key_pair = self.create_and_verify_resources(test=test,
@@ -137,6 +139,8 @@ class TestNfvOffload(base_test.BaseTest):
 
         # Iterate over created servers
         for server in servers:
+            shell_utils.continuous_ping(server['fip'],
+                                        duration=30)
             out = shell_utils.\
                 run_command_over_ssh(server['hypervisor_ip'],
                                      cmd)
@@ -145,7 +149,7 @@ class TestNfvOffload(base_test.BaseTest):
             msg = ('Port with mac address {} is expected to be part of '
                    'offloaded flows')
             for port in ports['ports']:
-                if 'capabilities' in port['binding:profile'] and \
-                    'switchdev' in port['binding:profile']['capabilities']:
+                if 'capabilities' in port['binding:profile'] and 'switchdev'\
+                        in port['binding:profile']['capabilities']:
                     self.assertIn(port['mac_address'], out,
                                   msg.format(port['mac_address']))
