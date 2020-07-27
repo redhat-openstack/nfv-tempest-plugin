@@ -56,7 +56,7 @@ if args.receive:
 
     count = 1
     while True:
-        print(sock.recv(1024))
+        print(sock.recvmsg(1024))
         if args.count:
             if int(args.count) == count:
                 break
@@ -67,7 +67,7 @@ if args.send:
 
     count = 1
     while True:
-        sock.sendto(args.message, (args.group, int(args.port)))
+        sock.sendmsg(args.message, (args.group, int(args.port)))
         if args.count:
             if int(args.count) == count:
                 break

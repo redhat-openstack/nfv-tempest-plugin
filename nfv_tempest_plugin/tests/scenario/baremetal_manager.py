@@ -19,8 +19,6 @@ import os.path
 import paramiko
 import re
 
-from math import ceil
-from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import manager_utils
 from oslo_log import log
 from oslo_serialization import jsonutils
@@ -570,52 +568,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         result = client.create_port(name=name, network_id=network_id, **kwargs)
         self.assertIsNotNone(result, 'Unable to allocate port')
         port = result['port']
-        self.addCleanup(self.ports_client.delete_port, port['id'])
-        return port
-
-    def create_network_qos_policy(self, namestart='qos-policy'):
-        """Creates a network QoS policy"""
-        qos_client = self.os_admin.qos_client
-        result = qos_client.create_qos_policy(
-            name=data_utils.rand_name(namestart))
-        self.assertIsNotNone(result, 'Unable to create policy')
-        qos_policy = result['policy']
         self.addCleanup(test_utils.call_and_ignore_notfound_exc,
-                        qos_client.delete_qos_policy,
-                        qos_policy['id'])
-        return qos_policy
-
-    def create_min_bw_qos_rule(self, policy_id=None, min_kbps=None,
-                               direction='egress'):
-        """Creates a minimum bandwidth QoS rule
-
-        NOTE: Not all kernel versions support minimum bandwidth for all
-        NIC drivers.
-
-        Only egress (guest --> outside) traffic is currently supported.
-
-        :param policy_id
-        :param min_kbps: Minimum kbps bandwidth to apply to rule
-        :param direction: Traffic direction that the rule applies to
-        """
-        SUPPORTED_DIRECTIONS = 'egress'
-        if not policy_id:
-            policy_id = self.qos_policy_groups[0]['id']
-        if direction not in SUPPORTED_DIRECTIONS:
-            raise ValueError('{d} is not a supported direction, supported '
-                             'directions: {s_p}'
-                             .format(d=direction,
-                                     s_p=SUPPORTED_DIRECTIONS.join(', ')))
-        qos_min_bw_client = self.os_admin.qos_min_bw_client
-        result = qos_min_bw_client.create_minimum_bandwidth_rule(
-            policy_id, **{'min_kbps': min_kbps, 'direction': direction})
-        self.assertIsNotNone(result, 'Unable to create minimum bandwidth '
-                                     'QoS rule')
-        qos_rule = result['minimum_bandwidth_rule']
-        self.addCleanup(
-            test_utils.call_and_ignore_notfound_exc,
-            qos_min_bw_client.delete_minimum_bandwidth_rule, policy_id,
-            qos_rule['id'])
+                        self.ports_client.delete_port, port['id'])
+        return port
 
     def update_port(self, port_id, **kwargs):
         """update port
@@ -1002,7 +957,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 for neighbor_network in neighbor_server['provider_networks']:
                     for server_network in server['provider_networks']:
                         if neighbor_network['network_id'] == \
-                            server_network['network_id']:
+                                server_network['network_id']:
                             neighbors_ips.append(
                                 neighbor_network['ip_address'])
 
@@ -1056,56 +1011,17 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 port_list[server['hypervisor_ip']].append(ovs_port_name)
         return port_list
 
-    def check_qos_attached_to_guest(self, server, min_bw=False):
-        """Check QoS attachment to guest
+    def create_default_test_config(self, test_name=None):
+        """This method populate default test configs
 
-        This method checks if QoS is applied to an interface on hypervisor
-        that is attached to guest
+        self.test_setup_dict is filled with defaults, if no configuration
+        exist for test in network_config
 
-        :param server
-        :param min_bw: Check for minimum bandwidth QoS
+        :param test_name: test_name
         """
-        # Initialize parameters
-        found_qos = False
-        interface_data = shell_utils. \
-            get_interfaces_from_overcloud_node(server['hypervisor_ip'])
-        ports_client = self.os_admin.ports_client
-        ports = ports_client.list_ports(device_id=server['id'])
-        # Iterate over ports
-        for port in ports['ports']:
-            # If port has a QoS policy
-            if port['qos_policy_id']:
-                found_qos = True
-                # Construct regular expression to locate port's MAC address
-                re_string = r'.*{}.*'.format(port['mac_address'])
-                line = re.search(re_string, interface_data)
-                # Failed to locate MAC address on hypervisor
-                if not line:
-                    raise ValueError("Failed to locate interface with MAC "
-                                     "'{}' on hypervisor"
-                                     .format(port['mac_address']))
-                line = line.group(0)
-                # Check minimum bandwidth QoS
-                if min_bw:
-                    qos_min_bw_client = self.os_admin.qos_min_bw_client
-                    min_qos_rule = \
-                        qos_min_bw_client.list_minimum_bandwidth_rules(
-                            port['qos_policy_id'])['minimum_bandwidth_rules']
-                    # OpenStack API displays the size in Kbps
-                    min_kbps = min_qos_rule[0]['min_kbps']
-                    # Construct string to match Linux operating system
-                    min_mbps = str(int(ceil(min_kbps / 1000)))
-                    min_mbps = '{}Mbps'.format(min_mbps)
-                    # Linux operating system displays the size in Mbps
-                    qos = re.search(r'min_tx_rate \w+', line)
-                    # Failed to locate min QoS
-                    if not qos:
-                        raise ValueError("Failed to dicover min QoS for "
-                                         "interface with MAC '{}'"
-                                         .format(port['mac_address']))
-                    qos = qos.group(0)
-                    # Filter QoS number
-                    qos = qos.replace('min_tx_rate ', '')
-                    self.assertEqual(min_mbps, qos)
-        if not found_qos:
-            raise ValueError('No QoS policies were applied to ports')
+        self.assertIsNotNone(test_name,
+                             "Please supply mandatory param: test_name")
+        if test_name not in self.test_setup_dict:
+            self.test_setup_dict[test_name] = \
+                {'flavor-id': self.flavor_ref,
+                 'router': True, 'aggregate': None}

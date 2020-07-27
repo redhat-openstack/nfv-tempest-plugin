@@ -13,11 +13,14 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import json
 import re
 import time
 
+
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import base_test
+from nfv_tempest_plugin.tests.scenario.qos_manager import QoSManagerMixin
 from oslo_log import log as logging
 from tempest import config
 
@@ -25,7 +28,7 @@ CONF = config.CONF
 LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
-class TestSriovScenarios(base_test.BaseTest):
+class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
     def __init__(self, *args, **kwargs):
         super(TestSriovScenarios, self).__init__(*args, **kwargs)
 
@@ -296,3 +299,89 @@ class TestSriovScenarios(base_test.BaseTest):
         for server in servers:
             self.check_qos_attached_to_guest(server,
                                              min_bw=True)
+
+    def test_sriov_free_resource(self, test='sriov_reset_resources'):
+        """Test_sriov_free_resources
+
+        The method checks if sriov nics are released after guest/port deletion.
+        Verification is run before test starts and at the end
+        """
+        # Check resources are free in computes
+        self.test_setup_dict['sriov_reset_resources'] = \
+            {'flavor-id': self.flavor_ref, 'router': True, 'aggregate': None}
+        resource_args = {'num_servers': 4}
+
+        # Set test parameters
+        kw_args = {}
+        osp_release = self.get_osp_release()
+        # Starting from OSP13, installation is containerized
+        kw_args['command'] = "sudo ip link show"
+        kw_args['file_path'] = \
+            '/var/lib/config-data/nova_libvirt/etc/nova/nova.conf'
+        if osp_release < 13:
+            kw_args['file_path'] = '/etc/nova/nova.conf'
+        kw_args['search_param'] = \
+            {'section': 'pci', 'value': 'passthrough_whitelist'}
+        """ Regexp search VF interfaces with neutron MAC prefix,
+        [Cr] is for catching the following options: MAC|link/ether for
+        different OS versions """
+        kw_args['filter_regexp'] = \
+            r"\s+vf.*[Cr]\sfa:16:3e:[a-fA-F0-9:]{2}.*"
+        kw_args['servers_ips'] = self.\
+            _get_hypervisor_ip_from_undercloud(shell='/home/stack/stackrc')
+        kw_args['multi_key_values'] = True
+        # Verify empty machines are reset back from previous tests
+        result = shell_utils. \
+            run_hypervisor_command_build_from_config(**kw_args)
+        # Iterate regexp result if found some thing fail test
+        msg = "Parameters not in [] required state \n {}".format(result)
+        for ihost in result.keys():
+            assert len(result[ihost]) == 0, msg.replace("[]", ihost)
+        # Create resources:
+        self.create_and_verify_resources(test=test, **resource_args)
+        # Check resources are free in computes
+        for server in self.servers:
+            ports_list = (
+                self.os_admin.ports_client.list_ports(
+                    device_id=server['id']))['ports']
+            delete_ports = [x['id'] for x in ports_list]
+            # Delete computes and ports
+            self.os_primary.servers_client.delete_server(server['id'])
+            for port in delete_ports:
+                self.os_admin.ports_client.delete_port(port)
+        # Verify empty machines are reset back after tests
+        result = shell_utils. \
+            run_hypervisor_command_build_from_config(**kw_args)
+        # Iterate regexp result if found some thing fail test
+        for ihost in result.keys():
+            assert len(result[ihost]) == 0, msg.replace("[]", ihost)
+
+    def test_sriov_max_qos(self, test='max_qos'):
+        """Test SRIOV MAX QoS functionality
+
+        The test require [nfv_plugin_options ]
+        use_neutron_api_v2 = true in tempest.config.
+        Test also requires QoS neutron settings.
+        The test deploy 3 vms. one iperf server receive traffic from
+        two iperf clients, with max_qos defined run against iperf server.
+        The test search for Traffic per second and compare against ports
+        seeings
+        """
+
+        LOG.info('Start SRIOV Max QoS test.')
+
+        self.create_default_test_config(test)
+        kwargs = {}
+        qos_rules = \
+            json.loads(CONF.nfv_plugin_options.max_qos_rules)
+        qos_rules_list = [x for x in qos_rules]
+        servers, key_pair = self.create_and_verify_resources(
+            test=test, num_servers=3, **kwargs)
+        if len(servers) != 3:
+            raise ValueError('The test requires 3 instances.')
+        # Max QoS configuration to server ports
+        LOG.info('Create QoS Policies...')
+        qos_policies = [self.create_qos_policy_with_rules(
+            use_default=False, **i) for i in qos_rules_list]
+        self.run_iperf_test(qos_policies, servers, key_pair)
+        self.collect_iperf_results(qos_rules_list, servers, key_pair)

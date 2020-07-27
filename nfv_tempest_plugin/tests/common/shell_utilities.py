@@ -14,15 +14,17 @@
 #    under the License.
 
 import base64
+import json
 import paramiko
+import re
 import subprocess as sp
-import sys
 
+from backports.configparser import ConfigParser
+from collections import OrderedDict
 from oslo_log import log
 from oslo_serialization import jsonutils
 from tempest import config
 """Python 2 and 3 support"""
-from six.moves.configparser import ConfigParser
 from six.moves import StringIO
 
 CONF = config.CONF
@@ -65,12 +67,17 @@ def run_command_over_ssh(host, command):
     return result
 
 
-def get_interfaces_from_overcloud_node(node_ip):
+def get_interfaces_from_overcloud_node(node_ip, cmd=None):
     """Retrieve interfaces from overcloud node
 
-    :param node_ip
+    :param node_ip:
+    :param cmd:
+    list member and return an array
+
+    :return output:
     """
-    cmd = 'sudo ip link show'
+    if not cmd:
+        cmd = 'sudo ip link show'
     output = run_command_over_ssh(node_ip, cmd)
     return output
 
@@ -203,25 +210,38 @@ def get_overcloud_config(overcloud_node, config_path):
 
 
 def get_value_from_ini_config(overcloud_node, config_path,
-                              check_section, check_value):
+                              check_section, check_value,
+                              multi_key_values=False):
     """Get value from INI configuration file
 
-    :param overcloud_node: The node that config should be pulled from
-    :param config_path: The path of the configuration file
-    :param check_section: Section within the config
-    :param check_value: Value that should be checked within the config
-                        The variable could hold multiple values separated
-                        by comma.
-
+    :param overcloud_node:   The node that config should be pulled from
+    :param config_path:      The path of the configuration file
+    :param check_section:    Section within the config
+    :param check_value:      Value that should be checked within the config
+                             The variable could hold multiple values separated
+                             by comma.
+    :param multi_key_values: Flag on request to hold multiple values for
+                             single key from ini file
     :return return_value
     """
 
+    class M(OrderedDict):
+        def __setitem__(self, key, value):
+            v_val = self.get(key)
+            if v_val is not None and type(value) == list:
+                v_val.append(value[0])
+            else:
+                v_val = value
+            # still using python2.7 super, for backport portability
+            super(M, self).__setitem__(key, v_val)
+
     ini_config = get_overcloud_config(overcloud_node, config_path)
-    # Python 2 and 3 support
-    get_value = ConfigParser(allow_no_value=True)
-    if sys.version_info[0] > 2:
-        get_value = ConfigParser(allow_no_value=True, strict=False)
-    get_value.readfp(StringIO(ini_config))
+    config_parser_args = {'allow_no_value': True}
+    if multi_key_values:
+        config_parser_args['dict_type'] = M
+    config_parser_args['strict'] = False
+    get_value = ConfigParser(**config_parser_args)
+    get_value.read_file(StringIO(ini_config))
     value_data = []
     for value in check_value.split(','):
         value_data.append(get_value.get(check_section, value))
@@ -301,3 +321,72 @@ def check_guest_interface_config(ssh_client, provider_networks,
         LOG.info("Guest '{h}' has interface '{g}' configured with "
                  "IP address '{i}".format(h=hostname, g=guest_interface,
                                           i=ip))
+
+
+def run_hypervisor_command_build_from_config(file_path, search_param,
+                                             servers_ips,
+                                             multi_key_values,
+                                             command, filter_regexp=None):
+    """buildandrun_hypervisor_command_from_config
+
+    The method checks for a value [search_param] in controller/compute
+    ini_file [file_path], build cli [command] include ini_param and run,
+     on specific compute,
+    the results are [filter_regexp] and returned as dict
+
+    filtered by desired regexp [nic_req_status] res_dict returned for test.
+
+    :param file_path:        Configuration ini file path
+    :param search_param:     Search section-value in ini file
+    :param servers_ips:      Host ip addresses hosting files and devices
+    :param filter_regexp:    Regular expresion to search on filtered_command
+    :param multi_key_values: Flag on request to hold multiple values for
+                             single key
+    :param command:          hypervisor command to be run regexp on
+    :return res_dict
+    """
+    res_dict = {}
+    for hypervisor in servers_ips:
+        if hypervisor not in res_dict:
+            res_dict[hypervisor] = []
+        result = get_value_from_ini_config(hypervisor,
+                                           file_path,
+                                           search_param['section'],
+                                           search_param['value'],
+                                           multi_key_values)
+        msg = "No {} found in".format(search_param)
+        assert result != '', "{} {}".format(msg, hypervisor)
+
+        result = "[" + result.replace('\n', ", ") + "]"
+        dev_names = [x['devname'] for x in json.loads(result)]
+        cmd = ''
+        for device in dev_names:
+            cmd += "{} {};".format(command, device)
+        result = \
+            get_interfaces_from_overcloud_node(hypervisor, cmd)
+
+        for line in result.split("\n"):
+            nic_stat = line if not filter_regexp else re.\
+                findall(filter_regexp, line)
+            if len(nic_stat) > 0:
+                res_dict[hypervisor].append(nic_stat[0])
+
+    return res_dict
+
+
+def find_vm_interface(ports=[],
+                      vnic_type='normal'):
+    """find vm interface
+
+    The function receive port list and search for requested
+    vnic_type.
+
+    :param ports: ports connected to specific server
+    :param vnic_type: vnic_type nomal/direct/direct_physical
+
+    return port_id, ip_address
+    """
+    assert len(ports), 'ports is empty or None'
+    return [[port['id'], port['fixed_ips'][0]['ip_address']]
+            for port in ports['ports']
+            if port['binding:vnic_type'] == vnic_type][0]

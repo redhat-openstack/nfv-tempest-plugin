@@ -259,11 +259,19 @@ class ManagerMixin(object):
         vcpupin = dumpxml_string.findall('./cputune/vcpupin')
         vcpu_list = [(vcpu.get('cpuset'))
                      for vcpu in vcpupin if vcpu is not None]
-        if ',' in vcpu_list[0]:
-            split_list = [vcpu.split(',') for vcpu in vcpu_list if ',' in vcpu]
-            vcpu_list = [vcpu for sublist in split_list for vcpu in sublist]
-        vcpu_list = [int(vcpu) for vcpu in vcpu_list]
-        return list(set(vcpu_list))
+        vcpu_total_list = list()
+        for vcpu in vcpu_list:
+            if ',' in vcpu or '-' in vcpu:
+                sep = ',' if ',' in vcpu else '-'
+                split_list = vcpu.split(sep) if sep in vcpu else None
+                if '-' in vcpu:
+                    split_list = list(range(int(split_list[0]),
+                                            int(split_list[1]) + 1))
+                vcpu_total_list.extend(split_list)
+        if vcpu_total_list:
+            vcpu_list = vcpu_total_list
+        vcpu_final_list = [int(vcpu) for vcpu in vcpu_list]
+        return list(set(vcpu_final_list))
 
     def match_vcpu_to_numa_node(self, instance, hypervisor, numa_node='0'):
         """Verify that provided vcpu list resides within the specified numa
@@ -912,29 +920,16 @@ class ManagerMixin(object):
                          'non_numa_aware_net': [],
                          'numa_aware_tunnel': {}}
         physnet_list = []
-        # In order to minimize the amount of remote ssh access, first the
-        # remote commands are grouped to one single command and then the
-        # remote command performed once.
-        ovs_cmd_template = 'sudo ovs-vsctl get Bridge {} datapath-type;'
-        ovs_cmd = ''
         for item in bridge_mapping:
-            s = item.split(':')
-            physnet = s[0]
-            bridge = s[1]
-            ovs_cmd += ovs_cmd_template.format(bridge)
+            physnet = item.split(':')[0]
             physnet_list.append(physnet)
 
-        dpath_type = shell_utils.\
-            run_command_over_ssh(node, ovs_cmd).strip('\n').split('\n')
-        physnet_dict = dict(zip(physnet_list, dpath_type))
-        for physnet, dpath in physnet_dict.items():
-            LOG.info('The {} network has the {} datapath'.format(physnet,
-                                                                 dpath))
-            if dpath == 'netdev' and physnet in numa_aware_phys.keys():
+        for physnet in physnet_list:
+            if physnet in numa_aware_phys.keys():
                 LOG.info('The {} is a numa aware network'.format(physnet))
                 numa_physnets['numa_aware_net'] = \
                     {'net': physnet, 'numa_node': numa_aware_phys[physnet][0]}
-            if dpath == 'netdev' and physnet not in numa_aware_phys.keys():
+            else:
                 LOG.info('The {} is a non numa aware network'.format(physnet))
                 numa_physnets['non_numa_aware_net'].append(physnet)
 
