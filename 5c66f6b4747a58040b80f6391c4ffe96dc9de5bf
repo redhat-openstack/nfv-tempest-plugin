@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "45641d09_4b3f7651",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-07-30T08:22:51Z",
+      "side": 1,
+      "message": "\u003e How will it work if I have multiple sriov (direct) networks?\nIn case of all sriov ports, mgmt is sriov:\nthe same external,direct\n\n\u003e What should I do to attach a single dpdk network from multiple networks or to attach multiple dpdk networks?\nsimilar to above \nexternal,normal",
+      "parentUuid": "674b2ba0_cff44ab2",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 60
+      },
+      "revId": "5c66f6b4747a58040b80f6391c4ffe96dc9de5bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03ef5814_abdb5a44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-07-30T08:22:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "30aff6c5_913ce384",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "5c66f6b4747a58040b80f6391c4ffe96dc9de5bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c1beca8_7f123ef5",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "defa609f_edd61f77",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-07-30T08:22:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0c1beca8_7f123ef5",
+      "range": {
+        "startLine": 482,
+        "startChar": 8,
+        "endLine": 482,
+        "endChar": 56
+      },
+      "revId": "5c66f6b4747a58040b80f6391c4ffe96dc9de5bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b6d43016_286cbd27",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2020-07-30T06:39:11Z",
       "side": 1,
       "message": "Why are you marking the tag with the port type in case the tag not specified?",
+      "range": {
+        "startLine": 548,
+        "startChar": 24,
+        "endLine": 548,
+        "endChar": 63
+      },
+      "revId": "5c66f6b4747a58040b80f6391c4ffe96dc9de5bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f601ade_fabdd12c",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-07-30T08:22:51Z",
+      "side": 1,
+      "message": "Since tags are supported by default from Ocata, Queens with 2.32, 2.57,\nWe can parse tags by default,\nso there is no need to remove it, we can in the tags many things if we want",
+      "parentUuid": "b6d43016_286cbd27",
       "range": {
         "startLine": 548,
         "startChar": 24,
