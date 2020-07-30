@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "674b2ba0_cff44ab2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-07-30T06:39:11Z",
+      "side": 1,
+      "message": "How will it work if I have multiple sriov (direct) networks?\nWhat should I do to attach a single dpdk network from multiple networks or to attach multiple dpdk networks?",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 60
+      },
+      "revId": "5c66f6b4747a58040b80f6391c4ffe96dc9de5bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30aff6c5_913ce384",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-07-30T06:39:11Z",
+      "side": 1,
+      "message": "Please, add an example and explanation to the method doc string for the later use.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "5c66f6b4747a58040b80f6391c4ffe96dc9de5bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c1beca8_7f123ef5",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-07-30T06:39:11Z",
+      "side": 1,
+      "message": "Please, update the documentation of the method.",
+      "range": {
+        "startLine": 482,
+        "startChar": 8,
+        "endLine": 482,
+        "endChar": 56
+      },
+      "revId": "5c66f6b4747a58040b80f6391c4ffe96dc9de5bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6d43016_286cbd27",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-07-30T06:39:11Z",
+      "side": 1,
+      "message": "Why are you marking the tag with the port type in case the tag not specified?",
+      "range": {
+        "startLine": 548,
+        "startChar": 24,
+        "endLine": 548,
+        "endChar": 63
+      },
+      "revId": "5c66f6b4747a58040b80f6391c4ffe96dc9de5bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
