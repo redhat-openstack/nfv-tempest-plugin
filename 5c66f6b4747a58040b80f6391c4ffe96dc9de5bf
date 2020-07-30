@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "7c02eb3e_7055e180",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-07-30T12:47:59Z",
+      "side": 1,
+      "message": "But how do I specify a specific dpdk/sriov network?\nFor example, in dpdk, we have the numa aware vswitch network which is not needed most of the time.",
+      "parentUuid": "45641d09_4b3f7651",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 60
+      },
+      "revId": "5c66f6b4747a58040b80f6391c4ffe96dc9de5bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c1beca8_7f123ef5",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
