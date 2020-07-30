@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "1aeca18a_5cfd1bd0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-07-30T16:15:37Z",
+      "side": 1,
+      "message": "The patch does not tend to solve the issue you are raising,\nIt lets the test to decide which ports type to use,\nThins of live migration w/sriov and w/out sriov,\nno need for mgmt only, ports\nThe same for QoS tests.\n\nNote,\nCurrently, it will work for you, since ports are skipped by creation",
+      "parentUuid": "7c02eb3e_7055e180",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 60
+      },
+      "revId": "5c66f6b4747a58040b80f6391c4ffe96dc9de5bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c1beca8_7f123ef5",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
