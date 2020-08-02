@@ -373,7 +373,6 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         """
 
         LOG.info('Start SRIOV Max QoS test.')
-
         self.create_default_test_config(test)
         kwargs = {}
         qos_rules = \
@@ -387,5 +386,62 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         LOG.info('Create QoS Policies...')
         qos_policies = [self.create_qos_policy_with_rules(
             use_default=False, **i) for i in qos_rules_list]
+        self.run_iperf_test(qos_policies, servers, key_pair)
+        self.collect_iperf_results(qos_rules_list, servers, key_pair)
+
+    def test_sriov_min_qos(self, test='min_qos'):
+        """Test SRIOV MIN QoS functionality
+
+        SUPPORTED: Mellanox NICS only
+        The test require [nfv_plugin_options ]
+        use_neutron_api_v2 = true in tempest.config.
+        Test also requires QoS neutron settings.
+        The test deploy 3 vms. one iperf server receive traffic from
+        two iperf clients, with min_qos defined run against iperf server.
+        The test search for Traffic per second and compare against ports
+        seeings
+        """
+
+        # Set test parameters
+        kw_args = dict()
+        kw_args['command'] = "sudo ethtool -i"
+        kw_args['file_path'] = \
+            '/var/lib/config-data/nova_libvirt/etc/nova/nova.conf'
+        kw_args['search_param'] = \
+            {'section': 'pci', 'value': 'passthrough_whitelist'}
+        """ Regexp search Mellanox connect-x """
+        # move into config
+        kw_args['filter_regexp'] = \
+            r".*mlx5_core"
+        kw_args['servers_ips'] = self. \
+            _get_hypervisor_ip_from_undercloud(shell='/home/stack/stackrc')
+        kw_args['multi_key_values'] = True
+        LOG.info('Start SRIOV Min QoS test.')
+        self.create_default_test_config(test)
+        result = shell_utils. \
+            run_hypervisor_command_build_from_config(**kw_args)
+        msg = "no nics supporting sriov min bw"
+        self.assertTrue(
+            len(result) > 0, msg)
+        qos_rules = \
+            json.loads(CONF.nfv_plugin_options.min_qos_rules)
+        qos_rules_list = [x for x in qos_rules]
+        hyper = self.hypervisor_client.list_hypervisors()['hypervisors']
+        kw_test =\
+            {'availability_zone':
+                {'hyper_hosts': [hyper[0]['hypervisor_hostname']]}}
+        default_port_type = {'ports_filter': 'external,direct'}
+        kw_test['num_servers'] = 3
+        kw_test['srv_details'] = {0: default_port_type,
+                                  1: default_port_type,
+                                  2: default_port_type}
+        servers, key_pair = self.create_and_verify_resources(
+            test=test, **kw_test)
+        if len(servers) != 3:
+            raise ValueError('The test requires 3 instances.')
+        # Min QoS configuration to server ports
+        LOG.info('Create QoS Policies...')
+        qos_policies = [self.create_qos_policy_with_rules(
+            use_default=True, **i) for i in qos_rules_list]
         self.run_iperf_test(qos_policies, servers, key_pair)
         self.collect_iperf_results(qos_rules_list, servers, key_pair)
