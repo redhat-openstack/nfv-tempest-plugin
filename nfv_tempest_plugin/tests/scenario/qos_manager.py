@@ -144,6 +144,7 @@ class QoSManagerMixin(object):
             self.create_min_bw_qos_rule(
                 policy_id=qos_policy_groups['id'],
                 min_kbps=kwargs['min_kbps'])
+            kwargs.pop('min_kbps')
         if 'max_kbps' in kwargs:
             self.create_max_bw_qos_rule(
                 policy_id=qos_policy_groups['id'],
@@ -225,11 +226,13 @@ class QoSManagerMixin(object):
         ip_addr = tested_ports[srv.SERVER][1]
         # Set pors with QoS
         LOG.info('Update client ports with QoS policies...')
+        # Assume server is the last server index 2,
+        # In case one policy parsed, CLIENT_1 is the tested port
         [self.update_port(
             tested_ports[i][0],
             **{'qos_policy_id': qos_policies[i]['id']})
-            for i in range(len(self.servers) - 1)]
-
+            for i in range((len(self.servers) - 1)
+                           and len(qos_policies))]
         LOG.info('Run iperf server on server3...')
         ssh_dest = self.get_remote_client(servers[srv.SERVER]['fip'],
                                           username=self.instance_user,
@@ -239,34 +242,40 @@ class QoSManagerMixin(object):
         log_5102 = QoSManagerMixin.LOG_5102
         log_5101 = QoSManagerMixin.LOG_5101
         server_command += \
-            "(nohup iperf -s -B {} -p 5102 -i 10 >> {} 2>&1)& ".format(
+            "(nohup iperf -s -B {} -p 5102 -i 10 > {} 2>&1)& ".format(
                 ip_addr, log_5102)
         server_command += \
-            "(nohup iperf -s -B {} -p 5101 -i 10 >> {} 2>&1)& ".format(
+            "(nohup iperf -s -B {} -p 5101 -i 10 > {} 2>&1)& ".format(
                 ip_addr, log_5101)
         LOG.info('Receive iperf traffic from Server3...')
         ssh_dest.exec_command(server_command)
-
+        # Running vm CLIENT_1 last since it is tested VM
         ssh_source1 = self.\
             get_remote_client(servers[srv.CLIENT_1]['fip'],
                               username=self.instance_user,
                               private_key=key_pair['private_key'])
         LOG.info('Send iperf traffic from Server1...')
-        client_command = "sudo yum install iperf -y; "
-        client_command += \
-            "iperf -c {} -T s1 -p {} -t 60".format(ip_addr, '5101')
-        ssh_source1.exec_command(client_command)
-
+        client_command1 = "sudo yum install iperf -y"
+        ssh_source1.exec_command(client_command1)
         ssh_source2 = self.\
             get_remote_client(servers[srv.CLIENT_2]['fip'],
                               username=self.instance_user,
                               private_key=key_pair['private_key'])
         LOG.info('Send iperf traffic from Server2...')
-        client_command = "sudo yum install iperf -y; "
-        client_command += \
-            "iperf -c {} -T s2 -p {} -t 60".format(ip_addr, '5102')
-
-        ssh_source2.exec_command(client_command)
+        client_command2 = "sudo yum install iperf -y"
+        # must run in background, to check guaranteed min/bw for client1
+        # Running vm CLIENT_2 initially, since it serves as one helper
+        # nohup iperf -c 40.0.0.130 -T s2 -p 5101 -t  2>&1 &
+        # (nohup iperf -c 40.0.0.164 -T s2 -p 5101 -t 60 >
+        # /tmp/iperf.out 2>&1)&"
+        ssh_source2.exec_command(client_command2)
+        client_command2 = "nohup iperf -c {} -T s2 -p {} -t 60 >" \
+                          "/tmp/iperf.out 2>&1 &".format(ip_addr, '5102')
+        ssh_source2.exec_command(client_command2)
+        # vm with best-effort quality in case of one policy parsed
+        client_command1 = \
+            "iperf -c {} -T s1 -p {} -t 60".format(ip_addr, '5101')
+        ssh_source1.exec_command(client_command1)
 
     def collect_iperf_results(self, qos_rules_list=[],
                               servers=[], key_pair=[]):
@@ -287,10 +296,13 @@ class QoSManagerMixin(object):
         # File format is as following
         # [  4]  0.0-10.0 sec  4.76 GBytes  4.09 Gbits/sec
         # [  4] 10.0-20.0 sec  4.76 GBytes  4.09 Gbits/sec
+        # cat /tmp/listen-5101.txt | while read line ; do
+        # if [[ $line =~ [[:space:]]([0-9]{1,2}.[0-9]{1,2})[[:space:]]Gbits ]];
+        # then echo ${BASH_REMATCH[1]}; fi ; done
         LOG.info('Collect iperf logs from iperf server, server3...')
         command = r"cat {} | while read line ;do  "
         command += r"if [[ \"$line\" =~ [[:space:]]"
-        command += r"([0-9]\.[0-9]{2})[[:space:]]Gbits ]]; "
+        command += r"([0-9]{1,2}\.[0-9]{1,2})[[:space:]]Gbits ]]; "
         command += r"then echo \"${BASH_REMATCH[1]}\"; fi; done| sort| uniq"
         # Recive result with number
         ssh_dest = self.get_remote_client(servers[srv.SERVER]['fip'],
@@ -299,16 +311,28 @@ class QoSManagerMixin(object):
                                           'private_key'])
         # Assert result
         for index in range(srv.SERVER):
+            # If Default QoS, such as min_bw check only srv.CLIENT_1
+            if len(self.qos_policy_groups) > 0 and index == srv.CLIENT_2:
+                break
             out_testing = ssh_dest.\
                 exec_command(command.replace('{}', log_files[index]))
             iperf_rep = \
                 [i for i in (
-                    out_testing.encode('utf8')).split("\n") if i != '']
+                    out_testing.encode('utf8')).split() if i != '']
             self.assertNotEmpty(
                 iperf_rep,
                 "Please check QoS definitions, iperf result for in file {}"
                 " is empty or low".format(log_files[index]))
-            for rep in iperf_rep:
-                dev = abs(float(rep.replace('\"', '')) * kbytes_to_mbits
-                          / qos_rules_list[srv(index)]['max_kbps'] - 1)
-                self.assertLess(dev, 0.03, "report is greater than 0.03")
+            # Apply average for result
+            res = [float(i.decode("utf-8").
+                         replace('"', '')) for i in iperf_rep]
+            rep = sum(res) / len(res)
+            qos_type = 'max_kbps'
+            # In case of min_bw only one policy is set
+            if 'min_kbps' in qos_rules_list[srv(index)]:
+                qos_type = 'min_kbps'
+            dev = abs(float(rep.replace(b'\"', b'')) * kbytes_to_mbits
+                      / qos_rules_list[srv(index)][qos_type] - 1)
+            # Check if only one policy to Verify
+            self.assertLess(dev, 0.07,
+                            "report is greater than 0.07")
