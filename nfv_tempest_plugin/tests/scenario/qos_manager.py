@@ -144,6 +144,7 @@ class QoSManagerMixin(object):
             self.create_min_bw_qos_rule(
                 policy_id=qos_policy_groups['id'],
                 min_kbps=kwargs['min_kbps'])
+            kwargs.pop('min_kbps')
         if 'max_kbps' in kwargs:
             self.create_max_bw_qos_rule(
                 policy_id=qos_policy_groups['id'],
@@ -288,9 +289,9 @@ class QoSManagerMixin(object):
         # [  4]  0.0-10.0 sec  4.76 GBytes  4.09 Gbits/sec
         # [  4] 10.0-20.0 sec  4.76 GBytes  4.09 Gbits/sec
         LOG.info('Collect iperf logs from iperf server, server3...')
-        command = r"cat {} | while read line ;do  "
+        command = r"head -n -1 {} | while read line ;do  "
         command += r"if [[ \"$line\" =~ [[:space:]]"
-        command += r"([0-9]\.[0-9]{2})[[:space:]]Gbits ]]; "
+        command += r"([0-9]\.[0-9]{2})[[:space:]] ]]; "
         command += r"then echo \"${BASH_REMATCH[1]}\"; fi; done| sort| uniq"
         # Recive result with number
         ssh_dest = self.get_remote_client(servers[srv.SERVER]['fip'],
@@ -303,12 +304,15 @@ class QoSManagerMixin(object):
                 exec_command(command.replace('{}', log_files[index]))
             iperf_rep = \
                 [i for i in (
-                    out_testing.encode('utf8')).split("\n") if i != '']
+                    out_testing.encode('utf8')).split() if i != '']
             self.assertNotEmpty(
                 iperf_rep,
                 "Please check QoS definitions, iperf result for in file {}"
                 " is empty or low".format(log_files[index]))
             for rep in iperf_rep:
-                dev = abs(float(rep.replace('\"', '')) * kbytes_to_mbits
-                          / qos_rules_list[srv(index)]['max_kbps'] - 1)
+                qos_type = 'max_kbps'
+                if 'min_kbps' in qos_rules_list[srv(index)]:
+                    qos_type = 'min_kbps'
+                dev = abs(float(rep.replace(b'\"', b'')) * kbytes_to_mbits
+                          / qos_rules_list[srv(index)][qos_type] - 1)
                 self.assertLess(dev, 0.03, "report is greater than 0.03")
