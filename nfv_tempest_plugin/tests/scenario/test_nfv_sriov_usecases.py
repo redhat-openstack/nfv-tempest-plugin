@@ -15,6 +15,7 @@
 
 import json
 import re
+import six
 import time
 
 
@@ -373,7 +374,6 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         """
 
         LOG.info('Start SRIOV Max QoS test.')
-
         self.create_default_test_config(test)
         kwargs = {}
         qos_rules = \
@@ -388,4 +388,84 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         qos_policies = [self.create_qos_policy_with_rules(
             use_default=False, **i) for i in qos_rules_list]
         self.run_iperf_test(qos_policies, servers, key_pair)
+        self.collect_iperf_results(qos_rules_list, servers, key_pair)
+
+    def test_sriov_min_qos(self, test='min_qos'):
+        """Test SRIOV MIN QoS functionality
+
+        SUPPORTED: Mellanox NICS only
+        The test require [nfv_plugin_options ]
+        use_neutron_api_v2 = true in tempest.config.
+        Test also requires QoS neutron settings.
+        The test deploy 3 vms. one iperf server receive traffic from
+        two iperf clients, with min_qos defined run against iperf server.
+        The test search for Traffic per second and compare against ports
+        seeings
+        """
+
+        LOG.info('Start SRIOV Min QoS test, search for Mellanox nics')
+        # Check setup contains Mellanox nics.
+        kw_args = dict()
+        kw_args['command'] = r"sudo lshw -class network -short | grep "
+        kw_args['file_path'] = \
+            '/var/lib/config-data/nova_libvirt/etc/nova/nova.conf'
+        kw_args['search_param'] = \
+            {'section': 'pci', 'value': 'passthrough_whitelist'}
+        """ Regexp search Mellanox connect-x """
+        kw_args['filter_regexp'] = \
+            r".*\[ConnectX\-5\].*"
+        kw_args['servers_ips'] = self. \
+            _get_hypervisor_ip_from_undercloud(shell='/home/stack/stackrc')
+        kw_args['multi_key_values'] = True
+        LOG.info('Start SRIOV Min QoS test.')
+        self.create_default_test_config(test)
+        result = shell_utils. \
+            run_hypervisor_command_build_from_config(**kw_args)
+        msg = "no nics supporting sriov min bw"
+        self.assertTrue(
+            len(result) > 0, msg)
+        qos_rules = \
+            json.loads(CONF.nfv_plugin_options.min_qos_rules)
+        qos_rules_list = [x for x in qos_rules]
+        LOG.info('SRIOV Min QoS test, '
+                 'learn provider network attached to device.')
+        # Assuming both computes have the same hw
+        # searching for physnet of Mellanox
+        devices = \
+            [re.split(r'\s+', i)[1] for i in six.next(six.itervalues(result))]
+        pci_list = shell_utils.\
+            get_value_from_ini_config(six.next(six.iterkeys(result)),
+                                      kw_args['file_path'],
+                                      kw_args['search_param']['section'],
+                                      kw_args['search_param']['value'],
+                                      kw_args['multi_key_values'])
+        pci_list = '[' + pci_list + ']'
+        json_list = json.loads(pci_list.replace("\n", ","))
+        net_name = [pci_item['physical_network'] for pci_item in json_list
+                    if pci_item['devname'] == devices[0]]
+
+        LOG.info('SRIOV Min QoS test, create test vms.')
+        # Test deploy 3 VMS on singlr hypervisor.
+        hyper = self.hypervisor_client.list_hypervisors()['hypervisors']
+
+        kw_test = \
+            {'availability_zone': {'hyper_hosts': [hyper[0]
+                                                   ['hypervisor_hostname']]}}
+        default_port_type = \
+            {'ports_filter': "{}:{}".format('external,direct', net_name[0])}
+        kw_test['num_servers'] = 3
+        kw_test['srv_details'] = {0: default_port_type,
+                                  1: default_port_type,
+                                  2: default_port_type}
+        servers, key_pair = self.create_and_verify_resources(
+            test=test, **kw_test)
+        if len(servers) != 3:
+            raise ValueError('The test requires 3 instances.')
+        # Min QoS configuration to server ports
+        LOG.info('Create QoS Policies...')
+        qos_policies = [self.create_qos_policy_with_rules(
+            use_default=True, **i) for i in qos_rules_list]
+        LOG.info('SRIOV Min QoS test, run test.')
+        self.run_iperf_test(qos_policies, servers, key_pair)
+        LOG.info('SRIOV Min QoS test, check test result.')
         self.collect_iperf_results(qos_rules_list, servers, key_pair)
