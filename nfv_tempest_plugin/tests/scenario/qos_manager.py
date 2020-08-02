@@ -303,12 +303,15 @@ class QoSManagerMixin(object):
                 exec_command(command.replace('{}', log_files[index]))
             iperf_rep = \
                 [i for i in (
-                    out_testing.encode('utf8')).split("\n") if i != '']
+                    out_testing.encode('utf8')).split() if i != '']
             self.assertNotEmpty(
                 iperf_rep,
                 "Please check QoS definitions, iperf result for in file {}"
                 " is empty or low".format(log_files[index]))
             for rep in iperf_rep:
+                qos_type = 'max_kbps'
+                if 'min_kbps' in qos_rules_list[srv(index)]:
+                    qos_type = 'min_kbps'
                 dev = abs(float(rep.replace('\"', '')) * kbytes_to_mbits
-                          / qos_rules_list[srv(index)]['max_kbps'] - 1)
+                          / qos_rules_list[srv(index)][qos_type] - 1)
                 self.assertLess(dev, 0.03, "report is greater than 0.03")
