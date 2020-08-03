@@ -192,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "b431ff68_c9043ff0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-08-03T09:02:19Z",
+      "side": 1,
+      "message": "\u003e Sounds good.\n\u003e I suggest to use the tags on the networks, similar to what we already using (\"external\" tag). In that case, we are not tied to a name of the network.\n\u003e \n\nHere i would like to reveal final goal,\n- Release the dependency of network creation from external_resources_output_file\n + In case it exists, test will work with it,\n + In case it is not, test will request for his networks\n\n- Run against every tripleo deployment\n + Test should reveal its network and devices,\n\n\n\u003e The current tag definition could be converted to a list (currently it is a string).\n\u003e \n\u003e What do you think?\nBased on the above,\nI prefer the following \nexternal,direct:sriov-3\n\nTest will query nova config, before it is running\nOr run host commands.",
+      "parentUuid": "80d1e59d_58c7dbe6",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 60
+      },
+      "revId": "5c66f6b4747a58040b80f6391c4ffe96dc9de5bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c1beca8_7f123ef5",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
