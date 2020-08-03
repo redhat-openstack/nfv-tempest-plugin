@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "db15bc8b_dc0d27fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-08-03T08:15:58Z",
+      "side": 1,
+      "message": "I have an idea, could solve the problem of selecting single port.\nWe can add into the tags, additional opaque data with net-name.\nIn that case if the test can identify net-name in advance, it can parse it as a request  \n {\u0027attach_networks\u0027: \u0027external,direct:sriov-1\u0027}\nso another check is needed.\nIf it answers your request, i will propose in different patch.",
+      "parentUuid": "1aeca18a_5cfd1bd0",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 60
+      },
+      "revId": "5c66f6b4747a58040b80f6391c4ffe96dc9de5bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c1beca8_7f123ef5",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
