@@ -264,6 +264,30 @@
     },
     {
       "key": {
+        "uuid": "46706c38_be6d4713",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-08-03T09:58:06Z",
+      "side": 1,
+      "message": "No, I mean generally, don\u0027t forget to update the documentation of the method if new functionality is added.",
+      "parentUuid": "3b327cfe_fcfa9c45",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 60
+      },
+      "revId": "5c66f6b4747a58040b80f6391c4ffe96dc9de5bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c1beca8_7f123ef5",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
