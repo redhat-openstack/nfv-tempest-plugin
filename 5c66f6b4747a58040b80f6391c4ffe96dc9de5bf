@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "80d1e59d_58c7dbe6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-08-03T08:21:13Z",
+      "side": 1,
+      "message": "Sounds good.\nI suggest to use the tags on the networks, similar to what we already using (\"external\" tag). In that case, we are not tied to a name of the network.\n\nThe current tag definition could be converted to a list (currently it is a string).\n\nWhat do you think?",
+      "parentUuid": "db15bc8b_dc0d27fa",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 60
+      },
+      "revId": "5c66f6b4747a58040b80f6391c4ffe96dc9de5bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c1beca8_7f123ef5",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
