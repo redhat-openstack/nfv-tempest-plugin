@@ -22,6 +22,52 @@
       "revId": "dd4886d18aed9e69b5876a8f31b1c09996953f69",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39e88c88_e407baa4",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-08-05T15:05:23Z",
+      "side": 1,
+      "message": "Though is not a big issue, what I see is that we are creating a port that we are not using.",
+      "range": {
+        "startLine": 687,
+        "startChar": 20,
+        "endLine": 687,
+        "endChar": 35
+      },
+      "revId": "dd4886d18aed9e69b5876a8f31b1c09996953f69",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95bd5c9b_562d3b57",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-08-05T15:05:23Z",
+      "side": 1,
+      "message": "I would rename it as port_types_filter or somethink like that. attach_networks is confusing.",
+      "range": {
+        "startLine": 312,
+        "startChar": 30,
+        "endLine": 312,
+        "endChar": 45
+      },
+      "revId": "dd4886d18aed9e69b5876a8f31b1c09996953f69",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
