@@ -22,6 +22,30 @@
       "revId": "88bbe54b6040746bc824a5de2d67d01c65c30d36",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c7d396d_2199e208",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-08-06T09:18:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "50588d07_ea3da19f",
+      "range": {
+        "startLine": 141,
+        "startChar": 49,
+        "endLine": 141,
+        "endChar": 65
+      },
+      "revId": "88bbe54b6040746bc824a5de2d67d01c65c30d36",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
