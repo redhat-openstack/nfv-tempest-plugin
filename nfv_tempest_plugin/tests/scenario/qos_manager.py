@@ -67,9 +67,9 @@ class QoSManagerMixin(object):
         """
         SUPPORTED_DIRECTIONS = 'egress'
         if not policy_id:
-            self.assertIsNotEmpty(self.qos_policy_groups,
-                                  'Unable to create_min_bw_qos_rule '
-                                  'self.qos_policy_groups is Empty')
+            self.assertNotEmpty(self.qos_policy_groups,
+                                'Unable to create_min_bw_qos_rule '
+                                'self.qos_policy_groups is Empty')
             policy_id = self.qos_policy_groups[0]['id']
         if direction not in SUPPORTED_DIRECTIONS:
             raise ValueError('{d} is not a supported direction, supported '
@@ -102,9 +102,9 @@ class QoSManagerMixin(object):
 
         SUPPORTED_DIRECTIONS = 'egress'
         if not policy_id:
-            self.assertIsNotEmpty(self.qos_policy_groups,
-                                  'Unable to create_max_bw_qos_rule '
-                                  'self.qos_policy_groups is Empty')
+            self.assertNotEmpty(self.qos_policy_groups,
+                                'Unable to create_max_bw_qos_rule '
+                                'self.qos_policy_groups is Empty')
             policy_id = self.qos_policy_groups[0]['id']
         if direction not in SUPPORTED_DIRECTIONS:
             raise ValueError('{d} is not a supported direction, supported '
@@ -136,10 +136,10 @@ class QoSManagerMixin(object):
         qos_policy_groups = \
             self.create_network_qos_policy()
         if use_default:
-            self.assertIsNotEmpty(self.qos_policy_groups,
-                                  'Unable to create_max_bw_qos_rule '
-                                  'self.qos_policy_groups is Empty')
             self.qos_policy_groups = qos_policy_groups
+            self.assertNotEmpty(self.qos_policy_groups,
+                                'Unable to qos policy '
+                                'self.qos_policy_groups is Empty')
         if 'min_kbps' in kwargs:
             self.create_min_bw_qos_rule(
                 policy_id=qos_policy_groups['id'],
