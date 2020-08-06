@@ -312,6 +312,30 @@
     },
     {
       "key": {
+        "uuid": "7fc546c1_96f2833a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-08-06T13:19:00Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "03ef5814_abdb5a44",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "5c66f6b4747a58040b80f6391c4ffe96dc9de5bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c1beca8_7f123ef5",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
@@ -359,6 +383,30 @@
     },
     {
       "key": {
+        "uuid": "ed2cd743_da09b5fd",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-08-06T13:19:00Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "defa609f_edd61f77",
+      "range": {
+        "startLine": 482,
+        "startChar": 8,
+        "endLine": 482,
+        "endChar": 56
+      },
+      "revId": "5c66f6b4747a58040b80f6391c4ffe96dc9de5bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6d43016_286cbd27",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
@@ -403,6 +451,30 @@
       "revId": "5c66f6b4747a58040b80f6391c4ffe96dc9de5bf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1e1a355_efd7e91e",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-08-06T13:19:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f601ade_fabdd12c",
+      "range": {
+        "startLine": 548,
+        "startChar": 24,
+        "endLine": 548,
+        "endChar": 63
+      },
+      "revId": "5c66f6b4747a58040b80f6391c4ffe96dc9de5bf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
