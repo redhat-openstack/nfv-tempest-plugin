@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbe4d953_8387a101",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-08-13T07:05:24Z",
+      "side": 1,
+      "message": "shouldnt we send ping before this part and ensure that we have flows?",
+      "range": {
+        "startLine": 124,
+        "startChar": 13,
+        "endLine": 124,
+        "endChar": 19
+      },
+      "revId": "378c206bd5c5d8ad96bf43e5ab20d7cbec99af93",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
