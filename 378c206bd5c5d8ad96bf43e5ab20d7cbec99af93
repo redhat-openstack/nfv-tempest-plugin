@@ -93,6 +93,30 @@
       "revId": "378c206bd5c5d8ad96bf43e5ab20d7cbec99af93",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1e6af9e_ffaa4be9",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-08-13T07:40:54Z",
+      "side": 1,
+      "message": "Already it is just a check this is the scenario\nWe can reduce this check.",
+      "parentUuid": "7c28baad_7d9a0284",
+      "range": {
+        "startLine": 124,
+        "startChar": 13,
+        "endLine": 124,
+        "endChar": 19
+      },
+      "revId": "378c206bd5c5d8ad96bf43e5ab20d7cbec99af93",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
