@@ -141,6 +141,30 @@
       "revId": "378c206bd5c5d8ad96bf43e5ab20d7cbec99af93",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbae8221_a3ca810a",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-08-13T07:50:29Z",
+      "side": 1,
+      "message": "@Miguel and @Yariv\n\nDue to \u0027enable_test_all_provider_networks\u0027 in ansible-nfv, tempest will attempt to ping between guest instances on all NICs once more than 2 VMs have spawned.\n\nSo this condition is assuming that multiple VMs were spawned and we pinged them across the VxLAN management offloaded network.\n\nIn some scenarios, by the time we reach this test, the flows are already out of the cache(10 seconds). This is a race condition between ping -\u003e cache -\u003e check.\n\nThis should be either removed or rewritten to run ping async.",
+      "parentUuid": "06278fc6_acdbe177",
+      "range": {
+        "startLine": 124,
+        "startChar": 13,
+        "endLine": 124,
+        "endChar": 19
+      },
+      "revId": "378c206bd5c5d8ad96bf43e5ab20d7cbec99af93",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
