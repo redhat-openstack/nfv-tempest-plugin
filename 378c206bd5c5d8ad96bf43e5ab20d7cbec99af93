@@ -69,6 +69,30 @@
       "revId": "378c206bd5c5d8ad96bf43e5ab20d7cbec99af93",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c28baad_7d9a0284",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-08-13T07:32:16Z",
+      "side": 1,
+      "message": "Maybe the flow should be:\n1. create vms\n2. send ping\n3. check there are offloaded flows\n4. check that the mac address of one of the ports is in the flows",
+      "parentUuid": "ac242e59_87f7473f",
+      "range": {
+        "startLine": 124,
+        "startChar": 13,
+        "endLine": 124,
+        "endChar": 19
+      },
+      "revId": "378c206bd5c5d8ad96bf43e5ab20d7cbec99af93",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
