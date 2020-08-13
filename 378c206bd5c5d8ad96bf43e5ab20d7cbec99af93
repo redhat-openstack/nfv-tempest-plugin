@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1ed258e9_feb38d7e",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-08-13T07:24:59Z",
+      "side": 1,
+      "message": "Better to send log file into temp.\n log_file \u003d \"/tmp/ping-{ip_dest}.txt\".format(ip_dest\u003dping_ip)",
+      "range": {
+        "startLine": 415,
+        "startChar": 8,
+        "endLine": 415,
+        "endChar": 17
+      },
+      "revId": "378c206bd5c5d8ad96bf43e5ab20d7cbec99af93",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bbe4d953_8387a101",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
         "patchSetId": 2
@@ -13,6 +36,30 @@
       "writtenOn": "2020-08-13T07:05:24Z",
       "side": 1,
       "message": "shouldnt we send ping before this part and ensure that we have flows?",
+      "range": {
+        "startLine": 124,
+        "startChar": 13,
+        "endLine": 124,
+        "endChar": 19
+      },
+      "revId": "378c206bd5c5d8ad96bf43e5ab20d7cbec99af93",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac242e59_87f7473f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-08-13T07:24:59Z",
+      "side": 1,
+      "message": "There are no VMs in this stage.\nWhere do you suggest to sent the pings?\nIt is no known if computes had any activity?",
+      "parentUuid": "bbe4d953_8387a101",
       "range": {
         "startLine": 124,
         "startChar": 13,
