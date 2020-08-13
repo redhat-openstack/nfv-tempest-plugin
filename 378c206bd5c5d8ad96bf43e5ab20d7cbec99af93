@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ff375ceb_8accb42e",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-08-13T10:17:44Z",
+      "side": 1,
+      "message": "Moving to /tmp added stop continuous method to stop statistics before test teardown",
+      "parentUuid": "1ed258e9_feb38d7e",
+      "range": {
+        "startLine": 415,
+        "startChar": 8,
+        "endLine": 415,
+        "endChar": 17
+      },
+      "revId": "378c206bd5c5d8ad96bf43e5ab20d7cbec99af93",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bbe4d953_8387a101",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
         "patchSetId": 2
@@ -189,6 +213,30 @@
       "revId": "378c206bd5c5d8ad96bf43e5ab20d7cbec99af93",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8415231d_05741772",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-08-13T10:17:44Z",
+      "side": 1,
+      "message": "Removing the 1st check",
+      "parentUuid": "fbae8221_a3ca810a",
+      "range": {
+        "startLine": 124,
+        "startChar": 13,
+        "endLine": 124,
+        "endChar": 19
+      },
+      "revId": "378c206bd5c5d8ad96bf43e5ab20d7cbec99af93",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
