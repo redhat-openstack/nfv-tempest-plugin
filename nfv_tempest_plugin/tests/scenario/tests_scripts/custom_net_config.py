@@ -248,7 +248,7 @@ def get_tag():
                                 format(tag, meta['mac']))
                     meta_data = {'mac': meta['mac'], 'tag': tag}
                     return meta_data
-            return None
+    return None
 
 
 def set_default_route(nics, tag):
