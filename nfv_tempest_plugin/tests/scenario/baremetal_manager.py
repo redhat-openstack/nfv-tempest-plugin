@@ -555,7 +555,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     # In order to proper map the FIP to the instance,
                     # management network needs to be first in the list of nets.
                     if net_var['tag'] == 'external':
-                        ports_list.insert(0, net_var)
+                        ports_list[port_index].insert(0, net_var)
                     else:
                         ports_list[port_index].append(net_var)
 
