@@ -103,16 +103,19 @@ class TestAdvancedScenarios(base_test.BaseTest):
          for srv in numa_aware_srv]
         srv_list = [srv['id'] for srv in numa_aware_srv]
 
+        non_numa_skip_log = ('Skip "non numa aware" test phase as '
+                             '"non numa aware" network was not found')
         if numas_phys.get('non_numa_aware_net'):
             non_numa_net = None
             # Exclude external network to avoid issue with booting instance
             # and assign external network and internal to the instance.
             non_numa_net = self.networks_client.list_networks(
                 **{'provider:physical_network': numas_phys[
-                    'non_numa_aware_net'], 'router:external': False})
+                    'non_numa_aware_net'],
+                   'router:external': False})['networks']
             if non_numa_net:
                 LOG.info('Test non numa aware network')
-                non_numa_net = non_numa_net['networks'][0]['id']
+                non_numa_net = non_numa_net[0]['id']
                 net_id = [[{'uuid': non_numa_net}]]
                 LOG.info('Booting an non numa aware instance.'
                          'Expect to success.')
@@ -120,9 +123,10 @@ class TestAdvancedScenarios(base_test.BaseTest):
                     self.create_server_with_fip(flavor=self.flavor_ref,
                                                 networks=net_id, **kwargs)
                 srv_list.append(non_numa_srv[0]['id'])
+            else:
+                LOG.warn(non_numa_skip_log)
         else:
-            LOG.warn('Skip "non numa aware" test phase as "non numa aware" '
-                     'network was not found')
+            LOG.warn(non_numa_skip_log)
 
         LOG.info('Ensure all the instances are on the same hypervisor node.')
         host = [self.os_admin.servers_client.show_server(hp)['server']
