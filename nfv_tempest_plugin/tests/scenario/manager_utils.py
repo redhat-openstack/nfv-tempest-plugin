@@ -210,6 +210,10 @@ class ManagerMixin(object):
                 **hyper_kwargs)[0]
         ver = shell_utils.\
             run_command_over_ssh(hypervisor, 'cat /etc/rhosp-release')
+        if ver == '':
+            ver = shell_utils.run_command_over_ssh(
+                hypervisor,
+                'cat /var/lib/rhos-release/latest-installed')
         return int(re.findall(r'\d+', ver)[0])
 
     def check_flavor_existence(self, testname):

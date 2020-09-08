@@ -499,10 +499,12 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         :return ports_list: A list of ports lists
         """
+        # The "ports_list" holds lists of ports dicts per each instance.
+        # Create the number of the nested lists according to the number of the
+        # instances.
         ports_list = []
-        """
-        set public network first
-        """
+        [ports_list.append([]) for i in range(num_ports)]
+
         for net_name, net_param in iter(self.test_network_dict.items()):
             if 'skip_srv_attach' in net_param:
                 continue
@@ -550,8 +552,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     # Mark port type, as tag
                     else:
                         net_var['tag'] = net_param['port_type']
-                    if len(ports_list) == port_index:
-                        ports_list.insert(port_index, [net_var])
+                    # In order to proper map the FIP to the instance,
+                    # management network needs to be first in the list of nets.
+                    if net_var['tag'] == 'external':
+                        ports_list[port_index].insert(0, net_var)
                     else:
                         ports_list[port_index].append(net_var)
 
