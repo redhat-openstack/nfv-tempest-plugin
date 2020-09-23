@@ -22,6 +22,30 @@
       "revId": "dd6e3abe7a626a667ffc03489540cea71336da4a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e4d9b0e_ce7fd4fe",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-09-23T09:01:48Z",
+      "side": 1,
+      "message": "Thanks for reviewing see line 422 if no mellanox found test is asserting in line 425",
+      "parentUuid": "6bab853f_6b13abcf",
+      "range": {
+        "startLine": 442,
+        "startChar": 8,
+        "endLine": 442,
+        "endChar": 16
+      },
+      "revId": "dd6e3abe7a626a667ffc03489540cea71336da4a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
