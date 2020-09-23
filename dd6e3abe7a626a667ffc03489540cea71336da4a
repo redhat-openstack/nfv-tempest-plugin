@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6bab853f_6b13abcf",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-09-23T08:53:21Z",
+      "side": 1,
+      "message": "i think that we should check that pci_list is not empty, just in case there is no mellanox card, show an error and finish the test witouth creating any vm",
+      "range": {
+        "startLine": 442,
+        "startChar": 8,
+        "endLine": 442,
+        "endChar": 16
+      },
+      "revId": "dd6e3abe7a626a667ffc03489540cea71336da4a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
