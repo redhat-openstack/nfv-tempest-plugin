@@ -911,10 +911,10 @@ class ManagerMixin(object):
         numa_aware_tun = []
         pci_whitelist = []
         for physnet in numa_phys_content:
-            if '=>' in physnet:
+            if 'physical_network' in physnet:
+                pci_whitelist = yaml.safe_load(physnet.replace('=>', ':'))
+            elif '=>' in physnet:
                 numa_aware_phys = yaml.safe_load(physnet.replace('=>', ':'))
-            elif 'physical_network' in physnet:
-                pci_whitelist = yaml.safe_load(physnet)
             elif ':' in physnet:
                 bridge_mapping = yaml.safe_load(physnet)
             else:
@@ -940,6 +940,7 @@ class ManagerMixin(object):
         # Exclude sriov networks from non numa aware list
         sriov_nets = [sriov_net['physical_network']
                       for sriov_net in pci_whitelist]
+        sriov_nets = list(set(sriov_nets))
         numa_physnets['non_numa_aware_net'] = \
             [non_numa for non_numa in numa_physnets['non_numa_aware_net']
              if non_numa not in sriov_nets]
