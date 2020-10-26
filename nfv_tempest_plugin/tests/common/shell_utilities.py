@@ -359,7 +359,12 @@ def run_hypervisor_command_build_from_config(file_path, search_param,
         assert result != '', "{} {}".format(msg, hypervisor)
 
         result = "[" + result.replace('\n', ", ") + "]"
-        dev_names = [x['devname'] for x in json.loads(result)]
+        dev_names = [x.get('devname') for x in json.loads(result)]
+        # The nic-partitioning deployment does not store "devname" param.
+        # It has the "domain", "function" and other attributes.
+        # As a result, many None params added to the list.
+        # The below command excludes the "None" from the list.
+        dev_names = [devname for devname in dev_names if devname]
         cmd = ''
         for device in dev_names:
             cmd += "{} {};".format(command, device)
