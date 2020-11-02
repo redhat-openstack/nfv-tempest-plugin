@@ -34,6 +34,24 @@
       "revId": "187374d8471a29caf93c3dfd1a039c172db8c544",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c896c1d_391aeb87",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2020-11-02T12:34:07Z",
+      "side": 1,
+      "message": "I am still looking for how it is being populated in osp13 and osp16 (deploying an environment, will confirm it). IIUC, it looks like this might be changed in OSP17, which does not have a refrence in the master. The ideal way that I would recommend is to get the list of enabled services (from the same hieradata) and then check if ovn or ovs-agent service is added. This depends on the list of services from the THT repo, which is also fixed and has not changed and not going to change in OSP17 too, i dont know about OSP18 :-). I can provide the exact heira key in sometime once the deployment is succesful.\n\nOVNController will be present on all compute nodes. \"ovn_controller\" is the service name. If it is not present in the enabled service it is safe to assume that it is ml2-ovs.\nhttps://github.com/openstack/tripleo-heat-templates/blob/master/deployment/ovn/ovn-controller-container-puppet.yaml#L133",
+      "parentUuid": "e4544a4d_e43b1841",
+      "revId": "187374d8471a29caf93c3dfd1a039c172db8c544",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
