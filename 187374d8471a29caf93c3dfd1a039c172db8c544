@@ -16,6 +16,24 @@
       "revId": "187374d8471a29caf93c3dfd1a039c172db8c544",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4544a4d_e43b1841",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-11-02T11:49:07Z",
+      "side": 1,
+      "message": "Hey,\n\nSure, I\u0027ve checked this both on OSP13 and OSP16, the file is \u0027/etc/puppet/hieradata/all_nodes.json\u0027",
+      "parentUuid": "191e4b43_847d1f3e",
+      "revId": "187374d8471a29caf93c3dfd1a039c172db8c544",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
