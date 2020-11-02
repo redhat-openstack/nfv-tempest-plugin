@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "191e4b43_847d1f3e",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2020-11-02T04:18:50Z",
+      "side": 1,
+      "message": "I was looking for the code reference upstream to see how/where these hiera is set, but I could not find the reference for these hieradata. Was this working on both 13 and 16.1? OR i am missing to find it. Can you provide on which file this key is stored under \"/etc/puppet/hieradata\"?",
+      "revId": "187374d8471a29caf93c3dfd1a039c172db8c544",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
