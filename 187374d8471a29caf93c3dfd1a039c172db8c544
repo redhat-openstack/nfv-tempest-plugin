@@ -70,6 +70,24 @@
       "revId": "187374d8471a29caf93c3dfd1a039c172db8c544",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05956047_6761f94d",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1010167
+      },
+      "writtenOn": "2020-11-03T10:57:45Z",
+      "side": 1,
+      "message": "The existing approach looks fine to. Just got hands on a cluster to understand all_nodes.json file. It creates all the service information across the cluster to all nodes. The name \"neutron_ovs_agent_enabled\" comes from \"\u003cservice_name\u003e_enabled\" which is applied for all the service names. So the existing approach will work fine even in master too. I am fine with it. But if you want to improve instead of checking 2 individual vars, checkng the services enalbed,  you can use \n\nhiera -c /etc/puppet/hiera.yaml enabled_services \u003e\u003e This will give the list of service enabled across all the roles in the whole cluster\n\nhiera -c /etc/puppet/hiera.yaml service_names \u003e\u003e This will give the list of services enabled in that particular role. \n\nSo , checking for the presense of \"neutron_ovs_agent_enabled: true\" is same as checking for the presense of \"neutron_ovs_agent\" in \"hiera -c /etc/puppet/hiera.yaml enabled_services\". I am fine with either ways, I am OK to merge it in the current state too, I will leave it to you to decide.",
+      "parentUuid": "6380eafa_a4d78922",
+      "revId": "187374d8471a29caf93c3dfd1a039c172db8c544",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
