@@ -52,6 +52,24 @@
       "revId": "187374d8471a29caf93c3dfd1a039c172db8c544",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6380eafa_a4d78922",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-11-03T10:01:54Z",
+      "side": 1,
+      "message": "This is a great point Saravanan.\nWill take your approach and view the enabled services instead of relying on a specific key.",
+      "parentUuid": "6c896c1d_391aeb87",
+      "revId": "187374d8471a29caf93c3dfd1a039c172db8c544",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
