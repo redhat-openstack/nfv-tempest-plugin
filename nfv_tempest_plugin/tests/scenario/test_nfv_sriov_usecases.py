@@ -374,7 +374,6 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         """
 
         LOG.info('Start SRIOV Max QoS test.')
-        self.create_default_test_config(test)
         kwargs = {}
         qos_rules = \
             json.loads(CONF.nfv_plugin_options.max_qos_rules)
@@ -418,7 +417,6 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
             _get_hypervisor_ip_from_undercloud(shell='/home/stack/stackrc')
         kw_args['multi_key_values'] = True
         LOG.info('Start SRIOV Min QoS test.')
-        self.create_default_test_config(test)
         result = shell_utils. \
             run_hypervisor_command_build_from_config(**kw_args)
         msg = "no nics supporting sriov min bw"
