@@ -46,7 +46,7 @@ class TestHciScenarios(base_test.BaseTest):
         servers, key_pair = self.create_and_verify_resources(test=test)
         volume_id = self.create_volume()
         attachment = self.attach_volume(servers[0], volume_id)
-        self.assertTrue('device' in attachment)
+        self.assertIn('device', attachment)
         ssh_source = self.get_remote_client(servers[0]['fip'],
                                             username=self.instance_user,
                                             private_key=key_pair[
@@ -92,7 +92,7 @@ class TestHciScenarios(base_test.BaseTest):
         servers, key_pair = self.create_and_verify_resources(test=test)
         volume_id = self.create_volume(imageRef=self.image_ref)
         attachment = self.attach_volume(servers[0], volume_id)
-        self.assertTrue('device' in attachment)
+        self.assertIn('device', attachment)
         ssh_source = self.get_remote_client(servers[0]['fip'],
                                             username=self.instance_user,
                                             private_key=key_pair[

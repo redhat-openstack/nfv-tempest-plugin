@@ -769,7 +769,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             num_ports = num_servers
 
         # Check for the test config file
-        self.assertTrue(test in self.test_setup_dict,
+        self.assertTrue(test, self.test_setup_dict,
                         'The test requires {0} config in external_config_file'.
                         format(test))
 
