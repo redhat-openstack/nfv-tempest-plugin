@@ -84,5 +84,9 @@ NfvPluginOptions = [
     cfg.BoolOpt('use_neutron_api_v2',
                 default=False,
                 help="Use neutron-tempest-plugin clients"),
+    cfg.IntOpt('hypervisor_wait_timeout',
+               default=300,
+               help='Timeout in seconds to wait for the '
+                    'hypervisor reachability'),
 
 ]
