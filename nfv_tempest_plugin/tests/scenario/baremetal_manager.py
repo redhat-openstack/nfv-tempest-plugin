@@ -769,9 +769,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             num_ports = num_servers
 
         # Check for the test config file
-        self.assertTrue(test in self.test_setup_dict,
-                        'The test requires {0} config in external_config_file'.
-                        format(test))
+        self.assertIn(test, self.test_setup_dict, 'The test requires {0} '
+                      'config in external_config_file'.format(test))
 
         # In case resources created externally, set them.
         if self.external_resources_data is not None:
