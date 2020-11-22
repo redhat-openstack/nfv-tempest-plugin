@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4d263eb3_41fc6ac2",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_reboot.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-11-22T09:20:06Z",
+      "side": 1,
+      "message": "Ok. Will change.",
+      "parentUuid": "b9c030ba_18acfabe",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 1
+      },
+      "revId": "0b3bd5a39b6e19b2bf5b5fe7574819dc8bac475d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "22dbffe1_c9e5c5e4",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_reboot.py",
         "patchSetId": 3
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "You can use waiters with TimeOut on compute status\nAt the end of time out print the status in case not reached desired state",
       "parentUuid": "22dbffe1_c9e5c5e4",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 5
+      },
+      "revId": "0b3bd5a39b6e19b2bf5b5fe7574819dc8bac475d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a106ec4_4ee58d66",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_reboot.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-11-22T09:20:06Z",
+      "side": 1,
+      "message": "@Vadim, I will add a global timeout.\n@Yariv, I checked available waiters and didn\u0027t found support for the hypervisor.",
+      "parentUuid": "6fb06f62_e08eb0f3",
       "range": {
         "startLine": 63,
         "startChar": 0,
