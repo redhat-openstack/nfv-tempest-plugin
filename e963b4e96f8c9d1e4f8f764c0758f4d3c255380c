@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c076bfc7_8ec726ab",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-11-23T07:56:28Z",
+      "side": 1,
+      "message": "Replaced with waiters.",
+      "parentUuid": "7d0676e6_4fd8c6ab",
+      "range": {
+        "startLine": 79,
+        "startChar": 10,
+        "endLine": 79,
+        "endChar": 23
+      },
+      "revId": "e963b4e96f8c9d1e4f8f764c0758f4d3c255380c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e9615a63_5ff58335",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2020-11-22T17:00:34Z",
       "side": 1,
       "message": "Here for sure you can use waiters, it is a vm, do not forget time out.",
+      "range": {
+        "startLine": 80,
+        "startChar": 14,
+        "endLine": 80,
+        "endChar": 60
+      },
+      "revId": "e963b4e96f8c9d1e4f8f764c0758f4d3c255380c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3079db52_68c65fd9",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-11-23T07:56:28Z",
+      "side": 1,
+      "message": "Thanks for noted.\nI forgot to change it when wrote the waiters for the server shutoff in line 57.\nDone.",
+      "parentUuid": "e9615a63_5ff58335",
       "range": {
         "startLine": 80,
         "startChar": 14,
