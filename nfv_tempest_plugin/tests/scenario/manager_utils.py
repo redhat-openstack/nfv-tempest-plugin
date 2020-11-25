@@ -895,8 +895,15 @@ class ManagerMixin(object):
         if node is None:
             hyper_kwargs = {'shell': '/home/stack/stackrc'}
             node = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)[0]
+        network_backend = self.dicover_deployment_network_backend(node=node)
         if not keys:
-            hiera_bridge_mapping = "neutron::agents::ml2::ovs::bridge_mappings"
+            if network_backend == 'ovs':
+                hiera_bridge_mapping = \
+                    "neutron::agents::ml2::ovs::bridge_mappings"
+            elif network_backend == 'ovn':
+                hiera_bridge_mapping = "ovn::controller::ovn_bridge_mappings"
+            else:
+                hiera_bridge_mapping = None
             hiera_numa_mapping = "nova::compute::neutron_physnets_numa_" \
                                  "nodes_mapping"
             hiera_numa_tun = "nova::compute::neutron_tunnel_numa_nodes"
@@ -911,10 +918,10 @@ class ManagerMixin(object):
         numa_aware_tun = []
         pci_whitelist = []
         for physnet in numa_phys_content:
-            if '=>' in physnet:
+            if 'physical_network' in physnet:
+                pci_whitelist = yaml.safe_load(physnet.replace('=>', ':'))
+            elif '=>' in physnet:
                 numa_aware_phys = yaml.safe_load(physnet.replace('=>', ':'))
-            elif 'physical_network' in physnet:
-                pci_whitelist = yaml.safe_load(physnet)
             elif ':' in physnet:
                 bridge_mapping = yaml.safe_load(physnet)
             else:
@@ -940,6 +947,7 @@ class ManagerMixin(object):
         # Exclude sriov networks from non numa aware list
         sriov_nets = [sriov_net['physical_network']
                       for sriov_net in pci_whitelist]
+        sriov_nets = list(set(sriov_nets))
         numa_physnets['non_numa_aware_net'] = \
             [non_numa for non_numa in numa_physnets['non_numa_aware_net']
              if non_numa not in sriov_nets]
@@ -1008,3 +1016,33 @@ class ManagerMixin(object):
                 'vcpu_free': vcpu_free,
                 'vcpu_free_per_numa': vcpu_free_per_numa,
                 'ram_free': ram_free}
+
+    def dicover_deployment_network_backend(self, node=None):
+        """Locate deployment's network backend
+
+        The method discovers the network backend used in deployment.
+        It depends on hieradata being present on the node.
+
+        :param node: The node that the query should executed on.
+        :return The deployment network backend.
+        """
+        # Initialize parameters
+        network_backend = 'unknown'
+        hieradata_keys = [
+            'enabled_services'
+        ]
+        if node is None:
+            hyper_kwargs = {'shell': '/home/stack/stackrc'}
+            node = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)[0]
+        hiera_response = \
+            shell_utils.retrieve_content_from_hiera(node=node,
+                                                    keys=hieradata_keys)
+        # Construct a list of enabled services from response string
+        enabled_services = \
+            re.sub(r'\[|\]|"| ', '', hiera_response[0]).split(',')
+        if 'neutron_plugin_ml2' in enabled_services:
+            network_backend = 'ovs'
+        elif 'neutron_plugin_ml2_ovn' in enabled_services:
+            network_backend = 'ovn'
+        LOG.info("Discovered network backend '{}'".format(network_backend))
+        return network_backend

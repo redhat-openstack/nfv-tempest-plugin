@@ -76,8 +76,17 @@ NfvPluginOptions = [
                     'The format is JSON. '
                     '"max_kbps":<kbps> - string '
                     '"max_burst_kbps":<kbps> - string '),
+    cfg.StrOpt('min_qos_rules',
+               default='[{"min_kbps": 25000000}]',
+               help='Configuration for min qos rules.'
+                    'The format is JSON. '
+                    '"min_kbps":<kbps> - string '),
     cfg.BoolOpt('use_neutron_api_v2',
                 default=False,
                 help="Use neutron-tempest-plugin clients"),
+    cfg.IntOpt('hypervisor_wait_timeout',
+               default=300,
+               help='Timeout in seconds to wait for the '
+                    'hypervisor reachability'),
 
 ]
