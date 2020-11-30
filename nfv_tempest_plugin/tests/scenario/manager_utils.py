@@ -791,6 +791,32 @@ class ManagerMixin(object):
                     output_data.append(data)
         return output_data
 
+    def get_ovn_multicast_groups(self):
+        """Retrieves OVN multicast groups from OVN southbound DB
+
+        :return multicast groups
+        """
+        output_data = []
+        multicast_ips = []
+        controller = shell_utils.get_controllers_ip_from_undercloud(
+            shell='/home/stack/stackrc')[0]
+        ovn_logical_switches_cmd = ('sudo podman exec -it ovn_controller'
+                                    ' ovn-sbctl list igmp_group')
+        ovn_igmp_output = shell_utils.run_command_over_ssh(
+            controller, ovn_logical_switches_cmd)
+        for string in re.split(r'\n+', ovn_igmp_output):
+            if 'address' in string:
+                igmp_ip = re.sub(r'address\s+ :\s+',
+                                 '', string.rstrip())
+                multicast_ips.append(igmp_ip.replace('"', ''))
+        if multicast_ips:
+            # Iterate over unique IP entries
+            for ip in set(multicast_ips):
+                data = {}
+                data['GROUP'] = ip
+                output_data.append(data)
+        return output_data
+
     def _get_hypervisor_host_ip(self, name=None):
         """Get hypervisor ip
 
@@ -895,7 +921,7 @@ class ManagerMixin(object):
         if node is None:
             hyper_kwargs = {'shell': '/home/stack/stackrc'}
             node = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)[0]
-        network_backend = self.dicover_deployment_network_backend(node=node)
+        network_backend = self.discover_deployment_network_backend(node=node)
         if not keys:
             if network_backend == 'ovs':
                 hiera_bridge_mapping = \
@@ -1017,7 +1043,7 @@ class ManagerMixin(object):
                 'vcpu_free_per_numa': vcpu_free_per_numa,
                 'ram_free': ram_free}
 
-    def dicover_deployment_network_backend(self, node=None):
+    def discover_deployment_network_backend(self, node=None):
         """Locate deployment's network backend
 
         The method discovers the network backend used in deployment.
