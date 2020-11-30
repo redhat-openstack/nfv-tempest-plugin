@@ -20,6 +20,7 @@ from tempest import config
 
 import json
 import random
+import re
 import string
 
 CONF = config.CONF
@@ -45,47 +46,83 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
         configured in br-int
         """
         LOG.info('Starting {} test.'.format(test))
+        network_backend = self.discover_deployment_network_backend()
+        if network_backend == 'ovs':
+            hypervisors = self._get_hypervisor_ip_from_undercloud(
+                shell='/home/stack/stackrc')
 
-        hypervisors = self._get_hypervisor_ip_from_undercloud(
-            shell='/home/stack/stackrc')
+            result = []
+            cmd = 'sudo ovs-vsctl --format=json list bridge br-int'
+            checks = {'mcast_snooping_enable': True,
+                      'mcast-snooping-disable-flood-unregistered': 'true'}
 
-        result = []
-        cmd = 'sudo ovs-vsctl --format=json list bridge br-int'
-        checks = {'mcast_snooping_enable': True,
-                  'mcast-snooping-disable-flood-unregistered': 'true'}
+            for hypervisor_ip in hypervisors:
+                output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
+                # ovs command returns boolean in small letters
+                ovs_data = json.loads(output)
+                ovs_data_filt = {}
+                try:
+                    ovs_data_filt['mcast_snooping_enable'] = \
+                        (ovs_data['data'][0]
+                         [ovs_data['headings'].index('mcast_snooping_enable')])
+                    ovs_data_filt['mcast-snooping-disable'
+                                  '-flood-unregistered'] = \
+                        (dict(ovs_data['data'][0]
+                              [ovs_data['headings'].index('other_config')][1])
+                         ['mcast-snooping-disable-flood-unregistered'])
+                except Exception:
+                    pass
 
-        for hypervisor_ip in hypervisors:
-            output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
-            # ovs command returns boolean in small letters
-            ovs_data = json.loads(output)
-            ovs_data_filt = {}
-            try:
-                ovs_data_filt['mcast_snooping_enable'] = \
-                    (ovs_data['data'][0]
-                     [ovs_data['headings'].index('mcast_snooping_enable')])
-                ovs_data_filt['mcast-snooping-disable-flood-unregistered'] = \
-                    (dict(ovs_data['data'][0]
-                          [ovs_data['headings'].index('other_config')][1])
-                     ['mcast-snooping-disable-flood-unregistered'])
-            except Exception:
-                pass
+                diff_checks_cmd = (set(checks.keys())
+                                   - set(ovs_data_filt.keys()))
+                if len(diff_checks_cmd) > 0:
+                    result.append("{}. Missing checks: {}. Check ovs cmd "
+                                  "output".format(hypervisor_ip,
+                                                  ', '.join(diff_checks_cmd)))
 
-            diff_checks_cmd = (set(checks.keys())
-                               - set(ovs_data_filt.keys()))
-            if len(diff_checks_cmd) > 0:
-                result.append("{}. Missing checks: {}. Check ovs cmd output"
-                              .format(hypervisor_ip,
-                                      ', '.join(diff_checks_cmd)))
+                for check in checks:
+                    if check not in diff_checks_cmd:
+                        if ovs_data_filt[check] != checks[check]:
+                            msg = ("{}. Check failed: {}. Expected: {} "
+                                   "- Found: {}"
+                                   .format(hypervisor_ip, check, checks[check],
+                                           ovs_data_filt[check]))
+                            result.append(msg)
+            self.assertTrue(len(result) == 0, '. '.join(result))
+        # We assume that controller nodes act as ovn controllers
+        elif network_backend == 'ovn':
+            controllers = shell_utils.get_controllers_ip_from_undercloud(
+                shell='/home/stack/stackrc')
+            # Configuration should be identical across controllers
+            igmp_configured = shell_utils.get_value_from_ini_config(
+                controllers[0], '/var/lib/config-data/puppet-generated'
+                '/neutron/etc/neutron/neutron.conf', 'ovs',
+                'igmp_snooping_enable')
+            self.assertTrue(igmp_configured, 'IGMP not enabled in deployment')
+            ovn_logical_switches_cmd = ('sudo podman exec -it ovn_controller'
+                                        ' ovn-nbctl list Logical_Switch')
+            ovn_logical_Switches_output = shell_utils.run_command_over_ssh(
+                controllers[0], ovn_logical_switches_cmd)
+            # We expect to have at least a single logical switch
+            if '_uuid 'not in ovn_logical_Switches_output:
+                raise ValueError('Failed to query OVN northbound DB'
+                                 ', no logical switch info was returned')
+            # Test expected to fail due to
+            # https://bugzilla.redhat.com/show_bug.cgi?id=1898052
+            # mcast_flood_unregistered should be defined as false
+            # while currently it is set to true
+            re_string = \
+                r'{mcast_flood_unregistered="false", mcast_snoop="true"}'
+            pattern = re.compile(re_string)
+            lines = pattern.findall(ovn_logical_Switches_output)
+            LOG.info('Located {} logical switches with IGMP enabled'
+                     .format(len(lines)))
+            msg = "IGMP is not enabled on any logical switch"
+            self.assertNotEmpty(lines, msg)
 
-            for check in checks:
-                if check not in diff_checks_cmd:
-                    if ovs_data_filt[check] != checks[check]:
-                        msg = ("{}. Check failed: {}. Expected: {} - Found: {}"
-                               .format(hypervisor_ip, check, checks[check],
-                                       ovs_data_filt[check]))
-                        result.append(msg)
-
-        self.assertTrue(len(result) == 0, '. '.join(result))
+        else:
+            raise ValueError("Network backend '{}' is not supported"
+                             .format(network_backend))
         return True
 
     def test_igmp_snooping(self, test='igmp_snooping'):
