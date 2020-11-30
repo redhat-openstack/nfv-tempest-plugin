@@ -895,7 +895,7 @@ class ManagerMixin(object):
         if node is None:
             hyper_kwargs = {'shell': '/home/stack/stackrc'}
             node = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)[0]
-        network_backend = self.dicover_deployment_network_backend(node=node)
+        network_backend = self.discover_deployment_network_backend(node=node)
         if not keys:
             if network_backend == 'ovs':
                 hiera_bridge_mapping = \
@@ -1017,7 +1017,7 @@ class ManagerMixin(object):
                 'vcpu_free_per_numa': vcpu_free_per_numa,
                 'ram_free': ram_free}
 
-    def dicover_deployment_network_backend(self, node=None):
+    def discover_deployment_network_backend(self, node=None):
         """Locate deployment's network backend
 
         The method discovers the network backend used in deployment.
