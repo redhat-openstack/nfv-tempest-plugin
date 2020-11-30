@@ -20,7 +20,9 @@ from tempest import config
 
 import json
 import random
+import re
 import string
+import time
 
 CONF = config.CONF
 LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
@@ -45,47 +47,91 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
         configured in br-int
         """
         LOG.info('Starting {} test.'.format(test))
+        network_backend = self.discover_deployment_network_backend()
+        if network_backend == 'ovs':
+            hypervisors = self._get_hypervisor_ip_from_undercloud(
+                shell='/home/stack/stackrc')
 
-        hypervisors = self._get_hypervisor_ip_from_undercloud(
-            shell=CONF.nfv_plugin_options.undercloud_rc_file)
+            result = []
+            cmd = 'sudo ovs-vsctl --format=json list bridge br-int'
+            checks = {'mcast_snooping_enable': True,
+                      'mcast-snooping-disable-flood-unregistered': 'true'}
 
-        result = []
-        cmd = 'sudo ovs-vsctl --format=json list bridge br-int'
-        checks = {'mcast_snooping_enable': True,
-                  'mcast-snooping-disable-flood-unregistered': 'true'}
+            for hypervisor_ip in hypervisors:
+                output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
+                # ovs command returns boolean in small letters
+                ovs_data = json.loads(output)
+                ovs_data_filt = {}
+                try:
+                    ovs_data_filt['mcast_snooping_enable'] = \
+                        (ovs_data['data'][0]
+                         [ovs_data['headings'].index('mcast_snooping_enable')])
+                    ovs_data_filt['mcast-snooping-disable'
+                                  '-flood-unregistered'] = \
+                        (dict(ovs_data['data'][0]
+                              [ovs_data['headings'].index('other_config')][1])
+                         ['mcast-snooping-disable-flood-unregistered'])
+                except Exception:
+                    pass
 
-        for hypervisor_ip in hypervisors:
-            output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
-            # ovs command returns boolean in small letters
-            ovs_data = json.loads(output)
-            ovs_data_filt = {}
-            try:
-                ovs_data_filt['mcast_snooping_enable'] = \
-                    (ovs_data['data'][0]
-                     [ovs_data['headings'].index('mcast_snooping_enable')])
-                ovs_data_filt['mcast-snooping-disable-flood-unregistered'] = \
-                    (dict(ovs_data['data'][0]
-                          [ovs_data['headings'].index('other_config')][1])
-                     ['mcast-snooping-disable-flood-unregistered'])
-            except Exception:
-                pass
+                diff_checks_cmd = (set(checks.keys())
+                                   - set(ovs_data_filt.keys()))
+                if len(diff_checks_cmd) > 0:
+                    result.append("{}. Missing checks: {}. Check ovs cmd "
+                                  "output".format(hypervisor_ip,
+                                                  ', '.join(diff_checks_cmd)))
 
-            diff_checks_cmd = (set(checks.keys())
-                               - set(ovs_data_filt.keys()))
-            if len(diff_checks_cmd) > 0:
-                result.append("{}. Missing checks: {}. Check ovs cmd output"
-                              .format(hypervisor_ip,
-                                      ', '.join(diff_checks_cmd)))
+                for check in checks:
+                    if check not in diff_checks_cmd:
+                        if ovs_data_filt[check] != checks[check]:
+                            msg = ("{}. Check failed: {}. Expected: {} "
+                                   "- Found: {}"
+                                   .format(hypervisor_ip, check, checks[check],
+                                           ovs_data_filt[check]))
+                            result.append(msg)
+            self.assertTrue(len(result) == 0, '. '.join(result))
+        # We assume that controller nodes act as ovn controllers
+        elif network_backend == 'ovn':
+            controller = shell_utils.get_controllers_ip_from_undercloud(
+                shell=CONF.nfv_plugin_options.undercloud_rc_file)[0]
+            # Configuration should be identical across controllers
+            igmp_configured = shell_utils.get_value_from_ini_config(
+                controller, '/var/lib/config-data/puppet-generated'
+                '/neutron/etc/neutron/neutron.conf', 'ovs',
+                'igmp_snooping_enable')
+            self.assertTrue(igmp_configured, 'IGMP not enabled in deployment')
+            ovn_logical_switches_cmd = ('sudo podman exec -it ovn_controller'
+                                        ' ovn-nbctl list Logical_Switch')
+            ovn_logical_Switches_output = shell_utils.run_command_over_ssh(
+                controller, ovn_logical_switches_cmd)
+            # We expect to have at least a single logical switch
+            if '_uuid 'not in ovn_logical_Switches_output:
+                raise ValueError('Failed to query OVN northbound DB'
+                                 ', no logical switch info was returned')
+            re_igmp_string = \
+                r'mcast_snoop="true"'
+            pattern = re.compile(re_igmp_string)
+            igmp_lines = pattern.findall(ovn_logical_Switches_output)
+            LOG.info('Located {} logical switches with IGMP enabled'
+                     .format(len(igmp_lines)))
+            msg = "IGMP is not enabled on any logical switch"
+            self.assertNotEmpty(igmp_lines, msg)
+            re_flood_string = \
+                r'mcast_flood_unregistered="\w+"'
+            flood_pattern = re.compile(re_flood_string)
+            flood_lines = \
+                flood_pattern.findall(ovn_logical_Switches_output)
+            for line in flood_lines:
+                if 'true' in line:
+                    LOG.warning("Located a logical switch with "
+                                "'mcast_flood_unregistered' set to 'true', "
+                                "this is not optimal and will potentially"
+                                "cause multicast to behave as broadcast. "
+                                "This setting should be set to 'false'")
 
-            for check in checks:
-                if check not in diff_checks_cmd:
-                    if ovs_data_filt[check] != checks[check]:
-                        msg = ("{}. Check failed: {}. Expected: {} - Found: {}"
-                               .format(hypervisor_ip, check, checks[check],
-                                       ovs_data_filt[check]))
-                        result.append(msg)
-
-        self.assertTrue(len(result) == 0, '. '.join(result))
+        else:
+            raise ValueError("Network backend '{}' is not supported"
+                             .format(network_backend))
         return True
 
     def test_igmp_snooping(self, test='igmp_snooping'):
@@ -151,6 +197,7 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
         self.assertTrue(len(errors) == 0, '. '.join(errors))
         LOG.info('Listeners received multicast traffic')
 
+    # TODO(vkhitrin): Rename this test for generic network backend
     def test_igmp_restart_ovs(self, test='igmp_restart_ovs'):
         """Test restart ovs
 
@@ -158,12 +205,19 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
         Restart ovs and then execute test_igmp_snooping_deployment
         """
         LOG.info('Starting {} test.'.format(test))
-
+        network_backend = self.discover_deployment_network_backend()
         hypervisor_ips = self._get_hypervisor_ip_from_undercloud(
             shell=CONF.nfv_plugin_options.undercloud_rc_file)
-        cmd = 'sudo systemctl restart openvswitch.service'
+        ovs_cmd = 'sudo systemctl restart openvswitch.service'
         for hyp in hypervisor_ips:
-            shell_utils.run_command_over_ssh(hyp, cmd)
+            shell_utils.run_command_over_ssh(hyp, ovs_cmd)
+        if network_backend == 'ovn':
+            ovn_cmd = 'sudo systemctl restart tripleo_ovn_controller.service'
+            controller_ips = shell_utils.get_controllers_ip_from_undercloud(
+                shell='/home/stack/stackrc')
+            # We assume that controller nodes act as ovn controllers
+            for node in controller_ips:
+                shell_utils.run_command_over_ssh(hyp, ovn_cmd)
         self.test_igmp_snooping_deployment()
 
     def test_multicast_functionality(self, servers, key_pair, mcast_groups,
@@ -189,7 +243,7 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
         # it will be a different port than the management one that will be
         # connected to a switch in which igmp snooping is configured
         port_list = self.get_ovs_port_names(servers)
-
+        network_backend = self.discover_deployment_network_backend()
         # populate data
         hypervisors = {}
         for server in servers:
@@ -253,7 +307,14 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
 
         # check groups are created
         for hyp in hypervisors.keys():
-            groups = self.get_ovs_multicast_groups("br-int", hypervisor=hyp)
+            if network_backend == 'ovs':
+                groups = self.get_ovs_multicast_groups("br-int",
+                                                       hypervisor=hyp)
+            elif network_backend == 'ovn':
+                groups = self.get_ovn_multicast_groups()
+            else:
+                raise ValueError("Network backend '{}' is not supported"
+                                 .format(network_backend))
             for idx, group_info in enumerate(hypervisors[hyp]):
                 num_listeners = len([grp for grp in groups if
                                     grp['GROUP'] == mcast_groups[idx]['ip']])
@@ -286,9 +347,19 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
                                                                stats_beg[hyp],
                                                                hypervisor=hyp)
 
+        ovn_sleep = False
         # check groups has been removed
         for hyp in hypervisors.keys():
-            groups = self.get_ovs_multicast_groups("br-int", hypervisor=hyp)
+            if network_backend == 'ovs':
+                groups = self.get_ovs_multicast_groups("br-int",
+                                                       hypervisor=hyp)
+            elif network_backend == 'ovn':
+                # It takes more time for IGMP groups to unsubscribe
+                # Sleep for 5 minutes 15 seconds to ensure cache is cleared
+                if not ovn_sleep:
+                    ovn_sleep = True
+                    time.sleep(315)
+                groups = self.get_ovn_multicast_groups()
             for idx, group_info in enumerate(hypervisors[hyp]):
                 num_listeners = len([grp for grp in groups if
                                     grp['GROUP'] == mcast_groups[idx]['ip']])
