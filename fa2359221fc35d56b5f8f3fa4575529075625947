@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59e39488_73f20b02",
+        "filename": "docs/installation.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-01T13:57:41Z",
+      "side": 1,
+      "message": "😞\nPlease add \u003cnetwork_name\u003e",
+      "range": {
+        "startLine": 21,
+        "startChar": 202,
+        "endLine": 21,
+        "endChar": 209
+      },
+      "revId": "fa2359221fc35d56b5f8f3fa4575529075625947",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
