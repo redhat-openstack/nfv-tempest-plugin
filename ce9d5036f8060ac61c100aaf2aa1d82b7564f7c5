@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18348110_599a2720",
+        "filename": "docs/installation.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-01T10:11:04Z",
+      "side": 1,
+      "message": "Ella, please, remove these flavors definition.\nI will shortly remove the numaX tests, so these flavors will not be needed.",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 466
+      },
+      "revId": "ce9d5036f8060ac61c100aaf2aa1d82b7564f7c5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
