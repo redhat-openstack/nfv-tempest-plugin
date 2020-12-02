@@ -22,6 +22,30 @@
       "revId": "b7b27cdc18fa3c6c86d088255b6180024c948e57",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f94bd2a1_4c0ed55a",
+        "filename": "docs/installation.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2020-12-02T09:47:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b128805b_c75f0441",
+      "range": {
+        "startLine": 21,
+        "startChar": 156,
+        "endLine": 21,
+        "endChar": 162
+      },
+      "revId": "b7b27cdc18fa3c6c86d088255b6180024c948e57",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
