@@ -232,10 +232,10 @@ class TestNfvBasic(base_test.BaseTest):
 
         servers, key_pair = self.create_and_verify_resources(test=test)
 
-        conf = self.test_setup_dict['emulatorpin']['config_dict'][0]
-        config_path = conf['config_path']
-        check_section = conf['check_section']
-        check_value = conf['check_value']
+        config_path = '/var/lib/config-data/puppet-generated' \
+                      '/nova_libvirt/etc/nova/nova.conf'
+        check_section = 'compute'
+        check_value = 'cpu_shared_set'
 
         for srv in servers:
             LOG.info('Test emulatorpin for the {} instance'.format(srv['fip']))

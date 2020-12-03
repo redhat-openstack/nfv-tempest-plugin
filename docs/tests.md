@@ -145,17 +145,6 @@ Tests included:
   **Note** - The test suit only for RHOS version 14 and up, since the emulatorpin feature was implemented only in version 14.
   **Note** - The following extra spec should be added to the flavor on this test execution - "hw:emulator_threads_policy": "share"
   
-  ```
-  Test config:
-  - name: emulatorpin
-    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-    router: true
-    emulatorpin_config:
-      - config_path: '/var/lib/config-data/puppet-generated/nova_libvirt/etc/nova/nova.conf'
-        check_section: 'compute'
-        check_value: 'cpu_shared_set'
-  ```
-
 ----------
 #### TestDpdkScenarios:  
 Tests included:
