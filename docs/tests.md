@@ -3,9 +3,6 @@
 The detailed explanation of the tests and tests configuration.
 
 Current supported tests:
-- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_numa0_provider_network
-- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_numa1_provider_network
-- nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_numamix_provider_network
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_packages_compute
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_mtu_ping_test
 - nfv_tempest_plugin.tests.scenario.test_nfv_basic.TestNfvBasic.test_cold_migration
@@ -73,27 +70,12 @@ aggregate:
 ----------
 #### TestBasicEpa:  
 Tests included:
-- test_numa0_provider_network
-- test_numa1_provider_network
-- test_numamix_provider_network
 - test_cold_migration
   Test explanation:  
   Numa tests are testing the proper allocation and reservation of the virtual cores within numa nodes of the compute hypervisor according to the provided flavor with numa config specs.  
 
   ```
   Test config:
-  - name: numa0
-    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-    router: true
-
-  - name: numa1
-    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-1
-    router: true
-
-  - name: numamix
-    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-mix
-    router: true
-
   - name: cold-migration
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-mix
     router: true
