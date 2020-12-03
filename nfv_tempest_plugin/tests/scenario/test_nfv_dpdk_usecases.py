@@ -156,17 +156,18 @@ class TestDpdkScenarios(base_test.BaseTest):
 
         The test compares RX/TX value from the dumpxml of the running
         instance vs values of the overcloud nova configuration
-
-        Note! - The test suit only for RHOS version 14 and up, since the
-                rx/tx feature was implemented only in version 14.
         """
 
         servers, key_pair = self.create_and_verify_resources(test=test)
 
-        conf = self.test_setup_dict['rx_tx']['config_dict'][0]
-        config_path = conf['config_path']
-        check_section = conf['check_section']
-        check_value = conf['check_value']
+        check_section = 'libvirt'
+        check_value = 'rx_queue_size,tx_queue_size'
+        osp_release = self.get_osp_release()
+        if osp_release >= 13:
+            config_path = '/var/lib/config-data/puppet-generated/' \
+                          'nova_libvirt/etc/nova/nova.conf'
+        else:
+            config_path = '/etc/nova/nova.conf'
 
         for srv in servers:
             LOG.info('Test RX/TX for the {} instance'.format(srv['fip']))

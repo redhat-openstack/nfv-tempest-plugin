@@ -180,7 +180,7 @@ Tests included:
   The test boot three instances and send from one instance multicast traffic to other instances.
 
   ```
-  - name: multicast
+  - name: multicastnfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
   ```
@@ -189,18 +189,6 @@ Tests included:
   Test explanation:
   The test boots instances, takes the rx/tx value from the dumpxml of the running instance and compares
   it to the rx/tx values from the overcloud nova configuration.
-  **Note** - The test suit only for RHOS version 14 and up, since the rx/tx feature was implemented only in version 14.
-
-  ```
-  Test config:
-  - name: rx_tx
-    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-    router: true
-    rx_tx_config:
-      - config_path: '/var/lib/config-data/puppet-generated/nova_libvirt/etc/nova/nova.conf'
-        check_section: 'libvirt'
-        check_value: 'rx_queue_size,tx_queue_size'
-  ```
 
 ----------
 #### TestSriovScenarios:  
