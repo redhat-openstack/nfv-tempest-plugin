@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "050d79f2_f84633e0",
+        "filename": "setup.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-03T16:30:20Z",
+      "side": 1,
+      "message": "please replace to nfv-cloud-qe-team@redhat.com",
+      "range": {
+        "startLine": 21,
+        "startChar": 15,
+        "endLine": 21,
+        "endChar": 37
+      },
+      "revId": "b13e97f0191a576299824beeb810dc4101501b47",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
