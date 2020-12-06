@@ -88,5 +88,19 @@ NfvPluginOptions = [
                default=300,
                help='Timeout in seconds to wait for the '
                     'hypervisor reachability'),
-
+    cfg.ListOpt('hypervisor_packages',
+                default=['tuned-2.*', 'tuned-profiles-.*', 'openvswitch2.*'],
+                help='Packages that should exist on hypervisor'),
+    cfg.ListOpt('hypervisor_services',
+                default=['tuned', 'openvswitch'],
+                help='Services that should exist on hypervisor'),
+    cfg.StrOpt('hypervisor_tuned_profile',
+               default='cpu-partitioning',
+               help='Tuned active profile in hypervisor'),
+    cfg.ListOpt('hypervisor_kernel_args',
+                default=['hugepages', 'hugepagesz', 'default_hugepagesz',
+                         'iommu=pt', 'intel_iommu=on', 'isolcpus', 'nohz=on',
+                         'nohz_full', 'rcu_nocbs', 'tuned.non_isolcpus',
+                         'intel_pstate'],
+                help='Kernel arguments on hypervisor'),
 ]

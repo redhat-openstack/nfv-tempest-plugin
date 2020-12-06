@@ -102,24 +102,12 @@ Tests included:
   flavor - specifies the flavor that the instance should boot with.  
   router - Sets if the booted instance will get floating ip or direct access config.
 
-- test_packages_compute  
+- test_hypervisor_tuning  
   Test explanation:  
-  Package test:
-    - Checks if package exists on hypervisor.
-    - If provided - checks the active state of the service.
-    - If provided - checks the active state of the tuned profile.
-
-  ```
-  Test config:
-  - name: check-compute-packages
-    package-names:
-      - tuned-2.8.0-5.el7.noarch
-      - openvswitch-2.6.1-16.git20161206.el7ost.x86_64
-    service-names:
-      - tuned
-      - openvswitch
-    tuned-profile: cpu-partitioning
-  ```
+  - Checks the existence of provided packages
+  - Checks for the state of provided services
+  - Checks for the active tuned profile
+  - Checks for the required kernel arguments
 
 - test_mtu_ping_test  
   Test explanation:  
