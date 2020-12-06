@@ -53,6 +53,10 @@ NfvPluginOptions = [
     cfg.StrOpt('quota_ram',
                default=81920,
                help="The numbers of ram for the tenant use"),
+    cfg.IntOpt('instance_mtu',
+               default=None,
+               help="The mtu value for the instance to be tested. "
+                    "If not provided, tries to discover the mtu size."),
     cfg.BoolOpt('test_all_provider_networks',
                 default=False,
                 help="Verify provider networks attached to guests"),

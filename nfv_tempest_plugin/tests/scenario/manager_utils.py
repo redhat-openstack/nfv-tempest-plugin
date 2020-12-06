@@ -895,7 +895,7 @@ class ManagerMixin(object):
         if node is None:
             hyper_kwargs = {'shell': '/home/stack/stackrc'}
             node = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)[0]
-        network_backend = self.dicover_deployment_network_backend(node=node)
+        network_backend = self.discover_deployment_network_backend(node=node)
         if not keys:
             if network_backend == 'ovs':
                 hiera_bridge_mapping = \
@@ -1017,7 +1017,7 @@ class ManagerMixin(object):
                 'vcpu_free_per_numa': vcpu_free_per_numa,
                 'ram_free': ram_free}
 
-    def dicover_deployment_network_backend(self, node=None):
+    def discover_deployment_network_backend(self, node=None):
         """Locate deployment's network backend
 
         The method discovers the network backend used in deployment.
@@ -1046,3 +1046,41 @@ class ManagerMixin(object):
             network_backend = 'ovn'
         LOG.info("Discovered network backend '{}'".format(network_backend))
         return network_backend
+
+    def discover_mtu_network_size(self, fip=None, fixed_port=None):
+        """Discover mtu network size
+
+        Discover and return the size of MTU according to the network by
+        provided ip address.
+        Supports floating ip or fixed port addresses.
+        For VXLAN - 8922 and for VLAN - 8972.
+        For details, refer to:
+        https://oswalt.dev/2014/03/mtu-considerations-for-vxlan/
+
+        :param fip: Instance floating ip address
+        :param fixed_port: Instance internal (fixed) ip address
+        :return Mtu size int value
+        """
+        mtu = None
+        try:
+            if fip:
+                port_net_id = \
+                    self.os_admin.floating_ips_client.list_floatingips(
+                        floating_ip_address=fip)['floatingips'][0][
+                            'port_details']['network_id']
+            if fixed_port:
+                port_net_id = self.os_admin.ports_client.list_ports(
+                    fixed_ips="ip_address=" + fixed_port)['ports'][0][
+                        'network_id']
+        except IndexError:
+            err_msg = 'Unable to locate fip details - {}'.format(fip)
+            raise Exception(err_msg)
+        net_type = self.os_admin.networks_client.show_network(
+            port_net_id)['network']['provider:network_type']
+        if net_type == 'vxlan':
+            mtu = 8922
+        elif net_type == 'vlan':
+            mtu = 8972
+        else:
+            raise KeyError('Unable to locate network type for mtu')
+        return mtu
