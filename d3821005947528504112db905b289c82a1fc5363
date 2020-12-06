@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88abcebb_b24dd176",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-12-06T12:03:55Z",
+      "side": 1,
+      "message": "Maybe it is worth to mention here (or mention to refer to documentation) that the MTU value might be different between deployments.\nIt is based if there is VxLAN/VLAN frames.",
+      "range": {
+        "startLine": 57,
+        "startChar": 23,
+        "endLine": 57,
+        "endChar": 27
+      },
+      "revId": "d3821005947528504112db905b289c82a1fc5363",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
