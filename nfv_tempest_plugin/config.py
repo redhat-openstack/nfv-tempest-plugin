@@ -53,6 +53,12 @@ NfvPluginOptions = [
     cfg.StrOpt('quota_ram',
                default=81920,
                help="The numbers of ram for the tenant use"),
+    cfg.IntOpt('instance_def_gw_mtu',
+               default=None,
+               help="The default gateway mtu value for the instance to be "
+                    "tested. The test pings the default gateway from the "
+                    "default route interface. If not provided, tries to "
+                    "discover the mtu size."),
     cfg.BoolOpt('test_all_provider_networks',
                 default=False,
                 help="Verify provider networks attached to guests"),
@@ -92,5 +98,4 @@ NfvPluginOptions = [
                default=300,
                help='Timeout in seconds to wait for the '
                     'hypervisor reachability'),
-
 ]
