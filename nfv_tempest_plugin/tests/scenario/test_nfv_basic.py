@@ -13,6 +13,8 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import json
+
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
@@ -36,69 +38,78 @@ class TestNfvBasic(base_test.BaseTest):
         super(TestNfvBasic, self).setUp()
         # pre setup creations and checks read from config files
 
-    def _test_check_package_version(self, test_compute):
-        """Check provided packages, service and tuned profile on the compute
+    def test_hypevisor_tuning(self):
+        """Test tuning state of hypervisor
 
-        - If given - checks if packages are exist on hypervisor
-        - If given - checks if the services are at active state
-        - If given - checks the active state of the tuned-profile
-        * The test demands test_compute list
-
-        :param test_compute
+        Test the following states:
+          - Packages (given in config)
+          - Active services (given in config)
+          - Tuned active profile (given in config)
+          - Kernel arguments (given in config)
         """
-        self.assertTrue(self.test_setup_dict[test_compute],
-                        "test requires check-compute-packages "
-                        "list in external_config_file")
+        tuning_details = \
+            json.loads(CONF.nfv_plugin_options.hypervisor_tuning_details)
+        packages = tuning_details.get("packages")
+        services = tuning_details.get("services")
+        tuned_profiles = tuning_details.get("tuned_profiles")
+        kernel_args = tuning_details.get("kernel_args")
+
         hyper_kwargs = {'shell': CONF.nfv_plugin_options.undercloud_rc_file}
         self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
             **hyper_kwargs)[0]
-        self.assertNotEmpty(self.hypervisor_ip,
-                            "_get_hypervisor_ip_from_undercloud "
-                            "returned empty ip list")
+        self.assertNotEmpty(self.hypervisor_ip, "No hypervisor found")
+
         test_result = []
-        if 'package-names' in self.test_setup_dict[test_compute]:
-            packages = self.test_setup_dict[test_compute]['package-names']
-            if packages is not None:
-                for package in packages:
-                    cmd = "rpm -qa | grep {0}".format(package)
-                    result = shell_utils.\
-                        run_command_over_ssh(self.hypervisor_ip,
-                                             cmd).split()
-                    if result:
-                        test_result += result
+        if packages:
+            pkg_check = "rpm -qa | grep"
+            for package in packages:
+                tmpl = " -e ^{}"
+                pkg_check += tmpl.format(package)
+            result = shell_utils.run_command_over_ssh(self.hypervisor_ip,
+                                                      pkg_check).split()
+            if result:
+                if len(result) != len(packages):
+                    test_result.append("Missing required packages. "
+                                       "Found following packages: {}"
+                                       .format(result))
+                    LOG.info("Found the following packages: {}".format(result))
+            else:
+                test_result.append("Packages: no output received")
 
-        LOG.info("Found the following packages: %s" % '\n'.join(test_result))
-        del test_result[:]
+        if services:
+            svc_check = "systemctl is-active"
+            for service in services:
+                svc_check += " {}".format(service)
+            result = shell_utils.run_command_over_ssh(self.hypervisor_ip,
+                                                      svc_check).strip('\n')
+            if result:
+                if result.split('\n').count('active') != len(services):
+                    test_result.append("Some of the requested services are "
+                                       "not in an active state.")
+                LOG.info('The services states - {}'
+                         .format(list(zip(services, result.split('\n')))))
+            else:
+                test_result.append("Services: no output received")
 
-        if 'service-names' in self.test_setup_dict[test_compute]:
-            services = self.test_setup_dict[test_compute]['service-names']
-            if services is not None:
-                for service in services:
-                    cmd = "systemctl is-active {0}".format(service)
-                    result = shell_utils.\
-                        run_command_over_ssh(self.hypervisor_ip,
-                                             cmd).strip('\n')
-                    if result != 'active':
-                        test_result.append("The {0} service is not Active"
-                                           .format(service))
+        if tuned_profiles:
+            cmd = "sudo tuned-adm active | awk '{print $4}'"
+            result = shell_utils.run_command_over_ssh(self.hypervisor_ip,
+                                                      cmd).strip('\n')
+            if result not in tuned_profiles:
+                test_result.append("Tuned {0} profile is not Active"
+                                   .format(tuned_profiles))
 
-        if 'tuned-profile' in self.test_setup_dict[test_compute]:
-            tuned = self.test_setup_dict[test_compute]['tuned-profile']
-            if tuned is not None:
-                cmd = "sudo tuned-adm active | awk '{print $4}'"
-                result = shell_utils.run_command_over_ssh(
-                    self.hypervisor_ip, cmd).strip('\n')
-                if result != tuned:
-                    test_result.append("Tuned {0} profile is not Active"
-                                       .format(tuned))
-
-        kernel_args = ['nohz', 'nohz_full', 'rcu_nocbs', 'intel_pstate']
-        check_grub_cmd = "sudo cat /proc/cmdline"
-        result = shell_utils.\
-            run_command_over_ssh(self.hypervisor_ip, check_grub_cmd)
-        for arg in kernel_args:
-            if arg not in result:
-                test_result.append("Tuned not set in grub. Need to reboot?")
+        if kernel_args:
+            grub_output_cmd = "sudo cat /proc/cmdline"
+            result = shell_utils.run_command_over_ssh(self.hypervisor_ip,
+                                                      grub_output_cmd)
+            if result:
+                for arg in kernel_args:
+                    if arg not in result:
+                        test_result.append("The kernel args are missing - {}"
+                                           .format(arg))
+            else:
+                test_result.append("Kernel args: no output received")
 
         test_result = '\n'.join(test_result)
         self.assertEmpty(test_result, test_result)
@@ -143,9 +154,6 @@ class TestNfvBasic(base_test.BaseTest):
         msg = "MTU Ping test failed - check your environment settings"
         self.assertTrue(out, msg)
         LOG.info('The {} test passed.'.format(test))
-
-    def test_packages_compute(self):
-        self._test_check_package_version("check-compute-packages")
 
     def test_cold_migration(self, test='cold-migration'):
         """Test cold migration
