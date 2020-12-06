@@ -103,7 +103,7 @@ class TestNfvBasic(base_test.BaseTest):
         test_result = '\n'.join(test_result)
         self.assertEmpty(test_result, test_result)
 
-    def test_mtu_ping_test(self, test='test-ping-mtu', mtu=1973):
+    def test_mtu_ping_test(self, test='test-ping-mtu'):
         """Test MTU by pinging instance gateway
 
         The test boots an instance with given args from external_config_file,
@@ -119,9 +119,8 @@ class TestNfvBasic(base_test.BaseTest):
 
         servers, key_pair = self.create_and_verify_resources(test=test)
 
-        if 'mtu' in self.test_setup_dict[test]:
-            mtu = self.test_setup_dict[test]['mtu']
-            LOG.info('Set {} mtu for the test'.format(mtu))
+        mtu = CONF.nfv_plugin_options.instance_mtu
+        LOG.info('Set {} mtu for the test'.format(mtu))
 
         routers = self.os_admin.routers_client.list_routers()['routers']
         for router in routers:
