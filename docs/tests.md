@@ -211,35 +211,17 @@ Otherwise the test will create a flavor based on the parameters defined at the t
   This test tells neutron to create min_qos on sriov ports, provider.
   
   **Note** - Network capable Min Qos must be marked in test_network as min_qos=true/false. 
-  **Note** - Test config is shared with test_guests_with_min_bw. 
-  
-  ```
-  Test config:
-  - name: sriov_min_bw_qos 
-    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-    router: true
-    qos_rules: [{'min_kbps': '4000'}]
-  ```
-  
+
 - test_guests_with_min_bw
   Test explanation:
   Test Nova SRIOV min BW capabilities
   This test create vm with port direct port set with min_qos policy. 
   
   **Note** - Network capable Min Qos must be marked in test_network as min_qos=true/false.
-  **Note** - Test config is shared with test_guests_set_min_qos.
   **Note** - Train release test requires:
              - tempest microversion set to 2.72
              - nova parameter resource_provider_bandwidths 
   
-  ```
-  Test config:
-  - name: sriov_min_bw_qos
-    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-    router: true
-    qos_rules: [{'min_kbps': '4000'}]
-  ```
-
 ----------
 #### TestAdvancedScenarios:
 Tests included:
