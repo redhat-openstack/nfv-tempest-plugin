@@ -81,6 +81,10 @@ NfvPluginOptions = [
                help='Configuration for min qos rules.'
                     'The format is JSON. '
                     '"min_kbps":<kbps> - string '),
+    cfg.StrOpt('guest_min_qos_rules',
+               default='[{"min_kbps": 4000}]',
+               help='Configuration of min qos rules to test the apply of '
+                    'the rule on the active port'),
     cfg.BoolOpt('use_neutron_api_v2',
                 default=False,
                 help="Use neutron-tempest-plugin clients"),
