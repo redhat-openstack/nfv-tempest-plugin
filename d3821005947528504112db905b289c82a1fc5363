@@ -22,6 +22,30 @@
       "revId": "d3821005947528504112db905b289c82a1fc5363",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58acf258_aba513a0",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-07T08:09:17Z",
+      "side": 1,
+      "message": "+2\n\nI would take neutron approach, you can also reduce networks into here \nhttps://opendev.org/openstack/neutron-tempest-plugin/src/branch/master/neutron_tempest_plugin/config.py#L49",
+      "parentUuid": "88abcebb_b24dd176",
+      "range": {
+        "startLine": 57,
+        "startChar": 23,
+        "endLine": 57,
+        "endChar": 27
+      },
+      "revId": "d3821005947528504112db905b289c82a1fc5363",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
