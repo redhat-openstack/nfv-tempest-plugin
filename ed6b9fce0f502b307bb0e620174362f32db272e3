@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "42be80e6_0c3b9917",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-07T18:42:24Z",
+      "side": 1,
+      "message": "MHO, it should be one string parsed to json,\nsee sample tt \u003d \u0027{\"hypervisor_packages\": [\"tuned-2.*\", \"tuned-profiles-.*\", \"openvswitch2.*\"], \"hypervisor_services\": [\"tuned\", \"openvswitch\"]}\u0027\n\nAnd in the test, app_data \u003d json.loads(tt), in better way from config[name]\napp_data[\u0027hypervisor_services\u0027][0] is the 1st element",
+      "parentUuid": "0de5c6de_a918d490",
+      "range": {
+        "startLine": 91,
+        "startChar": 1,
+        "endLine": 105,
+        "endChar": 55
+      },
+      "revId": "ed6b9fce0f502b307bb0e620174362f32db272e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "527a3863_afcce7f6",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 3
