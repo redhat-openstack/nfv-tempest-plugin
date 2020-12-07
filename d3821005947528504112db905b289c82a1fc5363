@@ -118,6 +118,30 @@
       "revId": "d3821005947528504112db905b289c82a1fc5363",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66c59361_a07ef030",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-07T23:06:32Z",
+      "side": 1,
+      "message": "@Yariv,\nIt\u0027s not a matter of urgent.\nBut we spoke about it many times.\nNow, I have some time to invest in it, so why not to do it.\nThose are small changes for the tests but huge changes for the unnecessary external config file that should be reduced and in the perfect future, removed.\n\n@Vadim,\nThe big downside of the operator input, is that the operator needs to remember to check the value each time, deployment ype changes.\nWhy to not support the automatic discovery if possible.\nI have added a method to check the value of mtu.\nCurrently, supports vxlan and vlan but of course could be extended to more network types.",
+      "parentUuid": "a8aa0a8c_80c2902c",
+      "range": {
+        "startLine": 57,
+        "startChar": 23,
+        "endLine": 57,
+        "endChar": 27
+      },
+      "revId": "d3821005947528504112db905b289c82a1fc5363",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
