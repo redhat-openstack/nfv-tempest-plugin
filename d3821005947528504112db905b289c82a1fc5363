@@ -94,6 +94,30 @@
       "revId": "d3821005947528504112db905b289c82a1fc5363",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8aa0a8c_80c2902c",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-12-07T21:45:10Z",
+      "side": 1,
+      "message": "@Maxim,\nDon\u0027t think it is worthwhile to invest time in writing code to check what type of network.\nRemember that neutron can be either VLAN/VxLAN/Geneve/Flat.\nIn my personal opinion, the operator should know provide the optimal value.",
+      "parentUuid": "d407d312_be235824",
+      "range": {
+        "startLine": 57,
+        "startChar": 23,
+        "endLine": 57,
+        "endChar": 27
+      },
+      "revId": "d3821005947528504112db905b289c82a1fc5363",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
