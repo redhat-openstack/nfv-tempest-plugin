@@ -22,6 +22,30 @@
       "revId": "68f6b67bb662948609b18cdea281e136b3eed1cf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4b5773f_674b4ea5",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-07T07:56:25Z",
+      "side": 1,
+      "message": "Or to use the rule above \"min_qos_rules\" as you suggested yesterday.\nWhat do you say?",
+      "parentUuid": "9c8ac962_7dd945e8",
+      "range": {
+        "startLine": 84,
+        "startChar": 16,
+        "endLine": 84,
+        "endChar": 35
+      },
+      "revId": "68f6b67bb662948609b18cdea281e136b3eed1cf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
