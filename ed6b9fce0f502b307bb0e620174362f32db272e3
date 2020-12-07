@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9ad4730_9c0932db",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-07T08:03:26Z",
+      "side": 1,
+      "message": "In case it is running on RT, there are different packages\nWe need a comment that the test is running on non RT computes",
+      "range": {
+        "startLine": 97,
+        "startChar": 2,
+        "endLine": 98,
+        "endChar": 42
+      },
+      "revId": "ed6b9fce0f502b307bb0e620174362f32db272e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6f20a69_eb9ad3da",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-07T08:03:26Z",
+      "side": 1,
+      "message": "This one is going to changes soon, currently our templates are duplicating staff, i would consult skr about it",
+      "range": {
+        "startLine": 100,
+        "startChar": 3,
+        "endLine": 100,
+        "endChar": 41
+      },
+      "revId": "ed6b9fce0f502b307bb0e620174362f32db272e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fa39f82_53b4d937",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-07T08:03:26Z",
+      "side": 1,
+      "message": "You can use one string and read it as json\nsee config login_security_group_rules",
+      "range": {
+        "startLine": 91,
+        "startChar": 1,
+        "endLine": 105,
+        "endChar": 55
+      },
+      "revId": "ed6b9fce0f502b307bb0e620174362f32db272e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "527a3863_afcce7f6",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-07T08:03:26Z",
+      "side": 1,
+      "message": "this should move into json load from config file, see comment on config",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 52,
+        "endChar": 0
+      },
+      "revId": "ed6b9fce0f502b307bb0e620174362f32db272e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
