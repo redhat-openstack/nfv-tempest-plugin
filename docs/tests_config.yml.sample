@@ -91,45 +91,6 @@ test-flavors:
        "hw:cpu_policy": "dedicated"
        "hw:emulator_threads_policy": "share"   # Note! - This extra spec should be applied only starting from RHOSP 14
 
-  - name: m1.medium.huge_pages_cpu_pinning_numa_node-0
-    ram: 8192
-    disk: 20
-    vcpus: 6
-    extra_specs:
-     - "hw:mem_page_size": "1GB"
-       "hw:numa_mem.0": "2048"
-       "hw:numa_mempolicy": "strict"
-       "hw:numa_cpus.0": "0,1"
-       "hw:cpu_policy": "dedicated"
-       "hw:emulator_threads_policy": "share"   # Note! - This extra spec should be applied only starting from RHOSP 14
-
-  - name: m1.medium.huge_pages_cpu_pinning_numa_node-1
-    ram: 8192
-    disk: 20
-    vcpus: 6
-    extra_specs:
-     - "hw:mem_page_size": "1GB"
-       "hw:numa_mem.1": "2048"
-       "hw:numa_mempolicy": "strict"
-       "hw:numa_cpus.1": "0,1"
-       "hw:cpu_policy": "dedicated"
-       "hw:emulator_threads_policy": "share"   # Note! - This extra spec should be applied only starting from RHOSP 14
-
-  - name: m1.medium.huge_pages_cpu_pinning_numa_node-mix
-    ram: 8192
-    disk: 20
-    vcpus: 6
-    extra_specs:
-     - "hw:numa_nodes": "2"
-       "hw:mem_page_size": "1GB"
-       "hw:numa_mem.0": "1024"
-       "hw:numa_mem.1": "1024"
-       "hw:numa_mempolicy": "strict"
-       "hw:numa_cpus.0": "0"
-       "hw:numa_cpus.1": "1"
-       "hw:cpu_policy": "dedicated"
-       "hw:emulator_threads_policy": "share"   # Note! - This extra spec should be applied only starting from RHOSP 14
-
   - name: numa_aware_vswitch
     ram: 8192
     disk: 20
@@ -147,18 +108,6 @@ test_instance_repo:
   url: http://download.fedoraproject.org/pub/epel/7/x86_64/
 
 tests-setup:
-  - name: numa0
-    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-    router: true
-
-  - name: numa1
-    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-1
-    router: true
-
-  - name: numamix
-    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-mix
-    router: true
-
   - name: check-multiqueue-func
     flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
     router: true
