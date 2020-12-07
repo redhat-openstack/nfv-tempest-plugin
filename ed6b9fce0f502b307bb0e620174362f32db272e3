@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1d5caeec_5c9c555f",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-07T08:10:09Z",
+      "side": 1,
+      "message": "I good point.\nI can think of the following solution - list possible tuned profiles that we are using in our deployments and iterated over them to look if one of them is actually active.\nIn that case ,we are covering all available profiles that we need to use without the need of reconfiguring that specific configuration.\n\nThoughts?",
+      "parentUuid": "c9ad4730_9c0932db",
+      "range": {
+        "startLine": 97,
+        "startChar": 2,
+        "endLine": 98,
+        "endChar": 42
+      },
+      "revId": "ed6b9fce0f502b307bb0e620174362f32db272e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6f20a69_eb9ad3da",
         "filename": "nfv_tempest_plugin/config.py",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2020-12-07T08:03:26Z",
       "side": 1,
       "message": "This one is going to changes soon, currently our templates are duplicating staff, i would consult skr about it",
+      "range": {
+        "startLine": 100,
+        "startChar": 3,
+        "endLine": 100,
+        "endChar": 41
+      },
+      "revId": "ed6b9fce0f502b307bb0e620174362f32db272e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdc4b649_7f6dd91f",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-07T08:10:09Z",
+      "side": 1,
+      "message": "Ok, Once changing, we will modify it accordingly.\nCurrently, we do check this stuff.",
+      "parentUuid": "a6f20a69_eb9ad3da",
       "range": {
         "startLine": 100,
         "startChar": 3,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0de5c6de_a918d490",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-07T08:10:09Z",
+      "side": 1,
+      "message": "The \"login_security_group_rules\" is a list of dictionaries.\nHere, it is a pure list and uses a dedicated cfg option - cfg.ListOpt.",
+      "parentUuid": "8fa39f82_53b4d937",
+      "range": {
+        "startLine": 91,
+        "startChar": 1,
+        "endLine": 105,
+        "endChar": 55
+      },
+      "revId": "ed6b9fce0f502b307bb0e620174362f32db272e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "527a3863_afcce7f6",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2020-12-07T08:03:26Z",
       "side": 1,
       "message": "this should move into json load from config file, see comment on config",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 52,
+        "endChar": 0
+      },
+      "revId": "ed6b9fce0f502b307bb0e620174362f32db272e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b278ea5b_2437ba1b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-07T08:10:09Z",
+      "side": 1,
+      "message": "I will check if that is a good option to be used.",
+      "parentUuid": "527a3863_afcce7f6",
       "range": {
         "startLine": 48,
         "startChar": 8,
