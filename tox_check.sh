@@ -1,14 +1,14 @@
 #!/bin/bash
 
 set -euxo pipefail
-export TOXENV="pep8,py27,py3"
+export TOXENV="pep8,py3"
 
 show_help() {
     cat <<-END
     Usage:
     ------
     The tox_check script will execute tox.ini configuration and provided TOXENV parameters.
-    By default it will execute - pip8, py27, py3
+    By default it will execute - pip8, py3
 
     The user is able to override the parameters by specifying the --env flag.
 
