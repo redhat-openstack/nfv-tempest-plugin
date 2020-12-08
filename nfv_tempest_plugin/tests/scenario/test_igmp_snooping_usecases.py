@@ -47,7 +47,7 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
         LOG.info('Starting {} test.'.format(test))
 
         hypervisors = self._get_hypervisor_ip_from_undercloud(
-            shell='/home/stack/stackrc')
+            shell=CONF.nfv_plugin_options.undercloud_rc_file)
 
         result = []
         cmd = 'sudo ovs-vsctl --format=json list bridge br-int'
@@ -160,7 +160,7 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
         LOG.info('Starting {} test.'.format(test))
 
         hypervisor_ips = self._get_hypervisor_ip_from_undercloud(
-            shell='/home/stack/stackrc')
+            shell=CONF.nfv_plugin_options.undercloud_rc_file)
         cmd = 'sudo systemctl restart openvswitch.service'
         for hyp in hypervisor_ips:
             shell_utils.run_command_over_ssh(hyp, cmd)
