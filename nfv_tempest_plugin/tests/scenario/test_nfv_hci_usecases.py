@@ -110,7 +110,7 @@ class TestHciScenarios(base_test.BaseTest):
         :param test: Test name from the config file
         """
         LOG.info('Execute ceph health status test command')
-        hyper_kwargs = {'shell': '/home/stack/stackrc'}
+        hyper_kwargs = {'shell': CONF.nfv_plugin_options.undercloud_rc_file}
         controller_ip = shell_utils.\
             get_controllers_ip_from_undercloud(**hyper_kwargs)[0]
         cmd = "sudo docker exec ceph-mon-`hostname` ceph -s | grep health | "\

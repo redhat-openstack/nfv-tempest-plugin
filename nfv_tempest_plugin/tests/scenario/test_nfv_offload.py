@@ -43,7 +43,7 @@ class TestNfvOffload(base_test.BaseTest):
                "other_config:hw-offload")
         # Retrieve all hypvervisors
         hypervisors = self._get_hypervisor_ip_from_undercloud(
-            shell='/home/stack/stackrc')
+            shell=CONF.nfv_plugin_options.undercloud_rc_file)
         # Intialize results list
         result = []
         # Expected result is a list of dicts, each dict contains
@@ -78,7 +78,7 @@ class TestNfvOffload(base_test.BaseTest):
             raise ValueError('offload_nics is not defined in offload test')
         # Retrieve all hypvervisors
         hypervisors = self._get_hypervisor_ip_from_undercloud(
-            shell='/home/stack/stackrc')
+            shell=CONF.nfv_plugin_options.undercloud_rc_file)
         # ethtool cmd to retrieve PCI bus of interface
         ethtool_cmd = ("sudo ethtool -i {} | grep bus-info "
                        "| cut -d ':' -f 2,3,4 | awk '{{$1=$1}};1'")
@@ -150,7 +150,7 @@ class TestNfvOffload(base_test.BaseTest):
         # Pings are running check flows exist
         # Retrieve all hypvervisors
         hypervisors = self._get_hypervisor_ip_from_undercloud(
-            shell='/home/stack/stackrc')
+            shell=CONF.nfv_plugin_options.undercloud_rc_file)
         # Command to check offloaded flows in OVS
         cmd = 'sudo ovs-appctl dpctl/dump-flows type=offloaded'
         for hypervisor in hypervisors:
