@@ -213,6 +213,30 @@
       "revId": "d3821005947528504112db905b289c82a1fc5363",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1b8cdd8_dcad07fa",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-08T15:39:43Z",
+      "side": 1,
+      "message": "Look at the last patch.\nI have added a method to discover the mtu from the network.\nIf the mtu value will not be overridden from the tempest.conf, the test will discover the mtu size automatically.",
+      "parentUuid": "a71b8934_0ae999d4",
+      "range": {
+        "startLine": 122,
+        "startChar": 8,
+        "endLine": 122,
+        "endChar": 50
+      },
+      "revId": "d3821005947528504112db905b289c82a1fc5363",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
