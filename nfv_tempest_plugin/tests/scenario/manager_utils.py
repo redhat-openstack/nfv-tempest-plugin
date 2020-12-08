@@ -205,7 +205,8 @@ class ManagerMixin(object):
         :return OSP version integer
         """
         if not hypervisor:
-            hyper_kwargs = {'shell': '/home/stack/stackrc'}
+            hyper_kwargs = {'shell':
+                            CONF.nfv_plugin_options.undercloud_rc_file}
             hypervisor = self._get_hypervisor_ip_from_undercloud(
                 **hyper_kwargs)[0]
         ver = shell_utils.\
@@ -382,7 +383,8 @@ class ManagerMixin(object):
         :return Two lists of dedicated and shared cpus set
         """
         if not node:
-            hyper_kwargs = {'shell': '/home/stack/stackrc'}
+            hyper_kwargs = {'shell':
+                            CONF.nfv_plugin_options.undercloud_rc_file}
             node = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)[0]
         if not keys:
             hiera_dedicated_cpus = "nova::compute::cpu_dedicated_set"
@@ -475,7 +477,7 @@ class ManagerMixin(object):
     def check_number_queues(self):
         """This method checks the number of max queues"""
         self.ip_address = self._get_hypervisor_ip_from_undercloud(
-            **{'shell': '/home/stack/stackrc'})
+            **{'shell': CONF.nfv_plugin_options.undercloud_rc_file})
         ovs_process_pid = shell_utils.check_pid_ovs(self.ip_address[0])
         count_pmd = "ps -T -p {} | grep pmd | wc -l".format(ovs_process_pid)
         numpmds = int(shell_utils.run_command_over_ssh(self.ip_address[0],
@@ -717,7 +719,7 @@ class ManagerMixin(object):
         :return statistics
         """
         self.ip_address = self._get_hypervisor_ip_from_undercloud(
-            **{'shell': '/home/stack/stackrc'})
+            **{'shell': CONF.nfv_plugin_options.undercloud_rc_file})
         hypervisor_ip = self.ip_address[0]
         if hypervisor is not None:
             if hypervisor not in self.ip_address:
@@ -762,7 +764,7 @@ class ManagerMixin(object):
         :return multicast groups
         """
         self.ip_address = self._get_hypervisor_ip_from_undercloud(
-            **{'shell': '/home/stack/stackrc'})
+            **{'shell': CONF.nfv_plugin_options.undercloud_rc_file})
         hypervisor_ip = self.ip_address[0]
         if hypervisor is not None:
             if hypervisor not in self.ip_address:
@@ -893,7 +895,8 @@ class ManagerMixin(object):
         :return The numa physnets dict is returned
         """
         if node is None:
-            hyper_kwargs = {'shell': '/home/stack/stackrc'}
+            hyper_kwargs = {'shell':
+                            CONF.nfv_plugin_options.undercloud_rc_file}
             node = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)[0]
         network_backend = self.dicover_deployment_network_backend(node=node)
         if not keys:
@@ -1032,7 +1035,8 @@ class ManagerMixin(object):
             'enabled_services'
         ]
         if node is None:
-            hyper_kwargs = {'shell': '/home/stack/stackrc'}
+            hyper_kwargs = {'shell':
+                            CONF.nfv_plugin_options.undercloud_rc_file}
             node = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)[0]
         hiera_response = \
             shell_utils.retrieve_content_from_hiera(node=node,

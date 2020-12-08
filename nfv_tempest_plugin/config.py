@@ -81,6 +81,10 @@ NfvPluginOptions = [
                help='Configuration for min qos rules.'
                     'The format is JSON. '
                     '"min_kbps":<kbps> - string '),
+    cfg.StrOpt('undercloud_rc_file',
+               default='/home/stack/stackrc',
+               help="Full path to undercloud rc file"
+                    "usually called stackrc"),
     cfg.BoolOpt('use_neutron_api_v2',
                 default=False,
                 help="Use neutron-tempest-plugin clients"),

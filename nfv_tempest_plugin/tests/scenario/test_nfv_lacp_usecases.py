@@ -56,7 +56,7 @@ class TestLacpScenarios(base_test.BaseTest):
 
         if hypervisor_ip is None:
             hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
-                shell='/home/stack/stackrc')[0]
+                shell=CONF.nfv_plugin_options.undercloud_rc_file)[0]
 
         bonding_dict = {}
         test_setup_dict = self.test_setup_dict[test]
@@ -201,7 +201,7 @@ class TestLacpScenarios(base_test.BaseTest):
         LOG.info('Starting restart_ovs test.')
 
         hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
-            shell='/home/stack/stackrc')[0]
+            shell=CONF.nfv_plugin_options.undercloud_rc_file)[0]
 
         cmd = 'sudo systemctl restart openvswitch.service'
         shell_utils.run_command_over_ssh(hypervisor_ip, cmd)

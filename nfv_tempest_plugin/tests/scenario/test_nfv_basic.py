@@ -49,7 +49,7 @@ class TestNfvBasic(base_test.BaseTest):
         self.assertTrue(self.test_setup_dict[test_compute],
                         "test requires check-compute-packages "
                         "list in external_config_file")
-        hyper_kwargs = {'shell': '/home/stack/stackrc'}
+        hyper_kwargs = {'shell': CONF.nfv_plugin_options.undercloud_rc_file}
         self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
             **hyper_kwargs)[0]
         self.assertNotEmpty(self.hypervisor_ip,
