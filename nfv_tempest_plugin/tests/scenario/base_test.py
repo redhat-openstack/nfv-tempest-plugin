@@ -145,7 +145,8 @@ class BaseTest(baremetal_manager.BareMetalManager):
                 srv['fip'], srv['id']))
 
             srv['hypervisor_ip'] = self._get_hypervisor_ip_from_undercloud(
-                **{'shell': '/home/stack/stackrc', 'server_id': srv['id']})[0]
+                **{'shell': CONF.nfv_plugin_options.undercloud_rc_file,
+                   'server_id': srv['id']})[0]
             self.assertNotEmpty(srv['hypervisor_ip'],
                                 "_get_hypervisor_ip_from_undercloud "
                                 "returned empty ip list")
