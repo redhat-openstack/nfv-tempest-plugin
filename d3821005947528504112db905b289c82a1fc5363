@@ -142,6 +142,30 @@
       "revId": "d3821005947528504112db905b289c82a1fc5363",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a94cbf6f_b8d89509",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-08T09:22:47Z",
+      "side": 1,
+      "message": "\u003e @Yariv,\n\u003e It\u0027s not a matter of urgent.\n\u003e But we spoke about it many times.\n\u003e Now, I have some time to invest in it, so why not to do it.\n\u003e Those are small changes for the tests but huge changes for the unnecessary external config file that should be reduced and in the perfect future, removed.\n\u003e \n\nMHO, we could replace the test-network from ci_config.yml and move it into config file.\nSince network already implemented, there and we use tempest-input.config, \nWe can add the topology anyway, and MTU test can receive mtu param from each network.\n\nI do not think it is right to put parameters per tests in tempest.conf.\nThis is why i dislike the solution 😊  \n\n\u003e @Vadim,\n\u003e The big downside of the operator input, is that the operator needs to remember to check the value each time, deployment ype changes.\n\u003e Why to not support the automatic discovery if possible.\n\u003e I have added a method to check the value of mtu.\n\u003e Currently, supports vxlan and vlan but of course could be extended to more network types.\n\nSpeaking of operators,\nThe operator can be set in tempest.conf, again the usage of tempest-input.conf for the help.\n\n@Maxim, please ask other opinion",
+      "parentUuid": "66c59361_a07ef030",
+      "range": {
+        "startLine": 57,
+        "startChar": 23,
+        "endLine": 57,
+        "endChar": 27
+      },
+      "revId": "d3821005947528504112db905b289c82a1fc5363",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
