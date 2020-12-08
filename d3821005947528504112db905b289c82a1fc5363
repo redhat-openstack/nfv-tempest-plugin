@@ -166,6 +166,29 @@
       "revId": "d3821005947528504112db905b289c82a1fc5363",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c808f26_fef9c660",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-08T09:35:46Z",
+      "side": 1,
+      "message": "Id not it wiser? to receive MTU from network? instead of configuration?\nThis we could extent the test later on extra ports, just suggesting",
+      "range": {
+        "startLine": 122,
+        "startChar": 8,
+        "endLine": 122,
+        "endChar": 50
+      },
+      "revId": "d3821005947528504112db905b289c82a1fc5363",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
