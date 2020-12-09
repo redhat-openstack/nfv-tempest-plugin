@@ -70,6 +70,30 @@
       "revId": "68f6b67bb662948609b18cdea281e136b3eed1cf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afdb1639_70236f96",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-09T06:45:07Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "16f0fffa_8fa73ae9",
+      "range": {
+        "startLine": 84,
+        "startChar": 16,
+        "endLine": 84,
+        "endChar": 35
+      },
+      "revId": "68f6b67bb662948609b18cdea281e136b3eed1cf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
