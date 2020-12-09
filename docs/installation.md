@@ -16,13 +16,21 @@ By default nfv-tempest-plugin planned to run from TripleO Undercloud host (used 
 2. Activate the tempest virtual env.
 3. Browse to the nfv-tempest-plugin cloned directory and install the nfv plugin:  
    `$ pip install --upgrade -e .`
-4. Generate tempest.conf with [tempestconf cli-option](https://docs.openstack.org/python-tempestconf/latest/cli/cli_options.html)
+4. create external network and subnet with: 
+
+   `$ openstack network create --external --share --enable --project admin --mtu 9000 --no-default --provider-network-type vlan --provider-physical-network <PHYSNET> --provider-segment <PROVIDER_VLAN> <NETWORK_NAME>`  
+   `$ openstack subnet create --allocation-pool start=<START>,end=<END> --subnet-range <SUBNET_CIDER> --dns-nameserver <DNS_SERVER> --dns-nameserver <DNS_SERVER> --dhcp --gateway <GATEWAY> --ip-version 4 --network <NETWORK_NAME> <SUBNET_NAME>`
+5. create router and port connected to the external network:
+
+   `$ openstack router create --ha router1`  
+   `$ openstack router set --external-gateway <NETWORK_NAME> router1` 
+6. Generate tempest.conf with [tempestconf cli-option](https://docs.openstack.org/python-tempestconf/latest/cli/cli_options.html)
    Copy [tempest-sample-input-file](./tempest-deployer-input.conf.sample) and rename to tempest-deployer-input.conf  
    **Note:** for tempest-deployer-input.conf parameter required, please visit  
    [tests-description](./tests.md) and [tests-pre-requisites](./tests_prerequisites_config.md)  
 
    `$ source overcloudrc`  
-   `$ discover-tempest-config --out <OUTPUT_PATH>/tempest.conf --deployer-input <PATH>/tempest-deployer-input.conf --debug --create --image "<IMAGE_PATH>/rhel-guest-image-7-6-210-x86-64-qcow2"   --network-id $(openstack network show access -f value -c id) compute.flavor_ref $(openstack flavor show <nfv-flavor> -c id -f value)`  
+   `$ discover-tempest-config --out <OUTPUT_PATH>/tempest.conf --deployer-input <PATH>/tempest-deployer-input.conf --debug --create --image "<IMAGE_PATH>/rhel-guest-image-7-6-210-x86-64-qcow2"   --network-id $(openstack network show <NETWORK_NAME> -f value -c id) compute.flavor_ref $(openstack flavor show <nfv-flavor> -c id -f value)`  
 
    **Note:** nfv-flavor used tests use Centos/Rhel images with the following:  
    flavor disk >= 20, ram >= 2048, vcpus >=4  
@@ -32,11 +40,11 @@ By default nfv-tempest-plugin planned to run from TripleO Undercloud host (used 
    **Note:** for dpdk tests set extraspecs in flavors  
    `hw:mem_page_size": "1GB"`  
 
-5. Test the installed plugin:  
+7. Test the installed plugin:  
    `$ pip list | grep -i nfv`  
    Expected output:  
    `nfv-plugin (1.0.0.dev67, /root/tempest/nfv-tempest-plugin)`
-6. Browse to the main tempest directory and list NFV tests:  
+8. Browse to the main tempest directory and list NFV tests:  
    `$ testr list-tests | grep -i nfv`  
    Expected output:  
    `(output omitted)
@@ -44,7 +52,13 @@ By default nfv-tempest-plugin planned to run from TripleO Undercloud host (used 
    nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_min_queues_functionality
    nfv_tempest_plugin.tests.scenario.test_nfv_dpdk_usecases.TestDpdkScenarios.test_odd_queues_functionality
    (output omitted)`
-
+9. Create required flavors with:
+   `$ openstack flavor create --ram 8192 --disk 20 --vcpus 6 --property "hw:mem_page_size=1GB" --property "hw:numa_mem.0=8192" --property "hw:numa_mempolicy=strict" --property "hw:numa_cpus.0=0,1,2,3,4,5" --property "hw:cpu_policy=dedicated" --property "hw:emulator_threads_policy=share" m1.medium.huge_pages_cpu_pinning_numa_node-0`  
+   `$ openstack flavor create --ram 8192 --disk 20 --vcpus 6  --property "hw:mem_page_size=1GB" --property "hw:numa_mem.1=8192" --property "hw:numa_mempolicy=strict" --property "hw:numa_cpus.1=0,1,2,3,4,5" --property "hw:cpu_policy=dedicated" --property "hw:emulator_threads_policy=share"  m1.medium.huge_pages_cpu_pinning_numa_node-1`  
+   `$ openstack flavor create --ram 8192 --disk 20 --vcpus 6  --property "hw:numa_nodes=2"      --property "hw:mem_page_size=1GB"      --property "hw:numa_mem.0=4096"      --property "hw:numa_mem.1=4096"      --property "hw:numa_mempolicy=strict"      --property "hw:numa_cpus.0=0,1,2"      --property "hw:numa_cpus.1=3,4,5"      --property "hw:cpu_policy=dedicated"      --property "hw:emulator_threads_policy=share" m1.medium.huge_pages_cpu_pinning_numa_node-mix`  
+   `$ openstack flavor create --ram 8192 --disk 20 --vcpus 6 --property "hw:mem_page_size=large" --property "hw:cpu_policy=dedicated" --property "hw:emulator_threads_policy=share" nfv_qe_base_flavor`
+   
+   **Note:** the flavor names should be corresponding with the flavor names in the external_config_file
 ### Automatic installation, configuration and tests run:
 Automatic installation, configuration and tests running is available by using ansible playbook from [Ansible NFV](https://github.com/redhat-openstack/ansible-nfv) repository.
 

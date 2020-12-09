@@ -49,7 +49,7 @@ class TestNfvBasic(base_test.BaseTest):
         self.assertTrue(self.test_setup_dict[test_compute],
                         "test requires check-compute-packages "
                         "list in external_config_file")
-        hyper_kwargs = {'shell': '/home/stack/stackrc'}
+        hyper_kwargs = {'shell': CONF.nfv_plugin_options.undercloud_rc_file}
         self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
             **hyper_kwargs)[0]
         self.assertNotEmpty(self.hypervisor_ip,
@@ -144,54 +144,6 @@ class TestNfvBasic(base_test.BaseTest):
         self.assertTrue(out, msg)
         LOG.info('The {} test passed.'.format(test))
 
-    def test_numa0_provider_network(self, test='numa0'):
-        """Verify numa configuration on instance
-
-        The test instance allocation on the selected numa cell.
-        """
-        servers, key_pair = self.create_and_verify_resources(test=test)
-        command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
-        result = shell_utils.\
-            run_command_over_ssh(servers[0]['hypervisor_ip'],
-                                 command)
-        self.assertTrue(int(result[0]) == 2)
-        LOG.info('Check instance vcpu')
-        self.match_vcpu_to_numa_node(servers[0], servers[0]['hypervisor_ip'],
-                                     test[4:])
-        LOG.info('The {} test passed.'.format(test))
-
-    def test_numa1_provider_network(self, test='numa1'):
-        """Verify numa configuration on instance
-
-        The test instance allocation on the selected numa cell.
-        """
-        servers, key_pair = self.create_and_verify_resources(test=test)
-        command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
-        result = shell_utils.\
-            run_command_over_ssh(servers[0]['hypervisor_ip'],
-                                 command)
-        self.assertTrue(int(result[0]) == 2)
-        LOG.info('Check instance vcpu')
-        self.match_vcpu_to_numa_node(servers[0], servers[0]['hypervisor_ip'],
-                                     test[4:])
-        LOG.info('The {} test passed.'.format(test))
-
-    def test_numamix_provider_network(self, test='numamix'):
-        """Verify numa configuration on instance
-
-        The test instance allocation on the selected numa cell.
-        """
-        servers, key_pair = self.create_and_verify_resources(test=test)
-        command = "lscpu | grep 'NUMA node(s)' | awk {'print $3'}"
-        result = shell_utils.\
-            run_command_over_ssh(servers[0]['hypervisor_ip'],
-                                 command)
-        self.assertTrue(int(result[0]) == 2)
-        LOG.info('Check instance vcpu')
-        self.match_vcpu_to_numa_node(servers[0], servers[0]['hypervisor_ip'],
-                                     test[4:])
-        LOG.info('The {} test passed.'.format(test))
-
     def test_packages_compute(self):
         self._test_check_package_version("check-compute-packages")
 
@@ -232,10 +184,10 @@ class TestNfvBasic(base_test.BaseTest):
 
         servers, key_pair = self.create_and_verify_resources(test=test)
 
-        conf = self.test_setup_dict['emulatorpin']['config_dict'][0]
-        config_path = conf['config_path']
-        check_section = conf['check_section']
-        check_value = conf['check_value']
+        config_path = '/var/lib/config-data/puppet-generated' \
+                      '/nova_libvirt/etc/nova/nova.conf'
+        check_section = 'compute'
+        check_value = 'cpu_shared_set'
 
         for srv in servers:
             LOG.info('Test emulatorpin for the {} instance'.format(srv['fip']))

@@ -495,7 +495,7 @@ class TestDeriveParamsScenarios(base_test.BaseTest):
         host_params = {}
         failures = []
         hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
-            shell='/home/stack/stackrc')[0]
+            shell=CONF.nfv_plugin_options.undercloud_rc_file)[0]
 
         dpdk_status, sriov_status = self._get_node_nfv_status(hypervisor_ip)
         derived_params = self._derive_parameters(hypervisor_ip,
