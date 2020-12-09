@@ -46,6 +46,30 @@
       "revId": "363a5003bbe1830675bfc70c71c6dbd8dff8cf53",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b78c327_deec8307",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-09T11:12:44Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think that the parameter should be renamed to \"instance_fed_gw_mtu\" because it is not important what are we pinging.\nWe have 3 networks, at least.\n\nAssume this test will be upgraded, or different tests are added for mtu, such as ping over provider networks, at least the name should give a clue why it is used, and diserver special mtu parameter, it pings default gw through default route.\n\n\u003e It is important, what is the size of the mgmt network that test instance is using. So, if the size of the mtu will be different for the mgmt instance network, the value of the mtu will be different.\n\nI would like to hear others",
+      "parentUuid": "fcd5b321_c85a58a1",
+      "range": {
+        "startLine": 124,
+        "startChar": 8,
+        "endLine": 124,
+        "endChar": 48
+      },
+      "revId": "363a5003bbe1830675bfc70c71c6dbd8dff8cf53",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
