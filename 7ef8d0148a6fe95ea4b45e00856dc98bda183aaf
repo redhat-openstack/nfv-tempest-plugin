@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1e9ab25_94371c1a",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-09T08:04:43Z",
+      "side": 1,
+      "message": "I would recommend add methods in the file for ovn/ovs checks",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 37
+      },
+      "revId": "7ef8d0148a6fe95ea4b45e00856dc98bda183aaf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "884be966_f61c7133",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-09T08:04:43Z",
+      "side": 1,
+      "message": "Can you please explain,\n\n* why this code is not running for ovs-also?\nI do not see the parameter on 16.1 ovs templates, \nIs it because of ovn networking?",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 39
+      },
+      "revId": "7ef8d0148a6fe95ea4b45e00856dc98bda183aaf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
