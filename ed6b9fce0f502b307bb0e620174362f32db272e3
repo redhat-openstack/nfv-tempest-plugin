@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3132c724_1e80e72c",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-09T08:09:18Z",
+      "side": 1,
+      "message": "We could maintain dict for RT and non RT but as per now i think it is enough to cover the Dict for non RT, with a comment in the test w/todo",
+      "parentUuid": "1d5caeec_5c9c555f",
+      "range": {
+        "startLine": 97,
+        "startChar": 2,
+        "endLine": 98,
+        "endChar": 42
+      },
+      "revId": "ed6b9fce0f502b307bb0e620174362f32db272e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6f20a69_eb9ad3da",
         "filename": "nfv_tempest_plugin/config.py",
         "patchSetId": 3
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Ok, Once changing, we will modify it accordingly.\nCurrently, we do check this stuff.",
       "parentUuid": "a6f20a69_eb9ad3da",
+      "range": {
+        "startLine": 100,
+        "startChar": 3,
+        "endLine": 100,
+        "endChar": 41
+      },
+      "revId": "ed6b9fce0f502b307bb0e620174362f32db272e3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11235e57_048506bd",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-09T08:09:18Z",
+      "side": 1,
+      "message": "Ack, prefer to have comment in some thing like: RHEL8.2 and up, Kernel args should not contain isolcpus w/todo in test",
+      "parentUuid": "fdc4b649_7f6dd91f",
       "range": {
         "startLine": 100,
         "startChar": 3,
