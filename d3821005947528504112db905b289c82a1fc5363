@@ -261,6 +261,30 @@
       "revId": "d3821005947528504112db905b289c82a1fc5363",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f303bdd6_11e090cd",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-09T07:53:41Z",
+      "side": 1,
+      "message": "This comment relates to the patchset 1.\nThe last patchset of this patch is 4.\nIf you will look on the last patch set, you will see that I have added a value to the plugin config called \"instance_mtu\".\nBy default, it set to None. It gives the used ability to override and set specific mtu size to be tested.\n\nThe test checks for the default value (by default None), and if it is None, it calls for the method which descovers the size of mtu by the network.",
+      "parentUuid": "8abdbacd_31e01675",
+      "range": {
+        "startLine": 122,
+        "startChar": 8,
+        "endLine": 122,
+        "endChar": 50
+      },
+      "revId": "d3821005947528504112db905b289c82a1fc5363",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
