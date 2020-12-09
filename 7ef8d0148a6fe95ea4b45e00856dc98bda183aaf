@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2f458017_86a761b7",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-12-09T11:36:53Z",
+      "side": 1,
+      "message": "Which file?\nIf you mean global check instead testing it per each test, this is something I\u0027m planning to work later on.",
+      "parentUuid": "f1e9ab25_94371c1a",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 37
+      },
+      "revId": "7ef8d0148a6fe95ea4b45e00856dc98bda183aaf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "37cdcc5a_8a1e6692",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
         "patchSetId": 11
@@ -36,6 +60,30 @@
       "writtenOn": "2020-12-09T11:13:05Z",
       "side": 1,
       "message": "Does the ovn deployment places the \u0027igmp_snooping_enable\u0027 under the \u0027ovs\u0027 section?",
+      "range": {
+        "startLine": 100,
+        "startChar": 54,
+        "endLine": 100,
+        "endChar": 57
+      },
+      "revId": "7ef8d0148a6fe95ea4b45e00856dc98bda183aaf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cec0f6a5_ce69a417",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-12-09T11:36:53Z",
+      "side": 1,
+      "message": "Yes,\nIn OVN deployments, this attribute is populated when enabling IGMP.",
+      "parentUuid": "37cdcc5a_8a1e6692",
       "range": {
         "startLine": 100,
         "startChar": 54,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0ee69d37_0ac828a8",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-12-09T11:36:53Z",
+      "side": 1,
+      "message": "As far as I know, there is no parameter to enable IGMP through TripleO for OVS deployments.\nIn our CI, Miguel added a post script that enabled IGMP via shell commands.",
+      "parentUuid": "884be966_f61c7133",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 39
+      },
+      "revId": "7ef8d0148a6fe95ea4b45e00856dc98bda183aaf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b5653bed_2f1d2b77",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
         "patchSetId": 11
@@ -82,6 +154,30 @@
       "writtenOn": "2020-12-09T11:13:05Z",
       "side": 1,
       "message": "Do you need to restart the openvswitch service even if the deployment if ovn?\nCurrently, it restart the service in both deployments - ovs and ovn.",
+      "range": {
+        "startLine": 211,
+        "startChar": 8,
+        "endLine": 211,
+        "endChar": 15
+      },
+      "revId": "7ef8d0148a6fe95ea4b45e00856dc98bda183aaf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dcc0ecb_db77d473",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2020-12-09T11:36:53Z",
+      "side": 1,
+      "message": "OVN is leveraging OVS.\nI\u0027m unsure if for this particular case there is a reason to restart OVS, but I saw no harm in leaving this, although from what I understood, all IGMP related stuff is stored in OVN DBs and not OVS.",
+      "parentUuid": "b5653bed_2f1d2b77",
       "range": {
         "startLine": 211,
         "startChar": 8,
