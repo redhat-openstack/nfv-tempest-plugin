@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c003c93f_bdfda535",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-09T08:23:41Z",
+      "side": 1,
+      "message": "\u003e This comment relates to the patchset 1.\n\u003e The last patchset of this patch is 4.\n\u003e If you will look on the last patch set, you will see that I have added a value to the plugin config called \"instance_mtu\".\nAck, my mistake, sorry\n\u003e By default, it set to None. It gives the used ability to override and set specific mtu size to be tested.\n\u003e \n\u003e The test checks for the default value (by default None), and if it is None, it calls for the method which descovers the size of mtu by the network.\n\nSo in that case it parameter should be renamed to  instance_def_gw_mtu, since current test pings the default GW, don\u0027t you think?\n\nNote: this test could be useful whenever we have fip issues.\n\nif we run the test with ssh from the controllers namespace we have bidirectional verification to the instance inside mgmt network 😊",
+      "range": {
+        "startLine": 124,
+        "startChar": 8,
+        "endLine": 124,
+        "endChar": 48
+      },
+      "revId": "363a5003bbe1830675bfc70c71c6dbd8dff8cf53",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
