@@ -70,6 +70,30 @@
       "revId": "363a5003bbe1830675bfc70c71c6dbd8dff8cf53",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f338bef7_b6f34166",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-12-10T08:53:53Z",
+      "side": 1,
+      "message": "I agree with Yariv, that as the instance is connected to several networks, it would help to identify in which network we are testing mtu if the variable includes \"mgmt\", though it would be enough if we describe it in the test description",
+      "parentUuid": "1b78c327_deec8307",
+      "range": {
+        "startLine": 124,
+        "startChar": 8,
+        "endLine": 124,
+        "endChar": 48
+      },
+      "revId": "363a5003bbe1830675bfc70c71c6dbd8dff8cf53",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
