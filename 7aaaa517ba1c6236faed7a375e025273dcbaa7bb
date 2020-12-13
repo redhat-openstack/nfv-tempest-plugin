@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "421cffb4_985239c9",
+        "filename": "Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2020-12-13T17:03:31Z",
+      "side": 1,
+      "message": "tempest is a dependency of tempest-nfv-plugin so by installing the plugin you automatically get tempest",
+      "parentUuid": "a1826412_dea9e298",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 65
+      },
+      "revId": "7aaaa517ba1c6236faed7a375e025273dcbaa7bb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8642713e_b24b618c",
         "filename": "Dockerfile",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-12-13T16:50:19Z",
       "side": 1,
       "message": "Why not sharing a directory between container and local directory with all the files needed there?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 74
+      },
+      "revId": "7aaaa517ba1c6236faed7a375e025273dcbaa7bb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4a1cff8_f5f7f56b",
+        "filename": "Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2020-12-13T17:03:31Z",
+      "side": 1,
+      "message": "this is just a script that uses the files in the shared directories to generate the tempest conf\n\nin the redhat example they just wrote it into a file in the guide but it seemed like a waste to add extra step so I made the script more modular",
+      "parentUuid": "8642713e_b24b618c",
       "range": {
         "startLine": 14,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c702dfe5_07072493",
+        "filename": "docs/build-container.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2020-12-13T17:03:31Z",
+      "side": 1,
+      "message": "the commands are the same as docker but I\u0027ll mention it anyway",
+      "parentUuid": "d42c3938_c414566a",
+      "range": {
+        "startLine": 1,
+        "startChar": 43,
+        "endLine": 1,
+        "endChar": 99
+      },
+      "revId": "7aaaa517ba1c6236faed7a375e025273dcbaa7bb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0382604e_6050bf1f",
         "filename": "docs/build-container.md",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2020-12-13T16:50:19Z",
       "side": 1,
       "message": "shouldn\u0027t it be\nsudo podman build --tag podman build . --tag docker.io/nfvtempest/nfv-tempest:\u003cversion\u003e -f ./Dockerfile",
+      "range": {
+        "startLine": 4,
+        "startChar": 1,
+        "endLine": 4,
+        "endChar": 65
+      },
+      "revId": "7aaaa517ba1c6236faed7a375e025273dcbaa7bb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37789df5_0771451f",
+        "filename": "docs/build-container.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2020-12-13T17:03:31Z",
+      "side": 1,
+      "message": "by default podman builds the file named Dockerfile its part of its backward compatibility \n\nI\u0027m not sure why building 2 tags like the command you used in the comment",
+      "parentUuid": "0382604e_6050bf1f",
       "range": {
         "startLine": 4,
         "startChar": 1,
