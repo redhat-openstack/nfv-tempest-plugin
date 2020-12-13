@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1826412_dea9e298",
+        "filename": "Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-13T16:50:19Z",
+      "side": 1,
+      "message": "1) Don\u0027t we need to install tempest 1st? is it in pip dependency of nfv-tempest-config",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 65
+      },
+      "revId": "7aaaa517ba1c6236faed7a375e025273dcbaa7bb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8642713e_b24b618c",
+        "filename": "Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-13T16:50:19Z",
+      "side": 1,
+      "message": "Why not sharing a directory between container and local directory with all the files needed there?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 74
+      },
+      "revId": "7aaaa517ba1c6236faed7a375e025273dcbaa7bb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d42c3938_c414566a",
+        "filename": "docs/build-container.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-13T16:50:19Z",
+      "side": 1,
+      "message": "Please add explanation related to podman/docker, it should workk with both of them",
+      "range": {
+        "startLine": 1,
+        "startChar": 43,
+        "endLine": 1,
+        "endChar": 99
+      },
+      "revId": "7aaaa517ba1c6236faed7a375e025273dcbaa7bb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0382604e_6050bf1f",
+        "filename": "docs/build-container.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-13T16:50:19Z",
+      "side": 1,
+      "message": "shouldn\u0027t it be\nsudo podman build --tag podman build . --tag docker.io/nfvtempest/nfv-tempest:\u003cversion\u003e -f ./Dockerfile",
+      "range": {
+        "startLine": 4,
+        "startChar": 1,
+        "endLine": 4,
+        "endChar": 65
+      },
+      "revId": "7aaaa517ba1c6236faed7a375e025273dcbaa7bb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
