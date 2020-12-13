@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "876c0128_a96abb97",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-13T16:36:11Z",
+      "side": 1,
+      "message": "can you elaborate why do use list dictionaries of lists?\nIt seems that dict of lists, can save few for loops once reading, don\u0027t you agree?",
+      "range": {
+        "startLine": 96,
+        "startChar": 24,
+        "endLine": 96,
+        "endChar": 62
+      },
+      "revId": "a25c4b303ca8fb36e970206ace673877d8136fa1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
