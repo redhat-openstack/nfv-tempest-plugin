@@ -94,6 +94,47 @@
       "revId": "a25c4b303ca8fb36e970206ace673877d8136fa1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "353e8ede_668a9155",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2020-12-14T15:30:57Z",
+      "side": 1,
+      "message": "the way it is implemented now feels like the most counter intuitive way of doing it... you have a very complex structure that doesn\u0027t actually help you with anything\n```\npython zen:\nBeautiful is better than ugly.\nExplicit is better than implicit.\nSimple is better than complex.\nComplex is better than complicated.\n**Flat is better than nested.**\n```\n\nYariv can you please elaborate why this way is better in your opinion?",
+      "parentUuid": "3cb13351_68b34d47",
+      "range": {
+        "startLine": 96,
+        "startChar": 24,
+        "endLine": 96,
+        "endChar": 62
+      },
+      "revId": "a25c4b303ca8fb36e970206ace673877d8136fa1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c56a17bc_9bbc1d89",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2020-12-14T15:30:57Z",
+      "side": 1,
+      "message": "I think it would be a good idea to mention in documentation that this test and the rest of the tests that relies on rpm are only suitable to run on rpm based linux (rhel/fedora/centos/oraclelinux)",
+      "revId": "a25c4b303ca8fb36e970206ace673877d8136fa1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
