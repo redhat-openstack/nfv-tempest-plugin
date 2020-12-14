@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfd96230_9407b8e2",
+        "filename": "Dockerfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-14T07:20:12Z",
+      "side": 1,
+      "message": "Why not to combine these two RUN into a single one.\nIt will save us a layer.\n\nIt the first command needs to be finished before starting the second, the RUN could look like the following:\n\nRUN pip3 install --upgrade pip setuptools \u0026\u0026 \\\n    pip3 install tempest-nfv-plugin python-tempestconf python-openstackclient",
+      "range": {
+        "startLine": 8,
+        "startChar": 1,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "14191bb48a94486fccded1d3271c38a84ce825fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe50beec_c05053a3",
+        "filename": "docs/build-container.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-14T07:20:12Z",
+      "side": 1,
+      "message": "Due to the last changes in docker policy, we should avoid using dockerhub for our images to not reach the limit of daily pulls.\nLet\u0027s use http://quay.io instead.",
+      "range": {
+        "startLine": 5,
+        "startChar": 22,
+        "endLine": 5,
+        "endChar": 31
+      },
+      "revId": "14191bb48a94486fccded1d3271c38a84ce825fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49817250_05703ecc",
+        "filename": "docs/installation.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-14T07:20:12Z",
+      "side": 1,
+      "message": "Please, add a \"**NOTE**\" here to bold this line.\nIt is important to make sure, the user informed that tempest nfv plugin should be executed from the undercloud, because we are performing multiple ssh executions to get some data required for the test.\nAnd add also that it is relates to all sort of execution - git, pip, container.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 4
+      },
+      "revId": "14191bb48a94486fccded1d3271c38a84ce825fa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
