@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "348b5d7d_d59a4cfb",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-14T07:05:16Z",
+      "side": 1,
+      "message": "What kind of exception do you expect to get.\nIt\u0027s not a good practice to except for a general Exception.\n\nMaybe even a \".get()\" methog could be used. To check for the value of a dict and return none if not exist.",
+      "range": {
+        "startLine": 74,
+        "startChar": 23,
+        "endLine": 74,
+        "endChar": 32
+      },
+      "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dc197ab_077d2fa3",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-14T07:05:16Z",
+      "side": 1,
+      "message": "Wow. That will make a test duration huge.\nIs there maybe a way to clear the cache manually with some command?",
+      "range": {
+        "startLine": 358,
+        "startChar": 18,
+        "endLine": 358,
+        "endChar": 48
+      },
+      "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
