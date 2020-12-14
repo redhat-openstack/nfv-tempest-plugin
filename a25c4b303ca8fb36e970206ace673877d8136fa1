@@ -70,6 +70,30 @@
       "revId": "a25c4b303ca8fb36e970206ace673877d8136fa1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cb13351_68b34d47",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-14T14:51:49Z",
+      "side": 1,
+      "message": "I completely agree with you.\nAnd that was my suggestion during the first patch iteration.\nBut Yariv didn\u0027t like it.",
+      "parentUuid": "a8865f13_c68d5a59",
+      "range": {
+        "startLine": 96,
+        "startChar": 24,
+        "endLine": 96,
+        "endChar": 62
+      },
+      "revId": "a25c4b303ca8fb36e970206ace673877d8136fa1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
