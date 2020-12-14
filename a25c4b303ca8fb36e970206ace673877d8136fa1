@@ -46,6 +46,30 @@
       "revId": "a25c4b303ca8fb36e970206ace673877d8136fa1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8865f13_c68d5a59",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2020-12-14T14:49:42Z",
+      "side": 1,
+      "message": "why not using several options for example one for services one for packages and etc it will simplify the usage of the parameter and you can build the desired structure in the code instead of having a complex json that you have to use as an input alternatively why not use something like \n\"{\u0027packages\u0027: [\u0027tuned-2.*\u0027, \u0027tuned-profiles-.*\u0027, \u0027openvswitch2.*\u0027], \u0027services\u0027: [\u0027tuned\u0027, \u0027openvswitch\u0027], \u0027tuned_profiles\u0027: [\u0027cpu-partitioning\u0027, \u0027realtime-virtual-host\u0027], \u0027kernel_args\u0027: [\u0027hugepages\u0027, \u0027hugepagesz\u0027, \u0027default_hugepagesz\u0027, \u0027iommu\u003dpt\u0027, \u0027intel_iommu\u003don\u0027, \u0027isolcpus\u0027, \u0027nohz\u003don\u0027, \u0027nohz_full\u0027, \u0027rcu_nocbs\u0027, \u0027tuned.non_isolcpus\u0027, \u0027intel_pstate\u0027]}\"\n\nwhich is flatter and more readable in my opinion",
+      "parentUuid": "5d88bb57_d597707d",
+      "range": {
+        "startLine": 96,
+        "startChar": 24,
+        "endLine": 96,
+        "endChar": 62
+      },
+      "revId": "a25c4b303ca8fb36e970206ace673877d8136fa1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
