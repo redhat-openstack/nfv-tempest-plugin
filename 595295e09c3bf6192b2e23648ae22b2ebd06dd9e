@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "0493d8b7_ebd94658",
+        "filename": "Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-15T07:51:50Z",
+      "side": 1,
+      "message": "Sanjay, I think a total system update is an overkill task.\nWe will use this image with the tag latest (which is by default), so any update of the tag will update the image.",
+      "parentUuid": "2f91fb59_08b24089",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 41
+      },
+      "revId": "595295e09c3bf6192b2e23648ae22b2ebd06dd9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ad1b5a95_1cf7eadc",
         "filename": "docs/installation.md",
         "patchSetId": 6
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "the extra spaces are to make markdown go down a line otherwise markdown will show it as the same line",
       "parentUuid": "ad1b5a95_1cf7eadc",
+      "range": {
+        "startLine": 6,
+        "startChar": 187,
+        "endLine": 6,
+        "endChar": 189
+      },
+      "revId": "595295e09c3bf6192b2e23648ae22b2ebd06dd9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ed5eeeb_808040ca",
+        "filename": "docs/installation.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-15T07:51:50Z",
+      "side": 1,
+      "message": "Yes, Ella is right.\nThe spaces are required for the proper formatting of the markdown file style.\nCreates a new line.",
+      "parentUuid": "f38bb5ee_a632a206",
       "range": {
         "startLine": 6,
         "startChar": 187,
