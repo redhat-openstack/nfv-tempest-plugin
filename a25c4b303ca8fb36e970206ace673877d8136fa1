@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "32dc15ea_a0797ec4",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-15T16:06:16Z",
+      "side": 1,
+      "message": "+2",
+      "parentUuid": "eb0db2c1_4152c5b1",
+      "range": {
+        "startLine": 96,
+        "startChar": 24,
+        "endLine": 96,
+        "endChar": 62
+      },
+      "revId": "a25c4b303ca8fb36e970206ace673877d8136fa1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c56a17bc_9bbc1d89",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 4
