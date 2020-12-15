@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "793cd1bf_a1fcea26",
+        "filename": "Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2020-12-15T08:21:53Z",
+      "side": 1,
+      "message": "Ack, I would still insist in moving to centos 8 and a more actively managed base image https://quay.io/repository/generic/centos8 also, I noticed the earlier image has vulnerabilities - https://quay.io/repository/rhos-dfg-nfv/tempest-nfv-plugin/manifest/sha256:02e03e6bdd81f795a7c0137442b36bbc3a676ad30efed445dce2eda4c019d6c7?tab\u003dvulnerabilities",
+      "parentUuid": "0493d8b7_ebd94658",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 41
+      },
+      "revId": "595295e09c3bf6192b2e23648ae22b2ebd06dd9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad1b5a95_1cf7eadc",
         "filename": "docs/installation.md",
         "patchSetId": 6
