@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bbabe0e_04079df4",
+        "filename": "Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2020-12-15T04:20:45Z",
+      "side": 1,
+      "message": "why not centos8, where python 3 is default?",
+      "range": {
+        "startLine": 1,
+        "startChar": 22,
+        "endLine": 1,
+        "endChar": 29
+      },
+      "revId": "595295e09c3bf6192b2e23648ae22b2ebd06dd9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee42d012_b6c06893",
+        "filename": "Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2020-12-15T04:20:45Z",
+      "side": 1,
+      "message": "before pip install, I think a total system update should be done, to keep the other dependent packages up to date.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 41
+      },
+      "revId": "595295e09c3bf6192b2e23648ae22b2ebd06dd9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad1b5a95_1cf7eadc",
+        "filename": "docs/installation.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2020-12-15T04:20:45Z",
+      "side": 1,
+      "message": "end of line spaces can be removed :) I have this in my .vimrc -\n\nhighlight ExtraWhitespace ctermbg\u003dred guibg\u003dred                                                                                                                                               \nmatch ExtraWhitespace /\\s\\+$/                                                                                                                                                                 \nautocmd BufWinEnter * match ExtraWhitespace /\\s\\+$/                                                                                                                                           \nautocmd InsertEnter * match ExtraWhitespace /\\s\\+\\%#\\@\u003c!$/                                                                                                                                    \nautocmd InsertLeave * match ExtraWhitespace /\\s\\+$/                                                                                                                                           \nautocmd BufWinLeave * call clearmatches()",
+      "range": {
+        "startLine": 6,
+        "startChar": 187,
+        "endLine": 6,
+        "endChar": 189
+      },
+      "revId": "595295e09c3bf6192b2e23648ae22b2ebd06dd9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
