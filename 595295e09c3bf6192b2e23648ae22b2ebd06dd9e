@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a05b0de0_01554b9d",
+        "filename": "Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2020-12-15T10:47:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c592f264_b2d85f4f",
+      "range": {
+        "startLine": 1,
+        "startChar": 22,
+        "endLine": 1,
+        "endChar": 29
+      },
+      "revId": "595295e09c3bf6192b2e23648ae22b2ebd06dd9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee42d012_b6c06893",
         "filename": "Dockerfile",
         "patchSetId": 6
@@ -228,6 +252,30 @@
       "side": 1,
       "message": "sure, please go ahead. I am removing my -1",
       "parentUuid": "62092f3e_a399f6ea",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 41
+      },
+      "revId": "595295e09c3bf6192b2e23648ae22b2ebd06dd9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39da303c_fa6d1542",
+        "filename": "Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2020-12-15T10:47:09Z",
+      "side": 1,
+      "message": "after checking it out the container I built have 59 vulnerabilities and the base you mentioned have 65 also the base image I used is the one maintained by the centos project",
+      "parentUuid": "dbbbad07_5542a31d",
       "range": {
         "startLine": 8,
         "startChar": 0,
