@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "eb0db2c1_4152c5b1",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2020-12-15T15:51:09Z",
+      "side": 1,
+      "message": "sorry Yariv tought you meant the opposite\nMaxim why is the outer list needed?\n\nalso why not have separate options for packages,services and etc? it might be more comfortable from a user perspective and also will make it generally more simple to implement \n\nsomething like:\n\nfor index,package in enumerate(str(CONFIG.nfv_plugin_options.packages).split(\u0027,\u0027)):\n    do_somthing(package)\n\nor alternatively to drop the outer list and do it like this (I think that\u0027s what Yariv meant) instead of unpacking the json:\n\nhypervisor_tuning_details \u003d json.loads(CONF.nfv_plugin_options.hypervisor_tuning_details)\n\nif hypervisor_tuning_details[\u0027packages\u0027]:\n    for index,package in enumerate(hypervisor_tuning_details[\u0027packages\u0027]):\n        do_something(package)\n    else:\n        print(\u0027no packages\u0027)",
+      "parentUuid": "e677b30f_4971919f",
+      "range": {
+        "startLine": 96,
+        "startChar": 24,
+        "endLine": 96,
+        "endChar": 62
+      },
+      "revId": "a25c4b303ca8fb36e970206ace673877d8136fa1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c56a17bc_9bbc1d89",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 4
