@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "34f438d5_d8425a57",
+        "filename": "Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2020-12-15T08:16:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0493d8b7_ebd94658",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 41
+      },
+      "revId": "595295e09c3bf6192b2e23648ae22b2ebd06dd9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad1b5a95_1cf7eadc",
         "filename": "docs/installation.md",
         "patchSetId": 6
@@ -188,6 +212,30 @@
       "revId": "595295e09c3bf6192b2e23648ae22b2ebd06dd9e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a2ee5df_cc620030",
+        "filename": "docs/installation.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2020-12-15T08:16:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ed5eeeb_808040ca",
+      "range": {
+        "startLine": 6,
+        "startChar": 187,
+        "endLine": 6,
+        "endChar": 189
+      },
+      "revId": "595295e09c3bf6192b2e23648ae22b2ebd06dd9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
