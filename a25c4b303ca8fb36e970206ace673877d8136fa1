@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "e677b30f_4971919f",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-15T15:29:37Z",
+      "side": 1,
+      "message": "\u003e the way it is implemented now feels like the most counter intuitive way of doing it... you have a very complex structure that doesn\u0027t actually help you with anything\n\u003e ```\n\u003e python zen:\n\u003e Beautiful is better than ugly.\n\u003e Explicit is better than implicit.\n\u003e Simple is better than complex.\n\u003e Complex is better than complicated.\n\u003e **Flat is better than nested.**\n\u003e ```\n\u003e \n\u003e Yariv can you please elaborate why this way is better in your opinion?\n\nSure, That is what i suggested, please refer \nhttps://review.gerrithub.io/c/redhat-openstack/nfv-tempest-plugin/+/507081/3/nfv_tempest_plugin/config.py#105\n\nMHO, the list{dict} not needed, and see maxim\u0027s reply in the this thread",
+      "parentUuid": "353e8ede_668a9155",
+      "range": {
+        "startLine": 96,
+        "startChar": 24,
+        "endLine": 96,
+        "endChar": 62
+      },
+      "revId": "a25c4b303ca8fb36e970206ace673877d8136fa1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c56a17bc_9bbc1d89",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 4
