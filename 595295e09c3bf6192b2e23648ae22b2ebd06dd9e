@@ -216,6 +216,30 @@
     },
     {
       "key": {
+        "uuid": "dbbbad07_5542a31d",
+        "filename": "Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2020-12-15T10:16:10Z",
+      "side": 1,
+      "message": "sure, please go ahead. I am removing my -1",
+      "parentUuid": "62092f3e_a399f6ea",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 41
+      },
+      "revId": "595295e09c3bf6192b2e23648ae22b2ebd06dd9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad1b5a95_1cf7eadc",
         "filename": "docs/installation.md",
         "patchSetId": 6
