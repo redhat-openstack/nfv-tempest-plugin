@@ -22,6 +22,30 @@
       "revId": "03982f9f70ab18f1891c10dc9fc0a0981045711e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d502e9e_22a882c1",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-16T14:36:18Z",
+      "side": 1,
+      "message": "What do you mean?\nThe idea here is to reuse the existing paramerter, to not duplicate similar params.",
+      "parentUuid": "5b33901e_d035b1d9",
+      "range": {
+        "startLine": 259,
+        "startChar": 36,
+        "endLine": 259,
+        "endChar": 68
+      },
+      "revId": "03982f9f70ab18f1891c10dc9fc0a0981045711e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
     }
   ]
 }
