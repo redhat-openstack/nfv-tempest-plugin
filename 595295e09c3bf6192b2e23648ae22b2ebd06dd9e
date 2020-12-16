@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "b11f5ace_f3ab6ae8",
+        "filename": "Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-16T14:37:39Z",
+      "side": 1,
+      "message": "Ella, what is the final decision?\nIs it going to be changed to pull the image from quay, or not?",
+      "parentUuid": "a05b0de0_01554b9d",
+      "range": {
+        "startLine": 1,
+        "startChar": 22,
+        "endLine": 1,
+        "endChar": 29
+      },
+      "revId": "595295e09c3bf6192b2e23648ae22b2ebd06dd9e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee42d012_b6c06893",
         "filename": "Dockerfile",
         "patchSetId": 6
