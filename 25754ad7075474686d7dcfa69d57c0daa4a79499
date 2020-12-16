@@ -89,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "238ce57c_541838d0",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-16T16:26:32Z",
+      "side": 1,
+      "message": "+2 for the idea, what command we should run?\nI assume it is in the TOR switch, isnt it?",
+      "parentUuid": "5f8c2ee4_5c66781b",
+      "range": {
+        "startLine": 356,
+        "startChar": 17,
+        "endLine": 356,
+        "endChar": 32
+      },
+      "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0dc197ab_077d2fa3",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
         "patchSetId": 14
@@ -105,6 +129,29 @@
         "startChar": 18,
         "endLine": 358,
         "endChar": 48
+      },
+      "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a25a2d77_8ada5cad",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2020-12-16T16:26:32Z",
+      "side": 1,
+      "message": "I think this time should be configured and it corresponds with switch configuration, see line 356",
+      "range": {
+        "startLine": 361,
+        "startChar": 19,
+        "endLine": 361,
+        "endChar": 35
       },
       "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
