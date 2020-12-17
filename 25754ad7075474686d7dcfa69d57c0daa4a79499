@@ -113,6 +113,30 @@
     },
     {
       "key": {
+        "uuid": "01c5fe77_106c74f7",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2020-12-17T07:57:05Z",
+      "side": 1,
+      "message": "yes, it is configured in the switch. You can see [1]. There are 3 parameters that can control it: query interval, response interval and robustness. I think it can be useful.\n\n[1] https://www.juniper.net/documentation/en_US/junos/topics/topic-map/mcast-igmp.html",
+      "parentUuid": "238ce57c_541838d0",
+      "range": {
+        "startLine": 356,
+        "startChar": 17,
+        "endLine": 356,
+        "endChar": 32
+      },
+      "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0dc197ab_077d2fa3",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
         "patchSetId": 14
