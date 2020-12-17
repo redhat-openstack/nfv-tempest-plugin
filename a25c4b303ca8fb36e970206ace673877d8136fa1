@@ -217,6 +217,30 @@
     },
     {
       "key": {
+        "uuid": "5ca697d1_886c1f9c",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-17T16:04:09Z",
+      "side": 1,
+      "message": "Yariv, I completely misunderstood your suggestion.\nNow, moved it into a single dictionary.\n\nThe test will fetch the key by using the \".get()\" python method.\nIf the key will not exist, it will set it to None.\n\nLater, I check for a variable content.",
+      "parentUuid": "c973ca28_0aaab059",
+      "range": {
+        "startLine": 96,
+        "startChar": 24,
+        "endLine": 96,
+        "endChar": 62
+      },
+      "revId": "a25c4b303ca8fb36e970206ace673877d8136fa1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c56a17bc_9bbc1d89",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 4
