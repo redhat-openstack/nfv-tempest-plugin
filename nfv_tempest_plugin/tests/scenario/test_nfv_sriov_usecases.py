@@ -256,7 +256,7 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         """
         # Create servers
         qos_rules = {}
-        for rule in self.test_setup_dict[test]['qos_rules']:
+        for rule in json.loads(CONF.nfv_plugin_options.min_qos_rules):
             qos_rules.update(rule)
         self.test_setup_dict[test]
         self.create_qos_policy_with_rules(**qos_rules)
@@ -274,7 +274,7 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         Spawn a guest and set (neutron) minimum QoS to port already up
         """
         qos_rules = {}
-        for rule in self.test_setup_dict[test]['qos_rules']:
+        for rule in json.loads(CONF.nfv_plugin_options.min_qos_rules):
             qos_rules.update(rule)
         self.create_qos_policy_with_rules(**qos_rules)
         # Create servers
