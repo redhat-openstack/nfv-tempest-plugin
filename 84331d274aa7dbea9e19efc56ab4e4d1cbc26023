@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "51700ad7_d54f5e84",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-20T17:26:30Z",
+      "side": 1,
+      "message": "No a critical change for me.",
+      "parentUuid": "a11ca875_148c4838",
+      "range": {
+        "startLine": 1070,
+        "startChar": 0,
+        "endLine": 1078,
+        "endChar": 37
+      },
+      "revId": "84331d274aa7dbea9e19efc56ab4e4d1cbc26023",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2d7b4422_757bb913",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2020-12-20T12:51:06Z",
       "side": 1,
       "message": "Hi max what do you think about using the new python formating? to me it feels much more readable and generally more comfortable \n\nsomething like:\n\nLOG.info(f\u0027Set {mtu} mtu for the test\u0027)",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 3
+      },
+      "revId": "84331d274aa7dbea9e19efc56ab4e4d1cbc26023",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7066502_6609780a",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-20T17:26:30Z",
+      "side": 1,
+      "message": "Agree, but still can\u0027t do it.\nOSP 13 is still using python2 only.",
+      "parentUuid": "2d7b4422_757bb913",
       "range": {
         "startLine": 128,
         "startChar": 0,
