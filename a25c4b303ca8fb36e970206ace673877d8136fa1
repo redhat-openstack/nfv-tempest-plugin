@@ -273,6 +273,24 @@
       "revId": "a25c4b303ca8fb36e970206ace673877d8136fa1",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ef7a279_294d92a2",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2020-12-20T16:30:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9f7718fb_34e15355",
+      "revId": "a25c4b303ca8fb36e970206ace673877d8136fa1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
