@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a11ca875_148c4838",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2020-12-20T12:51:06Z",
+      "side": 1,
+      "message": "Hi max why not do it this in which you are overriding in case you need to and not checking the second \"if\" if not necessary?\n\nif fixed_port:\n    port_net_id \u003d self.os_admin.ports_client.list_ports(\n        fixed_ips\u003d\"ip_address\u003d\" + fixed_port)[\u0027ports\u0027][0][\n        \u0027network_id\u0027]\nelif fip:\n    port_net_id \u003d self.os_admin.floating_ips_client.list_floatingips(\n        floating_ip_address\u003dfip)[\u0027floatingips\u0027][0][\n        \u0027port_details\u0027][\u0027network_id\u0027]",
+      "range": {
+        "startLine": 1070,
+        "startChar": 0,
+        "endLine": 1078,
+        "endChar": 37
+      },
+      "revId": "84331d274aa7dbea9e19efc56ab4e4d1cbc26023",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d7b4422_757bb913",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2020-12-20T12:51:06Z",
+      "side": 1,
+      "message": "Hi max what do you think about using the new python formating? to me it feels much more readable and generally more comfortable \n\nsomething like:\n\nLOG.info(f\u0027Set {mtu} mtu for the test\u0027)",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 3
+      },
+      "revId": "84331d274aa7dbea9e19efc56ab4e4d1cbc26023",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
