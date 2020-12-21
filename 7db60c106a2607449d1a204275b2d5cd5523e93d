@@ -192,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "e7a695b8_36c683c6",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-21T09:31:14Z",
+      "side": 1,
+      "message": "I can\u0027t combine line 64 into lines 66 and 67, because packages are a list.\nSo, I\u0027m appending the packages to the base command (rpm -qa |grep) to get the following command to be executed:\n\n\"rpm -qa |grep package1 package2 package3\"\n\nThe only combine I can do, is:\npkg_check +\u003d \" -e ^{}\".format(package)",
+      "parentUuid": "06121d01_7da482f0",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 49
+      },
+      "revId": "7db60c106a2607449d1a204275b2d5cd5523e93d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "801b0a6e_18498541",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 7
