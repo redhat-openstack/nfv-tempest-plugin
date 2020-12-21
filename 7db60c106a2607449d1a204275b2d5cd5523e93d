@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "f7add555_64f7259e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2020-12-21T09:21:42Z",
+      "side": 1,
+      "message": "You mean to combine the lines 66 and 67?",
+      "parentUuid": "fe34906a_12a10d96",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 49
+      },
+      "revId": "7db60c106a2607449d1a204275b2d5cd5523e93d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "801b0a6e_18498541",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 7
