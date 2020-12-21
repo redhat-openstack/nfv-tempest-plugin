@@ -332,22 +332,6 @@ Tests included:
   - traffic in each interface in br-int
   - messages received in each vm and number of packets received 
 
-  Test config:
-  - name: igmp_snooping
-    igmp_config:
-      # packets tolerance when counting packets in ovs interfaces
-      - pkts_tolerance: 50
-      # expected two multicast groups
-        mcast_groups:
-          - ip: '239.0.0.1'
-            port: '10000'
-            tx_pkts: 200
-            pkt_size: 20
-          - ip: '238.0.0.5'
-            port: '5000'
-            tx_pkts: 300
-            pkt_size: 20
-
 - test_igmp_restart_ovs
 
   Test explanation:

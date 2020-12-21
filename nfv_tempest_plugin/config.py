@@ -108,4 +108,10 @@ NfvPluginOptions = [
                        '"rcu_nocbs", "tuned.non_isolcpus", "intel_pstate"]}',
                help='Hypervisor tuning details include: packages, '
                     'services, tuned profiles nad kernel arguments'),
+    cfg.StrOpt('igmp_config',
+               default='{"pkts_tolerance": 50, "mcast_groups":'
+                       '[{"ip": "239.0.0.1", "port": "10000", "tx_pkts": 200,'
+                       '"pkt_size": 20}, {"ip": "238.0.0.5", "port": "5000",'
+                       '"tx_pkts": 300, "pkt_size": 20}]}',
+               help='IGMP configuration for the igmp snooping test'),
 ]
