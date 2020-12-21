@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "440818e2_b783c7f7",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2020-12-21T09:18:35Z",
+      "side": 1,
+      "message": "to me it seems like an extra step but it doesn\u0027t really changes the way the code works \n\nI just prefer to generally have the space complexity as low as possible but in this case its more of a best practice then an actual something that matters 😊",
+      "parentUuid": "7c179367_d224a1b0",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 55
+      },
+      "revId": "7db60c106a2607449d1a204275b2d5cd5523e93d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "47598518_1fd38592",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 7
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Still can\u0027t do it.\nOSP 13 still using python2 and python3 by default is not available.",
       "parentUuid": "47598518_1fd38592",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 49
+      },
+      "revId": "7db60c106a2607449d1a204275b2d5cd5523e93d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe34906a_12a10d96",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2020-12-21T09:18:35Z",
+      "side": 1,
+      "message": "you can still use .format but I think having the variables makes the code less readable and are not necessary",
+      "parentUuid": "7a3cde27_9a00fa70",
       "range": {
         "startLine": 64,
         "startChar": 0,
