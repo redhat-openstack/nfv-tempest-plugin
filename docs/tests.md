@@ -108,18 +108,6 @@ Tests included:
   The MTU test boots an instance with given args from external_config_file, connect to the instance using ssh, and ping with given MTU to GW.  
   **Note 1** - This tests depend on MTU configured at running environment.  
 
-  ```
-  Test config:  
-  - name: test-ping-mtu
-    flavor: nfv-test-flavor
-    router: false
-    mtu: 2972
-  ```
-
-  flavor - specifies the flavor that the instance should boot with.  
-  router - Sets if the booted instance will get floating ip or direct access config.  
-  mtu - Specify the required mtu for the test. The calculation of testing mtu should be based on the deployed mtu size.  
-
 - test_emulatorpin  
   Test explanation:  
   The test boots instances, takes the emulatorpin value from the dumpxml of the running instance and compares

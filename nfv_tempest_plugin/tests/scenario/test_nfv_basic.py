@@ -103,12 +103,14 @@ class TestNfvBasic(base_test.BaseTest):
         test_result = '\n'.join(test_result)
         self.assertEmpty(test_result, test_result)
 
-    def test_mtu_ping_test(self, test='test-ping-mtu', mtu=1973):
+    def test_mtu_ping_test(self, test='test-ping-mtu'):
         """Test MTU by pinging instance gateway
 
         The test boots an instance with given args from external_config_file,
         connect to the instance using ssh, and ping with given MTU to GW.
         * This tests depend on MTU configured at running environment.
+        ** The MTU size could be given by using plugin config.
+           If not given, the MTU discovered automatically.
 
         :param test: Test name from the config file
         :param mtu: Size of the mtu to check
@@ -119,9 +121,11 @@ class TestNfvBasic(base_test.BaseTest):
 
         servers, key_pair = self.create_and_verify_resources(test=test)
 
-        if 'mtu' in self.test_setup_dict[test]:
-            mtu = self.test_setup_dict[test]['mtu']
-            LOG.info('Set {} mtu for the test'.format(mtu))
+        if CONF.nfv_plugin_options.instance_def_gw_mtu:
+            mtu = CONF.nfv_plugin_options.instance_def_gw_mtu
+        else:
+            mtu = self.discover_mtu_network_size(fip=servers[0]['fip'])
+        LOG.info('Set {} mtu for the test'.format(mtu))
 
         routers = self.os_admin.routers_client.list_routers()['routers']
         for router in routers:
