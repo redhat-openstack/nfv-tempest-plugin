@@ -53,6 +53,12 @@ NfvPluginOptions = [
     cfg.StrOpt('quota_ram',
                default=81920,
                help="The numbers of ram for the tenant use"),
+    cfg.IntOpt('instance_def_gw_mtu',
+               default=None,
+               help="The default gateway mtu value for the instance to be "
+                    "tested. The test pings the default gateway from the "
+                    "default route interface. If not provided, tries to "
+                    "discover the mtu size."),
     cfg.BoolOpt('test_all_provider_networks',
                 default=False,
                 help="Verify provider networks attached to guests"),
@@ -92,5 +98,20 @@ NfvPluginOptions = [
                default=300,
                help='Timeout in seconds to wait for the '
                     'hypervisor reachability'),
-
+    cfg.StrOpt('hypervisor_tuning_details',
+               default='{"packages": ["tuned-2.*", "tuned-profiles-.*", '
+                       '"openvswitch2.*"], "services": ["tuned", '
+                       '"openvswitch"], "tuned_profiles": ["cpu-partitioning",'
+                       '"realtime-virtual-host"], "kernel_args": ["hugepages",'
+                       '"hugepagesz", "default_hugepagesz", "iommu=pt",'
+                       '"intel_iommu=on", "isolcpus", "nohz=on", "nohz_full",'
+                       '"rcu_nocbs", "tuned.non_isolcpus", "intel_pstate"]}',
+               help='Hypervisor tuning details include: packages, '
+                    'services, tuned profiles nad kernel arguments'),
+    cfg.StrOpt('igmp_config',
+               default='{"pkts_tolerance": 50, "mcast_groups":'
+                       '[{"ip": "239.0.0.1", "port": "10000", "tx_pkts": 200,'
+                       '"pkt_size": 20}, {"ip": "238.0.0.5", "port": "5000",'
+                       '"tx_pkts": 300, "pkt_size": 20}]}',
+               help='IGMP configuration for the igmp snooping test'),
 ]

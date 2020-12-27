@@ -106,11 +106,7 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
         if self.external_resources_data is None:
             raise ValueError('External resource data is required for the test')
 
-        igmp_dict = {}
-        test_setup_dict = self.test_setup_dict[test]
-        if 'config_dict' in test_setup_dict and \
-           'igmp_config' in test_setup_dict['config_dict']:
-            igmp_dict = test_setup_dict['config_dict']['igmp_config'][0]
+        igmp_dict = json.loads(CONF.nfv_plugin_options.igmp_config)
 
         if 'mcast_groups' in igmp_dict.keys() and \
            len(igmp_dict['mcast_groups']) == 2:

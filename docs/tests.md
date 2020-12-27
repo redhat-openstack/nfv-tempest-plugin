@@ -84,41 +84,17 @@ Tests included:
   flavor - specifies the flavor that the instance should boot with.  
   router - Sets if the booted instance will get floating ip or direct access config.
 
-- test_packages_compute  
+- test_hypervisor_tuning  
   Test explanation:  
-  Package test:
-    - Checks if package exists on hypervisor.
-    - If provided - checks the active state of the service.
-    - If provided - checks the active state of the tuned profile.
-
-  ```
-  Test config:
-  - name: check-compute-packages
-    package-names:
-      - tuned-2.8.0-5.el7.noarch
-      - openvswitch-2.6.1-16.git20161206.el7ost.x86_64
-    service-names:
-      - tuned
-      - openvswitch
-    tuned-profile: cpu-partitioning
-  ```
+  - Checks the existence of provided packages
+  - Checks for the state of provided services
+  - Checks for the active tuned profile
+  - Checks for the required kernel arguments
 
 - test_mtu_ping_test  
   Test explanation:  
   The MTU test boots an instance with given args from external_config_file, connect to the instance using ssh, and ping with given MTU to GW.  
   **Note 1** - This tests depend on MTU configured at running environment.  
-
-  ```
-  Test config:  
-  - name: test-ping-mtu
-    flavor: nfv-test-flavor
-    router: false
-    mtu: 2972
-  ```
-
-  flavor - specifies the flavor that the instance should boot with.  
-  router - Sets if the booted instance will get floating ip or direct access config.  
-  mtu - Specify the required mtu for the test. The calculation of testing mtu should be based on the deployed mtu size.  
 
 - test_emulatorpin  
   Test explanation:  
@@ -211,35 +187,17 @@ Otherwise the test will create a flavor based on the parameters defined at the t
   This test tells neutron to create min_qos on sriov ports, provider.
   
   **Note** - Network capable Min Qos must be marked in test_network as min_qos=true/false. 
-  **Note** - Test config is shared with test_guests_with_min_bw. 
-  
-  ```
-  Test config:
-  - name: sriov_min_bw_qos 
-    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-    router: true
-    qos_rules: [{'min_kbps': '4000'}]
-  ```
-  
+
 - test_guests_with_min_bw
   Test explanation:
   Test Nova SRIOV min BW capabilities
   This test create vm with port direct port set with min_qos policy. 
   
   **Note** - Network capable Min Qos must be marked in test_network as min_qos=true/false.
-  **Note** - Test config is shared with test_guests_set_min_qos.
   **Note** - Train release test requires:
              - tempest microversion set to 2.72
              - nova parameter resource_provider_bandwidths 
   
-  ```
-  Test config:
-  - name: sriov_min_bw_qos
-    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-    router: true
-    qos_rules: [{'min_kbps': '4000'}]
-  ```
-
 ----------
 #### TestAdvancedScenarios:
 Tests included:
@@ -373,22 +331,6 @@ Tests included:
   - vms are properly subscribed
   - traffic in each interface in br-int
   - messages received in each vm and number of packets received 
-
-  Test config:
-  - name: igmp_snooping
-    igmp_config:
-      # packets tolerance when counting packets in ovs interfaces
-      - pkts_tolerance: 50
-      # expected two multicast groups
-        mcast_groups:
-          - ip: '239.0.0.1'
-            port: '10000'
-            tx_pkts: 200
-            pkt_size: 20
-          - ip: '238.0.0.5'
-            port: '5000'
-            tx_pkts: 300
-            pkt_size: 20
 
 - test_igmp_restart_ovs
 
