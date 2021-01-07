@@ -22,6 +22,30 @@
       },
       "revId": "ceae476efca444c3e83b446ae06d9d936c8e5fdb",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb5eb87e_5c524cb2",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-01-07T17:35:44Z",
+      "side": 1,
+      "message": "Hi Miguel,\n\nThis patch is currently WIP.\nSo about multiple subnets, even though they are on the same network, a proper routing must exist in order to pass traffic between them.\nWhile in some tests we are configuring the routing in the guest, I think (don\u0027t remember) that it is done after this method.\nSo as of now, a network with a single subnet is our most common use case.",
+      "parentUuid": "a2818137_c7333ac9",
+      "range": {
+        "startLine": 979,
+        "startChar": 0,
+        "endLine": 979,
+        "endChar": 20
+      },
+      "revId": "ceae476efca444c3e83b446ae06d9d936c8e5fdb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
