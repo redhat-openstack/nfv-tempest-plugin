@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2818137_c7333ac9",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-01-07T08:52:55Z",
+      "side": 1,
+      "message": "why do we have this restriction? If the guest is attached to several provider networks, can`t we ping to the gateway ip for each of the networks?",
+      "range": {
+        "startLine": 979,
+        "startChar": 0,
+        "endLine": 979,
+        "endChar": 20
+      },
+      "revId": "ceae476efca444c3e83b446ae06d9d936c8e5fdb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
