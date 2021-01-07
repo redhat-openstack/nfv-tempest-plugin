@@ -951,57 +951,69 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         """Check guest provider networks
 
         This function tests ICMP traffic on all provider networks
-        between multiple servers.
 
         :param servers: List of servers to verify
         :param key-pair: Key pair used to authenticate with server
         """
-        # In the current itteration, if only a single server is spawned
-        # no pings will be performed.
-        # TODO(vkhitrin): In the future, consider pinging default gateway
-        if len(servers) == 1:
-            LOG.info('Only one server was spawned, no neigbors to ping')
-            return True
-
+        import ipdb;ipdb.set_trace()
         for server in servers:
-            # Copy servers list to a helper variable
-            neighbor_servers = servers[:]
-            # Initialize a list of neighbors IPs
-            neighbors_ips = []
-            # Remove current server from potential server neigbors list
-            neighbor_servers.remove(server)
-            # Retrieve neighbors IPs from their provier networks
-            for neighbor_server in neighbor_servers:
+            # Initialize list of IPs to ping
+            ips_to_check = []
+            hostname = server['name']
+            if len(servers) == 1:
                 # Iterate over provider networks for current server and
                 # neighbor servers and append potential IP to ping only if
                 # both the neighbor and current server are attached to
                 # same network
                 # Currently it is inefficient to loop this way, consider
-                # improving itteration logic
-                for neighbor_network in neighbor_server['provider_networks']:
-                    for server_network in server['provider_networks']:
-                        if neighbor_network['network_id'] == \
-                                server_network['network_id']:
-                            neighbors_ips.append(
-                                neighbor_network['ip_address'])
+                # improving iteration logic
+                for net in servers[0]['provider_networks']:
+                    subnets = self.networks_client.show_network(
+                        network_id=net['network_id'])['network']['subnets']
+                    if len(subnets) == 1:
+                        subnet = subnets[0]
+                        gateway_ip = self.subnets_client.show_subnet(
+                            subnet_id=subnet)['subnet']['gateway_ip']
+                        ips_to_check.append(gateway_ip)
+                    else:
+                        LOG.warning('Provider network connectivity test is '
+                                    'not supported on networks with multiple '
+                                    'subnets')
+            else:
+                # Copy servers list to a helper variable
+                neighbor_servers = servers[:]
+                # Remove current server from potential server neighbors list
+                neighbor_servers.remove(server)
+                # Retrieve neighbors IPs from their provider networks
+                for neighbor_server in neighbor_servers:
+                    # Iterate over provider networks for current server and
+                    # neighbor servers and append potential IP to ping only if
+                    # both the neighbor and current server are attached to
+                    # same network
+                    # Currently it is inefficient to loop this way, consider
+                    # improving iteration logic
+                    for neighbor_net in neighbor_server['provider_networks']:
+                        for server_network in server['provider_networks']:
+                            if neighbor_net['network_id'] == \
+                                    server_network['network_id']:
+                                ips_to_check.append(
+                                    neighbor_net['ip_address'])
 
             ssh_client = self.get_remote_client(server['fip'],
                                                 self.instance_user,
                                                 key_pair['private_key'])
 
-            hostname = server['name']
-            for neighbors_ip in neighbors_ips:
+            for ip_address in ips_to_check:
                 LOG.info("Guest '{h}' will attempt to "
-                         "ping {i}".format(h=hostname, i=neighbors_ip))
+                         "ping {i}".format(h=hostname, i=ip_address))
                 try:
-                    ssh_client.icmp_check(neighbors_ip)
+                    ssh_client.icmp_check(ip_address)
                 except lib_exc.SSHExecCommandFailed:
                     msg = ("Guest '{h}' failed to ping "
-                           "IP '{i}'".format(h=hostname, i=neighbors_ip))
+                           "IP '{i}'".format(h=hostname, i=ip_address))
                     raise AssertionError(msg)
-
                 LOG.info("Guest '{h}' successfully was able to ping "
-                         "IP '{i}'".format(h=hostname, i=neighbors_ip))
+                         "IP '{i}'".format(h=hostname, i=ip_address))
 
     def get_ovs_port_names(self, servers):
         """This method get ovs port names for each server
