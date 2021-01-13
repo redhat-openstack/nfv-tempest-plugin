@@ -113,8 +113,15 @@ class TestHciScenarios(base_test.BaseTest):
         hyper_kwargs = {'shell': CONF.nfv_plugin_options.undercloud_rc_file}
         controller_ip = shell_utils.\
             get_controllers_ip_from_undercloud(**hyper_kwargs)[0]
-        cmd = "sudo docker exec ceph-mon-`hostname` ceph -s | grep health | "\
-              "cut -d':' -f2 | sed 's/^[ \t]*//;s/[ \t]*$//'"
+        osp_release = self.get_osp_release()
+        # TODO(vkhitrin): Expose this as a global variable in this plugin
+        container_cli = 'docker'
+        # Use correct container CLI based on OSP release
+        if osp_release >= 16:
+            container_cli = 'podman'
+        cmd = ("sudo {} exec ceph-mon-`hostname` ceph -s | grep health | "
+               "cut -d':' -f2 | "
+               "sed 's/^[ \t]*//;s/[ \t]*$//'").format(container_cli)
         result = shell_utils.\
             run_command_over_ssh(controller_ip, cmd).replace("\n", "")
         self.assertEqual(result, 'HEALTH_OK')
