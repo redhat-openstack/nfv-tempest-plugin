@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84a6b5f8_512c9527",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-01-17T15:39:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "14b27f98_86c671c3",
+      "range": {
+        "startLine": 244,
+        "startChar": 47,
+        "endLine": 244,
+        "endChar": 53
+      },
+      "revId": "19f04e3a56e5f0e71d26b8ea5fc7e55d629ef626",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0df87b08_71f80062",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-01-17T12:18:04Z",
       "side": 1,
       "message": "Don\u0027t you think that this should be \"True\" by default.\nOSP 10 is generally our of scope and 13 is still here.\nIf it will be set to \"True\" by default, we will not need to remember to define it each time for the osp 13 tests.\n\nWhat do you say?",
+      "range": {
+        "startLine": 256,
+        "startChar": 32,
+        "endLine": 256,
+        "endChar": 50
+      },
+      "revId": "19f04e3a56e5f0e71d26b8ea5fc7e55d629ef626",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcb63a29_a9b05fa8",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-01-17T15:39:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0df87b08_71f80062",
       "range": {
         "startLine": 256,
         "startChar": 32,
