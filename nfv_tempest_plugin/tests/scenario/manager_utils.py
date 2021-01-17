@@ -238,13 +238,13 @@ class ManagerMixin(object):
 
         server_details = \
             self.os_admin.servers_client.show_server(server['id'])['server']
-        osp_release = self.get_osp_release(hypervisor)
-        # If OSP version is 16, use podman container to retrieve instance XML
-        if osp_release >= 16:
-            cmd = ('sudo podman exec -it nova_libvirt virsh -c '
-                   'qemu:///system dumpxml {}')
+        container_cli = self.get_container_cli(container_cli_must=False)
+        cmd = 'sudo {} virsh -c qemu:///system dumpxml'
+        if container_cli:
+            cmd = cmd.format(container_cli + ' exec -it nova_libvirt')
         else:
-            cmd = 'sudo virsh -c qemu:///system dumpxml {}'
+            cmd = cmd.format('')
+        cmd += ' {}'
         get_dumpxml = \
             cmd.format(server_details['OS-EXT-SRV-ATTR:instance_name'])
         dumpxml_data = shell_utils.\
@@ -252,6 +252,20 @@ class ManagerMixin(object):
         dumpxml_string = ELEMENTTree.fromstring(dumpxml_data)
 
         return dumpxml_string
+
+    def get_container_cli(self, container_cli_must=True, hypervisor=None):
+        """Search for openstack version and return container cli
+
+        :parm container_cli_must: indication cli below Train container
+        :return container_cli: None or container cli name
+        """
+        container_cli = None
+        rhosp_release = self.get_osp_release(hypervisor)
+        if rhosp_release >= 16:
+            container_cli = 'podman'
+        elif container_cli_must:
+            container_cli = 'docker'
+        return container_cli
 
     def get_instance_vcpu(self, instance, hypervisor):
         """Get a list of vcpu cores used by the instance

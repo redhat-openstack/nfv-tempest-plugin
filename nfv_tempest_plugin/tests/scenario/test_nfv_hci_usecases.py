@@ -113,12 +113,7 @@ class TestHciScenarios(base_test.BaseTest):
         hyper_kwargs = {'shell': CONF.nfv_plugin_options.undercloud_rc_file}
         controller_ip = shell_utils.\
             get_controllers_ip_from_undercloud(**hyper_kwargs)[0]
-        osp_release = self.get_osp_release()
-        # TODO(vkhitrin): Expose this as a global variable in this plugin
-        container_cli = 'docker'
-        # Use correct container CLI based on OSP release
-        if osp_release >= 16:
-            container_cli = 'podman'
+        container_cli = self.get_container_cli()
         cmd = ("sudo {} exec ceph-mon-`hostname` ceph -s | grep health | "
                "cut -d':' -f2 | "
                "sed 's/^[ \t]*//;s/[ \t]*$//'").format(container_cli)
