@@ -126,27 +126,28 @@ class TestNfvOffload(base_test.BaseTest):
         # Create servers
         servers, key_pair = self.create_and_verify_resources(test=test,
                                                              num_servers=4)
-        cmd = 'sudo ovs-appctl dpctl/dump-flows type=offloaded'
+        cmd = 'sudo ovs-appctl dpctl/dump-flows type=offloaded -m'
         # Iterate over created servers
         for server in servers:
 
             shell_utils.continuous_ping(server['fip'],
-                                        duration=30)
+                                        duration=600)
             LOG.info('test_offload_ovs_flows verify flows on geust {}'.
                      format(server['fip']))
 
             out = shell_utils.\
                 run_command_over_ssh(server['hypervisor_ip'],
                                      cmd)
-            ports =  \
-                self.os_admin.ports_client.list_ports(device_id=server['id'])
             msg = ('Port with mac address {} is expected to be part of '
                    'offloaded flows')
-            for port in ports['ports']:
-                if 'capabilities' in port['binding:profile'] and 'switchdev'\
-                        in port['binding:profile']['capabilities']:
-                    self.assertIn(port['mac_address'], out,
-                                  msg.format(port['mac_address']))
+            # Ping running only on floating ip
+            int_port = self.get_internal_port_from_fip(server['fip'])
+            self.assertTrue('capabilities' in
+                            int_port['binding:profile'] and 'switchdev'
+                            in int_port['binding:profile']['capabilities'],
+                            "port has not 'capabilities'")
+            self.assertIn(int_port['mac_address'], out,
+                          msg.format(int_port['mac_address']))
         # Pings are running check flows exist
         # Retrieve all hypvervisors
         hypervisors = self._get_hypervisor_ip_from_undercloud(
