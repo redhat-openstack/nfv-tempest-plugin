@@ -1082,10 +1082,14 @@ class ManagerMixin(object):
         mtu = None
         try:
             if fip:
-                port_net_id = \
+                port = \
                     self.os_admin.floating_ips_client.list_floatingips(
-                        floating_ip_address=fip)['floatingips'][0][
-                            'port_details']['network_id']
+                        floating_ip_address=fip)['floatingips'][0]
+                if 'port_details' in port:
+                    port_net_id = port['port_details']['network_id']
+                elif 'floating_network_id' in port:
+                    port_net_id = port['floating_network_id']
+
             if fixed_port:
                 port_net_id = self.os_admin.ports_client.list_ports(
                     fixed_ips="ip_address=" + fixed_port)['ports'][0][
