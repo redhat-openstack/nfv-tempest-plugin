@@ -1,6 +1,30 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8536243_f222b4de",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-01-21T09:41:25Z",
+      "side": 1,
+      "message": "This method, i think should move to common.shell_utilities.py\n\nThere is no need to interact with openstack api,\nPure ssh command",
+      "range": {
+        "startLine": 796,
+        "startChar": 0,
+        "endLine": 796,
+        "endChar": 39
+      },
+      "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "348b5d7d_d59a4cfb",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
@@ -20,10 +44,10 @@
         "endChar": 32
       },
       "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "745eeeb3_85302d1a",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
@@ -44,10 +68,10 @@
         "endChar": 32
       },
       "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5e66bc83_8f747d52",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
@@ -68,10 +92,10 @@
         "endChar": 32
       },
       "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b1d3427c_88655521",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
@@ -85,10 +109,10 @@
       "side": 1,
       "message": "Should this line be executed both for a ovs and ovn deployment?",
       "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "3697db89_b25de0fc",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
@@ -103,10 +127,33 @@
       "message": "I think so, since OVN relies on OVS, there is no harm in restarting OVS before OVN.",
       "parentUuid": "b1d3427c_88655521",
       "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "41f2c2af_0ad5e859",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-01-21T09:41:25Z",
+      "side": 1,
+      "message": "Please change the name of the method, it is not stand alone test.\nIt is service method that called by tests, i would suggest create_test_setup.\n\nAll methods discover later by stestr are starting with tests_*",
+      "range": {
+        "startLine": 223,
+        "startChar": 8,
+        "endLine": 223,
+        "endChar": 36
+      },
+      "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "5f8c2ee4_5c66781b",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
@@ -126,10 +173,10 @@
         "endChar": 32
       },
       "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "238ce57c_541838d0",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
@@ -150,10 +197,10 @@
         "endChar": 32
       },
       "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "01c5fe77_106c74f7",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
@@ -174,10 +221,10 @@
         "endChar": 32
       },
       "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "bb0f5fa9_7abfddba",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
@@ -198,10 +245,10 @@
         "endChar": 32
       },
       "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "0dc197ab_077d2fa3",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
@@ -221,10 +268,10 @@
         "endChar": 48
       },
       "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "2c89f5bf_6de8658e",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
@@ -245,10 +292,10 @@
         "endChar": 48
       },
       "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "a25a2d77_8ada5cad",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
@@ -268,10 +315,10 @@
         "endChar": 35
       },
       "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "9397b850_f1f1e479",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
@@ -292,8 +339,31 @@
         "endChar": 35
       },
       "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "557e1f8b_edd8f939",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-01-21T09:41:25Z",
+      "side": 1,
+      "message": "As per now it is part of ovn, you can move this to get_ovn_multicast_groups() method\nSuggestion.\nInside the method, you should sleep for shorter times. and just see if cache is cleared, \nIf it is ssh to each machine, no need to sleep at all, since this operation takes time.",
+      "parentUuid": "9397b850_f1f1e479",
+      "range": {
+        "startLine": 361,
+        "startChar": 19,
+        "endLine": 361,
+        "endChar": 35
+      },
+      "revId": "25754ad7075474686d7dcfa69d57c0daa4a79499",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
