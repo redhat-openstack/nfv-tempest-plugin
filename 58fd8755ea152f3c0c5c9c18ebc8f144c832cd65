@@ -16,6 +16,23 @@
       "message": "recheck",
       "revId": "58fd8755ea152f3c0c5c9c18ebc8f144c832cd65",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0f02f52_b5990784",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-01-21T09:16:34Z",
+      "side": 1,
+      "message": "Yariv,\nI\u0027m starting to work on the mtu test to make the necessary alignment for the test to the ovn based deployment.\nThe issue with the method is that the api call that exists in the ovs based deployment, not exists on the ovn based deployment.\n\nUnfortunately, current fix does not provide resolution for the regular ovn deployment because of the following:\nThe instance booted with the geneve network as a main network, which means it has to provide a different mtu size than vlan based network, which taken from the external network.\n\nI assume, the the global ovn fix will suit you use case as well.\n\nWould you like to merge this patch in any case or to wait for my fix?",
+      "revId": "58fd8755ea152f3c0c5c9c18ebc8f144c832cd65",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
