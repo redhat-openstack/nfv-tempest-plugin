@@ -22,6 +22,30 @@
       },
       "revId": "b0083bd6f1c353da3c58f6777aebb589eaf4d02a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a30bb3a9_ae6eae71",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-01-25T09:54:51Z",
+      "side": 1,
+      "message": "I did not find the flows while running without it,\nand in FID of sy.ananth@gmail.com, it was there also\n\nlook here https://community.mellanox.com/s/article/ASAP-Basic-Debug\nsection 2.2\nThis way you could see the offloaded and non offloaded flows\ndp:tc\ndp:ovs\n\nI am not sure, later on we will have to check for that parameter also.\nWe could know if flow is offloaded or not",
+      "parentUuid": "4b28f625_a7855bfc",
+      "range": {
+        "startLine": 129,
+        "startChar": 63,
+        "endLine": 129,
+        "endChar": 65
+      },
+      "revId": "b0083bd6f1c353da3c58f6777aebb589eaf4d02a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
