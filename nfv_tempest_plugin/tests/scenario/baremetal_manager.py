@@ -890,15 +890,23 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         return secgroup
 
     def _create_loginable_secgroup_rule(self, secgroup_id=None):
+        """Add default rules
+
+        Load default rules (icmp and ssh) and add them to the
+        security group
+        """
+        rule_list = \
+            jsonutils.loads(CONF.nfv_plugin_options.login_security_group_rules)
+        self.add_security_group_rules(rule_list, secgroup_id)
+
+    def add_security_group_rules(self, rule_list, secgroup_id=None):
         """Add secgroups rules
 
         To conform changes in nova clients on microversions>=2.36
         This method add sg rules with neutron client
         This method find default security group or specific one
-        and add icmp and ssh rules
+        and specified rules
         """
-        rule_list = \
-            jsonutils.loads(CONF.nfv_plugin_options.login_security_group_rules)
         client = self.security_groups_client
         client_rules = self.security_group_rules_client
         if not secgroup_id:
