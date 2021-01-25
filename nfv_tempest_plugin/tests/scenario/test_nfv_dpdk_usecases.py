@@ -13,6 +13,8 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import time
+
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
 from tempest import config
@@ -77,6 +79,14 @@ class TestDpdkScenarios(base_test.BaseTest):
         servers, key_pair = \
             self.create_server_with_resources(test=test, num_servers=3,
                                               use_mgmt_only=True)
+
+        # Add security group rules needed to allow multicast traffic
+        rule_list = [{"protocol": "udp", "direction": "ingress"},
+                     {"protocol": "udp", "direction": "egress"}]
+        self.add_security_group_rules(rule_list,
+                                      self.remote_ssh_sec_groups[0]['id'])
+        time.sleep(10)
+
         servers[0]['mcast_srv'] = 'listener1'
         servers[1]['mcast_srv'] = 'listener2'
         servers[2]['mcast_srv'] = 'traffic_runner'
@@ -105,6 +115,7 @@ class TestDpdkScenarios(base_test.BaseTest):
                                                 username=self.instance_user,
                                                 private_key=key_pair[
                                                     'private_key'])
+
             ssh_source.exec_command(send_cmd if 'traffic_runner' in
                                                 srv['mcast_srv'] else
                                                 receive_cmd)
