@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c5ced5c6_b486e51e",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-01-26T11:44:48Z",
+      "side": 1,
+      "message": "Miguel +1",
+      "parentUuid": "f7f0db66_f2154b5b",
+      "range": {
+        "startLine": 892,
+        "startChar": 7,
+        "endLine": 892,
+        "endChar": 38
+      },
+      "revId": "78f7ccedcef713245042a9412f4dab8e7d25aba4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f476400a_1018f5a2",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
@@ -156,6 +180,30 @@
       "side": 1,
       "message": "I think it is not needed, if security rules were not applied, multicast traffic will not arrive to other vms",
       "parentUuid": "d881314b_497b424c",
+      "range": {
+        "startLine": 88,
+        "startChar": 1,
+        "endLine": 88,
+        "endChar": 22
+      },
+      "revId": "78f7ccedcef713245042a9412f4dab8e7d25aba4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "060b81c2_c0eb75d8",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-01-26T11:44:48Z",
+      "side": 1,
+      "message": "Agree with Miguel",
+      "parentUuid": "83d29741_2f116d0b",
       "range": {
         "startLine": 88,
         "startChar": 1,
