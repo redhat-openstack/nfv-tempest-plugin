@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f7f0db66_f2154b5b",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-01-26T09:47:06Z",
+      "side": 1,
+      "message": "I think that method is different. set_remote_ssh_sec_groups will create a new security group with the rules specified in the configuration file.\nwhat i am doing is adding new rules to a existing security group.\nDoing in this way allows that those udp rules are only loaded in multicast testcase that are the place where they are needed. I think it is a bad idea to modify configuration file and load those rules everywhere, it is difficult to know why those rules are needed.",
+      "parentUuid": "6c25cc1e_f48b9238",
+      "range": {
+        "startLine": 892,
+        "startChar": 7,
+        "endLine": 892,
+        "endChar": 38
+      },
+      "revId": "78f7ccedcef713245042a9412f4dab8e7d25aba4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f476400a_1018f5a2",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
@@ -61,6 +85,30 @@
       "writtenOn": "2021-01-26T09:27:27Z",
       "side": 1,
       "message": "I like the separation here",
+      "range": {
+        "startLine": 902,
+        "startChar": 8,
+        "endLine": 902,
+        "endChar": 32
+      },
+      "revId": "78f7ccedcef713245042a9412f4dab8e7d25aba4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73f1e6da_83d57c00",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-01-26T09:47:06Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f476400a_1018f5a2",
       "range": {
         "startLine": 902,
         "startChar": 8,
@@ -84,6 +132,30 @@
       "writtenOn": "2021-01-26T09:27:27Z",
       "side": 1,
       "message": "Consider verifying security group applied with corresponding rest api\n openstack security group show 6678b35b-6a6d-4b20-ab17-ef8aa752eefb -c rules -f value\n\nsearch for the rule[\u0027id\u0027] in the above command",
+      "range": {
+        "startLine": 88,
+        "startChar": 1,
+        "endLine": 88,
+        "endChar": 22
+      },
+      "revId": "78f7ccedcef713245042a9412f4dab8e7d25aba4",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83d29741_2f116d0b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-01-26T09:47:06Z",
+      "side": 1,
+      "message": "I think it is not needed, if security rules were not applied, multicast traffic will not arrive to other vms",
+      "parentUuid": "d881314b_497b424c",
       "range": {
         "startLine": 88,
         "startChar": 1,
