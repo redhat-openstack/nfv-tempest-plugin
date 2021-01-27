@@ -70,6 +70,30 @@
       },
       "revId": "b0083bd6f1c353da3c58f6777aebb589eaf4d02a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55cc9ba9_5547e5f9",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-01-27T15:19:54Z",
+      "side": 1,
+      "message": "It seems that lines are too short to have the max address in it\nwithout -m test has failed i had to remove line 156 below",
+      "parentUuid": "92b5f005_22afb92b",
+      "range": {
+        "startLine": 129,
+        "startChar": 63,
+        "endLine": 129,
+        "endChar": 65
+      },
+      "revId": "b0083bd6f1c353da3c58f6777aebb589eaf4d02a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
