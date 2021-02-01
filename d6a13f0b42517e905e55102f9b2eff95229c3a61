@@ -93,6 +93,30 @@
       },
       "revId": "d6a13f0b42517e905e55102f9b2eff95229c3a61",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa2d6cd4_2d0acc1f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-02-01T11:38:44Z",
+      "side": 1,
+      "message": "If it is not clear, test should not assert or throw, just log",
+      "parentUuid": "61c4eca7_52e407e4",
+      "range": {
+        "startLine": 71,
+        "startChar": 33,
+        "endLine": 71,
+        "endChar": 36
+      },
+      "revId": "d6a13f0b42517e905e55102f9b2eff95229c3a61",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
