@@ -189,6 +189,30 @@
       },
       "revId": "d6a13f0b42517e905e55102f9b2eff95229c3a61",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d84c7e36_7b46bb99",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-01T12:01:39Z",
+      "side": 1,
+      "message": "I will tell you why it\u0027s an overkill.\nWe used to specify the exact version of the packages in the past.\nThe result of it was, that for almost every new puddle, the test failed because the packages have been updated.\nAt some point we decided to use only the general names of the packages without specifying the exact version.\n\nFailing the tests because the package has been update to the newer version, is not clever for me.",
+      "parentUuid": "f9c945fd_3467dbf9",
+      "range": {
+        "startLine": 71,
+        "startChar": 33,
+        "endLine": 71,
+        "endChar": 36
+      },
+      "revId": "d6a13f0b42517e905e55102f9b2eff95229c3a61",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
