@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d557aa85_6aec212b",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-01T11:47:31Z",
+      "side": 1,
+      "message": "What\u0027s the advantage to use the deployer-input-conf?\nThose params are not chenged frequently.\nAnd by using the deployer-input-conf, it will add complexity.",
+      "parentUuid": "b58c6b84_d5eeb150",
+      "range": {
+        "startLine": 108,
+        "startChar": 24,
+        "endLine": 108,
+        "endChar": 55
+      },
+      "revId": "d6a13f0b42517e905e55102f9b2eff95229c3a61",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "09adc41b_ffd124cf",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 1
@@ -109,6 +133,30 @@
       "side": 1,
       "message": "If it is not clear, test should not assert or throw, just log",
       "parentUuid": "61c4eca7_52e407e4",
+      "range": {
+        "startLine": 71,
+        "startChar": 33,
+        "endLine": 71,
+        "endChar": 36
+      },
+      "revId": "d6a13f0b42517e905e55102f9b2eff95229c3a61",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02652cfc_f8f6fbfb",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-01T11:47:31Z",
+      "side": 1,
+      "message": "I will move the line 75 one indentation left so it will log the packages in any case.\n\nWe already check the names.\nThe list of the packages that checked is: \"tuned-2.*\", \"tuned-profiles-.*\", \"openvswitch2.*\"\nWe do not check for the specific version as it will be an overkill.\nAnd in my opinion, the test should fail if required packages do not exist.",
+      "parentUuid": "aa2d6cd4_2d0acc1f",
       "range": {
         "startLine": 71,
         "startChar": 33,
