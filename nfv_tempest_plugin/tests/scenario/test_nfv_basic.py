@@ -38,7 +38,7 @@ class TestNfvBasic(base_test.BaseTest):
         super(TestNfvBasic, self).setUp()
         # pre setup creations and checks read from config files
 
-    def test_hypevisor_tuning(self):
+    def test_hypervisor_tuning(self):
         """Test tuning state of hypervisor
 
         Test the following states:
@@ -68,7 +68,7 @@ class TestNfvBasic(base_test.BaseTest):
             result = shell_utils.run_command_over_ssh(self.hypervisor_ip,
                                                       pkg_check).split()
             if result:
-                if len(result) != len(packages):
+                if len(result) < len(packages):
                     test_result.append("Missing required packages. "
                                        "Found following packages: {}"
                                        .format(result))
