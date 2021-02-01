@@ -261,6 +261,30 @@
       },
       "revId": "d6a13f0b42517e905e55102f9b2eff95229c3a61",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca0e7237_49e996d1",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-02-01T12:16:03Z",
+      "side": 1,
+      "message": "you can use the snippet in my first comment (not sure it is python2 compatible)",
+      "parentUuid": "3ff33bf8_17bbb69b",
+      "range": {
+        "startLine": 71,
+        "startChar": 33,
+        "endLine": 71,
+        "endChar": 36
+      },
+      "revId": "d6a13f0b42517e905e55102f9b2eff95229c3a61",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
