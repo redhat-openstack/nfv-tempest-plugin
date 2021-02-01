@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b58c6b84_d5eeb150",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-02-01T11:37:30Z",
+      "side": 1,
+      "message": "I think we should use parameter in in test inputs per now\nWe have ci creation with de[ployer-input-conf\nit is about time to use it",
+      "range": {
+        "startLine": 108,
+        "startChar": 24,
+        "endLine": 108,
+        "endChar": 55
+      },
+      "revId": "d6a13f0b42517e905e55102f9b2eff95229c3a61",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "09adc41b_ffd124cf",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 1
@@ -37,6 +60,30 @@
       "writtenOn": "2021-02-01T11:36:05Z",
       "side": 1,
       "message": "While grepping, I\u0027m using a wildcard mathod of fetching package names.\nFor example - \"tuned-2.*\".\nIf the results of the fetching has the number or more packages, I think it is enough.\nWe don\u0027t need to check the exact version of the packages.\nThat will be an overkill.",
+      "parentUuid": "09adc41b_ffd124cf",
+      "range": {
+        "startLine": 71,
+        "startChar": 33,
+        "endLine": 71,
+        "endChar": 36
+      },
+      "revId": "d6a13f0b42517e905e55102f9b2eff95229c3a61",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61c4eca7_52e407e4",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-02-01T11:37:30Z",
+      "side": 1,
+      "message": "+2 i think we we should check for names\nI think this test should print into tempest.log, just in case we would like to see what is installed, the same for services.",
       "parentUuid": "09adc41b_ffd124cf",
       "range": {
         "startLine": 71,
