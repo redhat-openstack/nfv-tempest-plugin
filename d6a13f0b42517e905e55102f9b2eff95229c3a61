@@ -213,6 +213,30 @@
       },
       "revId": "d6a13f0b42517e905e55102f9b2eff95229c3a61",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "460787d0_5a257050",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-02-01T12:06:38Z",
+      "side": 1,
+      "message": "I don\u0027t think there is a problem with using regex for versions but in case there is (for example) \"openvswitch2-something\" \"openvswitch2-something-else\" and no packages of tuned the test will still pass because you only count the number of packages found but don\u0027t validate that every regex\u0027s have a matching package",
+      "parentUuid": "d84c7e36_7b46bb99",
+      "range": {
+        "startLine": 71,
+        "startChar": 33,
+        "endLine": 71,
+        "endChar": 36
+      },
+      "revId": "d6a13f0b42517e905e55102f9b2eff95229c3a61",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
