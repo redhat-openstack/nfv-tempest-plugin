@@ -1082,14 +1082,8 @@ class ManagerMixin(object):
         mtu = None
         try:
             if fip:
-                port = \
-                    self.os_admin.floating_ips_client.list_floatingips(
-                        floating_ip_address=fip)['floatingips'][0]
-                if 'port_details' in port:
-                    port_net_id = port['port_details']['network_id']
-                elif 'floating_network_id' in port:
-                    port_net_id = port['floating_network_id']
-
+                port_net_id = \
+                    self.get_internal_port_from_fip(fip)['network_id']
             if fixed_port:
                 port_net_id = self.os_admin.ports_client.list_ports(
                     fixed_ips="ip_address=" + fixed_port)['ports'][0][
@@ -1099,10 +1093,22 @@ class ManagerMixin(object):
             raise Exception(err_msg)
         net_type = self.os_admin.networks_client.show_network(
             port_net_id)['network']['provider:network_type']
-        if net_type == 'vxlan':
-            mtu = 8922
-        elif net_type == 'vlan':
-            mtu = 8972
-        else:
+        # The number of mtu bytes size we expect to get,
+        # based on the protocol we are using.
+        # In case of VLAN:
+        #    20 bytes taken for the IP header
+        #    8 bytes taken for the ICMP header
+        # In case of VXLAN:
+        # In addition to the base bytes count (28):
+        #    50 bytes taken for the vxlan protocol type
+        # In case of GENEVE:
+        # In addition to the base bytes count (28):
+        #    86 bytes taken for the geneve protocol type
+        # http://ipengineer.net/2014/06/vxlan-mtu-vs-ip-mtu-consideration/
+        # https://www.rfc-editor.org/rfc/rfc8926.html#name-efficient-\
+        # implementation
+        mtu_type = {'vxlan': 8922, 'geneve': 8914, 'vlan': 8972}
+        if net_type not in mtu_type:
             raise KeyError('Unable to locate network type for mtu')
+        mtu = mtu_type[net_type]
         return mtu
