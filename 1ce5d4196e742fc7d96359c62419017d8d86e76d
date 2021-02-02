@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c6136ab4_c921947f",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-02-02T21:26:16Z",
+      "side": 1,
+      "message": "consider using one liner\n\u003e\u003e\u003e mtu\n{\u0027vxlan\u0027: 8922, \u0027geneve\u0027: 8914, \u0027vlan\u0027: 8972}\n\u003e\u003e\u003e net_type \u003d \"vxlan\"\n\u003e\u003e\u003e mtu[net_type]\n8922\n\u003e\u003e\u003e",
+      "range": {
+        "startLine": 1110,
+        "startChar": 3,
+        "endLine": 1110,
+        "endChar": 31
+      },
+      "revId": "1ce5d4196e742fc7d96359c62419017d8d86e76d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7d1eb574_20cda1ca",
         "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
         "patchSetId": 1
@@ -14,6 +37,30 @@
       "writtenOn": "2021-02-02T16:52:33Z",
       "side": 1,
       "message": "I will check it on ovn hw-offload nop geneve tunneling",
+      "range": {
+        "startLine": 1112,
+        "startChar": 8,
+        "endLine": 1112,
+        "endChar": 34
+      },
+      "revId": "1ce5d4196e742fc7d96359c62419017d8d86e76d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2a46631_ddd4b629",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1112,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-02-02T21:26:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d1eb574_20cda1ca",
       "range": {
         "startLine": 1112,
         "startChar": 8,
