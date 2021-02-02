@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d857d1a5_1d9b012b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-02-02T13:22:47Z",
+      "side": 1,
+      "message": "why using fnmatch (File Name Generation) format instead of extended regex?",
+      "revId": "2a6351c17c8257af58005d96ee3e489732f77b1d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
