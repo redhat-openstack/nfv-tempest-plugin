@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d2e82a24_a39aefec",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-03T07:12:44Z",
+      "side": 1,
+      "message": "We spoke before, about minimizing the amount of external configuration we need to keep and I\u0027m moving toward that state.\nAnd now, you are telling me to put in in additional configuration file.\n\nI would agree with you in case or really frequent configuration change, but in current case, where the cofiguration is not changing, I don\u0027t see any reason to move this from one external config file to another instead of putting it in the plugin defaults.",
+      "parentUuid": "cdead5f0_ea02f42d",
+      "range": {
+        "startLine": 108,
+        "startChar": 24,
+        "endLine": 108,
+        "endChar": 55
+      },
+      "revId": "d6a13f0b42517e905e55102f9b2eff95229c3a61",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "09adc41b_ffd124cf",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 1
