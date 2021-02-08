@@ -238,13 +238,13 @@ class ManagerMixin(object):
 
         server_details = \
             self.os_admin.servers_client.show_server(server['id'])['server']
-        osp_release = self.get_osp_release(hypervisor)
-        # If OSP version is 16, use podman container to retrieve instance XML
-        if osp_release >= 16:
-            cmd = ('sudo podman exec -it nova_libvirt virsh -c '
-                   'qemu:///system dumpxml {}')
+        container_cli = self.get_container_cli(container_cli_must=False)
+        cmd = 'sudo {} virsh -c qemu:///system dumpxml'
+        if container_cli:
+            cmd = cmd.format(container_cli + ' exec -it nova_libvirt')
         else:
-            cmd = 'sudo virsh -c qemu:///system dumpxml {}'
+            cmd = cmd.format('')
+        cmd += ' {}'
         get_dumpxml = \
             cmd.format(server_details['OS-EXT-SRV-ATTR:instance_name'])
         dumpxml_data = shell_utils.\
@@ -252,6 +252,20 @@ class ManagerMixin(object):
         dumpxml_string = ELEMENTTree.fromstring(dumpxml_data)
 
         return dumpxml_string
+
+    def get_container_cli(self, container_cli_must=True, hypervisor=None):
+        """Search for openstack version and return container cli
+
+        :parm container_cli_must: indication cli below Train container
+        :return container_cli: None or container cli name
+        """
+        container_cli = None
+        rhosp_release = self.get_osp_release(hypervisor)
+        if rhosp_release >= 16:
+            container_cli = 'podman'
+        elif container_cli_must:
+            container_cli = 'docker'
+        return container_cli
 
     def get_instance_vcpu(self, instance, hypervisor):
         """Get a list of vcpu cores used by the instance
@@ -1069,9 +1083,7 @@ class ManagerMixin(object):
         try:
             if fip:
                 port_net_id = \
-                    self.os_admin.floating_ips_client.list_floatingips(
-                        floating_ip_address=fip)['floatingips'][0][
-                            'port_details']['network_id']
+                    self.get_internal_port_from_fip(fip)['network_id']
             if fixed_port:
                 port_net_id = self.os_admin.ports_client.list_ports(
                     fixed_ips="ip_address=" + fixed_port)['ports'][0][
@@ -1081,10 +1093,22 @@ class ManagerMixin(object):
             raise Exception(err_msg)
         net_type = self.os_admin.networks_client.show_network(
             port_net_id)['network']['provider:network_type']
-        if net_type == 'vxlan':
-            mtu = 8922
-        elif net_type == 'vlan':
-            mtu = 8972
-        else:
+        # The number of mtu bytes size we expect to get,
+        # based on the protocol we are using.
+        # In case of VLAN:
+        #    20 bytes taken for the IP header
+        #    8 bytes taken for the ICMP header
+        # In case of VXLAN:
+        # In addition to the base bytes count (28):
+        #    50 bytes taken for the vxlan protocol type
+        # In case of GENEVE:
+        # In addition to the base bytes count (28):
+        #    86 bytes taken for the geneve protocol type
+        # http://ipengineer.net/2014/06/vxlan-mtu-vs-ip-mtu-consideration/
+        # https://www.rfc-editor.org/rfc/rfc8926.html#name-efficient-\
+        # implementation
+        mtu_type = {'vxlan': 8922, 'geneve': 8914, 'vlan': 8972}
+        if net_type not in mtu_type:
             raise KeyError('Unable to locate network type for mtu')
+        mtu = mtu_type[net_type]
         return mtu

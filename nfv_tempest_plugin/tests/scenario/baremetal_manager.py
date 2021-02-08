@@ -942,6 +942,22 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         floating_ip['id'])
         return floating_ip
 
+    def get_internal_port_from_fip(self, fip=None):
+        """returns internal port data mapped to fip
+
+        The function returns mapped port date to fip
+
+        :param fip: fip address to resolve
+        :return int_port: return port date
+        """
+        self.assertNotEmpty(fip, "fip is empty")
+        fixed_ip = \
+            self.os_admin.floating_ips_client.list_floatingips(
+                floating_ip_address=fip)['floatingips'][0]['fixed_ip_address']
+        int_port = self.os_admin.ports_client.list_ports(
+            fixed_ips="ip_address=" + fixed_ip)['ports'][0]
+        return int_port
+
     def check_instance_connectivity(self, ip_addr, user, key_pair):
         """Check connectivity state of the instance
 
