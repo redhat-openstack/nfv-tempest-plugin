@@ -14,6 +14,7 @@
 #    under the License.
 
 import base64
+import json
 import os.path
 import paramiko
 import re
@@ -1165,3 +1166,39 @@ class ManagerMixin(object):
             raise KeyError('Mellanox hw-offload nics not detected')
         LOG.info('The HW Offload interfaces detected - {}'.format(mlnx_nics))
         return mlnx_nics
+
+    def retrieve_ovs_dpdk_bond_details(self, node=None):
+        """Retrieve OVS DPDK bond details from hypervisor
+
+        :param node: Ip address of the node to retrieve the ovs dpdk name from.
+                     If node not specified, first hypervisor will be used.
+        :return Details of the ovs dpdk bond (dict)
+        """
+        ovs_dpdk_bonds = {}
+        if node is None:
+            node = self._get_hypervisor_ip_from_undercloud()[0]
+        os_net_config_cmd = 'cat /etc/os-net-config/config.json'
+        content = shell_utils.run_command_over_ssh(node, os_net_config_cmd)
+        os_net_data = json.loads(content)
+        for net_int in os_net_data['network_config']:
+            if 'members' in net_int:
+                for member in net_int['members']:
+                    if member['type'] == 'ovs_dpdk_bond':
+                        ovs_dpdk_bonds[member['name']] = member
+        return ovs_dpdk_bonds
+
+    def retrieve_lacp_ovs_bond(self, node=None):
+        """Retrieve ovs bond with lacp configuration
+
+        :param node: Ip address of the node to retrieve the configuration from.
+        """
+        bond_ports = []
+        lacp_bonds = self.retrieve_ovs_dpdk_bond_details(node)
+        for bond, bond_details in iter(lacp_bonds.items()):
+            if bond_details.get('ovs_options') and \
+                    'lacp' in bond_details['ovs_options']:
+                for bond_port in bond_details['members']:
+                    bond_ports.append(bond_port['name'])
+        if not bond_ports:
+            raise ValueError('LACP configuration is missing')
+        return {'bond_name': bond, 'bond_ports': bond_ports}
