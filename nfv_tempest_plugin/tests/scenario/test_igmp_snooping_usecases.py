@@ -52,7 +52,7 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
         result = []
         cmd = 'sudo ovs-vsctl --format=json list bridge br-int'
         checks = {'mcast_snooping_enable': True,
-                  'mcast-snooping-disable-flood-unregistered': 'true'}
+                  'mcast-snooping-disable-flood-unregistered': True}
 
         for hypervisor_ip in hypervisors:
             output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
@@ -161,6 +161,10 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
         for hyp in hypervisor_ips:
             shell_utils.run_command_over_ssh(hyp, cmd)
         self.test_igmp_snooping_deployment()
+
+        # Give time to have everything up after reboot so that other testcases
+        # executed after this one do not fail
+        time.sleep(60)
 
     def test_multicast_functionality(self, servers, key_pair, mcast_groups,
                                      pkts_tolerance):
