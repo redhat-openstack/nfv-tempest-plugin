@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f7a9435_fa952012",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2021-02-09T11:10:21Z",
+      "side": 1,
+      "message": "import time - is missing",
+      "range": {
+        "startLine": 167,
+        "startChar": 8,
+        "endLine": 167,
+        "endChar": 18
+      },
+      "revId": "3e4b8429a87287c6f291f11ed0fb3e167e0c88a9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
