@@ -14,6 +14,7 @@
 #    under the License.
 
 import base64
+import json
 import os.path
 import paramiko
 import re
@@ -1112,3 +1113,31 @@ class ManagerMixin(object):
             raise KeyError('Unable to locate network type for mtu')
         mtu = mtu_type[net_type]
         return mtu
+
+    def retrieve_ovs_dpdk_bond_details(self, node=None):
+        """Retrieve OVS DPDK bond details from hypervisor
+
+        :param node: Ip address of the node to retrieve the ovs dpdk name from.
+                     If node not specified, first hypervisor will be used.
+        :return Details of the ovs dpdk bond (dict)
+        """
+        ovs_dpdk_bond = {}
+        bond_details = {}
+        if node is None:
+            hyper_kwargs = \
+                {'shell': CONF.nfv_plugin_options.undercloud_rc_file}
+            node = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)[0]
+        os_net_config_cmd = 'cat /etc/os-net-config/config.json'
+        content = shell_utils.run_command_over_ssh(node, os_net_config_cmd)
+        os_net_data = json.loads(content)
+        for net_int in os_net_data['network_config']:
+            if 'members' in net_int:
+                for member in net_int['members']:
+                    if member['type'] == 'ovs_dpdk_bond':
+                        bond_details = member
+        ovs_dpdk_bond['bond_name'] = bond_details['name']
+        ovs_dpdk_bond['ports'] = []
+        for port in bond_details['members']:
+            if port['type'] == 'ovs_dpdk_port':
+                ovs_dpdk_bond['ports'].append(port['name'])
+        return ovs_dpdk_bond

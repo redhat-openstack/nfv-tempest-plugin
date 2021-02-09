@@ -13,6 +13,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import json
 import time
 
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
@@ -41,16 +42,16 @@ class TestLacpScenarios(base_test.BaseTest):
         """ pre setup creations and checks read from config files """
 
     def test_deployment_lacp(self, test='deployment_lacp', hypervisor_ip=None):
-        """Check that lacp bonding is properly configure
+        """Check that lacp bonding is properly configured
 
-        Configuration options example:
-         - name: deployment_lacp
-           bonding_config:
-             - bond_name: 'dpdkbond1'
-               bond_mode: 'balance-tcp'
-               lacp_status: 'negotiated'
-               lacp_time: 'fast'
-               lacp_fallback_ab: 'true'
+        The test uses the following configuration options example:
+        bond_name: 'dpdkbond1'
+        bond_mode: 'balance-tcp'
+        lacp_status: 'negotiated'
+        lacp_time: 'fast'
+        lacp_fallback_ab: 'true'
+
+        By default, "bond_name" is not provided and discovered automatically.
         """
         LOG.info('Starting deployment_lacp test.')
 
@@ -58,11 +59,10 @@ class TestLacpScenarios(base_test.BaseTest):
             hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
                 shell=CONF.nfv_plugin_options.undercloud_rc_file)[0]
 
-        bonding_dict = {}
-        test_setup_dict = self.test_setup_dict[test]
-        if 'config_dict' in test_setup_dict and \
-           'bonding_config' in test_setup_dict['config_dict']:
-            bonding_dict = test_setup_dict['config_dict']['bonding_config'][0]
+        bonding_dict = json.loads(CONF.nfv_plugin_options.lacp_config)
+        if not bonding_dict.get('bond_name'):
+            bonding_dict['bond_name'] = \
+                self.retrieve_ovs_dpdk_bond_details(hypervisor_ip)['bond_name']
 
         cmd = 'sudo ovs-appctl bond/show {0} | '\
               'egrep "^bond_mode|^lacp_status|^lacp_fallback_ab"; '\
@@ -109,15 +109,13 @@ class TestLacpScenarios(base_test.BaseTest):
           the other one is not used
         * 2 flows: 50% of the traffic in each interface
         * 3 flows: 66% in one interface, 33% in the other one
-        Configuration options example:
-         - name: balance_tcp
-           flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-           router: true
-           package-names:
-              - iperf
-           bonding_config:
-             - bond_name: 'dpdkbond1'
-               ports: [ 'dpdk2', 'dpdk3']
+
+        The options that could be defined via the deployer-input
+        to tempest.conf:
+        bond_name: 'dpdkbond0'
+        ports: ['dpdk0', 'dpdk1']
+
+        By default, these options discovered automatically.
         """
         LOG.info('Starting balance_tcp test.')
 
@@ -138,11 +136,9 @@ class TestLacpScenarios(base_test.BaseTest):
                  {'desc': '3 flows', 'iperf_option': '-P 3',
                   'threshold_1': 49, 'threshold_2': 51}]
 
-        bonding_dict = {}
-        test_setup_dict = self.test_setup_dict[test]
-        if 'config_dict' in test_setup_dict and \
-           'bonding_config' in test_setup_dict['config_dict']:
-            bonding_dict = test_setup_dict['config_dict']['bonding_config'][0]
+        bonding_dict = json.loads(CONF.nfv_plugin_options.balance_tcp)
+        if not bonding_dict.get('bond_name') or not bonding_dict.get('ports'):
+            bonding_dict = self.retrieve_ovs_dpdk_bond_details()
 
         for test in tests:
             receive_cmd = '(if pgrep iperf; then sudo pkill iperf; fi;' \

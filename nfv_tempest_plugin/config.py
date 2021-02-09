@@ -114,4 +114,14 @@ NfvPluginOptions = [
                        '"pkt_size": 20}, {"ip": "238.0.0.5", "port": "5000",'
                        '"tx_pkts": 300, "pkt_size": 20}]}',
                help='IGMP configuration for the igmp snooping test'),
+    cfg.StrOpt('lacp_config',
+               default='{"bond_name": "", "bond_mode": "balance-tcp",'
+                       '"lacp_time": "fast", "lacp_status": "negotiated",'
+                       '"lacp_fallback_ab": "true"}',
+               help='LACP configuration for LACP deployment test. '
+                    'The "bond_name" discovered, if not provided'),
+    cfg.StrOpt('balance_tcp',
+               default='{"bond_name": "", "ports": ""}',
+               help='Balance TCP test configuration. '
+                    'By default, gathered automatically'),
 ]
