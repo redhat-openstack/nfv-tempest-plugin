@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65635eae_e4826e72",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-02-10T20:04:34Z",
+      "side": 1,
+      "message": "I would assume defaults here. \nThere is no meaning for that, default should help tester to understand\nthe configuration",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 54
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a06bbb77_065c8feb",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_lacp_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-02-10T20:04:34Z",
+      "side": 1,
+      "message": "I would advise the opposite,\nthe configuration is empty, by default, which means that most of the time \n self.retrieve_ovs_dpdk_bond_details() is called,\n\nI would consider removing configuration for the test, since it is learning bond details.\nunless you want to give the opportunity for non tripleo users,",
+      "range": {
+        "startLine": 141,
+        "startChar": 11,
+        "endLine": 141,
+        "endChar": 20
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
