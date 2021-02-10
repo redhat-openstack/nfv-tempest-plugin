@@ -1112,3 +1112,32 @@ class ManagerMixin(object):
             raise KeyError('Unable to locate network type for mtu')
         mtu = mtu_type[net_type]
         return mtu
+
+    def discover_hw_offload_nics(self, node=None):
+        """Discover HW Offload network interfaces on hypervisor"""
+        if node is None:
+            hyper_kwargs = \
+                {'shell': CONF.nfv_plugin_options.undercloud_rc_file}
+            node = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)[0]
+        key = ["nova::compute::pci::passthrough"]
+        pci_passthrough = shell_utils.retrieve_content_from_hiera(node=node,
+                                                                  keys=key)
+        pci_passthrough = yaml.safe_load(pci_passthrough[0])
+        nics = [nic['devname'] for nic in pci_passthrough]
+        LOG.info('Detected interfaces are - {}'.format(nics))
+        # Check the nic driver and hw-tc-offload option.
+        # Expecting - 'mlx5e_rep' for the driver and 'on' for the hw-tc-offload
+        cmd = "ethtool -i {0} |grep driver; ethtool -k {0} |grep tc-offload"
+        mlnx_nics = []
+        for nic in nics:
+            eth_output = \
+                shell_utils.run_command_over_ssh(node, cmd.format(nic))
+            eth_output = eth_output.strip().split('\n')
+            eth_output = dict(el.split(': ') for el in eth_output)
+            if (eth_output['driver'] == 'mlx5e_rep'
+                and eth_output['hw-tc-offload'] == 'on'):
+                mlnx_nics.append(nic)
+        if not mlnx_nics:
+            raise KeyError('Mellanox hw-offload nics not detected')
+        LOG.info('The HW Offload interfaces detected - {}'.format(mlnx_nics))
+        return mlnx_nics

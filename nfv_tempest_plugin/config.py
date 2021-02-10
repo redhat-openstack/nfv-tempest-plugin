@@ -114,4 +114,8 @@ NfvPluginOptions = [
                        '"pkt_size": 20}, {"ip": "238.0.0.5", "port": "5000",'
                        '"tx_pkts": 300, "pkt_size": 20}]}',
                help='IGMP configuration for the igmp snooping test'),
+    cfg.ListOpt('offload_nics',
+                default=[],
+                help='Network interfaces to be tested for the offload test. '
+                     'By default, the nics discovered automatically'),
 ]

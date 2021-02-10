@@ -66,25 +66,29 @@ class TestNfvOffload(base_test.BaseTest):
         msg = "Not all hypervisors have OVS HW-Offload enabled"
         self.assertItemsEqual(expected_result, result, msg)
 
-    def test_offload_nic_eswitch_mode(self, test='offload'):
+    def test_offload_nic_eswitch_mode(self):
         """Check eswitch mode of nic for offload on all hypervisors
 
-        :param test: Test name from the external config file.
+        By default, offload nics are auto discovered.
+        But if the used would like to not perform the autodiscover and
+        provide the nics, it could be done by modifying the
+        CONF.nfv_plugin_options.offload_nics param in deployer-input file.
         """
-        test_dict = self.test_setup_dict[test]
-        if 'offload_nics' in test_dict:
-            offload_nics = test_dict['offload_nics']
-        else:
-            raise ValueError('offload_nics is not defined in offload test')
-        # Retrieve all hypvervisors
+        LOG.info('Starting offload_nic_eswitch_mode test')
+        # Retrieve all hypervisors
         hypervisors = self._get_hypervisor_ip_from_undercloud(
             shell=CONF.nfv_plugin_options.undercloud_rc_file)
+        offload_nics = CONF.nfv_plugin_options.offload_nics
+        if not offload_nics:
+            LOG.info('The offload nics are not provided. Detecting...')
+            offload_nics = self.discover_hw_offload_nics(hypervisors[0])
+        LOG.info('Test the following offload nics - {}'.format(offload_nics))
         # ethtool cmd to retrieve PCI bus of interface
         ethtool_cmd = ("sudo ethtool -i {} | grep bus-info "
                        "| cut -d ':' -f 2,3,4 | awk '{{$1=$1}};1'")
         # devlink cmd to retrieve switch mode of interface
         devlink_cmd = "sudo devlink dev eswitch show pci/{}"
-        # Intialize results list
+        # Initialize results list
         result = []
         # Expected result is a list of dicts containing a dict of
         # hypervisor's IP, its offload nics as keys and the value 'true'
@@ -95,6 +99,17 @@ class TestNfvOffload(base_test.BaseTest):
                            for ip in hypervisors]
         for hypervisor in hypervisors:
             dev_result = []
+            # Check hw-offload config on hypervisor
+            hyper_check = \
+                'sudo ovs-vsctl get Open_vSwitch . other_config:hw-offload'
+            hyper_offload_state = shell_utils.run_command_over_ssh(hypervisor,
+                                                                   hyper_check)
+            if not hyper_offload_state.strip() == '"true"':
+                dev_result.append('No hw-offload on hypervisor')
+                result.append({hypervisor: dev_result})
+                LOG.info('No hw-offload on hypervisor {}'.format(hypervisor))
+                continue
+            LOG.info('Hw-offload configured on hyper - {}'.format(hypervisor))
             for nic in offload_nics:
                 pci = shell_utils.run_command_over_ssh(hypervisor,
                                                        ethtool_cmd.format(nic))
