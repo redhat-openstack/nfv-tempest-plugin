@@ -134,4 +134,8 @@ NfvPluginOptions = [
                 help='IGMP configuration for the igmp reports test. '
                      'Configure reports_interface to set the interface in '
                      'which it will be checked that igmp reports are present')
+    cfg.ListOpt('offload_nics',
+                default=[],
+                help='Network interfaces to be tested for the offload test. '
+                     'By default, the nics discovered automatically'),
 ]
