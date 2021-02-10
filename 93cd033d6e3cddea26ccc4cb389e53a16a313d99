@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ded1eae_ad53db06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-10T21:59:51Z",
+      "side": 1,
+      "message": "Verified on hw-offload env.",
+      "revId": "93cd033d6e3cddea26ccc4cb389e53a16a313d99",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
