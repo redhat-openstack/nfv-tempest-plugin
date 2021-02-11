@@ -115,6 +115,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f76e328_c1038490",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1116,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-11T12:16:38Z",
+      "side": 1,
+      "message": "Yariv,\nI completely agree with you that the code should be reused.\nI will do as per your and Vadim\u0027s suggestion:\nA separate method that will return a dict of interface information - driver, iface name, vendor, etc.. It could be modified later to add additional values.",
+      "parentUuid": "b6f7e80c_51757b68",
+      "range": {
+        "startLine": 1116,
+        "startChar": 8,
+        "endLine": 1116,
+        "endChar": 33
+      },
+      "revId": "93cd033d6e3cddea26ccc4cb389e53a16a313d99",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29cada16_5b5319fa",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
         "patchSetId": 1
