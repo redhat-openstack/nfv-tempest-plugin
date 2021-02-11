@@ -141,6 +141,30 @@
       },
       "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b441247_9cd2420d",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_lacp_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-11T09:31:18Z",
+      "side": 1,
+      "message": "I gave it as empty for the easy of use.\nThe user, if need to use it, will know from one look what needs to be provided instead of diving into the code.\nOtherwise, some of the parameters will be defined and some not.",
+      "parentUuid": "6e65aa5d_24463f30",
+      "range": {
+        "startLine": 141,
+        "startChar": 11,
+        "endLine": 141,
+        "endChar": 20
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
