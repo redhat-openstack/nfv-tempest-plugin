@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "387d9dca_752a27c4",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-02-11T16:10:18Z",
+      "side": 1,
+      "message": "Clearing my point, i think it is not clear,\nhttps://review.gerrithub.io/c/redhat-openstack/nfv-tempest-plugin/+/510557/1/nfv_tempest_plugin/tests/scenario/test_nfv_lacp_usecases.py#140\n\nnot bonding_dict.get(\u0027bond_name\u0027)\nso if it is, good, if it not in config it is ok.\n\n\nhelp should give a clue on the parameter\ninstead of that:\n\nhelp\u003d\u0027Balance TCP test configuration. \u0027\n\u0027By default, gathered automatically\u0027),",
+      "parentUuid": "9d124871_426fba4f",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 54
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "98efe812_5da0c4d7",
         "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
         "patchSetId": 1
