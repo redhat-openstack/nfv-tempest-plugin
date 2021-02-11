@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7db00b4a_b7fca7de",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1116,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-11T09:26:57Z",
+      "side": 1,
+      "message": "I can\u0027t use the search lines from the \"test_sriov_min_qos\" because of 3 reasons.\n\n1) The whitelist in nova.conf in hw-offload deployment does not have a \"ConnectX\\-5\\\" regex.\n\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n[pci]\n\n#\n# From nova.conf\n#\n\n#\n# An alias for a PCI passthrough device requirement. For more information, refer\n# to the documentation. (multi valued)\n# Deprecated group;name - DEFAULT;pci_alias\n#alias \u003d\n\n#\n# White list of PCI devices available to VMs. For more information, refer to the\n# documentation. (multi valued)\n# Deprecated group;name - DEFAULT;pci_passthrough_whitelist\n#passthrough_whitelist \u003d\npassthrough_whitelist\u003d{\"devname\":\"enp4s0f0\",\"physical_network\":\"mx-network\",\"trusted\":\"true\"}\npassthrough_whitelist\u003d{\"devname\":\"enp4s0f1\",\"physical_network\":\"mx-network\",\"trusted\":\"true\"}\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\n2) Is more important. Since I\u0027m looking for offloaded interfaces, I\u0027m checking the driver of the interface.\nI\u0027m looking for the \"mlx5e_rep\" dirver:\n\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n[root@computeovshwoffload-0 ~]# ethtool -i enp4s0f0 | grep driver\ndriver: mlx5e_rep\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\nWhile in other deployments, the driver that is use is - \"mlx5_core\"\n\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n[root@computeovndpdksriov-0 ~]# ethtool -i enp4s0f0 | grep driver\ndriver: mlx5_core\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\n3) I\u0027m checking that the interface has the following attribute:\n\"hw-tc-offload\": \"on\"\n\n\nSo, I\u0027m not looking for the mellanox interfaces.\nI\u0027m looking for the offload interfaces.\nThis method is different than the one you mentioned.",
+      "parentUuid": "422b68ab_1d97d86b",
+      "range": {
+        "startLine": 1116,
+        "startChar": 8,
+        "endLine": 1116,
+        "endChar": 33
+      },
+      "revId": "93cd033d6e3cddea26ccc4cb389e53a16a313d99",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29cada16_5b5319fa",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
         "patchSetId": 1
@@ -54,6 +78,30 @@
       "writtenOn": "2021-02-11T07:35:27Z",
       "side": 1,
       "message": "The default is, discovery\nMy two cents, config should be read after discovery returned empty result.\n\nIs there really a use case for overriding discovery?",
+      "range": {
+        "startLine": 81,
+        "startChar": 7,
+        "endLine": 81,
+        "endChar": 59
+      },
+      "revId": "93cd033d6e3cddea26ccc4cb389e53a16a313d99",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c2cd88a_918d0d49",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-11T09:26:57Z",
+      "side": 1,
+      "message": "I don\u0027t know if there is a use case for overriding discovery.\nI\u0027m just giving the option.\n\nIf the user would like to provide the offload nics, they will be used.\nOtherwise, they will be discovered from the system.",
+      "parentUuid": "29cada16_5b5319fa",
       "range": {
         "startLine": 81,
         "startChar": 7,
