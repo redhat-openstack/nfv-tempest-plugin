@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cea84586_89f12b49",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1116,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-02-11T11:25:24Z",
+      "side": 1,
+      "message": "\u003e I can\u0027t use the search lines from the \"test_sriov_min_qos\" because of 3 reasons.\n\u003e \n\u003e 1) The whitelist in nova.conf in hw-offload deployment does not have a \"ConnectX\\-5\\\" regex.\n\u003e \n\u003e \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\u003e [pci]\n\u003e \n\u003e #\n\u003e # From nova.conf\n\u003e #\n\u003e \n\u003e #\n\u003e # An alias for a PCI passthrough device requirement. For more information, refer\n\u003e # to the documentation. (multi valued)\n\u003e # Deprecated group;name - DEFAULT;pci_alias\n\u003e #alias \u003d\n\u003e \n\u003e #\n\u003e # White list of PCI devices available to VMs. For more information, refer to the\n\u003e # documentation. (multi valued)\n\u003e # Deprecated group;name - DEFAULT;pci_passthrough_whitelist\n\u003e #passthrough_whitelist \u003d\n\u003e passthrough_whitelist\u003d{\"devname\":\"enp4s0f0\",\"physical_network\":\"mx-network\",\"trusted\":\"true\"}\n\u003e passthrough_whitelist\u003d{\"devname\":\"enp4s0f1\",\"physical_network\":\"mx-network\",\"trusted\":\"true\"}\n\u003e \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\u003e \nCorrect, it should not\n\nIn case of no Mellanox nic/driver test should not run. as per now\nI am not going to argue here, i am trying to bring into the awareness\n\nthat there are parts of code, could be chunked together\nAny way the two cents could be take here,\n\nIs splitting this method, a bit, whether it is nic/driver or hardware.\nThat could be reused later on.\n\nMaybe to add TODO comment in the other test, once this patch is merged.\nI hope you can understand my point here.\n\n\n\u003e 2) Is more important. Since I\u0027m looking for offloaded interfaces, I\u0027m checking the driver of the interface.\n\u003e I\u0027m looking for the \"mlx5e_rep\" dirver:\n\u003e \n\nsee above ^^\n\n\u003e \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\u003e [root@computeovshwoffload-0 ~]# ethtool -i enp4s0f0 | grep driver\n\u003e driver: mlx5e_rep\n\u003e \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\u003e \n\u003e While in other deployments, the driver that is use is - \"mlx5_core\"\n\u003e \n\u003e \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\u003e [root@computeovndpdksriov-0 ~]# ethtool -i enp4s0f0 | grep driver\n\u003e driver: mlx5_core\n\u003e \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\nThat is a good point, maybe we should move into driver search\nAnd add some TODO in other test we could use it?\n\nThis could bring you to try move the driver search to different utility?\n\n\u003e \n\u003e 3) I\u0027m checking that the interface has the following attribute:\n\u003e \"hw-tc-offload\": \"on\"\n\u003e \n\u003e \n\u003e So, I\u0027m not looking for the mellanox interfaces.\n\u003e I\u0027m looking for the offload interfaces.\n\u003e This method is different than the one you mentioned.",
+      "parentUuid": "7db00b4a_b7fca7de",
+      "range": {
+        "startLine": 1116,
+        "startChar": 8,
+        "endLine": 1116,
+        "endChar": 33
+      },
+      "revId": "93cd033d6e3cddea26ccc4cb389e53a16a313d99",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29cada16_5b5319fa",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
         "patchSetId": 1
