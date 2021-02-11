@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc654351_a292c5ef",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-11T06:52:01Z",
+      "side": 1,
+      "message": "I will explain my view of these defaults.\n\nBy default, when these values are empty, test will discover automatically the bond name and bond ports (just one bond).\nIn our current deployment, we have just one single ovs-dpdk bond, so that is not a problem.\n\nBut if we will face a setup that has multiple ovs-dpdk bonds, maybe we will want to specify one specific bond to be tested. And here defaults parameters will come to help and allow to specify the exact bond for testing.",
+      "parentUuid": "65635eae_e4826e72",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 54
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a06bbb77_065c8feb",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_lacp_usecases.py",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-10T20:04:34Z",
       "side": 1,
       "message": "I would advise the opposite,\nthe configuration is empty, by default, which means that most of the time \n self.retrieve_ovs_dpdk_bond_details() is called,\n\nI would consider removing configuration for the test, since it is learning bond details.\nunless you want to give the opportunity for non tripleo users,",
+      "range": {
+        "startLine": 141,
+        "startChar": 11,
+        "endLine": 141,
+        "endChar": 20
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "628cff07_b3bbedcb",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_lacp_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-11T06:52:01Z",
+      "side": 1,
+      "message": "Take a look at the default configuration of the test:\n\n               default\u003d\u0027{\"bond_name\": \"\", \"bond_mode\": \"balance-tcp\",\u0027\n                       \u0027\"lacp_time\": \"fast\", \"lacp_status\": \"negotiated\",\u0027\n                       \u0027\"lacp_fallback_ab\": \"true\"}\u0027\n\nThe bond name is empty.\nIt means that self.retrieve_ovs_dpdk_bond_details() method will always be called.\nBut the method return only bond details - name, ports.\n\nOther options related to the test itself - lacp_time, lacp_fallback_ab, etc...\nI\u0027m can\u0027t get them from the bond options.\nSo I give the ability for the user to override them if needed.\n\nWould you like to hardcode them within the test?",
+      "parentUuid": "a06bbb77_065c8feb",
       "range": {
         "startLine": 141,
         "startChar": 11,
