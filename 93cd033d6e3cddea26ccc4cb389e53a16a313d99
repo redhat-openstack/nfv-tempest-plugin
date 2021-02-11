@@ -16,6 +16,52 @@
       "message": "Verified on hw-offload env.",
       "revId": "93cd033d6e3cddea26ccc4cb389e53a16a313d99",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "422b68ab_1d97d86b",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1116,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-02-11T07:35:27Z",
+      "side": 1,
+      "message": "You already have a method to discover Mellanox NICS \nPlease refer this\n\nhttps://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py#L415-L419\n\n\nThe above one search for SRIOV NICS,\nI would suggest, check computes have Mellanox SRIOV, based on compute\nAnd then find what needed, hw-offload, regular min-bw SRIOV",
+      "range": {
+        "startLine": 1116,
+        "startChar": 8,
+        "endLine": 1116,
+        "endChar": 33
+      },
+      "revId": "93cd033d6e3cddea26ccc4cb389e53a16a313d99",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29cada16_5b5319fa",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-02-11T07:35:27Z",
+      "side": 1,
+      "message": "The default is, discovery\nMy two cents, config should be read after discovery returned empty result.\n\nIs there really a use case for overriding discovery?",
+      "range": {
+        "startLine": 81,
+        "startChar": 7,
+        "endLine": 81,
+        "endChar": 59
+      },
+      "revId": "93cd033d6e3cddea26ccc4cb389e53a16a313d99",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
