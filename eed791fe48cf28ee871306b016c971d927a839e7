@@ -74,6 +74,53 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9d124871_426fba4f",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-02-11T12:03:46Z",
+      "side": 1,
+      "message": "I also do not like empty test configuration honestly, but setting a hard coded default is not beneficial because bond name and in general bond configuration is not \u0027generic\u0027 enough and may cause issues.\n\nIn my opinion this is not something like a network setting where you can just set an arbitrary IP address range and normal bonding type (what is done in Neutron config).\n\nMaybe maybe (I am not sure it is wise), we could work with None type objects or something in those scenarios?",
+      "parentUuid": "e1d3e4ed_fb86e330",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 54
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98efe812_5da0c4d7",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-02-11T12:03:46Z",
+      "side": 1,
+      "message": "What will happen if there are several DPDK bonds, will the latest bond override the previous bond?",
+      "range": {
+        "startLine": 1133,
+        "startChar": 23,
+        "endLine": 1133,
+        "endChar": 50
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a06bbb77_065c8feb",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_lacp_usecases.py",
         "patchSetId": 1
@@ -181,6 +228,30 @@
       "side": 1,
       "message": "let us here others. BTW, upstream this answer will not pass.\nLets hear others",
       "parentUuid": "5b441247_9cd2420d",
+      "range": {
+        "startLine": 141,
+        "startChar": 11,
+        "endLine": 141,
+        "endChar": 20
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85b9e2da_bae8c5e1",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_lacp_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-02-11T12:03:46Z",
+      "side": 1,
+      "message": "My comment regarding empty variables is mentioned in previous file.\n\nAssuming we know the bond name, we could also try to fetch the LACP configuration associated to it no? So we potentially may not need to explicitly look for LACP configuration if it is not required. This may sound counter-productive but maybe the deployment test could be at the basic form just testing if LACP is defined and if required will also verify LACP configuration.",
+      "parentUuid": "42133501_ccec40ec",
       "range": {
         "startLine": 141,
         "startChar": 11,
