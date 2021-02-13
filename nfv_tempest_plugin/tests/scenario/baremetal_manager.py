@@ -1009,13 +1009,12 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             for neighbors_ip in neighbors_ips:
                 LOG.info("Guest '{h}' will attempt to "
                          "ping {i}".format(h=hostname, i=neighbors_ip))
-                try:
-                    ssh_client.icmp_check(neighbors_ip)
-                except lib_exc.SSHExecCommandFailed:
-                    msg = ("Guest '{h}' failed to ping "
-                           "IP '{i}'".format(h=hostname, i=neighbors_ip))
-                    raise AssertionError(msg)
-
+                ping_cmd = \
+                    "ping -c{0} -w{1} -s56 {2}".format("1", "5", neighbors_ip)
+                ping_output = ssh_client.exec_command(ping_cmd)
+                msg = ("Guest '{h}' failed to ping IP "
+                       "'{i}'".format(h=hostname, i=neighbors_ip))
+                self.assertIn("0% packet loss", ping_output, msg)
                 LOG.info("Guest '{h}' successfully was able to ping "
                          "IP '{i}'".format(h=hostname, i=neighbors_ip))
 

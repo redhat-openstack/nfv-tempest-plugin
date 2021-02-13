@@ -105,7 +105,7 @@ class BaseTest(baremetal_manager.BareMetalManager):
                     'mac_address': port['mac_address'],
                     'ip_address': port['fixed_ips'][0]['ip_address']
                 }
-                server['provider_networks'].append(provider_dict)
+            server['provider_networks'].append(provider_dict)
             # Create an SSH connection to server
             ssh_client = self.get_remote_client(server['fip'],
                                                 self.instance_user,
@@ -150,7 +150,6 @@ class BaseTest(baremetal_manager.BareMetalManager):
             self.assertNotEmpty(srv['hypervisor_ip'],
                                 "_get_hypervisor_ip_from_undercloud "
                                 "returned empty ip list")
-
             LOG.info('Test {} instance connectivity.'.format(srv['fip']))
             if fip:
                 self.check_instance_connectivity(ip_addr=srv['fip'],
