@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da555ef4_a475526a",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2021-02-13T06:57:58Z",
+      "side": 1,
+      "message": "Can we take this from tempest conf file?",
+      "range": {
+        "startLine": 1020,
+        "startChar": 32,
+        "endLine": 1020,
+        "endChar": 33
+      },
+      "revId": "73ce38273b0d897bfc59a0806453678573ebdb76",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
