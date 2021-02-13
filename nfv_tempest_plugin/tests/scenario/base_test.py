@@ -150,7 +150,6 @@ class BaseTest(baremetal_manager.BareMetalManager):
             self.assertNotEmpty(srv['hypervisor_ip'],
                                 "_get_hypervisor_ip_from_undercloud "
                                 "returned empty ip list")
-
             LOG.info('Test {} instance connectivity.'.format(srv['fip']))
             if fip:
                 self.check_instance_connectivity(ip_addr=srv['fip'],
