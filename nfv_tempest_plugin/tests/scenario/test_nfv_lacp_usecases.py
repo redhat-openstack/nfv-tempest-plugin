@@ -144,23 +144,26 @@ class TestLacpScenarios(base_test.BaseTest):
            'bonding_config' in test_setup_dict['config_dict']:
             bonding_dict = test_setup_dict['config_dict']['bonding_config'][0]
 
+        kill_cmd = '(if pgrep iperf; then sudo pkill iperf; fi;) ' \
+                   '> /dev/null 2>&1'
+        receive_cmd = '(if pgrep iperf; then sudo pkill iperf; fi;' \
+                      ' sudo iperf -s -u) > /dev/null 2>&1 &'
+        srv = self.os_admin.servers_client.list_addresses(servers[1]['id'])
+        server_addr = list(srv['addresses'].items())[1][1][0]['addr']
         for test in tests:
-            receive_cmd = '(if pgrep iperf; then sudo pkill iperf; fi;' \
-                          ' sudo iperf -s -u) > /dev/null 2>&1 &'
-            srv = self.os_admin.servers_client.list_addresses(servers[1]['id'])
-            server_addr = list(srv['addresses'].items())[1][1][0]['addr']
             send_cmd = '(if pgrep iperf; then sudo pkill iperf; fi;' \
                        ' sudo iperf -c {} {} -u -t 1000) > /dev/null 2>&1 &' \
                        .format(server_addr, test['iperf_option'])
             for srv in servers:
-                cmd = send_cmd if 'traffic_runner' in srv['role'] \
-                    else receive_cmd
-                LOG.info('Executing iperf on {} - {}: {}'
-                         .format(srv['role'], srv['fip'], cmd))
-                ssh_source = self.get_remote_client(
-                    srv['fip'], username=self.instance_user,
-                    private_key=key_pair['private_key'])
-                ssh_source.exec_command(cmd)
+                if 'role' in srv.keys():
+                    cmd = send_cmd if 'traffic_runner' in srv['role'] \
+                        else receive_cmd
+                    LOG.info('Executing iperf on {} - {}: {}'
+                             .format(srv['role'], srv['fip'], cmd))
+                    ssh_source = self.get_remote_client(
+                        srv['fip'], username=self.instance_user,
+                        private_key=key_pair['private_key'])
+                    ssh_source.exec_command(cmd)
 
             # it may take some time to balance the traffic properly, so I give
             # 10 tries  to stabilize, usually is stabilized between try 1 and 2
@@ -192,6 +195,15 @@ class TestLacpScenarios(base_test.BaseTest):
                                                  test['threshold_2'])
             result = test['threshold_2'] >= tx_pks_rel >= test['threshold_1']
             self.assertTrue(result, msg)
+        # Ensure that traffic is not being sent after the testcase finishes
+        for srv in servers:
+            if 'role' in srv.keys():
+                LOG.info('Killing iperf on {} - {}: {}'
+                         .format(srv['role'], srv['fip'], kill_cmd))
+                ssh_source = self.get_remote_client(
+                    srv['fip'], username=self.instance_user,
+                    private_key=key_pair['private_key'])
+                ssh_source.exec_command(kill_cmd)
 
     def test_restart_ovs(self, test='restart_ovs'):
         """Test restart_ovs
