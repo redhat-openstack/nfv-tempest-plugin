@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cedfb275_d3283e08",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2021-02-13T07:10:38Z",
+      "side": 1,
+      "message": "remove this, tox flags this, as we have not used any functions from this.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 11
+      },
+      "revId": "18ba08dfcc2c50c956d936a62f879818a92b9700",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
