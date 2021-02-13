@@ -93,6 +93,9 @@ class BaseTest(baremetal_manager.BareMetalManager):
         :param servers: List of servers created
         :param key-pair: Key pair used to authenticate with server
         """
+        prov_nets = [i['net-id']
+                     for i in self.test_network_dict.values() if not i['dhcp']]
+
         for server in servers:
             # Initialize a custom key inside server object
             server['provider_networks'] = []
@@ -105,7 +108,8 @@ class BaseTest(baremetal_manager.BareMetalManager):
                     'mac_address': port['mac_address'],
                     'ip_address': port['fixed_ips'][0]['ip_address']
                 }
-                server['provider_networks'].append(provider_dict)
+                if port['network_id'] in prov_nets:
+                    server['provider_networks'].append(provider_dict)
             # Create an SSH connection to server
             ssh_client = self.get_remote_client(server['fip'],
                                                 self.instance_user,

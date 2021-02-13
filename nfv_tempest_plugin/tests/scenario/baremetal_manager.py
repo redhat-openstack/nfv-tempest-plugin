@@ -1018,12 +1018,12 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 LOG.info("Guest '{h}' will attempt to "
                          "ping {i}".format(h=hostname, i=neighbors_ip))
                 try:
-                    ssh_client.icmp_check(neighbors_ip)
+                    ssh_client.ping_host(neighbors_ip,
+                                         count=4)
                 except lib_exc.SSHExecCommandFailed:
-                    msg = ("Guest '{h}' failed to ping "
-                           "IP '{i}'".format(h=hostname, i=neighbors_ip))
+                    msg = ("Guest '{h}' failed to ping IP "
+                           "'{i}'".format(h=hostname, i=neighbors_ip))
                     raise AssertionError(msg)
-
                 LOG.info("Guest '{h}' successfully was able to ping "
                          "IP '{i}'".format(h=hostname, i=neighbors_ip))
 
