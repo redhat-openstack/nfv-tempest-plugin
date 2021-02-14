@@ -170,6 +170,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a4748a8f_7713a4fe",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-02-14T10:36:10Z",
+      "side": 1,
+      "message": "I think that using hiera/ini config as much as possible is always great 😊, if it is possible to test those use cases with the populated data then it is great.",
+      "parentUuid": "0ddc10e8_af1fa8f4",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 54
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "98efe812_5da0c4d7",
         "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
         "patchSetId": 1
@@ -372,6 +396,30 @@
       "side": 1,
       "message": "So you mean to check for these options within the dpdk bonds:\n\nDpdkBondInterfaceOvsOptions: \"bond_mode\u003dbalance-tcp lacp\u003dactive other_config:lacp-time\u003dfast other-config:lacp-fallback-ab\u003dtrue\"\n\nAnd if exists, to test the lacp.\nThat\u0027s a good point.",
       "parentUuid": "85b9e2da_bae8c5e1",
+      "range": {
+        "startLine": 141,
+        "startChar": 11,
+        "endLine": 141,
+        "endChar": 20
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8d553f0_851bafd0",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_lacp_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-02-14T10:36:10Z",
+      "side": 1,
+      "message": "Yes, in theory we can try and get the hiera data and compare it to current applied configuration.",
+      "parentUuid": "655b0a2a_b8069436",
       "range": {
         "startLine": 141,
         "startChar": 11,
