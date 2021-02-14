@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ddc10e8_af1fa8f4",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-14T08:36:10Z",
+      "side": 1,
+      "message": "Sanjay,\n\nYes, currently we do not have support for multiple bonds in our codebase.\n\nVadim suggested a nice solution.\n\n* The test will lookup for all available bonds on hypervisor.\n* Then, it will use the lacp bond configuration and check it within the bonds:\n\nDpdkBondInterfaceOvsOptions: \"bond_mode\u003dbalance-tcp lacp\u003dactive other_config:lacp-time\u003dfast other-config:lacp-fallback-ab\u003dtrue\"\n\n* Once lacp configuration will be discovered on specific bond or bonds, this bond or bonds will be tested.\n\nIn such, we even do not need any extra configuration for the test.\n\nGuys, what do you think?",
+      "parentUuid": "8462800d_1e9149aa",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 54
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "98efe812_5da0c4d7",
         "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
         "patchSetId": 1
@@ -157,6 +181,30 @@
       "writtenOn": "2021-02-11T12:03:46Z",
       "side": 1,
       "message": "What will happen if there are several DPDK bonds, will the latest bond override the previous bond?",
+      "range": {
+        "startLine": 1133,
+        "startChar": 23,
+        "endLine": 1133,
+        "endChar": 50
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a36e24f_92f6f02a",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-14T08:36:10Z",
+      "side": 1,
+      "message": "Yes, currently, last dpdk bond will override.\nI will mention a suggestion in the previous file to contunie the thread.",
+      "parentUuid": "98efe812_5da0c4d7",
       "range": {
         "startLine": 1133,
         "startChar": 23,
@@ -300,6 +348,30 @@
       "side": 1,
       "message": "My comment regarding empty variables is mentioned in previous file.\n\nAssuming we know the bond name, we could also try to fetch the LACP configuration associated to it no? So we potentially may not need to explicitly look for LACP configuration if it is not required. This may sound counter-productive but maybe the deployment test could be at the basic form just testing if LACP is defined and if required will also verify LACP configuration.",
       "parentUuid": "42133501_ccec40ec",
+      "range": {
+        "startLine": 141,
+        "startChar": 11,
+        "endLine": 141,
+        "endChar": 20
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "655b0a2a_b8069436",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_lacp_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-14T08:36:10Z",
+      "side": 1,
+      "message": "So you mean to check for these options within the dpdk bonds:\n\nDpdkBondInterfaceOvsOptions: \"bond_mode\u003dbalance-tcp lacp\u003dactive other_config:lacp-time\u003dfast other-config:lacp-fallback-ab\u003dtrue\"\n\nAnd if exists, to test the lacp.\nThat\u0027s a good point.",
+      "parentUuid": "85b9e2da_bae8c5e1",
       "range": {
         "startLine": 141,
         "startChar": 11,
