@@ -63,6 +63,53 @@
       },
       "revId": "73ce38273b0d897bfc59a0806453678573ebdb76",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de5d0738_1cb1bcf7",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-02-14T11:43:57Z",
+      "side": 1,
+      "message": "see below",
+      "parentUuid": "b007e8ee_4924faa1",
+      "range": {
+        "startLine": 1020,
+        "startChar": 32,
+        "endLine": 1020,
+        "endChar": 33
+      },
+      "revId": "73ce38273b0d897bfc59a0806453678573ebdb76",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d87871e8_3bbe94d0",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-02-14T11:43:57Z",
+      "side": 1,
+      "message": "This method use other method,\nConsider using this method ping_host in remote client instead\nhttps://github.com/openstack/tempest/blob/3442eaf87919e6ec9809eb15bcc327e94984dbc5/tempest/lib/common/utils/linux/remote_client.py#L117",
+      "range": {
+        "startLine": 1023,
+        "startChar": 35,
+        "endLine": 1023,
+        "endChar": 45
+      },
+      "revId": "73ce38273b0d897bfc59a0806453678573ebdb76",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
