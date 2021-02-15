@@ -22,7 +22,7 @@ from oslo_log import log
 from tempest import config
 from tempest.lib.common.utils import data_utils
 from tempest.lib.common.utils import test_utils
-
+from tempest.lib.services.compute import servers_client
 
 CONF = config.CONF
 LOG = log.getLogger('{} [-] nfv_plugin_test'.format(__name__))
@@ -204,8 +204,34 @@ class QoSManagerMixin(object):
                     self.assertEqual(min_mbps, qos)
         if not found_qos:
             raise ValueError('No QoS policies were applied to ports')
+    
+    def create_iperf_security_group(self, iperf_ports):
+        """create_iperf_security_group
+        
+        Create a security group populated with roles for iperf ports to have 
+        access
 
-    def run_iperf_test(self, qos_policies=[], servers=[], key_pair=[]):
+        :param create_iperf_security_group a list of ports to add to iperf rule
+        :return a list of dictionarys containing the security group name and id
+        """
+        rules_client = self.security_group_rules_client
+        sg_client = self.security_groups_client
+
+        sec_group = sg_client.create_security_group(
+            name=data_utils.rand_name(self.__class__.__name__),
+            description='iperf sec group')['security_group']
+        
+        for port in iperf_ports:
+            rule = {"protocol": "tcp", "direction": "ingress",
+                    "port_range_max": port, "port_range_min": port}
+            rules_client.create_security_group_rule(
+                    security_group_id=sec_group['id'],
+                    **rule)
+        return [{'name': sec_group['name'], 'id': sec_group['id']}]
+
+
+
+    def run_iperf_test(self, qos_policies=[], servers=[], key_pair=[], vnic_type='direct'):
         """run_iperf_test
 
         This method receive server list, and prepare machines for iperf
@@ -219,9 +245,11 @@ class QoSManagerMixin(object):
         servers_ports_map = \
             [self.os_admin.ports_client.list_ports(
                 device_id=server['id']) for server in self.servers]
-        # Find machines direct ports
+        
+        # Find machines ports based on type
         tested_ports = [shell_utils.find_vm_interface(
-            ports, vnic_type='direct') for ports in servers_ports_map]
+            ports, vnic_type=vnic_type) for ports in servers_ports_map]
+    
         # Bind to iperf server ip_addr
         ip_addr = tested_ports[srv.SERVER][1]
         # Set pors with QoS
@@ -233,11 +261,13 @@ class QoSManagerMixin(object):
             **{'qos_policy_id': qos_policies[i]['id']})
             for i in range((len(self.servers) - 1)
                            and len(qos_policies))]
+
         LOG.info('Run iperf server on server3...')
         ssh_dest = self.get_remote_client(servers[srv.SERVER]['fip'],
                                           username=self.instance_user,
                                           private_key=key_pair[
                                           'private_key'])
+
         server_command = "sudo yum install iperf -y; "
         log_5102 = QoSManagerMixin.LOG_5102
         log_5101 = QoSManagerMixin.LOG_5101
@@ -276,6 +306,7 @@ class QoSManagerMixin(object):
         client_command1 = \
             "iperf -c {} -T s1 -p {} -t 120".format(ip_addr, '5101')
         ssh_source1.exec_command(client_command1)
+
 
     def collect_iperf_results(self, qos_rules_list=[],
                               servers=[], key_pair=[]):
