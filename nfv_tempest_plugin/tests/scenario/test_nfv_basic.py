@@ -13,6 +13,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import fnmatch
 import json
 
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
@@ -38,7 +39,7 @@ class TestNfvBasic(base_test.BaseTest):
         super(TestNfvBasic, self).setUp()
         # pre setup creations and checks read from config files
 
-    def test_hypevisor_tuning(self):
+    def test_hypervisor_tuning(self):
         """Test tuning state of hypervisor
 
         Test the following states:
@@ -68,11 +69,12 @@ class TestNfvBasic(base_test.BaseTest):
             result = shell_utils.run_command_over_ssh(self.hypervisor_ip,
                                                       pkg_check).split()
             if result:
-                if len(result) != len(packages):
-                    test_result.append("Missing required packages. "
-                                       "Found following packages: {}"
-                                       .format(result))
-                    LOG.info("Found the following packages: {}".format(result))
+                for pkg in packages:
+                    if not fnmatch.filter(result, pkg):
+                        test_result.append("Missing required packages. "
+                                           "Found following packages: {}"
+                                           .format(result))
+                LOG.info("Found the following packages: {}".format(result))
             else:
                 test_result.append("Packages: no output received")
 

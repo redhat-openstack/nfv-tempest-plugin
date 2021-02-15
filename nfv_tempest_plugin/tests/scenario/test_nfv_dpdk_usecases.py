@@ -13,6 +13,8 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import time
+
 from nfv_tempest_plugin.tests.scenario import base_test
 from nfv_tempest_plugin.tests.scenario.qos_manager import QoSManagerMixin
 from oslo_log import log as logging
@@ -80,6 +82,14 @@ class TestDpdkScenarios(base_test.BaseTest, QoSManagerMixin):
         servers, key_pair = \
             self.create_server_with_resources(test=test, num_servers=3,
                                               use_mgmt_only=True)
+
+        # Add security group rules needed to allow multicast traffic
+        rule_list = [{"protocol": "udp", "direction": "ingress"},
+                     {"protocol": "udp", "direction": "egress"}]
+        self.add_security_group_rules(rule_list,
+                                      self.remote_ssh_sec_groups[0]['id'])
+        time.sleep(10)
+
         servers[0]['mcast_srv'] = 'listener1'
         servers[1]['mcast_srv'] = 'listener2'
         servers[2]['mcast_srv'] = 'traffic_runner'

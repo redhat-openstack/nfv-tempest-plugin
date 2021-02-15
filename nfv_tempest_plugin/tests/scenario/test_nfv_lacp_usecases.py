@@ -206,3 +206,7 @@ class TestLacpScenarios(base_test.BaseTest):
         cmd = 'sudo systemctl restart openvswitch.service'
         shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
         self.test_deployment_lacp(hypervisor_ip=hypervisor_ip)
+
+        # Give time to have everything up after reboot so that other testcases
+        # executed after this one do not fail
+        time.sleep(60)

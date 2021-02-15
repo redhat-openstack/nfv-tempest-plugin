@@ -898,15 +898,23 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         return secgroup
 
     def _create_loginable_secgroup_rule(self, secgroup_id=None):
+        """Add default rules
+
+        Load default rules (icmp and ssh) and add them to the
+        security group
+        """
+        rule_list = \
+            jsonutils.loads(CONF.nfv_plugin_options.login_security_group_rules)
+        self.add_security_group_rules(rule_list, secgroup_id)
+
+    def add_security_group_rules(self, rule_list, secgroup_id=None):
         """Add secgroups rules
 
         To conform changes in nova clients on microversions>=2.36
         This method add sg rules with neutron client
         This method find default security group or specific one
-        and add icmp and ssh rules
+        and specified rules
         """
-        rule_list = \
-            jsonutils.loads(CONF.nfv_plugin_options.login_security_group_rules)
         client = self.security_groups_client
         client_rules = self.security_group_rules_client
         if not secgroup_id:
@@ -941,6 +949,22 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         fip_client.delete_floatingip,
                         floating_ip['id'])
         return floating_ip
+
+    def get_internal_port_from_fip(self, fip=None):
+        """returns internal port data mapped to fip
+
+        The function returns mapped port date to fip
+
+        :param fip: fip address to resolve
+        :return int_port: return port date
+        """
+        self.assertNotEmpty(fip, "fip is empty")
+        fixed_ip = \
+            self.os_admin.floating_ips_client.list_floatingips(
+                floating_ip_address=fip)['floatingips'][0]['fixed_ip_address']
+        int_port = self.os_admin.ports_client.list_ports(
+            fixed_ips="ip_address=" + fixed_ip)['ports'][0]
+        return int_port
 
     def check_instance_connectivity(self, ip_addr, user, key_pair):
         """Check connectivity state of the instance
