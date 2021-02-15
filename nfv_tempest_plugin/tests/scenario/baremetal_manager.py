@@ -514,10 +514,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'port_type' in net_param:
                 create_port_body['binding:vnic_type'] = \
                     net_param['port_type']
-                if self.remote_ssh_sec_groups and net_name == \
+                if 'security_groups' in kwargs and net_name == \
                         self.mgmt_network:
                     create_port_body['security_groups'] = \
-                        [s['id'] for s in self.remote_ssh_sec_groups]
+                        [s['id'] for s in kwargs['security_groups']]
                 if 'trusted_vf' in net_param and \
                         net_param['trusted_vf'] and \
                         net_param['port_type'] == 'direct':
@@ -764,7 +764,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         :return servers, key_pair
         """
         LOG.info('Creating resources...')
-
         if num_ports is None:
             num_ports = num_servers
 
@@ -817,11 +816,20 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         # Network, subnet, router and security group creation
         self._create_test_networks()
         self._set_remote_ssh_sec_groups()
-        if self.remote_ssh_sec_groups_names:
-            kwargs['security_groups'] = self.remote_ssh_sec_groups_names
+
+        if ('security_groups' in kwargs) and self.remote_ssh_sec_groups:
+            kwargs['security_groups'] = self.remote_ssh_sec_groups + \
+                                        kwargs['security_groups']
+        elif self.remote_ssh_sec_groups:
+            kwargs['security_groups'] = self.remote_ssh_sec_groups
+
         ports_list = \
             self._create_ports_on_networks(num_ports=num_ports,
                                            **kwargs)
+        # remove id from securitygroup dict
+        for sg in kwargs['security_groups']:
+            sg.pop('id', None)
+
         # After port creation remove kwargs['set_qos']
         if 'set_qos' in kwargs:
             kwargs.pop('set_qos')
