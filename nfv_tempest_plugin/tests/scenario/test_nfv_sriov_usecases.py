@@ -258,7 +258,6 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         qos_rules = {}
         for rule in json.loads(CONF.nfv_plugin_options.min_qos_rules):
             qos_rules.update(rule)
-        self.test_setup_dict[test]
         self.create_qos_policy_with_rules(**qos_rules)
         resource_args = {'set_qos': True}
         servers, key_pair = self.create_and_verify_resources(test=test,
@@ -365,16 +364,21 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
     def test_sriov_max_qos(self, test='max_qos'):
         """Test SRIOV MAX QoS functionality
 
-        The test require [nfv_plugin_options ]
-        use_neutron_api_v2 = true in tempest.config.
-        Test also requires QoS neutron settings.
+        The test performs max qos testing by using iperf tool.
         The test deploy 3 vms. one iperf server receive traffic from
         two iperf clients, with max_qos defined run against iperf server.
-        The test search for Traffic per second and compare against ports
-        seeings
-        """
+        The test search for traffic per second and compare against ports
+        settings.
 
+        Test required configuration in tempest.conf:
+        [nfv_plugin_options]
+        use_neutron_api_v2 = true
+        """
         LOG.info('Start SRIOV Max QoS test.')
+        if not CONF.nfv_plugin_options.use_neutron_api_v2:
+            raise ValueError('The test require to use neutron_api_v2. '
+                             'Set "use_neutron_api_v2 = true" under the'
+                             '[nfv_plugin_options] in tempest.conf')
         kwargs = {}
         qos_rules = \
             json.loads(CONF.nfv_plugin_options.max_qos_rules)
