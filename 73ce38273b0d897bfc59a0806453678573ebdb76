@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ff0989c_06e8d5f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-02-15T08:29:17Z",
+      "side": 1,
+      "message": "it is use ping -c1 -w1. But if i change to ping -c1 -w3 it works the first time. What I think it is that the first time it has to create the flows, and it takes more than 1 seconds.\nWhat I do not understand is why it fails the first ping with ping -c3 -w3. I would expect to hace 3 seconds for the 3 pings and even if the first ping take a bit more it would work, but in this case it fails the first ping and works the two next pings",
+      "parentUuid": "43effe84_26a234e8",
+      "revId": "73ce38273b0d897bfc59a0806453678573ebdb76",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da555ef4_a475526a",
