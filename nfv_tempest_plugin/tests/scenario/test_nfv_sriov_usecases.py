@@ -371,9 +371,9 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         The test deploy 3 vms. one iperf server receive traffic from
         two iperf clients, with max_qos defined run against iperf server.
         The test search for Traffic per second and compare against ports
-        seeings
+        settings
         """
-
+        
         LOG.info('Start SRIOV Max QoS test.')
         kwargs = {}
         qos_rules = \

@@ -16,14 +16,16 @@
 import time
 
 from nfv_tempest_plugin.tests.scenario import base_test
+from nfv_tempest_plugin.tests.scenario.qos_manager import QoSManagerMixin
 from oslo_log import log as logging
 from tempest import config
+from json import loads
 
 CONF = config.CONF
 LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
-class TestDpdkScenarios(base_test.BaseTest):
+class TestDpdkScenarios(base_test.BaseTest, QoSManagerMixin):
     def __init__(self, *args, **kwargs):
         super(TestDpdkScenarios, self).__init__(*args, **kwargs)
         self.instance = None
@@ -190,3 +192,40 @@ class TestDpdkScenarios(base_test.BaseTest):
                                           'The values of the instance and '
                                           'nova does not match.')
         LOG.info('The {} test passed.'.format(test))
+
+
+    def test_dpdk_max_qos(self, test='dpdk_max_qos'):
+        """Test DPDK MAX QoS functionality
+
+        The test require [nfv_plugin_options ]
+        use_neutron_api_v2 = true in tempest.config.
+        Test also requires QoS neutron settings.
+        The test deploy 3 vms. one iperf server receive traffic from
+        two iperf clients, with max_qos defined run against iperf server.
+        The test search for Traffic per second and compare against ports
+        settings
+        """
+        LOG.info('Start dpdk Max QoS test.')
+
+        kwargs = {}
+        qos_rules = \
+            loads(CONF.nfv_plugin_options.max_qos_rules)
+        qos_rules_list = [x for x in qos_rules]
+
+        kwargs['security_groups'] = self.create_iperf_security_group(['5101','5102'])
+
+        servers, key_pair = self.create_and_verify_resources(
+            test=test, num_servers=3, use_mgmt_only=True, **kwargs)
+
+        if len(servers) != 3:
+            raise ValueError('The test requires 3 instances. Only {} exists'.format(len(servers)))
+
+        # Max QoS configuration to server ports
+        LOG.info('Create QoS Policies...')
+        qos_policies = [self.create_qos_policy_with_rules(
+            use_default=False, **i) for i in qos_rules_list]
+
+        LOG.info('Running iperf')
+        self.run_iperf_test(qos_policies, servers, key_pair, vnic_type='normal')
+        self.collect_iperf_results(qos_rules_list, servers, key_pair)
+
