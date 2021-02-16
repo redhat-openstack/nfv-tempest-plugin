@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "05ad33c6_91bffe15",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-16T08:34:31Z",
+      "side": 1,
+      "message": "I still don\u0027t think that this specific part of the code should be changed.\nThis part of the code adds the security group to the port.\n\nIf you would like to modify the rule of the security group, you have a dedicated methods to do it.\n\nRegarding the use cases.\nIn the numa aware vswitch test [1], a scenario which requires such implementation, exists.\nThe test boots instances not in one spawn.\nSo when the instance in the second stage booted, it needs to know the security group to be used and in such way I\u0027m able to split the creation of the instance to multiple parts with no issues.\n\n\n[1] - https://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py#L36",
+      "parentUuid": "66ed237b_b3b8b12d",
+      "revId": "f77c4977dc854f019ce6a0acec413aef45f7fbdb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "102244da_df762383",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 1
