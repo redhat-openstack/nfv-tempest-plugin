@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e0625c29_7f2e863f",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-02-16T20:29:09Z",
+      "side": 1,
+      "message": "it is needed in general to add the functionallity of using kwargs[\u0027security_group\u0027] because the port creation needs both id and name but the server creation fails if the dict contains an id",
+      "parentUuid": "89d1fbaa_e89daab3",
+      "range": {
+        "startLine": 832,
+        "startChar": 0,
+        "endLine": 832,
+        "endChar": 5
+      },
+      "revId": "7aaac7eca2af1c2f92e19e1214ddf41e6184eaa7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6751318b_487edfeb",
         "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
         "patchSetId": 12
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "6751318b_487edfeb",
+      "revId": "7aaac7eca2af1c2f92e19e1214ddf41e6184eaa7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c2ddb04_b4798f16",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-02-16T20:29:09Z",
+      "side": 1,
+      "message": "I asked yariv this was a buffer for the avrage to not exceed more then 8% over the limit but the way it was calculated made it that some of the times the avarage is acctually lower then the limit but it would still indicates it exceeds the limit so I left the 8% buffer but first made sure the avg is lower then the max_qos",
+      "parentUuid": "1c575bbb_49a75d4f",
       "revId": "7aaac7eca2af1c2f92e19e1214ddf41e6184eaa7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
