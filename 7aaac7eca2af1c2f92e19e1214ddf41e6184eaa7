@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89d1fbaa_e89daab3",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-02-16T16:28:45Z",
+      "side": 1,
+      "message": "Is it needed due to:\nnfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py#215?",
+      "range": {
+        "startLine": 832,
+        "startChar": 0,
+        "endLine": 832,
+        "endChar": 5
+      },
+      "revId": "7aaac7eca2af1c2f92e19e1214ddf41e6184eaa7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6751318b_487edfeb",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-02-16T16:28:45Z",
+      "side": 1,
+      "message": "I haven\u0027t worked on the original code but I seem to remember that there was a reason why 0.08 was picked, maybe it is only related to min QoS scenario.\n\nWere you able to try this patch also on min QoS tests?",
+      "revId": "7aaac7eca2af1c2f92e19e1214ddf41e6184eaa7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
