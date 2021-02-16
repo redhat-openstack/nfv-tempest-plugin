@@ -34,6 +34,24 @@
       "parentUuid": "44020ea8_08e2d9a6",
       "revId": "84bb21d63944d756c8576c008c9afa547214ef2e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f5214ab_907a1b26",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-02-16T10:55:14Z",
+      "side": 1,
+      "message": "So i would recommend to run the loop on listeners\nAnd one commend for sender at the end\n\nThis is the reason for +1,",
+      "parentUuid": "9d85ed24_1613a4d8",
+      "revId": "84bb21d63944d756c8576c008c9afa547214ef2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
