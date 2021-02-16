@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7695453c_5cbfcbc9",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-16T19:03:43Z",
+      "side": 1,
+      "message": "Ella,\n\nYou are making changes without considering existing tests.\n\nYou have added additional \u0027if\u0027 condition in the port creation method which is ok.\nAnd here you changed creation of \u0027security_groups\u0027 kwargs from self.remote_ssh_sec_groups_names to remove of the id from the kwargs[\u0027security_groups\u0027]\n\nNow, what will happen in the following scenarios:\n1) With your test, everything will work as expected.\n2) All other test will fail because by default, tests do not passing \u0027security_groups\u0027 in the kwargs to the \"self.create_and_verify_resources\" method, but using the default.\nAs a result, when the creation of the resources will get here, it will not have created default security groups and fail on removable id from the kwargs task as kwargs[\u0027security_groups\u0027] will not exist.\n\nDid you run any other test?",
+      "range": {
+        "startLine": 831,
+        "startChar": 8,
+        "endLine": 831,
+        "endChar": 43
+      },
+      "revId": "7aaac7eca2af1c2f92e19e1214ddf41e6184eaa7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "89d1fbaa_e89daab3",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 12
@@ -37,6 +60,24 @@
       "writtenOn": "2021-02-16T16:28:45Z",
       "side": 1,
       "message": "I haven\u0027t worked on the original code but I seem to remember that there was a reason why 0.08 was picked, maybe it is only related to min QoS scenario.\n\nWere you able to try this patch also on min QoS tests?",
+      "revId": "7aaac7eca2af1c2f92e19e1214ddf41e6184eaa7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c575bbb_49a75d4f",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-16T19:03:43Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "6751318b_487edfeb",
       "revId": "7aaac7eca2af1c2f92e19e1214ddf41e6184eaa7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
