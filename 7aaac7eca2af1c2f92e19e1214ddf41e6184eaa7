@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8e2d829_4d598d6e",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-16T21:11:42Z",
+      "side": 1,
+      "message": "Ok, so with adding the \"if\" condition for the \u0027security_groups\u0027 in kwargs, the tests will not fail.\nWe are attaching security groups to a ports, so connectivity will be available.\nBut the problem is that all instances that will be spawned up, will not have security group attached.\nThat is because as I mentioned in the previous comment, by default, the instance will not contain \u0027security_groups\u0027 within the kwargs.\nUnfortunately, that is not good.\n\n\nElla,\nLet\u0027s look at the task from the different angle.\nYou would like to be able to add custom security group rules to the instance.\nI would like to keep the security group with ssh/icmp attached to the instance.\nSo it could be solved it in a different way.\n\nHere - [1], we are creating security group for the instances.\nAll these - [2], are the methods that responsible to create security group, create security group rules and attach those rules to the security group.\nAt the end, class security group variable are filled with sec group info and used later by the instances.\n\nI suggest to update the security group methods in a way that by default, they will do exactly what they do today.\nBut if a \u0027security_groups_rules\u0027 will be passed in the kwargs, those rules will be added to the existing ssh/icmp rules.\n\nAs a result, we will get the same security group to the instances.\nBut this security group will be able to extend the amount of the rules that needed for the test.\n\n\n[1] - https://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/nfv_tempest_plugin/tests/scenario/baremetal_manager.py#L819\n[2] - https://github.com/redhat-openstack/nfv-tempest-plugin/blob/8c2b1466b03b99127af725775164295ee5726b71/nfv_tempest_plugin/tests/scenario/baremetal_manager.py#L849-L924",
+      "parentUuid": "098fae8b_e06c252c",
+      "range": {
+        "startLine": 831,
+        "startChar": 8,
+        "endLine": 831,
+        "endChar": 43
+      },
+      "revId": "7aaac7eca2af1c2f92e19e1214ddf41e6184eaa7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89d1fbaa_e89daab3",
