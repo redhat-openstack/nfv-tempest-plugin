@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "66ed237b_b3b8b12d",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-02-16T08:15:58Z",
+      "side": 1,
+      "message": "Hi maxim\nthe reason for the change is to allow adding more then just the ssh sec group on instance creation. I think it will be very useful for tests requires more then just ssh in there sec group and also makes the sec group creation more specific.\n\nalso you are currect and I also encountered this error when not removeing the ID but please look at line 829 where I remove the ID exactly for the reason you mentioned\n\nalso because it creates all ports at once and only then removes the id from kwargs[\u0027security_grpous\u0027] all servers gets all security groups needed and all servers created with those sec_groups\n\n\nI can do it with a class var (self.sg) but I don\u0027t see any reason it cant be a local var in my opinion the class vars should be changed but I left it this way for now to not mix the changes and not break anything",
+      "parentUuid": "af8ff768_cf23e333",
+      "revId": "f77c4977dc854f019ce6a0acec413aef45f7fbdb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "102244da_df762383",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 1
@@ -54,6 +72,30 @@
       "writtenOn": "2021-02-15T18:37:50Z",
       "side": 1,
       "message": "We already have a method to create security group [1] and a method to set the rules for that group [2].\n\nI suggest to use those methods instead of create a duplicate code.\nIn the methods do not have required functions, please extend them.\n\n[1] - https://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/nfv_tempest_plugin/tests/scenario/baremetal_manager.py#L867\n[2] - https://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/nfv_tempest_plugin/tests/scenario/baremetal_manager.py#L902",
+      "range": {
+        "startLine": 208,
+        "startChar": 8,
+        "endLine": 208,
+        "endChar": 35
+      },
+      "revId": "f77c4977dc854f019ce6a0acec413aef45f7fbdb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14b3ef22_33531289",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-02-16T08:15:58Z",
+      "side": 1,
+      "message": "totally correct I missed those thanks 😊",
+      "parentUuid": "63ca44f8_358ab401",
       "range": {
         "startLine": 208,
         "startChar": 8,
