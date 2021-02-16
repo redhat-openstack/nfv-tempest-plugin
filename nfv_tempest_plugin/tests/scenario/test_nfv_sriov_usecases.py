@@ -367,9 +367,8 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         The test performs max qos testing by using iperf tool.
         The test deploy 3 vms. one iperf server receive traffic from
         two iperf clients, with max_qos defined run against iperf server.
-        The test search for traffic per second and compare against ports
-        settings.
-
+        The test search for Traffic per second and compare against ports
+        settings
         Test required configuration:
         In tempest.conf:
         [nfv_plugin_options]

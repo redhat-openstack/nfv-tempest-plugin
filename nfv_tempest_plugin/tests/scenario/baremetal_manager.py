@@ -514,7 +514,14 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'port_type' in net_param:
                 create_port_body['binding:vnic_type'] = \
                     net_param['port_type']
-                if self.remote_ssh_sec_groups and net_name == \
+                if 'security_groups' in kwargs and self.remote_ssh_sec_groups \
+                    and net_name == self.mgmt_network:
+                    kwargs['security_groups'] = \
+                        kwargs['security_groups'] \
+                        + self.remote_ssh_sec_groups
+                    create_port_body['security_groups'] = \
+                        [s['id'] for s in kwargs['security_groups']]
+                elif self.remote_ssh_sec_groups and net_name == \
                         self.mgmt_network:
                     create_port_body['security_groups'] = \
                         [s['id'] for s in self.remote_ssh_sec_groups]
@@ -764,7 +771,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         :return servers, key_pair
         """
         LOG.info('Creating resources...')
-
         if num_ports is None:
             num_ports = num_servers
 
@@ -817,11 +823,30 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         # Network, subnet, router and security group creation
         self._create_test_networks()
         self._set_remote_ssh_sec_groups()
-        if self.remote_ssh_sec_groups_names:
-            kwargs['security_groups'] = self.remote_ssh_sec_groups_names
+
+        if 'sg_rules' in kwargs and 'security_groups' in kwargs:
+            kwargs['security_groups'] = \
+                kwargs['security_groups'] \
+                + self._set_sec_groups(kwargs['sg_rules'])
+        elif 'sg_rules' in kwargs:
+            kwargs['security_groups'] = \
+                self._set_sec_groups(kwargs['sg_rules'])
+
+        kwargs.pop('sg_rules', None)
+
         ports_list = \
             self._create_ports_on_networks(num_ports=num_ports,
                                            **kwargs)
+
+        # remove id from security group dict and merge with
+        # remote_ssh_sec_groups_names
+        if 'security_groups' in kwargs:
+            for sg in kwargs['security_groups']:
+                sg.pop('id', None)
+            kwargs['security_groups'] = \
+                kwargs['security_groups'] \
+                + self.remote_ssh_sec_groups_names
+
         # After port creation remove kwargs['set_qos']
         if 'set_qos' in kwargs:
             kwargs.pop('set_qos')
@@ -863,6 +888,16 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 [{'name': security_group['name']}]
             self.remote_ssh_sec_groups = [{'name': security_group['name'],
                                            'id': security_group['id']}]
+
+    def _set_sec_groups(self, rules):
+        """Creates a security group containing rules
+
+        :param rules: a list containing dictionarys of rules
+        :return: a list with security group name and id
+        """
+        sg = self._create_security_group()
+        self.add_security_group_rules(rules, sg['id'])
+        return[{'name': sg['name'], 'id': sg['id']}]
 
     def _create_security_group(self):
         """Security group creation
