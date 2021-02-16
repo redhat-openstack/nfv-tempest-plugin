@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "710bf6f5_e1b00fba",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-02-16T08:45:16Z",
+      "side": 1,
+      "message": "I still thinks that its a good idea to have the ability to add sec group on instance creation and not just changing the ssh sg created \n\nI\u0027m not sure I understand the reason why you shouldn\u0027t be able to add sg on instance creation? the only thing that this change brings is the ability to do so in case you don\u0027t need any additional sec group you just dont use security_groups in the kwargs you are sending to the function",
+      "parentUuid": "05ad33c6_91bffe15",
+      "revId": "f77c4977dc854f019ce6a0acec413aef45f7fbdb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "102244da_df762383",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 1
