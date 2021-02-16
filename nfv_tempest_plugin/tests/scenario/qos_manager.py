@@ -23,13 +23,11 @@ from tempest import config
 from tempest.lib.common.utils import data_utils
 from tempest.lib.common.utils import test_utils
 
-
 CONF = config.CONF
 LOG = log.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
 class QoSManagerMixin(object):
-
     class Servers(IntEnum):
         CLIENT_1 = 0
         CLIENT_2 = 1
@@ -205,7 +203,8 @@ class QoSManagerMixin(object):
         if not found_qos:
             raise ValueError('No QoS policies were applied to ports')
 
-    def run_iperf_test(self, qos_policies=[], servers=[], key_pair=[]):
+    def run_iperf_test(self, qos_policies=[], servers=[], key_pair=[],
+                       vnic_type='direct'):
         """run_iperf_test
 
         This method receive server list, and prepare machines for iperf
@@ -219,9 +218,11 @@ class QoSManagerMixin(object):
         servers_ports_map = \
             [self.os_admin.ports_client.list_ports(
                 device_id=server['id']) for server in self.servers]
-        # Find machines direct ports
+
+        # Find machines ports based on type
         tested_ports = [shell_utils.find_vm_interface(
-            ports, vnic_type='direct') for ports in servers_ports_map]
+            ports, vnic_type=vnic_type) for ports in servers_ports_map]
+
         # Bind to iperf server ip_addr
         ip_addr = tested_ports[srv.SERVER][1]
         # Set pors with QoS
@@ -233,11 +234,13 @@ class QoSManagerMixin(object):
             **{'qos_policy_id': qos_policies[i]['id']})
             for i in range((len(self.servers) - 1)
                            and len(qos_policies))]
+
         LOG.info('Run iperf server on server3...')
         ssh_dest = self.get_remote_client(servers[srv.SERVER]['fip'],
                                           username=self.instance_user,
                                           private_key=key_pair[
-                                          'private_key'])
+                                              'private_key'])
+
         server_command = "sudo yum install iperf -y; "
         log_5102 = QoSManagerMixin.LOG_5102
         log_5101 = QoSManagerMixin.LOG_5101
@@ -250,14 +253,14 @@ class QoSManagerMixin(object):
         LOG.info('Receive iperf traffic from Server3...')
         ssh_dest.exec_command(server_command)
         # Running vm CLIENT_1 last since it is tested VM
-        ssh_source1 = self.\
+        ssh_source1 = self. \
             get_remote_client(servers[srv.CLIENT_1]['fip'],
                               username=self.instance_user,
                               private_key=key_pair['private_key'])
         LOG.info('Send iperf traffic from Server1...')
         client_command1 = "sudo yum install iperf -y"
         ssh_source1.exec_command(client_command1)
-        ssh_source2 = self.\
+        ssh_source2 = self. \
             get_remote_client(servers[srv.CLIENT_2]['fip'],
                               username=self.instance_user,
                               private_key=key_pair['private_key'])
@@ -288,7 +291,7 @@ class QoSManagerMixin(object):
         :param servers servers list, at least 3
         :param key_pair servers key pairs
         """
-
+        max_deviation_accepted = 0.08
         srv = QoSManagerMixin.Servers
         kbytes_to_mbits = QoSManagerMixin.KBYTES_TO_MBITS
         log_files = [QoSManagerMixin.LOG_5101, QoSManagerMixin.LOG_5102]
@@ -308,13 +311,13 @@ class QoSManagerMixin(object):
         ssh_dest = self.get_remote_client(servers[srv.SERVER]['fip'],
                                           username=self.instance_user,
                                           private_key=key_pair[
-                                          'private_key'])
+                                              'private_key'])
         # Assert result
         for index in range(srv.SERVER):
             # If Default QoS, such as min_bw check only srv.CLIENT_1
             if len(self.qos_policy_groups) > 0 and index == srv.CLIENT_2:
                 break
-            out_testing = ssh_dest.\
+            out_testing = ssh_dest. \
                 exec_command(command.replace('{}', log_files[index]))
             iperf_rep = \
                 [i for i in (
@@ -331,8 +334,23 @@ class QoSManagerMixin(object):
             # In case of min_bw only one policy is set
             if 'min_kbps' in qos_rules_list[srv(index)]:
                 qos_type = 'min_kbps'
-            dev = abs(rep * kbytes_to_mbits
-                      / qos_rules_list[srv(index)][qos_type] - 1)
-            # Check if only one policy to Verify
-            self.assertLess(dev, 0.08,
-                            "iperf result deviates more than 0.08")
+
+            if qos_type == 'max_kbps':
+                if rep * kbytes_to_mbits \
+                    > qos_rules_list[srv(index)][qos_type]:
+                    return
+                else:
+                    dev = abs(rep * kbytes_to_mbits
+                              / qos_rules_list[srv(index)][qos_type] - 1)
+            elif qos_type == 'min_kbps':
+                if rep * kbytes_to_mbits \
+                    > qos_rules_list[srv(index)][qos_type]:
+                    return
+                else:
+                    dev = abs(rep * kbytes_to_mbits
+                              / qos_rules_list[srv(index)][qos_type] - 1)
+
+                # Check if only one policy to Verify
+            self.assertLess(dev, max_deviation_accepted,
+                            "iperf result deviates more than {}"
+                            .format(max_deviation_accepted))
