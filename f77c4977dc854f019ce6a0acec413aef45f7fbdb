@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e5cb7935_262e09f4",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-16T10:06:26Z",
+      "side": 1,
+      "message": "I\u0027m not saying that you should not add any new functionality to existing methods.\nI\u0027m not saying you should not change the structure of existing methods.\n\nI\u0027m saying the current structure is used and required by at least one test (numa aware vswitch).\nI\u0027m saying that this change will break at least one test.",
+      "parentUuid": "710bf6f5_e1b00fba",
+      "revId": "f77c4977dc854f019ce6a0acec413aef45f7fbdb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "102244da_df762383",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 1
