@@ -16,6 +16,24 @@
       "message": "+1 I prefer to skip sleep,\nA check in each Listener compute that port is bind and listen, prefered approach by me",
       "revId": "84bb21d63944d756c8576c008c9afa547214ef2e",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d85ed24_1613a4d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-02-16T10:53:31Z",
+      "side": 1,
+      "message": "ports are already binded, the problem is that listeners and sender are started all together in a loop. The idea is to delay slighly the sender to be sure that listeners are ready.",
+      "parentUuid": "44020ea8_08e2d9a6",
+      "revId": "84bb21d63944d756c8576c008c9afa547214ef2e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
