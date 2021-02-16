@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c10f5d7_3506b574",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-02-16T10:59:51Z",
+      "side": 1,
+      "message": "MHO, the comment should be updated, no min_bw fixes here at all",
+      "revId": "b1407fb33ddc25b0134d88dd2177a0908234b6cf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
