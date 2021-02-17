@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51547a56_0d24e7f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-02-17T08:00:32Z",
+      "side": 1,
+      "message": "Saw the correspondence related to sec group\n\nI would recommend running this test on provider non mgmt physnet.\nThis way iperf will run like sriov,\nThere is an option to filter the relevant port.\n\n",
+      "revId": "0f5dbf74d903c4b10a56a5fbba5e6bf1b594217b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

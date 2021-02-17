@@ -218,6 +218,24 @@
       "parentUuid": "1c575bbb_49a75d4f",
       "revId": "7aaac7eca2af1c2f92e19e1214ddf41e6184eaa7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0579962b_f6075e00",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-02-17T08:00:32Z",
+      "side": 1,
+      "message": "@Vkhitrin\n\nFor min QoS we will need to add side limit above, below.\nFor Max QoS need only to check no deviation above Max\n\nFor minimum we need to guarantee no lower then.\n\n@Ella, MHO please add flags for which threshold to check upper/lower",
+      "parentUuid": "6751318b_487edfeb",
+      "revId": "7aaac7eca2af1c2f92e19e1214ddf41e6184eaa7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
