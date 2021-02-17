@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bd67c1b_4e33274b",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-17T10:07:52Z",
+      "side": 1,
+      "message": "Please, add a (TODO) comment section to make a refactoring of this piece of code in to a single place of creating sec group, rule an etc...",
+      "range": {
+        "startLine": 830,
+        "startChar": 7,
+        "endLine": 830,
+        "endChar": 11
+      },
+      "revId": "f182848debc17b24cce4104be3611d17b0617957",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
