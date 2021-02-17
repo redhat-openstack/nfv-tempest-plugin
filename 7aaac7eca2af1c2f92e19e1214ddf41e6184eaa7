@@ -96,6 +96,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d086bb5_92bba40b",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-17T07:20:46Z",
+      "side": 1,
+      "message": "The line 517 is completely fine.\nThe if condition plays well.\n\nThe problem comes with the removed line 820-821 (if you are looking on the left side).\nBecause you removed the:\n\n        if self.remote_ssh_sec_groups_names:\n            kwargs[\u0027security_groups\u0027] \u003d self.remote_ssh_sec_groups_names\n\nWhat will happen is that an instance will not get a security group attached to it.\nNow, it may look ok, because the security group attached to the port, but in fact, we have functionality to disable security group attachment to the port and here the security group attachment to the instance become critical.\n\nBut as I mentioned in one previous comment, I think it could be achieved with a bit different way and at final, we all will benefit from that.",
+      "parentUuid": "df265402_6ce26501",
+      "range": {
+        "startLine": 831,
+        "startChar": 8,
+        "endLine": 831,
+        "endChar": 43
+      },
+      "revId": "7aaac7eca2af1c2f92e19e1214ddf41e6184eaa7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89d1fbaa_e89daab3",
