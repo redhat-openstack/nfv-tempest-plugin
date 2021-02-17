@@ -72,6 +72,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df265402_6ce26501",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-02-17T07:12:28Z",
+      "side": 1,
+      "message": "Hi maxim vms will have the same sec group as today please look at _create_ports_on_networks fuction, the part related to this that was here was obsolete as you can see in line 527 and you can see the changes in thee lines before that the only issue here was me not validating that kwargs[\u0027security_group\u0027] is defined \n\nas you can see in line 517 if both self.remote_ssh_sec_groups and kwargs[\u0027security_group\u0027] are defined it will add both and if only self.remote_ssh_sec_groups is defined it will have the same functionaluty as before as for the part related to that in this function was obsolete",
+      "parentUuid": "b8e2d829_4d598d6e",
+      "range": {
+        "startLine": 831,
+        "startChar": 8,
+        "endLine": 831,
+        "endChar": 43
+      },
+      "revId": "7aaac7eca2af1c2f92e19e1214ddf41e6184eaa7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89d1fbaa_e89daab3",
