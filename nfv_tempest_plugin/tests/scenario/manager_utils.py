@@ -534,11 +534,10 @@ class ManagerMixin(object):
                              disable_root: 0
                              '''.format(user=self.instance_user,
                                         passwd=self.instance_pass)
-        if (self.test_instance_repo and 'name' in
-                self.test_instance_repo):
-            repo_name = self.external_config['test_instance_repo']['name']
-            repo_url = self.external_config['test_instance_repo']['url']
-            repo = '''
+        repos_config = CONF.nfv_plugin_options.instance_repo
+        repos = ''
+        for repo_name, repo_url in iter(repos_config.items()):
+            repos += '''
                              yum_repos:
                                  {repo_name}:
                                      name: {repo_name}
@@ -547,7 +546,7 @@ class ManagerMixin(object):
                                      gpgcheck: false
                     '''.format(repo_name=repo_name,
                                repo_url=repo_url)
-            self.user_data = "".join((self.user_data, repo))
+        self.user_data = "".join((self.user_data, repos))
 
         if install_packages is not None:
             header = '''
