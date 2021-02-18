@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "42c18404_24e85d70",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-02-18T09:38:40Z",
+      "side": 1,
+      "message": "Instead of having lacp_config and balance_tcp options, I would do it in a more general way defining one or more bonds and its parameters. This could be a list that by default would be empty.\nIn our currently templates we have 2 ovs-dpdk bonds, but lacp is only configured in one of them",
+      "range": {
+        "startLine": 123,
+        "startChar": 16,
+        "endLine": 123,
+        "endChar": 27
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "65635eae_e4826e72",
         "filename": "nfv_tempest_plugin/config.py",
         "patchSetId": 1
@@ -229,6 +252,30 @@
       "side": 1,
       "message": "Yes, currently, last dpdk bond will override.\nI will mention a suggestion in the previous file to contunie the thread.",
       "parentUuid": "98efe812_5da0c4d7",
+      "range": {
+        "startLine": 1133,
+        "startChar": 23,
+        "endLine": 1133,
+        "endChar": 50
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e8099bf_3599898b",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-02-18T09:38:40Z",
+      "side": 1,
+      "message": "Current templates contains 2 bonds, but only 1 of them has lacp configured.",
+      "parentUuid": "4a36e24f_92f6f02a",
       "range": {
         "startLine": 1133,
         "startChar": 23,
