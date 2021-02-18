@@ -35,6 +35,12 @@ NfvPluginOptions = [
     cfg.StrOpt("instance_pass",
                default="password",
                help="SSH password for the guest instance"),
+    cfg.DictOpt('instance_repo',
+                default={'epel': 'http://download.fedoraproject.org/pub/'
+                         'epel/7/x86_64/'},
+                help='A comma separated dictionaries of the repositories.'
+                     'The format of the repo definition -'
+                     'repo_name1: repo_url1, repo_name2: repo_url2'),
     cfg.StrOpt('external_config_file',
                default=None,
                help="The path to yml file for additional configurations"),
