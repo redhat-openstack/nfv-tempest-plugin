@@ -22,6 +22,30 @@
       },
       "revId": "150231007052cad7ac82035c5034dcbe65865eba",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd93bb27_5ad0904c",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-02-21T14:29:36Z",
+      "side": 1,
+      "message": "the reason I added it outside of the _set_remote_ssh_sec_groups is to have those groups separated. It shouldn\u0027t be a problem doing it your way but I just want to make sure there isn\u0027t any case we are overlooking/that there isn\u0027t any case where this function is used and will be broken\n\nare you sure this is the way to go about that instead of just separating those functionalitiss?",
+      "parentUuid": "7a87ae7d_efcb741c",
+      "range": {
+        "startLine": 827,
+        "startChar": 8,
+        "endLine": 827,
+        "endChar": 10
+      },
+      "revId": "150231007052cad7ac82035c5034dcbe65865eba",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
