@@ -236,6 +236,24 @@
       "parentUuid": "6751318b_487edfeb",
       "revId": "7aaac7eca2af1c2f92e19e1214ddf41e6184eaa7",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3322c69_3a726cdf",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-02-21T08:31:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0579962b_f6075e00",
+      "revId": "7aaac7eca2af1c2f92e19e1214ddf41e6184eaa7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
