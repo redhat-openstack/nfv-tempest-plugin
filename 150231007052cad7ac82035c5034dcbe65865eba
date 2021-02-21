@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a87ae7d_efcb741c",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-02-21T14:23:00Z",
+      "side": 1,
+      "message": "All this block looks over complicated to me.\nI suggest to do it simpler.\n\nYou are using \u0027sg_rules\u0027 that you are providing from your test.\nI would say that you will pass the kwargs to the \"self._set_remote_ssh_sec_groups(**kwargs)\" method (line 825). Rename it if you think that the name does not reflect the convention.\nThe method will need to be refactored.\n\nNext, within that method, create a ssh/icmp security group and rules.\nAnd if \u0027sg_rules\u0027 is defined, loop over the list of rules and create the security group with relevant rules.\n\nAt the end, when all the security groups and rules were created, it could be loaded into the class vars - self.remote_ssh_sec_groups_names and self.remote_ssh_sec_groups. For that, the [1] lines will probably need to be moved into a \"parent\" sec group method.\n\nAnd at the end, the section of lines 843-848, will not be needed.\n\nThe idea and motivation behind such change, is to manage (create and modify) the security groups in one single place.\nNo need to modify that arguments of security group in different places.\n\n[1] - https://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/nfv_tempest_plugin/tests/scenario/baremetal_manager.py#L862-L865",
+      "range": {
+        "startLine": 827,
+        "startChar": 8,
+        "endLine": 827,
+        "endChar": 10
+      },
+      "revId": "150231007052cad7ac82035c5034dcbe65865eba",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
