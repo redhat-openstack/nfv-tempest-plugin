@@ -234,6 +234,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "21b3c326_4c1d0b12",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-02-22T15:04:51Z",
+      "side": 1,
+      "message": "if I understand correctly you are assuming that the offload interfaces are the same on all compute? (same as in hypervisors[0])\n\nif so what about a case where the environment have different compute types with different interfaces?",
+      "revId": "93cd033d6e3cddea26ccc4cb389e53a16a313d99",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7695e378_d68a3062",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
         "patchSetId": 1
@@ -245,6 +262,30 @@
       "writtenOn": "2021-02-18T09:05:57Z",
       "side": 1,
       "message": "Shouldnt the testcase finish here if there are not detected offload nics. I think that if there are no offload nics the testcase will pass",
+      "range": {
+        "startLine": 85,
+        "startChar": 63,
+        "endLine": 85,
+        "endChar": 75
+      },
+      "revId": "93cd033d6e3cddea26ccc4cb389e53a16a313d99",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d0fa430_d223ef47",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-02-22T15:04:51Z",
+      "side": 1,
+      "message": "I agree with miguel and also it would be a good idea in my opinion to log the info of no interface found",
+      "parentUuid": "7695e378_d68a3062",
       "range": {
         "startLine": 85,
         "startChar": 63,
