@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b0910589_16ab82af",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-02-23T11:33:06Z",
+      "side": 1,
+      "message": "I prefer to have all options covered and its already written so I think it is still good to leave it",
+      "parentUuid": "d5b02ce6_500004d5",
+      "range": {
+        "startLine": 517,
+        "startChar": 19,
+        "endLine": 517,
+        "endChar": 46
+      },
+      "revId": "faff4fba8b482ef57792191aa7c88ef7e81011e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c5df7a6d_c65bbcef",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 24
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-23T10:04:17Z",
       "side": 1,
       "message": "Just a suggestion to think of.\nNot to change at this patch, but maybe to keep in mind.\n\nThe class vars self.remote_ssh_sec_groups and self.remote_ssh_sec_groups_names could be renamed to a more global name and include the sg_names in it.\nThis will allow to skip additional manipulation of appending the sg_names and combine lines 826-828 with 834-835.\n\nIn additional it will allow to use the custom security groups later during the test in additional resource will need to be created.\n\nBut, again, that is just a suggestion and not for this patch.",
+      "range": {
+        "startLine": 835,
+        "startChar": 12,
+        "endLine": 835,
+        "endChar": 55
+      },
+      "revId": "faff4fba8b482ef57792191aa7c88ef7e81011e1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "106e0006_b23962c3",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-02-23T11:33:06Z",
+      "side": 1,
+      "message": "I must say that I don\u0027t like the usage of class variable in this case when it can be done with local vars",
+      "parentUuid": "c5df7a6d_c65bbcef",
       "range": {
         "startLine": 835,
         "startChar": 12,
