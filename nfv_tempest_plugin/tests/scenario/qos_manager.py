@@ -335,22 +335,22 @@ class QoSManagerMixin(object):
             if 'min_kbps' in qos_rules_list[srv(index)]:
                 qos_type = 'min_kbps'
 
+            # The number of max qos test should not increase above the limit
             if qos_type == 'max_kbps':
                 if rep * kbytes_to_mbits \
-                    < qos_rules_list[srv(index)][qos_type]:
-                    return
-                else:
-                    dev = abs(rep * kbytes_to_mbits
-                              / qos_rules_list[srv(index)][qos_type] - 1)
+                    > qos_rules_list[srv(index)][qos_type]:
+                    raise ValueError('The result number is above the '
+                                     'max allowed limit')
+            # The number of min qos test should not be lower than the limit
             elif qos_type == 'min_kbps':
                 if rep * kbytes_to_mbits \
-                    > qos_rules_list[srv(index)][qos_type]:
-                    return
-                else:
-                    dev = abs(rep * kbytes_to_mbits
-                              / qos_rules_list[srv(index)][qos_type] - 1)
+                    < qos_rules_list[srv(index)][qos_type]:
+                    raise ValueError('The result number is below the '
+                                     'min allowed number')
+            dev = abs(rep * kbytes_to_mbits
+                      / qos_rules_list[srv(index)][qos_type] - 1)
 
-            # Check if only one policy to Verify
+            # Calculated deviation will be compared to the accepted.
             self.assertLess(dev, max_deviation_accepted,
                             "iperf result deviates more than {}"
                             .format(max_deviation_accepted))
