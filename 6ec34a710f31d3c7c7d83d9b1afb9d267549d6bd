@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5fadd01_88dd6781",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-02T07:15:11Z",
+      "side": 1,
+      "message": "Correct, but is should be compared with tolerance, see (l350) and on\nI would suggest : \n\n1) rep * kbytes_to_mbits \\\n                    \u003e qos_rules_list[srv(index)][qos_type]\n   this should check deviation similar to (l354)\n2) the test should run this code (l350-l356) only if there is higher or lower rate for min/max\n    And then check assert dev if exist.\n\n3) Please add logs, related ti average perf, it will be easier for debug",
+      "range": {
+        "startLine": 338,
+        "startChar": 11,
+        "endLine": 338,
+        "endChar": 76
+      },
+      "revId": "6ec34a710f31d3c7c7d83d9b1afb9d267549d6bd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
