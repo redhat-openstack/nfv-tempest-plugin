@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ed15027d_a93acb92",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-02T13:03:26Z",
+      "side": 1,
+      "message": "You should check for each one of them not to exceed from two different directions\n\nI would recommend adding inner function in this method\n def _check_deviation(rep, qos_rules_list[srv(index)][qos_type]):\n    //content of (l350-l356)\n\nand on each of (l342) and (l345)\n  call\n  _check_deviation(rep, qos_rules_list[srv(index)][qos_type])\n\nIt will raise the error\n\n\n\u003e With the suggestion, I\u0027m not sure we really need the section code for lines 338-349.\n\u003e \n\u003e If the deviation for both kind of test (min/max) calculated in lines 350-351 and checked in \u003e \u003e lines 354-356, we actually don\u0027t need the 338-349 section.\n\nYou need to test deviation, since there is settling time and burst we hope the average calc will reduce\n\nSee @eshulman\u0027s comment",
+      "parentUuid": "185d348f_ed4cb335",
+      "range": {
+        "startLine": 338,
+        "startChar": 11,
+        "endLine": 338,
+        "endChar": 76
+      },
+      "revId": "6ec34a710f31d3c7c7d83d9b1afb9d267549d6bd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1e8400d4_d36eef77",
         "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
         "patchSetId": 1
