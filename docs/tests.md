@@ -33,7 +33,7 @@ Current supported tests:
 - nfv_tempest_plugin.tests.scenario.test_nfv_hci_usecases.TestHciScenarios.test_boot_instance_with_volume_in_hci_nfv_setup
 - nfv_tempest_plugin.tests.scenario.test_nfv_hci_usecases.TestHciScenarios.test_volume_using_img_in_hci_nfv_setup
 - nfv_tempest_plugin.tests.scenario.test_nfv_hci_usecases.TestHciScenarios.test_ceph_health_status_in_hci_nfv_setup
-
+- nfv_tempest_plugin.tests.scenario.test_nfv_ovs_usecases.TestOvsScenarios.test_ovs_bond_connectivity
 
 
 ### Tests configuration
@@ -411,3 +411,20 @@ Tests included:
   ```
   Test config:
   - name: nfv_hci_ceph_health
+
+#### TestOvsScenarios:
+Tests included:
+- test_ovs_bond_connectivity
+  Test explanation:  
+  Attempts to verify that Open vSwitch bond is working as expected.  
+  Currently only supports bonds of type `active-backup`.  
+  Multiple bonds can be tested, **assuming** they all exist on all hypervisors in deployment.  
+  Multiple networks attached to bond can be tested.  
+  Failover will be attempted for bond during test.  
+  This test requires to populate 'ovs_bond_under_test' under 'nfv_plugin_options' in tempest config.  
+  Test config:
+  ```yaml
+  - name: ovs_bond_connectivity
+    flavor: nfv-test-flavor
+    router: true
+  ```
