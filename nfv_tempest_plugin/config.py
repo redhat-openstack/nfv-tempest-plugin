@@ -101,7 +101,7 @@ NfvPluginOptions = [
                 default=False,
                 help="Use neutron-tempest-plugin clients"),
     cfg.IntOpt('hypervisor_wait_timeout',
-               default=300,
+               default=500,
                help='Timeout in seconds to wait for the '
                     'hypervisor reachability'),
     cfg.StrOpt('hypervisor_tuning_details',
@@ -130,4 +130,12 @@ NfvPluginOptions = [
                 help='IGMP configuration for the igmp reports test. '
                      'Configure reports_interface to set the interface in '
                      'which it will be checked that igmp reports are present')
+    cfg.StrOpt('kernel_args',
+               default='default_hugepagesz=1GB hugepagesz=1G hugepages=64 '
+                       'iommu=pt intel_iommu=on isolcpus=2-19,22-39',
+               help='kernel args expected in the stack after update'),
+    cfg.ListOpt('ovs_bond_under_test',
+                default=[],
+                help='List of OVS bond interfaces that will be used during '
+                     'OVS bond scenario testing'),
 ]
