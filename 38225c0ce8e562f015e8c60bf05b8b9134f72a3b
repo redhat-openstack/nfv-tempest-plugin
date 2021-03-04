@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9fd3f96_dbbc5a80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-03-04T03:40:14Z",
+      "side": 1,
+      "message": "Ready for review.\nThis test also works on OVN deployment.",
+      "revId": "38225c0ce8e562f015e8c60bf05b8b9134f72a3b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
