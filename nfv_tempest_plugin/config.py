@@ -134,4 +134,8 @@ NfvPluginOptions = [
                 default=[],
                 help='Network interfaces to be tested for the offload test. '
                      'By default, the nics discovered automatically'),
+    cfg.ListOpt('ovs_test_bonds',
+                default=[],
+                help='List of OVS bond interfaces that will be used during '
+                     'OVS bond scenario testing'),
 ]
