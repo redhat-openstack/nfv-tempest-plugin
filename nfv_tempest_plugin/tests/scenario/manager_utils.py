@@ -161,7 +161,7 @@ class ManagerMixin(object):
 
             if 'qos_rules' in test and test['qos_rules'] is not None:
                 self.test_setup_dict[test['name']]['qos_rules'] = \
-                    jsonutils.loads(jsonutils.dumps(test['qos_rules']))
+                    jsonutils.loads(jsonutils.dumps(test['qos_rules']))]
 
         if not os.path.exists(
                 CONF.nfv_plugin_options.external_resources_output_file):
