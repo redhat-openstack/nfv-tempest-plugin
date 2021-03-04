@@ -163,6 +163,19 @@ class ManagerMixin(object):
                 self.test_setup_dict[test['name']]['qos_rules'] = \
                     jsonutils.loads(jsonutils.dumps(test['qos_rules']))
 
+            if 'bond_interfaces' in test and test['bond_interfaces'] \
+                    is not None:
+                for bond_object in test['bond_interfaces']:
+                    # Test if interface key is present in bond_interface
+                    if 'interface' not in bond_object:
+                        raise ValueError('interface is not present in '
+                                         'bond_interfaces')
+                    if 'guest_networks' not in bond_object:
+                        raise ValueError('guest_networks is not present in '
+                                         'bond_interfaces')
+                self.test_setup_dict[test['name']]['bond_interfaces'] = \
+                    test['bond_interfaces']
+
         if not os.path.exists(
                 CONF.nfv_plugin_options.external_resources_output_file):
             # iterate flavors_id
