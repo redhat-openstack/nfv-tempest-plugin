@@ -138,4 +138,9 @@ NfvPluginOptions = [
                default='default_hugepagesz=1GB hugepagesz=1G hugepages=64 '
                        'iommu=pt intel_iommu=on isolcpus=2-19,22-39',
                help='kernel args expected in the stack after update'),
+    cfg.ListOpt('ovs_test_bonds',
+                default=[],
+                help='List of OVS bond interfaces that will be used during '
+                     'OVS bond scenario testing'),
+
 ]

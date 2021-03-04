@@ -21,6 +21,7 @@ import shlex
 import subprocess as sp
 
 from backports.configparser import ConfigParser
+from collections import namedtuple
 from collections import OrderedDict
 from oslo_log import log
 from oslo_serialization import jsonutils
