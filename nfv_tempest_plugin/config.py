@@ -124,14 +124,8 @@ NfvPluginOptions = [
                default='default_hugepagesz=1GB hugepagesz=1G hugepages=64 '
                        'iommu=pt intel_iommu=on isolcpus=2-19,22-39',
                help='kernel args expected in the stack after update'),
-    cfg.DictOpt('igmp_queries',
-                default={'tcpdump_timeout': 200},
-                help='IGMP configuration for the igmp queries test. '
-                     'Configure tcpdump_timeout to set how long the test will '
-                     'wait to receive igmp queries'),
-    cfg.DictOpt('igmp_reports',
-                default={'reports_interface': 'br-dpdk0'},
-                help='IGMP configuration for the igmp reports test. '
-                     'Configure reports_interface to set the interface in '
-                     'which it will be checked that igmp reports are present')
+    cfg.ListOpt('ovs_bond_under_test',
+                default=[],
+                help='List of OVS bond interfaces that will be used during '
+                     'OVS bond scenario testing'),
 ]
