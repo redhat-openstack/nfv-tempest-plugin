@@ -21,6 +21,7 @@ import shlex
 import subprocess as sp
 
 from backports.configparser import ConfigParser
+from collections import namedtuple
 from collections import OrderedDict
 from oslo_log import log
 from oslo_serialization import jsonutils
@@ -443,3 +444,82 @@ def stop_continuous_ping():
         pipe = sp.Popen(remote_command, stdout=sp.PIPE)
         LOG.info("Ping process termiated {}".
                  format(pipe.stdout.read().decode('UTF-8').rstrip('\n')))
+
+
+def construct_ovs_bond_tuple_from_hypervsior(hypervisor, bond_name,
+                                             requested_bond_type):
+    """construct_ovs_bond_tuple_from_hypervsior
+
+    Queries hypervisor node and constructs a namedtuple object
+    The namedtuple object stores information and commands associated to
+    OVS bond.
+    Currently only supports 'active-backup' bond.
+    :param hypervisor: hypervisor IP address to fetch info from
+    :param bond_name: bond name to lookup
+    :param requested_bond_type: bond type to lookup
+    :returns ovs_bond: namedtuple of OVS bond query
+    """
+    bond = namedtuple('Bond', [
+        'hypervisor',
+        'interface',
+        'type',
+        'master_interface',
+        'ovs_bridge',
+        'ifup_cmd',
+        'ifdown_cmd'
+    ])
+    check_bond_cmd = 'sudo ovs-appctl bond/show {}'
+    bond_mode_re_filter = r'bond_mode:\s+.*'
+    bond_mode_re_sub_filter = r'bond_mode:\s+(.*)'
+    # Query bond interface on hypervisor
+    out = run_command_over_ssh(hypervisor,
+                               check_bond_cmd.format(bond_name))
+    msg = ("Bond '{b}' not present on hypervisor '{h}'"
+           .format(h=hypervisor, b=bond_name))
+    assert out != '', msg
+    LOG.info("Bond '{b}' present on hypervisor '{h}'"
+             .format(h=hypervisor, b=bond_name))
+    re_result = re.search(bond_mode_re_filter, out)
+    msg = "Could not find bonding mode from bond query output"
+    assert re_result is not None, msg
+    re_bond_output = re_result.group(0)
+    bond_mode = re.sub(bond_mode_re_sub_filter, r'\1',
+                       re_bond_output)
+    if bond_mode == requested_bond_type:
+        ovs_bond = None
+        LOG.info("Bond '{b}' is set to mode '{m}'"
+                 .format(b=bond_name, m=bond_mode))
+        if bond_mode == 'active-backup':
+            re_result = re.search(r'active slave mac:\s+.*', out)
+            re_bond_output = re_result.group(0)
+            bond_master = re.sub(r'active slave mac:\s+.*\((.*)\)',
+                                 r'\1', re_bond_output)
+            LOG.info("NIC '{m}' is set as master NIC in bond '{b}' on "
+                     "hypervisor '{h}'".format(m=bond_master,
+                                               b=bond_name,
+                                               h=hypervisor))
+            cmd = 'sudo ovs-vsctl port-to-br {}'
+            # Fetch OVS general info
+            ovs_bridge = \
+                run_command_over_ssh(hypervisor,
+                                     cmd.format(bond_name)).replace('\n', '')
+            # Construct interface up/down commands
+            bond_if_up_cmd = 'sudo ovs-ofctl mod-port {b} {i} up'
+            bond_if_down_cmd = 'sudo ovs-ofctl mod-port {b} {i} down'
+            # Apply required variables for interface commands
+            bond_if_up_cmd = bond_if_up_cmd.format(b=ovs_bridge,
+                                                   i=bond_master)
+            bond_if_down_cmd = bond_if_down_cmd.format(b=ovs_bridge,
+                                                       i=bond_master)
+            # Initialize a namedtuple of current bond
+            ovs_bond = bond(hypervisor, bond_name, bond_mode,
+                            bond_master, ovs_bridge,
+                            bond_if_up_cmd,
+                            bond_if_down_cmd)
+        else:
+            LOG.info("Bond type {m} is not supported'"
+                     .format(m=bond_mode))
+    else:
+        LOG.info("Bond '{b}' is not of requested type '{m}'"
+                 .format(b=bond_name, m=bond_mode))
+    return ovs_bond
