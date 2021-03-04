@@ -129,5 +129,9 @@ NfvPluginOptions = [
                 default={'reports_interface': 'br-dpdk0'},
                 help='IGMP configuration for the igmp reports test. '
                      'Configure reports_interface to set the interface in '
-                     'which it will be checked that igmp reports are present')
+                     'which it will be checked that igmp reports are present'),
+    cfg.ListOpt('ovs_bond_under_test',
+                default=[],
+                help='List of OVS bond interfaces that will be used during '
+                     'OVS bond scenario testing'),
 ]
