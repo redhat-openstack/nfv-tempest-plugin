@@ -70,7 +70,7 @@ class TestAdvancedScenarios(base_test.BaseTest):
         net_id = []
         for _ in range(srv_num_to_boot):
             net_id.append([{'uuid': numa_net}])
-        kwargs = {'security_groups': self.remote_ssh_sec_groups_names,
+        kwargs = {'security_groups': self.sec_groups_names,
                   'availability_zone': 'numa_aware_avail_zone',
                   'key_name': key_pair['name']}
         LOG.info('Booting instances on numa node 0. Expect to succeed.')
@@ -199,7 +199,7 @@ class TestAdvancedScenarios(base_test.BaseTest):
 
         mgmt_net = self.mgmt_network
         mgmt_net_id = [[{'uuid': self.test_network_dict[mgmt_net]['net-id']}]]
-        kwargs = {'security_groups': self.remote_ssh_sec_groups_names,
+        kwargs = {'security_groups': self.sec_groups_names,
                   'key_name': key_pair['name']}
         srv2 = self.create_server_with_fip(flavor=self.flavor_ref,
                                            networks=mgmt_net_id, **kwargs)
