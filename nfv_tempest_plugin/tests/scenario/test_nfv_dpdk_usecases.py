@@ -76,15 +76,12 @@ class TestDpdkScenarios(base_test.BaseTest, QoSManagerMixin):
     def test_multicast(self, test='multicast'):
         """The method boots three instances, runs mcast traffic between them"""
         LOG.info('Starting multicast test.')
+        kwargs = {}
+        kwargs['sg_rules'] = [[{"protocol": "udp", "direction": "ingress"},
+                     {"protocol": "udp", "direction": "egress"}]]
         servers, key_pair = \
             self.create_server_with_resources(test=test, num_servers=3,
-                                              use_mgmt_only=True)
-
-        # Add security group rules needed to allow multicast traffic
-        rule_list = [{"protocol": "udp", "direction": "ingress"},
-                     {"protocol": "udp", "direction": "egress"}]
-        self.add_security_group_rules(rule_list,
-                                      self.remote_ssh_sec_groups[0]['id'])
+                                              use_mgmt_only=True, **kwargs)
 
         servers[0]['mcast_srv'] = 'listener1'
         servers[1]['mcast_srv'] = 'listener2'
