@@ -57,8 +57,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.cpuregex = re.compile('^[0-9]{1,2}$')
         self.external_config = None
         self.test_setup_dict = {}
-        self.remote_ssh_sec_groups = []
-        self.remote_ssh_sec_groups_names = []
+        self.sec_groups = []
+        self.sec_groups_names = []
         self.qos_policy_groups = []
         self.servers = []
         self.test_network_dict = {}
@@ -514,17 +514,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'port_type' in net_param:
                 create_port_body['binding:vnic_type'] = \
                     net_param['port_type']
-                if 'security_groups' in kwargs and self.remote_ssh_sec_groups \
-                    and net_name == self.mgmt_network:
-                    kwargs['security_groups'] = \
-                        kwargs['security_groups'] \
-                        + self.remote_ssh_sec_groups
-                    create_port_body['security_groups'] = \
-                        [s['id'] for s in kwargs['security_groups']]
-                elif self.remote_ssh_sec_groups and net_name == \
+                if self.sec_groups and net_name == \
                         self.mgmt_network:
                     create_port_body['security_groups'] = \
-                        [s['id'] for s in self.remote_ssh_sec_groups]
+                        [s['id'] for s in self.sec_groups]
                 if 'trusted_vf' in net_param and \
                         net_param['trusted_vf'] and \
                         net_param['port_type'] == 'direct':
@@ -771,7 +764,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         :return servers, key_pair
         """
         LOG.info('Creating resources...')
-        sg_names = []
         if num_ports is None:
             num_ports = num_servers
 
@@ -823,16 +815,12 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         # Network, subnet, router and security group creation
         self._create_test_networks()
-        kwargs['security_groups'], sg_names = \
-            self._set_sec_groups(**kwargs)
+        kwargs['security_groups'] = self._set_sec_groups(**kwargs)
         kwargs.pop('sg_rules', None)
 
         ports_list = \
             self._create_ports_on_networks(num_ports=num_ports,
                                            **kwargs)
-
-        kwargs['security_groups'] = \
-            sg_names + self.remote_ssh_sec_groups_names
 
         # After port creation remove kwargs['set_qos']
         if 'set_qos' in kwargs:
@@ -858,46 +846,27 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                                   **kwargs)
         return servers, key_pair
 
-    def _set_remote_ssh_sec_group(self):
-        """Security group creation
-
-        This method create security group except network marked with security
-        groups == false in test_networks
-        """
-        """
-        Create security groups [icmp,ssh] for Deployed Guest Image
-        """
-        mgmt_net = self.mgmt_network
-        if not ('sec_groups' in self.test_network_dict[mgmt_net]
-                and not self.test_network_dict[mgmt_net]['sec_groups']):
-            security_group = self._create_loginable_secgroup()
-            self.remote_ssh_sec_groups_names = \
-                [{'name': security_group['name']}]
-            self.remote_ssh_sec_groups = [{'name': security_group['name'],
-                                           'id': security_group['id']}]
-
     def _set_sec_groups(self, **kwargs):
         """Creates a security group containing rules
 
         :param rules: a list containing dictionarys of rules
         :return: a list with security group name and id
         """
-        sg_out = []
-        sg_out_names = []
-
-        self._set_remote_ssh_sec_group()
-
         if 'sg_rules' in kwargs:
-            for group_rules in kwargs['sg_rules']:
-                sg = self._create_security_group()
-                self.add_security_group_rules(group_rules, sg['id'])
-                sg_out.append({'name': sg['name'], 'id': sg['id']})
-                sg_out_names.append({'name': sg['name']})
+            kwargs['sg_rules'].append(jsonutils.loads(
+                CONF.nfv_plugin_options.login_security_group_rules))
+        else:
+            kwargs['sg_rules'] = \
+                [jsonutils.loads(CONF.nfv_plugin_options.
+                                 login_security_group_rules)]
 
-        if 'security_groups' in kwargs:
-            sg_out = sg_out + kwargs['security_groups']
+        for group_rules in kwargs['sg_rules']:
+            sg = self._create_security_group()
+            self.add_security_group_rules(group_rules, sg['id'])
+            self.sec_groups.append({'name': sg['name'], 'id': sg['id']})
+            self.sec_groups_names.append({'name': sg['name']})
 
-        return sg_out, sg_out_names
+        return kwargs['secutiry_groups'] + self.sec_groups_names
 
     def _create_security_group(self):
         """Security group creation
@@ -920,19 +889,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             secgroup['id'])
 
         return secgroup
-
-    def _create_loginable_secgroup(self):
-        """Add default rules
-
-        Load default rules (icmp and ssh) and add them to the
-        security group
-        """
-        rule_list = \
-            jsonutils.loads(CONF.nfv_plugin_options.login_security_group_rules)
-        sec_group = self._create_security_group()
-        self.add_security_group_rules(rule_list, sec_group['id'])
-
-        return sec_group
 
     def add_security_group_rules(self, rule_list, secgroup_id=None):
         """Add secgroups rules
