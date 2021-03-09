@@ -1,4 +1,4 @@
-# Copyright 2017 Red Hat, Inc.
+# copyright 2017 red hat, inc.
 # All Rights Reserved.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -13,6 +13,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from distutils.util import strtobool
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
@@ -55,7 +56,7 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
             result = []
             cmd = 'sudo ovs-vsctl --format=json list bridge br-int'
             checks = {'mcast_snooping_enable': True,
-                      'mcast-snooping-disable-flood-unregistered': 'true'}
+                      'mcast-snooping-disable-flood-unregistered': True}
 
             for hypervisor_ip in hypervisors:
                 output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
@@ -83,7 +84,14 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
 
                 for check in checks:
                     if check not in diff_checks_cmd:
+                        if type(ovs_data_filt[check]) == str:
+                            # If object is not equal to 'true' or 'false'
+                            # ValueError exception will be raised
+                            ovs_data_filt[check] = \
+                                strtobool(ovs_data_filt[check])
                         if ovs_data_filt[check] != checks[check]:
+                            print(type(ovs_data_filt[check]))
+                            print(type(checks[check]))
                             msg = ("{}. Check failed: {}. Expected: {} "
                                    "- Found: {}"
                                    .format(hypervisor_ip, check, checks[check],
