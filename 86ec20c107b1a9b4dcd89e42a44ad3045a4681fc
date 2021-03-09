@@ -39,6 +39,30 @@
       },
       "revId": "86ec20c107b1a9b4dcd89e42a44ad3045a4681fc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6b61378_d7df91fd",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-09T15:59:27Z",
+      "side": 1,
+      "message": "it will create the sec group but will not assign it to the port (which is the same as before)",
+      "parentUuid": "e83351a8_a7986fb2",
+      "range": {
+        "startLine": 517,
+        "startChar": 16,
+        "endLine": 517,
+        "endChar": 38
+      },
+      "revId": "86ec20c107b1a9b4dcd89e42a44ad3045a4681fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
