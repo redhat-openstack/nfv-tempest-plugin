@@ -20,6 +20,10 @@ from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
 from tempest.common import waiters
 from tempest import config
+from keystoneauth1.identity import v3
+from keystoneauth1 import session
+from heatclient.client import Client
+import datetime
 
 CONF = config.CONF
 LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
@@ -84,3 +88,54 @@ class TestHypervisorScenarios(base_test.BaseTest):
                                              user=self.instance_user,
                                              key_pair=key_pair['private_key'])
         LOG.info("The hypervisor reboot test passed.")
+
+    def parse_undercloud_rc(self):
+        conf = {}
+        with open(CONF.nfv_plugin_options.undercloud_rc_file,'r') as rc:
+            for line in rc.read().split('\n'):
+                if '=' in line:
+                    l = line.split('=')
+                    conf[l[0].replace('export ','')] = l[1]
+        return conf
+
+    def test_reboot_in_stack_update(self, stack_name='overcloud'):
+        """quries heat api and validate that no reboot
+        occuered durring stack update
+        """
+        undercloud_rc = self.parse_undercloud_rc()
+        
+        auth = v3.Password(auth_url=undercloud_rc['OS_AUTH_URL'],
+                            username=undercloud_rc['OS_USERNAME'],
+                            password=undercloud_rc['OS_PASSWORD'],
+                            project_name=undercloud_rc['OS_PROJECT_NAME'],
+                            user_domain_name=\
+                                undercloud_rc['OS_USER_DOMAIN_NAME'],
+                            project_domain_name=\
+                                undercloud_rc['OS_PROJECT_DOMAIN_NAME'])
+
+        keystone_session = session.Session(auth=auth)
+        
+        heat_client = Client('1', session=keystone_session)
+        
+        for event in heat_client.events.list(stack_name):
+            if event.resource_status_reason == 'Stack UPDATE started':
+                update_start = datetime.datetime.strptime(event.event_time, '%Y-%m-%dT%H:%M:%SZ')
+            elif event.resource_status_reason == 'Stack UPDATE completed successfully':
+                update_end = datetime.datetime.strptime(event.event_time, '%Y-%m-%dT%H:%M:%SZ')
+
+        hyper_kwargs = {'shell': CONF.nfv_plugin_options.undercloud_rc_file}
+        hypervisors_ip = self._get_hypervisor_ip_from_undercloud(
+            **hyper_kwargs)
+        
+        uptime_command = 'uptime -s'
+
+        for hypervisor in hypervisors_ip:
+            last_reboot = datetime.datetime.strptime(
+                shell_utils.run_command_over_ssh(
+                    self.hypervisor_ip, uptime_command), '%Y-%m-%d %H:%M:%S')
+            self.assertTrue(last_reboot <= update_end 
+                            and last_reboot >= update_start,
+                            'Compute with this {} ip address rebooted'
+                            'durring the update'
+                            .format(hypervisor))
+
