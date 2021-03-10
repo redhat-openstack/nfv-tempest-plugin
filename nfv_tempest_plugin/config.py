@@ -120,4 +120,8 @@ NfvPluginOptions = [
                        '"pkt_size": 20}, {"ip": "238.0.0.5", "port": "5000",'
                        '"tx_pkts": 300, "pkt_size": 20}]}',
                help='IGMP configuration for the igmp snooping test'),
+    cfg.StrOpt('kernel_args',
+               default='default_hugepagesz=1GB hugepagesz=1G hugepages=64'
+                       'iommu=pt intel_iommu=on isolcpus=2-19,22-39',
+               help='kernel args expected in the stack after update'),
 ]
