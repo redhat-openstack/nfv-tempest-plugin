@@ -63,6 +63,30 @@
       },
       "revId": "86ec20c107b1a9b4dcd89e42a44ad3045a4681fc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22739be8_6c159ed0",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-10T07:07:31Z",
+      "side": 1,
+      "message": "I am not sure, since it is relaying on the network ngnt network\nthe port body will be filled with sec-group.\n\nThis is not tested, default network with sec-group false and port assigned with sec-group.\n \nI would recommend to check if mgmt-network has sec-group, before assigning it to the ports",
+      "parentUuid": "d6b61378_d7df91fd",
+      "range": {
+        "startLine": 517,
+        "startChar": 16,
+        "endLine": 517,
+        "endChar": 38
+      },
+      "revId": "86ec20c107b1a9b4dcd89e42a44ad3045a4681fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
