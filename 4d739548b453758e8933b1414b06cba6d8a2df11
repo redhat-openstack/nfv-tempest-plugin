@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b865abd_77d10f94",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-11T16:52:23Z",
+      "side": 0,
+      "message": "I really like the change. One way to create default and custom sec groups.\n\nBut when you removed this block of code, it created a problem.\nThe instance will be created without security group attached.\nThe instance will be access because of the security group, but once the \"sec_group\" flag will be set to false, the instance will have no access.\n\nRemember that self.sec_groups and self.sec_groups_names created to be able to create resources later with the same sec groups.",
+      "range": {
+        "startLine": 834,
+        "startChar": 8,
+        "endLine": 834,
+        "endChar": 1
+      },
+      "revId": "4d739548b453758e8933b1414b06cba6d8a2df11",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
