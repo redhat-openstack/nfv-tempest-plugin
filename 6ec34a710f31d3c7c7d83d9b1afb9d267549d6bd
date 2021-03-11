@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2428d5ab_2df0c304",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-11T19:03:50Z",
+      "side": 1,
+      "message": "Updated according to the comments.",
+      "parentUuid": "ed15027d_a93acb92",
+      "range": {
+        "startLine": 338,
+        "startChar": 11,
+        "endLine": 338,
+        "endChar": 76
+      },
+      "revId": "6ec34a710f31d3c7c7d83d9b1afb9d267549d6bd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1e8400d4_d36eef77",
         "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
         "patchSetId": 1
@@ -85,6 +109,24 @@
       "writtenOn": "2021-03-02T08:02:54Z",
       "side": 1,
       "message": "1) If you raise the value error here then you are ignoring a small deviation that might happen. because of the built-in deviation in iperf. you can\u0027t ignore the possibility of an upword deviation for max and downward deviation for min. If I remember correctly there should be a max deviation value in the output of iperf maybe it will be a good idea using the deviation value from the iperf output as the \"max_deviation_accepted\". \n\n2) In the way it is implemented now a larger deviation upword in min policy and a larger deviation downward in max policy will cause the test to fail when the policies were still enforced.",
+      "revId": "6ec34a710f31d3c7c7d83d9b1afb9d267549d6bd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "891f346a_29e18cf0",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-11T19:03:50Z",
+      "side": 1,
+      "message": "Updated according to the comments.",
+      "parentUuid": "1e8400d4_d36eef77",
       "revId": "6ec34a710f31d3c7c7d83d9b1afb9d267549d6bd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
