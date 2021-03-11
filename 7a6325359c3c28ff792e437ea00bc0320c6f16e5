@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53e052cc_640c205d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-11T13:37:26Z",
+      "side": 1,
+      "message": "haven\u0027t validated yet waiting for hareash to complete his work on my setup 😊\nanyway please feel free to comment ",
+      "revId": "7a6325359c3c28ff792e437ea00bc0320c6f16e5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
