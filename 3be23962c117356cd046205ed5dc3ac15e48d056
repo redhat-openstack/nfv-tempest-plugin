@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22e6c866_75c9d9a0",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-03-12T14:21:32Z",
+      "side": 1,
+      "message": "should we define a constant value for 0.08 somewhere?",
+      "range": {
+        "startLine": 338,
+        "startChar": 51,
+        "endLine": 338,
+        "endChar": 55
+      },
+      "revId": "3be23962c117356cd046205ed5dc3ac15e48d056",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
