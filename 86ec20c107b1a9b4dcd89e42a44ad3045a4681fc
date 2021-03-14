@@ -206,6 +206,30 @@
       },
       "revId": "86ec20c107b1a9b4dcd89e42a44ad3045a4681fc",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6268efe1_a6af8674",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-14T12:25:38Z",
+      "side": 1,
+      "message": "I don\u0027t think there is any such case.",
+      "parentUuid": "f84dea00_33a5ffd2",
+      "range": {
+        "startLine": 819,
+        "startChar": 8,
+        "endLine": 819,
+        "endChar": 36
+      },
+      "revId": "86ec20c107b1a9b4dcd89e42a44ad3045a4681fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
