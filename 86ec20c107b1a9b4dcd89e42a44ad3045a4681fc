@@ -137,6 +137,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee3ebdbb_bc98f212",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-14T08:06:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48a6c0de_0f7e113a",
+      "range": {
+        "startLine": 517,
+        "startChar": 16,
+        "endLine": 517,
+        "endChar": 38
+      },
+      "revId": "86ec20c107b1a9b4dcd89e42a44ad3045a4681fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93db65ad_a76ef85a",
@@ -150,6 +174,30 @@
       "writtenOn": "2021-03-11T16:52:23Z",
       "side": 1,
       "message": "This could move into the \"_set_sec_groups\" method as the last line.\nWill look much cleaner.",
+      "range": {
+        "startLine": 819,
+        "startChar": 8,
+        "endLine": 819,
+        "endChar": 36
+      },
+      "revId": "86ec20c107b1a9b4dcd89e42a44ad3045a4681fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f84dea00_33a5ffd2",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-14T08:06:22Z",
+      "side": 1,
+      "message": "I thought about it but I wonder if for some usecase you wouldn\u0027t like to pop this key. if you think there isn\u0027t then I\u0027ll move it",
+      "parentUuid": "93db65ad_a76ef85a",
       "range": {
         "startLine": 819,
         "startChar": 8,
