@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e28ee22d_f8aff0b2",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-14T15:44:35Z",
+      "side": 1,
+      "message": "Typo.\nAs a result, instance unable to spawn.",
+      "range": {
+        "startLine": 869,
+        "startChar": 16,
+        "endLine": 869,
+        "endChar": 24
+      },
+      "revId": "fdc5a4043bb78745d06f8128bcda122d6bbf23ee",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f8aa6f6_04680e9e",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-14T15:44:35Z",
+      "side": 1,
+      "message": "Should be - \"\u003d\"",
+      "range": {
+        "startLine": 869,
+        "startChar": 34,
+        "endLine": 869,
+        "endChar": 35
+      },
+      "revId": "fdc5a4043bb78745d06f8128bcda122d6bbf23ee",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82042198_3e075549",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-14T15:44:35Z",
+      "side": 1,
+      "message": "For me, that is very non intuitive to return the full stack of kwargs.\nEach method is a separate unit that performs his own set of tasks.\n\nIt may add or remove specific attributes from the dict of kwargs, but not return the full stack.\nIn may remove the kwargs[\u0027sg_rules\u0027] as it is related to that method.\n\nIn my opinion, the method should return only the \"self.sec_groups_names\" and in the \"create_server_with_resources\" method, line 818 should get the security_groups as\n\nkwargs[\u0027security_groups\u0027] \u003d self._set_sec_groups(**kwargs)\n\nOtherwise, it is rewriting the whole kwargs.",
+      "range": {
+        "startLine": 871,
+        "startChar": 15,
+        "endLine": 871,
+        "endChar": 21
+      },
+      "revId": "fdc5a4043bb78745d06f8128bcda122d6bbf23ee",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
