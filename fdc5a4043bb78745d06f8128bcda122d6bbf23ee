@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d54b4c09_4cf9578d",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-15T07:18:25Z",
+      "side": 1,
+      "message": "my bad it was return and I changed right beofre I pushed",
+      "parentUuid": "7f8aa6f6_04680e9e",
+      "range": {
+        "startLine": 869,
+        "startChar": 34,
+        "endLine": 869,
+        "endChar": 35
+      },
+      "revId": "fdc5a4043bb78745d06f8128bcda122d6bbf23ee",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82042198_3e075549",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 5
@@ -60,6 +84,30 @@
       "writtenOn": "2021-03-14T15:44:35Z",
       "side": 1,
       "message": "For me, that is very non intuitive to return the full stack of kwargs.\nEach method is a separate unit that performs his own set of tasks.\n\nIt may add or remove specific attributes from the dict of kwargs, but not return the full stack.\nIn may remove the kwargs[\u0027sg_rules\u0027] as it is related to that method.\n\nIn my opinion, the method should return only the \"self.sec_groups_names\" and in the \"create_server_with_resources\" method, line 818 should get the security_groups as\n\nkwargs[\u0027security_groups\u0027] \u003d self._set_sec_groups(**kwargs)\n\nOtherwise, it is rewriting the whole kwargs.",
+      "range": {
+        "startLine": 871,
+        "startChar": 15,
+        "endLine": 871,
+        "endChar": 21
+      },
+      "revId": "fdc5a4043bb78745d06f8128bcda122d6bbf23ee",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39bd3d56_90462eab",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-15T07:18:25Z",
+      "side": 1,
+      "message": "I agree the reason I did that is that you wanted  me to move this line \"kwargs.pop(\u0027sg_rules\u0027, None)\" into the function I don\u0027t think it should be this way at all but I cant remove sg_rules from kwargs inside the function without returning it entirely",
+      "parentUuid": "82042198_3e075549",
       "range": {
         "startLine": 871,
         "startChar": 15,
