@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4453241e_7a20d8a5",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-15T17:08:32Z",
+      "side": 1,
+      "message": "result_number - Good?",
+      "parentUuid": "57a1e94b_9e3cf784",
+      "range": {
+        "startLine": 337,
+        "startChar": 57,
+        "endLine": 337,
+        "endChar": 63
+      },
+      "revId": "3be23962c117356cd046205ed5dc3ac15e48d056",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "22e6c866_75c9d9a0",
         "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-12T14:21:32Z",
       "side": 1,
       "message": "should we define a constant value for 0.08 somewhere?",
+      "range": {
+        "startLine": 338,
+        "startChar": 51,
+        "endLine": 338,
+        "endChar": 55
+      },
+      "revId": "3be23962c117356cd046205ed5dc3ac15e48d056",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c26d3d4_e7658702",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-15T17:08:32Z",
+      "side": 1,
+      "message": "You mean defaults like config.py?",
+      "parentUuid": "22e6c866_75c9d9a0",
       "range": {
         "startLine": 338,
         "startChar": 51,
