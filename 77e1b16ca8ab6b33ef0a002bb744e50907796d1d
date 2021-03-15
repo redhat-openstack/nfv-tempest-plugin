@@ -46,6 +46,30 @@
       },
       "revId": "77e1b16ca8ab6b33ef0a002bb744e50907796d1d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2214cc24_146895a7",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-15T18:49:02Z",
+      "side": 1,
+      "message": "Unfortunately, that will fail in any regular test, because by default it does not have a \"security_groups\" in kwargs.\nJust validated it.",
+      "parentUuid": "b8978f84_4323862b",
+      "range": {
+        "startLine": 819,
+        "startChar": 12,
+        "endLine": 819,
+        "endChar": 37
+      },
+      "revId": "77e1b16ca8ab6b33ef0a002bb744e50907796d1d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
