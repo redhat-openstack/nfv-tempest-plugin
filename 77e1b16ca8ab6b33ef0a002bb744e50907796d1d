@@ -70,6 +70,30 @@
       },
       "revId": "77e1b16ca8ab6b33ef0a002bb744e50907796d1d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b510ae4_f872ded1",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-15T21:23:49Z",
+      "side": 1,
+      "message": "I think that the first version was the best rolling back to that...",
+      "parentUuid": "2214cc24_146895a7",
+      "range": {
+        "startLine": 819,
+        "startChar": 12,
+        "endLine": 819,
+        "endChar": 37
+      },
+      "revId": "77e1b16ca8ab6b33ef0a002bb744e50907796d1d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
