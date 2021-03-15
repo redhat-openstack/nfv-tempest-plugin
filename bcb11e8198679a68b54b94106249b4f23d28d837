@@ -93,6 +93,30 @@
       },
       "revId": "bcb11e8198679a68b54b94106249b4f23d28d837",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6127ff8_07adeda1",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-15T16:45:20Z",
+      "side": 1,
+      "message": "I\u0027m looking at this from the following point of view.\nIf this method, for any possible reason will be used separately (not as part of the \"create_resources...\" method), kwargs may be unexpected return value.",
+      "parentUuid": "68673936_a2d7fcc6",
+      "range": {
+        "startLine": 869,
+        "startChar": 15,
+        "endLine": 869,
+        "endChar": 42
+      },
+      "revId": "bcb11e8198679a68b54b94106249b4f23d28d837",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
