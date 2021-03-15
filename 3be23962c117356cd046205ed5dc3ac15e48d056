@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "17c4d86d_c5bc0fcb",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-15T17:55:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "628c6b42_eb8914c6",
+      "range": {
+        "startLine": 337,
+        "startChar": 57,
+        "endLine": 337,
+        "endChar": 63
+      },
+      "revId": "3be23962c117356cd046205ed5dc3ac15e48d056",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "22e6c866_75c9d9a0",
         "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
         "patchSetId": 3
