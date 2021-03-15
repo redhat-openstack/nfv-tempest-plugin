@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb579f86_946e229d",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-15T17:19:35Z",
+      "side": 1,
+      "message": "I\u0027m confused again. 😜\n\nWhy do you think the \"security_groups\" kwargs will be passed to the \"create_server_with_resource\" method?\nIsn\u0027t the \"sg_rules\" is enough?\n\nIf you will look at the test_nfv_advanced_usecases file, tests \"test_numa_aware_vswitch\" and \"test_pinned_srv_live_migration\" tests, you will see that \"security_groups\" kwargs used after the \"create_server_with_resources\" method was run the self.sec_groups_names already defined.\nAnd the the \"create_server_with_resources\" method is not called. \"Create_server_with_fip\" method called.",
+      "range": {
+        "startLine": 819,
+        "startChar": 12,
+        "endLine": 819,
+        "endChar": 37
+      },
+      "revId": "77e1b16ca8ab6b33ef0a002bb744e50907796d1d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
