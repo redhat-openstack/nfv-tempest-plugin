@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2bf3ebe_8ce00440",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-15T16:42:30Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "15fe8fbc_0c802297",
+      "range": {
+        "startLine": 819,
+        "startChar": 8,
+        "endLine": 819,
+        "endChar": 36
+      },
+      "revId": "bcb11e8198679a68b54b94106249b4f23d28d837",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80c81eb5_eadd5c86",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-15T07:36:37Z",
       "side": 1,
       "message": "This is not needed.\nOnce you return the self.sec_groups_names it will enter the kwargs[\u0027security_group\u0027] in line 818.",
+      "range": {
+        "startLine": 869,
+        "startChar": 15,
+        "endLine": 869,
+        "endChar": 42
+      },
+      "revId": "bcb11e8198679a68b54b94106249b4f23d28d837",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68673936_a2d7fcc6",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-15T16:42:30Z",
+      "side": 1,
+      "message": "in line 818 I am overriding this param in case kwargs[\u0027security_groups\u0027] is already defined this is just to make sure I\u0027m not overriding anything that is required if you want I can move it to line 818 and leave just return self.sec_groups_names 😊",
+      "parentUuid": "80c81eb5_eadd5c86",
       "range": {
         "startLine": 869,
         "startChar": 15,
