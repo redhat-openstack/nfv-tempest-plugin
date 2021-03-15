@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15fe8fbc_0c802297",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-15T07:36:37Z",
+      "side": 1,
+      "message": "You are right.\nI missed that removing these arguments from the kwargs inside the method will not remove them here.\nSo this is the place for the removal.",
+      "range": {
+        "startLine": 819,
+        "startChar": 8,
+        "endLine": 819,
+        "endChar": 36
+      },
+      "revId": "bcb11e8198679a68b54b94106249b4f23d28d837",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80c81eb5_eadd5c86",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-15T07:36:37Z",
+      "side": 1,
+      "message": "This is not needed.\nOnce you return the self.sec_groups_names it will enter the kwargs[\u0027security_group\u0027] in line 818.",
+      "range": {
+        "startLine": 869,
+        "startChar": 15,
+        "endLine": 869,
+        "endChar": 42
+      },
+      "revId": "bcb11e8198679a68b54b94106249b4f23d28d837",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
