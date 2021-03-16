@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a1561ae5_2ee550b5",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-16T14:24:04Z",
+      "side": 1,
+      "message": "I would suggest to use the \"kernel_args\" from the \"hypervisor_tuning_details\" default config, line 107.\nIt is already a list and does not contain value, which will not tie the test to a specific setup, because of the cores, hugepages number and etc...\n\nTake a look at the \"test_hypervisor_reboot\" test and how the kernel args are tested and verified.",
+      "range": {
+        "startLine": 123,
+        "startChar": 16,
+        "endLine": 123,
+        "endChar": 27
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b974c226_2889a514",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
         "patchSetId": 15
@@ -19,6 +42,98 @@
         "startChar": 8,
         "endLine": 115,
         "endChar": 21
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59375261_03badd22",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-16T14:24:04Z",
+      "side": 1,
+      "message": "Will be better to place the non test methods in the place where they could be used by other tests later.",
+      "range": {
+        "startLine": 115,
+        "startChar": 8,
+        "endLine": 115,
+        "endChar": 21
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54c60a88_f38b3149",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-16T14:24:04Z",
+      "side": 1,
+      "message": "Please, add more explanation of the method.",
+      "range": {
+        "startLine": 239,
+        "startChar": 8,
+        "endLine": 239,
+        "endChar": 13
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90c99708_e4b04fcc",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-16T14:24:04Z",
+      "side": 1,
+      "message": "What are the conditions for this test to run?\nAre there prerequisites for this test to run?\n\nWho is performing the stack update?",
+      "range": {
+        "startLine": 286,
+        "startChar": 8,
+        "endLine": 286,
+        "endChar": 17
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7569ee91_f7c67768",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-16T14:24:04Z",
+      "side": 1,
+      "message": "Same question as above",
+      "range": {
+        "startLine": 305,
+        "startChar": 8,
+        "endLine": 305,
+        "endChar": 17
       },
       "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
