@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a97f873e_4dd58759",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-16T15:50:27Z",
+      "side": 1,
+      "message": "but you can override those values in configuration same as in any test those are just the defaults I can change the default to whatever but I\u0027m not sure I get the issue",
+      "parentUuid": "155d6b63_96a86fb0",
+      "range": {
+        "startLine": 123,
+        "startChar": 16,
+        "endLine": 123,
+        "endChar": 27
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b974c226_2889a514",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
         "patchSetId": 15
@@ -192,6 +216,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e0f94e4_5db72454",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-16T15:50:27Z",
+      "side": 1,
+      "message": "I think I will switch to the method suggested by yariv anyway 😊",
+      "parentUuid": "e0f0ec86_f23825df",
+      "range": {
+        "startLine": 115,
+        "startChar": 8,
+        "endLine": 115,
+        "endChar": 21
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54c60a88_f38b3149",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
         "patchSetId": 15
@@ -203,6 +251,30 @@
       "writtenOn": "2021-03-16T14:24:04Z",
       "side": 1,
       "message": "Please, add more explanation of the method.",
+      "range": {
+        "startLine": 239,
+        "startChar": 8,
+        "endLine": 239,
+        "endChar": 13
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38a92ceb_8ae6ec31",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-16T15:50:27Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "54c60a88_f38b3149",
       "range": {
         "startLine": 239,
         "startChar": 8,
@@ -226,6 +298,30 @@
       "writtenOn": "2021-03-16T15:37:21Z",
       "side": 1,
       "message": "What will happen if there will no be event of \"Stack UPDATE started\"?\nShouldn\u0027t it fail?",
+      "range": {
+        "startLine": 272,
+        "startChar": 12,
+        "endLine": 272,
+        "endChar": 21
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82475b03_3f6861cd",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-16T15:50:27Z",
+      "side": 1,
+      "message": "it will fail any way in line 278 but I will add a nicer error message",
+      "parentUuid": "61eb48a3_606e9af8",
       "range": {
         "startLine": 272,
         "startChar": 12,
@@ -309,6 +405,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e227ca6e_08459493",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-16T15:50:27Z",
+      "side": 1,
+      "message": "yes",
+      "parentUuid": "6e91bbfa_3658f259",
+      "range": {
+        "startLine": 286,
+        "startChar": 8,
+        "endLine": 286,
+        "endChar": 17
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7569ee91_f7c67768",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
         "patchSetId": 15
@@ -320,6 +440,30 @@
       "writtenOn": "2021-03-16T14:24:04Z",
       "side": 1,
       "message": "Same question as above",
+      "range": {
+        "startLine": 305,
+        "startChar": 8,
+        "endLine": 305,
+        "endChar": 17
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b00b4507_b295ca0e",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-16T15:50:27Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7569ee91_f7c67768",
       "range": {
         "startLine": 305,
         "startChar": 8,
