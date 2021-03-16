@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a965ad17_66aecd49",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-16T15:20:03Z",
+      "side": 1,
+      "message": "in the \"hypervisor_tuning_details\" you don\u0027t have the value of those kargs but in this task you still would like to validate a case where \"hugepages\u003d64\" is changed to \"hugepages\u003d32\"\n\nyou think we should change it?\n(BTW my plan is to change it to a query for those overrides from heat API in the future)",
+      "parentUuid": "a1561ae5_2ee550b5",
+      "range": {
+        "startLine": 123,
+        "startChar": 16,
+        "endLine": 123,
+        "endChar": 27
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b974c226_2889a514",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
         "patchSetId": 15
@@ -72,6 +96,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5bd984db_c4d2ff81",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-16T15:20:03Z",
+      "side": 1,
+      "message": "where do you think it should be placed?",
+      "parentUuid": "59375261_03badd22",
+      "range": {
+        "startLine": 115,
+        "startChar": 8,
+        "endLine": 115,
+        "endChar": 21
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45e28f3f_20b95c86",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-16T15:20:03Z",
+      "side": 1,
+      "message": "sounds good I\u0027ll check it out and change if works well 😊",
+      "parentUuid": "b974c226_2889a514",
+      "range": {
+        "startLine": 115,
+        "startChar": 8,
+        "endLine": 115,
+        "endChar": 21
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54c60a88_f38b3149",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
         "patchSetId": 15
@@ -106,6 +178,30 @@
       "writtenOn": "2021-03-16T14:24:04Z",
       "side": 1,
       "message": "What are the conditions for this test to run?\nAre there prerequisites for this test to run?\n\nWho is performing the stack update?",
+      "range": {
+        "startLine": 286,
+        "startChar": 8,
+        "endLine": 286,
+        "endChar": 17
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3436fc9c_1406ddd6",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-16T15:20:03Z",
+      "side": 1,
+      "message": "the tests should run after the stack is updated\\scaled out externally we should decide on the process of automating the stack update",
+      "parentUuid": "90c99708_e4b04fcc",
       "range": {
         "startLine": 286,
         "startChar": 8,
