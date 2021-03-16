@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31e058e0_2d67b88b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-16T09:53:01Z",
+      "side": 1,
+      "message": "@Ella\n\nI have generic question, related to the heat commands\nWhy not to import parts from https://opendev.org/openstack/heat-tempest-plugin\n\nI would advise to add clients service. similar to services exist in the plugin\nMaybe some configurations could be added",
+      "revId": "64e8dd595396fc6dd752b60e1a04885cde4c5a49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
