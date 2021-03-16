@@ -16,6 +16,24 @@
       "message": "@Ella\n\nI have generic question, related to the heat commands\nWhy not to import parts from https://opendev.org/openstack/heat-tempest-plugin\n\nI would advise to add clients service. similar to services exist in the plugin\nMaybe some configurations could be added",
       "revId": "64e8dd595396fc6dd752b60e1a04885cde4c5a49",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a62fa2db_41190ac4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-16T10:19:19Z",
+      "side": 1,
+      "message": "that was my first thought as well but in MHO tempest is generally used for mostly api testing. in our usecases we don\u0027t test reather the api is working or not we check the functionality and performance. thats why I think its an overkill to use the plugin especially because the openstack API is much better documented then the plugin. I also think that a lot of our code uses the api indirectly using the openstack cli and I think it would be a good idea to move to the python api library.",
+      "parentUuid": "31e058e0_2d67b88b",
+      "revId": "64e8dd595396fc6dd752b60e1a04885cde4c5a49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
