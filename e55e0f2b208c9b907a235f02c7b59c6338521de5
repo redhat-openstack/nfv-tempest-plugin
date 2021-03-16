@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cfdc585a_f9db11fa",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-16T16:13:22Z",
+      "side": 1,
+      "message": "It is be overridden per deployment with deployment-input.conf, i think it was agreed in test plan",
+      "parentUuid": "155d6b63_96a86fb0",
+      "range": {
+        "startLine": 123,
+        "startChar": 16,
+        "endLine": 123,
+        "endChar": 27
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b974c226_2889a514",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
         "patchSetId": 15
