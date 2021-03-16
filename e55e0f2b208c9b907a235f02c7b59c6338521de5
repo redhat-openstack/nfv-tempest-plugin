@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b974c226_2889a514",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-16T13:39:45Z",
+      "side": 1,
+      "message": "Consider using the following\n\n\u003e\u003e\u003e import os\n\u003e\u003e\u003e from envbash import load_envbash\n\u003e\u003e\u003e load_envbash(\u0027/home/stack/stackrc\u0027)\n\u003e\u003e\u003e print(os.environ[\u0027OS_AUTH_TYPE\u0027])",
+      "range": {
+        "startLine": 115,
+        "startChar": 8,
+        "endLine": 115,
+        "endChar": 21
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
