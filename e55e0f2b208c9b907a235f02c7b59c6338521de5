@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "155d6b63_96a86fb0",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-16T15:37:21Z",
+      "side": 1,
+      "message": "The problem is the hardcoded values.\nThis test will fail in a RT job, because in the real time we are disabling the hyperthreading so the amount of the cores will be different.",
+      "parentUuid": "a965ad17_66aecd49",
+      "range": {
+        "startLine": 123,
+        "startChar": 16,
+        "endLine": 123,
+        "endChar": 27
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b974c226_2889a514",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
         "patchSetId": 15
@@ -144,6 +168,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e0f0ec86_f23825df",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-16T15:37:21Z",
+      "side": 1,
+      "message": "manager_utils.py file.\n\nAlthough in the future, we should do a more granular separation of the methods. Otherwise it becomes difficult to track the files because of the size.",
+      "parentUuid": "5bd984db_c4d2ff81",
+      "range": {
+        "startLine": 115,
+        "startChar": 8,
+        "endLine": 115,
+        "endChar": 21
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "54c60a88_f38b3149",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
         "patchSetId": 15
@@ -160,6 +208,29 @@
         "startChar": 8,
         "endLine": 239,
         "endChar": 13
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61eb48a3_606e9af8",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-16T15:37:21Z",
+      "side": 1,
+      "message": "What will happen if there will no be event of \"Stack UPDATE started\"?\nShouldn\u0027t it fail?",
+      "range": {
+        "startLine": 272,
+        "startChar": 12,
+        "endLine": 272,
+        "endChar": 21
       },
       "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
@@ -202,6 +273,30 @@
       "side": 1,
       "message": "the tests should run after the stack is updated\\scaled out externally we should decide on the process of automating the stack update",
       "parentUuid": "90c99708_e4b04fcc",
+      "range": {
+        "startLine": 286,
+        "startChar": 8,
+        "endLine": 286,
+        "endChar": 17
+      },
+      "revId": "e55e0f2b208c9b907a235f02c7b59c6338521de5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e91bbfa_3658f259",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-16T15:37:21Z",
+      "side": 1,
+      "message": "So the stack update will not be triggered by this test?",
+      "parentUuid": "3436fc9c_1406ddd6",
       "range": {
         "startLine": 286,
         "startChar": 8,
