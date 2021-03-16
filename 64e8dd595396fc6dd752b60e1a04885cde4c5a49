@@ -34,6 +34,24 @@
       "parentUuid": "31e058e0_2d67b88b",
       "revId": "64e8dd595396fc6dd752b60e1a04885cde4c5a49",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0a44817_0c9fd8aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-16T13:15:54Z",
+      "side": 1,
+      "message": "There are 2 issues, here, related to the 1st you already answered,\nRelated to the 2nd, \nWhich heat/ keystone service with abstraction of calls from plugin tempest code to this service,\nOnce other tests would like to use it, they will call the service, do\u0027nt you agree?",
+      "parentUuid": "a62fa2db_41190ac4",
+      "revId": "64e8dd595396fc6dd752b60e1a04885cde4c5a49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
