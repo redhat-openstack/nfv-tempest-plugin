@@ -22,6 +22,30 @@
       },
       "revId": "5a6d4efdf9f88abc390937128637fbab22081857",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ded56678_52ef67a0",
+        "filename": "nfv_tempest_plugin/services/heat_client.py",
+        "patchSetId": 19
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-17T09:57:51Z",
+      "side": 1,
+      "message": "as I said, in my opinion its mostly a qustion of it being more comfortable. with tepmest you have to generate an api call with specific parameters and you just get a response. when using the API sdk you are using objects for example to start a server in tempest you will have to create the api call but when using nova client you are just using server_object.start() which in my opinion saves a lot of duplicated code also the sdks are better documented using tempest functions for our usecase and what we are acctually checking is just an overkill IMHO",
+      "parentUuid": "3940382e_5bcfdd0a",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "5a6d4efdf9f88abc390937128637fbab22081857",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
