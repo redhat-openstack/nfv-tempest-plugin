@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b7b555c_5de2f711",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-17T07:42:00Z",
+      "side": 1,
+      "message": "I would like to add tempest best practice. it is not a must for this patch\nI would suggest adding it as separate patch, writing it here, to raise an awareness\n\n#Use @class method setup_clients method\n\nAdding another class stackClients\nWith all clients as members, each method is a class method,\nsetup_clients @class methods\n\nOnce a test need to use this class, it is creating the clients\n    class stackManager{object}\n    @classmethod\n    def setup_clients(cls):\n        cls.undercloud_heatclient \u003d HeatClient()\n\nEach class derive from stackManager, for example\nimplement the def setup_clients(cls):\n   calls super( TestHypervisorScenarios, cls).setup_clients()\n   cls.heat_client\u003dcls.undercloud_heatclien",
+      "revId": "e5df336681e2b4a511b53e2607dd654739c0639c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

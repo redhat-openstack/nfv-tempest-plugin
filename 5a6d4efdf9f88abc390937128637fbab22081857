@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3940382e_5bcfdd0a",
+        "filename": "nfv_tempest_plugin/services/heat_client.py",
+        "patchSetId": 19
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-17T07:42:00Z",
+      "side": 1,
+      "message": "IS it needed? we are using tempest APIs for that,\nSimilar question to all clients",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 33
+      },
+      "revId": "5a6d4efdf9f88abc390937128637fbab22081857",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
