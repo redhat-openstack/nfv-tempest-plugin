@@ -224,6 +224,30 @@
       },
       "revId": "73ce38273b0d897bfc59a0806453678573ebdb76",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41988dad_bc7f459e",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-18T19:08:42Z",
+      "side": 1,
+      "message": "It is very interesting it failing on mgmt interfaces,\nI think we should add a fix to tun on providers network only",
+      "parentUuid": "41263448_596e390a",
+      "range": {
+        "startLine": 1023,
+        "startChar": 35,
+        "endLine": 1023,
+        "endChar": 45
+      },
+      "revId": "73ce38273b0d897bfc59a0806453678573ebdb76",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
