@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f459a98d_32e7850d",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-18T07:28:29Z",
+      "side": 1,
+      "message": "No comment, here, Maybe it worth trying \nwaiters.wait_for_server_status(self.novaclient_overcloud.hypervisors\n                               hypervisor[\u0027id\u0027], \u0027ACTIVE\u0027)",
+      "parentUuid": "5c2091f2_51d5c43a",
+      "range": {
+        "startLine": 197,
+        "startChar": 6,
+        "endLine": 197,
+        "endChar": 56
+      },
+      "revId": "0fed77c429cea21a9edcabf1ead39ccf99b045dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6d6e3506_5bb1a675",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
         "patchSetId": 17
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-16T16:23:23Z",
       "side": 1,
       "message": "Delete :)",
+      "range": {
+        "startLine": 240,
+        "startChar": 0,
+        "endLine": 240,
+        "endChar": 8
+      },
+      "revId": "0fed77c429cea21a9edcabf1ead39ccf99b045dc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "726c9bfa_8ef6052c",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-18T07:28:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d6e3506_5bb1a675",
       "range": {
         "startLine": 240,
         "startChar": 0,
