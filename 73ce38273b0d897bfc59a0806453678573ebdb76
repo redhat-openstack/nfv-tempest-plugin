@@ -200,6 +200,30 @@
       },
       "revId": "73ce38273b0d897bfc59a0806453678573ebdb76",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41263448_596e390a",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-18T15:52:09Z",
+      "side": 1,
+      "message": "So the problem is the Timeout of the 1st ping, which is always identical for the count number\nAnd it is failing, need to test it, i will",
+      "parentUuid": "cc88e37d_b09e5f1a",
+      "range": {
+        "startLine": 1023,
+        "startChar": 35,
+        "endLine": 1023,
+        "endChar": 45
+      },
+      "revId": "73ce38273b0d897bfc59a0806453678573ebdb76",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
