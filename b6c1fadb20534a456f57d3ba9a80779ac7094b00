@@ -46,6 +46,30 @@
       },
       "revId": "b6c1fadb20534a456f57d3ba9a80779ac7094b00",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d265b831_e365d63a",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-21T12:55:37Z",
+      "side": 1,
+      "message": "methos name is  check_guest_provider_networks\nsee this https://docs.openstack.org/networking-ovn/queens/admin/refarch/provider-networks.html",
+      "parentUuid": "e1fc2c93_2c897a93",
+      "range": {
+        "startLine": 97,
+        "startChar": 62,
+        "endLine": 97,
+        "endChar": 78
+      },
+      "revId": "b6c1fadb20534a456f57d3ba9a80779ac7094b00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
