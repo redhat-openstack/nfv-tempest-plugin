@@ -118,6 +118,30 @@
       },
       "revId": "b6c1fadb20534a456f57d3ba9a80779ac7094b00",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e05beb1f_6501c08b",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-21T14:23:43Z",
+      "side": 1,
+      "message": "But the mgmt network created with dhcp enabled.\nDoes it makes it a provider network?\n\nWhy there is an issue at all?\nMaybe we need to understand why it fails for the mgmt network and to fix the issue instead of making a workarounds?",
+      "parentUuid": "25bf3578_ba1f1a41",
+      "range": {
+        "startLine": 97,
+        "startChar": 62,
+        "endLine": 97,
+        "endChar": 78
+      },
+      "revId": "b6c1fadb20534a456f57d3ba9a80779ac7094b00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
