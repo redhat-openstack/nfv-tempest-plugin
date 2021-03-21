@@ -94,6 +94,30 @@
       },
       "revId": "b6c1fadb20534a456f57d3ba9a80779ac7094b00",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25bf3578_ba1f1a41",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-21T14:19:51Z",
+      "side": 1,
+      "message": "It is pure data plane correct,\n1)The issue related to ping, is happening in mgmt network, only.\nIs management network is provider?\n\nSo if the purpose of the test is to check provider net, so by definition, there is no DHCP managed by neutron, it makes it tenant network.\n\nWe could use the same method and run it for provider and tenant network,\nI do not see it as an issue,\n\nMHO, Test coverage for tenant tested through ssh to vm",
+      "parentUuid": "59ae7e6b_8b4dc69a",
+      "range": {
+        "startLine": 97,
+        "startChar": 62,
+        "endLine": 97,
+        "endChar": 78
+      },
+      "revId": "b6c1fadb20534a456f57d3ba9a80779ac7094b00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
