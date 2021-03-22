@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb400d0c_c3f2e556",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-22T16:50:02Z",
+      "side": 1,
+      "message": "The commit message is not actual.\nNo \"ping_host\" method is used from the tempest/lib/common.\nJust a direct command execution.\n\n\nI\u0027m a bit lost why it was changed from that method, but update the commit message to reflect the state of the change correctly, please.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "623c3d67f7793e6af2e1a74e4b19bad9f91544b6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
