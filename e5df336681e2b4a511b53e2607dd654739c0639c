@@ -34,6 +34,167 @@
       "parentUuid": "2b7b555c_5de2f711",
       "revId": "e5df336681e2b4a511b53e2607dd654739c0639c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adba5742_6bffc61c",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-22T10:20:57Z",
+      "side": 1,
+      "message": "I still think that\u0027s a pretty huge parameter to provide for each deployment.\nIs there a way to make it auto gather?",
+      "range": {
+        "startLine": 123,
+        "startChar": 16,
+        "endLine": 123,
+        "endChar": 27
+      },
+      "revId": "e5df336681e2b4a511b53e2607dd654739c0639c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c851cce6_8a618a90",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-22T10:20:57Z",
+      "side": 1,
+      "message": "I would suggest to call them within the init method instead of making multiple parents inheritance.",
+      "range": {
+        "startLine": 33,
+        "startChar": 50,
+        "endLine": 33,
+        "endChar": 72
+      },
+      "revId": "e5df336681e2b4a511b53e2607dd654739c0639c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff947de7_cc0532ab",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-22T10:20:57Z",
+      "side": 1,
+      "message": "I still think that all the non tests methods should be moved out from this file into some file like manager_utils or something new, so it will be available to use these methods by other tests in the future.",
+      "range": {
+        "startLine": 93,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 42
+      },
+      "revId": "e5df336681e2b4a511b53e2607dd654739c0639c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cfec721_555523ec",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-22T10:20:57Z",
+      "side": 1,
+      "message": "Maybe to move this out of the loop.\nIf first hypervisor did a reboot, the look will exit.\nIt is worth to check all the hypervisors and provide the full picture of reboot.",
+      "range": {
+        "startLine": 127,
+        "startChar": 12,
+        "endLine": 127,
+        "endChar": 29
+      },
+      "revId": "e5df336681e2b4a511b53e2607dd654739c0639c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "217b7805_8c84b534",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-22T10:20:57Z",
+      "side": 1,
+      "message": "Please, add logging for all the methods and tests.",
+      "range": {
+        "startLine": 159,
+        "startChar": 16,
+        "endLine": 159,
+        "endChar": 21
+      },
+      "revId": "e5df336681e2b4a511b53e2607dd654739c0639c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "312e7850_08ff8b53",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-22T10:20:57Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 173,
+        "startChar": 27,
+        "endLine": 173,
+        "endChar": 32
+      },
+      "revId": "e5df336681e2b4a511b53e2607dd654739c0639c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c0d3625_27c66e30",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-22T10:20:57Z",
+      "side": 1,
+      "message": "The name should be a variable, not hardcoded.",
+      "range": {
+        "startLine": 238,
+        "startChar": 38,
+        "endLine": 238,
+        "endChar": 45
+      },
+      "revId": "e5df336681e2b4a511b53e2607dd654739c0639c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
