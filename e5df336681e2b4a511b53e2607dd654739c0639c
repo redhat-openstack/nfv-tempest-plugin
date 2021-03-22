@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "17b730f5_8613088f",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-22T16:32:24Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "1210ec66_79686005",
+      "range": {
+        "startLine": 123,
+        "startChar": 16,
+        "endLine": 123,
+        "endChar": 27
+      },
+      "revId": "e5df336681e2b4a511b53e2607dd654739c0639c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c851cce6_8a618a90",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
         "patchSetId": 20
@@ -120,6 +144,30 @@
       "side": 1,
       "message": "I did it so they will be reusable how do you think it should be implemented? there are other way we can implement it but please share how you think it should be implemented 😊",
       "parentUuid": "c851cce6_8a618a90",
+      "range": {
+        "startLine": 33,
+        "startChar": 50,
+        "endLine": 33,
+        "endChar": 72
+      },
+      "revId": "e5df336681e2b4a511b53e2607dd654739c0639c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8f82ae2_14ed5759",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-22T16:32:24Z",
+      "side": 1,
+      "message": "My point is the following:\nIf we are going with the multiple inheritance, consider using super to ensure we will not hit an issue in the future with similar method names.\n\nOr we can use the composition way of class init.\n\nI don\u0027t have a preference of the ways.\nJust saying that super is recommended when multiple inheritance used.",
+      "parentUuid": "a5b1eba4_473c5e83",
       "range": {
         "startLine": 33,
         "startChar": 50,
