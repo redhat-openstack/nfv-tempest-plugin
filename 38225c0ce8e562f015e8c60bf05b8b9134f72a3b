@@ -16,6 +16,52 @@
       "message": "Ready for review.\nThis test also works on OVN deployment.",
       "revId": "38225c0ce8e562f015e8c60bf05b8b9134f72a3b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db945a79_e24c0f47",
+        "filename": "docs/tests.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-22T10:32:16Z",
+      "side": 1,
+      "message": "We are going out of providing parameters for the test via external config file.\nPlease, don\u0027t do it.\n\nPreferred way: It should be automatically detected.\nOther way: Add it to plugin defaults.",
+      "range": {
+        "startLine": 429,
+        "startChar": 4,
+        "endLine": 429,
+        "endChar": 20
+      },
+      "revId": "38225c0ce8e562f015e8c60bf05b8b9134f72a3b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38cfd43c_53f596cb",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-22T10:32:16Z",
+      "side": 1,
+      "message": "Maybe this method needs to be separated into two methods: ovs_bond_discover and ovs_bond_\u003csomethid\u003e_execution.",
+      "range": {
+        "startLine": 449,
+        "startChar": 4,
+        "endLine": 449,
+        "endChar": 44
+      },
+      "revId": "38225c0ce8e562f015e8c60bf05b8b9134f72a3b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
