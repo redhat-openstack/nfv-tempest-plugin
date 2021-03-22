@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3d6f387d_9615bc87",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-03-22T08:36:37Z",
+      "side": 1,
+      "message": "do this ping work for you? i already tried it and it didnt work for me. I would execute ping -c4 -w4 and as the first ping fail, it would return a failure",
+      "range": {
+        "startLine": 1022,
+        "startChar": 48,
+        "endLine": 1022,
+        "endChar": 49
+      },
+      "revId": "b6c1fadb20534a456f57d3ba9a80779ac7094b00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a7f9897c_01207975",
         "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
         "patchSetId": 4
@@ -206,6 +229,30 @@
       "side": 1,
       "message": "In MHO that if you can ssh through the mgmt net there is no reason for further validation... as yariv \"Test coverage for tenant tested through ssh to vm\"",
       "parentUuid": "580bdf04_b288c01b",
+      "range": {
+        "startLine": 97,
+        "startChar": 62,
+        "endLine": 97,
+        "endChar": 78
+      },
+      "revId": "b6c1fadb20534a456f57d3ba9a80779ac7094b00",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e72a617f_75fc763e",
+        "filename": "nfv_tempest_plugin/tests/scenario/base_test.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-03-22T08:36:37Z",
+      "side": 1,
+      "message": "I am not sure if this check is needed. In any case, i never saw an error with dhcp",
+      "parentUuid": "80f8a8c4_353961df",
       "range": {
         "startLine": 97,
         "startChar": 62,
