@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b808d3d_92c8850e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-22T16:44:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c256509e_e4a21558",
+      "range": {
+        "startLine": 7,
+        "startChar": 39,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "ce5b22886d77640b3c4ccfcf09f2778f8919832e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2a01cae_dbe34275",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-22T16:38:41Z",
       "side": 1,
       "message": "Please, update the commit message.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 33
+      },
+      "revId": "ce5b22886d77640b3c4ccfcf09f2778f8919832e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f778dec4_f6fec95a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-22T16:44:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c2a01cae_dbe34275",
       "range": {
         "startLine": 9,
         "startChar": 0,
