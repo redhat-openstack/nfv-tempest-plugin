@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4d89dda_7eaeb05b",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-03-23T08:10:49Z",
+      "side": 1,
+      "message": "should we put these values in a configuration file?",
+      "range": {
+        "startLine": 1013,
+        "startChar": 57,
+        "endLine": 1013,
+        "endChar": 58
+      },
+      "revId": "605f6ae8d6e26c12bf1941660a7930d9bcb83e07",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
