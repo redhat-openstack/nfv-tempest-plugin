@@ -101,8 +101,8 @@ class TestDpdkScenarios(base_test.BaseTest):
                       'traffic.py -r -g {1} -p {2} -c 1 > {3} ' \
                       '&'.format(self.nfv_scripts_path, mcast_group,
                                  mcast_port, mcast_output)
-        send_cmd = 'sleep 2;sudo python {0}/multicast_' \
-                   'traffic.py -s -g {1} -p {2} -m {3} -c 1 > {4} ' \
+        send_cmd = 'sudo python {0}/multicast_traffic.py ' \
+                   '-s -g {1} -p {2} -m {3} -c 1 > {4} ' \
                    '&'.format(self.nfv_scripts_path, mcast_group, mcast_port,
                               mcast_msg, mcast_output)
         for srv in servers:
@@ -112,9 +112,13 @@ class TestDpdkScenarios(base_test.BaseTest):
                                                 username=self.instance_user,
                                                 private_key=key_pair[
                                                     'private_key'])
-            ssh_source.exec_command(send_cmd if 'traffic_runner' in
-                                                srv['mcast_srv'] else
-                                                receive_cmd)
+            #send_cmd is executed 2 times due to this bz
+            #with the first send we ensure that the hypervisor arp table
+            #is populated with the other hypervisor mac addresses
+            #https://bugzilla.redhat.com/show_bug.cgi?id=1942053
+            ssh_source.exec_command("("+send_cmd+");sleep 2;("+send_cmd+")"
+                                    if 'traffic_runner' in srv['mcast_srv']
+                                    else receive_cmd)
 
         for receiver in servers:
             if ('listener1' in receiver['mcast_srv']) or \
