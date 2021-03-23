@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6e1e387_991fbed3",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-03-23T08:51:20Z",
+      "side": 1,
+      "message": "i would say that this sleep is not needed. is it not enough with the other one later?",
+      "range": {
+        "startLine": 155,
+        "startChar": 18,
+        "endLine": 155,
+        "endChar": 19
+      },
+      "revId": "3459ba03ba86724c897d96ce7a508e00e54c487e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5e7236a_e8ccdf44",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-03-23T08:51:20Z",
+      "side": 1,
+      "message": "I would add a small description to this testcase",
+      "range": {
+        "startLine": 257,
+        "startChar": 8,
+        "endLine": 257,
+        "endChar": 51
+      },
+      "revId": "3459ba03ba86724c897d96ce7a508e00e54c487e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
