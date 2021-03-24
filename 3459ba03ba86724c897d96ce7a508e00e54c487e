@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bd37020a_2c74f8cc",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-24T11:53:34Z",
+      "side": 1,
+      "message": "MHO, sleep not favorable practice,\nSince the sleep is generic halt, inorder to make sure host is up\nYou have too many sleeps (l#157) also\n\nIn case you are waiting for SSH to be up and accepts connections, in one command you make sure machines is up and ready for connection.\n\nIt will save much logic.\n\nRunning reboot, sleep, and then while down, try to ssh after reboot, 1st once it is out on error continue.\n\nthe same for the loop later on, wait for success connection",
+      "parentUuid": "44bb40bc_510d217f",
+      "range": {
+        "startLine": 155,
+        "startChar": 18,
+        "endLine": 155,
+        "endChar": 19
+      },
+      "revId": "3459ba03ba86724c897d96ce7a508e00e54c487e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c5e7236a_e8ccdf44",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
         "patchSetId": 21
