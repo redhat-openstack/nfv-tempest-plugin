@@ -180,6 +180,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e9088388_79ddaf41",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-24T08:32:38Z",
+      "side": 1,
+      "message": "there is a super in the __init__ of the class calling for the __init__ function from all parents. we don\u0027t call any other function other then __init_ with super and in case we want to be explicit we can always use \"some_parent_class.function()\"",
+      "parentUuid": "b8f82ae2_14ed5759",
+      "range": {
+        "startLine": 33,
+        "startChar": 50,
+        "endLine": 33,
+        "endChar": 72
+      },
+      "revId": "e5df336681e2b4a511b53e2607dd654739c0639c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff947de7_cc0532ab",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
         "patchSetId": 20

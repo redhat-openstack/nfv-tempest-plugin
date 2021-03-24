@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7a268d7a_4b50c0e4",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-24T08:32:38Z",
+      "side": 1,
+      "message": "it is needed because the status in the overcloud takes a few seconds for it to update and the function checks it as the condition for the wile loop so if this sleep wasn\u0027t there the loop would never start",
+      "parentUuid": "a6e1e387_991fbed3",
+      "range": {
+        "startLine": 155,
+        "startChar": 18,
+        "endLine": 155,
+        "endChar": 19
+      },
+      "revId": "3459ba03ba86724c897d96ce7a508e00e54c487e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c5e7236a_e8ccdf44",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
         "patchSetId": 21
@@ -37,6 +61,30 @@
       "writtenOn": "2021-03-23T08:51:20Z",
       "side": 1,
       "message": "I would add a small description to this testcase",
+      "range": {
+        "startLine": 257,
+        "startChar": 8,
+        "endLine": 257,
+        "endChar": 51
+      },
+      "revId": "3459ba03ba86724c897d96ce7a508e00e54c487e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f91e5189_237eb157",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-24T08:32:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c5e7236a_e8ccdf44",
       "range": {
         "startLine": 257,
         "startChar": 8,
