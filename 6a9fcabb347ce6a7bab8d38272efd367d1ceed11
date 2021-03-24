@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7462e23_65d6f801",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-03-24T07:15:43Z",
+      "side": 1,
+      "message": "And what will happen if we will send let\u0027s say 5 packets?\nDoes the 4 last packet will be received?",
+      "range": {
+        "startLine": 105,
+        "startChar": 47,
+        "endLine": 105,
+        "endChar": 48
+      },
+      "revId": "6a9fcabb347ce6a7bab8d38272efd367d1ceed11",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
