@@ -22,6 +22,30 @@
       },
       "revId": "605f6ae8d6e26c12bf1941660a7930d9bcb83e07",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a738780d_b4e31e9d",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-24T08:04:51Z",
+      "side": 1,
+      "message": "I would not consider it for now, since this is one test that needs it\nAs mentioned earlier. \nThe ping happens in the non provider network, once we find more issues in other tests, MHO, new method with parameter should be considered only if needed",
+      "parentUuid": "a4d89dda_7eaeb05b",
+      "range": {
+        "startLine": 1013,
+        "startChar": 57,
+        "endLine": 1013,
+        "endChar": 58
+      },
+      "revId": "605f6ae8d6e26c12bf1941660a7930d9bcb83e07",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
