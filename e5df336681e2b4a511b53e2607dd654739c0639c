@@ -228,6 +228,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "add7015c_049c7e3c",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 20
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-24T08:46:30Z",
+      "side": 1,
+      "message": "we did but as of now I\u0027m not sure I understand maxims comment because the super is there\n\nI will change it to what we have agreed in patch 20 later this day anyway (if the deployment gods will allow me to redeploy...)",
+      "parentUuid": "7acdaa2b_a8209246",
+      "range": {
+        "startLine": 33,
+        "startChar": 50,
+        "endLine": 33,
+        "endChar": 72
+      },
+      "revId": "e5df336681e2b4a511b53e2607dd654739c0639c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff947de7_cc0532ab",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
         "patchSetId": 20
