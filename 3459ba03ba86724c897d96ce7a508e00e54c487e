@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d1ca5787_f95ce9c2",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-25T08:19:25Z",
+      "side": 1,
+      "message": "I\u0027m not sure why is it better then querying the API. you still get the same flow sleep_buffer \u003e\u003e query (ssh or api doesn\u0027t matter) \u003e\u003e wait for query status to be as expected \u003e\u003e go on if the server is running... \n\nplease explain the difference between the queries and why ssh is favorable? in my opinion if we intend to reuse it waiting for the api is favorable... (please note the while codition I\u0027m not just sleeping...)",
+      "parentUuid": "bd37020a_2c74f8cc",
+      "range": {
+        "startLine": 155,
+        "startChar": 18,
+        "endLine": 155,
+        "endChar": 19
+      },
+      "revId": "3459ba03ba86724c897d96ce7a508e00e54c487e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c5e7236a_e8ccdf44",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
         "patchSetId": 21
