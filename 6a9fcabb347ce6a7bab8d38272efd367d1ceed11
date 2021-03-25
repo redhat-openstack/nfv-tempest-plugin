@@ -22,6 +22,30 @@
       },
       "revId": "6a9fcabb347ce6a7bab8d38272efd367d1ceed11",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9833d2b1_660ec19f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-03-25T08:19:45Z",
+      "side": 1,
+      "message": "It may fail too, it would be random like now. The thing is that multicast_traffic.py sends all the packets at the same time in a burst, so if it has to resolve arp, it will drop all the packets. I tried with 3 packets and it failed too. \nThere must be a sleep between the first packet and the second one to ensure that arp resolution took place.",
+      "parentUuid": "f7462e23_65d6f801",
+      "range": {
+        "startLine": 105,
+        "startChar": 47,
+        "endLine": 105,
+        "endChar": 48
+      },
+      "revId": "6a9fcabb347ce6a7bab8d38272efd367d1ceed11",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
