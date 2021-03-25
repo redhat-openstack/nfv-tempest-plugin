@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a6dacb7_9d4def91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-25T14:11:25Z",
+      "side": 1,
+      "message": "why not just change the __init__ meathod to a @classmeathod and call them explicitly NovaClient.setup_novaclient() or with super()? why even have the middle class in between?",
+      "parentUuid": "aa85fa9b_e85c8ca7",
+      "revId": "e5df336681e2b4a511b53e2607dd654739c0639c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "adba5742_6bffc61c",
