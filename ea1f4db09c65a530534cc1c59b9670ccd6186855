@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cd4b997c_36e09fe2",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-30T11:43:55Z",
+      "side": 1,
+      "message": "I guess we can take it from there but it will require parsing the file. I prefer getting it from the API, but still looking for it in the api...",
+      "parentUuid": "e6f4f36a_523c036a",
+      "revId": "ea1f4db09c65a530534cc1c59b9670ccd6186855",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dc659912_c9357ae0",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
         "patchSetId": 26
@@ -83,6 +101,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b24fec2_f46f4061",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-30T11:43:55Z",
+      "side": 1,
+      "message": "I agree just wasn\u0027t sure where should it be 😊",
+      "parentUuid": "02982b78_2e2fe467",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 2
+      },
+      "revId": "ea1f4db09c65a530534cc1c59b9670ccd6186855",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6ac8732d_4d9b3373",
         "filename": "requirements.txt",
         "patchSetId": 26
@@ -94,6 +136,24 @@
       "writtenOn": "2021-03-30T08:04:48Z",
       "side": 1,
       "message": "We should version lock all of the new requirements in order to avoid compatibility and breaking changes in the future.",
+      "revId": "ea1f4db09c65a530534cc1c59b9670ccd6186855",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "588b0dfd_9fa4959c",
+        "filename": "requirements.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-30T11:43:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6ac8732d_4d9b3373",
       "revId": "ea1f4db09c65a530534cc1c59b9670ccd6186855",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
