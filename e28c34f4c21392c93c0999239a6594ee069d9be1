@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26acfca5_13dc0333",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2021-03-30T18:38:24Z",
+      "side": 1,
+      "message": "I went through the enormous review comments, and I think this code looks good now. From me +2",
+      "revId": "e28c34f4c21392c93c0999239a6594ee069d9be1",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
