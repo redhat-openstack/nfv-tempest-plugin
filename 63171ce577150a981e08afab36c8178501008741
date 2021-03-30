@@ -71,6 +71,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da027074_121dfcdb",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/day2_manager.py",
+        "patchSetId": 27
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-30T14:48:30Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3afb8678_ef64a010",
+      "range": {
+        "startLine": 16,
+        "startChar": 6,
+        "endLine": 16,
+        "endChar": 17
+      },
+      "revId": "63171ce577150a981e08afab36c8178501008741",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2eb0d85_fab3ad60",
@@ -84,6 +108,30 @@
       "writtenOn": "2021-03-30T13:40:36Z",
       "side": 1,
       "message": "No need to inherit from client\nJust hold class members and initiate it during this init\nself.heatclient \u003d HeatClient()\nself.heatclient.set_heat_clients()\nself.heatclient.set_nova_clients()\n\n\nIf you decide to split the OsClients from day2manager one init of the OsClient.init is enough, or ser clients",
+      "range": {
+        "startLine": 19,
+        "startChar": 8,
+        "endLine": 19,
+        "endChar": 34
+      },
+      "revId": "63171ce577150a981e08afab36c8178501008741",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e77a0d58_f96e4f75",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/day2_manager.py",
+        "patchSetId": 27
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-30T14:48:30Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e2eb0d85_fab3ad60",
       "range": {
         "startLine": 19,
         "startChar": 8,
