@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ddc1d94_bffdcc30",
+        "filename": "nfv_tempest_plugin/tests/common/parallel_utils.py",
+        "patchSetId": 27
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-30T13:47:28Z",
+      "side": 1,
+      "message": "Consider change it to AsyncUtilsManager",
+      "range": {
+        "startLine": 8,
+        "startChar": 6,
+        "endLine": 8,
+        "endChar": 14
+      },
+      "revId": "63171ce577150a981e08afab36c8178501008741",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3afb8678_ef64a010",
         "filename": "nfv_tempest_plugin/tests/scenario/day2/day2_manager.py",
         "patchSetId": 27
@@ -42,6 +65,52 @@
         "startChar": 8,
         "endLine": 19,
         "endChar": 34
+      },
+      "revId": "63171ce577150a981e08afab36c8178501008741",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c2fc00c_d2ea6174",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 27
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-30T13:47:28Z",
+      "side": 1,
+      "message": "I would try to think of static implementation here there is no need to inherit,",
+      "range": {
+        "startLine": 30,
+        "startChar": 62,
+        "endLine": 30,
+        "endChar": 76
+      },
+      "revId": "63171ce577150a981e08afab36c8178501008741",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cf387b4_6dd626ba",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 27
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-30T13:47:28Z",
+      "side": 1,
+      "message": "class Day2Manager(base_test.BaseTest), why did you include it twice? \nYou should inherit from Day2Manager",
+      "range": {
+        "startLine": 30,
+        "startChar": 30,
+        "endLine": 30,
+        "endChar": 62
       },
       "revId": "63171ce577150a981e08afab36c8178501008741",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
