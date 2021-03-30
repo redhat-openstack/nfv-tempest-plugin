@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01867beb_4cc6b4d0",
+        "filename": "nfv_tempest_plugin/tests/common/parallel_utils.py",
+        "patchSetId": 27
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-30T14:09:37Z",
+      "side": 1,
+      "message": "that was the first name I gave it but wanted something more generic will go back to old name",
+      "parentUuid": "0ddc1d94_bffdcc30",
+      "range": {
+        "startLine": 8,
+        "startChar": 6,
+        "endLine": 8,
+        "endChar": 14
+      },
+      "revId": "63171ce577150a981e08afab36c8178501008741",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3afb8678_ef64a010",
@@ -111,6 +135,54 @@
         "startChar": 30,
         "endLine": 30,
         "endChar": 62
+      },
+      "revId": "63171ce577150a981e08afab36c8178501008741",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cfa63b8_00a956a7",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 27
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-30T14:09:37Z",
+      "side": 1,
+      "message": "sorry missed that",
+      "parentUuid": "7cf387b4_6dd626ba",
+      "range": {
+        "startLine": 30,
+        "startChar": 30,
+        "endLine": 30,
+        "endChar": 62
+      },
+      "revId": "63171ce577150a981e08afab36c8178501008741",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f0f0d4c_3c700333",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 27
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-03-30T14:09:37Z",
+      "side": 1,
+      "message": "I tried static implementation in the beginning but I hat to change it back because otherwise I won\u0027t be able to detect an error in a thread I have to keep the status of the function in an scope out of the thread I guess I can change it and get the error (if occurred) in a different way \n\nthe only reason it is not static is to get the error from the thread",
+      "parentUuid": "9c2fc00c_d2ea6174",
+      "range": {
+        "startLine": 30,
+        "startChar": 62,
+        "endLine": 30,
+        "endChar": 76
       },
       "revId": "63171ce577150a981e08afab36c8178501008741",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
