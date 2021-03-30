@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6f4f36a_523c036a",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-03-30T08:04:48Z",
+      "side": 1,
+      "message": "Since this can change between typologies, maybe we should populate it via the tempest deployer config file?",
+      "revId": "ea1f4db09c65a530534cc1c59b9670ccd6186855",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc659912_c9357ae0",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-03-30T08:04:48Z",
+      "side": 1,
+      "message": "Perhaps there is a missing word in this docstring?",
+      "range": {
+        "startLine": 96,
+        "startChar": 11,
+        "endLine": 96,
+        "endChar": 57
+      },
+      "revId": "ea1f4db09c65a530534cc1c59b9670ccd6186855",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5147a8d7_b3787ee1",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-03-30T08:04:48Z",
+      "side": 1,
+      "message": "Are those leftovers?\nIf not then shouldn\u0027t we import at the top?",
+      "revId": "ea1f4db09c65a530534cc1c59b9670ccd6186855",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02982b78_2e2fe467",
+        "filename": "nfv_tempest_plugin/tests/scenario/day2/test_hypervisor_usecases.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-03-30T08:04:48Z",
+      "side": 1,
+      "message": "This looks like a generic method that we could reuse in our plugin, perhaps it should move into a generic file that could be accessed by all test cases?",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 2
+      },
+      "revId": "ea1f4db09c65a530534cc1c59b9670ccd6186855",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ac8732d_4d9b3373",
+        "filename": "requirements.txt",
+        "patchSetId": 26
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-03-30T08:04:48Z",
+      "side": 1,
+      "message": "We should version lock all of the new requirements in order to avoid compatibility and breaking changes in the future.",
+      "revId": "ea1f4db09c65a530534cc1c59b9670ccd6186855",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
