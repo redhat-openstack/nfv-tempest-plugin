@@ -118,6 +118,30 @@
       },
       "revId": "6a9fcabb347ce6a7bab8d38272efd367d1ceed11",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55c74a55_565d52e5",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2021-03-30T18:14:34Z",
+      "side": 1,
+      "message": "+1 ^^ to @Ella\u0027s suggestion.",
+      "parentUuid": "7a71639a_e70a761d",
+      "range": {
+        "startLine": 105,
+        "startChar": 47,
+        "endLine": 105,
+        "endChar": 48
+      },
+      "revId": "6a9fcabb347ce6a7bab8d38272efd367d1ceed11",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
