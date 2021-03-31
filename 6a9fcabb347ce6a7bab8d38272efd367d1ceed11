@@ -190,6 +190,30 @@
       },
       "revId": "6a9fcabb347ce6a7bab8d38272efd367d1ceed11",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22060244_4b3c0830",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-03-31T16:36:51Z",
+      "side": 1,
+      "message": "\u003e +1 to Ella\u0027s suggestion\n\nI would suggest adding the arping command to sender part of multicast_traffic.py script",
+      "parentUuid": "2fe30099_eeceefb6",
+      "range": {
+        "startLine": 105,
+        "startChar": 47,
+        "endLine": 105,
+        "endChar": 48
+      },
+      "revId": "6a9fcabb347ce6a7bab8d38272efd367d1ceed11",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
