@@ -214,6 +214,30 @@
       },
       "revId": "6a9fcabb347ce6a7bab8d38272efd367d1ceed11",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b6a561a_c7f2966c",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-04-05T07:13:59Z",
+      "side": 1,
+      "message": "This is a temporal fix until bz 1942053 is fixed. Later on, this code will be removed. I do not see the need of wasting more time on this, but if you all agree on this, I will do it. Are you sure you want that modification?",
+      "parentUuid": "22060244_4b3c0830",
+      "range": {
+        "startLine": 105,
+        "startChar": 47,
+        "endLine": 105,
+        "endChar": 48
+      },
+      "revId": "6a9fcabb347ce6a7bab8d38272efd367d1ceed11",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
