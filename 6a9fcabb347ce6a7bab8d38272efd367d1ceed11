@@ -327,6 +327,29 @@
       },
       "revId": "6a9fcabb347ce6a7bab8d38272efd367d1ceed11",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36115149_309dd91e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-04-06T11:33:50Z",
+      "side": 1,
+      "message": "I would advise to run in for loop here, and eliminate the sleep\n for _ in range(2):\n      ssh_source.exec_command....",
+      "range": {
+        "startLine": 119,
+        "startChar": 8,
+        "endLine": 122,
+        "endChar": 0
+      },
+      "revId": "6a9fcabb347ce6a7bab8d38272efd367d1ceed11",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
