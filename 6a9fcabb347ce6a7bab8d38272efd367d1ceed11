@@ -262,6 +262,30 @@
       },
       "revId": "6a9fcabb347ce6a7bab8d38272efd367d1ceed11",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcc01a71_732d5477",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_dpdk_usecases.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-04-06T09:05:20Z",
+      "side": 1,
+      "message": "I have been testing the arping and I think it is complex for a workaround, i should execute in both computes:\narping -s src_ip -I device -U -c 1 -w 1 dst_ip\nfor example: arping -s 10.10.111.183 -I br-link0 -U -c 1 -w 1 10.10.111.132\nSo, i need to get the ips and the device br-link0. It is not working without the device name\narping -s 10.10.111.183  -U -c 1 -w 1 10.10.111.132\narping: Suitable device could not be determined. Please, use option -I.\nUsage: arping [-fqbDUAV] [-c count] [-w timeout] [-I device] [-s source] destination\n\nI tried also inside the vm and it also work, but i would need to get ips (which are not in server structure) and hardcode eth0 o execute some other commands to get the interface.\n\nI would say it is a lot of work for a workaround that should be removed when the problem is fixed. Currently the workaround is a single line",
+      "parentUuid": "49f584ce_61c8df9e",
+      "range": {
+        "startLine": 105,
+        "startChar": 47,
+        "endLine": 105,
+        "endChar": 48
+      },
+      "revId": "6a9fcabb347ce6a7bab8d38272efd367d1ceed11",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
