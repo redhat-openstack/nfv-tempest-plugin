@@ -41,6 +41,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e191f1a_7c968327",
+        "filename": "docs/tests.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-04-07T18:36:34Z",
+      "side": 1,
+      "message": "Done, I hope I made it clear on usability.",
+      "parentUuid": "db945a79_e24c0f47",
+      "range": {
+        "startLine": 429,
+        "startChar": 4,
+        "endLine": 429,
+        "endChar": 20
+      },
+      "revId": "38225c0ce8e562f015e8c60bf05b8b9134f72a3b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38cfd43c_53f596cb",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-03-22T10:32:16Z",
       "side": 1,
       "message": "Maybe this method needs to be separated into two methods: ovs_bond_discover and ovs_bond_\u003csomethid\u003e_execution.",
+      "range": {
+        "startLine": 449,
+        "startChar": 4,
+        "endLine": 449,
+        "endChar": 44
+      },
+      "revId": "38225c0ce8e562f015e8c60bf05b8b9134f72a3b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc5ca1fa_49ddc89c",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-04-07T18:36:34Z",
+      "side": 1,
+      "message": "Sorry I did not get this.\nMaybe my explanation of this method is not the best, all it does is take a bond name, fetches information regarding that and constructs a NamedTuple with all the information/interactions required.",
+      "parentUuid": "38cfd43c_53f596cb",
       "range": {
         "startLine": 449,
         "startChar": 4,
