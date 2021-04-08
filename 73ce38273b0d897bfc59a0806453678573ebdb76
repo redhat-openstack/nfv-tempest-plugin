@@ -59,6 +59,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0763819c_5f11c84d",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-04-08T10:56:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9965bc2c_082c409f",
+      "range": {
+        "startLine": 1007,
+        "startChar": 24,
+        "endLine": 1008,
+        "endChar": 61
+      },
+      "revId": "73ce38273b0d897bfc59a0806453678573ebdb76",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da555ef4_a475526a",
@@ -120,6 +144,30 @@
       "side": 1,
       "message": "see below",
       "parentUuid": "b007e8ee_4924faa1",
+      "range": {
+        "startLine": 1020,
+        "startChar": 32,
+        "endLine": 1020,
+        "endChar": 33
+      },
+      "revId": "73ce38273b0d897bfc59a0806453678573ebdb76",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c8a85ee_4e623c76",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-04-08T10:56:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de5d0738_1cb1bcf7",
       "range": {
         "startLine": 1020,
         "startChar": 32,
@@ -263,6 +311,30 @@
       "side": 1,
       "message": "It is very interesting it failing on mgmt interfaces,\nI think we should add a fix to tun on providers network only",
       "parentUuid": "41263448_596e390a",
+      "range": {
+        "startLine": 1023,
+        "startChar": 35,
+        "endLine": 1023,
+        "endChar": 45
+      },
+      "revId": "73ce38273b0d897bfc59a0806453678573ebdb76",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "662a1371_66dc1db6",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-04-08T10:56:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41988dad_bc7f459e",
       "range": {
         "startLine": 1023,
         "startChar": 35,
