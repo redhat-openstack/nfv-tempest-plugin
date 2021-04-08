@@ -16,6 +16,23 @@
       "message": "Gate is failing :(",
       "revId": "1514aef9ae6934b5c6e7c08b7ca2484b2ed09447",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20f74c2d_b4bc2542",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-04-08T04:43:54Z",
+      "side": 1,
+      "message": "recheck",
+      "revId": "1514aef9ae6934b5c6e7c08b7ca2484b2ed09447",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
