@@ -252,32 +252,33 @@ class QoSManagerMixin(object):
                 ip_addr, log_5101)
         LOG.info('Receive iperf traffic from Server3...')
         ssh_dest.exec_command(server_command)
-        # Running vm CLIENT_1 last since it is tested VM
+
+        install_iperf_command = "sudo yum install iperf -y"
         ssh_source1 = self. \
             get_remote_client(servers[srv.CLIENT_1]['fip'],
                               username=self.instance_user,
                               private_key=key_pair['private_key'])
-        LOG.info('Send iperf traffic from Server1...')
-        client_command1 = "sudo yum install iperf -y"
-        ssh_source1.exec_command(client_command1)
+        LOG.info('Installing iperf on Server1...')
+        ssh_source1.exec_command(install_iperf_command)
         ssh_source2 = self. \
             get_remote_client(servers[srv.CLIENT_2]['fip'],
                               username=self.instance_user,
                               private_key=key_pair['private_key'])
-        LOG.info('Send iperf traffic from Server2...')
-        client_command2 = "sudo yum install iperf -y"
+        LOG.info('Installing iperf on Server2...')
+        ssh_source2.exec_command(install_iperf_command)
         # must run in background, to check guaranteed min/bw for client1
         # Running vm CLIENT_2 initially, since it serves as one helper
         # nohup iperf -c 40.0.0.130 -T s2 -p 5101 -t  2>&1 &
         # (nohup iperf -c 40.0.0.164 -T s2 -p 5101 -t 60 >
         # /tmp/iperf.out 2>&1)&"
-        ssh_source2.exec_command(client_command2)
+        LOG.info('Send iperf traffic from Server2...')
         client_command2 = "nohup iperf -c {} -T s2 -p {} -t 120 >" \
                           "/tmp/iperf.out 2>&1 &".format(ip_addr, '5102')
         ssh_source2.exec_command(client_command2)
         # vm with best-effort quality in case of one policy parsed
-        client_command1 = \
-            "iperf -c {} -T s1 -p {} -t 120".format(ip_addr, '5101')
+        LOG.info('Send iperf traffic from Server1...')
+        client_command1 = "iperf -c {} -T s1 -p {} -t 120 >" \
+                          "/tmp/iperf.out 2>&1 &".format(ip_addr, '5101')
         ssh_source1.exec_command(client_command1)
 
     def collect_iperf_results(self, qos_rules_list=[],
