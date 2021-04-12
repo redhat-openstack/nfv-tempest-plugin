@@ -22,6 +22,30 @@
       },
       "revId": "52813afb8e3c495f14d60ec2cfb9c420e7cea1e9",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f63fcc79_7cd3a098",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 19
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-04-12T07:24:34Z",
+      "side": 1,
+      "message": "This is a great point, I will rework this patch to support this.",
+      "parentUuid": "85f5eb05_585d7749",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 34
+      },
+      "revId": "52813afb8e3c495f14d60ec2cfb9c420e7cea1e9",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
