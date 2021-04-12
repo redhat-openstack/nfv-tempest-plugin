@@ -23,6 +23,7 @@ import json
 import random
 import re
 import string
+import tempfile
 import time
 
 CONF = config.CONF
@@ -225,6 +226,106 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
         # Give time to have everything up after reboot so that other testcases
         # executed after this one do not fail
         time.sleep(60)
+
+    def test_check_igmp_queries(self, test='check_igmp_queries'):
+        """Check igmp queries arriving to the vms
+
+        Check igmp queries arriving to the vms, either generated internally
+        (ovn setups) or external queries (switch)
+        Tests https://bugzilla.redhat.com/show_bug.cgi?id=1933990
+        """
+        LOG.info('Starting {} test.'.format(test))
+
+        if self.external_resources_data is None:
+            raise ValueError('External resource data is required for the test')
+
+        servers, key_pair = self.create_and_verify_resources(test=test)
+
+        # when query-interval is not configured in the switch,
+        # default interval is 180
+        tcpdump_timeout = "200"
+        tcpdump_file = tempfile.NamedTemporaryFile().name
+        test_server = servers[0]
+
+        if 'igmp_queries' in CONF.nfv_plugin_options.keys():
+            igmp_queries = json.loads(CONF.nfv_plugin_options.igmp_queries)
+            if 'tcpdump_timeout' in igmp_queries.keys():
+                tcpdump_timeout = igmp_queries['tcpdump_timeout']
+
+        cmd = "ifc=$(ip route | grep '224.0.0.0/4' | awk '{{print $3}}');" \
+              "tcpdump_file={};" \
+              "sudo timeout {} tcpdump -i $ifc -c 1 igmp > $tcpdump_file;" \
+              "grep 'igmp query' $tcpdump_file  | wc -l".\
+            format(tcpdump_file, tcpdump_timeout)
+
+        ssh_source = self.get_remote_client(test_server['fip'],
+                                            username=self.
+                                            instance_user,
+                                            private_key=key_pair[
+                                                'private_key'])
+
+        LOG.info('Executed on {}: {}'.format(
+            test_server['fip'], cmd_dump))
+        output = int(ssh_source.exec_command(cmd))
+        msg = "No igmp query received"
+        self.assertGreater(output, 0, "No igmp queries received")
+        LOG.info('Igmp queries received in vms')
+
+    def test_check_igmp_reports(self, test='check_igmp_reports'):
+        """Check igmp reports are forwarded
+
+        Check igmp reports are forwarded from the vms and arrive to
+        the switch
+        Tests https://bugzilla.redhat.com/show_bug.cgi?id=1933734
+        """
+        LOG.info('Starting {} test.'.format(test))
+
+        if self.external_resources_data is None:
+            raise ValueError('External resource data is required for the test')
+
+        servers, key_pair = self.create_and_verify_resources(test=test)
+
+        igmp_reports = json.loads(CONF.nfv_plugin_options.igmp_reports)
+        if 'reports_interface' not in igmp_reports.keys():
+            raise ValueError('Missing parameter {} '
+                             'in configuration for testcase {}'.
+                             format('reports_interface', test))
+        reports_interface = igmp_reports['reports_interface']
+
+        tcpdump_file = tempfile.NamedTemporaryFile().name
+        test_server = servers[0]
+
+        cmd_mcast = "sudo timeout 3 python " \
+                    "/usr/local/bin/multicast_traffic.py -r -g 239.1.1.1 " \
+                    "-p 5000 -c 1 || true"
+        cmd_dump = "sudo timeout 10 tcpdump -i {} igmp > {} 2>&1 &".format(
+            reports_interface, tcpdump_file)
+        cmd_result = "sudo killall -SIGINT tcpdump;cat {} | grep igmp | " \
+                     "grep report | wc -l".format(tcpdump_file)
+
+        ssh_source = self.get_remote_client(test_server['fip'],
+                                            username=self.
+                                            instance_user,
+                                            private_key=key_pair[
+                                                'private_key'])
+
+        LOG.info('Executed on {}: {}'.format(
+            test_server['hypervisor_ip'], cmd_dump))
+        shell_utils.run_command_over_ssh(test_server['hypervisor_ip'],
+                                         cmd_dump)
+
+        LOG.info('Executed on {}: {}'.format(test_server['fip'],
+                                             cmd_mcast))
+        ssh_source.exec_command(cmd_mcast)
+
+        LOG.info('Executed on {}: {}'.format(test_server['hypervisor_ip'],
+                                             cmd_mcast))
+        output = int(shell_utils.run_command_over_ssh(
+                        test_server['hypervisor_ip'],cmd_result)
+
+        msg = "No igmp reports received"
+        self.assertGreater(output, 0, "No igmp reports received")
+        LOG.info('Igmp reports being forwarded properly')
 
     def test_multicast_functionality(self, servers, key_pair, mcast_groups,
                                      pkts_tolerance):
