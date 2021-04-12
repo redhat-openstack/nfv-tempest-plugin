@@ -149,7 +149,9 @@ class ManagerMixin(object):
                 test_setup_dict = self.test_setup_dict[test['name']]
                 test_setup_dict['config_dict']['igmp_config'] = \
                     jsonutils.loads(igmp_str)
-
+            if 'igmp_queries' in test and test['igmp_queries'] is not None:
+                self.test_setup_dict[test['name']]['igmp_queries'] = \
+                    test['igmp_queries']
             self.test_setup_dict[test['name']]['aggregate'] = \
                 test.get('aggregate')
             self.test_setup_dict[test['name']]['vlan_config'] = \
