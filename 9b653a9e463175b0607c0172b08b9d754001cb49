@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a0c9b95_3fa86030",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-04-14T10:10:00Z",
+      "side": 1,
+      "message": "it seems like the error is unrelated but why not 😊",
+      "revId": "9b653a9e463175b0607c0172b08b9d754001cb49",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
