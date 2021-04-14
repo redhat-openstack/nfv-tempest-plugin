@@ -48,7 +48,7 @@ class TestHypervisorScenarios(Day2Manager, AsyncUtilsManager):
         servers, key_pair = self.create_and_verify_resources(test=test)
         LOG.info("Locate instance hypervisor")
         srv_hyper_name = self.os_admin.servers_client.show_server(
-            servers[0]['id'])['server']['OS-EXT-SRV-ATTR:host']
+            servers[0]['id'])['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']
         srv_on_hyper = self.hypervisor_client.list_servers_on_hypervisor(
             srv_hyper_name)['hypervisors'][0]['servers']
         LOG.info("Shut down the instances and reboot the hypervisor "
