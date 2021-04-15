@@ -1010,7 +1010,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 LOG.info("Guest '{h}' will attempt to "
                          "ping {i}".format(h=hostname, i=neighbors_ip))
                 ping_cmd = \
-                    "ping -c{0} -w{1} -s56 {2}".format("1", "10", neighbors_ip)
+                    "ping -c{0} -w{1} -s56 {2} || true".format("1",
+                                                               "10",
+                                                               neighbors_ip)
                 ping_output = ssh_client.exec_command(ping_cmd)
                 msg = ("Guest '{h}' failed to ping IP "
                        "'{i}'".format(h=hostname, i=neighbors_ip))
