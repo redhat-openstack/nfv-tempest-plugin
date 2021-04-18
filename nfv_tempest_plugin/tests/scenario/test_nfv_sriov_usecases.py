@@ -420,7 +420,7 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
             {'section': 'pci', 'value': 'passthrough_whitelist'}
         """ Regexp search Mellanox connect-x """
         kw_args['filter_regexp'] = \
-            r".*\[ConnectX\-5\].*"
+            r'.*\[ConnectX\-5 Ex\]|.*\[ConnectX\-5\]'
         kw_args['servers_ips'] = self. \
             _get_hypervisor_ip_from_undercloud(
             shell=CONF.nfv_plugin_options.undercloud_rc_file)
@@ -428,9 +428,8 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         LOG.info('Start SRIOV Min QoS test.')
         result = shell_utils. \
             run_hypervisor_command_build_from_config(**kw_args)
-        msg = "no nics supporting sriov min bw"
         self.assertTrue(
-            len(result) > 0, msg)
+            len(result) > 0, "no nics supporting sriov min bw")
         qos_rules = \
             json.loads(CONF.nfv_plugin_options.min_qos_rules)
         qos_rules_list = [x for x in qos_rules]
