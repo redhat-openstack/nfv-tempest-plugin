@@ -140,6 +140,30 @@
       },
       "revId": "4bb00492d63570e02dfe6114e42b5a5e9e0820b6",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78ee4621_6b7779d3",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-04-19T07:32:01Z",
+      "side": 1,
+      "message": "Maybe to do a quick check and abort a test if it is missing.",
+      "parentUuid": "96f97e9a_a958d016",
+      "range": {
+        "startLine": 254,
+        "startChar": 48,
+        "endLine": 254,
+        "endChar": 55
+      },
+      "revId": "4bb00492d63570e02dfe6114e42b5a5e9e0820b6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
