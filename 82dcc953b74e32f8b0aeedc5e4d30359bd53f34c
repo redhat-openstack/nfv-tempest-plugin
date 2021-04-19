@@ -16,6 +16,24 @@
       "message": "Could this be related to API version and it could be different across releases?\nSince this test has been passing.",
       "revId": "82dcc953b74e32f8b0aeedc5e4d30359bd53f34c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6edd6e17_68100e20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-04-19T06:08:26Z",
+      "side": 1,
+      "message": "Miguel, which version the test failed on?",
+      "parentUuid": "4709e21e_88591148",
+      "revId": "82dcc953b74e32f8b0aeedc5e4d30359bd53f34c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
