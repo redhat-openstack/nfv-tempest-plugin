@@ -52,6 +52,24 @@
       "parentUuid": "6edd6e17_68100e20",
       "revId": "82dcc953b74e32f8b0aeedc5e4d30359bd53f34c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f82955c_fc6ade2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-04-19T10:22:16Z",
+      "side": 1,
+      "message": "There is a bz I opened regarding this issue:\nhttps://bugzilla.redhat.com/show_bug.cgi?id\u003d1949385\n\nSo, that\u0027s a good catch of our test.\nWe catch that issue by the numa_aware_vswitch and pinned tests.\n\nIt should be fixes soon in the near future puddles as per the bz comments.\n\nI think we should leave it as is.",
+      "parentUuid": "fcc9d76e_fc6fe72f",
+      "revId": "82dcc953b74e32f8b0aeedc5e4d30359bd53f34c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
