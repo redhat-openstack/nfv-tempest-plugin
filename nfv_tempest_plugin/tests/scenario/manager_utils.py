@@ -1137,3 +1137,15 @@ class ManagerMixin(object):
             raise KeyError('Unable to locate network type for mtu')
         mtu = mtu_type[net_type]
         return mtu
+
+    def discover_cpu_vendor(self, hypervisor_ip):
+        """Taks an hypervisor ip and returns cpu vendor"""
+        command = 'cat /proc/cpuinfo | grep "vendor" | uniq '
+        cpu_info = shell_utils.run_command_over_ssh(hypervisor_ip,
+                                                    command)
+        if 'intel' in cpu_info.lower():
+            return 'intel'
+        elif 'amd' in cpu_info.lower():
+            return 'amd'
+        else:
+            raise SystemError('Unidentified CPU vendor')
