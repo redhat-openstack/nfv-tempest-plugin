@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc5bb231_3d1d9150",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-04-19T07:30:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2c9ef70a_a1a2c9fa",
+      "range": {
+        "startLine": 127,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 14
+      },
+      "revId": "4bb00492d63570e02dfe6114e42b5a5e9e0820b6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37f37283_dfffb65e",
@@ -47,6 +71,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8e30b0c_e3bbac6e",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-04-19T07:30:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "37f37283_dfffb65e",
+      "range": {
+        "startLine": 131,
+        "startChar": 46,
+        "endLine": 131,
+        "endChar": 56
+      },
+      "revId": "4bb00492d63570e02dfe6114e42b5a5e9e0820b6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e0bb762_ea7b3a10",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-04-19T06:41:52Z",
       "side": 1,
       "message": "Are you assuming that \u0027tcpdump\u0027 is installed within the test instance?",
+      "range": {
+        "startLine": 254,
+        "startChar": 48,
+        "endLine": 254,
+        "endChar": 55
+      },
+      "revId": "4bb00492d63570e02dfe6114e42b5a5e9e0820b6",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96f97e9a_a958d016",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-04-19T07:30:10Z",
+      "side": 1,
+      "message": "yes, it is already installed in the instances we are using. Do you think we should install it somewhere to be sure that it is installed?",
+      "parentUuid": "1e0bb762_ea7b3a10",
       "range": {
         "startLine": 254,
         "startChar": 48,
