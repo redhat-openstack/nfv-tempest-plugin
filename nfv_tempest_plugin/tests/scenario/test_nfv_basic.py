@@ -60,6 +60,16 @@ class TestNfvBasic(base_test.BaseTest):
             **hyper_kwargs)[0]
         self.assertNotEmpty(self.hypervisor_ip, "No hypervisor found")
 
+        if self.discover_cpu_vendor(self.hypervisor_ip) == 'amd':
+            for karg in kernel_args:
+                if 'intel' in karg:
+                    raise AssertionError('You are looking for intel '
+                                         'parameters on amd cpus')
+        else:
+            for karg in kernel_args:
+                if 'amd' in karg:
+                    raise AssertionError('You are looking for amd '
+                                         'parameters on intel cpus')
         test_result = []
         if packages:
             pkg_check = "rpm -qa | grep"
