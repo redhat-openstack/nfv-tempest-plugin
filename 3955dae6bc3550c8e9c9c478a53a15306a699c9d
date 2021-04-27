@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74dc5715_40c43e59",
+        "filename": "docs/tests.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-04-27T13:45:28Z",
+      "side": 1,
+      "message": "As we are not posing the test config within the external config file, remove that, please, to avoid confusion.",
+      "range": {
+        "startLine": 360,
+        "startChar": 2,
+        "endLine": 362,
+        "endChar": 24
+      },
+      "revId": "3955dae6bc3550c8e9c9c478a53a15306a699c9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbbc30e5_cb6027f9",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-04-27T13:45:28Z",
+      "side": 1,
+      "message": "This check is not relevant, since you have a defaults that always will be applied.",
+      "range": {
+        "startLine": 247,
+        "startChar": 8,
+        "endLine": 247,
+        "endChar": 55
+      },
+      "revId": "3955dae6bc3550c8e9c9c478a53a15306a699c9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddaf0956_c0a20009",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-04-27T13:45:28Z",
+      "side": 1,
+      "message": "This check is not relevant, since you have a defaults that always will be applied.",
+      "range": {
+        "startLine": 294,
+        "startChar": 8,
+        "endLine": 294,
+        "endChar": 58
+      },
+      "revId": "3955dae6bc3550c8e9c9c478a53a15306a699c9d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
