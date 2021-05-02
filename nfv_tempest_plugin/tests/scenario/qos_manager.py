@@ -23,13 +23,11 @@ from tempest import config
 from tempest.lib.common.utils import data_utils
 from tempest.lib.common.utils import test_utils
 
-
 CONF = config.CONF
 LOG = log.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
 class QoSManagerMixin(object):
-
     class Servers(IntEnum):
         CLIENT_1 = 0
         CLIENT_2 = 1
@@ -205,7 +203,8 @@ class QoSManagerMixin(object):
         if not found_qos:
             raise ValueError('No QoS policies were applied to ports')
 
-    def run_iperf_test(self, qos_policies=[], servers=[], key_pair=[]):
+    def run_iperf_test(self, qos_policies=[], servers=[], key_pair=[],
+                       vnic_type='direct'):
         """run_iperf_test
 
         This method receive server list, and prepare machines for iperf
@@ -219,9 +218,11 @@ class QoSManagerMixin(object):
         servers_ports_map = \
             [self.os_admin.ports_client.list_ports(
                 device_id=server['id']) for server in self.servers]
-        # Find machines direct ports
+
+        # Find machines ports based on type
         tested_ports = [shell_utils.find_vm_interface(
-            ports, vnic_type='direct') for ports in servers_ports_map]
+            ports, vnic_type=vnic_type) for ports in servers_ports_map]
+
         # Bind to iperf server ip_addr
         ip_addr = tested_ports[srv.SERVER][1]
         # Set pors with QoS
@@ -233,11 +234,13 @@ class QoSManagerMixin(object):
             **{'qos_policy_id': qos_policies[i]['id']})
             for i in range((len(self.servers) - 1)
                            and len(qos_policies))]
+
         LOG.info('Run iperf server on server3...')
         ssh_dest = self.get_remote_client(servers[srv.SERVER]['fip'],
                                           username=self.instance_user,
                                           private_key=key_pair[
-                                          'private_key'])
+                                              'private_key'])
+
         server_command = "sudo yum install iperf -y; "
         log_5102 = QoSManagerMixin.LOG_5102
         log_5101 = QoSManagerMixin.LOG_5101
@@ -249,32 +252,33 @@ class QoSManagerMixin(object):
                 ip_addr, log_5101)
         LOG.info('Receive iperf traffic from Server3...')
         ssh_dest.exec_command(server_command)
-        # Running vm CLIENT_1 last since it is tested VM
-        ssh_source1 = self.\
+
+        install_iperf_command = "sudo yum install iperf -y"
+        ssh_source1 = self. \
             get_remote_client(servers[srv.CLIENT_1]['fip'],
                               username=self.instance_user,
                               private_key=key_pair['private_key'])
-        LOG.info('Send iperf traffic from Server1...')
-        client_command1 = "sudo yum install iperf -y"
-        ssh_source1.exec_command(client_command1)
-        ssh_source2 = self.\
+        LOG.info('Installing iperf on Server1...')
+        ssh_source1.exec_command(install_iperf_command)
+        ssh_source2 = self. \
             get_remote_client(servers[srv.CLIENT_2]['fip'],
                               username=self.instance_user,
                               private_key=key_pair['private_key'])
-        LOG.info('Send iperf traffic from Server2...')
-        client_command2 = "sudo yum install iperf -y"
+        LOG.info('Installing iperf on Server2...')
+        ssh_source2.exec_command(install_iperf_command)
         # must run in background, to check guaranteed min/bw for client1
         # Running vm CLIENT_2 initially, since it serves as one helper
         # nohup iperf -c 40.0.0.130 -T s2 -p 5101 -t  2>&1 &
         # (nohup iperf -c 40.0.0.164 -T s2 -p 5101 -t 60 >
         # /tmp/iperf.out 2>&1)&"
-        ssh_source2.exec_command(client_command2)
+        LOG.info('Send iperf traffic from Server2...')
         client_command2 = "nohup iperf -c {} -T s2 -p {} -t 120 >" \
                           "/tmp/iperf.out 2>&1 &".format(ip_addr, '5102')
         ssh_source2.exec_command(client_command2)
         # vm with best-effort quality in case of one policy parsed
-        client_command1 = \
-            "iperf -c {} -T s1 -p {} -t 120".format(ip_addr, '5101')
+        LOG.info('Send iperf traffic from Server1...')
+        client_command1 = "iperf -c {} -T s1 -p {} -t 120 >" \
+                          "/tmp/iperf.out 2>&1 &".format(ip_addr, '5101')
         ssh_source1.exec_command(client_command1)
 
     def collect_iperf_results(self, qos_rules_list=[],
@@ -288,9 +292,7 @@ class QoSManagerMixin(object):
         :param servers servers list, at least 3
         :param key_pair servers key pairs
         """
-
         srv = QoSManagerMixin.Servers
-        kbytes_to_mbits = QoSManagerMixin.KBYTES_TO_MBITS
         log_files = [QoSManagerMixin.LOG_5101, QoSManagerMixin.LOG_5102]
         # Run grep command over iperf server to verify BW is OK
         # File format is as following
@@ -304,25 +306,23 @@ class QoSManagerMixin(object):
         command += r"if [[ \"$line\" =~ [[:space:]]"
         command += r"([0-9]{1,2}\.[0-9]{1,2})[[:space:]]Gbits ]]; "
         command += r"then echo \"${BASH_REMATCH[1]}\"; fi; done| sort| uniq"
-        # Recive result with number
+        # Receive result with number
         ssh_dest = self.get_remote_client(servers[srv.SERVER]['fip'],
                                           username=self.instance_user,
                                           private_key=key_pair[
-                                          'private_key'])
+                                              'private_key'])
         # Assert result
         for index in range(srv.SERVER):
             # If Default QoS, such as min_bw check only srv.CLIENT_1
             if len(self.qos_policy_groups) > 0 and index == srv.CLIENT_2:
                 break
-            out_testing = ssh_dest.\
+            out_testing = ssh_dest. \
                 exec_command(command.replace('{}', log_files[index]))
             iperf_rep = \
-                [i for i in (
-                    out_testing.encode('utf8')).split() if i != '']
+                [i for i in (out_testing.encode('utf8')).split() if i != '']
             self.assertNotEmpty(
-                iperf_rep,
-                "Please check QoS definitions, iperf result for in file {}"
-                " is empty or low".format(log_files[index]))
+                iperf_rep, "Please check QoS definitions, iperf result for "
+                "in file {} is empty or low".format(log_files[index]))
             # Apply average for result
             res = [float(i.decode("utf-8").
                          replace('"', '')) for i in iperf_rep]
@@ -331,8 +331,40 @@ class QoSManagerMixin(object):
             # In case of min_bw only one policy is set
             if 'min_kbps' in qos_rules_list[srv(index)]:
                 qos_type = 'min_kbps'
-            dev = abs(rep * kbytes_to_mbits
-                      / qos_rules_list[srv(index)][qos_type] - 1)
-            # Check if only one policy to Verify
-            self.assertLess(dev, 0.08,
-                            "iperf result deviates more than 0.08")
+            self.calculate_deviation(test_type=qos_type, result_number=rep,
+                                     rate_limit=qos_rules_list[
+                                         srv(index)][qos_type])
+
+    def calculate_deviation(self, test_type, rate_limit, result_number,
+                            max_deviation_accepted=0.08):
+        """Calculate deviation for a result number for a rate limit number
+
+        Method supports two test types - max_kbps and min_kbps.
+        For the max_kbps, the given number could be above the given rate limit
+        within the accepted deviation number.
+        For the min_kbps, the given number could be below the given rate limit
+        within the accepted deviation number.
+
+        :param test_type: One of two available test types - max_kbps/min_kbps
+        :type test_type: str
+        :param rate_limit: Limit rate for a given number. Depends on test type
+        :type rate_limit: int
+        :param result_number: A result number to calculate the deviation
+        :type result_number: int
+        :param max_deviation_accepted: Accepted deviation, defaults to 0.08
+        :type max_deviation_accepted: float, optional
+        """
+        kbytes_to_mbits = QoSManagerMixin.KBYTES_TO_MBITS
+        deviation = abs(result_number * kbytes_to_mbits / rate_limit - 1)
+        err_msg = 'The number - {} deviates more than accepted deviation - {}'
+        if test_type == "max_kbps" and (result_number * kbytes_to_mbits
+                                        > rate_limit):
+            self.assertLess(deviation, max_deviation_accepted,
+                            err_msg.format(deviation, max_deviation_accepted))
+        if test_type == "min_kbps" and (result_number * kbytes_to_mbits
+                                        < rate_limit):
+            self.assertLess(deviation, max_deviation_accepted,
+                            err_msg.format(deviation, max_deviation_accepted))
+        LOG.info('The test result number - {} with deviation - {}'
+                 .format(result_number, deviation))
+        return

@@ -13,7 +13,9 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from json import loads
 from nfv_tempest_plugin.tests.scenario import base_test
+from nfv_tempest_plugin.tests.scenario.qos_manager import QoSManagerMixin
 from oslo_log import log as logging
 from tempest import config
 
@@ -21,7 +23,7 @@ CONF = config.CONF
 LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
-class TestDpdkScenarios(base_test.BaseTest):
+class TestDpdkScenarios(base_test.BaseTest, QoSManagerMixin):
     def __init__(self, *args, **kwargs):
         super(TestDpdkScenarios, self).__init__(*args, **kwargs)
         self.instance = None
@@ -74,15 +76,12 @@ class TestDpdkScenarios(base_test.BaseTest):
     def test_multicast(self, test='multicast'):
         """The method boots three instances, runs mcast traffic between them"""
         LOG.info('Starting multicast test.')
+        kwargs = {}
+        kwargs['sg_rules'] = [[{"protocol": "udp", "direction": "ingress"},
+                               {"protocol": "udp", "direction": "egress"}]]
         servers, key_pair = \
             self.create_server_with_resources(test=test, num_servers=3,
-                                              use_mgmt_only=True)
-
-        # Add security group rules needed to allow multicast traffic
-        rule_list = [{"protocol": "udp", "direction": "ingress"},
-                     {"protocol": "udp", "direction": "egress"}]
-        self.add_security_group_rules(rule_list,
-                                      self.remote_ssh_sec_groups[0]['id'])
+                                              use_mgmt_only=True, **kwargs)
 
         servers[0]['mcast_srv'] = 'listener1'
         servers[1]['mcast_srv'] = 'listener2'
@@ -101,8 +100,8 @@ class TestDpdkScenarios(base_test.BaseTest):
                       'traffic.py -r -g {1} -p {2} -c 1 > {3} ' \
                       '&'.format(self.nfv_scripts_path, mcast_group,
                                  mcast_port, mcast_output)
-        send_cmd = 'sleep 2;sudo python {0}/multicast_' \
-                   'traffic.py -s -g {1} -p {2} -m {3} -c 1 > {4} ' \
+        send_cmd = 'sudo python {0}/multicast_traffic.py ' \
+                   '-s -g {1} -p {2} -m {3} -c 1 > {4} ' \
                    '&'.format(self.nfv_scripts_path, mcast_group, mcast_port,
                               mcast_msg, mcast_output)
         for srv in servers:
@@ -112,9 +111,13 @@ class TestDpdkScenarios(base_test.BaseTest):
                                                 username=self.instance_user,
                                                 private_key=key_pair[
                                                     'private_key'])
-            ssh_source.exec_command(send_cmd if 'traffic_runner' in
-                                                srv['mcast_srv'] else
-                                                receive_cmd)
+            # send_cmd is executed 2 times due to this bz
+            # https://bugzilla.redhat.com/show_bug.cgi?id=1942053
+            # With the first send we ensure that the hypervisor arp table
+            # is populated with the other hypervisor mac addresses
+            ssh_source.exec_command("(" + send_cmd + ");sleep 2;(" + send_cmd
+                                    + ")" if 'traffic_runner' in
+                                    srv['mcast_srv'] else receive_cmd)
 
         for receiver in servers:
             if ('listener1' in receiver['mcast_srv']) or \
@@ -186,4 +189,43 @@ class TestDpdkScenarios(base_test.BaseTest):
             self.assertTrue(return_value, 'The rx_tx test failed. '
                                           'The values of the instance and '
                                           'nova does not match.')
+        LOG.info('The {} test passed.'.format(test))
+
+    def test_dpdk_max_qos(self, test='dpdk_max_qos'):
+        """Test DPDK MAX QoS functionality
+
+        The test require [nfv_plugin_options ]
+        use_neutron_api_v2 = true in tempest.config.
+        Test also requires QoS neutron settings.
+        The test deploy 3 vms. one iperf server receive traffic from
+        two iperf clients, with max_qos defined run against iperf server.
+        The test search for Traffic per second and compare against ports
+        settings
+        """
+        LOG.info('Start dpdk Max QoS test.')
+
+        kwargs = {}
+        qos_rules = \
+            loads(CONF.nfv_plugin_options.max_qos_rules)
+        qos_rules_list = [x for x in qos_rules]
+        kwargs['sg_rules'] = [[{"protocol": "tcp", "direction": "ingress",
+                              "port_range_max": 5102,
+                               "port_range_min": 5101}]]
+
+        servers, key_pair = self.create_and_verify_resources(
+            test=test, num_servers=3, use_mgmt_only=True, **kwargs)
+
+        if len(servers) != 3:
+            raise ValueError('The test requires 3 instances. Only {}'
+                             ' exists'.format(len(servers)))
+
+        # Max QoS configuration to server ports
+        LOG.info('Create QoS Policies...')
+        qos_policies = [self.create_qos_policy_with_rules(
+            use_default=False, **i) for i in qos_rules_list]
+
+        LOG.info('Running iperf')
+        self.run_iperf_test(qos_policies, servers, key_pair,
+                            vnic_type='normal')
+        self.collect_iperf_results(qos_rules_list, servers, key_pair)
         LOG.info('The {} test passed.'.format(test))

@@ -126,7 +126,7 @@ class TestNfvOffload(base_test.BaseTest):
         # Create servers
         servers, key_pair = self.create_and_verify_resources(test=test,
                                                              num_servers=4)
-        cmd = 'sudo ovs-appctl dpctl/dump-flows type=offloaded -m'
+        cmd = 'sudo ovs-appctl dpctl/dump-flows -m type=offloaded'
         # Iterate over created servers
         for server in servers:
 
@@ -148,6 +148,8 @@ class TestNfvOffload(base_test.BaseTest):
                             "port has not 'capabilities'")
             self.assertIn(int_port['mac_address'], out,
                           msg.format(int_port['mac_address']))
+            self.assertIn('offloaded:yes, dp:tc', out,
+                          'Did not find "offloaded:yes, dp:tc"')
         # Pings are running check flows exist
         # Retrieve all hypvervisors
         hypervisors = self._get_hypervisor_ip_from_undercloud(
