@@ -4,6 +4,6 @@ from nfv_tempest_plugin.services.nova_client import NovaClient
 
 
 class OsClients(HeatClient, NovaClient):
-    def __init__(self):
-        super().set_heat_clients()
-        super().set_nova_clients()
+    def setup_clients(self, cls):
+        super().set_heat_clients(cls)
+        super().set_nova_clients(cls)

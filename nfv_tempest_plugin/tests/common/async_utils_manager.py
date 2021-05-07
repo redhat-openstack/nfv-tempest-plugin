@@ -26,7 +26,7 @@ class AsyncUtilsManager():
             # create a list of callable threads
             threads.append(threading.Thread(
                            target=target,
-                           args=(item, *args)))
+                           args=(item, args)))
 
         LOG.info('Starting multithread call for {}'.format(target))
         for theread in threads:
