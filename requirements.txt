@@ -1,6 +1,6 @@
 tempest >= 16.1.0
 configparser >= 3.5.0
 envbash==1.2.0
-python-heatclient==2.3.0
-python-keystoneclient==4.2.0
-python-novaclient==17.4.0
+python-heatclient==1.18.1
+python-keystoneclient==3.22.0
+python-novaclient==16.0.0

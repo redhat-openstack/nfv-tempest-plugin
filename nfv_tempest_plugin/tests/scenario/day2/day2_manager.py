@@ -17,6 +17,11 @@ class Day2Manager(base_test.BaseTest):
         super(Day2Manager, self).__init__(*args, **kwargs)
         self.os_client = OsClients()
 
+    @classmethod
+    def setup_clients(cls):
+        super(Day2Manager, self).setup_clients(cls)
+        self.os_client.setup_clients(cls)
+
     def validate_no_reboot_in_stack_update(self, stack_name='overcloud',
                                            hypervisors_ip=False):
         """test node didn't reboot meanwhile stack update
