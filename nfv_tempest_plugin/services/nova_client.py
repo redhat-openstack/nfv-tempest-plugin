@@ -8,16 +8,16 @@ CONF = config.CONF
 
 class NovaClient(KeystoneClient):
     @classmethod
-    def set_nova_clients(cls):
+    def set_nova_clients(self):
         super().set_keystone_clients()
 
-        cls.novaclient_overcloud = Client(version=CONF
+        self.novaclient_overcloud = Client(version=CONF
                                           .compute.max_microversion,
-                                          session=cls
+                                          session=self
                                           .overcloud_keystone_session)
-        cls.novaclient_undercloud = Client(version=CONF
+        self.novaclient_undercloud = Client(version=CONF
                                            .compute.max_microversion,
-                                           session=cls
+                                           session=self
                                            .undercloud_keystone_session)
 
     def overcloud_hypervisor_to_undecloud_server(self, hypervisor):
