@@ -10,12 +10,15 @@ CONF = config.CONF
 
 
 class KeystoneClient():
+    # due to python2 backword competability I'm changing 
+    # cls to self should be changed back as soon as we are 
+    # migrating to use only python3
     @classmethod
-    def set_keystone_clients(cls):
+    def set_keystone_clients(self):
         load_envbash(
             CONF.nfv_plugin_options.undercloud_rc_file)
 
-        cls.undercloud_keystone_session = session.Session(auth=v3.Password(
+        self.undercloud_keystone_session = session.Session(auth=v3.Password(
             auth_url=environ['OS_AUTH_URL'],
             username=environ['OS_USERNAME'],
             password=environ['OS_PASSWORD'],
@@ -25,7 +28,7 @@ class KeystoneClient():
             project_domain_name=environ[
                 'OS_PROJECT_DOMAIN_NAME']), verify=False)
 
-        cls.overcloud_keystone_session = session.Session(auth=v3.Password(
+        self.overcloud_keystone_session = session.Session(auth=v3.Password(
             auth_url=CONF.identity.uri,
             username=CONF.auth.admin_username,
             password=CONF.auth.admin_password,
