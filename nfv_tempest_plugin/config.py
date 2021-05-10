@@ -101,7 +101,7 @@ NfvPluginOptions = [
                 default=False,
                 help="Use neutron-tempest-plugin clients"),
     cfg.IntOpt('hypervisor_wait_timeout',
-               default=500,
+               default=300,
                help='Timeout in seconds to wait for the '
                     'hypervisor reachability'),
     cfg.StrOpt('hypervisor_tuning_details',
@@ -120,10 +120,6 @@ NfvPluginOptions = [
                        '"pkt_size": 20}, {"ip": "238.0.0.5", "port": "5000",'
                        '"tx_pkts": 300, "pkt_size": 20}]}',
                help='IGMP configuration for the igmp snooping test'),
-    cfg.StrOpt('kernel_args',
-               default='default_hugepagesz=1GB hugepagesz=1G hugepages=64 '
-                       'iommu=pt intel_iommu=on isolcpus=2-19,22-39',
-               help='kernel args expected in the stack after update'),
     cfg.DictOpt('igmp_queries',
                 default={'tcpdump_timeout': 200},
                 help='IGMP configuration for the igmp queries test. '
