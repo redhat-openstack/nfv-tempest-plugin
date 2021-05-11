@@ -22,6 +22,7 @@ from oslo_log import log
 from tempest import config
 from tempest.lib.common.utils import data_utils
 from tempest.lib.common.utils import test_utils
+import threading
 
 CONF = config.CONF
 LOG = log.getLogger('{} [-] nfv_plugin_test'.format(__name__))
@@ -206,10 +207,10 @@ class QoSManagerMixin(object):
     def run_iperf_test(self, qos_policies=[], servers=[], key_pair=[],
                        vnic_type='direct'):
         """run_iperf_test
-
+ 
         This method receive server list, and prepare machines for iperf
         and run test commands in server and clients
-
+ 
         :param qos_policies qos policy created for servers
         :param servers servers list, at least 3
         :param key_pair servers key pairs
@@ -218,11 +219,11 @@ class QoSManagerMixin(object):
         servers_ports_map = \
             [self.os_admin.ports_client.list_ports(
                 device_id=server['id']) for server in self.servers]
-
+ 
         # Find machines ports based on type
         tested_ports = [shell_utils.find_vm_interface(
             ports, vnic_type=vnic_type) for ports in servers_ports_map]
-
+ 
         # Bind to iperf server ip_addr
         ip_addr = tested_ports[srv.SERVER][1]
         # Set pors with QoS
@@ -234,13 +235,13 @@ class QoSManagerMixin(object):
             **{'qos_policy_id': qos_policies[i]['id']})
             for i in range((len(self.servers) - 1)
                            and len(qos_policies))]
-
+ 
         LOG.info('Run iperf server on server3...')
         ssh_dest = self.get_remote_client(servers[srv.SERVER]['fip'],
                                           username=self.instance_user,
                                           private_key=key_pair[
                                               'private_key'])
-
+ 
         server_command = "sudo yum install iperf -y; "
         log_5102 = QoSManagerMixin.LOG_5102
         log_5101 = QoSManagerMixin.LOG_5101
@@ -252,7 +253,7 @@ class QoSManagerMixin(object):
                 ip_addr, log_5101)
         LOG.info('Receive iperf traffic from Server3...')
         ssh_dest.exec_command(server_command)
-
+ 
         install_iperf_command = "sudo yum install iperf -y"
         ssh_source1 = self. \
             get_remote_client(servers[srv.CLIENT_1]['fip'],
@@ -271,15 +272,21 @@ class QoSManagerMixin(object):
         # nohup iperf -c 40.0.0.130 -T s2 -p 5101 -t  2>&1 &
         # (nohup iperf -c 40.0.0.164 -T s2 -p 5101 -t 60 >
         # /tmp/iperf.out 2>&1)&"
-        LOG.info('Send iperf traffic from Server2...')
-        client_command2 = "nohup iperf -c {} -T s2 -p {} -t 120 >" \
-                          "/tmp/iperf.out 2>&1 &".format(ip_addr, '5102')
-        ssh_source2.exec_command(client_command2)
-        # vm with best-effort quality in case of one policy parsed
-        LOG.info('Send iperf traffic from Server1...')
-        client_command1 = "iperf -c {} -T s1 -p {} -t 120 >" \
-                          "/tmp/iperf.out 2>&1 &".format(ip_addr, '5101')
-        ssh_source1.exec_command(client_command1)
+        threads = []
+        threads.append(threading.Thread(target=ssh_source1.exec_command,
+                                        args=("iperf -c {} -T s1 -p {} -t 120 "
+                                        " > /tmp/iperf.out 2>&1"
+                                        .format(ip_addr, '5101'),)))
+        threads.append(threading.Thread(target=ssh_source2.exec_command,
+                                        args=("iperf -c {} -T s1 -p {} -t 120 "
+                                        " > /tmp/iperf.out 2>&1"
+                                        .format(ip_addr, '5102'),)))
+        for theread in threads:
+            theread.start()
+ 
+        LOG.info('Waiting for all iperf threads to complete')
+        for theread in threads:
+            theread.join()
 
     def collect_iperf_results(self, qos_rules_list=[],
                               servers=[], key_pair=[]):
