@@ -163,6 +163,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "abe43dbc_7b04d81e",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1116,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-05-11T13:15:26Z",
+      "side": 1,
+      "message": "As discussed, I have added a method that will return the information about the computes nics info.\n\nCurrently, this method will be used by the offload test only.\nI don\u0027t want to make this patch very big.\n\nWill update another tests to use this method lates on.",
+      "parentUuid": "bed5959b_e4bc19b9",
+      "range": {
+        "startLine": 1116,
+        "startChar": 8,
+        "endLine": 1116,
+        "endChar": 33
+      },
+      "revId": "93cd033d6e3cddea26ccc4cb389e53a16a313d99",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29cada16_5b5319fa",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
         "patchSetId": 1
@@ -234,6 +258,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "efdcb876_d13fdd5e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-05-11T13:15:26Z",
+      "side": 1,
+      "message": "Yes, exactly.\nBy default, the test will make the discovery.\nAnd if we would like to test explicit nics, we will do it.",
+      "parentUuid": "9ad70c41_38f7648b",
+      "range": {
+        "startLine": 81,
+        "startChar": 7,
+        "endLine": 81,
+        "endChar": 59
+      },
+      "revId": "93cd033d6e3cddea26ccc4cb389e53a16a313d99",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "21b3c326_4c1d0b12",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
         "patchSetId": 1
@@ -245,6 +293,24 @@
       "writtenOn": "2021-02-22T15:04:51Z",
       "side": 1,
       "message": "if I understand correctly you are assuming that the offload interfaces are the same on all compute? (same as in hypervisors[0])\n\nif so what about a case where the environment have different compute types with different interfaces?",
+      "revId": "93cd033d6e3cddea26ccc4cb389e53a16a313d99",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbc7b653_c82626f5",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-05-11T13:15:26Z",
+      "side": 1,
+      "message": "Good point.\n\nI have added a method that will fetch the nics and nics info from all the compute nodes and return a dict of the information.",
+      "parentUuid": "21b3c326_4c1d0b12",
       "revId": "93cd033d6e3cddea26ccc4cb389e53a16a313d99",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -286,6 +352,30 @@
       "side": 1,
       "message": "I agree with miguel and also it would be a good idea in my opinion to log the info of no interface found",
       "parentUuid": "7695e378_d68a3062",
+      "range": {
+        "startLine": 85,
+        "startChar": 63,
+        "endLine": 85,
+        "endChar": 75
+      },
+      "revId": "93cd033d6e3cddea26ccc4cb389e53a16a313d99",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c18de1cc_5e4b1a8d",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-05-11T13:15:26Z",
+      "side": 1,
+      "message": "That is already exists in the method that discovers the offload nics.",
+      "parentUuid": "3d0fa430_d223ef47",
       "range": {
         "startLine": 85,
         "startChar": 63,
