@@ -22,6 +22,7 @@ from oslo_log import log
 from tempest import config
 from tempest.lib.common.utils import data_utils
 from tempest.lib.common.utils import test_utils
+import threading
 
 CONF = config.CONF
 LOG = log.getLogger('{} [-] nfv_plugin_test'.format(__name__))
@@ -271,15 +272,21 @@ class QoSManagerMixin(object):
         # nohup iperf -c 40.0.0.130 -T s2 -p 5101 -t  2>&1 &
         # (nohup iperf -c 40.0.0.164 -T s2 -p 5101 -t 60 >
         # /tmp/iperf.out 2>&1)&"
-        LOG.info('Send iperf traffic from Server2...')
-        client_command2 = "nohup iperf -c {} -T s2 -p {} -t 120 >" \
-                          "/tmp/iperf.out 2>&1 &".format(ip_addr, '5102')
-        ssh_source2.exec_command(client_command2)
-        # vm with best-effort quality in case of one policy parsed
-        LOG.info('Send iperf traffic from Server1...')
-        client_command1 = "iperf -c {} -T s1 -p {} -t 120 >" \
-                          "/tmp/iperf.out 2>&1 &".format(ip_addr, '5101')
-        ssh_source1.exec_command(client_command1)
+        threads = []
+        threads.append(threading.Thread(target=ssh_source1.exec_command,
+                                        args=("iperf -c {} -T s1 -p {} -t 120 "
+                                              " > /tmp/iperf.out 2>&1"
+                                              .format(ip_addr, '5101'),)))
+        threads.append(threading.Thread(target=ssh_source2.exec_command,
+                                        args=("iperf -c {} -T s1 -p {} -t 120 "
+                                              " > /tmp/iperf.out 2>&1"
+                                              .format(ip_addr, '5102'),)))
+        for theread in threads:
+            theread.start()
+
+        LOG.info('Waiting for all iperf threads to complete')
+        for theread in threads:
+            theread.join()
 
     def collect_iperf_results(self, qos_rules_list=[],
                               servers=[], key_pair=[]):
