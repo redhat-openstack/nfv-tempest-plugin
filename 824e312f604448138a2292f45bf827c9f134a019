@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80cde676_5a3575de",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 23
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-05-11T13:24:43Z",
+      "side": 1,
+      "message": "A suggestion.\n\nIn the \"offload refactory\" patch we discussed about the method that will gather and return a dict of nics and nics options information.\nI have implemented it and it look like that:\nhttps://review.gerrithub.io/c/redhat-openstack/nfv-tempest-plugin/+/510638/3/nfv_tempest_plugin/tests/scenario/manager_utils.py#1141\n\nWhat do you think of making the same thing for the bonds on hypervisor?\n\nI already have another test that could use such an output of bonds.",
+      "range": {
+        "startLine": 449,
+        "startChar": 4,
+        "endLine": 449,
+        "endChar": 44
+      },
+      "revId": "824e312f604448138a2292f45bf827c9f134a019",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

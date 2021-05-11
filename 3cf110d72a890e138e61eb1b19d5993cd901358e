@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb816201_abda5af9",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 23
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-05-11T13:24:43Z",
+      "side": 0,
+      "message": "Why those two parameters are deleted?\nAm I missing something?",
+      "range": {
+        "startLine": 127,
+        "startChar": 17,
+        "endLine": 132,
+        "endChar": 29
+      },
+      "revId": "3cf110d72a890e138e61eb1b19d5993cd901358e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
