@@ -45,6 +45,30 @@
       },
       "revId": "a984c5594cb96f3f5f6ef8ee75a911f8fcbafba0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e658f8e_1b20b34a",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1194,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-05-12T13:45:12Z",
+      "side": 1,
+      "message": "I\u0027m taking the nics from the hiera because I would like to get the nics that are defined within the templates under the \"NovaPCIPassthrough\" variable and related to the sriov in overcloud configuration.\nThat\u0027s why the method has the \"passthrough\" in the name.\n\nWe are not defining all the nics under the \"NovaPCIPassthrough\" variable. So I get only what I really need.",
+      "parentUuid": "41d3316f_a04b59b8",
+      "range": {
+        "startLine": 1194,
+        "startChar": 26,
+        "endLine": 1194,
+        "endChar": 59
+      },
+      "revId": "a984c5594cb96f3f5f6ef8ee75a911f8fcbafba0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
