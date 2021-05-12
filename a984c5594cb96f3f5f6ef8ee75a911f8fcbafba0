@@ -93,6 +93,30 @@
       },
       "revId": "a984c5594cb96f3f5f6ef8ee75a911f8fcbafba0",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "058b9ecc_3fd40277",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1194,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-05-12T15:12:53Z",
+      "side": 1,
+      "message": "I\u0027m not sure I got your point.\n\nHow would you get the sriov nics?\nIt there will be any templates configs errors, we will catch it much earlier.",
+      "parentUuid": "7ad05585_ff5fe254",
+      "range": {
+        "startLine": 1194,
+        "startChar": 26,
+        "endLine": 1194,
+        "endChar": 59
+      },
+      "revId": "a984c5594cb96f3f5f6ef8ee75a911f8fcbafba0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
