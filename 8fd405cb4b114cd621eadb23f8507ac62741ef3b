@@ -16,6 +16,24 @@
       "message": "Can you explain the revertr?",
       "revId": "8fd405cb4b114cd621eadb23f8507ac62741ef3b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af2d3ee5_4e5b3696",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-05-12T15:36:16Z",
+      "side": 1,
+      "message": "It is broken osp13 regression, not able to run any tempest testcase in osp13 (python 2.7). There are some incompatibilities between python2 and python3. Ella and me were able to fix a couple of errors, but there is one error that needs more time, till it is fixed, we decided to revert.\nI opened this ticket: https://projects.engineering.redhat.com/browse/NFV-2111",
+      "parentUuid": "bb73eccb_53aabd51",
+      "revId": "8fd405cb4b114cd621eadb23f8507ac62741ef3b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
