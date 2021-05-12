@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18a1027f_e5df827e",
+        "filename": "nfv_tempest_plugin/tests/scenario/qos_manager.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-05-12T15:05:56Z",
+      "side": 1,
+      "message": "It is a good catch, \nI tend to do ssh in a loop, to check if pgrep iperf is empty.\nThis way, id some how the connection between undercloud and overcloud nodes interrupted,\nTest can continue running, without failing\n\n@Ella^^ @Miguel",
+      "range": {
+        "startLine": 284,
+        "startChar": 7,
+        "endLine": 284,
+        "endChar": 31
+      },
+      "revId": "90da3bab3fc3d3a66af0d80c6344b167dd857bde",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
