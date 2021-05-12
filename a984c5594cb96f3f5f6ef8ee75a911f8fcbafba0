@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b408cbd1_37efdb19",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-05-12T13:39:57Z",
+      "side": 1,
+      "message": "Please rename to names the explains how it collects passthrough nics such as\nfetch_nodes_passthrough_nics_from_hiera",
+      "range": {
+        "startLine": 1141,
+        "startChar": 8,
+        "endLine": 1141,
+        "endChar": 41
+      },
+      "revId": "a984c5594cb96f3f5f6ef8ee75a911f8fcbafba0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41d3316f_a04b59b8",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1194,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-05-12T13:39:57Z",
+      "side": 1,
+      "message": "Why taking the nics from hiera data? and from lshw -class network ? in computes?\nIf config nics are there? nics exist",
+      "range": {
+        "startLine": 1194,
+        "startChar": 26,
+        "endLine": 1194,
+        "endChar": 59
+      },
+      "revId": "a984c5594cb96f3f5f6ef8ee75a911f8fcbafba0",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
