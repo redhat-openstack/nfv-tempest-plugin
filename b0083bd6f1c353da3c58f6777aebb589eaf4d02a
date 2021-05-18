@@ -118,6 +118,30 @@
       },
       "revId": "b0083bd6f1c353da3c58f6777aebb589eaf4d02a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f452ea15_7dc48a64",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-05-18T08:57:36Z",
+      "side": 1,
+      "message": "Yes. i know tests are passing.\nI will verify today the tests",
+      "parentUuid": "92b5f005_22afb92b",
+      "range": {
+        "startLine": 129,
+        "startChar": 63,
+        "endLine": 129,
+        "endChar": 65
+      },
+      "revId": "b0083bd6f1c353da3c58f6777aebb589eaf4d02a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
