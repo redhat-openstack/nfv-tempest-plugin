@@ -12,7 +12,6 @@ RUN tempest init ~/tempest \
  && mkdir ~/tempest/container_tempest/
 
 COPY tools/config_generate.sh /opt/app-root/src/tempest/config_generate.sh
-RUN chmod +x /opt/app-root/src/tempest/config_generate.sh
 
 
 WORKDIR /opt/app-root/src/tempest
