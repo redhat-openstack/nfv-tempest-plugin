@@ -20,6 +20,6 @@ discover-tempest-config \
 	--deployer-input container_tempest/$deployer_input \
 	--debug --create \
 	--network-id `openstack network show $external_network -f value -c id` \
-	compute.flavor_ref `openstack flavor show $flavor -c id -f value` \
 	--image "container_tempest/$image_name" \
+	compute.flavor_ref `openstack flavor show $flavor -c id -f value` \
 	$additional_params
