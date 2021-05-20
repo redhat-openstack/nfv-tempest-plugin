@@ -339,6 +339,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b0edc6c_cda7d742",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-05-20T13:25:06Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dbc7b653_c82626f5",
+      "revId": "93cd033d6e3cddea26ccc4cb389e53a16a313d99",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7695e378_d68a3062",
@@ -400,6 +418,30 @@
       "side": 1,
       "message": "That is already exists in the method that discovers the offload nics.",
       "parentUuid": "3d0fa430_d223ef47",
+      "range": {
+        "startLine": 85,
+        "startChar": 63,
+        "endLine": 85,
+        "endChar": 75
+      },
+      "revId": "93cd033d6e3cddea26ccc4cb389e53a16a313d99",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "097e3dec_5e3b581a",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-05-20T13:25:06Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c18de1cc_5e4b1a8d",
       "range": {
         "startLine": 85,
         "startChar": 63,
