@@ -382,12 +382,18 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
             raise ValueError('The test require to use neutron_api_v2. '
                              'Set "use_neutron_api_v2 = true" under the'
                              '[nfv_plugin_options] in tempest.conf')
-        kwargs = {}
+        kw_test = {}
+        default_port_type = \
+            {'ports_filter': "{}".format('external,direct')}
+        kw_test['num_servers'] = 3
+        kw_test['srv_details'] = {0: default_port_type,
+                                  1: default_port_type,
+                                  2: default_port_type}
         qos_rules = \
             json.loads(CONF.nfv_plugin_options.max_qos_rules)
         qos_rules_list = [x for x in qos_rules]
         servers, key_pair = self.create_and_verify_resources(
-            test=test, num_servers=3, **kwargs)
+            test=test, **kw_test)
         if len(servers) != 3:
             raise ValueError('The test requires 3 instances.')
         # Max QoS configuration to server ports
@@ -451,7 +457,7 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
                     if pci_item['devname'] == devices[0]]
 
         LOG.info('SRIOV Min QoS test, create test vms.')
-        # Test deploy 3 VMS on singlr hypervisor.
+        # Test deploy 3 VMS on single hypervisor.
         hyper = self.hypervisor_client.list_hypervisors()['hypervisors']
 
         kw_test = \
