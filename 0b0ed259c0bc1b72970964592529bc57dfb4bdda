@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93dbf304_7d33f96a",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-05-23T12:09:16Z",
+      "side": 1,
+      "message": "Sure will do this.",
+      "parentUuid": "b47fb3ad_4e570da8",
+      "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c08ec7da_57b6f108",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-05-23T07:46:32Z",
       "side": 1,
       "message": "It would be nice to discover from all the nodes by default.\nBut that could be added later.",
+      "range": {
+        "startLine": 449,
+        "startChar": 23,
+        "endLine": 449,
+        "endChar": 27
+      },
+      "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbc62544_b3bb6c29",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-05-23T12:09:16Z",
+      "side": 1,
+      "message": "I was thinking about it but what is the net benefit of this?\nAs of now I can only think of things that we need that are in the scope of each individual node.\n\nThe only thing that comes to my mind where having all info is useful is to test if all bonds are created on relevant nodes (which I think is outside of our scope).\n\nPlease let me know if I am missing something regarding this.",
+      "parentUuid": "c08ec7da_57b6f108",
       "range": {
         "startLine": 449,
         "startChar": 23,
@@ -66,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0a5d7355_2b46e25c",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-05-23T12:09:16Z",
+      "side": 1,
+      "message": "This patch is only requiring OVS bonds, but I assume if needed we can create a separate method for linux bonds.\nIn my personal opinion we should keep those separate no?",
+      "parentUuid": "88f3c170_5bb5739e",
+      "range": {
+        "startLine": 462,
+        "startChar": 29,
+        "endLine": 462,
+        "endChar": 49
+      },
+      "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "be342f39_c0c020ae",
         "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
         "patchSetId": 26
@@ -77,6 +143,30 @@
       "writtenOn": "2021-05-23T08:31:24Z",
       "side": 1,
       "message": "why not unify those two lines if you never uses output?\n\noutput_list \u003d run_command_over_ssh(node,check_bonds_cmd).split(\u0027\\n\u0027)",
+      "range": {
+        "startLine": 464,
+        "startChar": 4,
+        "endLine": 466,
+        "endChar": 36
+      },
+      "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08d1aa9c_1402ebbc",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-05-23T12:09:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be342f39_c0c020ae",
       "range": {
         "startLine": 464,
         "startChar": 4,
@@ -100,6 +190,30 @@
       "writtenOn": "2021-05-23T08:31:24Z",
       "side": 1,
       "message": "you can also have it like (just a cosmetic):\n\nbond_name, bond_type \u003d line.split(\u0027,\u0027)",
+      "range": {
+        "startLine": 469,
+        "startChar": 0,
+        "endLine": 470,
+        "endChar": 38
+      },
+      "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b4d2fcc_0401da1c",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-05-23T12:09:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "415fc3dd_e9c17639",
       "range": {
         "startLine": 469,
         "startChar": 0,
@@ -135,6 +249,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5b91bad_bbdb0da9",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-05-23T12:09:16Z",
+      "side": 1,
+      "message": "I am not opposing this, it was just easier to do this way due to if in the present we will support other bond types, the tuple will most likely have different fields.\n\nWill like to hear other opinions.",
+      "parentUuid": "b260efc3_a26001fa",
+      "range": {
+        "startLine": 502,
+        "startChar": 4,
+        "endLine": 502,
+        "endChar": 51
+      },
+      "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8cebf8da_6dfce1ef",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
         "patchSetId": 26
@@ -146,6 +284,24 @@
       "writtenOn": "2021-05-23T08:31:24Z",
       "side": 1,
       "message": "please use the pythonic way to open a file (you don\u0027t close the file)\n\nwith open(\u0027filename\u0027, \u0027r\u0027) as f:\n    content \u003d f.read()",
+      "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3c28920_47389bb9",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-05-23T12:09:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cebf8da_6dfce1ef",
       "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -163,6 +319,30 @@
       "writtenOn": "2021-05-23T08:31:24Z",
       "side": 1,
       "message": "why save net id in another variable?",
+      "range": {
+        "startLine": 120,
+        "startChar": 44,
+        "endLine": 120,
+        "endChar": 46
+      },
+      "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc1dcd2b_09bf679f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-05-23T12:09:16Z",
+      "side": 1,
+      "message": "No real point, removing it.",
+      "parentUuid": "3639b209_9bc0e4b7",
       "range": {
         "startLine": 120,
         "startChar": 44,
@@ -196,6 +376,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4e18836_2fb81970",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-05-23T12:09:16Z",
+      "side": 1,
+      "message": "You are correct, removing this assertion.\nThanks.",
+      "parentUuid": "87499a3e_71f1d1cf",
+      "range": {
+        "startLine": 125,
+        "startChar": 34,
+        "endLine": 125,
+        "endChar": 39
+      },
+      "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f3700b6_4d88549a",
@@ -209,6 +413,30 @@
       "writtenOn": "2021-05-23T08:31:24Z",
       "side": 1,
       "message": "IMHO OSError should be used for all command failures instead of assertion error",
+      "range": {
+        "startLine": 178,
+        "startChar": 38,
+        "endLine": 178,
+        "endChar": 52
+      },
+      "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "779a0f93_b9226405",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-05-23T12:09:16Z",
+      "side": 1,
+      "message": "Fine by me :)",
+      "parentUuid": "4f3700b6_4d88549a",
       "range": {
         "startLine": 178,
         "startChar": 38,
