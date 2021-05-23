@@ -1137,3 +1137,73 @@ class ManagerMixin(object):
             raise KeyError('Unable to locate network type for mtu')
         mtu = mtu_type[net_type]
         return mtu
+
+    def fetch_nodes_passthrough_nics_info(self, nodes=None):
+        """Fetch the nodes passthrough nics info
+
+        Fetch various network interfaces information from nodes.
+        The method will return a dict of the interfaces info per each node.
+        A sample output will look like:
+
+        {'192.0.10.17': {'enp5s0f2': {'bus-info': '0000:05:00.2',
+                                      'driver': 'mlx5e_rep',
+                                      'hw-tc-offload': 'on'},
+                        'enp5s0f3': {'bus-info': '0000:05:00.3',
+                                     'driver': 'mlx5e_rep',
+                                     'hw-tc-offload': 'on'}},
+         '192.0.10.6': {'enp5s0f2': {'bus-info': '0000:05:00.2',
+                                     'driver': 'mlx5e_rep',
+                                     'hw-tc-offload': 'on'},
+                        'enp5s0f3': {'bus-info': '0000:05:00.3',
+                                     'driver': 'mlx5e_rep',
+                                     'hw-tc-offload': 'on'}}}
+
+        :param nodes: List of ip addresses of the nodes
+        :type nodes: list
+
+        :return: Passthrough nics info
+        :rtype: Dict of dicts
+        """
+        passthrough_nics = {}
+        if nodes is None:
+            hyper_kwargs = \
+                {'shell': CONF.nfv_plugin_options.undercloud_rc_file}
+            nodes = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)
+        key = ["nova::compute::pci::passthrough"]
+        for node in nodes:
+            passthrough_nics[node] = {}
+            pci_nics = shell_utils.retrieve_content_from_hiera(node=node,
+                                                               keys=key)
+            pci_nics = yaml.safe_load(pci_nics[0])
+            nics = [nic['devname'] for nic in pci_nics]
+            LOG.info('Detected interfaces are - {}'.format(nics))
+            cmd = ("ethtool -i {0} |grep driver;"
+                   "ethtool -k {0} |grep tc-offload;"
+                   "ethtool -i {0} |grep bus-info")
+            for nic in nics:
+                eth_output = \
+                    shell_utils.run_command_over_ssh(node, cmd.format(nic))
+                eth_output = eth_output.strip().split('\n')
+                eth_output = dict(el.split(': ') for el in eth_output)
+                passthrough_nics[node][nic] = {}
+                passthrough_nics[node][nic].update(eth_output)
+        return passthrough_nics
+
+    def discover_hw_offload_nics(self, nodes=None):
+        """Discover HW Offload network interfaces on hypervisor"""
+        nodes_nics = self.fetch_nodes_passthrough_nics_info(nodes)
+        # Check the nic driver and hw-tc-offload option.
+        # Expecting - 'mlx5e_rep' for the driver and 'on' for the hw-tc-offload
+        mlnx_nics = {}
+        for node, nics_info in nodes_nics.items():
+            mlnx_nics[node] = {}
+            for nic, nic_options in nics_info.items():
+                if (nic_options.get('driver') == 'mlx5e_rep'
+                    and nic_options.get('hw-tc-offload') == 'on'):
+                    mlnx_nics[node][nic] = {}
+                    mlnx_nics[node][nic].update(nic_options)
+        mlnx_nics_state = [nic for nic in mlnx_nics.items() if nic[1] != {}]
+        if not mlnx_nics_state:
+            raise KeyError('Mellanox hw-offload nics not detected')
+        LOG.info('The HW Offload interfaces detected - {}'.format(mlnx_nics))
+        return mlnx_nics
