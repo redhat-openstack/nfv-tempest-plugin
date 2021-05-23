@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "97548713_9c9aec3c",
         "filename": "docs/tests.md",
@@ -20,10 +21,10 @@
         "endChar": 17
       },
       "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "fe146dd5_749f7089",
         "filename": "docs/tests.md",
@@ -44,10 +45,10 @@
         "endChar": 17
       },
       "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ee50f027_fdca94c6",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
@@ -67,10 +68,10 @@
         "endChar": 48
       },
       "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b45fff16_d8866510",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
@@ -84,10 +85,10 @@
       "side": 1,
       "message": "It looks like utility function itself has complex derivations. Can we create simple utiltity functions without and additional map?",
       "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "8763772b_a42228a8",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
@@ -102,10 +103,10 @@
       "message": "I wanted to have some kind of a generic map that can be used for several bond types.\nSince we\u0027re only using active-backup as of now, perhaps I should only focus on it.",
       "parentUuid": "b45fff16_d8866510",
       "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c20f35d5_2f56c1d1",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
@@ -119,10 +120,10 @@
       "side": 1,
       "message": "Can you add the testing process in the description?",
       "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "bd446df4_ec0fc641",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
@@ -137,10 +138,10 @@
       "message": "Of course, will add this.",
       "parentUuid": "c20f35d5_2f56c1d1",
       "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b52077fb_8fc50f4f",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
@@ -160,10 +161,10 @@
         "endChar": 34
       },
       "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "72bc2eee_f8aa3bda",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
@@ -184,10 +185,10 @@
         "endChar": 34
       },
       "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1b401a0b_a6fb5608",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
@@ -207,10 +208,10 @@
         "endChar": 26
       },
       "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "75a2e44d_6a595fbd",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
@@ -231,8 +232,31 @@
         "endChar": 26
       },
       "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93dd29d5_5692b23b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-05-23T19:37:33Z",
+      "side": 1,
+      "message": "I would advise to maintain the same conventions for ssh.\nIf there is an improvement, we should refactor the way we work\nYou could even update the \u0027_run_command_over_ssh inorder to make it work properly",
+      "parentUuid": "75a2e44d_6a595fbd",
+      "range": {
+        "startLine": 82,
+        "startChar": 12,
+        "endLine": 82,
+        "endChar": 26
+      },
+      "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
