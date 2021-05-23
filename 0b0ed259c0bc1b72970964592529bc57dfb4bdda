@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b47fb3ad_4e570da8",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-05-23T08:31:24Z",
+      "side": 1,
+      "message": "maybe change the name to ovs_test_bonds",
+      "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c08ec7da_57b6f108",
         "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
         "patchSetId": 26
@@ -49,6 +66,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "be342f39_c0c020ae",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-05-23T08:31:24Z",
+      "side": 1,
+      "message": "why not unify those two lines if you never uses output?\n\noutput_list \u003d run_command_over_ssh(node,check_bonds_cmd).split(\u0027\\n\u0027)",
+      "range": {
+        "startLine": 464,
+        "startChar": 4,
+        "endLine": 466,
+        "endChar": 36
+      },
+      "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "415fc3dd_e9c17639",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-05-23T08:31:24Z",
+      "side": 1,
+      "message": "you can also have it like (just a cosmetic):\n\nbond_name, bond_type \u003d line.split(\u0027,\u0027)",
+      "range": {
+        "startLine": 469,
+        "startChar": 0,
+        "endLine": 470,
+        "endChar": 38
+      },
+      "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b260efc3_a26001fa",
         "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
         "patchSetId": 26
@@ -65,6 +128,92 @@
         "startChar": 4,
         "endLine": 502,
         "endChar": 51
+      },
+      "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cebf8da_6dfce1ef",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-05-23T08:31:24Z",
+      "side": 1,
+      "message": "please use the pythonic way to open a file (you don\u0027t close the file)\n\nwith open(\u0027filename\u0027, \u0027r\u0027) as f:\n    content \u003d f.read()",
+      "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3639b209_9bc0e4b7",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-05-23T08:31:24Z",
+      "side": 1,
+      "message": "why save net id in another variable?",
+      "range": {
+        "startLine": 120,
+        "startChar": 44,
+        "endLine": 120,
+        "endChar": 46
+      },
+      "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87499a3e_71f1d1cf",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-05-23T08:31:24Z",
+      "side": 1,
+      "message": "is it possible for this assertion to fail? wouldn\u0027t the test fail in the creation of the object for it being unable to initiate or for [0] not existing?",
+      "range": {
+        "startLine": 125,
+        "startChar": 34,
+        "endLine": 125,
+        "endChar": 39
+      },
+      "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f3700b6_4d88549a",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 26
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-05-23T08:31:24Z",
+      "side": 1,
+      "message": "IMHO OSError should be used for all command failures instead of assertion error",
+      "range": {
+        "startLine": 178,
+        "startChar": 38,
+        "endLine": 178,
+        "endChar": 52
       },
       "revId": "0b0ed259c0bc1b72970964592529bc57dfb4bdda",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
