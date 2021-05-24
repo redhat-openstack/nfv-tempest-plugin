@@ -6,7 +6,7 @@ LABEL summary="tempest with nfv-plugin for OpenStack Platform"
 USER default
 
 RUN pip3 install --upgrade pip setuptools \
- && pip3 install tempest-nfv-plugin python-tempestconf python-openstackclient
+ && pip3 install tempest-nfv-plugin python-tempestconf python-openstackclient neutron-tempest-plugin
 
 RUN tempest init ~/tempest \
  && mkdir ~/tempest/container_tempest/
