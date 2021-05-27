@@ -46,6 +46,30 @@
       },
       "revId": "4dd9a888a6ebe0bebf41db6971448e352923a047",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e96dbe22_bdcf798e",
+        "filename": "Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-05-27T06:21:51Z",
+      "side": 1,
+      "message": "moved it to after the pip otherwise it will fail (it will run before certifei installed and will not find path)",
+      "parentUuid": "35ef3e45_7c6ad2ac",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 10
+      },
+      "revId": "4dd9a888a6ebe0bebf41db6971448e352923a047",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
