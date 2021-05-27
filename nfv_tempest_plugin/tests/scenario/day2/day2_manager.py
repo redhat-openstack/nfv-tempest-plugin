@@ -13,8 +13,8 @@ LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
 class Day2Manager(base_test.BaseTest):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super(Day2Manager, self).__init__(*args, **kwargs)
         self.os_client = OsClients()
 
     def validate_no_reboot_in_stack_update(self, stack_name='overcloud',
