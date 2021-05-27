@@ -22,6 +22,30 @@
       },
       "revId": "4dd9a888a6ebe0bebf41db6971448e352923a047",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35ef3e45_7c6ad2ac",
+        "filename": "Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-05-27T06:17:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "965bd231_6438994c",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 10
+      },
+      "revId": "4dd9a888a6ebe0bebf41db6971448e352923a047",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
