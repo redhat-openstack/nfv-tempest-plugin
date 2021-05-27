@@ -293,7 +293,8 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
         test_server = servers[0]
 
         # Check tcpdump is installed
-        cmd_check_dump = "which tcpdump 2>/dev/null || true"
+        cmd_check_dump = "PATH=$PATH:/usr/sbin; which tcpdump " \
+                         "2>/dev/null || true"
         LOG.info('Executed on {}: {}'.format(
             test_server['hypervisor_ip'], cmd_check_dump))
         output = shell_utils.run_command_over_ssh(test_server['hypervisor_ip'],
@@ -306,8 +307,8 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
                     "/usr/local/bin/multicast_traffic.py -r -g 239.1.1.1 " \
                     "-p 5000 -c 1 || true"
         # Capture all igmp messages
-        cmd_dump = "sudo tcpdump -i {} igmp > {} 2>&1 &".format(
-            reports_interface, tcpdump_file)
+        cmd_dump = "PATH=$PATH:/usr/sbin; sudo tcpdump -i {} igmp " \
+                   "> {} 2>&1 &".format(reports_interface, tcpdump_file)
         # Filter only igmp reports messages (join/leave), not igmp queries
         cmd_result = "sudo killall -SIGINT tcpdump;cat {} | " \
                      "( grep igmp || true ) | ( grep report || true ) | " \
