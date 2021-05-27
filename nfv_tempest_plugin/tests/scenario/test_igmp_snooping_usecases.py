@@ -84,7 +84,7 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
                                                   ', '.join(diff_checks_cmd)))
 
                 for check in checks:
-                    if check not in diff_checks_cmd:
+                    if check in diff_checks_cmd:
                         if type(ovs_data_filt[check]) == str:
                             # If object is not equal to 'true' or 'false'
                             # ValueError exception will be raised
