@@ -815,8 +815,13 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         # Network, subnet, router and security group creation
         self._create_test_networks()
-        kwargs['security_groups'] = self._set_sec_groups(**kwargs)
-        kwargs.pop('sg_rules', None)
+        # Apply check if any network has sec-group true
+        sec_groups_def = \
+            [key for key, value
+             in self.test_network_dict.items() if value['sec_groups']]
+        if len(sec_groups_def) > 0:
+            kwargs['security_groups'] = self._set_sec_groups(**kwargs)
+            kwargs.pop('sg_rules', None)
 
         ports_list = \
             self._create_ports_on_networks(num_ports=num_ports,
