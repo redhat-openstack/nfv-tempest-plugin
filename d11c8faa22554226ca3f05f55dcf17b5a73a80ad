@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5a38bee_92f12cbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-05-27T10:46:59Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 9,
+        "startChar": 18,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "d11c8faa22554226ca3f05f55dcf17b5a73a80ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c9b3e5e_18bec5d7",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-05-27T10:46:59Z",
+      "side": 1,
+      "message": "What will be the behavior if mgmt network will have sec group enabled and dataplane networks - disabled?",
+      "range": {
+        "startLine": 818,
+        "startChar": 22,
+        "endLine": 818,
+        "endChar": 36
+      },
+      "revId": "d11c8faa22554226ca3f05f55dcf17b5a73a80ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
