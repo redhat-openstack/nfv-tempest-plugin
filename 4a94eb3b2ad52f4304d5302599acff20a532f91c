@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "774b4ef2_58d9faa0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-05-27T15:31:11Z",
+      "side": 1,
+      "message": "the location of tcpdump is under /usr/sbin you could skip the path concat",
+      "revId": "4a94eb3b2ad52f4304d5302599acff20a532f91c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
