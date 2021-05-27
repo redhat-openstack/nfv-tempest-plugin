@@ -101,7 +101,7 @@ NfvPluginOptions = [
                 default=False,
                 help="Use neutron-tempest-plugin clients"),
     cfg.IntOpt('hypervisor_wait_timeout',
-               default=300,
+               default=500,
                help='Timeout in seconds to wait for the '
                     'hypervisor reachability'),
     cfg.StrOpt('hypervisor_tuning_details',
@@ -129,5 +129,17 @@ NfvPluginOptions = [
                 default={'reports_interface': 'br-dpdk0'},
                 help='IGMP configuration for the igmp reports test. '
                      'Configure reports_interface to set the interface in '
+<<<<<<< HEAD   (0e0b3c [Fix max-qos])
                      'which it will be checked that igmp reports are present')
+=======
+                     'which it will be checked that igmp reports are present'),
+    cfg.ListOpt('offload_nics',
+                default=[],
+                help='Network interfaces to be tested for the offload test. '
+                     'By default, the nics discovered automatically'),
+    cfg.StrOpt('kernel_args',
+               default='default_hugepagesz=1GB hugepagesz=1G hugepages=64 '
+                       'iommu=pt intel_iommu=on isolcpus=2-19,22-39',
+               help='kernel args expected in the stack after update'),
+>>>>>>> CHANGE (f9b0bb [RFE] tests compute doesn't reboot meanwile update)
 ]
