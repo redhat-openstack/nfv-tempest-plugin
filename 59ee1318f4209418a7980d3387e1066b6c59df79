@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97da899b_5e40e9c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-05-27T07:45:07Z",
+      "side": 1,
+      "message": "a back up in case https://review.gerrithub.io/c/redhat-openstack/ansible-nfv/+/517705 will fail ?\n?",
+      "revId": "59ee1318f4209418a7980d3387e1066b6c59df79",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
