@@ -293,7 +293,8 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
         test_server = servers[0]
 
         # Check tcpdump is installed
-        cmd_check_dump = "which tcpdump 2>/dev/null || true"
+        cmd_check_dump = "PATH=$PATH:/sbin:/usr/sbin;which tcpdump " \
+                         "2>/dev/null || true"
         LOG.info('Executed on {}: {}'.format(
             test_server['hypervisor_ip'], cmd_check_dump))
         output = shell_utils.run_command_over_ssh(test_server['hypervisor_ip'],
