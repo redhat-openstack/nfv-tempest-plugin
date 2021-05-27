@@ -13,22 +13,25 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-import time
-
+from nfv_tempest_plugin.tests.common.async_utils_manager \
+    import AsyncUtilsManager
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
-from nfv_tempest_plugin.tests.scenario import base_test
+from nfv_tempest_plugin.tests.scenario.day2.day2_manager import Day2Manager
 from oslo_log import log as logging
 from tempest.common import waiters
 from tempest import config
+import time
+
 
 CONF = config.CONF
 LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
-class TestHypervisorScenarios(base_test.BaseTest):
+class TestHypervisorScenarios(Day2Manager, AsyncUtilsManager):
     def __init__(self, *args, **kwargs):
         super(TestHypervisorScenarios, self).__init__(*args, **kwargs)
         self.hypervisor_ip = None
+        self.exec_info = None
 
     def setUp(self):
         "Setup a single tenant with an accessible server"
@@ -84,3 +87,34 @@ class TestHypervisorScenarios(base_test.BaseTest):
                                              user=self.instance_user,
                                              key_pair=key_pair['private_key'])
         LOG.info("The hypervisor reboot test passed.")
+
+    def test_scale_out_kernelargs_hypervisor_reboot(self, test='scale_out'
+                                                    '_kernelargs'):
+        """test reather hypervisors rebooted and kargs changed in scale out
+
+        tests that old hypervisor didn't reboot in scale out and that all
+        hypervisor have all expected kargs
+        """
+        LOG.info('test {} started'.format(test))
+        old_compute, new_compute = self.get_old_and_new_compute()
+        self.validate_no_reboot_in_stack_update(hypervisors_ip=old_compute)
+        self.multithread_iter_wraper(new_compute,
+                                     self.validate_kargs)
+        self.multithread_iter_wraper(self.os_client.novaclient_overcloud
+                                     .hypervisors.list(),
+                                     target=self.reboot_validate_kernel_args)
+
+    def test_stack_update_kernel_args_hypervisor_reboot(self,
+                                                        test='stack_'
+                                                        'update_kernelargs'):
+        """test reather hypervisors rebooted and kargs changed
+
+        test reather hypervisors rebooted meanwhile update and validates kargs
+        are as expected
+        """
+        LOG.info('test {} started'.format(test))
+        self.validate_no_reboot_in_stack_update()
+        self.multithread_iter_wraper(iteratable=self.os_client
+                                     .novaclient_overcloud
+                                     .hypervisors.list(),
+                                     target=self.reboot_validate_kernel_args)
