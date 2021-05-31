@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "47ad6bd0_ff090de7",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-05-31T10:07:15Z",
+      "side": 1,
+      "message": "After looking at \u0027resource_setup()\", this doesn\u0027t appear to be the place.\nThe method you mentioned configures tenant and microversion.\nWhat am I missing?",
+      "parentUuid": "a7a05ca9_5e8153f9",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 61,
+        "endChar": 52
+      },
+      "revId": "0645544e8cddbce331caa2a93fc40714480b5bad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6bbc0d79_d2a583e1",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
         "patchSetId": 28
