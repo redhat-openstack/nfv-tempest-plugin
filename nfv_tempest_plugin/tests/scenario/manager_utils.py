@@ -22,6 +22,7 @@ import time
 import xml.etree.ElementTree as ELEMENTTree
 import yaml
 
+from nfv_tempest_plugin.services.nova_client import NovaClient
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from oslo_log import log
 from oslo_serialization import jsonutils
@@ -870,58 +871,39 @@ class ManagerMixin(object):
         Add support in case of NoAggregation, and Hypervisor list is not empty
         if host=None, no aggregation, or name=None and if hypervisor list has
         one member return the member
-        :param kwargs['shell']
         :param kwargs['server_id']
-        :param kwargs['aggregation_name']
         :param kwargs['hyper_name']
         """
-        host = None
-        ip_address = ''
-        if 'aggregation_name' in kwargs:
-            host = self._list_aggregate(kwargs['aggregation_name'])
-
-        hyper = self.manager.hypervisor_client.list_hypervisors()
-        """
-        if hosts in aggregations
-        """
-        if host:
-            host_name = re.split(r"\.", host[0])[0]
-            if host_name is None:
-                host_name = host
-
-            for i in hyper['hypervisors']:
-                if i['hypervisor_hostname'] == host[0]:
-                    command = 'openstack ' \
-                              'server show ' + host_name + \
-                              ' -c \'addresses\' -f value | cut -d\"=\" -f2'
-                    ip_address = shell_utils.\
-                        run_local_cmd_shell_with_venv(command,
-                                                      kwargs['shell'])
+        ip_addresses = []
+        search_opts = {}
+        nova_client = NovaClient.set_nova_clients()
+        if 'server_id' in kwargs:
+            try:
+                hyper_name = nova_client\
+                    .novaclient_overcloud.servers.list(
+                        search_opts={'uuid': kwargs['server_id']})[0]\
+                    .__dict__['OS-EXT-SRV-ATTR:hypervisor_hostname']
+            except IndexError:
+                raise IndexError('Seems like there is no server with id: '
+                                 f'{kwargs["server_id"]}')
+            search_opts = {'name': hyper_name}
         else:
-            """
-            no hosts in aggregations, select with 'server_id' in kwargs
-            """
-            compute = 'compute'
-            if 'hyper_name' in kwargs:
-                compute = kwargs['hyper_name']
-            if 'server_id' in kwargs:
-                server = self. \
-                    os_admin.servers_client.show_server(kwargs['server_id'])
-                compute = \
-                    server['server']['OS-EXT-SRV-ATTR:host'].partition('.')[0]
+            if kwargs['hypername']:
+                search_opts = {'name': kwargs['hypername']}
+            else:
+                search_opts = {'name': 'compute'}
 
-            for i in hyper['hypervisors']:
-                if i['state'] == 'up':
-                    if i['hypervisor_hostname'].split(".")[0] == compute:
-                        compute = i['hypervisor_hostname'].split(".")[0]
-                    command = 'openstack server list -c \'Name\' -c ' \
-                              '\'Networks\' -f value | grep -i {0} | ' \
-                              'cut -d\"=\" -f2'.format(compute)
-                    ip_address = shell_utils.\
-                        run_local_cmd_shell_with_venv(command,
-                                                      kwargs['shell'])
+        hypervisors = nova_client\
+            .novaclient_undercloud.servers.list(search_opts=search_opts)
+        if len(hypervisors) >= 0:
+            for hypervisor in hypervisors:
+                ip_addresses.append(hypervisor
+                                    .addresses['ctlplane'][0]['addr'])
+        else:
+            raise AssertionError('No hypervisor with '
+                                 'matching pattern were found')
 
-        return ip_address
+        return ip_addresses
 
     def locate_ovs_physnets(self, node=None, keys=None):
         """Locate ovs existing physnets
