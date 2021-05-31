@@ -257,6 +257,30 @@
       },
       "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b97fce0_cdb55f5b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-05-31T09:29:35Z",
+      "side": 1,
+      "message": "I will consider this Yarboa, thanks.",
+      "parentUuid": "93dd29d5_5692b23b",
+      "range": {
+        "startLine": 82,
+        "startChar": 12,
+        "endLine": 82,
+        "endChar": 26
+      },
+      "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
