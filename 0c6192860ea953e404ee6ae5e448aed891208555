@@ -16,6 +16,121 @@
       "message": "haven\u0027t fully tested tested yet",
       "revId": "0c6192860ea953e404ee6ae5e448aed891208555",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bcfced1_12a4ebcd",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-05-31T14:46:15Z",
+      "side": 1,
+      "message": "The \"shell\" kwarg argument is used for every method call, so it will need to be removed.",
+      "range": {
+        "startLine": 867,
+        "startChar": 9,
+        "endLine": 867,
+        "endChar": 24
+      },
+      "revId": "0c6192860ea953e404ee6ae5e448aed891208555",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54e00d78_d15cb03d",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-05-31T14:46:15Z",
+      "side": 1,
+      "message": "Avoid using \"f\" string until we completely drop the python 2 version support in our plugin.",
+      "range": {
+        "startLine": 888,
+        "startChar": 33,
+        "endLine": 888,
+        "endChar": 35
+      },
+      "revId": "0c6192860ea953e404ee6ae5e448aed891208555",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57beda7f_d683183c",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-05-31T14:46:15Z",
+      "side": 1,
+      "message": "If you are using \"hypername\" as the kwsrg argument instead of \"hyper_name\", update the doc string.",
+      "range": {
+        "startLine": 891,
+        "startChar": 23,
+        "endLine": 891,
+        "endChar": 32
+      },
+      "revId": "0c6192860ea953e404ee6ae5e448aed891208555",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc97407b_7ff027f1",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-05-31T14:46:15Z",
+      "side": 1,
+      "message": "That is too generic.\nWe do not have any hypervisor with \"comput\" name in our deployment.\n\nWhat do you think of the following method flow:\n* If \u0027server_id\u0027 provided to the method, search the hypervisor by it.\n* If \u0027hypername\u0027 provided to the method, search the hypervisor by it.\n* Otherwise, return the list of all hypervisors.",
+      "range": {
+        "startLine": 894,
+        "startChar": 40,
+        "endLine": 894,
+        "endChar": 48
+      },
+      "revId": "0c6192860ea953e404ee6ae5e448aed891208555",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abf1991f_de52b325",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-05-31T14:46:15Z",
+      "side": 1,
+      "message": "Should be just \u0027\u003e\u0027?",
+      "range": {
+        "startLine": 898,
+        "startChar": 28,
+        "endLine": 898,
+        "endChar": 30
+      },
+      "revId": "0c6192860ea953e404ee6ae5e448aed891208555",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
