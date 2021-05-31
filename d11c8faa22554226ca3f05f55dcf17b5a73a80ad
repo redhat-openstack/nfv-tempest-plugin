@@ -93,6 +93,30 @@
       },
       "revId": "d11c8faa22554226ca3f05f55dcf17b5a73a80ad",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29eeb383_5117faa3",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-05-31T12:01:27Z",
+      "side": 1,
+      "message": "https://github.com/redhat-openstack/ansible-nfv/issues/4",
+      "parentUuid": "525b458b_63c7cc81",
+      "range": {
+        "startLine": 818,
+        "startChar": 22,
+        "endLine": 818,
+        "endChar": 36
+      },
+      "revId": "d11c8faa22554226ca3f05f55dcf17b5a73a80ad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
