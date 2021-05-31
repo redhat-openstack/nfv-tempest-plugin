@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be2975c0_8686393b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-05-31T14:49:57Z",
+      "side": 1,
+      "message": "Shortly I will work on moving all this test related params to the config.py, but as per, ok for me.",
+      "revId": "a93c1d0f95767fbcd41e3c3384ecae305d25f76b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
