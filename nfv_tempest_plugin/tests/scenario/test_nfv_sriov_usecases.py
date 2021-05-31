@@ -332,8 +332,7 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         kw_args['filter_regexp'] = \
             r"\s+vf.*[Cr]\sfa:16:3e:[a-fA-F0-9:]{2}.*"
         kw_args['servers_ips'] = self.\
-            _get_hypervisor_ip_from_undercloud(
-            shell=CONF.nfv_plugin_options.undercloud_rc_file)
+            _get_hypervisor_ip_from_undercloud()
         kw_args['multi_key_values'] = True
         # Verify empty machines are reset back from previous tests
         result = shell_utils. \
@@ -428,8 +427,7 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         kw_args['filter_regexp'] = \
             r'.*\[ConnectX\-5 Ex\]|.*\[ConnectX\-5\]'
         kw_args['servers_ips'] = self. \
-            _get_hypervisor_ip_from_undercloud(
-            shell=CONF.nfv_plugin_options.undercloud_rc_file)
+            _get_hypervisor_ip_from_undercloud()
         kw_args['multi_key_values'] = True
         LOG.info('Start SRIOV Min QoS test.')
         result = shell_utils. \
