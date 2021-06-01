@@ -305,6 +305,30 @@
       },
       "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a4c46a3_599dbb52",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-06-01T10:36:45Z",
+      "side": 1,
+      "message": "Opened new Issue on it \nhttps://github.com/redhat-openstack/nfv-tempest-plugin/issues/3",
+      "parentUuid": "e58ab919_b05928d2",
+      "range": {
+        "startLine": 82,
+        "startChar": 12,
+        "endLine": 82,
+        "endChar": 26
+      },
+      "revId": "651dbe67c4bea4809f8aaef60d95d13d7d882dbf",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
