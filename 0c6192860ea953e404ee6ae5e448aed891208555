@@ -41,6 +41,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8503e995_c541bcbf",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-06-01T09:26:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bcfced1_12a4ebcd",
+      "range": {
+        "startLine": 867,
+        "startChar": 9,
+        "endLine": 867,
+        "endChar": 24
+      },
+      "revId": "0c6192860ea953e404ee6ae5e448aed891208555",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54e00d78_d15cb03d",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-05-31T14:46:15Z",
       "side": 1,
       "message": "Avoid using \"f\" string until we completely drop the python 2 version support in our plugin.",
+      "range": {
+        "startLine": 888,
+        "startChar": 33,
+        "endLine": 888,
+        "endChar": 35
+      },
+      "revId": "0c6192860ea953e404ee6ae5e448aed891208555",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e63ded2_075d4dc1",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-06-01T09:26:44Z",
+      "side": 1,
+      "message": "the code is python3 either way because of the usage of the nova client.",
+      "parentUuid": "54e00d78_d15cb03d",
       "range": {
         "startLine": 888,
         "startChar": 33,
@@ -87,6 +135,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3550cec8_beb1c1d7",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 891,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-06-01T09:26:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57beda7f_d683183c",
+      "range": {
+        "startLine": 891,
+        "startChar": 23,
+        "endLine": 891,
+        "endChar": 32
+      },
+      "revId": "0c6192860ea953e404ee6ae5e448aed891208555",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc97407b_7ff027f1",
@@ -110,6 +182,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b6c7fdf_0770b283",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-06-01T09:26:44Z",
+      "side": 1,
+      "message": "the idea is great but that is what the function actually does now as long as all of the computes contains the string \u0027compute\u0027 in their name 😊 the name in the search opts is treated like in grep 😊",
+      "parentUuid": "cc97407b_7ff027f1",
+      "range": {
+        "startLine": 894,
+        "startChar": 40,
+        "endLine": 894,
+        "endChar": 48
+      },
+      "revId": "0c6192860ea953e404ee6ae5e448aed891208555",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "abf1991f_de52b325",
@@ -123,6 +219,30 @@
       "writtenOn": "2021-05-31T14:46:15Z",
       "side": 1,
       "message": "Should be just \u0027\u003e\u0027?",
+      "range": {
+        "startLine": 898,
+        "startChar": 28,
+        "endLine": 898,
+        "endChar": 30
+      },
+      "revId": "0c6192860ea953e404ee6ae5e448aed891208555",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06e2cce1_67dc480f",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-06-01T09:26:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "abf1991f_de52b325",
       "range": {
         "startLine": 898,
         "startChar": 28,
