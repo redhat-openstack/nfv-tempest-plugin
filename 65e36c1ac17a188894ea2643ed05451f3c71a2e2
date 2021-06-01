@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc2a3304_196a12f2",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 34
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-06-01T11:06:55Z",
+      "side": 1,
+      "message": "Doesn\u0027t it create a mess to modify the list you are currently iterating on?",
+      "range": {
+        "startLine": 85,
+        "startChar": 24,
+        "endLine": 85,
+        "endChar": 39
+      },
+      "revId": "65e36c1ac17a188894ea2643ed05451f3c71a2e2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
