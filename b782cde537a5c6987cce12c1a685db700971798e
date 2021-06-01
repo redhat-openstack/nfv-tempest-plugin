@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "f5b9f6bf_fa295360",
         "filename": "docs/tests_config.yml.sample",
@@ -20,10 +21,34 @@
         "endChar": 12
       },
       "revId": "b782cde537a5c6987cce12c1a685db700971798e",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11da4afe_58efe8ce",
+        "filename": "docs/tests_config.yml.sample",
+        "patchSetId": 11
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-06-01T10:48:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f5b9f6bf_fa295360",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 12
+      },
+      "revId": "b782cde537a5c6987cce12c1a685db700971798e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "4f130a8f_b6f9477a",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
@@ -43,10 +68,10 @@
         "endChar": 54
       },
       "revId": "b782cde537a5c6987cce12c1a685db700971798e",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7ca74dc6_512b89a9",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
@@ -67,10 +92,10 @@
         "endChar": 54
       },
       "revId": "b782cde537a5c6987cce12c1a685db700971798e",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "a7912c80_2549019c",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
@@ -91,10 +116,10 @@
         "endChar": 54
       },
       "revId": "b782cde537a5c6987cce12c1a685db700971798e",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "4c539041_f912b5a6",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
@@ -115,10 +140,10 @@
         "endChar": 54
       },
       "revId": "b782cde537a5c6987cce12c1a685db700971798e",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c9c8eed9_69c5ecd5",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
@@ -139,10 +164,34 @@
         "endChar": 54
       },
       "revId": "b782cde537a5c6987cce12c1a685db700971798e",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20b644d2_e79bd844",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-06-01T10:48:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9c8eed9_69c5ecd5",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 54
+      },
+      "revId": "b782cde537a5c6987cce12c1a685db700971798e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "eb929f22_bb26ac52",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
@@ -162,10 +211,10 @@
         "endChar": 72
       },
       "revId": "b782cde537a5c6987cce12c1a685db700971798e",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "6b01f152_4cc731cb",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
@@ -186,10 +235,10 @@
         "endChar": 72
       },
       "revId": "b782cde537a5c6987cce12c1a685db700971798e",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "0758b8a3_77a77c8b",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
@@ -210,8 +259,7 @@
         "endChar": 72
       },
       "revId": "b782cde537a5c6987cce12c1a685db700971798e",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": false
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
