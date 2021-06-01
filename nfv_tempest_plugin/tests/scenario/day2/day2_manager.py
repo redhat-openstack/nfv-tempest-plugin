@@ -37,10 +37,8 @@ class Day2Manager(base_test.BaseTest):
                                                         '%Y-%m-%dT%H:%M:%SZ')
         if not hypervisors_ip:
             LOG.info('Fetching overcloud hypervisors ip addresses')
-            hyper_kwargs = {'shell':
-                            CONF.nfv_plugin_options.undercloud_rc_file}
-            hypervisors_ip = self._get_hypervisor_ip_from_undercloud(
-                **hyper_kwargs)
+
+            hypervisors_ip = self._get_hypervisor_ip_from_undercloud()
 
         rebooted_hypervisors = []
         for hypervisor in hypervisors_ip:
