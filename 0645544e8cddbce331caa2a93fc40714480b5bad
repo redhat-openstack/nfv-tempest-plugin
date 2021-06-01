@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c9065022_e8346ca9",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-06-01T10:16:45Z",
+      "side": 1,
+      "message": "the default config is as following:\ncfg.ListOpt(\u0027ovs_test_bonds\u0027,\n                default\u003d[],\n\nIs empty by default, what do you expect to have here?",
+      "parentUuid": "4d7748b8_c5b47fa9",
+      "range": {
+        "startLine": 55,
+        "startChar": 28,
+        "endLine": 55,
+        "endChar": 67
+      },
+      "revId": "0645544e8cddbce331caa2a93fc40714480b5bad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd9a2824_f06e5d3a",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
         "patchSetId": 28
@@ -121,6 +145,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1a462b30_fc39bf94",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-06-01T10:16:45Z",
+      "side": 1,
+      "message": "from nfv_tempest_plugin.tests.scenario import base_test\n\nAnd your test class is BaseTest\nPlease refer where the clients are intialized \n\nhttps://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/nfv_tempest_plugin/tests/scenario/base_test.py\n\nlooking in 2nd time, you should have the clients already, did not you find it?",
+      "parentUuid": "47ad6bd0_ff090de7",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 61,
+        "endChar": 52
+      },
+      "revId": "0645544e8cddbce331caa2a93fc40714480b5bad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6bbc0d79_d2a583e1",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
         "patchSetId": 28
@@ -168,6 +216,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "16555d11_b235c2a5",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-06-01T10:16:45Z",
+      "side": 1,
+      "message": "l(75) l(101) Is there any difference between them? \n\nOne is fetching the data, the other do the check, correct?\n\nCan you see the difference? any way you are not saving any time while running on servers.\n\nYou are discovering bond in line(74), so you could iterate the the servers for fetching the data, could be one method, could it be used for other tests later on?\n\n\n2nd part is not related to servers at all, it is all clients commands",
+      "parentUuid": "96c953a9_f01f7e29",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 67,
+        "endChar": 30
+      },
+      "revId": "0645544e8cddbce331caa2a93fc40714480b5bad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fdee10e6_427e3695",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
         "patchSetId": 28
@@ -203,6 +275,30 @@
       "side": 1,
       "message": "This is assuming that the value is populated (something that we have checked at the start of the test).",
       "parentUuid": "fdee10e6_427e3695",
+      "range": {
+        "startLine": 79,
+        "startChar": 34,
+        "endLine": 79,
+        "endChar": 77
+      },
+      "revId": "0645544e8cddbce331caa2a93fc40714480b5bad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8361bec6_98286546",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-06-01T10:16:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cd7531cd_42bb501c",
       "range": {
         "startLine": 79,
         "startChar": 34,
