@@ -163,6 +163,10 @@ class ManagerMixin(object):
                 self.test_setup_dict[test['name']]['qos_rules'] = \
                     jsonutils.loads(jsonutils.dumps(test['qos_rules']))
 
+            if 'data_network' in test and test['data_network'] is not None:
+                self.test_setup_dict[test['name']]['data_network'] = \
+                    test['data_network']
+
         if not os.path.exists(
                 CONF.nfv_plugin_options.external_resources_output_file):
             # iterate flavors_id
