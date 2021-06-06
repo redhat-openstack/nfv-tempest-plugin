@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80914d0d_d98594e8",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-06-06T18:44:38Z",
+      "side": 1,
+      "message": "@Yariv it is empty and the expectation is to have a list of interfaces that are located on top of OVS bonds.\n\n@Maxim I tried to think about it.\nPlease let me know if this is the intended flow:\nNeutron network API --\u003e Physnet name --\u003e os-net-config mapping --\u003e OVS bond name.\nIs there a more optimal way?",
+      "parentUuid": "3717776a_e943dbc2",
+      "range": {
+        "startLine": 55,
+        "startChar": 28,
+        "endLine": 55,
+        "endChar": 67
+      },
+      "revId": "0645544e8cddbce331caa2a93fc40714480b5bad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd9a2824_f06e5d3a",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
         "patchSetId": 28
@@ -193,6 +217,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "df58f874_f6be69b1",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-06-06T18:44:38Z",
+      "side": 1,
+      "message": "I did not see those clients exposed but I will try to look again, would you mind showing me an example where this is used perhaps?",
+      "parentUuid": "1a462b30_fc39bf94",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 61,
+        "endChar": 52
+      },
+      "revId": "0645544e8cddbce331caa2a93fc40714480b5bad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6bbc0d79_d2a583e1",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
         "patchSetId": 28
@@ -252,6 +300,30 @@
       "side": 1,
       "message": "l(75) l(101) Is there any difference between them? \n\nOne is fetching the data, the other do the check, correct?\n\nCan you see the difference? any way you are not saving any time while running on servers.\n\nYou are discovering bond in line(74), so you could iterate the the servers for fetching the data, could be one method, could it be used for other tests later on?\n\n\n2nd part is not related to servers at all, it is all clients commands",
       "parentUuid": "96c953a9_f01f7e29",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 67,
+        "endChar": 30
+      },
+      "revId": "0645544e8cddbce331caa2a93fc40714480b5bad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42194400_2339dde6",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-06-06T18:44:38Z",
+      "side": 1,
+      "message": "Yea, on first iteration (line 75) we are discovering all OVS bonds which can be all types (although we are only supporting active-backup).\n\nSecond iteration (line 101) is running specific shell commands if we have several bond interfaces attached to the guest.\n\nAny suggestions?",
+      "parentUuid": "16555d11_b235c2a5",
       "range": {
         "startLine": 67,
         "startChar": 5,
