@@ -122,6 +122,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4e9d1d37_ba5a5a31",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-06-07T09:15:28Z",
+      "side": 1,
+      "message": "I though about the same flow.\nI would try to avoid manual input into the test if it could be taken automatically.",
+      "parentUuid": "80914d0d_d98594e8",
+      "range": {
+        "startLine": 55,
+        "startChar": 28,
+        "endLine": 55,
+        "endChar": 67
+      },
+      "revId": "0645544e8cddbce331caa2a93fc40714480b5bad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd9a2824_f06e5d3a",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
         "patchSetId": 28
