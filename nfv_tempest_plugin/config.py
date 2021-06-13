@@ -59,6 +59,9 @@ NfvPluginOptions = [
     cfg.StrOpt('quota_ram',
                default=81920,
                help="The numbers of ram for the tenant use"),
+    cfg.StrOpt('quota_instances',
+               default=100,
+               help="The numbers of instances for the tenant use"),
     cfg.IntOpt('instance_def_gw_mtu',
                default=None,
                help="The default gateway mtu value for the instance to be "

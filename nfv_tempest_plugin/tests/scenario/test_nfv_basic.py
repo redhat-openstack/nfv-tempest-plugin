@@ -39,7 +39,7 @@ class TestNfvBasic(base_test.BaseTest):
         super(TestNfvBasic, self).setUp()
         # pre setup creations and checks read from config files
 
-    def test_hypervisor_tuning(self):
+    def test_hypervisor_tuning(self, test='hypervisor_tuning'):
         """Test tuning state of hypervisor
 
         Test the following states:
