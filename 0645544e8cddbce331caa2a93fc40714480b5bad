@@ -265,6 +265,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "89ae102e_96ade648",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-06-14T14:45:37Z",
+      "side": 1,
+      "message": "You should it should be see base_test code \nget_client_manager, you should implement this method. call super and then you should see all clients",
+      "parentUuid": "df58f874_f6be69b1",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 61,
+        "endChar": 52
+      },
+      "revId": "0645544e8cddbce331caa2a93fc40714480b5bad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6bbc0d79_d2a583e1",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
         "patchSetId": 28
@@ -348,6 +372,30 @@
       "side": 1,
       "message": "Yea, on first iteration (line 75) we are discovering all OVS bonds which can be all types (although we are only supporting active-backup).\n\nSecond iteration (line 101) is running specific shell commands if we have several bond interfaces attached to the guest.\n\nAny suggestions?",
       "parentUuid": "16555d11_b235c2a5",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 67,
+        "endChar": 30
+      },
+      "revId": "0645544e8cddbce331caa2a93fc40714480b5bad",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39d51bb0_13d3998f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_ovs_usecases.py",
+        "patchSetId": 28
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-06-14T14:45:37Z",
+      "side": 1,
+      "message": "\u003e Yea, on first iteration (line 75) we are discovering all OVS bonds which can be all types (although we are only supporting active-backup).\n\u003e \n\u003e Second iteration (line 101) is running specific shell commands if we have several bond interfaces attached to the guest.\n\u003e \n\u003e Any suggestions?\nAs written above, you could skip all logic inside the servers for loop\n\nsee discover is running ssh command on hypervisors\nyou iterate the bonds from machine\n\nonce bond is in machine bonds, this is part of test preparations\nYou already have ovs_bonds.node which is the ip of hypervisor.\nso you could maintain list of ovs_bonds\n\nOn (line 91) the test begin\nI would consider removing test from the servers loop\nin a loob on ovs_bonds, all the data is there\n\nFrom reading the code, you can use the hypervisor name to see all guests deployed on it\n\nsuch as host filter\nopenstack server list --all --host ${HOST}",
+      "parentUuid": "42194400_2339dde6",
       "range": {
         "startLine": 67,
         "startChar": 5,
