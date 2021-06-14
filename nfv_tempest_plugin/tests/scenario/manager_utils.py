@@ -884,9 +884,10 @@ class ManagerMixin(object):
             except IndexError:
                 raise IndexError('Seems like there is no server with id: '
                                  f'{kwargs["server_id"]}')
-            search_opts = {'name': hyper_name}
+            search_opts = {'name': hyper_name.split('.')[0],
+                           'all_tenants': True}
         else:
-            if kwargs['hyper_name']:
+            if 'hyper_name' in kwargs:
                 search_opts = {'name': kwargs['hyper_name'],
                                'all_tenants': True}
             else:
