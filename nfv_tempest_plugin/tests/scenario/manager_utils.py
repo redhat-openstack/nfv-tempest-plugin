@@ -22,7 +22,7 @@ import time
 import xml.etree.ElementTree as ELEMENTTree
 import yaml
 
-from nfv_tempest_plugin.services.nova_client import NovaClient
+from nfv_tempest_plugin.services.os_clients import OsClients
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from oslo_log import log
 from oslo_serialization import jsonutils
@@ -872,25 +872,29 @@ class ManagerMixin(object):
         """
         ip_addresses = []
         search_opts = {}
-        nova_client = NovaClient.set_nova_clients()
+        nova_client = OsClients()
         if 'server_id' in kwargs:
             try:
                 hyper_name = nova_client\
                     .novaclient_overcloud.servers.list(
-                        search_opts={'uuid': kwargs['server_id']})[0]\
-                    .__dict__['OS-EXT-SRV-ATTR:hypervisor_hostname']
+                        search_opts={'uuid': kwargs['server_id'],
+                                     'all_tenants': True}
+                        )[0].__dict__['OS-EXT-SRV-ATTR:'
+                                      'hypervisor_hostname']
             except IndexError:
                 raise IndexError('Seems like there is no server with id: '
                                  f'{kwargs["server_id"]}')
             search_opts = {'name': hyper_name}
         else:
             if kwargs['hyper_name']:
-                search_opts = {'name': kwargs['hyper_name']}
+                search_opts = {'name': kwargs['hyper_name'],
+                               'all_tenants': True}
             else:
-                search_opts = {'name': 'compute'}
+                search_opts = {'name': 'compute', 'all_tenants': True}
 
-        hypervisors = nova_client\
-            .novaclient_undercloud.servers.list(search_opts=search_opts)
+        hypervisors =\
+            nova_client.novaclient_undercloud\
+            .servers.list(search_opts=search_opts)
         if len(hypervisors) > 0:
             for hypervisor in hypervisors:
                 ip_addresses.append(hypervisor
