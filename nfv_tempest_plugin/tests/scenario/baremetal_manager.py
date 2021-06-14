@@ -123,7 +123,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             self.os_admin.quotas_client.update_quota_set(
                 self.os_primary.tenants_client.tenant_id,
                 cores=CONF.nfv_plugin_options.quota_cores,
-                ram=CONF.nfv_plugin_options.quota_ram)
+                ram=CONF.nfv_plugin_options.quota_ram,
+                instances=CONF.nfv_plugin_options.quota_instances)
 
     @classmethod
     def resource_setup(cls):

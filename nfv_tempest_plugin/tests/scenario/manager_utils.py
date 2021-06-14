@@ -282,13 +282,15 @@ class ManagerMixin(object):
                      for vcpu in vcpupin if vcpu is not None]
         vcpu_total_list = list()
         for vcpu in vcpu_list:
-            if ',' in vcpu or '-' in vcpu:
-                sep = ',' if ',' in vcpu else '-'
-                split_list = vcpu.split(sep) if sep in vcpu else None
-                if '-' in vcpu:
-                    split_list = list(range(int(split_list[0]),
-                                            int(split_list[1]) + 1))
-                vcpu_total_list.extend(split_list)
+            split_list = vcpu.split(',')
+            for cpu in split_list:
+                if '-' in cpu:
+                    splited_cpu = cpu.split('-')
+                    cpus = list(range(int(splited_cpu[0]),
+                                      int(splited_cpu[1]) + 1))
+                    vcpu_total_list.extend(cpus)
+                else:
+                    vcpu_total_list.append(cpu)
         if vcpu_total_list:
             vcpu_list = vcpu_total_list
         vcpu_final_list = [int(vcpu) for vcpu in vcpu_list]
