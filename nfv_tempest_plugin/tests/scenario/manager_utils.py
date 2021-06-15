@@ -979,58 +979,29 @@ class ManagerMixin(object):
                 {'numa_node': numa_aware_tun[0]}
         return numa_physnets
 
-    def list_available_resources_on_hypervisor(self, hypervisor):
+    def list_available_resources_on_hypervisor(self, hypervisor_name, nps=1, cpu_ratio=1):
         """List available CPU and RAM on dedicated hypervisor"""
-        hyp_list = self.os_admin.hypervisor_client.list_hypervisors()[
-            'hypervisors']
-        if not any(hypervisor in a['hypervisor_hostname'] for a in hyp_list):
-            raise ValueError('Specifyed hypervisor has not been found.')
+        nc = OsClients()
+        hypervisors = \
+            nc.novaclient_overcloud.hypervisors.search(hypervisor_name)
+        
+        self.assertTrue(hypervisors, 
+            f'no hypervisor conataining {hypervisor_name} were found' 
+            if hypervisor_name else 'no hypervisors were found')
 
-        osp_release = self.get_osp_release()
-        if osp_release >= 16:
-            cmd = "openstack hypervisor list -c ID -c " \
-                  "'Hypervisor Hostname' --format value"
-            hypers = shell_utils.\
-                run_local_cmd_shell_with_venv(cmd,
-                                              '/home/stack/overcloudrc')
-            host_id = None
-            for hyper_id, hostname in zip(hypers[::2], hypers[1::2]):
-                if hostname in hypervisor:
-                    host_id = hyper_id
-            hyper_resources = {'resources': 'VCPU:1,PCPU:1,MEMORY_MB:1'}
-            hyper_info = \
-                self.os_admin.placement_client.list_allocation_candidates(
-                    **hyper_resources)
-            hyper_info = hyper_info['provider_summaries'][host_id]['resources']
-            pcpu_total = hyper_info['PCPU']['capacity']
-            pcpu_used = hyper_info['PCPU']['used']
-            pcpu_free = \
-                hyper_info['PCPU']['capacity'] - hyper_info['PCPU']['used']
-            pcpu_free_per_numa = hyper_info['PCPU']['capacity'] \
-                // 2 - hyper_info['PCPU']['used']
-            vcpu_total = hyper_info['VCPU']['capacity']
-            vcpu_used = hyper_info['VCPU']['used']
-            vcpu_free = \
-                hyper_info['VCPU']['capacity'] - hyper_info['VCPU']['used']
-            vcpu_free_per_numa = hyper_info['VCPU']['capacity'] \
-                // 2 - hyper_info['VCPU']['used']
-            ram_free = (hyper_info['MEMORY_MB']['capacity']
-                        - hyper_info['MEMORY_MB']['used']) // 1024
-        else:
-            hyper_id = self.os_admin.hypervisor_client.search_hypervisor(
-                hypervisor)['hypervisors'][0]['id']
-            hyper_info = self.os_admin.hypervisor_client.show_hypervisor(
-                hyper_id)['hypervisor']
-            pcpu_total = hyper_info['vcpus']
-            pcpu_used = hyper_info['vcpus_used']
-            pcpu_free = hyper_info['vcpus'] - hyper_info['vcpus_used']
-            pcpu_free_per_numa = \
-                hyper_info['vcpus'] // 2 - hyper_info['vcpus_used']
-            vcpu_total = None
-            vcpu_used = None
-            vcpu_free = None
-            vcpu_free_per_numa = None
-            ram_free = hyper_info['free_ram_mb'] // 1024
+        cpu_info = hypervisors[0].cpu_info['topology']
+
+        pcpu_total = cpu_info['cores'] * cpu_info['cells']
+        vcpu_used = hypervisors[0].vcpus_used
+        pcpu_used = vcpu_used // cpu_info['threads']
+        pcpu_free = pcpu_total - (vcpu_used // cpu_info['threads'])
+        pcpu_free_per_numa = pcpu_free // (cpu_info['cells'] * nps)
+        vcpu_total = pcpu_total * cpu_info['threads']
+        vcpu_used = hypervisors[0].vcpus_used
+        vcpu_free = vcpu_total - vcpu_used
+        vcpu_free_per_numa = vcpu_free // (cpu_info['cells'] * nps)
+        ram_free = hypervisors[0].free_ram_mb
+
         return {'pcpu_total': pcpu_total, 'pcpu_used': pcpu_used,
                 'pcpu_free': pcpu_free,
                 'pcpu_free_per_numa': pcpu_free_per_numa,
@@ -1038,6 +1009,7 @@ class ManagerMixin(object):
                 'vcpu_free': vcpu_free,
                 'vcpu_free_per_numa': vcpu_free_per_numa,
                 'ram_free': ram_free}
+
 
     def discover_deployment_network_backend(self, node=None):
         """Locate deployment's network backend
