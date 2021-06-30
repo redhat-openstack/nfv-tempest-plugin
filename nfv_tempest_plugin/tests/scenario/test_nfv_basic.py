@@ -39,7 +39,7 @@ class TestNfvBasic(base_test.BaseTest):
         super(TestNfvBasic, self).setUp()
         # pre setup creations and checks read from config files
 
-    def test_hypervisor_tuning(self):
+    def test_hypervisor_tuning(self, test='hypervisor_tuning'):
         """Test tuning state of hypervisor
 
         Test the following states:
@@ -55,9 +55,7 @@ class TestNfvBasic(base_test.BaseTest):
         tuned_profiles = tuning_details.get("tuned_profiles")
         kernel_args = tuning_details.get("kernel_args")
 
-        hyper_kwargs = {'shell': CONF.nfv_plugin_options.undercloud_rc_file}
-        self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
-            **hyper_kwargs)[0]
+        self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud()[0]
         self.assertNotEmpty(self.hypervisor_ip, "No hypervisor found")
 
         test_result = []

@@ -77,13 +77,18 @@ class TestAdvancedScenarios(base_test.BaseTest):
         numa_aware_srv = \
             self.create_server_with_fip(num_servers=srv_num_to_boot,
                                         flavor=self.flavor_ref,
-                                        networks=net_id, **kwargs)
+                                        networks=net_id, fip=False,
+                                        **kwargs)
+        fip_srv = self.create_server_with_fip(num_servers=1,
+                                              flavor=self.flavor_ref,
+                                              networks=net_id,
+                                              **kwargs)
+        numa_aware_srv.append(fip_srv[0])
         for srv in numa_aware_srv:
             LOG.info('Instance details: fip: {}, instance_id: {}'.format(
-                srv['fip'], srv['id']))
+                srv.get('fip'), srv['id']))
             srv['hypervisor_ip'] = self._get_hypervisor_ip_from_undercloud(
-                **{'shell': CONF.nfv_plugin_options.undercloud_rc_file,
-                   'server_id': srv['id']})[0]
+                **{'server_id': srv['id']})[0]
             self.assertNotEmpty(srv['hypervisor_ip'],
                                 "_get_hypervisor_ip_from_undercloud "
                                 "returned empty ip list")
@@ -139,18 +144,17 @@ class TestAdvancedScenarios(base_test.BaseTest):
                              "that state.")
         LOG.info('Migrate the instance')
         self.os_admin.servers_client.live_migrate_server(
-            server_id=numa_aware_srv[0]['id'], block_migration=True,
+            server_id=fip_srv[0]['id'], block_migration=True,
             host=hyper[1]['hypervisor_hostname'], force=True)
         waiters.wait_for_server_status(self.servers_client,
-                                       numa_aware_srv[0]['id'], 'ACTIVE')
+                                       fip_srv[0]['id'], 'ACTIVE')
         LOG.info('Verify instance connectivity after the cold migration.')
-        self.check_instance_connectivity(ip_addr=numa_aware_srv[0]['fip'],
+        self.check_instance_connectivity(ip_addr=fip_srv[0]['fip'],
                                          user=self.instance_user,
                                          key_pair=key_pair['private_key'])
         second_hyper = self._get_hypervisor_ip_from_undercloud(
-            **{'shell': CONF.nfv_plugin_options.undercloud_rc_file,
-               'server_id': numa_aware_srv[0]['id']})[0]
-        self.assertNotEqual(numa_aware_srv[0]['hypervisor_ip'], second_hyper,
+            **{'server_id': fip_srv[0]['id']})[0]
+        self.assertNotEqual(fip_srv[0]['hypervisor_ip'], second_hyper,
                             'The instance was not able to migrate to '
                             'another hypervisor')
         LOG.info('The {} instance has been migrated to the {} hypervisor'
@@ -189,8 +193,7 @@ class TestAdvancedScenarios(base_test.BaseTest):
                                          key_pair=key_pair['private_key'])
         LOG.info('Verify the migration succeeded')
         second_hyper = self._get_hypervisor_ip_from_undercloud(
-            **{'shell': CONF.nfv_plugin_options.undercloud_rc_file,
-               'server_id': srv1[0]['id']})[0]
+            **{'server_id': srv1[0]['id']})[0]
         self.assertNotEqual(srv1[0]['hypervisor_ip'], second_hyper,
                             'The instance was not able to migrate to '
                             'another hypervisor')
@@ -207,8 +210,7 @@ class TestAdvancedScenarios(base_test.BaseTest):
                                          user=self.instance_user,
                                          key_pair=key_pair['private_key'])
         srv2[0]['hypervisor_ip'] = self._get_hypervisor_ip_from_undercloud(
-            **{'shell': CONF.nfv_plugin_options.undercloud_rc_file,
-               'server_id': srv2[0]['id']})[0]
+            **{'server_id': srv2[0]['id']})[0]
         LOG.info('Boot second instance {} on the {} hypervisor'
                  .format(srv2[0]['id'], srv2[0]['hypervisor_ip']))
         srv2_vcpus = self.get_instance_vcpu(srv2[0], srv1[0]['hypervisor_ip'])
@@ -224,8 +226,7 @@ class TestAdvancedScenarios(base_test.BaseTest):
                                          user=self.instance_user,
                                          key_pair=key_pair['private_key'])
         first_hyper = self._get_hypervisor_ip_from_undercloud(
-            **{'shell': CONF.nfv_plugin_options.undercloud_rc_file,
-               'server_id': srv1[0]['id']})[0]
+            **{'server_id': srv1[0]['id']})[0]
         self.assertEqual(srv1[0]['hypervisor_ip'], first_hyper,
                          'The {} instance was not migrated back to the {} '
                          'hypervisor'. format(srv1[0]['id'], first_hyper))

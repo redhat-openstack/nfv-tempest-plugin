@@ -55,8 +55,7 @@ class TestLacpScenarios(base_test.BaseTest):
         LOG.info('Starting deployment_lacp test.')
 
         if hypervisor_ip is None:
-            hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
-                shell=CONF.nfv_plugin_options.undercloud_rc_file)[0]
+            hypervisor_ip = self._get_hypervisor_ip_from_undercloud()[0]
 
         bonding_dict = {}
         test_setup_dict = self.test_setup_dict[test]
@@ -118,6 +117,7 @@ class TestLacpScenarios(base_test.BaseTest):
            bonding_config:
              - bond_name: 'dpdkbond1'
                ports: [ 'dpdk2', 'dpdk3']
+          data_network: data
         """
         LOG.info('Starting balance_tcp test.')
 
@@ -139,17 +139,32 @@ class TestLacpScenarios(base_test.BaseTest):
                   'threshold_1': 49, 'threshold_2': 51}]
 
         bonding_dict = {}
+        data_network = ""
         test_setup_dict = self.test_setup_dict[test]
-        if 'config_dict' in test_setup_dict and \
-           'bonding_config' in test_setup_dict['config_dict']:
-            bonding_dict = test_setup_dict['config_dict']['bonding_config'][0]
+        if 'config_dict' in test_setup_dict:
+            if 'bonding_config' in test_setup_dict['config_dict']:
+                bonding_dict = \
+                    test_setup_dict['config_dict']['bonding_config'][0]
+            if 'data_network' in test_setup_dict:
+                data_network = test_setup_dict['data_network']
+
+        self.assertGreater(len(bonding_dict), 0,
+                           "Missing configuration, bonding_config not found")
+        self.assertGreater(len(data_network), 0,
+                           "Missing configuration, data_network not found")
 
         kill_cmd = '(if pgrep iperf; then sudo pkill iperf; fi;) ' \
                    '> /dev/null 2>&1'
         receive_cmd = '(if pgrep iperf; then sudo pkill iperf; fi;' \
                       ' sudo iperf -s -u) > /dev/null 2>&1 &'
         srv = self.os_admin.servers_client.list_addresses(servers[1]['id'])
-        server_addr = list(srv['addresses'].items())[1][1][0]['addr']
+        server_network = [net for net in srv['addresses'].items()
+                          if net[0] == data_network]
+        self.assertEqual(len(server_network), 1,
+                         "VM must have a port connected "
+                         "to {}".format(data_network))
+        server_addr = server_network[0][1][0]['addr']
+
         for test in tests:
             send_cmd = '(if pgrep iperf; then sudo pkill iperf; fi;' \
                        ' sudo iperf -c {} {} -u -t 1000) > /dev/null 2>&1 &' \
@@ -212,8 +227,7 @@ class TestLacpScenarios(base_test.BaseTest):
         """
         LOG.info('Starting restart_ovs test.')
 
-        hypervisor_ip = self._get_hypervisor_ip_from_undercloud(
-            shell=CONF.nfv_plugin_options.undercloud_rc_file)[0]
+        hypervisor_ip = self._get_hypervisor_ip_from_undercloud()[0]
 
         cmd = 'sudo systemctl restart openvswitch.service'
         shell_utils.run_command_over_ssh(hypervisor_ip, cmd)

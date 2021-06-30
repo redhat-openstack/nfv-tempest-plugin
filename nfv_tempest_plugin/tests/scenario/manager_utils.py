@@ -22,6 +22,7 @@ import time
 import xml.etree.ElementTree as ELEMENTTree
 import yaml
 
+from nfv_tempest_plugin.services.os_clients import OsClients
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from oslo_log import log
 from oslo_serialization import jsonutils
@@ -163,6 +164,10 @@ class ManagerMixin(object):
                 self.test_setup_dict[test['name']]['qos_rules'] = \
                     jsonutils.loads(jsonutils.dumps(test['qos_rules']))
 
+            if 'data_network' in test and test['data_network'] is not None:
+                self.test_setup_dict[test['name']]['data_network'] = \
+                    test['data_network']
+
         if not os.path.exists(
                 CONF.nfv_plugin_options.external_resources_output_file):
             # iterate flavors_id
@@ -205,10 +210,7 @@ class ManagerMixin(object):
         :return OSP version integer
         """
         if not hypervisor:
-            hyper_kwargs = {'shell':
-                            CONF.nfv_plugin_options.undercloud_rc_file}
-            hypervisor = self._get_hypervisor_ip_from_undercloud(
-                **hyper_kwargs)[0]
+            hypervisor = self._get_hypervisor_ip_from_undercloud()[0]
         ver = shell_utils.\
             run_command_over_ssh(hypervisor, 'cat /etc/rhosp-release')
         if ver == '':
@@ -280,13 +282,15 @@ class ManagerMixin(object):
                      for vcpu in vcpupin if vcpu is not None]
         vcpu_total_list = list()
         for vcpu in vcpu_list:
-            if ',' in vcpu or '-' in vcpu:
-                sep = ',' if ',' in vcpu else '-'
-                split_list = vcpu.split(sep) if sep in vcpu else None
-                if '-' in vcpu:
-                    split_list = list(range(int(split_list[0]),
-                                            int(split_list[1]) + 1))
-                vcpu_total_list.extend(split_list)
+            split_list = vcpu.split(',')
+            for cpu in split_list:
+                if '-' in cpu:
+                    splited_cpu = cpu.split('-')
+                    cpus = list(range(int(splited_cpu[0]),
+                                      int(splited_cpu[1]) + 1))
+                    vcpu_total_list.extend(cpus)
+                else:
+                    vcpu_total_list.append(cpu)
         if vcpu_total_list:
             vcpu_list = vcpu_total_list
         vcpu_final_list = [int(vcpu) for vcpu in vcpu_list]
@@ -397,9 +401,7 @@ class ManagerMixin(object):
         :return Two lists of dedicated and shared cpus set
         """
         if not node:
-            hyper_kwargs = {'shell':
-                            CONF.nfv_plugin_options.undercloud_rc_file}
-            node = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)[0]
+            node = self._get_hypervisor_ip_from_undercloud()[0]
         if not keys:
             hiera_dedicated_cpus = "nova::compute::cpu_dedicated_set"
             hiera_shared_cpus = "nova::compute::cpu_shared_set"
@@ -490,8 +492,7 @@ class ManagerMixin(object):
 
     def check_number_queues(self):
         """This method checks the number of max queues"""
-        self.ip_address = self._get_hypervisor_ip_from_undercloud(
-            **{'shell': CONF.nfv_plugin_options.undercloud_rc_file})
+        self.ip_address = self._get_hypervisor_ip_from_undercloud()
         ovs_process_pid = shell_utils.check_pid_ovs(self.ip_address[0])
         count_pmd = "ps -T -p {} | grep pmd | wc -l".format(ovs_process_pid)
         numpmds = int(shell_utils.run_command_over_ssh(self.ip_address[0],
@@ -731,8 +732,7 @@ class ManagerMixin(object):
                            one
         :return statistics
         """
-        self.ip_address = self._get_hypervisor_ip_from_undercloud(
-            **{'shell': CONF.nfv_plugin_options.undercloud_rc_file})
+        self.ip_address = self._get_hypervisor_ip_from_undercloud()
         hypervisor_ip = self.ip_address[0]
         if hypervisor is not None:
             if hypervisor not in self.ip_address:
@@ -776,8 +776,7 @@ class ManagerMixin(object):
                            one
         :return multicast groups
         """
-        self.ip_address = self._get_hypervisor_ip_from_undercloud(
-            **{'shell': CONF.nfv_plugin_options.undercloud_rc_file})
+        self.ip_address = self._get_hypervisor_ip_from_undercloud()
         hypervisor_ip = self.ip_address[0]
         if hypervisor is not None:
             if hypervisor not in self.ip_address:
@@ -870,58 +869,44 @@ class ManagerMixin(object):
         Add support in case of NoAggregation, and Hypervisor list is not empty
         if host=None, no aggregation, or name=None and if hypervisor list has
         one member return the member
-        :param kwargs['shell']
         :param kwargs['server_id']
-        :param kwargs['aggregation_name']
         :param kwargs['hyper_name']
         """
-        host = None
-        ip_address = ''
-        if 'aggregation_name' in kwargs:
-            host = self._list_aggregate(kwargs['aggregation_name'])
-
-        hyper = self.manager.hypervisor_client.list_hypervisors()
-        """
-        if hosts in aggregations
-        """
-        if host:
-            host_name = re.split(r"\.", host[0])[0]
-            if host_name is None:
-                host_name = host
-
-            for i in hyper['hypervisors']:
-                if i['hypervisor_hostname'] == host[0]:
-                    command = 'openstack ' \
-                              'server show ' + host_name + \
-                              ' -c \'addresses\' -f value | cut -d\"=\" -f2'
-                    ip_address = shell_utils.\
-                        run_local_cmd_shell_with_venv(command,
-                                                      kwargs['shell'])
+        ip_addresses = []
+        search_opts = {}
+        nova_client = OsClients()
+        if 'server_id' in kwargs:
+            try:
+                hyper_name = nova_client\
+                    .novaclient_overcloud.servers.list(
+                        search_opts={'uuid': kwargs['server_id'],
+                                     'all_tenants': True}
+                        )[0].__dict__['OS-EXT-SRV-ATTR:'
+                                      'hypervisor_hostname']
+            except IndexError:
+                raise IndexError('Seems like there is no server with id: '
+                                 f'{kwargs["server_id"]}')
+            search_opts = {'name': hyper_name.split('.')[0],
+                           'all_tenants': True}
         else:
-            """
-            no hosts in aggregations, select with 'server_id' in kwargs
-            """
-            compute = 'compute'
             if 'hyper_name' in kwargs:
-                compute = kwargs['hyper_name']
-            if 'server_id' in kwargs:
-                server = self. \
-                    os_admin.servers_client.show_server(kwargs['server_id'])
-                compute = \
-                    server['server']['OS-EXT-SRV-ATTR:host'].partition('.')[0]
+                search_opts = {'name': kwargs['hyper_name'],
+                               'all_tenants': True}
+            else:
+                search_opts = {'name': 'compute', 'all_tenants': True}
 
-            for i in hyper['hypervisors']:
-                if i['state'] == 'up':
-                    if i['hypervisor_hostname'].split(".")[0] == compute:
-                        compute = i['hypervisor_hostname'].split(".")[0]
-                    command = 'openstack server list -c \'Name\' -c ' \
-                              '\'Networks\' -f value | grep -i {0} | ' \
-                              'cut -d\"=\" -f2'.format(compute)
-                    ip_address = shell_utils.\
-                        run_local_cmd_shell_with_venv(command,
-                                                      kwargs['shell'])
+        hypervisors =\
+            nova_client.novaclient_undercloud\
+            .servers.list(search_opts=search_opts)
+        if len(hypervisors) > 0:
+            for hypervisor in hypervisors:
+                ip_addresses.append(hypervisor
+                                    .addresses['ctlplane'][0]['addr'])
+        else:
+            raise AssertionError('No hypervisor with '
+                                 'matching pattern were found')
 
-        return ip_address
+        return ip_addresses
 
     def locate_ovs_physnets(self, node=None, keys=None):
         """Locate ovs existing physnets
@@ -934,9 +919,7 @@ class ManagerMixin(object):
         :return The numa physnets dict is returned
         """
         if node is None:
-            hyper_kwargs = {'shell':
-                            CONF.nfv_plugin_options.undercloud_rc_file}
-            node = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)[0]
+            node = self._get_hypervisor_ip_from_undercloud()[0]
         network_backend = self.discover_deployment_network_backend(node=node)
         if not keys:
             if network_backend == 'ovs':
@@ -999,58 +982,34 @@ class ManagerMixin(object):
                 {'numa_node': numa_aware_tun[0]}
         return numa_physnets
 
-    def list_available_resources_on_hypervisor(self, hypervisor):
+    def list_available_resources_on_hypervisor(self, hypervisor_name, nps=1):
         """List available CPU and RAM on dedicated hypervisor"""
-        hyp_list = self.os_admin.hypervisor_client.list_hypervisors()[
-            'hypervisors']
-        if not any(hypervisor in a['hypervisor_hostname'] for a in hyp_list):
-            raise ValueError('Specifyed hypervisor has not been found.')
+        nc = OsClients()
+        hypervisors = \
+            nc.novaclient_overcloud.hypervisors.list(hypervisor_name)
 
-        osp_release = self.get_osp_release()
-        if osp_release >= 16:
-            cmd = "openstack hypervisor list -c ID -c " \
-                  "'Hypervisor Hostname' --format value"
-            hypers = shell_utils.\
-                run_local_cmd_shell_with_venv(cmd,
-                                              '/home/stack/overcloudrc')
-            host_id = None
-            for hyper_id, hostname in zip(hypers[::2], hypers[1::2]):
-                if hostname in hypervisor:
-                    host_id = hyper_id
-            hyper_resources = {'resources': 'VCPU:1,PCPU:1,MEMORY_MB:1'}
-            hyper_info = \
-                self.os_admin.placement_client.list_allocation_candidates(
-                    **hyper_resources)
-            hyper_info = hyper_info['provider_summaries'][host_id]['resources']
-            pcpu_total = hyper_info['PCPU']['capacity']
-            pcpu_used = hyper_info['PCPU']['used']
-            pcpu_free = \
-                hyper_info['PCPU']['capacity'] - hyper_info['PCPU']['used']
-            pcpu_free_per_numa = hyper_info['PCPU']['capacity'] \
-                // 2 - hyper_info['PCPU']['used']
-            vcpu_total = hyper_info['VCPU']['capacity']
-            vcpu_used = hyper_info['VCPU']['used']
-            vcpu_free = \
-                hyper_info['VCPU']['capacity'] - hyper_info['VCPU']['used']
-            vcpu_free_per_numa = hyper_info['VCPU']['capacity'] \
-                // 2 - hyper_info['VCPU']['used']
-            ram_free = (hyper_info['MEMORY_MB']['capacity']
-                        - hyper_info['MEMORY_MB']['used']) // 1024
-        else:
-            hyper_id = self.os_admin.hypervisor_client.search_hypervisor(
-                hypervisor)['hypervisors'][0]['id']
-            hyper_info = self.os_admin.hypervisor_client.show_hypervisor(
-                hyper_id)['hypervisor']
-            pcpu_total = hyper_info['vcpus']
-            pcpu_used = hyper_info['vcpus_used']
-            pcpu_free = hyper_info['vcpus'] - hyper_info['vcpus_used']
-            pcpu_free_per_numa = \
-                hyper_info['vcpus'] // 2 - hyper_info['vcpus_used']
-            vcpu_total = None
-            vcpu_used = None
-            vcpu_free = None
-            vcpu_free_per_numa = None
-            ram_free = hyper_info['free_ram_mb'] // 1024
+        for hypervisor in hypervisors:
+            if hypervisor_name in hypervisor.hypervisor_hostname:
+                hypervisors = hypervisor
+
+        self.assertTrue(hypervisors,
+                        'no hypervisor conataining '
+                        f'{hypervisor_name} were found'
+                        if hypervisor_name else 'no hypervisors were found')
+
+        cpu_info = hypervisors.cpu_info['topology']
+
+        pcpu_total = cpu_info['cores'] * cpu_info['cells']
+        vcpu_used = hypervisors.vcpus_used
+        pcpu_used = vcpu_used // cpu_info['threads']
+        pcpu_free = pcpu_total - (vcpu_used // cpu_info['threads'])
+        pcpu_free_per_numa = pcpu_free // (cpu_info['cells'] * nps)
+        vcpu_total = pcpu_total * cpu_info['threads']
+        vcpu_used = hypervisors.vcpus_used
+        vcpu_free = vcpu_total - vcpu_used
+        vcpu_free_per_numa = vcpu_free // (cpu_info['cells'] * nps)
+        ram_free = hypervisors.free_ram_mb
+
         return {'pcpu_total': pcpu_total, 'pcpu_used': pcpu_used,
                 'pcpu_free': pcpu_free,
                 'pcpu_free_per_numa': pcpu_free_per_numa,
@@ -1074,9 +1033,7 @@ class ManagerMixin(object):
             'enabled_services'
         ]
         if node is None:
-            hyper_kwargs = {'shell':
-                            CONF.nfv_plugin_options.undercloud_rc_file}
-            node = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)[0]
+            node = self._get_hypervisor_ip_from_undercloud()[0]
         hiera_response = \
             shell_utils.retrieve_content_from_hiera(node=node,
                                                     keys=hieradata_keys)
@@ -1166,9 +1123,7 @@ class ManagerMixin(object):
         """
         passthrough_nics = {}
         if nodes is None:
-            hyper_kwargs = \
-                {'shell': CONF.nfv_plugin_options.undercloud_rc_file}
-            nodes = self._get_hypervisor_ip_from_undercloud(**hyper_kwargs)
+            nodes = self._get_hypervisor_ip_from_undercloud()
         key = ["nova::compute::pci::passthrough"]
         for node in nodes:
             passthrough_nics[node] = {}
