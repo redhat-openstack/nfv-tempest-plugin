@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d2e6995_eb1cc3c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-06-30T09:54:54Z",
+      "side": 1,
+      "message": "Please, add more description to the commit message.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "be0a5cae4cf95ab1630c49bbd34535a16b31137f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7216046f_943c527d",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-06-30T09:54:54Z",
+      "side": 1,
+      "message": "Why do we need to run it from admin?",
+      "range": {
+        "startLine": 173,
+        "startChar": 44,
+        "endLine": 173,
+        "endChar": 52
+      },
+      "revId": "be0a5cae4cf95ab1630c49bbd34535a16b31137f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
