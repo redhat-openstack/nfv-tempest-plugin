@@ -45,6 +45,30 @@
       },
       "revId": "be0a5cae4cf95ab1630c49bbd34535a16b31137f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf9ee9ce_d158551f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-06-30T12:24:50Z",
+      "side": 1,
+      "message": "Since we are receiving the following error\nDetails: {u\u0027message\u0027: u\u0027Instance 70c46472-5402-4d39-ad17-22152672c986 could not be found.\u0027, u\u0027code\u0027: 404}\n\nIt is not see with tenant cli\n\nPlease refer line 171, for migration operation same cli",
+      "parentUuid": "7216046f_943c527d",
+      "range": {
+        "startLine": 173,
+        "startChar": 44,
+        "endLine": 173,
+        "endChar": 52
+      },
+      "revId": "be0a5cae4cf95ab1630c49bbd34535a16b31137f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
