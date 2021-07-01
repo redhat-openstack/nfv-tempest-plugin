@@ -69,6 +69,30 @@
       },
       "revId": "be0a5cae4cf95ab1630c49bbd34535a16b31137f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88200781_94ea10a8",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-07-01T08:47:50Z",
+      "side": 1,
+      "message": "ack.\nPlease, add more details to the patch comment.",
+      "parentUuid": "bf9ee9ce_d158551f",
+      "range": {
+        "startLine": 173,
+        "startChar": 44,
+        "endLine": 173,
+        "endChar": 52
+      },
+      "revId": "be0a5cae4cf95ab1630c49bbd34535a16b31137f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
