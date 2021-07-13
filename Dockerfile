@@ -5,7 +5,7 @@ LABEL summary="tempest with nfv-plugin for OpenStack Platform"
 
 USER default
 
-COPY ./ /opt/app-root/
+COPY ./ /opt/app-root/nfv-tempest-plugin
 
 RUN pip3 install --upgrade pip setuptools \
  && pip3 install -e /opt/app-root/nfv-tempest-plugin \
