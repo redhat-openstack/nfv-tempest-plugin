@@ -170,7 +170,7 @@ class TestNfvBasic(base_test.BaseTest):
         LOG.info('Starting the cold migration.')
         self.os_admin.servers_client. \
             migrate_server(server_id=servers[0]['id'])
-        waiters.wait_for_server_status(self.servers_client,
+        waiters.wait_for_server_status(self.os_admin.servers_client,
                                        servers[0]['id'], 'VERIFY_RESIZE')
         LOG.info('Confirm instance resize after the cold migration.')
         self.servers_client.confirm_resize_server(server_id=servers[0]['id'])
