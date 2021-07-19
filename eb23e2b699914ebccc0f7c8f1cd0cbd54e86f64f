@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3094c52f_d2d59825",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-07-19T17:51:36Z",
+      "side": 1,
+      "message": "Doesn\u0027t such change makes that test useless?\nMaybe instead we should not perform this check on the ovn job until that bz is fixed.\nIt could done by simply provide:\nenable_test_all_provider_networks: false\nwithin the tempest.conf for the ovn job.\n\nAt least for the ovs job, it will check the 0% packet loss.",
+      "range": {
+        "startLine": 1031,
+        "startChar": 27,
+        "endLine": 1031,
+        "endChar": 38
+      },
+      "revId": "eb23e2b699914ebccc0f7c8f1cd0cbd54e86f64f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
