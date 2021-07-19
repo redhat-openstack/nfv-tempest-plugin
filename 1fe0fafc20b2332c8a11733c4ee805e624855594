@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f02d5c36_1caf0518",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-07-19T18:41:26Z",
+      "side": 1,
+      "message": "Why not parsing the number XX% \u003e 0",
+      "range": {
+        "startLine": 1031,
+        "startChar": 16,
+        "endLine": 1031,
+        "endChar": 70
+      },
+      "revId": "1fe0fafc20b2332c8a11733c4ee805e624855594",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
