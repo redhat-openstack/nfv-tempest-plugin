@@ -1022,7 +1022,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 ping_output = ssh_client.exec_command(ping_cmd)
                 msg = ("Guest '{h}' failed to ping IP "
                        "'{i}'".format(h=hostname, i=neighbors_ip))
-                self.assertIn("0% packet loss", ping_output, msg)
+                self.assertNotIn("100% packet loss", ping_output, msg)
                 LOG.info("Guest '{h}' successfully was able to ping "
                          "IP '{i}'".format(h=hostname, i=neighbors_ip))
 
