@@ -956,6 +956,9 @@ class ManagerMixin(object):
                          'non_numa_aware_net': [],
                          'numa_aware_tunnel': {}}
         physnet_list = []
+        """" Check tyoe is list"""
+        if type(bridge_mapping) != list:
+            bridge_mapping = bridge_mapping.split(',')
         for item in bridge_mapping:
             physnet = item.split(':')[0]
             physnet_list.append(physnet)
