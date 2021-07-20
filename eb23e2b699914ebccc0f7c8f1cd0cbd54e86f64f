@@ -22,6 +22,30 @@
       },
       "revId": "eb23e2b699914ebccc0f7c8f1cd0cbd54e86f64f",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc0e4e73_888c4b5a",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-07-20T00:07:53Z",
+      "side": 1,
+      "message": "it is not useless:\n100% packet loss --\u003e fail\n20% packet loss --\u003e 80% packets arrive --\u003e pass",
+      "parentUuid": "3094c52f_d2d59825",
+      "range": {
+        "startLine": 1031,
+        "startChar": 27,
+        "endLine": 1031,
+        "endChar": 38
+      },
+      "revId": "eb23e2b699914ebccc0f7c8f1cd0cbd54e86f64f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }

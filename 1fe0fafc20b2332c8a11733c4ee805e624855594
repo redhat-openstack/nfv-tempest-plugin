@@ -22,6 +22,30 @@
       },
       "revId": "1fe0fafc20b2332c8a11733c4ee805e624855594",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaca0cec_04f13c14",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-07-20T00:07:53Z",
+      "side": 1,
+      "message": "This is the same behaviour, it will only fail if there are 100% packet loss, otherwise, it  will pass",
+      "parentUuid": "f02d5c36_1caf0518",
+      "range": {
+        "startLine": 1031,
+        "startChar": 16,
+        "endLine": 1031,
+        "endChar": 70
+      },
+      "revId": "1fe0fafc20b2332c8a11733c4ee805e624855594",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
