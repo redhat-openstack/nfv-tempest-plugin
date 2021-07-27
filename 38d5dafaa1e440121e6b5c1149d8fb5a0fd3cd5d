@@ -70,6 +70,24 @@
       "parentUuid": "7f2e2183_473ac8d3",
       "revId": "38d5dafaa1e440121e6b5c1149d8fb5a0fd3cd5d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "440835ed_f6062087",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-07-27T08:40:47Z",
+      "side": 1,
+      "message": "Regarding the parse parameters comment:\nIf you will look on the script, you will see that it is checking for the non empty environment variable specific to each parameter. So, no need to parse anything.\n\nAnd if you will look at the second patch of ansible-nfv that I specific within the comment, you will see that when the container executed, it\u0027s providing the environment variables the the script needs.\n\nRegrading the export env:\nI\u0027m not sure I understand.\n\nTHe script is checking for the environment variable and if exists and not empty it loads it according to the required parameter into a variable that is used within the script.\nSome of the parameters need also flags, like flavors and network.",
+      "parentUuid": "f1c8b160_bb7ab739",
+      "revId": "38d5dafaa1e440121e6b5c1149d8fb5a0fd3cd5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
