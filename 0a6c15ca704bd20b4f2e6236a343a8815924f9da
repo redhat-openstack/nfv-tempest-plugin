@@ -22,6 +22,30 @@
       },
       "revId": "0a6c15ca704bd20b4f2e6236a343a8815924f9da",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d866c7d1_38898590",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-07-27T08:50:25Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand.\n\nThe \".get(key)\" is a way to check the key existence within the dictionary.\nIf the key does not exists it will be considered as None and skipped.\nIn any other case, it will enter the for loop and check the conditions with \u0027if\u0027.\n\nOr do you mean that in order to skip entering the \"for\" loop in case of empty list/string to use that \"is not None\" check?\nThat is the point?",
+      "parentUuid": "ed2fcb6b_fdcbfca7",
+      "range": {
+        "startLine": 82,
+        "startChar": 8,
+        "endLine": 82,
+        "endChar": 51
+      },
+      "revId": "0a6c15ca704bd20b4f2e6236a343a8815924f9da",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
