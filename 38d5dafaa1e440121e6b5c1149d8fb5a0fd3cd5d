@@ -88,6 +88,24 @@
       "parentUuid": "f1c8b160_bb7ab739",
       "revId": "38d5dafaa1e440121e6b5c1149d8fb5a0fd3cd5d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7315dab2_34dd71e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-07-27T08:45:18Z",
+      "side": 1,
+      "message": "correct and you parse it as env\nhttps://review.gerrithub.io/c/redhat-openstack/ansible-nfv/+/521252/1/roles/tester/tempest/tasks/main.yml#262\n\nWhy not reading the container env from within the shell script?",
+      "parentUuid": "440835ed_f6062087",
+      "revId": "38d5dafaa1e440121e6b5c1149d8fb5a0fd3cd5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
