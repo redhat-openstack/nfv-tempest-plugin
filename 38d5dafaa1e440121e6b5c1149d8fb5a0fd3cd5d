@@ -124,6 +124,24 @@
       "parentUuid": "7315dab2_34dd71e4",
       "revId": "38d5dafaa1e440121e6b5c1149d8fb5a0fd3cd5d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a4b5e50_c922bf21",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-07-27T09:01:44Z",
+      "side": 1,
+      "message": "so if you check all variables, why not to fail the script before calling discovery.\n\nAs i see it there are two options in case of missing params:\n1) leave the discovery command as is, and let it fail.\n2) id you check the existence of env file, fail the script with missing parameter before calling discovery",
+      "parentUuid": "e6ddc526_2846a9cb",
+      "revId": "38d5dafaa1e440121e6b5c1149d8fb5a0fd3cd5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
