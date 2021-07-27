@@ -52,6 +52,24 @@
       "parentUuid": "f31bd1d5_65bd6959",
       "revId": "38d5dafaa1e440121e6b5c1149d8fb5a0fd3cd5d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1c8b160_bb7ab739",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-07-27T08:36:05Z",
+      "side": 1,
+      "message": "You could use export of env in the bash script, if i may suggest",
+      "parentUuid": "7f2e2183_473ac8d3",
+      "revId": "38d5dafaa1e440121e6b5c1149d8fb5a0fd3cd5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
