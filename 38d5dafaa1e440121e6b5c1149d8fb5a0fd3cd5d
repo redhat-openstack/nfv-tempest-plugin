@@ -142,6 +142,24 @@
       "parentUuid": "e6ddc526_2846a9cb",
       "revId": "38d5dafaa1e440121e6b5c1149d8fb5a0fd3cd5d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ec5d894_a9b7c11e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-07-27T09:04:24Z",
+      "side": 1,
+      "message": "But that is the point of the change.\nThe script should not fail.\nThere are no mandatory environment params. Those params are optional and not required at all in case of virt (all-in-one) deployment, like the one that we are using in our gating.",
+      "parentUuid": "2a4b5e50_c922bf21",
+      "revId": "38d5dafaa1e440121e6b5c1149d8fb5a0fd3cd5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
