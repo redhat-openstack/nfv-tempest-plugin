@@ -79,94 +79,33 @@ class ManagerMixin(object):
                             self.test_network_dict[net]['net-id'] = \
                                 network['id']
 
-        # Insert here every new parameter.
-        for test in self.external_config['tests-setup']:
-            self.test_setup_dict[test['name']] = {}
-            self.test_setup_dict[test['name']]['config_dict'] = {}
-            if 'flavor' in test and test['flavor'] is not None:
-                self.test_setup_dict[test['name']]['flavor'] = test['flavor']
-            if 'package-names' in test and test['package-names'] is not None:
-                self.test_setup_dict[test['name']]['package-names'] = \
-                    test['package-names']
-            if 'image' in test and test['image'] is not None:
-                self.test_setup_dict[test['name']]['image'] = \
-                    test['image']
-            if 'router' in test and test['router'] is not None:
-                self.test_setup_dict[test['name']]['router'] = \
-                    test['router']
-            if 'service-names' in test and test['service-names'] is not None:
-                self.test_setup_dict[test['name']]['service-names'] = \
-                    test['service-names']
-            if 'tuned-profile' in test and test['tuned-profile'] is not None:
-                self.test_setup_dict[test['name']]['tuned-profile'] = \
-                    test['tuned-profile']
-            if 'mtu' in test and test['mtu'] is not None:
-                self.test_setup_dict[test['name']]['mtu'] = \
-                    test['mtu']
-            if 'emulatorpin_config' in test and test['emulatorpin_config'] \
-                    is not None:
-                for item in test['emulatorpin_config']:
-                    for key, value in iter(item.items()):
-                        if not value:
-                            raise ValueError('The {0} configuration is '
-                                             'required for the emulatorpin '
-                                             'test, but currently empty.'
-                                             .format(key))
-                epin_str = jsonutils.dumps(test['emulatorpin_config'])
-                self.test_setup_dict[test['name']]['config_dict'] = \
-                    jsonutils.loads(epin_str)
-            if 'rx_tx_config' in test and test['rx_tx_config'] is not None:
-                for item in test['rx_tx_config']:
-                    for key, value in iter(item.items()):
-                        if not value:
-                            raise ValueError('The {0} configuration is '
-                                             'required for the tx/tx test, '
-                                             'but currently empty.'
-                                             .format(key))
-                rx_tx_str = jsonutils.dumps(test['rx_tx_config'])
-                self.test_setup_dict[test['name']]['config_dict'] = \
-                    jsonutils.loads(rx_tx_str)
-            if 'bonding_config' in test and test['bonding_config'] is not None:
-                for item in test['bonding_config']:
-                    for key, value in iter(item.items()):
-                        if not value:
-                            raise ValueError('The {0} configuration is '
-                                             'required for the bondig '
-                                             'test, but currently empty.'
-                                             .format(key))
-                bonding_str = jsonutils.dumps(test['bonding_config'])
-                test_setup_dict = self.test_setup_dict[test['name']]
-                test_setup_dict['config_dict']['bonding_config'] = \
-                    jsonutils.loads(bonding_str)
-            if 'igmp_config' in test and test['igmp_config'] is not None:
-                for item in test['igmp_config']:
-                    for key, value in iter(item.items()):
-                        if not value:
-                            raise ValueError('The {0} configuration is '
-                                             'required for the igmp '
-                                             'test, but currently empty.'
-                                             .format(key))
-                igmp_str = jsonutils.dumps(test['igmp_config'])
-                test_setup_dict = self.test_setup_dict[test['name']]
-                test_setup_dict['config_dict']['igmp_config'] = \
-                    jsonutils.loads(igmp_str)
+        if self.external_config.get('tests-setup'):
+            for test in self.external_config['tests-setup']:
+                self.test_setup_dict[test['name']] = {}
+                self.test_setup_dict[test['name']]['config_dict'] = {}
+                if 'flavor' in test and test['flavor'] is not None:
+                    self.test_setup_dict[test['name']]['flavor'] = \
+                        test['flavor']
+                if 'image' in test and test['image'] is not None:
+                    self.test_setup_dict[test['name']]['image'] = \
+                        test['image']
+                if 'bonding_config' in test and \
+                    test['bonding_config'] is not None:
+                    for item in test['bonding_config']:
+                        for key, value in iter(item.items()):
+                            if not value:
+                                raise ValueError('The {0} configuration is '
+                                                'required for the bondig '
+                                                'test, but currently empty.'
+                                                .format(key))
+                    bonding_str = jsonutils.dumps(test['bonding_config'])
+                    test_setup_dict = self.test_setup_dict[test['name']]
+                    test_setup_dict['config_dict']['bonding_config'] = \
+                        jsonutils.loads(bonding_str)
 
-            self.test_setup_dict[test['name']]['aggregate'] = \
-                test.get('aggregate')
-            self.test_setup_dict[test['name']]['vlan_config'] = \
-                test.get('vlan_config')
-
-            if 'offload_nics' in test and test['offload_nics'] is not None:
-                self.test_setup_dict[test['name']]['offload_nics'] = \
-                    test['offload_nics']
-
-            if 'qos_rules' in test and test['qos_rules'] is not None:
-                self.test_setup_dict[test['name']]['qos_rules'] = \
-                    jsonutils.loads(jsonutils.dumps(test['qos_rules']))
-
-            if 'data_network' in test and test['data_network'] is not None:
-                self.test_setup_dict[test['name']]['data_network'] = \
-                    test['data_network']
+                if 'data_network' in test and test['data_network'] is not None:
+                    self.test_setup_dict[test['name']]['data_network'] = \
+                        test['data_network']
 
         if not os.path.exists(
                 CONF.nfv_plugin_options.external_resources_output_file):
