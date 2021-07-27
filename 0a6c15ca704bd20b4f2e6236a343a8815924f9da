@@ -46,6 +46,30 @@
       },
       "revId": "0a6c15ca704bd20b4f2e6236a343a8815924f9da",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3b3c773_d5bbe585",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-07-27T09:26:52Z",
+      "side": 1,
+      "message": "You are correct, the if will catch None,\nIf other empty [] or \u0027\u0027 the for condition will be skipped",
+      "parentUuid": "d866c7d1_38898590",
+      "range": {
+        "startLine": 82,
+        "startChar": 8,
+        "endLine": 82,
+        "endChar": 51
+      },
+      "revId": "0a6c15ca704bd20b4f2e6236a343a8815924f9da",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
