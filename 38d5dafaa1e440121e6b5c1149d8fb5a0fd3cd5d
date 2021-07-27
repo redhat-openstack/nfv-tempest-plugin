@@ -34,6 +34,24 @@
       "parentUuid": "cfda798c_b52b5a0a",
       "revId": "38d5dafaa1e440121e6b5c1149d8fb5a0fd3cd5d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f2e2183_473ac8d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-07-27T08:34:35Z",
+      "side": 1,
+      "message": "I think you should parse env parameters to container while running in the container, am i wrong?",
+      "parentUuid": "f31bd1d5_65bd6959",
+      "revId": "38d5dafaa1e440121e6b5c1149d8fb5a0fd3cd5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
