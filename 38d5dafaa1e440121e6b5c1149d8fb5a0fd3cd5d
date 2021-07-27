@@ -16,6 +16,24 @@
       "message": "I do not see why this patch is needed,\ntempest config, the following parameters are required,\nthere is no need to run  \ndiscovery should fail if one of the three parameters does not exist",
       "revId": "38d5dafaa1e440121e6b5c1149d8fb5a0fd3cd5d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f31bd1d5_65bd6959",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-07-27T08:18:43Z",
+      "side": 1,
+      "message": "This patch is needed because the flow of running the containerized tempest on virt environment is not possible.\nIn our case that is required, to add the containerized tempest scenario to molecule test flow.\n\nThis is [1] the follow up patch that will be able to run and test containerized tempest once this patch will be merged.\n\n\n[1] - https://review.gerrithub.io/c/redhat-openstack/ansible-nfv/+/521252",
+      "parentUuid": "cfda798c_b52b5a0a",
+      "revId": "38d5dafaa1e440121e6b5c1149d8fb5a0fd3cd5d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
