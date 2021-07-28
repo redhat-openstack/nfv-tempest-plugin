@@ -1,25 +1,35 @@
-# set default values
-default_net='access'
-default_flavor='nfv_qe_base_flavor'
+# Set default values
 default_input='tempest-deployer-input.conf'
-default_image_name='rhel7.6'
 default_additional_params=''
 
-# set variables value
-external_network=${external_network:-$default_net}
-flavor=${flavor:-$default_flavor}
+# Set variables value
 deployer_input=${deployer_input:-$default_input}
-image_name=${image_name:-$default_image_name}
 additional_params=${additional_params:-$default_additional_params}
+
+# Set optional params
+network_param=""
+if [[ -z "${external_network}" ]]; then
+    network_param="--network-id `openstack network show ${external_network} -f value -c id`"
+fi
+
+image_param=""
+if [[ -z "${image_name}" ]]; then
+    image_param="--image container_tempest/${image_name}"
+fi
+
+flavor_param=""
+if [[ -z "${flavor_name}" ]]; then
+    flavor_param="compute.flavor_ref `openstack flavor show ${flavor_name} -c id -f value`"
+fi
 
 set -e
 source container_tempest/overcloudrc
 
 discover-tempest-config \
-	--out etc/tempest.conf \
-	--deployer-input container_tempest/$deployer_input \
-	--debug --create \
-	--network-id `openstack network show $external_network -f value -c id` \
-	--image "container_tempest/$image_name" \
-	compute.flavor_ref `openstack flavor show $flavor -c id -f value` \
-	$additional_params
+        --out etc/tempest.conf \
+        --deployer-input container_tempest/$deployer_input \
+        --debug --create \
+        ${network_param} \
+        ${image_param} \
+        ${flavor_param} \
+        $additional_params
