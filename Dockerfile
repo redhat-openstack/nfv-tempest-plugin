@@ -7,9 +7,9 @@ USER default
 
 COPY ./ /opt/app-root/nfv-tempest-plugin
 
-RUN pip3 install --upgrade pip setuptools \
- && pip3 install -e /opt/app-root/nfv-tempest-plugin \
- && pip3 install python-tempestconf python-openstackclient neutron-tempest-plugin
+RUN pip3 install --no-cache-dir --upgrade pip setuptools \
+ && pip3 install --no-cache-dir -e /opt/app-root/nfv-tempest-plugin \
+ && pip3 install --no-cache-dir python-tempestconf python-openstackclient neutron-tempest-plugin
 
 # To have undercloud certificate used by python
 RUN rm -f /opt/app-root/lib/python3.6/site-packages/certifi/cacert.pem \
