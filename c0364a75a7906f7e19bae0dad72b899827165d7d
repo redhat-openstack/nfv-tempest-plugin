@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f030889_af2b1cd2",
+        "filename": "tools/config_generate.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-08-11T09:57:58Z",
+      "side": 1,
+      "message": "The external network is an optional parameter and not mandatory.\nIt should be controller by a user and not added with a default.",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 29
+      },
+      "revId": "c0364a75a7906f7e19bae0dad72b899827165d7d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
