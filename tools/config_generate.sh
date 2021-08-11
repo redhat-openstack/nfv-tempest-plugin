@@ -6,9 +6,14 @@ default_additional_params=''
 deployer_input=${deployer_input:-$default_input}
 additional_params=${additional_params:-$default_additional_params}
 
+set -e
+source container_tempest/overcloudrc
+
 # Set optional params
 network_param=""
 if [[ -z "${external_network}" ]]; then
+    "If no external_network bane/id"
+    external_network="access"
     network_param="--network-id `openstack network show ${external_network} -f value -c id`"
 fi
 
@@ -21,9 +26,6 @@ flavor_param=""
 if [[ -z "${flavor_name}" ]]; then
     flavor_param="compute.flavor_ref `openstack flavor show ${flavor_name} -c id -f value`"
 fi
-
-set -e
-source container_tempest/overcloudrc
 
 discover-tempest-config \
         --out etc/tempest.conf \
