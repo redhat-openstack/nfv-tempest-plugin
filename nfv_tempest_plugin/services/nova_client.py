@@ -1,4 +1,3 @@
-
 from nfv_tempest_plugin.services.keystone_client import KeystoneClient
 from novaclient.client import Client
 from tempest import config
@@ -8,13 +7,14 @@ CONF = config.CONF
 
 class NovaClient(KeystoneClient):
     @classmethod
-    def set_nova_clients(cls):
-        super().set_keystone_clients()
+    def set_nova_client(cls):
+        super().set_keystone_client()
 
         cls.novaclient_overcloud = Client(version=CONF
                                           .compute.max_microversion,
                                           session=cls
                                           .overcloud_keystone_session)
+
         cls.novaclient_undercloud = Client(version=CONF
                                            .compute.max_microversion,
                                            session=cls
