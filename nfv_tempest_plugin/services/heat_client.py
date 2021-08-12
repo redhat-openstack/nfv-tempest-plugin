@@ -1,4 +1,3 @@
-
 from heatclient.client import Client
 from nfv_tempest_plugin.services.keystone_client import KeystoneClient
 from tempest import config

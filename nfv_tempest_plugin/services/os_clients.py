@@ -1,4 +1,3 @@
-
 from nfv_tempest_plugin.services.heat_client import HeatClient
 from nfv_tempest_plugin.services.nova_client import NovaClient
 
