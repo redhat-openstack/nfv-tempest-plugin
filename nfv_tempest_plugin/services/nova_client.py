@@ -1,4 +1,3 @@
-
 from nfv_tempest_plugin.services.keystone_client import KeystoneClient
 from novaclient.client import Client
 from tempest import config
@@ -7,18 +6,18 @@ CONF = config.CONF
 
 
 class NovaClient(KeystoneClient):
-    @classmethod
-    def set_nova_clients(cls):
-        super().set_keystone_clients()
+    def __init__(self):
+        super(NovaClient, self).__init__()
 
-        cls.novaclient_overcloud = Client(version=CONF
-                                          .compute.max_microversion,
-                                          session=cls
-                                          .overcloud_keystone_session)
-        cls.novaclient_undercloud = Client(version=CONF
+        self.novaclient_overcloud = Client(version=CONF
                                            .compute.max_microversion,
-                                           session=cls
-                                           .undercloud_keystone_session)
+                                           session=self
+                                           .overcloud_keystone_session)
+
+        self.novaclient_undercloud = Client(version=CONF
+                                            .compute.max_microversion,
+                                            session=self
+                                            .undercloud_keystone_session)
 
     def overcloud_hypervisor_to_undecloud_server(self, hypervisor):
         """take in hypervisor object and find its related undercloud server

@@ -1,4 +1,3 @@
-
 from heatclient.client import Client
 from nfv_tempest_plugin.services.keystone_client import KeystoneClient
 from tempest import config
@@ -7,14 +6,11 @@ CONF = config.CONF
 
 
 class HeatClient(KeystoneClient):
-    @classmethod
-    def set_heat_clients(cls):
-        super().set_keystone_clients()
+    def __init__(self):
+        super(HeatClient, self).__init__()
 
-        cls.undercloud_heatclient = Client('1',
-                                           session=cls
-                                           .undercloud_keystone_session)
+        self.undercloud_heatclient = Client('1', session=self
+                                            .undercloud_keystone_session)
 
-        cls.overcloud_heatclient = Client('1',
-                                          session=cls
-                                          .overcloud_keystone_session)
+        self.overcloud_heatclient = Client('1', session=self
+                                           .overcloud_keystone_session)
