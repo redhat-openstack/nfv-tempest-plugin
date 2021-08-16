@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1e553559_495df07c",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-08-16T18:23:21Z",
+      "side": 1,
+      "message": "Modified to check all ovs bonds and find the bond with lacp configuration.",
+      "parentUuid": "42c18404_24e85d70",
+      "range": {
+        "startLine": 123,
+        "startChar": 16,
+        "endLine": 123,
+        "endChar": 27
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "65635eae_e4826e72",
         "filename": "nfv_tempest_plugin/config.py",
         "patchSetId": 1
@@ -217,6 +241,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e710611_14f590f4",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-08-16T18:23:21Z",
+      "side": 1,
+      "message": "- Added bonds information auto-discovery.\n- The auto-discovery will retrieve all ovs bonds and then will check for lacp configuration between these bonds.\n- Removed empty default config - bond name.",
+      "parentUuid": "a4748a8f_7713a4fe",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 54
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "98efe812_5da0c4d7",
         "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
         "patchSetId": 1
@@ -276,6 +324,30 @@
       "side": 1,
       "message": "Current templates contains 2 bonds, but only 1 of them has lacp configured.",
       "parentUuid": "4a36e24f_92f6f02a",
+      "range": {
+        "startLine": 1133,
+        "startChar": 23,
+        "endLine": 1133,
+        "endChar": 50
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "287a2e76_a2f2fd81",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-08-16T18:23:21Z",
+      "side": 1,
+      "message": "Modified.\nCurrently, it will check for all available ovs bonds and then will look for the bond with lacp configuration and will use it for the test.",
+      "parentUuid": "7e8099bf_3599898b",
       "range": {
         "startLine": 1133,
         "startChar": 23,
@@ -491,6 +563,30 @@
       "side": 1,
       "message": "MHO, Each test should search for its bond mode\nDifferent bond, need different config",
       "parentUuid": "d8d553f0_851bafd0",
+      "range": {
+        "startLine": 141,
+        "startChar": 11,
+        "endLine": 141,
+        "endChar": 20
+      },
+      "revId": "eed791fe48cf28ee871306b016c971d927a839e7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebcd8f29_7bf131c1",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_lacp_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-08-16T18:23:21Z",
+      "side": 1,
+      "message": "Added bonds information auto-discovery.\nThe auto-discovery will retrieve all ovs bonds and then will check for lacp configuration between these bonds and will use the bond with lacp configuration for the test.",
+      "parentUuid": "7f22aa02_7094aa13",
       "range": {
         "startLine": 141,
         "startChar": 11,
