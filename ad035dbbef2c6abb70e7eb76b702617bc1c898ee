@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72879f47_77fde54e",
+        "filename": "nfv_tempest_plugin/services/keystone_client.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-08-17T19:00:36Z",
+      "side": 1,
+      "message": "MHO, Constructor should be used for parameters initialization, not more than this  \nIt is not recommended practice in general.\n\nI would advise to modify set_keystone_clients() -\u003e set_clients()\nchange the call in the clients from load_envbash() -\u003e readrcfile\n\nAll derived classes will have their own class set_clients()\nOnce they are called, they are calling its parent super().set_clients()",
+      "range": {
+        "startLine": 12,
+        "startChar": 4,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "ad035dbbef2c6abb70e7eb76b702617bc1c898ee",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
