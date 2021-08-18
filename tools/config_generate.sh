@@ -11,17 +11,17 @@ source container_tempest/overcloudrc
 
 # Set optional params
 network_param=""
-if [[ -z "${external_network}" ]]; then
+if [[ ! -z "${external_network}" ]]; then
     network_param="--network-id `openstack network show ${external_network} -f value -c id`"
 fi
 
 image_param=""
-if [[ -z "${image_name}" ]]; then
+if [[ ! -z "${image_name}" ]]; then
     image_param="--image container_tempest/${image_name}"
 fi
 
 flavor_param=""
-if [[ -z "${flavor_name}" ]]; then
+if [[ ! -z "${flavor_name}" ]]; then
     flavor_param="compute.flavor_ref `openstack flavor show ${flavor_name} -c id -f value`"
 fi
 
