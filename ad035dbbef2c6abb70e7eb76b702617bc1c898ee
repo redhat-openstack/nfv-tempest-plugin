@@ -22,6 +22,30 @@
       },
       "revId": "ad035dbbef2c6abb70e7eb76b702617bc1c898ee",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82f55ed6_291adb3a",
+        "filename": "nfv_tempest_plugin/services/keystone_client.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-08-19T13:21:20Z",
+      "side": 1,
+      "message": "I over complicated it in the previous patch.\nMade in simpler now.",
+      "parentUuid": "72879f47_77fde54e",
+      "range": {
+        "startLine": 12,
+        "startChar": 4,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "ad035dbbef2c6abb70e7eb76b702617bc1c898ee",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
