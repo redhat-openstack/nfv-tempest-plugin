@@ -456,7 +456,9 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
                                   mcast_groups[group]['tx_pkts'],
                                   role['mcast_output'])
                     server['ssh_source'].exec_command(cmd)
-
+        # wait 10 seconds after sending packets to ensure that packets arrived
+        # and statistics are updated
+        time.sleep(10)
         for hyp in hypervisors.keys():
             stats_end[hyp] = self.get_ovs_interface_statistics(port_list[hyp],
                                                                stats_beg[hyp],
