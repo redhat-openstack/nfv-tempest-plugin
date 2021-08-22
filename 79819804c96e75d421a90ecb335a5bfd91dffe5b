@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eccc8821_78677f0e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-08-22T12:29:05Z",
+      "side": 1,
+      "message": "sleep, is not recommended habit,\nPlease consider checking that statistics is filled with data.\n\nsee the loop you already have have that checks statistics,\nYou could loop till stats_end[hyp]  is not None\n\nWith some time counter, no to loop forever,",
+      "range": {
+        "startLine": 461,
+        "startChar": 7,
+        "endLine": 461,
+        "endChar": 21
+      },
+      "revId": "79819804c96e75d421a90ecb335a5bfd91dffe5b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
