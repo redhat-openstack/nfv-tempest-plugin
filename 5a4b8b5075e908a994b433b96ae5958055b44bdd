@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fce39967_42662794",
+        "filename": "nfv_tempest_plugin/services/keystone_client.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2021-08-22T09:29:04Z",
+      "side": 1,
+      "message": "I think we should find a cleaner way of doing it although agreeing with making this change I\u0027ll try thinking on a cleaner solution",
+      "revId": "5a4b8b5075e908a994b433b96ae5958055b44bdd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
