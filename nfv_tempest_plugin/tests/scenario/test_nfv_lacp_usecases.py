@@ -13,6 +13,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import json
 import time
 
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
@@ -40,33 +41,29 @@ class TestLacpScenarios(base_test.BaseTest):
         super(TestLacpScenarios, self).setUp()
         """ pre setup creations and checks read from config files """
 
-    def test_deployment_lacp(self, test='deployment_lacp', hypervisor_ip=None):
-        """Check that lacp bonding is properly configure
+    def test_deployment_lacp(self, hypervisor_ip=None):
+        """Check that lacp bonding is properly configured
 
-        Configuration options example:
-         - name: deployment_lacp
-           bonding_config:
-             - bond_name: 'dpdkbond1'
-               bond_mode: 'balance-tcp'
-               lacp_status: 'negotiated'
-               lacp_time: 'fast'
-               lacp_fallback_ab: 'true'
+        The test uses the following configuration options example:
+        bond_mode: 'balance-tcp'
+        lacp_status: 'negotiated'
+        lacp_time: 'fast'
+        lacp_fallback_ab: 'true'
+
+        The "bond_name" is auto discovered.
         """
         LOG.info('Starting deployment_lacp test.')
 
         if hypervisor_ip is None:
             hypervisor_ip = self._get_hypervisor_ip_from_undercloud()[0]
 
-        bonding_dict = {}
-        test_setup_dict = self.test_setup_dict[test]
-        if 'config_dict' in test_setup_dict and \
-           'bonding_config' in test_setup_dict['config_dict']:
-            bonding_dict = test_setup_dict['config_dict']['bonding_config'][0]
+        lacp_config = json.loads(CONF.nfv_plugin_options.lacp_config)
+        lacp_bond = self.retrieve_lacp_ovs_bond(hypervisor_ip)
 
         cmd = 'sudo ovs-appctl bond/show {0} | '\
               'egrep "^bond_mode|^lacp_status|^lacp_fallback_ab"; '\
               'sudo ovs-appctl lacp/show {0} | '\
-              'egrep "lacp_time"'.format(bonding_dict['bond_name'])
+              'egrep "lacp_time"'.format(lacp_bond['bond_name'])
         output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd) \
             .replace('\t', '').replace(' ', '').split('\n')
         bond_data = {}
@@ -78,7 +75,7 @@ class TestLacpScenarios(base_test.BaseTest):
         result = []
         checks = {'bond_mode', 'lacp_status', 'lacp_time', 'lacp_fallback_ab'}
         diff_checks_cmd = checks - set(bond_data.keys())
-        diff_checks_cfg = checks - set(bonding_dict.keys())
+        diff_checks_cfg = checks - set(lacp_config.keys())
         if len(diff_checks_cmd) > 0:
             result.append("Missing checks: {}. Check ovs commands "
                           "output".format(', '.join(diff_checks_cmd)))
@@ -90,10 +87,10 @@ class TestLacpScenarios(base_test.BaseTest):
         for check in checks:
             if check not in diff_checks_cmd and \
                check not in diff_checks_cfg:
-                if bond_data[check] != bonding_dict[check]:
+                if bond_data[check] != lacp_config[check]:
                     result.append("Check failed: {}, Expected: {} - "
                                   "Found: {}".format(check,
-                                                     bonding_dict[check],
+                                                     lacp_config[check],
                                                      bond_data[check]))
         self.assertTrue(len(result) == 0, '. '.join(result))
         return True
@@ -108,16 +105,9 @@ class TestLacpScenarios(base_test.BaseTest):
           the other one is not used
         * 2 flows: 50% of the traffic in each interface
         * 3 flows: 66% in one interface, 33% in the other one
-        Configuration options example:
-         - name: balance_tcp
-           flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-           router: true
-           package-names:
-              - iperf
-           bonding_config:
-             - bond_name: 'dpdkbond1'
-               ports: [ 'dpdk2', 'dpdk3']
-          data_network: data
+
+        The test uses "bond name" and "bond ports" as parameters.
+        These options discovered automatically.
         """
         LOG.info('Starting balance_tcp test.')
 
@@ -138,31 +128,20 @@ class TestLacpScenarios(base_test.BaseTest):
                  {'desc': '3 flows', 'iperf_option': '-P 3',
                   'threshold_1': 49, 'threshold_2': 51}]
 
-        bonding_dict = {}
-        data_network = ""
-        test_setup_dict = self.test_setup_dict[test]
-        if 'config_dict' in test_setup_dict:
-            if 'bonding_config' in test_setup_dict['config_dict']:
-                bonding_dict = \
-                    test_setup_dict['config_dict']['bonding_config'][0]
-            if 'data_network' in test_setup_dict:
-                data_network = test_setup_dict['data_network']
-
-        self.assertGreater(len(bonding_dict), 0,
-                           "Missing configuration, bonding_config not found")
-        self.assertGreater(len(data_network), 0,
-                           "Missing configuration, data_network not found")
-
+        lacp_bond = self.retrieve_lacp_ovs_bond()
         kill_cmd = '(if pgrep iperf; then sudo pkill iperf; fi;) ' \
                    '> /dev/null 2>&1'
         receive_cmd = '(if pgrep iperf; then sudo pkill iperf; fi;' \
                       ' sudo iperf -s -u) > /dev/null 2>&1 &'
+        data_net = self.networks_client.list_networks(
+            **{'provider:network_type': 'vlan',
+               'router:external': False})['networks'][0]['name']
         srv = self.os_admin.servers_client.list_addresses(servers[1]['id'])
         server_network = [net for net in srv['addresses'].items()
-                          if net[0] == data_network]
+                          if net[0] == data_net]
         self.assertEqual(len(server_network), 1,
                          "VM must have a port connected "
-                         "to {}".format(data_network))
+                         "to {}".format(data_net))
         server_addr = server_network[0][1][0]['addr']
 
         for test in tests:
@@ -184,14 +163,14 @@ class TestLacpScenarios(base_test.BaseTest):
             # 10 tries  to stabilize, usually is stabilized between try 1 and 2
             for i in range(1, 10):
                 stats_begin = self.get_ovs_interface_statistics(
-                    bonding_dict['ports'],
+                    lacp_bond['bond_ports'],
                     hypervisor=servers[0]['hypervisor_ip'])
                 time.sleep(10)  # measured time
                 stats_end = self.get_ovs_interface_statistics(
-                    bonding_dict['ports'], stats_begin,
+                    lacp_bond['bond_ports'], stats_begin,
                     servers[0]['hypervisor_ip'])
-                tx_pks_1 = stats_end[bonding_dict['ports'][0]]['tx_packets']
-                tx_pks_2 = stats_end[bonding_dict['ports'][1]]['tx_packets']
+                tx_pks_1 = stats_end[lacp_bond['bond_ports'][0]]['tx_packets']
+                tx_pks_2 = stats_end[lacp_bond['bond_ports'][1]]['tx_packets']
                 tx_pkts_max = max(tx_pks_1, tx_pks_2)
                 tx_pkts_min = min(tx_pks_1, tx_pks_2)
                 tx_pks_rel = 100 * tx_pkts_min / tx_pkts_max

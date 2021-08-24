@@ -141,4 +141,9 @@ NfvPluginOptions = [
                default='default_hugepagesz=1GB hugepagesz=1G hugepages=64 '
                        'iommu=pt intel_iommu=on isolcpus=2-19,22-39',
                help='kernel args expected in the stack after update'),
+    cfg.StrOpt('lacp_config',
+               default='{"bond_mode": "balance-tcp", "lacp_time": "fast",'
+                       '"lacp_status": "negotiated",'
+                       '"lacp_fallback_ab": "true"}',
+               help='LACP configuration for LACP deployment test.'),
 ]
