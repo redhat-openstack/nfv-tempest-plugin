@@ -246,21 +246,14 @@ Tests included:
 - test_deployment_lacp
 
   Test explanation:
-  Test that balance-tcp and lacp is properly configured after deployment. Following values are checked:
-  * bond_name: There must be a bonding configured
-  * bond_mode: It must be set to balance-tcp
-  * lacp_status: It must be set to negotiated which indicates that the switch is properly configured too
-  * lacp_time: It must be set to fast (lacp messages sent very frecuently)
-  * lacp_fallback_ab: It must be set to true (change to active-backup if no lacp messages)
-
-  Test config:
-  - name: deployment_lacp
-    bonding_config:
-      - bond_name: 'dpdkbond1'
-        bond_mode: 'balance-tcp'
-        lacp_status: 'negotiated'
-        lacp_time: 'fast'
-        lacp_fallback_ab: 'true'
+  Test that balance-tcp and lacp is properly configured after deployment.  
+  Following values are checked:
+  * bond_mode - balance-tcp
+  * lacp_status - negotiated (indicates that the switch is properly configured)
+  * lacp_time - fast (lacp messages sent very frecuently)
+  * lacp_fallback_ab - true (change to active-backup if no lacp messages)
+  **Note** - Above parameters set as default values of the plugin and could be modified by `deployer-input.conf` file.
+  **Note** - The "bond name" parameter discovered automatically.
 
 - test_balance_tcp
 
@@ -269,16 +262,8 @@ Tests included:
   - 1 flow: all the traffic through the same interface in the bonding, the other one is not used
   - 2 flows: half of the traffic in each interface
   - 3 flows: 33% in one interface and 66% in the other interface
- 
-  Test config:
-  - name: balance_tcp
-    flavor: m1.medium.huge_pages_cpu_pinning_numa_node-0
-    router: true
-    package-names:
-      - iperf
-    bonding_config:
-      - bond_name: 'dpdkbond1'
-        ports: [ 'dpdk2', 'dpdk3']
+
+  Test parameters - "bond name" and "bond ports" discovered automatically.
 
 - test_restart_ovs
 
