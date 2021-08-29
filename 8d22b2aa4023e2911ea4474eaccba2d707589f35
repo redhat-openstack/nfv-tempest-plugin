@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8983db2_22c917a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2021-08-29T05:00:05Z",
+      "side": 1,
+      "message": "While this patch is not ideal it is the best I could do for now.\nI was not able to leverage \u0027librados\u0027 python module to connect to Ceph cluster directly from tester (it requires to store configuration and credentials files on file system).",
+      "revId": "8d22b2aa4023e2911ea4474eaccba2d707589f35",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
