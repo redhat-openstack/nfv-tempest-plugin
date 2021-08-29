@@ -13,6 +13,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from nfv_tempest_plugin.tests.common import cloud_discovery as cloud_discovery
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
@@ -107,17 +108,25 @@ class TestHciScenarios(base_test.BaseTest):
             self, test='nfv_hci_ceph_health'):
         """Test ceph health status.
 
-        :param test: Test name from the config file
+        Check for 'ceph_mon' service in stack and connects to ceph
+        cluster using a host's ceph_mon container present in stack
         """
-        LOG.info('Execute ceph health status test command')
-        hyper_kwargs = {'shell': CONF.nfv_plugin_options.undercloud_rc_file}
-        controller_ip = shell_utils.\
-            get_controllers_ip_from_undercloud(**hyper_kwargs)[0]
-        container_cli = self.get_container_cli()
-        cmd = ("sudo {} exec ceph-mon-`hostname` ceph -s | grep health | "
-               "cut -d':' -f2 | "
-               "sed 's/^[ \t]*//;s/[ \t]*$//'").format(container_cli)
-        result = shell_utils.\
-            run_command_over_ssh(controller_ip, cmd).replace("\n", "")
-        self.assertEqual(result, 'HEALTH_OK')
+        LOG.info('Execute Ceph health status test command')
+        # Discover stacks
+        stacks = cloud_discovery.discover_tripleo_services()
+        # Iterate over stacks and check for ceph_mon service
+        for stack in stacks:
+            if 'ceph_mon' in stack['tripleo_services']:
+                LOG.info('Stack {} contains Ceph cluster.'
+                         .format(stack['name']))
+                # Discover nodes in stack
+                nodes = cloud_discovery.\
+                    discover_nodes_in_stack(stack_id=stack['id'])
+                container_cli = self.get_container_cli()
+                cmd = ("sudo {} exec ceph-mon-`hostname` ceph -s | "
+                       "grep health | cut -d':' -f2 | "
+                       "sed 's/^[ \t]*//;s/[ \t]*$//'").format(container_cli)
+            result = shell_utils.\
+                run_command_over_ssh(nodes[0]['ip'], cmd).replace("\n", "")
+            self.assertEqual(result, 'HEALTH_OK')
         LOG.info('The {} test passed.'.format(test))
