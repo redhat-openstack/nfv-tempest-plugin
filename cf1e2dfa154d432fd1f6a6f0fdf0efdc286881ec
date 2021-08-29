@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62623c99_0ae0635d",
+        "filename": "nfv_tempest_plugin/tests/common/cloud_discovery.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-08-29T06:49:31Z",
+      "side": 1,
+      "message": "Doesn\u0027t the spaces here may break the command?",
+      "range": {
+        "startLine": 51,
+        "startChar": 54,
+        "endLine": 51,
+        "endChar": 56
+      },
+      "revId": "cf1e2dfa154d432fd1f6a6f0fdf0efdc286881ec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09835120_6a4eb05a",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_hci_usecases.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-08-29T06:49:31Z",
+      "side": 1,
+      "message": "In \u0027ceph_mon\u0027 will not be found in \"stack[\u0027tripleo_services\u0027]\", \"cmd\" variable will not be set.\n\nConsider adding ValueError raise condition to break the test in case \"cmd\" is not populated.",
+      "range": {
+        "startLine": 130,
+        "startChar": 53,
+        "endLine": 130,
+        "endChar": 56
+      },
+      "revId": "cf1e2dfa154d432fd1f6a6f0fdf0efdc286881ec",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
