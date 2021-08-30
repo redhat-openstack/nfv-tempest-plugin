@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02664205_041016b3",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-08-30T13:23:00Z",
+      "side": 0,
+      "message": "Please fix this to \nif \u0027aggregate\u0027 in self.test_setup_dict[test]\nIt will do the trick",
+      "range": {
+        "startLine": 790,
+        "startChar": 11,
+        "endLine": 790,
+        "endChar": 62
+      },
+      "revId": "c6c19e56479eecab8d3de2c3e34a4f8fd7431eaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
