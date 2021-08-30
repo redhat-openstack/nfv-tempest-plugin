@@ -787,7 +787,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     **avail_zone)['availability_zone']
 
         # Create and configure aggregation zone if specified
-        if self.test_setup_dict[test]['aggregate'] is not None:
+        if 'aggregate' in self.test_setup_dict[test]:
             aggr_hosts = self.test_setup_dict[test]['aggregate']['hosts']
             aggr_meta = self.test_setup_dict[test]['aggregate']['metadata']
             self.create_and_set_aggregate(test, aggr_hosts, aggr_meta)
