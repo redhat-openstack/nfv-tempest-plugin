@@ -22,6 +22,30 @@
       },
       "revId": "c6c19e56479eecab8d3de2c3e34a4f8fd7431eaa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8811b2c9_1cf356ec",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-08-30T13:30:16Z",
+      "side": 0,
+      "message": "I will never be there, it was removed here https://review.gerrithub.io/c/redhat-openstack/nfv-tempest-plugin/+/521325/2/nfv_tempest_plugin/tests/scenario/manager_utils.py#b154\nI think that the idea with the previous commit was to avoid external config file and there is other way to configure aggregate, so, I would say this code is not needed.",
+      "parentUuid": "02664205_041016b3",
+      "range": {
+        "startLine": 790,
+        "startChar": 11,
+        "endLine": 790,
+        "endChar": 62
+      },
+      "revId": "c6c19e56479eecab8d3de2c3e34a4f8fd7431eaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
