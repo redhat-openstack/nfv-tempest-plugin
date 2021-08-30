@@ -46,6 +46,30 @@
       },
       "revId": "c6c19e56479eecab8d3de2c3e34a4f8fd7431eaa",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09f42608_95bca2f1",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-08-30T13:43:56Z",
+      "side": 0,
+      "message": "Yes, i see we are using availability zones in tests and not aggregations,\nThis is truly redundant",
+      "parentUuid": "8811b2c9_1cf356ec",
+      "range": {
+        "startLine": 790,
+        "startChar": 11,
+        "endLine": 790,
+        "endChar": 62
+      },
+      "revId": "c6c19e56479eecab8d3de2c3e34a4f8fd7431eaa",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
