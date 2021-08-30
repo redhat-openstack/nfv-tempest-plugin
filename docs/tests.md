@@ -58,16 +58,6 @@ router: true
 ```
 - Boolean var. Specify if the instance will get floating ip or direct SSH access.
 ```
-aggregate:
-   hosts:
-     - computeovsdpdksriov-0
-   metadata: test=numa_aware_vswitch
-```
-- Aggregate config:  
-  Specify the hosts that should be attached to the aggregate.  
-  Specify the metadata flag that should be set on the aggregate.  
-  **Note!** - The "AggregateInstanceExtraSpecsFilter" is required for aggregate use.  
-  **Note!** - The metadata specified for the aggregate should be added as the extra specs to the flavor. 
 
 ### Tests:
 ----------
