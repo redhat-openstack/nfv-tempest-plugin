@@ -692,13 +692,15 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 if 'srv_state' in override_details[num]:
                     kwargs['srv_state'] = override_details[num]['srv_state']
                 if 'ports_filter' in override_details[num]:
-                    for net in kwargs['networks']:
+                    for net in kwargs['networks'][:]:
                         if net['tag'] \
                                 not in \
-                                override_details[num]['ports_filter']:
+                                override_details[num]['ports_filter'].\
+                                split(","):
                             if net['tag'].split(":")[0] \
                                     not in \
-                                    override_details[num]['ports_filter']:
+                                    override_details[num]['ports_filter'].\
+                                    split(","):
                                 kwargs['networks'].remove(net)
 
             """ If this parameters exist, parse only mgmt network.
