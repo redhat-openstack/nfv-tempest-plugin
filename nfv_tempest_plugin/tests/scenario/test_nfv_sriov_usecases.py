@@ -381,9 +381,16 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
             raise ValueError('The test require to use neutron_api_v2. '
                              'Set "use_neutron_api_v2 = true" under the'
                              '[nfv_plugin_options] in tempest.conf')
+        sriov_nets = [net['physical_network']
+                      for net in self.external_config['test-networks']
+                      if 'min_qos' in net.keys() and net['min_qos']]
+        if len(sriov_nets) != 1:
+            raise ValueError('There should be a single test-network '
+                             'with min_qos configured: '
+                             '{}'.format(sriov_nets))
         kw_test = {}
         default_port_type = \
-            {'ports_filter': "{}".format('external,direct')}
+            {'ports_filter': "{}".format('external,direct:' + sriov_nets[0])}
         kw_test['num_servers'] = 3
         kw_test['srv_details'] = {0: default_port_type,
                                   1: default_port_type,
