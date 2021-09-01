@@ -146,4 +146,7 @@ NfvPluginOptions = [
                        '"lacp_status": "negotiated",'
                        '"lacp_fallback_ab": "true"}',
                help='LACP configuration for LACP deployment test.'),
+    cfg.StrOpt('check_fip_connectivity',
+               default='{"max_ping_retries": 10, "time_between_pings": 10}',
+               help="Retries some time waiting fip to respond ping"),
 ]
