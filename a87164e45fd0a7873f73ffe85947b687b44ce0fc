@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7c082396_9dc8a4dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-09-01T07:42:36Z",
+      "side": 1,
+      "message": "The problem is that each vm had 2 interfaces with vfs: sriov-1 and mlx-1 and it could use any of those interfaces. So in one interface it chose sriov-1, in other one mlx-1. So, maybe it was  sending traffic in one network and trying to receive in other network. This was random, there was time that it chose all the interfaces from mlx-1 and then it passed. \nWhen looking for interfaces, it uses only vnic_type and if i have several interfaces with direct vnic_type, it does not know which one to choose\nhttps://review.gerrithub.io/plugins/gitiles/redhat-openstack/nfv-tempest-plugin/+/refs/heads/devel/nfv_tempest_plugin/tests/scenario/qos_manager.py#224\n\nSo, i configure in the vms a single vf interface, the one with mellanox vf that is the one we need",
+      "parentUuid": "80346bf1_fceded0f",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "a87164e45fd0a7873f73ffe85947b687b44ce0fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "37497ce4_12b401b4",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
         "patchSetId": 5
@@ -37,6 +61,30 @@
       "writtenOn": "2021-09-01T07:05:57Z",
       "side": 1,
       "message": "Is it a Min or Max Qos?",
+      "range": {
+        "startLine": 389,
+        "startChar": 31,
+        "endLine": 389,
+        "endChar": 43
+      },
+      "revId": "a87164e45fd0a7873f73ffe85947b687b44ce0fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe0b2760_2fea6917",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-09-01T07:42:36Z",
+      "side": 1,
+      "message": "it is min_qos, it is described in the testcase description:\n        Provided with the vf network details:\n        min_qos: true",
+      "parentUuid": "37497ce4_12b401b4",
       "range": {
         "startLine": 389,
         "startChar": 31,
