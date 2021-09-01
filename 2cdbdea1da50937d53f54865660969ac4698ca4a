@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa4e3a0f_fd9ff652",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-09-01T16:46:28Z",
+      "side": 1,
+      "message": "I would suggest to create a while loop with agreed time frame and wait condition and using the same \"self.ping_ip_address(ip_addr)\" command.",
+      "range": {
+        "startLine": 970,
+        "startChar": 26,
+        "endLine": 970,
+        "endChar": 39
+      },
+      "revId": "2cdbdea1da50937d53f54865660969ac4698ca4a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
