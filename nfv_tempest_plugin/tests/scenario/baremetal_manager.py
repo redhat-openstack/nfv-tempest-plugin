@@ -962,7 +962,12 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         :param key_pair: SSH key for the instance connection
         """
         msg = 'Timed out waiting for {} to become reachable'.format(ip_addr)
-        self.assertTrue(self.ping_ip_address(ip_addr), msg)
+        ping_cmd = \
+            "ping -c{0} -w{1} -s56 {2} || true".format("1",
+                                                       "10",
+                                                       ip_addr)
+        ping_output = shell_utils.run_local_cmd_shell_with_venv(ping_cmd)
+        self.assertNotIn("100% packet loss", ping_output, msg)
         self.assertTrue(self.get_remote_client(ip_addr, user, key_pair), msg)
 
     def check_guest_provider_networks(self, servers, key_pair):
