@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80346bf1_fceded0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-09-01T07:05:57Z",
+      "side": 1,
+      "message": "Please explain it better, \nI am trying to understand the issue, here,\nIs it failing if melanoma nics selected? Is it a bug?",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "a87164e45fd0a7873f73ffe85947b687b44ce0fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37497ce4_12b401b4",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-09-01T07:05:57Z",
+      "side": 1,
+      "message": "Is it a Min or Max Qos?",
+      "range": {
+        "startLine": 389,
+        "startChar": 31,
+        "endLine": 389,
+        "endChar": 43
+      },
+      "revId": "a87164e45fd0a7873f73ffe85947b687b44ce0fc",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
