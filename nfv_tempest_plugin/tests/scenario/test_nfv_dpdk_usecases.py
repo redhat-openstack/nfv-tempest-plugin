@@ -194,13 +194,18 @@ class TestDpdkScenarios(base_test.BaseTest, QoSManagerMixin):
     def test_dpdk_max_qos(self, test='dpdk_max_qos'):
         """Test DPDK MAX QoS functionality
 
-        The test require [nfv_plugin_options ]
-        use_neutron_api_v2 = true in tempest.config.
-        Test also requires QoS neutron settings.
-        The test deploy 3 vms. one iperf server receive traffic from
-        two iperf clients, with max_qos defined run against iperf server.
-        The test search for Traffic per second and compare against ports
-        settings
+        The test deploys 3 instances and creates qos policy that
+        applied to the instances.
+        One iperf server receives traffic from two iperf clients with
+        max_qos parameter defined run against iperf server.
+        The test searches for "traffic per second" and compares
+        against ports settings.
+
+        Note - The test require the following plugin parameter
+               to be set in tempest.conf:
+               [nfv_plugin_options]
+               use_neutron_api_v2 = true
+        Neutron QoS settings should be applied during the overcloud deployment.
         """
         LOG.info('Start dpdk Max QoS test.')
 
