@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74517c96_788d4077",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-09-05T08:18:27Z",
+      "side": 1,
+      "message": "I would recommend not to delete this file.\nThere are important data for part of the tests,\njust needed to add the tempest.config parameters",
+      "range": {
+        "startLine": 13,
+        "startChar": 1,
+        "endLine": 13,
+        "endChar": 41
+      },
+      "revId": "ee1139b230f7c5e0447f62f1a80b72a361f92e39",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
