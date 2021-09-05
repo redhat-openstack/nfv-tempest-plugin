@@ -22,6 +22,30 @@
       },
       "revId": "ee1139b230f7c5e0447f62f1a80b72a361f92e39",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92270bcc_74c00d44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-09-05T09:10:29Z",
+      "side": 1,
+      "message": "Why do you think we need to keep this file?\nWhat kind of data we could get from there?\n\nThe problem with this file, is that we are not updating it.\nAs a result, currently, there are a bunch of missing tests.\nSo it\u0027s already not reflecting the actual state of the tests.\n\nAnother thing, is that all the parameters we defined within the external file, moved to config.py file of the plugin, with the relevant explanation regarding the test.",
+      "parentUuid": "74517c96_788d4077",
+      "range": {
+        "startLine": 13,
+        "startChar": 1,
+        "endLine": 13,
+        "endChar": 41
+      },
+      "revId": "ee1139b230f7c5e0447f62f1a80b72a361f92e39",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
