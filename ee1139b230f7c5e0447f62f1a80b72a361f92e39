@@ -46,6 +46,30 @@
       },
       "revId": "ee1139b230f7c5e0447f62f1a80b72a361f92e39",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cb2f10f_3864416d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-09-06T08:15:44Z",
+      "side": 1,
+      "message": "I agree with Yariv. I would not delete this file. I would keep a list of testcases with their descriptions.\nWe are already putting test description together with the testcases, maybe this file should be generated taking all of the tests and their descriptions from the code.",
+      "parentUuid": "92270bcc_74c00d44",
+      "range": {
+        "startLine": 13,
+        "startChar": 1,
+        "endLine": 13,
+        "endChar": 41
+      },
+      "revId": "ee1139b230f7c5e0447f62f1a80b72a361f92e39",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
