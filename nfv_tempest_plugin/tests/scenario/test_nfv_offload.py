@@ -133,41 +133,71 @@ class TestNfvOffload(base_test.BaseTest):
         # Create servers
         servers, key_pair = self.create_and_verify_resources(test=test,
                                                              num_servers=4)
+        hypervisors = self._get_hypervisor_ip_from_undercloud()
         cmd = 'sudo ovs-appctl dpctl/dump-flows -m type=offloaded'
         # Iterate over created servers
-        for server in servers:
+        ssh_source = self.get_remote_client(servers[0]['fip'],
+                                            username=self.instance_user,
+                                            private_key=key_pair[
+                                                'private_key'])
+        for server in servers[1:]:
+            for provider_network in server['provider_networks']:
 
-            shell_utils.continuous_ping(server['fip'],
-                                        duration=600)
-            LOG.info('test_offload_ovs_flows verify flows on geust {}'.
-                     format(server['fip']))
+                vf_nic = shell_utils.get_vf_from_mac(provider_network['mac'],
+                                                     server['hypervisor_ip'])
 
-            out = shell_utils.\
-                run_command_over_ssh(server['hypervisor_ip'],
-                                     cmd)
-            msg = ('Port with mac address {} is expected to be part of '
-                   'offloaded flows')
-            # Ping running only on floating ip
-            int_port = self.get_internal_port_from_fip(server['fip'])
-            self.assertTrue('capabilities' in
-                            int_port['binding:profile'] and 'switchdev'
-                            in int_port['binding:profile']['capabilities'],
-                            "port has not 'capabilities'")
-            self.assertIn(int_port['mac_address'], out,
-                          msg.format(int_port['mac_address']))
-            self.assertIn('offloaded:yes, dp:tc', out,
-                          'Did not find "offloaded:yes, dp:tc"')
-        # Pings are running check flows exist
-        # Retrieve all hypvervisors
-        hypervisors = self._get_hypervisor_ip_from_undercloud()
-        for hypervisor in hypervisors:
-            out = shell_utils.run_command_over_ssh(hypervisor,
-                                                   cmd)
-            msg = 'Hypervisor {} has no offloaded flows in OVS'.format(
-                hypervisor)
-            self.assertNotEmpty(out, msg)
-            LOG.info('Hypercisor {} has offloaded flows in OVS'.format(
-                hypervisor))
+                tcpdump_file = "/tmp/dump_{}.txt".format(vf_nic)
+                tcpdump_cmd = "sudo timeout {} tcpdump -i $ifc icmp " \
+                              "> {} 2>&1 || true; ".\
+                    format(600,tcpdump_file)
+                LOG.info('Executed on {}: {}'.format(server['hypervisor_ip'],
+                                                     tcpdump_cmd))
+                shell_utils.run_command_over_ssh(server['hypervisor_ip'],
+                                                 tcpdump_cmd)
 
-        # send stop statistics signal
-        shell_utils.stop_continuous_ping()
+
+                LOG.info('Executed on {}: {}'.format(test_server['fip'], cmd))
+                output = int(ssh_source.exec_command(cmd))
+
+                shell_utils.continuous_ping(server['fip'],
+                                            duration=600
+                                            ssh_client_local=ssh_source)
+                LOG.info('test_offload_ovs_flows verify flows on guest {}'.
+                         format(server['fip']))
+
+                out = shell_utils.\
+                    run_command_over_ssh(server['hypervisor_ip'],
+                                         cmd)
+                msg = ('Port with mac address {} is expected to be part of '
+                       'offloaded flows')
+                int_port = self.get_port_from_ip(provider_network['ip_address'])
+                self.assertTrue('capabilities' in
+                                int_port['binding:profile'] and 'switchdev'
+                               in int_port['binding:profile']['capabilities'],
+                              "port has not 'capabilities'")
+                self.assertIn(int_port['mac_address'], out,
+                             msg.format(int_port['mac_address']))
+                self.assertIn('offloaded:yes, dp:tc', out,
+                              'Did not find "offloaded:yes, dp:tc"')
+                for hypervisor in hypervisors:
+                    out = shell_utils.run_command_over_ssh(hypervisor,
+                                                           cmd)
+                    msg = 'Hypervisor {} has no offloaded flows in OVS'.format(
+                        hypervisor)
+                    self.assertNotEmpty(out, msg)
+                    LOG.info('Hypervisor {} has offloaded flows in OVS'.format(
+                    hypervisor))
+                stop_cmd = '(if pgrep tcpdump; then sudo pkill tcpdump; fi;' \
+                           ' cat {file}; rm {file}) > /dev/null 2>&1'.\
+                    format(file=tcpdump_file)
+                LOG.info('Executed on {}: {}'.format(server['hypervisor_ip'],
+                                                     stop_cmd))
+                output = shell_utils.\
+                    run_command_over_ssh(server['hypervisor_ip'],stop_cmd)
+
+                # send stop statistics signal
+                shell_utils.stop_continuous_ping(ssh_client_local=ssh_source))
+
+                # sleep 12 seconds so that flows expires (timeout for flows
+                # is 10 seconds
+                time.sleep(10)
