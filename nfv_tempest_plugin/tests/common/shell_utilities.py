@@ -293,7 +293,7 @@ def check_pid_ovs(ip_address):
     return ovs_process_pid
 
 
-def check_guest_interface_config(ssh_client, provider_networks,
+def check_guest_interface_config(c, provider_networks,
                                  hostname):
     """Check guest inteface network configuration
 
@@ -400,15 +400,19 @@ def find_vm_interface(ports=[],
 
 def continuous_ping(ip_dest,
                     mtu=1422,
-                    duration=10):
+                    duration=10,
+                    ssh_client_local=None):
     """continuous_ping
 
     The function send ping command in background mode
-    from tempest host to fip vm
+    if ssh_client_local is not configured it will ping from tempest
+    host, otherwise it will ping using ssh_client_local
 
     :param ip_dest: comma separated ip dests
     :param mtu: ping mtu size to check
     :param duration: duration of ping test.
+    :param ssh_client_local: ssh client to them vm from which ping
+           will be executed
     """
     cmd = "nohup ping -i 1 -c {duration} -q " \
           "-s {mtu} {ip_dest}"
@@ -417,29 +421,46 @@ def continuous_ping(ip_dest,
     ip_list = ip_dest.split(",")
     for ping_ip in ip_list:
         cmd_line = cmd.format(mtu=mtu, duration=duration, ip_dest=ping_ip)
-        log_file = "/tmp/ping-{ip_dest}.txt".format(ip_dest=ping_ip)
-        with open(log_file, 'w') as out:
-            sp.Popen(shlex.split(cmd_line), stdout=out,
-                     stderr=out)
+        if ssh_client_local:
+            ssh_source.exec_command(cmd_line)
+        else:
+            log_file = "/tmp/ping-{ip_dest}.txt".format(ip_dest=ping_ip)
+            with open(log_file, 'w') as out:
+                sp.Popen(shlex.split(cmd_line), stdout=out,
+                         stderr=out)
         LOG.debug('pinging %(ping_ip)s for %(duration)s ')
 
 
-def stop_continuous_ping():
+def stop_continuous_ping(ssh_client_local=None):
     """stop continuous_ping
+    if ssh_client_local is not configured it will stop ping from tempest
+    host, otherwise it will stop ping using ssh_client_local
 
-    The function does pgrep ping on local machines, send kill with
-    stop statistics
-    kill -SIGINT `pgrep ping
+    :param ssh_client_local: ssh client to them vm from which ping
+           will be stopped
     """
-    cmd = "pgrep ping"
-    remote_command = shlex.split(cmd)
-    pipe = sp.Popen(remote_command, stdout=sp.PIPE)
-    ping_pid = pipe.stdout.read().decode('UTF-8')\
-        .rstrip('\n').replace('\n', ' ')
-    LOG.info("Found the following pids: {}".format(ping_pid))
-    if ping_pid != '':
-        cmd = "/bin/kill -SIGINT {}".format(ping_pid)
-        remote_command = shlex.split(cmd)
-        pipe = sp.Popen(remote_command, stdout=sp.PIPE)
-        LOG.info("Ping process termiated {}".
-                 format(pipe.stdout.read().decode('UTF-8').rstrip('\n')))
+    cmd = "if pgrep ping; then sudo pkill ping; fi"
+    if ssh_client_local:
+        ssh_source.exec_command(cmd)
+    else:
+        pipe = sp.Popen(shlex.split(cmd), stdout=sp.PIPE)
+    LOG.info("Ping process terminated")
+
+def get_vf_from_mac(mac, hypervisor_ip):
+    """get VF from MAC
+
+    :param mac: mac address to search
+    :param hypervisor_ip: hypervisor in which the vf should be found
+
+    :return vf: returns VF associated to the mac address,
+                        None if not found
+    """
+    vf_number_cmd = "ip link | grep {mac} | awk '{print $2}'".format(mac)
+    vf_nic_cmd = "ip link | grep -B 1000 {mac} | grep \"^[0-9]*:\" | " \
+                 "tail -1 | awk -F ':' '{print $2}'".format(mac)
+    vf_number = run_command_over_ssh(hypervisor_ip, vf_number_cmd)
+    vf_nic = run_command_over_ssh(hypervisor_ip, vf_nic_cmd)
+
+    if vf_number and vf_nic_cmd:
+        return "{}_{}".format(vf_nic,vf_number)
+    else return None
