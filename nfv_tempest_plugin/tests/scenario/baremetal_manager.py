@@ -18,7 +18,6 @@ from __future__ import division  # Use Python3 divison in Python2
 import os.path
 import paramiko
 import re
-import time
 
 from nfv_tempest_plugin.tests.scenario import manager_utils
 from oslo_log import log
@@ -52,8 +51,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         self.instance_user = CONF.nfv_plugin_options.instance_user
         self.instance_pass = CONF.nfv_plugin_options.instance_pass
         self.nfv_scripts_path = CONF.nfv_plugin_options.transfer_files_dest
-        self.check_fip_connectivity = jsonutils.loads(
-            CONF.nfv_plugin_options.check_fip_connectivity)
         self.flavor_ref = CONF.compute.flavor_ref
         self.test_all_provider_networks = \
             CONF.nfv_plugin_options.test_all_provider_networks
@@ -965,13 +962,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         :param key_pair: SSH key for the instance connection
         """
         msg = 'Timed out waiting for {} to become reachable'.format(ip_addr)
-        ping_retries = 0
-        while not self.ping_ip_address(ip_addr) and \
-                ping_retries < self.check_fip_connectivity["max_ping_retries"]:
-            time.sleep(self.check_fip_connectivity["time_between_pings"])
-            ping_retries += 1
-        self.assertLess(ping_retries,
-                        self.check_fip_connectivity["max_ping_retries"], msg)
+        self.assertTrue(self.ping_ip_address(ip_addr), msg)
         self.assertTrue(self.get_remote_client(ip_addr, user, key_pair), msg)
 
     def check_guest_provider_networks(self, servers, key_pair):
