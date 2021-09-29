@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7d3d6bc2_72f2a52f",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-09-29T12:25:28Z",
+      "side": 1,
+      "message": "it is not so easy, because we are using offload interfaces for mgmt (ssh connection). i think this is the easier way, i would not complicate it. Currently flows timeout is 10 seconds, if in the future it is changed, this will fail and we will know about it.",
+      "parentUuid": "e5e36270_2ed05709",
+      "range": {
+        "startLine": 145,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 22
+      },
+      "revId": "a2930ca5ac15c31678bdd53776d005279f0e008d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4568ac2f_fb302433",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
         "patchSetId": 12
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d8ebb77_b567d4ef",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-09-29T12:25:28Z",
+      "side": 1,
+      "message": "I do not understand very well what you mean.\n\nI already know that sender and receiver are in the same network. I am iterating over all of the networks in the receiver to send a ping and I need the network in the sender in order to know both mac addresses in the sender and receiver. With mac addresses I get the vf used and I can execute tcpdump",
+      "parentUuid": "4568ac2f_fb302433",
+      "range": {
+        "startLine": 162,
+        "startChar": 18,
+        "endLine": 162,
+        "endChar": 76
+      },
+      "revId": "a2930ca5ac15c31678bdd53776d005279f0e008d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab22e79c_6b625abe",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
         "patchSetId": 12
@@ -60,6 +108,30 @@
       "writtenOn": "2021-09-29T12:15:01Z",
       "side": 1,
       "message": "I would recommend avoid sleeping, start with tcpdump into file\nStart with continous ping, \n\nAnd search for content of the mac address while tcpdump running\nin the output file.\n\nSet time when start cont_ping, if 10sec are passed and max address is not seen in file\nYou should fail the test :)",
+      "range": {
+        "startLine": 199,
+        "startChar": 15,
+        "endLine": 199,
+        "endChar": 30
+      },
+      "revId": "a2930ca5ac15c31678bdd53776d005279f0e008d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71320c0e_c8c80262",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-09-29T12:25:28Z",
+      "side": 1,
+      "message": "For me that solution is more complicated to understand, program and debug. For me this is the easier way, lets wait other people what they think",
+      "parentUuid": "ab22e79c_6b625abe",
       "range": {
         "startLine": 199,
         "startChar": 15,
