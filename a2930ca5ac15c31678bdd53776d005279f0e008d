@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5e36270_2ed05709",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-09-29T12:15:01Z",
+      "side": 1,
+      "message": "I would check if there is no dp:tc\n sudo ovs-appctl dpctl/dump-flows -m type\u003doffloaded\n\nother wise test should not start\nSleep is not a validation.",
+      "range": {
+        "startLine": 145,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 22
+      },
+      "revId": "a2930ca5ac15c31678bdd53776d005279f0e008d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4568ac2f_fb302433",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-09-29T12:15:01Z",
+      "side": 1,
+      "message": "I think this should be in baremetal manager\nWe allready had this issue with QoS tests, we had to verify that sender port and listener port are in the same network\n\nNeed to prepare that vms ports under test are all in the same provider network\nYou can end this method in line 167\n\nOnce you build the data for run you can start your test\nWith vf mac addreses etc",
+      "range": {
+        "startLine": 162,
+        "startChar": 18,
+        "endLine": 162,
+        "endChar": 76
+      },
+      "revId": "a2930ca5ac15c31678bdd53776d005279f0e008d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab22e79c_6b625abe",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-09-29T12:15:01Z",
+      "side": 1,
+      "message": "I would recommend avoid sleeping, start with tcpdump into file\nStart with continous ping, \n\nAnd search for content of the mac address while tcpdump running\nin the output file.\n\nSet time when start cont_ping, if 10sec are passed and max address is not seen in file\nYou should fail the test :)",
+      "range": {
+        "startLine": 199,
+        "startChar": 15,
+        "endLine": 199,
+        "endChar": 30
+      },
+      "revId": "a2930ca5ac15c31678bdd53776d005279f0e008d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
