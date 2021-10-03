@@ -142,6 +142,13 @@ class TestAdvancedScenarios(base_test.BaseTest):
             raise ValueError("The instances should reside on a single "
                              "hypervisor. Use availability zone to reach "
                              "that state.")
+        kw_args = {'block_migration': True, 'force': True}
+        # on 16.X microversion is 2.72
+        if float(CONF.compute.min_microversion) > 2.67:
+            kw_args.pop('force')
+        self.os_admin.servers_client.live_migrate_server(
+            server_id=fip_srv[0]['id'],
+            host=hyper[1]['hypervisor_hostname'], *kw_args)
         LOG.info('Migrate the instance')
         self.os_admin.servers_client.live_migrate_server(
             server_id=fip_srv[0]['id'], block_migration=True,
