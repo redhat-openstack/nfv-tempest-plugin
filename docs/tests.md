@@ -188,7 +188,7 @@ Otherwise the test will create a flavor based on the parameters defined at the t
   
   **Note** - Network capable Min Qos must be marked in test_network as min_qos=true/false.
   **Note** - Train release test requires:
-             - tempest microversion set to 2.72
+             - tempest microversion set to 2.79, Max API for Train  
              - nova parameter resource_provider_bandwidths 
   
 ----------

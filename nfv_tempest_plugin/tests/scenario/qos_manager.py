@@ -75,7 +75,7 @@ class QoSManagerMixin(object):
                              'directions: {s_p}'
                              .format(d=direction,
                                      s_p=SUPPORTED_DIRECTIONS.join(', ')))
-        qos_min_bw_client = self.os_admin.qos_min_bw_client
+        qos_min_bw_client = self.os_admin_v2.qos_minimum_bandwidth_rules_client
         result = qos_min_bw_client.create_minimum_bandwidth_rule(
             policy_id, **{'min_kbps': min_kbps, 'direction': direction})
         self.assertIsNotNone(result, 'Unable to create minimum bandwidth '
@@ -113,15 +113,15 @@ class QoSManagerMixin(object):
         bw_rules = {'direction': direction,
                     'max_kbps': max_kbps,
                     'max_burst_kbps': max_burst_kbps}
-        qos_max_bw_client = self.os_admin_v2.network_client_v2
-        result = qos_max_bw_client.create_bandwidth_limit_rule(policy_id,
+        qos_max_bw_client = self.os_admin_v2.qos_limit_bandwidth_rules_client
+        result = qos_max_bw_client.create_limit_bandwidth_rule(policy_id,
                                                                **bw_rules)
         self.assertIsNotNone(result, 'Unable to create maximum bandwidth '
                                      'QoS rule')
         qos_rule = result['bandwidth_limit_rule']
         self.addCleanup(
             test_utils.call_and_ignore_notfound_exc,
-            qos_max_bw_client.delete_bandwidth_limit_rule, policy_id,
+            qos_max_bw_client.delete_limit_bandwidth_rule, policy_id,
             qos_rule['id'])
 
     def create_qos_policy_with_rules(self, use_default=True, **kwargs):
