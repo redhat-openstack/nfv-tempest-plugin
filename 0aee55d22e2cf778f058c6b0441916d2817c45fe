@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "213bc648_cbac7961",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-10-04T11:04:31Z",
+      "side": 1,
+      "message": "Will have to check it, could be a type, will check the tested code,\nThanks",
+      "parentUuid": "cc87404c_02333ce4",
+      "range": {
+        "startLine": 150,
+        "startChar": 8,
+        "endLine": 152,
+        "endChar": 60
+      },
+      "revId": "0aee55d22e2cf778f058c6b0441916d2817c45fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "554c5a39_7125f0fa",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
         "patchSetId": 7
@@ -37,6 +61,30 @@
       "writtenOn": "2021-10-04T10:13:14Z",
       "side": 1,
       "message": "Please, change it to \"live\".",
+      "range": {
+        "startLine": 159,
+        "startChar": 57,
+        "endLine": 159,
+        "endChar": 61
+      },
+      "revId": "0aee55d22e2cf778f058c6b0441916d2817c45fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4de7d970_dc5002ce",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-10-04T11:04:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "554c5a39_7125f0fa",
       "range": {
         "startLine": 159,
         "startChar": 57,
