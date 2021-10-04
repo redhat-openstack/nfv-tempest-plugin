@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc87404c_02333ce4",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-10-04T10:13:14Z",
+      "side": 1,
+      "message": "This call duplicates the migration call in lines 154-156.\nIs there a reason for that?",
+      "range": {
+        "startLine": 150,
+        "startChar": 8,
+        "endLine": 152,
+        "endChar": 60
+      },
+      "revId": "0aee55d22e2cf778f058c6b0441916d2817c45fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "554c5a39_7125f0fa",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-10-04T10:13:14Z",
+      "side": 1,
+      "message": "Please, change it to \"live\".",
+      "range": {
+        "startLine": 159,
+        "startChar": 57,
+        "endLine": 159,
+        "endChar": 61
+      },
+      "revId": "0aee55d22e2cf778f058c6b0441916d2817c45fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
