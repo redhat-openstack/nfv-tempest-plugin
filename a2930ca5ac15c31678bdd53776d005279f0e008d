@@ -72,6 +72,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9955e391_21119b45",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-10-05T14:19:40Z",
+      "side": 1,
+      "message": "nvm",
+      "parentUuid": "1b290156_f1198e17",
+      "range": {
+        "startLine": 145,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 22
+      },
+      "revId": "a2930ca5ac15c31678bdd53776d005279f0e008d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4568ac2f_fb302433",
@@ -133,6 +157,30 @@
       "side": 1,
       "message": "We have the same issues every time\nWe had it with QoS tests, and we added another flag reading,\n\nWe could suggest a method that build this data, \nIf we would like all ports to be in the same network, we could use this mechanism do decide the mac addresses in vms to be used for listening or sending traffic for tests,",
       "parentUuid": "0d8ebb77_b567d4ef",
+      "range": {
+        "startLine": 162,
+        "startChar": 18,
+        "endLine": 162,
+        "endChar": 76
+      },
+      "revId": "a2930ca5ac15c31678bdd53776d005279f0e008d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "141fee4b_50d38177",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-10-05T14:19:40Z",
+      "side": 1,
+      "message": "nvm",
+      "parentUuid": "4cdd9ef7_54523125",
       "range": {
         "startLine": 162,
         "startChar": 18,
