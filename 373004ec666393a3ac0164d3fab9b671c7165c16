@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "060ba992_0cbff1fe",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-10-05T14:23:06Z",
+      "side": 1,
+      "message": "why 2.67? why is it done in a different way depending on this? I think a comment here would help to understand it\nIn the commit description it says 2.36\nFor me it is confusing the meaning of these different microversion numbers",
+      "range": {
+        "startLine": 147,
+        "startChar": 50,
+        "endLine": 147,
+        "endChar": 54
+      },
+      "revId": "373004ec666393a3ac0164d3fab9b671c7165c16",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
