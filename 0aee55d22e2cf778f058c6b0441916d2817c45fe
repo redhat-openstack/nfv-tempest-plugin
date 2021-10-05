@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7740bc51_bfc9934d",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-10-05T09:03:13Z",
+      "side": 1,
+      "message": "Fixed, thank you",
+      "parentUuid": "213bc648_cbac7961",
+      "range": {
+        "startLine": 150,
+        "startChar": 8,
+        "endLine": 152,
+        "endChar": 60
+      },
+      "revId": "0aee55d22e2cf778f058c6b0441916d2817c45fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "554c5a39_7125f0fa",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "554c5a39_7125f0fa",
+      "range": {
+        "startLine": 159,
+        "startChar": 57,
+        "endLine": 159,
+        "endChar": 61
+      },
+      "revId": "0aee55d22e2cf778f058c6b0441916d2817c45fe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c77d562_34db2b2d",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-10-05T09:03:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4de7d970_dc5002ce",
       "range": {
         "startLine": 159,
         "startChar": 57,
