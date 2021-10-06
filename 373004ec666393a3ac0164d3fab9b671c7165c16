@@ -22,6 +22,30 @@
       },
       "revId": "373004ec666393a3ac0164d3fab9b671c7165c16",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e70f364d_bc5b8181",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-10-06T06:23:58Z",
+      "side": 1,
+      "message": "\u003e why 2.67? why is it done in a different way depending on this? I think a comment here would help to understand it\n\nIf you look at the compute API\nhttps://docs.openstack.org/api-ref/compute/?expanded\u003dlive-migrate-server-os-migratelive-action-detail\n\nThe force option is deprecated in 2.67\nand block-migration set to \"auto\" from, 2.25 and up\n\n\u003e In the commit description it says 2.36\nSorry, it should be 2.34, this is background mechanism that checks if target fits,\nIt is background process, if verification failed, vm will stay ACTIVE without trying to migrate\n\n\u003e For me it is confusing the meaning of these different microversion numbers",
+      "parentUuid": "060ba992_0cbff1fe",
+      "range": {
+        "startLine": 147,
+        "startChar": 50,
+        "endLine": 147,
+        "endChar": 54
+      },
+      "revId": "373004ec666393a3ac0164d3fab9b671c7165c16",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
