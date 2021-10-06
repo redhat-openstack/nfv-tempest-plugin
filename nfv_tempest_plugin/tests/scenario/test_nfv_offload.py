@@ -138,7 +138,7 @@ class TestNfvOffload(base_test.BaseTest):
         LOG.info('test_offload_ovs_flows create vms')
         # Create servers
         servers, key_pair = self.create_and_verify_resources(test=test,
-                                                             num_servers=4)
+                                                             num_servers=2)
         # sleep 10 seconds so that flows generated checking provider network
         # connectivity during resource creation are removed. Timeout for flows
         # deletion is 10 seconds
