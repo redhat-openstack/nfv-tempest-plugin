@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0904c75_9480be9e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-10-10T07:15:11Z",
+      "side": 1,
+      "message": "Please Give configuration option here\nWe would never meet this BZ unless we were running the test as is,\nIs it?",
+      "range": {
+        "startLine": 141,
+        "startChar": 61,
+        "endLine": 141,
+        "endChar": 74
+      },
+      "revId": "357627899689800cff23e9b62bfd2caca2e3f00b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
