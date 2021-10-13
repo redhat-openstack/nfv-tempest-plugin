@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1170b5a2_6db550a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-10-13T07:16:05Z",
+      "side": 1,
+      "message": "I think we should add a different testcase to test this issue,I would say this problem is unrelated. The problem now is that offload testcase is failing for an unrelated issue so we can not say if offload works or not.",
+      "parentUuid": "09acab73_59d76d9b",
+      "revId": "357627899689800cff23e9b62bfd2caca2e3f00b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0904c75_9480be9e",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2021-10-10T07:15:11Z",
       "side": 1,
       "message": "Please Give configuration option here\nWe would never meet this BZ unless we were running the test as is,\nIs it?",
+      "range": {
+        "startLine": 141,
+        "startChar": 61,
+        "endLine": 141,
+        "endChar": 74
+      },
+      "revId": "357627899689800cff23e9b62bfd2caca2e3f00b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4738cc06_0bccb9d3",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2021-10-13T07:16:05Z",
+      "side": 1,
+      "message": "The problem with configuration parameters is that our ci does not use it, so, at the end it is useless. \nI think that we should configure num_servers\u003d2 and add other testcase that creates 2 vms per hypervisor with mellanox vfs. We have seen that this is failing using ovs hwoffload templates (as it is part of the ovs hwoffload testcase), but we do not know if it would fail in other configuration if we would use mellanox vfs.",
+      "parentUuid": "c0904c75_9480be9e",
       "range": {
         "startLine": 141,
         "startChar": 61,
