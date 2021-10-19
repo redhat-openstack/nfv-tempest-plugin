@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a37d45ab_184fdab6",
+        "filename": "docs/installation.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-10-19T08:58:22Z",
+      "side": 1,
+      "message": "Added.",
+      "parentUuid": "8b7a9b2a_a224a5d4",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 18
+      },
+      "revId": "4802b10e8df234d08416397dfe960a002ccec53a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ac8243b_278c1a20",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-10-06T06:54:33Z",
       "side": 1,
       "message": "Please remove this one",
+      "range": {
+        "startLine": 298,
+        "startChar": 0,
+        "endLine": 298,
+        "endChar": 4
+      },
+      "revId": "4802b10e8df234d08416397dfe960a002ccec53a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2a427ca_7df51080",
+        "filename": "docs/tests.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1008672
+      },
+      "writtenOn": "2021-10-19T08:58:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ac8243b_278c1a20",
       "range": {
         "startLine": 298,
         "startChar": 0,
