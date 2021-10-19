@@ -46,6 +46,30 @@
       },
       "revId": "373004ec666393a3ac0164d3fab9b671c7165c16",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cbb3242_c089ab0b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_advanced_usecases.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2021-10-19T09:48:20Z",
+      "side": 1,
+      "message": "No reply from @mnietoji",
+      "parentUuid": "e70f364d_bc5b8181",
+      "range": {
+        "startLine": 147,
+        "startChar": 50,
+        "endLine": 147,
+        "endChar": 54
+      },
+      "revId": "373004ec666393a3ac0164d3fab9b671c7165c16",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
