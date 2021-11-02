@@ -34,7 +34,7 @@ class TestAdvancedScenarios(base_test.BaseTest):
         super(TestAdvancedScenarios, self).setUp()
 
     def test_numa_aware_vswitch(self, test='numa_aware_vswitch'):
-        """Test proper vcpu allocation according to numa aware vswitch config
+        """Test tests vcpu allocation according to numa aware vswitch config
 
         The numa aware vswitch allows to configure the allocation of the
         instance vcpu by mapping the physnet to the proper numa node.

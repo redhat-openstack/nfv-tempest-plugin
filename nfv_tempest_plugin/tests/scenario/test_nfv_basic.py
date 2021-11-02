@@ -117,11 +117,12 @@ class TestNfvBasic(base_test.BaseTest):
     def test_mtu_ping_test(self, test='test-ping-mtu'):
         """Test MTU by pinging instance gateway
 
-        The test boots an instance with given args from external_config_file,
-        connect to the instance using ssh, and ping with given MTU to GW.
-        * This tests depend on MTU configured at running environment.
-        ** The MTU size could be given by using plugin config.
-           If not given, the MTU discovered automatically.
+        The test boots and instance, connects to the instance by ssh and
+        pings the network gateway address with the appropriate MTU size.
+
+        Note - The size of the mtu discovered automatically from the
+               running environment. The value may differ between deployments.
+               Custom mtu size could be provided wia the plugin defaults.
 
         :param test: Test name from the config file
         :param mtu: Size of the mtu to check
@@ -162,8 +163,8 @@ class TestNfvBasic(base_test.BaseTest):
     def test_cold_migration(self, test='cold-migration'):
         """Test cold migration
 
-        The test shuts down the instance, migrates it and brings it up to
-        verify resize.
+        The test shuts down the instance, migrates it to a different
+        hypervisor and brings it up to verify resize state.
         """
         servers, key_pair = self.create_and_verify_resources(test=test)
 
@@ -185,13 +186,13 @@ class TestNfvBasic(base_test.BaseTest):
         LOG.info('The cold migration test passed.')
 
     def test_emulatorpin(self, test='emulatorpin'):
-        """Test emulatorpin on the instance vs nova configuration
+        """Test emulatorpin on the running instance vs nova configuration
 
         The test compares emulatorpin value from the dumpxml of the running
-        instance vs values of the overcloud nova configuration
+        instance with values of the overcloud nova configuration.
 
-        Note! - The test suit only for RHOS version 14 and up, since the
-                emulatorpin feature was implemented only in version 14.
+        Note - The test suit only for RHOS version 14 and up, since the
+               emulatorpin feature was implemented only in version 14.
         """
 
         servers, key_pair = self.create_and_verify_resources(test=test)
