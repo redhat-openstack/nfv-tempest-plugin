@@ -1141,3 +1141,84 @@ class ManagerMixin(object):
         if not bond_ports:
             raise ValueError('LACP configuration is missing')
         return {'bond_name': bond, 'bond_ports': bond_ports}
+
+    def get_ovs_other_config_params(self, hypervisor_ip):
+        """Get ovs other_config params
+
+        Get ovs other config params
+
+        :param hypervisor_ip: hypervisor server
+        :return dictionary with parameters
+        """
+        cmd = 'sudo ovs-vsctl --format=json get ' \
+              'open_vswitch . other_config'
+
+        # parse cmd command
+        output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
+        return json.loads(output)
+
+    def get_number_queues_for_interface(self, hypervisor_ip, interface):
+        """Get number of queues for interface
+
+        Get number of queues for interface
+
+        :param hypervisor_ip: hypervisor server
+        :param interface: interface to get queues
+        :return dictionary with parameters
+        """
+        cmd = ' ovs-vsctl  list Interface {} | ' \
+              'grep -o -P "n_rxq.{0,4}" | awk -F \'"\' \'{print $2}\''
+
+        # parse cmd command
+        output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
+        queues = -1
+        try:
+            queues = int(output)
+        except Exception:
+            pass
+        return queues
+
+    def get_pmd_cores_data(self, hypervisor_ip, ports_filter=None):
+        """Get pmd cores data
+
+        Return output of command: ovs-appctl dpif-netdev/pmd-rxq-show
+
+        :param hypervisor_ip: hypervisor server
+        :param ports_filter: filter only these ports if not null
+        :return dictionary with information processed
+        """
+        cmd = 'ovs-appctl dpif-netdev/pmd-rxq-show'
+
+        # parse cmd command
+        output_data = {}
+        output = shell_utils.run_command_over_ssh(hypervisor_ip, cmd)
+        pmd_data = {}
+        for line in output.split("\n"):
+            pmd_regex = "pmd thread numa_id(\d +) core_id(\d +):"
+            port_regex = "  port: (\w+)\s+queue-id:\s+(\d+) " \
+                         "\(enabled\)\s+pmd usage:\s+(\d+) %"
+            pmd_out = re.search(pmd_regex, ln)
+            port_out = re.search(port_regex, ln)
+            if pmd_out:
+                if len(pmd_data.keys()) > 0:
+                    key = "{}_{}".format(pmd_data["numa_id"],
+                                         pmd_data["core_id"])
+                    if len(pmd_data["queues"]) > 0:
+                        output_data[key] = pmd_data
+                    pmd_data = {}
+                pmd_data["numa_id"] = pmd_out.group(0)
+                pmd_data["core_id"] = pmd_out.group(1)
+                pmd_data["queues"] = {}
+            if port_out:
+                queue = {}
+                queue["port"] = port_out.group(0)
+                queue["queue_id"] = port_out.group(1)
+                queue["pmd_usage"] = port_out.group(2)
+                if (ports_filter is None) or (ports_filter is not None and queue["port"] in ports_filter):
+                    key_queue = "{}_{}".format(queue["port"], queue["queue_id"])
+                    pmd_data["queues"][key_queue] = queue
+        if len(pmd_data.keys()) > 0:
+            key = "{}_{}".format(pmd_data["numa_id"],
+                                 pmd_data["core_id"])
+            output_data[key] = pmd_data
+        return output_data
