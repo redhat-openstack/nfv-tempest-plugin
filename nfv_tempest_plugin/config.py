@@ -146,4 +146,15 @@ NfvPluginOptions = [
                        '"lacp_status": "negotiated",'
                        '"lacp_fallback_ab": "true"}',
                help='LACP configuration for LACP deployment test.'),
+    cfg.StrOpt('autobalance_config',
+               default='{"pmd-auto-lb": "true",'
+                       '"pmd-auto-lb-improvement-threshold": "70",'
+                       '"pmd-auto-lb-load-threshold": "70",'
+                       '"pmd-auto-lb-rebal-interval": "3",'
+                       '"pmd-cpu-mask": fc}',
+               help='Autobalance configuration for testcase'),
+    cfg.StrOpt('multiqueue_config',
+               default='[{"port":"dpdk2", "queues":3},'
+                       '{"port":"dpdk3", "queues":3}]',
+               help='Multiqueue configuration for testcase'),
 ]
