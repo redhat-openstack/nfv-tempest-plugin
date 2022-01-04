@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b57606a6_a1073af3",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2022-01-04T00:34:54Z",
+      "side": 1,
+      "message": "Is it possible to have a higher number than 4?",
+      "range": {
+        "startLine": 1178,
+        "startChar": 33,
+        "endLine": 1178,
+        "endChar": 40
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4efabac5_5fa0708b",
+        "filename": "nfv_tempest_plugin/tests/scenario/multiqueue_manager.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2022-01-04T00:34:54Z",
+      "side": 1,
+      "message": "I know this is nitpicking but it should be 2022.",
+      "range": {
+        "startLine": 1,
+        "startChar": 12,
+        "endLine": 1,
+        "endChar": 16
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e958ef5b_a6b5761b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_multiqueue_usecases.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2022-01-04T00:34:54Z",
+      "side": 1,
+      "message": "I know this is nitpicking but it should be 2022.",
+      "range": {
+        "startLine": 1,
+        "startChar": 12,
+        "endLine": 1,
+        "endChar": 16
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13c43e1a_aca1c786",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_multiqueue_usecases.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2022-01-04T00:34:54Z",
+      "side": 1,
+      "message": "I don\u0027t think we really need this parameter, what do you think?",
+      "range": {
+        "startLine": 49,
+        "startChar": 39,
+        "endLine": 49,
+        "endChar": 65
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7107499b_d0899f1c",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_multiqueue_usecases.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2022-01-04T00:34:54Z",
+      "side": 1,
+      "message": "I don\u0027t think we really need this parameter, what do you think?",
+      "range": {
+        "startLine": 103,
+        "startChar": 43,
+        "endLine": 103,
+        "endChar": 73
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "994cb3a9_cc964411",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_multiqueue_usecases.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2022-01-04T00:34:54Z",
+      "side": 1,
+      "message": "I don\u0027t think we really need this parameter, what do you think?",
+      "range": {
+        "startLine": 125,
+        "startChar": 44,
+        "endLine": 125,
+        "endChar": 75
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67d16f59_57134037",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_multiqueue_usecases.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2022-01-04T00:34:54Z",
+      "side": 1,
+      "message": "I don\u0027t think we really need this parameter, what do you think?",
+      "range": {
+        "startLine": 147,
+        "startChar": 42,
+        "endLine": 147,
+        "endChar": 73
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
