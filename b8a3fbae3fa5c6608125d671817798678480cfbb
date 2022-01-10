@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "28889210_38cf8441",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2022-01-10T11:10:10Z",
+      "side": 1,
+      "message": "sudo ovs-vsctl list Interface dpdk2  | grep -o -P \"n_rxq.{0,4}\"\nn_rxq\u003d\"3\"\n\nIt is taking 4 characters after n_rxq, so for 0-9 queues it would take \u003d\"3\" and for 10 to 99 \u003d\"33. Later on with awk I take the number. As it is currently, it will work with less than 100 queues, that I think it is ok.\nsudo ovs-vsctl list Interface dpdk2  | grep -o -P \"n_rxq.{0,3}\" | awk -F \u0027\"\u0027 \u0027{print $2}\u0027",
+      "parentUuid": "b57606a6_a1073af3",
+      "range": {
+        "startLine": 1178,
+        "startChar": 33,
+        "endLine": 1178,
+        "endChar": 40
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4efabac5_5fa0708b",
         "filename": "nfv_tempest_plugin/tests/scenario/multiqueue_manager.py",
         "patchSetId": 38
@@ -37,6 +61,30 @@
       "writtenOn": "2022-01-04T00:34:54Z",
       "side": 1,
       "message": "I know this is nitpicking but it should be 2022.",
+      "range": {
+        "startLine": 1,
+        "startChar": 12,
+        "endLine": 1,
+        "endChar": 16
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c54de1db_ee634520",
+        "filename": "nfv_tempest_plugin/tests/scenario/multiqueue_manager.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2022-01-10T11:10:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4efabac5_5fa0708b",
       "range": {
         "startLine": 1,
         "startChar": 12,
@@ -60,6 +108,30 @@
       "writtenOn": "2022-01-04T00:34:54Z",
       "side": 1,
       "message": "I know this is nitpicking but it should be 2022.",
+      "range": {
+        "startLine": 1,
+        "startChar": 12,
+        "endLine": 1,
+        "endChar": 16
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac3d6141_1326ef77",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_multiqueue_usecases.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2022-01-10T11:10:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e958ef5b_a6b5761b",
       "range": {
         "startLine": 1,
         "startChar": 12,
@@ -95,6 +167,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3180ad8c_eb91a50b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_multiqueue_usecases.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2022-01-10T11:10:10Z",
+      "side": 1,
+      "message": "It is used for resource creator, this testcase does not need any vm, so maybe it can be removed",
+      "parentUuid": "13c43e1a_aca1c786",
+      "range": {
+        "startLine": 49,
+        "startChar": 39,
+        "endLine": 49,
+        "endChar": 65
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7107499b_d0899f1c",
         "filename": "nfv_tempest_plugin/tests/scenario/test_multiqueue_usecases.py",
         "patchSetId": 38
@@ -106,6 +202,30 @@
       "writtenOn": "2022-01-04T00:34:54Z",
       "side": 1,
       "message": "I don\u0027t think we really need this parameter, what do you think?",
+      "range": {
+        "startLine": 103,
+        "startChar": 43,
+        "endLine": 103,
+        "endChar": 73
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a0069ec_d7644cb2",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_multiqueue_usecases.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2022-01-10T11:10:10Z",
+      "side": 1,
+      "message": "Yes, i think it is needed. I am using resource creator and when defining instances I am using it:\n  - name: testpmd-dpdk-dut\n    cloud_name: nfv_tempest\n    groups:\n      - dpdk_dut\n      - mq_autob_over_threshold\n      - mq_autob_under_threshold\n      - mq_autob_no_improvement\n      - mq_autob_interval",
+      "parentUuid": "7107499b_d0899f1c",
       "range": {
         "startLine": 103,
         "startChar": 43,
@@ -141,6 +261,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d97d225c_4b5ebc52",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_multiqueue_usecases.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2022-01-10T11:10:10Z",
+      "side": 1,
+      "message": "Yes, i think it is needed. I am using resource creator and when defining instances I am using it:\n  - name: testpmd-dpdk-dut\n    cloud_name: nfv_tempest\n    groups:\n      - dpdk_dut\n      - mq_autob_over_threshold\n      - mq_autob_under_threshold\n      - mq_autob_no_improvement\n      - mq_autob_interval",
+      "parentUuid": "994cb3a9_cc964411",
+      "range": {
+        "startLine": 125,
+        "startChar": 44,
+        "endLine": 125,
+        "endChar": 75
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "67d16f59_57134037",
         "filename": "nfv_tempest_plugin/tests/scenario/test_multiqueue_usecases.py",
         "patchSetId": 38
@@ -152,6 +296,30 @@
       "writtenOn": "2022-01-04T00:34:54Z",
       "side": 1,
       "message": "I don\u0027t think we really need this parameter, what do you think?",
+      "range": {
+        "startLine": 147,
+        "startChar": 42,
+        "endLine": 147,
+        "endChar": 73
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0377fe32_75514cdb",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_multiqueue_usecases.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2022-01-10T11:10:10Z",
+      "side": 1,
+      "message": "Yes, i think it is needed. I am using resource creator and when defining instances I am using it:\n  - name: testpmd-dpdk-dut\n    cloud_name: nfv_tempest\n    groups:\n      - dpdk_dut\n      - mq_autob_over_threshold\n      - mq_autob_under_threshold\n      - mq_autob_no_improvement\n      - mq_autob_interval",
+      "parentUuid": "67d16f59_57134037",
       "range": {
         "startLine": 147,
         "startChar": 42,
