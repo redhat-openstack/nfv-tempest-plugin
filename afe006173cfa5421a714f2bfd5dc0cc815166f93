@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60bc9d93_31481d32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1008484
+      },
+      "writtenOn": "2022-01-16T15:30:51Z",
+      "side": 1,
+      "message": "Why not using the resource create method? which learns all the resource created vms from the ourput file created from ansible-nfv?\n\nIn that case, you can move the manager to Mixin form and call regularly from tests.\n\nPlease refer this:\nhttps://github.com/redhat-openstack/nfv-tempest-plugin/blob/master/nfv_tempest_plugin/tests/scenario/qos_manager.py\n\nI think the generic form of the plugin for this test is not in high precedence.",
+      "revId": "afe006173cfa5421a714f2bfd5dc0cc815166f93",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
