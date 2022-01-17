@@ -48,6 +48,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "141bd013_677b91c6",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2022-01-17T08:57:47Z",
+      "side": 1,
+      "message": "Alright thank you.",
+      "parentUuid": "28889210_38cf8441",
+      "range": {
+        "startLine": 1178,
+        "startChar": 33,
+        "endLine": 1178,
+        "endChar": 40
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4efabac5_5fa0708b",
@@ -189,6 +213,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2368b5de_4b6de62b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_multiqueue_usecases.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2022-01-17T08:57:47Z",
+      "side": 1,
+      "message": "Alright lets leave it for now.",
+      "parentUuid": "3180ad8c_eb91a50b",
+      "range": {
+        "startLine": 49,
+        "startChar": 39,
+        "endLine": 49,
+        "endChar": 65
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7107499b_d0899f1c",
@@ -226,6 +274,30 @@
       "side": 1,
       "message": "Yes, i think it is needed. I am using resource creator and when defining instances I am using it:\n  - name: testpmd-dpdk-dut\n    cloud_name: nfv_tempest\n    groups:\n      - dpdk_dut\n      - mq_autob_over_threshold\n      - mq_autob_under_threshold\n      - mq_autob_no_improvement\n      - mq_autob_interval",
       "parentUuid": "7107499b_d0899f1c",
+      "range": {
+        "startLine": 103,
+        "startChar": 43,
+        "endLine": 103,
+        "endChar": 73
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d843a26_db39c40d",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_multiqueue_usecases.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2022-01-17T08:57:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3a0069ec_d7644cb2",
       "range": {
         "startLine": 103,
         "startChar": 43,
@@ -283,6 +355,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ad4f8e3_a70fdec1",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_multiqueue_usecases.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2022-01-17T08:57:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d97d225c_4b5ebc52",
+      "range": {
+        "startLine": 125,
+        "startChar": 44,
+        "endLine": 125,
+        "endChar": 75
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67d16f59_57134037",
@@ -320,6 +416,30 @@
       "side": 1,
       "message": "Yes, i think it is needed. I am using resource creator and when defining instances I am using it:\n  - name: testpmd-dpdk-dut\n    cloud_name: nfv_tempest\n    groups:\n      - dpdk_dut\n      - mq_autob_over_threshold\n      - mq_autob_under_threshold\n      - mq_autob_no_improvement\n      - mq_autob_interval",
       "parentUuid": "67d16f59_57134037",
+      "range": {
+        "startLine": 147,
+        "startChar": 42,
+        "endLine": 147,
+        "endChar": 73
+      },
+      "revId": "b8a3fbae3fa5c6608125d671817798678480cfbb",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44363d38_f0453789",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_multiqueue_usecases.py",
+        "patchSetId": 38
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2022-01-17T08:57:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0377fe32_75514cdb",
       "range": {
         "startLine": 147,
         "startChar": 42,
