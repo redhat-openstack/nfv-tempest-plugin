@@ -52,6 +52,24 @@
       "parentUuid": "d567536e_dbe2063d",
       "revId": "afe006173cfa5421a714f2bfd5dc0cc815166f93",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91484e03_8f0c02e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 40
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2022-01-17T14:18:01Z",
+      "side": 1,
+      "message": "This is an alternative solution. I do not see why this solution is better than the one I have implemented and at this point of development It will take me some time to modify and test everything. I do not know if it worths. I would prefer not to modify everything. \n@Vadim, @Ella, @Sanjay, what do you think?",
+      "parentUuid": "b83c320c_ef7983e5",
+      "revId": "afe006173cfa5421a714f2bfd5dc0cc815166f93",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
