@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c6c7eba_609ec062",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 41
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2022-01-25T09:09:40Z",
+      "side": 1,
+      "message": "I am wondering, if we can move to using python-ovs-vsctl and use the inbuilt json output? check https://python-ovs-vsctl.readthedocs.io/en/latest/getting_started.html",
+      "range": {
+        "startLine": 1178,
+        "startChar": 14,
+        "endLine": 1179,
+        "endChar": 71
+      },
+      "revId": "8b25c624cdbdc8c03e87c9d707810ad8f70a0056",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
