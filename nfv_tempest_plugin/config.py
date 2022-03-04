@@ -137,6 +137,9 @@ NfvPluginOptions = [
                 default=[],
                 help='Network interfaces to be tested for the offload test. '
                      'By default, the nics discovered automatically'),
+    cfg.StrOpt('offload_num_vms',
+               default=4,
+               help="Num of vms in testcase test_offload_ovs_flows"),
     cfg.StrOpt('kernel_args',
                default='default_hugepagesz=1GB hugepagesz=1G hugepages=64 '
                        'iommu=pt intel_iommu=on isolcpus=2-19,22-39',
