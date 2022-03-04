@@ -135,10 +135,11 @@ class TestNfvOffload(base_test.BaseTest):
         """
 
         LOG.info('Start test_offload_ovs_flows test.')
-        LOG.info('test_offload_ovs_flows create vms')
+        num_vms = CONF.nfv_plugin_options.offload_num_vms
+        LOG.info('test_offload_ovs_flows create {} vms'.format(num_vms))
         # Create servers
         servers, key_pair = self.create_and_verify_resources(test=test,
-                                                             num_servers=4)
+                                                             num_servers=num_vms)
         # sleep 10 seconds so that flows generated checking provider network
         # connectivity during resource creation are removed. Timeout for flows
         # deletion is 10 seconds
