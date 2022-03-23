@@ -18,8 +18,9 @@ from nfv_tempest_plugin.tests.common.async_utils_manager \
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario.day2.day2_manager import Day2Manager
 from oslo_log import log as logging
-from tempest.common import waiters
 from tempest import config
+from tempest.api.compute import api_microversion_fixture
+from tempest.common import waiters
 import time
 
 
@@ -46,6 +47,9 @@ class TestHypervisorScenarios(Day2Manager, AsyncUtilsManager):
         and tested for the accessability.
         """
         servers, key_pair = self.create_and_verify_resources(test=test)
+        # Ensure that we are using microversion '2.32' from now
+        self.useFixture(
+            api_microversion_fixture.APIMicroversionFixture('2.32'))
         LOG.info("Locate instance hypervisor")
         srv_hyper_name = self.os_admin.servers_client.show_server(
             servers[0]['id'])['server']['OS-EXT-SRV-ATTR:host']
