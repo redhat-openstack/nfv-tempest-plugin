@@ -20,6 +20,7 @@ from nfv_tempest_plugin.tests.scenario.day2.day2_manager import Day2Manager
 from oslo_log import log as logging
 from tempest.common import waiters
 from tempest import config
+from tempest.api.compute import api_microversion_fixture
 import time
 
 
@@ -49,8 +50,14 @@ class TestHypervisorScenarios(Day2Manager, AsyncUtilsManager):
         LOG.info("Locate instance hypervisor")
         srv_hyper_name = self.os_admin.servers_client.show_server(
             servers[0]['id'])['server']['OS-EXT-SRV-ATTR:host']
+        # Ensure that we are using microversion '2.32' for the following hypervisor request
+        self.useFixture(
+            api_microversion_fixture.APIMicroversionFixture('2.32'))
         srv_on_hyper = self.hypervisor_client.list_servers_on_hypervisor(
             srv_hyper_name)['hypervisors'][0]['servers']
+        # Return to predefined microversion
+        self.useFixture(api_microversion_fixture.APIMicroversionFixture(
+            self.request_microversion))
         LOG.info("Shut down the instances and reboot the hypervisor "
                  "the instance resides on")
         # In order the prevent instances file system corruption,
