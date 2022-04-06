@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca988d66_74f236b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2022-04-06T09:50:15Z",
+      "side": 1,
+      "message": "Is there way to bypass it on an individual level?\nFor example. if this option is populated will it attempt to install the packages every test?",
+      "revId": "1b6e442e577052060346c82c518c648a4ce62261",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
