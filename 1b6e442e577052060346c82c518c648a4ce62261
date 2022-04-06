@@ -34,6 +34,24 @@
       "parentUuid": "ca988d66_74f236b2",
       "revId": "1b6e442e577052060346c82c518c648a4ce62261",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ca56eb6_bc6d7c39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2022-04-06T10:07:19Z",
+      "side": 1,
+      "message": "Currently there is a option to insstall packages by a single test, this is other option to install packages for all testcases. I prefer this option in order to simplify our templates. In the past we had a lot of configuration for specific testcases that we have removed from our templates",
+      "parentUuid": "b92e5657_f2369652",
+      "revId": "1b6e442e577052060346c82c518c648a4ce62261",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
