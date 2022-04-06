@@ -41,6 +41,9 @@ NfvPluginOptions = [
                 help='A comma separated dictionaries of the repositories.'
                      'The format of the repo definition -'
                      'repo_name1: repo_url1, repo_name2: repo_url2'),
+    cfg.ListOpt('install_packages',
+                default=[],
+                help='A list of packages to install'),
     cfg.StrOpt('external_config_file',
                default=None,
                help="The path to yml file for additional configurations"),

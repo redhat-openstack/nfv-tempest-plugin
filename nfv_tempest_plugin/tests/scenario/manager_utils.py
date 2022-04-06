@@ -25,6 +25,7 @@ import yaml
 
 from nfv_tempest_plugin.services.os_clients import OsClients
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
+from oslo_config import cfg
 from oslo_log import log
 from oslo_serialization import jsonutils
 from tempest import config
@@ -489,11 +490,19 @@ class ManagerMixin(object):
                                repo_url=repo_url)
         self.user_data = "".join((self.user_data, repos))
 
+        packages = []
         if install_packages is not None:
+            packages += install_packages
+        try:
+            packages += CONF.nfv_plugin_options.install_packages
+        except cfg.NoSuchOptError:
+            pass
+        if len(packages) > 0:
+            packages = list(set(packages))
             header = '''
                              packages:'''
             body = ''
-            for package in install_packages:
+            for package in packages:
                 body += '''
                              - {package}'''.format(package=package)
             package = "".join((header, body))
