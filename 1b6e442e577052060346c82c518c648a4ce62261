@@ -70,6 +70,24 @@
       "parentUuid": "7ca56eb6_bc6d7c39",
       "revId": "1b6e442e577052060346c82c518c648a4ce62261",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ff99954_c146be5d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2022-04-07T07:47:39Z",
+      "side": 1,
+      "message": "It will only install packages if they are configured in deployer_input.ini. I am going to use this option to install iperf in offload testcases, so only offload regression will install it. I could configure testcases in the tempest yaml file with the packages to install, but in the past, our stategy has been just the opposite, we have removed everything related to testcases from this file.",
+      "parentUuid": "db86a95c_08589c98",
+      "revId": "1b6e442e577052060346c82c518c648a4ce62261",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
