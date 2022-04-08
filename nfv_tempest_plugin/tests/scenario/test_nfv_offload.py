@@ -13,6 +13,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import random
 import time
 
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
@@ -121,8 +122,8 @@ class TestNfvOffload(base_test.BaseTest):
         msg = "Not all hypervisors contains nics in switchev mode"
         self.assertItemsEqual(expected_result, result, msg)
 
-    def test_offload_ovs_flows(self, test='offload_flows'):
-        """Check OVS offloaded flows
+    def test_offload_icmp(self, test='offload_icmp'):
+        """Check ICMP traffic is offloaded
 
         The following test deploy vms, on hw-offload computes.
         It sends async ping and check offload flows exist in ovs.
@@ -133,26 +134,71 @@ class TestNfvOffload(base_test.BaseTest):
 
         :param test: Test name from the external config file.
         """
+        LOG.info('Start test_offload_icmp test.')
+        self.run_offload_testcase("icmp")
 
-        LOG.info('Start test_offload_ovs_flows test.')
+    def test_offload_udp(self, test='offload_udp'):
+        """Check UDP traffic is offloaded
+
+        The following test deploy vms, on hw-offload computes.
+        It sends UDP traffic and check offload flows exist in ovs.
+        It will also capture traffic in representor port in both
+        hypervisors. There should be a single UDP packet.
+        As soon as offloading is working, tcpdump
+        does not show any packet in representor port
+
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_offload_udp test.')
+        self.run_offload_testcase("udp")
+
+    def test_offload_tcp(self, test='offload_tcp'):
+        """Check TCP traffic is offloaded
+
+        The following test deploy vms, on hw-offload computes.
+        It sends TCP traffic and check offload flows exist in ovs.
+        It will also capture traffic in representor port in both
+        hypervisors. There should be 2 TCP packets (one per direction).
+        As soon as offloading is working, tcpdump
+        does not show any packet in representor port
+
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_offload_tcp test.')
+        self.run_offload_testcase("tcp")
+
+    def run_offload_testcase(self, protocol):
+        """Run offload testcase with different injection traffic
+
+        This function will create resources needed to run offload
+        testcases including test networks and vms. Then it will
+        inject traffic (tcp, udp or icmp), it will check flows and
+        traffic in representor port and it will report if the
+        behaviour was as expected
+
+        :param protocol: Protocol to test (udp, tcp, icmp)
+        """
         num_vms = int(CONF.nfv_plugin_options.offload_num_vms)
+        offload_injection_time = int(
+            CONF.nfv_plugin_options.offload_injection_time)
         LOG.info('test_offload_ovs_flows create {} vms'.format(num_vms))
         # Create servers
         servers, key_pair = self.create_and_verify_resources(
             test=test, num_servers=num_vms)
-        # sleep 10 seconds so that flows generated checking provider network
-        # connectivity during resource creation are removed. Timeout for flows
-        # deletion is 10 seconds
-        time.sleep(10)
 
-        cmd_flows = 'sudo ovs-appctl dpctl/dump-flows -m type=offloaded'
+        # ssh connection to vm for executing ping (icmp)
+        # or iperf server (tcp, upd)
+        servers[0]['ssh_source'] = self.get_remote_client(
+            servers[0]['fip'],
+            username=self.instance_user,
+            private_key=key_pair['private_key'])
+        # ssh connection to vm for executing iperf client (tcp, upd)
+        servers[1]['ssh_source'] = self.get_remote_client(
+            servers[1]['fip'],
+            username=self.instance_user,
+            private_key=key_pair['private_key'])
 
-        # server[0] will be the server from which ping will be executed to
-        # the other servers using all of the different networks they have
-        ssh_source = self.get_remote_client(servers[0]['fip'],
-                                            username=self.instance_user,
-                                            private_key=key_pair[
-                                                'private_key'])
+        errors_found = []
         # iterate servers
         for server in servers[1:]:
             # iterate networks
@@ -167,78 +213,120 @@ class TestNfvOffload(base_test.BaseTest):
                 srv_pair = [{'server': servers[0], 'network': source_network},
                             {'server': server, 'network': provider_network}]
 
-                # execute tcpdump in representor port in both hypervisors
+                # get vf from the mac address
                 for srv_item in srv_pair:
-                    vf_nic = shell_utils.get_vf_from_mac(
+                    srv_item['vf_nic'] = shell_utils.get_vf_from_mac(
                         srv_item['network']['mac_address'],
                         srv_item['server']['hypervisor_ip'])
 
-                    srv_item['tcpdump_file'] = "/tmp/dump_{}.txt".format(
-                        vf_nic)
-                    tcpdump_cmd = "sudo timeout {} tcpdump -i {} icmp " \
-                                  "> {} 2>&1 &". \
-                        format(600, vf_nic, srv_item['tcpdump_file'])
-                    LOG.info('Executed on {}: {}'.format(
-                        srv_item['server']['hypervisor_ip'],
-                        tcpdump_cmd))
-                    shell_utils.run_command_over_ssh(
-                        srv_item['server']['hypervisor_ip'],
-                        tcpdump_cmd)
+                errors_found += self.check_offload(srv_pair, protocol,
+                                                   offload_injection_time)
 
-                # continuous ping
-                shell_utils.\
-                    continuous_ping(srv_pair[1]['network']['ip_address'],
-                                    duration=600,
-                                    ssh_client_local=ssh_source)
-                LOG.info('Run continuous ping from {} to {}'.
-                         format(srv_pair[0]['network']['ip_address'],
-                                srv_pair[1]['network']['ip_address']))
+        self.assertTrue(len(errors_found) == 0, "\n".join(errors_found))
 
-                # Execute ping for a while, we need several ping
-                # requests/replies. Only the first one should be
-                # captured by tcpdump
-                time.sleep(10)
+    def check_offload(self, srv_pair, protocol, duration):
+        """Check OVS offloaded flows and hw offload is working
 
-                for srv_item in srv_pair:
-                    # check flows in both hypervisors
-                    LOG.info('test_offload_ovs_flows verify flows on '
-                             'hypervisor {}'.
-                             format(srv_item['server']['hypervisor_ip']))
-                    out = shell_utils.run_command_over_ssh(
-                        srv_item['server']['hypervisor_ip'], cmd_flows)
-                    msg = ('Port with mac address {} is expected to be part '
-                           'of offloaded flows')
-                    port = self.get_port_from_ip(
-                        srv_item['network']['ip_address'])
-                    self.assertTrue('capabilities' in port['binding:profile']
-                                    and 'switchdev' in
-                                    port['binding:profile']['capabilities'],
-                                    "port has not 'capabilities'")
-                    self.assertIn(port['mac_address'], out,
-                                  msg.format(port['mac_address']))
-                    self.assertIn('offloaded:yes, dp:tc', out,
-                                  'Did not find "offloaded:yes, dp:tc"')
+        Two tests are done:
+        - check offload is configured in the flows
+        - check that there are no packets in the representor port. Only first
+          packets must be present
 
-                    # check tcpdump output. Only first packet should be going
-                    # through representor port. Once offload is working, there
-                    # should be no packet in representor port
-                    stop_cmd = '(if pgrep tcpdump; then sudo pkill tcpdump;' \
-                               ' fi; file={}; sudo cat $file; sudo rm $file)' \
-                               ' 2>&1'.format(srv_item['tcpdump_file'])
-                    LOG.info('Executed on {}: {}'.format(
-                        server['hypervisor_ip'], stop_cmd))
-                    output = shell_utils.run_command_over_ssh(
-                        srv_item['server']['hypervisor_ip'], stop_cmd)
+        :param srv_pair: server/client data
+        :param protocol: protocol to test (icmp, tcp, udp)
+        :param duration: duration of the injection
+        :return checks: list with problems found
+        """
 
-                    icmp_requests = output.count('ICMP echo request')
-                    icmp_replies = output.count('ICMP echo reply')
-                    self.assertTrue(icmp_requests == 1 and icmp_replies == 1,
-                                    'There should be a single request/reply '
-                                    'in representor port. IP: {}, '
-                                    'Requests: {}, Replies: {}'.
-                                    format(srv_item['network']['ip_address'],
-                                           icmp_requests,
-                                           icmp_replies))
+        self.assertIn(protocol, ["udp", "tcp", "icmp"],
+                      "Not supported protocol {}".format(protocol))
 
-                # send stop statistics signal
-                shell_utils.stop_continuous_ping(ssh_client_local=ssh_source)
+        errors = []
+        # sleep several seconds so that flows generated checking provider
+        # network connectivity during resource creation are removed. Timeout
+        # for flows deletion is around 10 seconds
+        flows_timeout = int(CONF.nfv_plugin_options.flows_timeout)
+        time.sleep(flows_timeout)
+
+        # execute tcpdump in representor port in both hypervisors
+        iperf_port = random.randrange(8000, 9000)
+        for srv_item in srv_pair:
+            srv_item['tcpdump_file'] = shell_utils.tcpdump(
+                srv_item['server']['hypervisor_ip'],
+                srv_item['vf_nic'],
+                protocol,
+                duration,
+                None if protocol == 'icmp' else iperf_port)
+
+        # send traffic
+        LOG.info('Sending traffic ({}) from {} to {}'.
+                 format(protocol, srv_pair[0]['network']['ip_address'],
+                        srv_pair[1]['network']['ip_address']))
+        if protocol == "icmp":
+            shell_utils.continuous_ping(
+                srv_pair[1]['network']['ip_address'], duration=duration,
+                ssh_client_local=srv_pair[0]['server']['ssh_source'])
+        elif protocol in ["tcp", "udp"]:
+            shell_utils.iperf_server(srv_pair[0]['network']['ip_address'],
+                                     iperf_port, duration, protocol,
+                                     srv_pair[0]['server']['ssh_source'])
+            shell_utils.iperf_client(srv_pair[0]['network']['ip_address'],
+                                     iperf_port, duration, protocol,
+                                     srv_pair[1]['server']['ssh_source'])
+
+        # Send traffic for a while, we need several packets
+        # Only the first one should be captured by tcpdump
+        time.sleep(duration)
+
+        for srv_item in srv_pair:
+            # check flows in both hypervisors
+            offload_flows = shell_utils.get_offload_flows(
+                srv_item['server']['hypervisor_ip'])
+            port = self.get_port_from_ip(srv_item['network']['ip_address'])
+            msg_header = "network_type {}, hypervisor {}, vm ip {} " \
+                         "protocol {}.".\
+                format(srv_item['network']['provider:network_type'],
+                       srv_item['server']['hypervisor_ip'],
+                       srv_item['network']['ip_address'],
+                       protocol)
+            if ('capabilities' not in port['binding:profile'] or 'switchdev'
+                    not in port['binding:profile']['capabilities']):
+                errors.append("{} Port does not have capabilities configured".
+                              format(msg_header))
+            if port['mac_address'] not in offload_flows:
+                errors.append("{} mac address {} not in offload flows".
+                              format(msg_header, port['mac_address']))
+            if 'offloaded:yes, dp:tc' not in offload_flows:
+                errors.append("{} 'offloaded:yes, dp:tc' missing in flows".
+                              format(msg_header))
+
+            # check tcpdump output. Only first packet should be going
+            # through representor port. Once offload is working, there
+            # should be no packet in representor port
+            tcpdump_out = shell_utils.stop_tcpdump(
+                srv_item['server']['hypervisor_ip'],
+                srv_item['tcpdump_file'])
+
+            if protocol == "icmp":
+                icmp_requests = tcpdump_out.count('ICMP echo request')
+                icmp_replies = tcpdump_out.count('ICMP echo reply')
+                if icmp_requests != 1 or icmp_replies != 1:
+                    errors.append("{} There should be a single request/reply "
+                                  "in representor port. Requests: "
+                                  "{}, Replies: {}".format(msg_header,
+                                                           icmp_requests,
+                                                           icmp_replies))
+            elif protocol == "udp":
+                udp_packets = tcpdump_out.count('UDP')
+                if udp_packets != 1:
+                    errors.append("{} There should be a single UDP packet in "
+                                  "representor port. {} packets found".
+                                  format(msg_header, udp_packets))
+            elif protocol == "tcp":
+                tcp_packets = tcpdump_out.count('IPv4')
+                if tcp_packets != 2:
+                    errors.append("{} There should be two TCP packets in "
+                                  "representor port. {} packets found".
+                                  format(msg_header, tcp_packets))
+
+        return errors
