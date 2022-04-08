@@ -100,10 +100,13 @@ class BaseTest(baremetal_manager.BareMetalManager):
             ports =  \
                 self.os_admin.ports_client.list_ports(device_id=server['id'])
             for port in ports['ports']:
+                network = [val for val in self.test_network_dict.values()
+                           if port['network_id'] in val['net-id']][0]
                 provider_dict = {
                     'network_id': port['network_id'],
                     'mac_address': port['mac_address'],
-                    'ip_address': port['fixed_ips'][0]['ip_address']
+                    'ip_address': port['fixed_ips'][0]['ip_address'],
+                    'provider:network_type': network['provider:network_type']
                 }
                 server['provider_networks'].append(provider_dict)
             # Create an SSH connection to server
