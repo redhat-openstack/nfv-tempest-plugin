@@ -468,3 +468,94 @@ def get_vf_from_mac(mac, hypervisor_ip):
     if vf_number and vf_nic_cmd:
         vf_out = "{}_{}".format(vf_nic, vf_number)
     return vf_out
+
+
+def iperf_server(binding_ip, binding_port, duration,
+                 protocol, ssh_client_local):
+    """execute iperf server
+
+    The function executes iperf server in background mode
+
+    :param binding_ip: ip the server will be listening
+    :param binding_port: port the server will be listening
+    :param duration: time the server will be up
+    :param protocol: udp or tcp
+    :param ssh_client_local: ssh client to them vm from which
+           iperf will be executed
+    :return log_file: iperf output
+    """
+    protocols = {"tcp": "", "udp": "-u"}
+    log_file = "/tmp/iperf_server-{}-{}-{}-{}.txt".format(binding_ip,
+                                                          binding_port,
+                                                          protocol,
+                                                          duration)
+    cmd_line = "nohup  iperf -s -B {} -p {} -t {} {} > {} 2>&1 &".\
+        format(binding_ip, binding_port, duration, protocols[protocol],
+               log_file)
+
+    LOG.debug('Started iperf server: {}'.format(cmd_line))
+    ssh_client_local.exec_command(cmd_line)
+    return log_file
+
+
+def iperf_client(server_ip, server_port, duration,
+                 protocol, ssh_client_local):
+    """execute iperf server
+
+    The function executes iperf client in background mode
+
+    :param server_ip: ip the server will connect to
+    :param server_port: port the server will connect to
+    :param duration: time the client will be up
+    :param protocol: udp or tcp
+    :param ssh_client_local: ssh client to them vm from which
+           iperf will be executed
+    :return log_file: iperf output
+    """
+    protocols = {"tcp": "", "udp": "-u"}
+    log_file = "/tmp/iperf_client-{}-{}-{}-{}.txt".format(server_ip,
+                                                          server_port,
+                                                          protocol,
+                                                          duration)
+    cmd_line = "nohup  iperf -c {} -T s2 -p {} -t  {} {} > {} 2>&1 &".\
+        format(server_ip, server_port, duration, protocols[protocol],
+               log_file)
+
+    LOG.debug('Started iperf client: {}'.format(cmd_line))
+    ssh_client_local.exec_command(cmd_line)
+    return log_file
+
+
+def tcpdump(server_ip, interface, protocol, duration, port=None):
+    """Execute tcpdump on hypervisor
+
+    The function executes tcpdump on hypervisor in background mode
+
+    :param server_ip: server in which tcpdump will be executed
+    :param interface: interface in which tcpdump will be executed
+    :param protocol: protocol to capture: tcp, udp, icmp
+    :param duration: duration in seconds of the capture
+    :param port: port to capture
+    :return filename: text filename with the capture
+    """
+
+    def tcpdump(server_ip, interface, protocol, duration, port=None):
+        """Execute tcpdump on hypervisor
+
+        The function executes tcpdump on hypervisor in background mode
+
+        :param server_ip: server in which tcpdump will be executed
+        :param interface: interface in which tcpdump will be executed
+        :param protocol: protocol to capture: tcp, udp, icmp
+        :param duration: duration in seconds of the capture
+        :param port: port to capture
+        :return filename: text filename with the capture
+        """
+        file = "/tmp/dump_{}_{}_{}_{}.txt".format(
+            interface, protocol, duration, '' if port is None else str(port))
+        tcpdump_cmd = "sudo nohup timeout {} tcpdump -i {} -nne {} {} > {} 2>&1 &". \
+            format(duration, interface, protocol, '' if port is None else "port " + str(port), file)
+        LOG.info('Executed tcpdump on {}: {}'.format(server_ip, tcpdump_cmd))
+        run_command_over_ssh(server_ip, tcpdump_cmd)
+        return file
+
