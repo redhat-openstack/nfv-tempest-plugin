@@ -140,19 +140,20 @@ class TestNfvOffload(base_test.BaseTest):
         # Create servers
         servers, key_pair = self.create_and_verify_resources(
             test=test, num_servers=num_vms)
-        # sleep 10 seconds so that flows generated checking provider network
-        # connectivity during resource creation are removed. Timeout for flows
-        # deletion is 10 seconds
-        time.sleep(10)
 
-        cmd_flows = 'sudo ovs-appctl dpctl/dump-flows -m type=offloaded'
+        # ssh connection to vm for executing ping (icmp)
+        # or iperf server (tcp, upd)
+        servers[0]['ssh_source'] = ssh_source_0 = self.get_remote_client(
+            servers[0]['fip'],
+            username=self.instance_user,
+            private_key=key_pair['private_key'])
+        # ssh connection to vm for executing iperf client (tcp, upd)
+        servers[1]['ssh_source'] = self.get_remote_client(
+            servers[1]['fip'],
+            username=self.instance_user,
+            private_key=key_pair['private_key'])
 
-        # server[0] will be the server from which ping will be executed to
-        # the other servers using all of the different networks they have
-        ssh_source = self.get_remote_client(servers[0]['fip'],
-                                            username=self.instance_user,
-                                            private_key=key_pair[
-                                                'private_key'])
+        errors_found = []
         # iterate servers
         for server in servers[1:]:
             # iterate networks
@@ -167,78 +168,141 @@ class TestNfvOffload(base_test.BaseTest):
                 srv_pair = [{'server': servers[0], 'network': source_network},
                             {'server': server, 'network': provider_network}]
 
-                # execute tcpdump in representor port in both hypervisors
+                # get vf from the mac address
                 for srv_item in srv_pair:
-                    vf_nic = shell_utils.get_vf_from_mac(
+                    srv_item['vf_nic'] = shell_utils.get_vf_from_mac(
                         srv_item['network']['mac_address'],
                         srv_item['server']['hypervisor_ip'])
 
-                    srv_item['tcpdump_file'] = "/tmp/dump_{}.txt".format(
-                        vf_nic)
-                    tcpdump_cmd = "sudo timeout {} tcpdump -i {} icmp " \
-                                  "> {} 2>&1 &". \
-                        format(600, vf_nic, srv_item['tcpdump_file'])
-                    LOG.info('Executed on {}: {}'.format(
-                        srv_item['server']['hypervisor_ip'],
-                        tcpdump_cmd))
-                    shell_utils.run_command_over_ssh(
-                        srv_item['server']['hypervisor_ip'],
-                        tcpdump_cmd)
+                errors_found += self.check_offload(srv_pair, "icmp", 10)
+                errors_found += self.check_offload(srv_pair, "tcp", 10)
+                errors_found += self.check_offload(srv_pair, "udp", 10)
 
-                # continuous ping
-                shell_utils.\
-                    continuous_ping(srv_pair[1]['network']['ip_address'],
-                                    duration=600,
-                                    ssh_client_local=ssh_source)
-                LOG.info('Run continuous ping from {} to {}'.
-                         format(srv_pair[0]['network']['ip_address'],
-                                srv_pair[1]['network']['ip_address']))
+        assertTrue(len(errors_found) == 0, "\n".join(errors_found))
 
-                # Execute ping for a while, we need several ping
-                # requests/replies. Only the first one should be
-                # captured by tcpdump
-                time.sleep(10)
+    def check_offload(self, srv_pair, protocol, duration):
+        """Check OVS offloaded flows and hw offload is working
 
-                for srv_item in srv_pair:
-                    # check flows in both hypervisors
-                    LOG.info('test_offload_ovs_flows verify flows on '
-                             'hypervisor {}'.
-                             format(srv_item['server']['hypervisor_ip']))
-                    out = shell_utils.run_command_over_ssh(
-                        srv_item['server']['hypervisor_ip'], cmd_flows)
-                    msg = ('Port with mac address {} is expected to be part '
-                           'of offloaded flows')
-                    port = self.get_port_from_ip(
-                        srv_item['network']['ip_address'])
-                    self.assertTrue('capabilities' in port['binding:profile']
-                                    and 'switchdev' in
-                                    port['binding:profile']['capabilities'],
-                                    "port has not 'capabilities'")
-                    self.assertIn(port['mac_address'], out,
-                                  msg.format(port['mac_address']))
-                    self.assertIn('offloaded:yes, dp:tc', out,
-                                  'Did not find "offloaded:yes, dp:tc"')
+        Two tests are done:
+        - check offload is configured in the flows
+        - check that there are no packets in the representor port. Only first
+          packets must be present
 
-                    # check tcpdump output. Only first packet should be going
-                    # through representor port. Once offload is working, there
-                    # should be no packet in representor port
-                    stop_cmd = '(if pgrep tcpdump; then sudo pkill tcpdump;' \
-                               ' fi; file={}; sudo cat $file; sudo rm $file)' \
-                               ' 2>&1'.format(srv_item['tcpdump_file'])
-                    LOG.info('Executed on {}: {}'.format(
-                        server['hypervisor_ip'], stop_cmd))
-                    output = shell_utils.run_command_over_ssh(
-                        srv_item['server']['hypervisor_ip'], stop_cmd)
+        :param srv_pair: server/client data
+        :param protocol: protocol to test (icmp, tcp, udp)
+        :param duration: duration of the injection
+        :return checks: list with problems found
+        """
 
-                    icmp_requests = output.count('ICMP echo request')
-                    icmp_replies = output.count('ICMP echo reply')
-                    self.assertTrue(icmp_requests == 1 and icmp_replies == 1,
-                                    'There should be a single request/reply '
-                                    'in representor port. IP: {}, '
-                                    'Requests: {}, Replies: {}'.
-                                    format(srv_item['network']['ip_address'],
-                                           icmp_requests,
-                                           icmp_replies))
+        self.assertTrue(protol in ["udp", "tcp", "icmp"],
+                        "Not supported protocol {}".format(protocol))
 
-                # send stop statistics signal
-                shell_utils.stop_continuous_ping(ssh_client_local=ssh_source)
+        errors = []
+        # sleep 10 seconds so that flows generated checking provider network
+        # connectivity during resource creation are removed. Timeout for flows
+        # deletion is 10 seconds
+        time.sleep(10)
+
+        # execute tcpdump in representor port in both hypervisors
+        for srv_item in srv_pair:
+            srv_item['tcpdump_file'] = shell_utils.tcpdump(
+                srv_item['server']['hypervisor_ip'],
+                srv_item['vf_nic'],
+                protocol,
+                duration,
+                port)
+
+        # send traffic
+        LOG.info('Sending traffic ({}) from {} to {}'.
+                 format(protocol, srv_pair[0]['network']['ip_address'],
+                        srv_pair[1]['network']['ip_address']))
+        if protocol == "icmp":
+            shell_utils.continuous_ping(
+                srv_pair[1]['network']['ip_address'], duration=duration,
+                ssh_client_local=srv_pair[0]['ssh_source'])
+        elif protocol in ["tcp", "udp"]:
+            shell_utils.iperf_server(srv_pair[0]['network']['ip_address'],
+                                     8231, duration, protocol,
+                                     srv_pair[0]['ssh_source'])
+            shell_utils.iperf_client(srv_pair[1]['network']['ip_address'],
+                                     8231, duration, protocol,
+                                     srv_pair[1]['ssh_source'])
+
+        # Send traffic for a while, we need several packets
+        # Only the first one should be captured by tcpdump
+        time.sleep(duration)
+
+        cmd_flows = 'sudo ovs-appctl dpctl/dump-flows -m type=offloaded'
+        for srv_item in srv_pair:
+            # check flows in both hypervisors
+            LOG.info('test_offload_ovs_flows verify flows on hypervisor {}'.
+                     format(srv_item['server']['hypervisor_ip']))
+            out = shell_utils.run_command_over_ssh(
+                srv_item['server']['hypervisor_ip'], cmd_flows)
+            msg = ('Port with mac address {} is expected to be part of '
+                   'offloaded flows')
+            port = self.get_port_from_ip(srv_item['network']['ip_address'])
+            if ('capabilities' not in port['binding:profile'] or 'switchdev'
+                    not in port['binding:profile']['capabilities']):
+                errors.append("hypervisor {}, vm ip {}, protocol {} . "
+                              "Port does not capabilities configured".
+                              format(srv_item['server']['hypervisor_ip'],
+                                     srv_item['network']['ip_address'],
+                                     protocol))
+            if port['mac_address'] not in out:
+                errors.append("hypervisor {}, vm ip{}. protocol {}, "
+                              "mac address {} not in offload flows".
+                              format(srv_item['server']['hypervisor_ip'],
+                                     srv_item['network']['ip_address'],
+                                     protocol,
+                                     port['mac_address']))
+            if 'offloaded:yes, dp:tc' not in out:
+                errors.append("hypervisor {}, vm ip {} protocol {}. "
+                              "'offloaded:yes, dp:tc' missing in flows".
+                              format(srv_item['server']['hypervisor_ip'],
+                                     srv_item['network']['ip_address'],
+                                     protocol))
+
+            # check tcpdump output. Only first packet should be going
+            # through representor port. Once offload is working, there
+            # should be no packet in representor port
+            stop_cmd = '(if pgrep tcpdump; then sudo pkill tcpdump;' \
+                       ' fi; file={}; sudo cat $file; sudo rm $file)' \
+                       ' 2>&1'.format(srv_item['tcpdump_file'])
+            LOG.info('Executed on {}: {}'.format(server['hypervisor_ip'],
+                                                 stop_cmd))
+            output = shell_utils.run_command_over_ssh(
+                srv_item['server']['hypervisor_ip'], stop_cmd)
+
+            if protocol == "icmp":
+                icmp_requests = output.count('ICMP echo request')
+                icmp_replies = output.count('ICMP echo reply')
+                if icmp_requests != 1 or icmp_replies != 1:
+                    errors.append('hypervisor {}, vm ip {} protocol {}.'
+                                  ' There should be a single '
+                                  'request/reply in representor port. '
+                                  'Requests: {}, Replies: {}'.
+                                  format(srv_item['server']['hypervisor_ip'],
+                                         srv_item['network']['ip_address'],
+                                         protocol, icmp_requests,
+                                         icmp_replies))
+            elif protocol == "udp":
+                udp_packets = output.count('UDP')
+                if udp_packets != 1:
+                    errors.append('hypervisor {}, vm ip {} protocol {}.'
+                                  ' There should be a single UDP packet in'
+                                  'representor port. {}'.
+                                  format(srv_item['server']['hypervisor_ip'],
+                                         srv_item['network']['ip_address'],
+                                         protocol, udp_packets))
+            elif protocol == "tcp":
+                tcp_packets = output.count('IPv4')
+                if tcp_packets != 2:
+                    errors.append('hypervisor {}, vm ip {} protocol {}.'
+                                  ' There should be two TCP packets in'
+                                  'representor port. {}'.
+                                  format(srv_item['server']['hypervisor_ip'],
+                                         srv_item['network']['ip_address'],
+                                         protocol, tcp_packets))
+
+        return errors
