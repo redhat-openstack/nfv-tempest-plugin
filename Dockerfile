@@ -13,6 +13,7 @@ RUN mkdir /home/stack && chown default /home/stack
 USER default
 
 COPY ./ /opt/app-root/nfv-tempest-plugin
+COPY ../run_tempest.sh /opt/app-root/
 
 RUN pip3 install --no-cache-dir --upgrade pip setuptools \
  && pip3 install --no-cache-dir -e /opt/app-root/nfv-tempest-plugin \
