@@ -174,4 +174,13 @@ NfvPluginOptions = [
     cfg.StrOpt('trex_queues_json_path',
                default='/tmp/queues.json',
                help='Learned data from queues configuration'),
+    cfg.DictOpt('multiqueue_injector',
+                default={'path': '/opt/trex/current/multiqueue.py',
+                         'pps': [{'1': 0.5, '0': 1.2, '2': 0.1},
+                                 {'1': 0.5, '0': 0.8, '2': 0.1}],
+                         'queues_json': '/tmp/queues.json',
+                         'duration': 40,
+                         'multiplier': 1,
+                         'learn': True},
+                help='Multiqueue injector configuration')
 ]
