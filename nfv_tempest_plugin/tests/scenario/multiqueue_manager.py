@@ -114,6 +114,80 @@ class MultiqueueClass(object):
         for queue in self.queues_keys.values():
             queue["pmd_cores"] = []
 
+    def force_rebalance(self, pmd_cores, load):
+        """Inject traffic so that rebalance takes  place
+
+        It will load the system so that at least one core will be
+        over threshold and rebalance will take place. It will take
+        into considerations only physical queues as doing it with
+        vhu queues is no so stable.
+
+        :param pmd_cores: list of pmd cores with its queues
+        :param load: load to get
+        :return pps: list of pps to inject for each port and queue
+        :            to get the goal of overload one pmd
+        """
+        self._clean_pmd_cores()
+        phy_queues = {}
+        # get number of physical queues per core
+        for core_id, queues in pmd_cores.items():
+            for queue in queues["queues"].keys():
+                self.queues_keys[queue]["pmd_cores"].append(core_id)
+            # chose a core with many queues
+            phy_queues[core_id] = [val for val in queues["queues"].keys()
+                                   if "vhu" not in val]
+
+        def take_second(elem):
+            return elem[1]
+
+        # sorted list of cores and number of physical queues. cores with
+        # highest number of queues in the beginning
+        num_phy_queues = sorted(
+            [[val, len(phy_queues[val])] for val in phy_queues.keys()
+             if len(phy_queues[val]) > 0],
+            reverse=True,
+            key=take_second)
+
+        # if there is one core with more that 1 physical queue, use that one
+        # otherwise, use 2 cores in order to have more possibilities of
+        # forcing rebalancing
+        chosen_cores = []
+        load_per_queue = 0
+        # easier case, 2 physical queues in the same pmd
+        if len(num_phy_queues) > 0 and num_phy_queues[0][1] > 1:
+            chosen_cores.append(num_phy_queues[0][0])
+            load_per_queue = load / num_phy_queues[chosen_cores[0]]
+        # there is one physical queue per pmd, so 2 pmds will be overloaded
+        # so that rebalance takes place
+        elif len(num_phy_queues) > 1:
+            chosen_cores.append(num_phy_queues[0][0])
+            chosen_cores.append(num_phy_queues[1][0])
+            load_per_queue = load
+        rate_per_queue = self.calculate_rate(load_per_queue)
+
+        LOG.info('MultiqueueClass::force_rebalance physical queues '
+                 'distribution {}'.format(num_phy_queues))
+        LOG.info('MultiqueueClass::force_rebalance chosen_core/s {}'
+                 .format(chosen_cores))
+        LOG.info('MultiqueueClass::force_rebalance load {}'.format(load))
+        LOG.info('MultiqueueClass::force_rebalance load_per_queue {}'.
+                 format(load_per_queue))
+        LOG.info('MultiqueueClass::force_rebalance rate_per_queue {}'.
+                 format(rate_per_queue))
+
+        pps = [{}, {}]
+        for port in range(len(self.queues_config)):
+            for queue_id, queue_value in \
+                    self.queues_config[port]["queues"].items():
+                LOG.info('MultiqueueClass::force_rebalance port {}, '
+                         'queue_id {}, pmd_cores {}'.
+                         format(port, queue_id, queue_value["pmd_cores"]))
+                for chosen_core in chosen_cores:
+                    if chosen_core in queue_value["pmd_cores"]:
+                        pps[port][queue_id] = rate_per_queue
+
+        return pps
+
     def load_one_core(self, pmd_cores, load):
         """Load one PMD core
 
