@@ -160,18 +160,26 @@ NfvPluginOptions = [
                        '"lacp_status": "negotiated",'
                        '"lacp_fallback_ab": "true"}',
                help='LACP configuration for LACP deployment test.'),
-    cfg.StrOpt('autobalance_config',
-               default='{"pmd-auto-lb": "true",'
-                       '"pmd-auto-lb-improvement-threshold": "25",'
-                       '"pmd-auto-lb-load-threshold": "70",'
-                       '"pmd-auto-lb-rebal-interval": "2",'
-                       '"pmd-cpu-mask": "fc000fc"}',
+    cfg.DictOpt('autobalance_config',
+               default={"pmd-auto-lb": True,'
+                       'pmd-auto-lb-improvement-threshold': 25,
+                       'pmd-auto-lb-load-threshold': 70,
+                       'pmd-auto-lb-rebal-interval': 2,
+                       'pmd-cpu-mask': 'fc000fc'},
                help='Autobalance configuration for testcase'),
-    cfg.StrOpt('multiqueue_config',
-               default='[{"port":"dpdk2", "queues":3},'
-                       '{"port":"dpdk3", "queues":3}]',
+    cfg.ListOpt('multiqueue_config',
+               default=[{'port':'dpdk2', 'queues':3},
+                        {'port':'dpdk3', 'queues':3}],
                help='Multiqueue configuration for testcase'),
     cfg.StrOpt('trex_queues_json_path',
                default='/tmp/queues.json',
                help='Learned data from queues configuration'),
+    cfg.DictOpt('multiqueue_injector',
+               default={'path': '/opt/trex/current/multiqueue.py',
+                        'pps': [{'1': 0.5, '0': 1.2, '2': 0.1}, {u'1': 0.5, '0': 0.8, '2': 0.1}],
+                        'queues_json': '/tmp/queues.json',
+                        'duration': 40,
+                        'multiplier': 1,
+                        'learn': True},
+               help='Multiqueue injector configuration')
 ]
