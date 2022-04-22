@@ -14,6 +14,7 @@
 #    under the License.
 
 from enum import Enum
+from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import base_test
 from nfv_tempest_plugin.tests.scenario.multiqueue_manager \
     import MultiqueueClass
@@ -21,6 +22,7 @@ from oslo_log import log as logging
 from tempest import config
 
 import json
+import tempfile
 import time
 
 CONF = config.CONF
@@ -53,8 +55,8 @@ class TestMultiqueueScenarios(base_test.BaseTest):
         have been applied  properly during deployment.
         """
         LOG.info('Starting {} test.'.format(test))
-        autob_dict = json.loads(CONF.nfv_plugin_options.autobalance_config)
-        multiq_dict = json.loads(CONF.nfv_plugin_options.multiqueue_config)
+        autob_dict = CONF.nfv_plugin_options.autobalance_config
+        multiq_dict = CONF.nfv_plugin_options.multiqueue_config
         checks = autob_dict
         checks['queues'] = multiq_dict
         result = {}
@@ -197,7 +199,7 @@ class TestMultiqueueScenarios(base_test.BaseTest):
 
         self.assertTrue(rebalance and cpu_under_threshold, msg)
 
-        autob_dict = json.loads(CONF.nfv_plugin_options.autobalance_config)
+        autob_dict = CONF.nfv_plugin_options.autobalance_config
         interval = int(autob_dict["pmd-auto-lb-rebal-interval"]) * 60
 
         LOG.info("Rebalance interval {}, threshold {}".
@@ -248,6 +250,9 @@ class TestMultiqueueScenarios(base_test.BaseTest):
         if len(servers_dict) != 2:
             raise ValueError('Check that trex and testpmd are running')
 
+        # Learn queues
+        self.learn_queues(servers_dict["trex"], key_pair)
+
         return servers_dict
 
     def autobalance_functionality(self, servers_dict, action):
@@ -263,7 +268,7 @@ class TestMultiqueueScenarios(base_test.BaseTest):
                                         in all pmds
         """
         # Get multiqueue/autobalance parameters
-        autob_dict = json.loads(CONF.nfv_plugin_options.autobalance_config)
+        autob_dict = CONF.nfv_plugin_options.autobalance_config
         trex_queues_json_path = CONF.nfv_plugin_options.trex_queues_json_path
         load_threshold = float(autob_dict["pmd-auto-lb-load-threshold"])
         interval = int(autob_dict["pmd-auto-lb-rebal-interval"]) * 60
@@ -348,3 +353,60 @@ class TestMultiqueueScenarios(base_test.BaseTest):
         servers_dict['trex']['ssh_source'].exec_command(kill_cmd)
 
         return rebalance, cpu_under_threshold
+
+    def learn_queues(self, trex_vm, key_pair):
+        """learn about queues
+
+        Learn about queues:
+        * mapping physical/virtual queues
+        * rate/cpu params
+
+        :param trex_vm: trex vm
+        :param key_pair: key pair
+        """
+        injector_config = CONF.nfv_plugin_options.multiqueue_injector
+        if not injector_config["learn"]:
+            LOG.info('Skippeng multiqueue learning due to configuration.')
+            return
+        LOG.info('Starting multiqueue learning')
+
+        # training cmd
+        cmd_training = "{} --action gen_traffic --pps \"{}\" --traffic_json" \
+                       " {} --duration {} --multiplier {}".\
+            format(injector_config["path"],
+                   injector_config["pps"],
+                   injector_config["queues_json"],
+                   injector_config["duration"],
+                   injector_config["multiplier"])
+        LOG.info('learn_queues cmd {}'.format(cmd_training))
+        trex_vm['ssh_source'].exec_command(cmd_training)
+
+        # get pmd stats
+        cmd_pmd_rxq_show = "sudo ovs-appctl dpif-netdev/pmd-rxq-show"
+        LOG.info('learn_queues cmd {}'.format(cmd_pmd_rxq_show))
+        pmd_rxq_output = shell_utils.run_command_over_ssh(
+            trex_vm['hypervisor_ip'],
+            cmd_pmd_rxq_show)
+
+        # copy pmd file to trex vm
+        with tempfile.NamedTemporaryFile() as fp:
+            fp.write(pmd_rxq_output.encode())
+        self.copy_file_to_remote_host(server['fip'],
+                                      key_pair['private_key'],
+                                      self.instance_user,
+                                      files=os.path.basename(fp.name),
+                                      src_path=os.path.dirname(fp.name),
+                                      dst_path=os.path.dirname(fp.name),
+                                      timeout=60)
+
+        # parse pmd file and update queues.json file
+        cmd_pmd_parse = "{} --action parse_pmd_stats  --pmd_stats {} " \
+                        "--traffic_json {} --pps {}".\
+            format(injector_config["path"],
+                   fp.name,
+                   injector_config["queues_json"],
+                   injector_config["pps"])
+        LOG.info('learn_queues cmd {}'.format(cmd_pmd_parse))
+        trex_vm['ssh_source'].exec_command(cmd_pmd_parse)
+
+        LOG.info('Multiqueue learninng finished')
