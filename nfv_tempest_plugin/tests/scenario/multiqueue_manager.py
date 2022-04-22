@@ -130,7 +130,8 @@ class MultiqueueClass(object):
         chosen_core_queues = 0
         for core_id, queues in pmd_cores.items():
             for queue in queues["queues"].keys():
-                self.queues_keys[queue]["pmd_cores"].append(core_id)
+                if queue in self.queues_keys.keys():
+                    self.queues_keys[queue]["pmd_cores"].append(core_id)
             # chose a core with many queues
             phy_queues = [val for val in queues["queues"].keys()]
             if len(phy_queues) > chosen_core_queues:
