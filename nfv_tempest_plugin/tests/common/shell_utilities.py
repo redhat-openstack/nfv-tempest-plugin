@@ -484,6 +484,9 @@ def iperf_server(binding_ip, binding_port, duration,
            iperf will be executed
     :return log_file: iperf output
     """
+    # Check if iperf binary is present in $PATH
+    check_cmd = "which iperf"
+    ssh_client_local.exec_command(check_cmd)
     protocols = {"tcp": "", "udp": "-u"}
     log_file = "/tmp/iperf_server-{}-{}-{}-{}.txt".format(binding_ip,
                                                           binding_port,
@@ -593,3 +596,16 @@ def get_offload_flows(server_ip):
     cmd_flows = 'sudo ovs-appctl dpctl/dump-flows -m type=offloaded'
     LOG.info('Executed on {}: {}'.format(server_ip, cmd_flows))
     return run_command_over_ssh(server_ip, cmd_flows)
+
+
+def get_conntrack_table(hypervisor_ip):
+    """Get conntrack table from hypervisor
+
+    Reads connection tracking table
+
+    :param hypervisor_ip: IP of hypervisor
+    :return conntrack_table: Connection tracking table
+    """
+    cmd_conn_track = 'sudo cat /proc/net/nf_conntrack'
+    LOG.info('Executed on {}: {}'.format(hypervisor_ip, cmd_conn_track))
+    return run_command_over_ssh(hypervisor_ip, cmd_conn_track)

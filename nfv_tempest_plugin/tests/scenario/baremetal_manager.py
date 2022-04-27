@@ -917,6 +917,26 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 security_group_id=secgroup_id,
                 **rule)
 
+    def get_security_group_from_partial_string(self, group_name_string):
+        """Get security group based on partial string
+
+        :param: group_name_string: group name string
+        :return filtered_sec_group: filtered security group
+        """
+        client = self.security_groups_client
+        all_sec_groups = client.list_security_groups()
+        filtered_sec_group = \
+            list(filter(lambda g: group_name_string in g['name'],
+                        all_sec_groups['security_groups']))
+        self.assertNotEmpty(filtered_sec_group,
+                            "Failed to locate security group containing "
+                            "string: {}".format(group_name_string))
+        self.assertEqual(1,
+                         len(filtered_sec_group),
+                         "Returned more than one group: "
+                         "{}".format(filtered_sec_group))
+        return filtered_sec_group[0]
+
     def create_floating_ip(self, server, mgmt_port_id, public_network_id):
         """Create floating ip to server
 

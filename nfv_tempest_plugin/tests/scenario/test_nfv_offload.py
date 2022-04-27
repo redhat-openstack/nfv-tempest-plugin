@@ -14,6 +14,7 @@
 #    under the License.
 
 import random
+import re
 import time
 
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
@@ -167,7 +168,37 @@ class TestNfvOffload(base_test.BaseTest):
         LOG.info('Start test_offload_tcp test.')
         self.run_offload_testcase(test, "tcp")
 
-    def run_offload_testcase(self, test, protocol):
+    def test_offload_udp_with_conntrack(self, test='offload_udp_conn_track'):
+        """Check UDP traffic is offloaded
+
+        The following test deploy vms, on hw-offload computes.
+        It sends UDP traffic and check offload flows exist in ovs.
+        It will also capture traffic in representor port in both
+        hypervisors. There should be a single UDP packet.
+        As soon as offloading is working, tcpdump
+        does not show any packet in representor port
+
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_offload_udp test.')
+        self.run_offload_testcase(test, "udp", True)
+
+    def test_offload_tcp_with_conntrack(self, test='offload_tcp_conn_track'):
+        """Check TCP traffic is offloaded
+
+        The following test deploy vms, on hw-offload computes.
+        It sends TCP traffic and check offload flows exist in ovs.
+        It will also capture traffic in representor port in both
+        hypervisors. There should be 2 TCP packets (one per direction).
+        As soon as offloading is working, tcpdump
+        does not show any packet in representor port
+
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_offload_tcp test.')
+        self.run_offload_testcase(test, "tcp", True)
+
+    def run_offload_testcase(self, test, protocol, conn_track=False):
         """Run offload testcase with different injection traffic
 
         This function will create resources needed to run offload
@@ -178,10 +209,9 @@ class TestNfvOffload(base_test.BaseTest):
 
         :param test: Test name from the external config file.
         :param protocol: Protocol to test (udp, tcp, icmp)
+        :param conn_trac: Connection tracking support
         """
         num_vms = int(CONF.nfv_plugin_options.offload_num_vms)
-        offload_injection_time = int(
-            CONF.nfv_plugin_options.offload_injection_time)
         LOG.info('test_offload_ovs_flows create {} vms'.format(num_vms))
         # Create servers
         servers, key_pair = self.create_and_verify_resources(
@@ -221,11 +251,11 @@ class TestNfvOffload(base_test.BaseTest):
                         srv_item['server']['hypervisor_ip'])
 
                 errors_found += self.check_offload(srv_pair, protocol,
-                                                   offload_injection_time)
+                                                   nf_conntrack=conn_track)
 
         self.assertTrue(len(errors_found) == 0, "\n".join(errors_found))
 
-    def check_offload(self, srv_pair, protocol, duration):
+    def check_offload(self, srv_pair, protocol, nf_conntrack=False):
         """Check OVS offloaded flows and hw offload is working
 
         Two tests are done:
@@ -233,15 +263,19 @@ class TestNfvOffload(base_test.BaseTest):
         - check that there are no packets in the representor port. Only first
           packets must be present
 
+        Security group rules are also created based on randomized port
+
         :param srv_pair: server/client data
         :param protocol: protocol to test (icmp, tcp, udp)
-        :param duration: duration of the injection
+        :param nf_conntrack: read connection tracking table
         :return checks: list with problems found
         """
 
         self.assertIn(protocol, ["udp", "tcp", "icmp"],
                       "Not supported protocol {}".format(protocol))
 
+        packet_threshold_multiplier = float(
+            CONF.nfv_plugin_options.offload_representor_port_threshold)
         errors = []
         # sleep several seconds so that flows generated checking provider
         # network connectivity during resource creation are removed. Timeout
@@ -249,15 +283,47 @@ class TestNfvOffload(base_test.BaseTest):
         flows_timeout = int(CONF.nfv_plugin_options.flows_timeout)
         time.sleep(flows_timeout)
 
+        # We set the duration as high so we would have consistent flow of data
+        traffic_duration = 9999999
+
         # execute tcpdump in representor port in both hypervisors
         iperf_port = random.randrange(8000, 9000)
+        # If security group enabled create rules
+        if self.sec_groups and protocol != 'icmp':
+            print("Creating security group rules")
+            offload_sec_rules = [
+                {
+                    'direction': 'ingress',
+                    'protocol': protocol,
+                    'remote_ip_prefix': '0.0.0.0/0'
+                },
+                {
+                    'direction': 'egress',
+                    'protocol': protocol,
+                    'remote_ip_prefix': '0.0.0.0/0'
+                }
+            ]
+            # Apply security group if not ICMP
+            for rule in offload_sec_rules:
+                rule['port_range_min'] = rule['port_range_max'] = \
+                    iperf_port
+            secgroup = \
+                self.get_security_group_from_partial_string(
+                        group_name_string='tempest')
+            # Allow port in security group
+            self.add_security_group_rules(secgroup_id=secgroup['id'],
+                                          rule_list=offload_sec_rules)
         for srv_item in srv_pair:
             srv_item['tcpdump_file'] = shell_utils.tcpdump(
                 srv_item['server']['hypervisor_ip'],
                 srv_item['vf_nic'],
                 protocol,
-                duration,
+                traffic_duration,
                 None if protocol == 'icmp' else iperf_port)
+
+        # Delete all flows from hypervisor
+        shell_utils.run_command_over_ssh(srv_item['server']['hypervisor_ip'],
+                                         'sudo ovs-appctl dpctl/del-flows')
 
         # send traffic
         LOG.info('Sending traffic ({}) from {} to {}'.
@@ -265,19 +331,18 @@ class TestNfvOffload(base_test.BaseTest):
                         srv_pair[1]['network']['ip_address']))
         if protocol == "icmp":
             shell_utils.continuous_ping(
-                srv_pair[1]['network']['ip_address'], duration=duration,
+                srv_pair[1]['network']['ip_address'],
+                duration=traffic_duration,
                 ssh_client_local=srv_pair[0]['server']['ssh_source'])
         elif protocol in ["tcp", "udp"]:
-            shell_utils.iperf_server(srv_pair[0]['network']['ip_address'],
-                                     iperf_port, duration, protocol,
-                                     srv_pair[0]['server']['ssh_source'])
-            shell_utils.iperf_client(srv_pair[0]['network']['ip_address'],
-                                     iperf_port, duration, protocol,
-                                     srv_pair[1]['server']['ssh_source'])
-
-        # Send traffic for a while, we need several packets
-        # Only the first one should be captured by tcpdump
-        time.sleep(duration)
+            shell_utils.iperf_server(
+               srv_pair[0]['network']['ip_address'],
+               iperf_port, traffic_duration, protocol,
+               srv_pair[0]['server']['ssh_source'])
+            shell_utils.iperf_client(
+               srv_pair[0]['network']['ip_address'],
+               iperf_port, traffic_duration, protocol,
+               srv_pair[1]['server']['ssh_source'])
 
         for srv_item in srv_pair:
             # check flows in both hypervisors
@@ -290,25 +355,28 @@ class TestNfvOffload(base_test.BaseTest):
                        srv_item['server']['hypervisor_ip'],
                        srv_item['network']['ip_address'],
                        protocol)
-            if ('capabilities' not in port['binding:profile'] or 'switchdev'
-                    not in port['binding:profile']['capabilities']):
-                errors.append("{} Port does not have capabilities configured".
-                              format(msg_header))
-            if port['mac_address'] not in offload_flows:
-                errors.append("{} mac address {} not in offload flows".
-                              format(msg_header, port['mac_address']))
-            if 'offloaded:yes, dp:tc' not in offload_flows:
-                errors.append("{} 'offloaded:yes, dp:tc' missing in flows".
-                              format(msg_header))
+            print(offload_flows)
+            # if ('capabilities' not in port['binding:profile'] or 'switchdev'
+            #        not in port['binding:profile']['capabilities']):
+            #    errors.append("{} Port does not have capabilities configured".
+            #                  format(msg_header))
+            # if port['mac_address'] not in offload_flows:
+            #     errors.append("{} mac address {} not in offload flows".
+            #                   format(msg_header, port['mac_address']))
+            # if 'offloaded:yes, dp:tc' not in offload_flows:
+            #     errors.append("{} 'offloaded:yes, dp:tc' missing in flows".
+            #                   format(msg_header))
 
-            # check tcpdump output. Only first packet should be going
+            # check tcpdump output, small amount of packets should be going
             # through representor port. Once offload is working, there
-            # should be no packet in representor port
+            # should be minimal packets in representor port
             tcpdump_out = shell_utils.stop_tcpdump(
                 srv_item['server']['hypervisor_ip'],
                 srv_item['tcpdump_file'])
+            offload_flows_list = offload_flows.rstrip().split('\n')
 
             if protocol == "icmp":
+                ovs_shorthand_protocol = '1'
                 icmp_requests = tcpdump_out.count('ICMP echo request')
                 icmp_replies = tcpdump_out.count('ICMP echo reply')
                 if icmp_requests != 1 or icmp_replies != 1:
@@ -318,16 +386,64 @@ class TestNfvOffload(base_test.BaseTest):
                                                            icmp_requests,
                                                            icmp_replies))
             elif protocol == "udp":
+                ovs_shorthand_protocol = '17'
                 udp_packets = tcpdump_out.count('UDP')
                 if udp_packets != 1:
                     errors.append("{} There should be a single UDP packet in "
                                   "representor port. {} packets found".
                                   format(msg_header, udp_packets))
             elif protocol == "tcp":
+                ovs_shorthand_protocol = '6'
                 tcp_packets = tcpdump_out.count('IPv4')
                 if tcp_packets != 2:
                     errors.append("{} There should be two TCP packets in "
                                   "representor port. {} packets found".
                                   format(msg_header, tcp_packets))
 
+            if nf_conntrack:
+                conn_track_errors = self.check_conntrack_offload(
+                    srv_item['server']['hypervisor_ip'],
+                    port,
+                    protocol,
+                    iperf_port)
+                errors += conn_track_errors
+
+        return errors
+
+    def parse_hardware_offload_flow(flow_string):
+        """Constructs a tuple describing provided offload flow
+
+        :param flow_string: offload flow string
+        :retrun flow_tuple: tuple of flow
+        """
+        pass
+
+    def check_conntrack_offload(self, hyper, vm_port, protocol, l4_port):
+        """Check connection tracking is offloaded
+
+        Reads conntrack table to see if connection tracking is offloaded.
+
+        :param hyper: hypervisor IP
+        :param vm_port: port object
+        :param protocol: protocol to test (icmp, tcp, udp)
+        :param l4_port: transport protocol
+        :return checks: list with problems found
+        """
+
+        #import ipdb;ipdb.set_trace()
+        errors = []
+        source_ip = vm_port['fixed_ips'][0]['ip_address']
+        conntrack_table_string = shell_utils.get_conntrack_table(hyper)
+        regex = \
+            re.compile(r'.*{pr}.*src={s_ip}.*sport={p}.*\[HW_OFFLOAD\].*'
+                       .format(pr=protocol,
+                               s_ip=source_ip,
+                               p=l4_port))
+        test = regex.search(conntrack_table_string)
+        if not test:
+            errors.append("connection tracking for session protocol '{}' "
+                          "with ip '{}' was not offloaded"
+                          .format(protocol, source_ip))
+        else:
+            print(test.string)
         return errors
