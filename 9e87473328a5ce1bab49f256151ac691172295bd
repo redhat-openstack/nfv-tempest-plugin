@@ -22,6 +22,30 @@
       },
       "revId": "9e87473328a5ce1bab49f256151ac691172295bd",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6a212bf_395ba63d",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2022-04-27T08:08:06Z",
+      "side": 1,
+      "message": "i think it can be removed, when i convert in python from string to json, it adds it to mean it is unicode, i think i removed to the other elements but i keep this one, i will remove it too",
+      "parentUuid": "7e451f23_4bfbea9f",
+      "range": {
+        "startLine": 180,
+        "startChar": 34,
+        "endLine": 180,
+        "endChar": 35
+      },
+      "revId": "9e87473328a5ce1bab49f256151ac691172295bd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
