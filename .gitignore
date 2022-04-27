@@ -2,6 +2,9 @@
 *.cache
 *.egg*
 *.egg-info/
+build/
 .idea/
 .tox/
 .tox_*
+AUTHORS
+ChangeLog
