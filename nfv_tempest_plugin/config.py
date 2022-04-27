@@ -147,10 +147,13 @@ NfvPluginOptions = [
                default=10,
                help="Flows will expire if no packet is received during "
                     "this time"),
-    cfg.IntOpt('offload_injection_time',
-               default=10,
-               help="Injection time for checking flows and traffic in "
-                    "representor port in hwoffload testing"),
+    cfg.FloatOpt('offload_representor_port_threshold',
+                 min=0,
+                 max=100,
+                 default=0.01,
+                 help="Threshold for amount of packets allowed in "
+                      "representor port in hwoffload testing from"
+                      "total packets (representor+offloaded)"),
     cfg.StrOpt('kernel_args',
                default='default_hugepagesz=1GB hugepagesz=1G hugepages=64 '
                        'iommu=pt intel_iommu=on isolcpus=2-19,22-39',

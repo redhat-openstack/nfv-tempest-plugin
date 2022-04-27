@@ -19,6 +19,7 @@ import paramiko
 import re
 import shlex
 import subprocess as sp
+import tempest.lib.exceptions
 
 from backports.configparser import ConfigParser
 from collections import OrderedDict
@@ -484,13 +485,25 @@ def iperf_server(binding_ip, binding_port, duration,
            iperf will be executed
     :return log_file: iperf output
     """
+    # Check if iperf binary is present in $PATH
+    try:
+        ssh_client_local.exec_command('which iperf')
+        iperf_binary = 'iperf'
+    except tempest.lib.exceptions.SSHExecCommandFailed:
+        pass
+    try:
+        ssh_client_local.exec_command('which iperf3')
+        iperf_binary = 'iperf3'
+    except tempest.lib.exceptions.SSHExecCommandFailed:
+        raise
+
     protocols = {"tcp": "", "udp": "-u"}
     log_file = "/tmp/iperf_server-{}-{}-{}-{}.txt".format(binding_ip,
                                                           binding_port,
                                                           protocol,
                                                           duration)
-    cmd_line = "nohup  iperf -s -B {} -p {} -t {} {} > {} 2>&1 &".\
-        format(binding_ip, binding_port, duration, protocols[protocol],
+    cmd_line = "nohup {} -s -B {} -p {} -t {} {} > {} 2>&1 &".\
+        format(iperf_binary, binding_ip, binding_port, duration, protocols[protocol],
                log_file)
 
     LOG.debug('Started iperf server: {}'.format(cmd_line))
@@ -512,13 +525,23 @@ def iperf_client(server_ip, server_port, duration,
            iperf will be executed
     :return log_file: iperf output
     """
+    try:
+        ssh_client_local.exec_command('which iperf')
+        iperf_binary = 'iperf'
+    except tempest.lib.exceptions.SSHExecCommandFailed:
+        pass
+    try:
+        ssh_client_local.exec_command('which iperf3')
+        iperf_binary = 'iperf3'
+    except tempest.lib.exceptions.SSHExecCommandFailed:
+        raise
     protocols = {"tcp": "", "udp": "-u"}
     log_file = "/tmp/iperf_client-{}-{}-{}-{}.txt".format(server_ip,
                                                           server_port,
                                                           protocol,
                                                           duration)
-    cmd_line = "nohup  iperf -c {} -T s2 -p {} -t  {} {} > {} 2>&1 &".\
-        format(server_ip, server_port, duration, protocols[protocol],
+    cmd_line = "nohup {} -c {} -T s2 -p {} -t  {} {} > {} 2>&1 &".\
+        format(iperf_binary, server_ip, server_port, duration, protocols[protocol],
                log_file)
 
     LOG.debug('Started iperf client: {}'.format(cmd_line))
@@ -593,3 +616,16 @@ def get_offload_flows(server_ip):
     cmd_flows = 'sudo ovs-appctl dpctl/dump-flows -m type=offloaded'
     LOG.info('Executed on {}: {}'.format(server_ip, cmd_flows))
     return run_command_over_ssh(server_ip, cmd_flows)
+
+
+def get_conntrack_table(hypervisor_ip):
+    """Get conntrack table from hypervisor
+
+    Reads connection tracking table
+
+    :param hypervisor_ip: IP of hypervisor
+    :return conntrack_table: Connection tracking table
+    """
+    cmd_conn_track = 'sudo cat /proc/net/nf_conntrack'
+    LOG.info('Executed on {}: {}'.format(hypervisor_ip, cmd_conn_track))
+    return run_command_over_ssh(hypervisor_ip, cmd_conn_track)
