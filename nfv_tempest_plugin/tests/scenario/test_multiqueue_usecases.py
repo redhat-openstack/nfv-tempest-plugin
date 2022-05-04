@@ -40,6 +40,8 @@ class ABActionsEnum(Enum):
 class TestMultiqueueScenarios(base_test.BaseTest):
     def __init__(self, *args, **kwargs):
         super(TestMultiqueueScenarios, self).__init__(*args, **kwargs)
+        self.rebalance_check_interval = 5
+        self.after_rebalance_timeout = 30
 
     def setUp(self):
         """Set up a single tenant with an accessible server
@@ -207,8 +209,12 @@ class TestMultiqueueScenarios(base_test.BaseTest):
                  format(end_time - start_time, interval))
 
         msg2 = "Rebalance took place in less time ({}) than the configured " \
-               "threshold ({}).".format(end_time - start_time, interval)
-        self.assertTrue(end_time - start_time >= interval, msg2)
+               "threshold ({}), check interval ({}).".\
+            format(end_time - start_time, interval,
+                   self.rebalance_check_interval)
+        self.assertTrue(
+            end_time - start_time + self.rebalance_check_interval >= interval,
+            msg2)
 
     def prepare_vms(self, test):
         """Check that vms needed to run testcases are present
@@ -252,7 +258,7 @@ class TestMultiqueueScenarios(base_test.BaseTest):
             raise ValueError('Check that trex and testpmd are running')
 
         # Learn queues
-        self.learn_queues(servers_dict["trex"], key_pair)
+        self.learn_queues(servers_dict, key_pair)
 
         return servers_dict
 
@@ -332,13 +338,13 @@ class TestMultiqueueScenarios(base_test.BaseTest):
                                 pmd_cores_2)
             if rebalance:
                 break
-            time.sleep(5)
+            time.sleep(self.rebalance_check_interval)
             end_time = time.time()
 
         # Check if cpu cores are under the threshold
         # If rebalancing took place, it is needed some seconds to have
         # valid values. 10 seconds should be enough
-        for iter in range(10):
+        for iter in range(self.after_rebalance_timeout):
             pmd_cores = self.get_pmd_cores_data(
                 servers_dict["testpmd"]['hypervisor_ip'],
                 ports_used)
@@ -355,45 +361,71 @@ class TestMultiqueueScenarios(base_test.BaseTest):
 
         return rebalance, cpu_under_threshold
 
-    def learn_queues(self, trex_vm, key_pair):
+    def learn_queues(self, servers, key_pair):
         """learn about queues
 
         Learn about queues:
         * mapping physical/virtual queues
         * rate/cpu params
 
-        :param trex_vm: trex vm
+        :param servers: server dict with vms
         :param key_pair: key pair
         """
-        injector_config = CONF.nfv_plugin_options.multiqueue_injector
-        if not injector_config["learn"]:
-            LOG.info('Skippeng multiqueue learning due to configuration.')
+        learning_config = CONF.nfv_plugin_options.multiqueue_learning
+        if not learning_config["learn"]:
+            LOG.info('Skipping multiqueue learning due to configuration.')
             return
         LOG.info('Starting multiqueue learning')
+
+        # set affinity to be sure that there are no 2 physical queues in the
+        # same pmd which causes that one virtual queue will be used instead of
+        # 2 and it will not be able to map one physical queue with one
+        # virtual queue
+        for interface in learning_config["pmd_rxq_affinity"]:
+            cmd_affinity = "sudo ovs-vsctl set Interface {} " \
+                           "other_config:pmd-rxq-affinity=\"{}\"".\
+                format(interface["interface"],
+                       interface["pmd_rxq_affinity"])
+            LOG.info('learn_queues cmd {}'.format(cmd_affinity))
+            shell_utils.run_command_over_ssh(
+                servers['testpmd']['hypervisor_ip'],
+                cmd_affinity)
 
         # training cmd
         cmd_training = "{} --action gen_traffic --pps \"{}\" --traffic_json" \
                        " {} --duration {} --multiplier {}".\
-            format(injector_config["path"],
-                   injector_config["pps"],
-                   injector_config["queues_json"],
-                   injector_config["duration"],
-                   injector_config["multiplier"])
+            format(learning_config["injector"],
+                   learning_config["pps"],
+                   learning_config["queues_json"],
+                   learning_config["duration"],
+                   learning_config["multiplier"])
         LOG.info('learn_queues cmd {}'.format(cmd_training))
-        trex_vm['ssh_source'].exec_command(cmd_training)
+        servers['trex']['ssh_source'].exec_command(cmd_training)
 
         # get pmd stats
         cmd_pmd_rxq_show = "sudo ovs-appctl dpif-netdev/pmd-rxq-show"
         LOG.info('learn_queues cmd {}'.format(cmd_pmd_rxq_show))
         pmd_rxq_output = shell_utils.run_command_over_ssh(
-            trex_vm['hypervisor_ip'],
+            servers['testpmd']['hypervisor_ip'],
             cmd_pmd_rxq_show)
+
+        LOG.info('learn_queues queues: {}'.format(pmd_rxq_output))
+
+        # remove configure affinity before after the learning
+        for interface in learning_config["pmd_rxq_affinity"]:
+            cmd_affinity = "sudo ovs-vsctl remove Interface {} " \
+                           "other_config pmd-rxq-affinity".\
+                format(interface["interface"])
+            LOG.info('learn_queues cmd {}'.format(cmd_affinity))
+            shell_utils.run_command_over_ssh(
+                servers['testpmd']['hypervisor_ip'],
+                cmd_affinity)
 
         # copy pmd file to trex vm
         with tempfile.NamedTemporaryFile() as fp:
             fp.write(pmd_rxq_output.encode())
             fp.flush()
-            self.copy_file_to_remote_host(trex_vm['fip'],
+            self.copy_file_to_remote_host(servers['trex']['fip'],
                                           key_pair['private_key'],
                                           self.instance_user,
                                           files=os.path.basename(fp.name),
@@ -404,11 +436,11 @@ class TestMultiqueueScenarios(base_test.BaseTest):
         # parse pmd file and update queues.json file
         cmd_pmd_parse = "{} --action parse_pmd_stats  --pmd_stats {} " \
                         "--traffic_json {} --pps \"{}\"".\
-            format(injector_config["path"],
+            format(learning_config["injector"],
                    fp.name,
-                   injector_config["queues_json"],
-                   injector_config["pps"])
+                   learning_config["queues_json"],
+                   learning_config["pps"])
         LOG.info('learn_queues cmd {}'.format(cmd_pmd_parse))
-        trex_vm['ssh_source'].exec_command(cmd_pmd_parse)
+        servers['trex']['ssh_source'].exec_command(cmd_pmd_parse)
 
-        LOG.info('Multiqueue learninng finished')
+        LOG.info('Multiqueue learning finished')
