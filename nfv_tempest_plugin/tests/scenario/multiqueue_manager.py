@@ -15,6 +15,7 @@
 
 from oslo_log import log as logging
 from tempest import config
+import json
 
 
 CONF = config.CONF
@@ -27,7 +28,7 @@ class MultiqueueClass(object):
     def __init__(self, queues_config):
         self.queues_config = queues_config
         LOG.info('MultiqueueClass::__init__ queues_config '
-                 '{}'.format(queues_config))
+                 '{}'.format(json.dumps(queues_config, indent=2)))
         self._calculate_cpu_func()
         self._create_queues_keys()
 
@@ -128,16 +129,33 @@ class MultiqueueClass(object):
         self._clean_pmd_cores()
         chosen_core = None
         chosen_core_queues = 0
-        for core_id, queues in pmd_cores.items():
-            for queue in queues["queues"].keys():
-                if queue in self.queues_keys.keys():
-                    self.queues_keys[queue]["pmd_cores"].append(core_id)
-            # chose a core with many physical queues
-            phy_queues = [val for val in queues["queues"].keys()
-                          if "vhu" not in val]
-            if len(phy_queues) > chosen_core_queues:
-                chosen_core = core_id
-                chosen_core_queues = len(phy_queues)
+        # Iterate 2 times to find best core
+        # 1. Choose one core with more than one physical queue
+        # 2. If no core has more than 1 physical queue, choose the
+        #    core with more queues: physical or virtual
+        # The reason of this algorithm is that if 2 physical queues
+        # of the same nic are in the  same core, only one virtual
+        # queue is used. So, It is avoided to use virtual
+        # queues in the beginning. It is only considered virtual
+        # queues if there are no core with 2 physical queues.
+        for iteration in range(2):
+            for core_id, queues in pmd_cores.items():
+                for queue in queues["queues"].keys():
+                    if iteration == 0 and queue in self.queues_keys.keys():
+                        self.queues_keys[queue]["pmd_cores"].append(core_id)
+                # chose a core with many physical queues
+                if iteration == 0:
+                    queues = [val for val in queues["queues"].keys()
+                              if "vhu" not in val]
+                else:
+                    queues = [val for val in queues["queues"].keys()]
+                if len(queues) > chosen_core_queues:
+                    chosen_core = core_id
+                    chosen_core_queues = len(queues)
+            if iteration == 0 and chosen_core_queues > 1:
+                LOG.info('MultiqueueClass::load_one_core found core '
+                         'with more than 1 physical queue')
+                break
         LOG.info('MultiqueueClass::load_one_core chosen_core {}, '
                  'queues {}'.format(chosen_core, chosen_core_queues))
 
@@ -204,7 +222,7 @@ class MultiqueueClass(object):
         """
         rebal = False
         LOG.info('MultiqueueClass::check_rebalance pmd_cores '
-                 '{}'.format(pmd_cores_2))
+                 '{}'.format(json.dumps(pmd_cores_2, indent=2)))
         for core_id in pmd_cores.keys():
             if pmd_cores[core_id]["queues"].keys() != \
                     pmd_cores_2[core_id]["queues"].keys():
@@ -231,20 +249,28 @@ class MultiqueueClass(object):
         valid_cpu_values = True
         cpu_under_threshold = True
         LOG.info('MultiqueueClass::check_cpus_under_threshold pmd_cores '
-                 '{}'.format(pmd_cores))
+                 '{}'.format(json.dumps(pmd_cores, indent=2)))
         for core_id in pmd_cores.keys():
             if not valid_cpu_values or not cpu_under_threshold:
                 break
             cpu_val = 0
+            num_queues = 0
             for queue in pmd_cores[core_id]["queues"].values():
                 if queue["pmd_usage"] < 0:
                     valid_cpu_values = False
                     break
                 cpu_val += queue["pmd_usage"]
-                if cpu_val > threshold:
+                if queue["pmd_usage"] > 0:
+                    num_queues += 1
+                # the algorithm can not do anything if a single queue
+                # is over the threshold, so it is not taken into consideration
+                # if the core is over the threshold due to a single queue with
+                # traffic over the threshold
+                if cpu_val > threshold and num_queues > 1:
                     cpu_under_threshold = False
                     LOG.info('MultiqueueClass::check_rebalance cpu over '
                              'threshold core_id: {}, cpu: {}, threshold: '
                              '{}'.format(core_id, cpu_val, threshold))
                     break
         return valid_cpu_values, cpu_under_threshold
+
