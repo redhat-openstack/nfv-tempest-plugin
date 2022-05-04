@@ -128,16 +128,28 @@ class MultiqueueClass(object):
         self._clean_pmd_cores()
         chosen_core = None
         chosen_core_queues = 0
-        for core_id, queues in pmd_cores.items():
-            for queue in queues["queues"].keys():
-                if queue in self.queues_keys.keys():
-                    self.queues_keys[queue]["pmd_cores"].append(core_id)
-            # chose a core with many physical queues
-            phy_queues = [val for val in queues["queues"].keys()
-                          if "vhu" not in val]
-            if len(phy_queues) > chosen_core_queues:
-                chosen_core = core_id
-                chosen_core_queues = len(phy_queues)
+        # iterate 2 times to find best core
+        # iteration 1: look for cores with more than 1 physical queues
+        # iteration 2: look for core with the maximum number or queues
+        #              virtual or physical
+        for iteration in range(2):
+            for core_id, queues in pmd_cores.items():
+                for queue in queues["queues"].keys():
+                    if queue in self.queues_keys.keys():
+                        self.queues_keys[queue]["pmd_cores"].append(core_id)
+                # chose a core with many physical queues
+                if iteration == 0:
+                    phy_queues = [val for val in queues["queues"].keys()
+                                  if "vhu" not in val]
+                else:
+                    phy_queues = [val for val in queues["queues"].keys()]
+                if len(phy_queues) > chosen_core_queues:
+                    chosen_core = core_id
+                    chosen_core_queues = len(phy_queues)
+            if chosen_core_queues > 1:
+                LOG.info('MultiqueueClass::load_one_core found core '
+                         'with more than 1 physical queue')
+                break
         LOG.info('MultiqueueClass::load_one_core chosen_core {}, '
                  'queues {}'.format(chosen_core, chosen_core_queues))
 
