@@ -128,16 +128,33 @@ class MultiqueueClass(object):
         self._clean_pmd_cores()
         chosen_core = None
         chosen_core_queues = 0
-        for core_id, queues in pmd_cores.items():
-            for queue in queues["queues"].keys():
-                if queue in self.queues_keys.keys():
-                    self.queues_keys[queue]["pmd_cores"].append(core_id)
-            # chose a core with many physical queues
-            phy_queues = [val for val in queues["queues"].keys()
-                          if "vhu" not in val]
-            if len(phy_queues) > chosen_core_queues:
-                chosen_core = core_id
-                chosen_core_queues = len(phy_queues)
+        # Iterate 2 times to find best core
+        # 1. Choose one core with more than one physical queue
+        # 2. If no core has more than 1 physical queue, choose the
+        #    core with more queues: physical or virtual
+        # The reason of this algorithm is that if 2 physical queues
+        # of the same nic are in the  same core, only one virtual
+        # queue is used. So, It is avoided to use virtual
+        # queues in the beginning. It is only considered virtual
+        # queues if there are no core with 2 physical queues.
+        for iteration in range(2):
+            for core_id, queues in pmd_cores.items():
+                for queue in queues["queues"].keys():
+                    if queue in self.queues_keys.keys():
+                        self.queues_keys[queue]["pmd_cores"].append(core_id)
+                # chose a core with many physical queues
+                if iteration == 0:
+                    queues = [val for val in queues["queues"].keys()
+                              if "vhu" not in val]
+                else:
+                    queues = [val for val in queues["queues"].keys()]
+                if len(queues) > chosen_core_queues:
+                    chosen_core = core_id
+                    chosen_core_queues = len(queues)
+            if chosen_core_queues > 1:
+                LOG.info('MultiqueueClass::load_one_core found core '
+                         'with more than 1 physical queue')
+                break
         LOG.info('MultiqueueClass::load_one_core chosen_core {}, '
                  'queues {}'.format(chosen_core, chosen_core_queues))
 
