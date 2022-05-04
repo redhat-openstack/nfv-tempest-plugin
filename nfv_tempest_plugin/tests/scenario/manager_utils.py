@@ -667,7 +667,10 @@ class ManagerMixin(object):
         servers = groups[group]
 
         with open(self.external_resources_data['key_pair'], 'r') as key:
-            key_pair = {'private_key': key.read()}
+            key_pair = {'private_key': key.read(), 
+                        'name': os.path.basename(
+                            self.external_resources_data['key_pair'])
+                            .split('.')[0]}
         return servers, key_pair
 
     def get_ovs_interface_statistics(self, interfaces, previous_stats=None,
