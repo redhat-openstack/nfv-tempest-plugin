@@ -10,11 +10,11 @@ class HeatClient(KeystoneClient):
     @classmethod
     def set_heat_clients(cls):
         super().set_keystone_clients()
-
-        cls.undercloud_heatclient = Client('1',
-                                           session=cls
-                                           .undercloud_keystone_session)
+        if hasattr(cls, 'undercloud_keystone_session'):
+            cls.undercloud_heatclient = Client('1',
+                                            session=cls
+                                            .undercloud_keystone_session)
 
         cls.overcloud_heatclient = Client('1',
-                                          session=cls
-                                          .overcloud_keystone_session)
+                                        session=cls
+                                        .overcloud_keystone_session)

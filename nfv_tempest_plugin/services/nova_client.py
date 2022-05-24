@@ -15,10 +15,11 @@ class NovaClient(KeystoneClient):
                                           .compute.max_microversion,
                                           session=cls
                                           .overcloud_keystone_session)
-        cls.novaclient_undercloud = Client(version=CONF
-                                           .compute.max_microversion,
-                                           session=cls
-                                           .undercloud_keystone_session)
+        if hasattr(cls, 'undercloud_keystone_session'):
+            cls.novaclient_undercloud = Client(version=CONF
+                                            .compute.max_microversion,
+                                            session=cls
+                                            .undercloud_keystone_session)
 
     def overcloud_hypervisor_to_undecloud_server(self, hypervisor):
         """take in hypervisor object and find its related undercloud server

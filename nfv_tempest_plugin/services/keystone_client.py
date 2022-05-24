@@ -2,7 +2,9 @@ from keystoneauth1.identity import v3
 from keystoneauth1 import session
 from oslo_log import log as logging
 from tempest import config
-
+from packaging import version
+from nfv_tempest_plugin.tests.common.collect_info \
+    import CollectInfo
 
 CONF = config.CONF
 LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
@@ -11,17 +13,20 @@ LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 class KeystoneClient():
     @classmethod
     def set_keystone_clients(cls):
-        undercloud_rc = cls.parse_rc_file(
-            CONF.nfv_plugin_options.undercloud_rc_file)
+        osp_version = CollectInfo.get_osp_version()
 
-        cls.undercloud_keystone_session = session.Session(auth=v3.Password(
-            auth_url=undercloud_rc['OS_AUTH_URL'],
-            username=undercloud_rc['OS_USERNAME'],
-            password=undercloud_rc['OS_PASSWORD'],
-            project_name=undercloud_rc['OS_PROJECT_NAME'],
-            user_domain_name=undercloud_rc['OS_USER_DOMAIN_NAME'],
-            project_domain_name=undercloud_rc[
-                'OS_PROJECT_DOMAIN_NAME']), verify=False)
+        if version.parse(osp_version) < version.parse('17.0.0'):
+            undercloud_rc = cls.parse_rc_file(
+                CONF.nfv_plugin_options.undercloud_rc_file)
+
+            cls.undercloud_keystone_session = session.Session(auth=v3.Password(
+                auth_url=undercloud_rc['OS_AUTH_URL'],
+                username=undercloud_rc['OS_USERNAME'],
+                password=undercloud_rc['OS_PASSWORD'],
+                project_name=undercloud_rc['OS_PROJECT_NAME'],
+                user_domain_name=undercloud_rc['OS_USER_DOMAIN_NAME'],
+                project_domain_name=undercloud_rc[
+                    'OS_PROJECT_DOMAIN_NAME']), verify=False)
 
         cls.overcloud_keystone_session = session.Session(auth=v3.Password(
             auth_url=CONF.identity.uri,
