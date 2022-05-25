@@ -203,16 +203,19 @@ class TestNfvOffload(base_test.BaseTest):
         # iterate servers
         for server in servers[1:]:
             # iterate networks
-            for provider_network in server['provider_networks']:
+            for dest_network in (server['provider_networks'] + server.get(
+                    'trunk_networks', [])):
 
                 # get network in the server in which ping is being executed
                 source_network = \
-                    next(item for item in servers[0]['provider_networks'] if
-                         item["network_id"] == provider_network["network_id"])
+                    next(item for item in
+                         (servers[0]['provider_networks'] + servers[0].get(
+                             'trunk_networks', [])) if
+                         item["network_id"] == dest_network["network_id"])
 
                 # pair with the server and network used for ping
                 srv_pair = [{'server': servers[0], 'network': source_network},
-                            {'server': server, 'network': provider_network}]
+                            {'server': server, 'network': dest_network}]
 
                 # get vf from the mac address
                 for srv_item in srv_pair:
@@ -243,7 +246,7 @@ class TestNfvOffload(base_test.BaseTest):
                       "Not supported protocol {}".format(protocol))
 
         errors = []
-        # sleep several seconds so that flows generated checking provider
+        # sleep several seconds so that flows generated checking
         # network connectivity during resource creation are removed. Timeout
         # for flows deletion is around 10 seconds
         flows_timeout = int(CONF.nfv_plugin_options.flows_timeout)
