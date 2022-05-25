@@ -15,7 +15,7 @@ class NovaClient(KeystoneClient):
                                           .compute.max_microversion,
                                           session=cls
                                           .overcloud_keystone_session)
-        if hasattr(cls, 'undercloud_keystone_session'):
+        if cls.uc_server_client == 'nova':
             cls.novaclient_undercloud = Client(version=CONF
                                                .compute.max_microversion,
                                                session=cls
