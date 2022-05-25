@@ -298,6 +298,42 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             host = aggr_result[0]['hosts']
         return host
 
+    def _create_network_trunks(self, ports_list):
+        """Method reads test-networks attributes from external_config.yml
+
+        It creates networks trunks if defined in test networks
+        """
+        parent_nets = [net for net in self.test_network_dict.values()
+                       if 'trunk' in net and 'trunk_parent' in net and
+                       net['trunk_parent']]
+        for parent in parent_nets:
+            parent_ports = [port for port in ports_list
+                            if port['net_name' == parent['net_name']]]
+            child_trunk = [net for net in self.test_network_dict.values()
+                           if 'trunk' in net and 'trunk_parent' in net and
+                           not net['trunk_parent'] and
+                           net['trunk'] == parent['trunk']]
+            for child in child_trunk:
+                child_ports = [port for port in ports_list
+                               if port['net_name' == parent['net_name']]]
+                msg = "_create_network_trunks: Number of child ports ({})" \
+                      " must be a multiple of the number of parent " \
+                      "ports ({})".format(len(child_ports),
+                                          len(parent_ports))
+                self.assertEqual(len(child_ports) % len(parent_ports), 0, msg)
+                ratio = len(child_ports)/len(parent_ports)
+                for parent_port in parent_ports:
+                    child_ports_parent = child_ports[0:ratio]
+                    del child_ports[:ratio]
+                    subports = []
+                    for child_port in child_ports_parent:
+                        subports.append({'port_id': child_port['id'],
+                                         'segmentation_type': 'vlan',
+                                         'segmentation_id': child['segmentation_id']})
+                        self.os_admin.networks_client.create_trunk(port=parent_port['id'],
+                                                                   subports=subports)
+
+
     def _create_test_networks(self):
         """Method reads test-networks attributes from external_config.yml
 
@@ -311,7 +347,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         mgmt_network = None
         for net in self.external_config['test-networks']:
             self.test_network_dict[net['name']] = \
-                {'provider:physical_network': net['physical_network'],
+                {'net_name': net['name'],
+                 'provider:physical_network': net['physical_network'],
                  'provider:network_type': net['network_type'],
                  'dhcp': net['enable_dhcp'],
                  'cidr': net['cidr'],
@@ -344,6 +381,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     net['min_qos']
             if net.get('skip_srv_attach') and net['skip_srv_attach']:
                 self.test_network_dict[net['name']]['skip_srv_attach'] = True
+            if 'trunk' in net and 'trunk_parent' in net:
+                self.test_network_dict[net['name']]['trunk'] = \
+                    net['trunk']
+                self.test_network_dict[net['name']]['trunk_parent'] = \
+                    net['trunk_parent']
         network_kwargs = {}
         """
         Create network and subnets
@@ -547,7 +589,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                             port_args['qos_policy_id'] = \
                                 self.qos_policy_groups['id']
                         self.update_port(port['id'], **port_args)
-                    net_var = {'uuid': net_param['net-id'], 'port': port['id']}
+                    net_var = {'uuid': net_param['net-id'],
+                               'port': port['id'],
+                               'net_name': net_name}
                     if 'tag' in net_param:
                         net_var['tag'] = net_param['tag']
                     # Mark port type, as tag
@@ -823,6 +867,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         ports_list = \
             self._create_ports_on_networks(num_ports=num_ports,
                                            **kwargs)
+
+        self._create_network_trunks(ports_list)
 
         # After port creation remove kwargs['set_qos']
         if 'set_qos' in kwargs:
