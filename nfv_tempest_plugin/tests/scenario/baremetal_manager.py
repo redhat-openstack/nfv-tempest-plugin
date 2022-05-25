@@ -298,6 +298,36 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             host = aggr_result[0]['hosts']
         return host
 
+    def _create_network_trunks(self, ports_list):
+        """Method reads test-networks attributes from external_config.yml
+
+        It creates networks trunks if defined in test networks
+        """
+        for ports_server in ports_list:
+            trunks = {}
+            # Parent ports
+            for port in ports_server:
+                net = self.test_network_dict[port["net_name"]]
+                if 'trunk' in net and 'trunk_parent' in net \
+                    and net['trunk_parent']:
+                    trunks[net['trunk']] = {'port_id': port['port'],
+                                            'subports': []}
+            # Children ports
+            for port in ports_server:
+                net = self.test_network_dict[port["net_name"]]
+                if 'trunk' in net and 'trunk_parent' in net \
+                    and not net['trunk_parent']:
+                    trunks[net['trunk']]['subports'].append(
+                        {'port_id': port['port'],
+                         'segmentation_type': 'vlan',
+                         'segmentation_id': net['provider:segmentation_id']})
+            # create trunks
+            for trunk_value in trunks.values():
+                self.os_admin_v2.network_client.create_trunk(
+                    parent_port_id=trunk_value['port_id'],
+                    subports=trunk_value['subports'])
+
+
     def _create_test_networks(self):
         """Method reads test-networks attributes from external_config.yml
 
@@ -311,7 +341,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         mgmt_network = None
         for net in self.external_config['test-networks']:
             self.test_network_dict[net['name']] = \
-                {'provider:physical_network': net['physical_network'],
+                {'net_name': net['name'],
+                 'provider:physical_network': net['physical_network'],
                  'provider:network_type': net['network_type'],
                  'dhcp': net['enable_dhcp'],
                  'cidr': net['cidr'],
@@ -344,6 +375,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     net['min_qos']
             if net.get('skip_srv_attach') and net['skip_srv_attach']:
                 self.test_network_dict[net['name']]['skip_srv_attach'] = True
+            if 'trunk' in net and 'trunk_parent' in net:
+                self.test_network_dict[net['name']]['trunk'] = \
+                    net['trunk']
+                self.test_network_dict[net['name']]['trunk_parent'] = \
+                    net['trunk_parent']
         network_kwargs = {}
         """
         Create network and subnets
@@ -547,7 +583,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                             port_args['qos_policy_id'] = \
                                 self.qos_policy_groups['id']
                         self.update_port(port['id'], **port_args)
-                    net_var = {'uuid': net_param['net-id'], 'port': port['id']}
+                    net_var = {'uuid': net_param['net-id'],
+                               'port': port['id'],
+                               'net_name': net_name,
+                               'attach_vm': true}
                     if 'tag' in net_param:
                         net_var['tag'] = net_param['tag']
                     # Mark port type, as tag
@@ -555,6 +594,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         net_var['tag'] = "{}:{}".format(
                             net_param['port_type'],
                             net_param['provider:physical_network'])
+                    if 'trunk' in net_param and 'trunk_parent' in net_param \
+                            and not net_param['trunk_parent']:
+                        net_var['attach_vm']: false
                     # In order to proper map the FIP to the instance,
                     # management network needs to be first in the list of nets.
                     if net_var['tag'] == 'external':
@@ -824,6 +866,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             self._create_ports_on_networks(num_ports=num_ports,
                                            **kwargs)
 
+        self._create_network_trunks(ports_list)
+
         # After port creation remove kwargs['set_qos']
         if 'set_qos' in kwargs:
             kwargs.pop('set_qos')
@@ -843,6 +887,12 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         kwargs['user_data'] = self._prepare_cloudinit_file(packages)
         servers = []
         if num_servers:
+            # remove ports that do not need to be attached to the vm
+            # used for subports in trunk vlans
+            for index in range(len(ports_list)):
+                ports_list[index][:] = [p for p in ports_list[index]
+                                        if not p['attach_vm']]
+
             servers = self.create_server_with_fip(num_servers=num_servers,
                                                   networks=ports_list,
                                                   **kwargs)
