@@ -15,10 +15,13 @@
 
 from __future__ import division  # Use Python3 divison in Python2
 
+import ipaddress
 import os.path
 import paramiko
 import re
 
+from neutron_tempest_plugin.common import ip
+from neutron_tempest_plugin.common import ssh
 from nfv_tempest_plugin.tests.scenario import manager_utils
 from oslo_log import log
 from oslo_serialization import jsonutils
@@ -298,6 +301,22 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             host = aggr_result[0]['hosts']
         return host
 
+    def _create_network_trunks(self, trunk_list):
+        """Create network trunks
+
+        It creates networks trunks if defined in test networks
+
+        :param trunk_list: dict with the trunks to be created
+        """
+        for server_trunk in trunk_list:
+            for trunk_name, trunk_value in server_trunk.items():
+                trunk = self.os_admin_v2.network_client.create_trunk(
+                    parent_port_id=trunk_value['parent_port'],
+                    subports=trunk_value['subports'])['trunk']
+                self.addCleanup(test_utils.call_and_ignore_notfound_exc,
+                                self.os_admin_v2.network_client.delete_trunk,
+                                trunk['id'])
+
     def _create_test_networks(self):
         """Method reads test-networks attributes from external_config.yml
 
@@ -344,6 +363,20 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     net['min_qos']
             if net.get('skip_srv_attach') and net['skip_srv_attach']:
                 self.test_network_dict[net['name']]['skip_srv_attach'] = True
+            if 'trunk_vlan' in net and 'trunk_vlan_parent' in net:
+                self.test_network_dict[net['name']]['trunk_vlan'] = \
+                    net['trunk_vlan']
+                self.test_network_dict[net['name']]['trunk_vlan_parent'] = \
+                    net['trunk_vlan_parent']
+            if 'transparent_vlan' in net and 'transparent_vlan_parent' in net:
+                self.test_network_dict[net['name']]['transparent_vlan'] = \
+                    net['transparent_vlan']
+                self.test_network_dict[net['name']][
+                    'transparent_vlan_parent'] = net[
+                    'transparent_vlan_parent']
+            if 'mtu' in net and net['mtu']:
+                self.test_network_dict[net['name']]['mtu'] = \
+                    int(net['mtu'])
         network_kwargs = {}
         """
         Create network and subnets
@@ -369,6 +402,14 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'provider:network_type' in net_param:
                 network_kwargs['provider:network_type'] =\
                     net_param['provider:network_type']
+
+            if 'mtu' in net_param:
+                network_kwargs['mtu'] = net_param['mtu']
+
+            if 'transparent_vlan' in net_param and \
+                'transparent_vlan_parent' in net_param and \
+                net_param['transparent_vlan_parent']:
+                network_kwargs['vlan_transparent'] = True
 
             network_kwargs['tenant_id'] = self.networks_client.tenant_id
             result = self.os_admin.networks_client.create_network(
@@ -494,21 +535,90 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         This will help create_server_with_fip will select required ports
         based on test request filters.
 
+        It will return vlan trunk and transparent vlan ports. These ports
+        are usefull to create vlan interfaces inside vms
+
         :param num_ports: The number of loops for ports creation
         :param kwargs
                set_qos: true/false set qos policy during port creation
 
-        :return ports_list: A list of ports lists
+        :return ports_list: A list of ports lists used when creating vms.
+        Contains regular ports and parent ports when using vlan trunk or
+        vlan transparent. It does not contain child ports for vlan trunk
+        or child ports por vlan transparent (which are not even created)
+        :return trunk_ports: vlan trunk ports. It contains child ports for
+        vlan trunk
+        :return transparent_ports: transparent ports. It contains child ports
+        for vlan transparent. These ports are not even created by neutron but
+        this structure is useful to create vlans inside vms.
         """
         # The "ports_list" holds lists of ports dicts per each instance.
         # Create the number of the nested lists according to the number of the
         # instances.
         ports_list = []
+        trunk_ports = []
+        transparent_ports = []
         [ports_list.append([]) for i in range(num_ports)]
+        [trunk_ports.append({}) for i in range(num_ports)]
+        [transparent_ports.append({}) for i in range(num_ports)]
 
+        # First managing child ports for transparent vlans. These ports are
+        # not created by neutron.
+        # list of ips available to assign in transparent vlans
+        ips_available = {}
         for net_name, net_param in iter(self.test_network_dict.items()):
             if 'skip_srv_attach' in net_param:
                 continue
+
+            # When using network transparency, only for the parent
+            # network it will be created a port
+            transparent_enabled = False
+            if 'transparent_vlan' in net_param and \
+                    'transparent_vlan_parent' in net_param:
+                transparent_enabled = True
+                # get list of ips available to assign to transparent
+                # interfaces
+                if net_name not in ips_available:
+                    ips_available[net_name] = list(ipaddress.IPv4Network(
+                        address=net_param['cidr'], strict=False).hosts())
+                    for index, ip_value in reversed(list(enumerate(
+                            ips_available[net_name]))):
+                        start = ipaddress.ip_address(net_param['pool_start'])
+                        end = ipaddress.ip_address(net_param['pool_end'])
+                        if int(ip_value) not in range(int(start), int(end)):
+                            ips_available[net_name].pop(index)
+
+                # create transparent structure if not created yet
+                for port_index in range(num_ports):
+                    if net_param['transparent_vlan'] not in \
+                            transparent_ports[port_index].keys():
+                        transparent_ports[port_index][net_param[
+                            'transparent_vlan']] = {'subports': []}
+
+                    if not net_param['transparent_vlan_parent']:
+                        # add subports
+                        transparent = transparent_ports[port_index][
+                            net_param['transparent_vlan']]
+                        ip = "{}/{}".format(ips_available[net_name].pop(0),
+                                            net_param['cidr'].split("/")[1])
+                        subport = \
+                            {'ip_address': ip,
+                             'segmentation_id':
+                                 net_param['provider:segmentation_id'],
+                             'segmentation_type': 'vlan'}
+                        transparent['subports'].append(subport)
+                # not created neutron port for child transparent ports
+                if not net_param['transparent_vlan_parent']:
+                    continue
+
+            # check if trunk vlan defined
+            trunk_enabled = False
+            trunk_parent = False
+            if 'trunk_vlan' in net_param and 'trunk_vlan_parent' in net_param:
+                trunk_enabled = True
+                trunk_parent = net_param['trunk_vlan_parent']
+
+            # create ports
             create_port_body = {'binding:vnic_type': '',
                                 'namestart': 'port-smoke',
                                 'binding:profile': {}}
@@ -555,14 +665,47 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         net_var['tag'] = "{}:{}".format(
                             net_param['port_type'],
                             net_param['provider:physical_network'])
-                    # In order to proper map the FIP to the instance,
-                    # management network needs to be first in the list of nets.
-                    if net_var['tag'] == 'external':
-                        ports_list[port_index].insert(0, net_var)
-                    else:
-                        ports_list[port_index].append(net_var)
 
-        return ports_list
+                    # ports_list will be the list of ports used when spawning
+                    # vms when using trunk, child  ports must not be in the
+                    # list when using transparency, no child port is created,
+                    # so it will not be in the list
+                    if not trunk_enabled or (trunk_enabled and trunk_parent):
+                        # In order to proper map the FIP to the instance,
+                        # management network needs to be first in the list
+                        # of nets.
+                        if net_var['tag'] == 'external':
+                            ports_list[port_index].insert(0, net_var)
+                        else:
+                            ports_list[port_index].append(net_var)
+
+                    # Add trunk parent port/subport if trunk vlan enabled
+                    if trunk_enabled:
+                        # create trunk structure if not created yet
+                        if net_param['trunk_vlan'] not in \
+                                trunk_ports[port_index].keys():
+                            trunk_ports[port_index][net_param[
+                                'trunk_vlan']] = {'subports': []}
+
+                        # add parent port and subports
+                        trunk = trunk_ports[port_index][net_param[
+                            'trunk_vlan']]
+                        if trunk_parent:
+                            trunk['parent_port'] = port['id']
+                        else:
+                            subport = \
+                                {'port_id': port['id'],
+                                 'segmentation_id':
+                                     net_param['provider:segmentation_id'],
+                                 'segmentation_type': 'vlan'}
+                            trunk['subports'].append(subport)
+
+                    # Add transparent parent port if enabled
+                    if transparent_enabled:
+                        transparent_ports[port_index][net_param[
+                            'transparent_vlan']]['parent_port'] = port['id']
+
+        return ports_list, trunk_ports, transparent_ports
 
     def _create_port(self, network_id, client=None, namestart='port-quotatest',
                      **kwargs):
@@ -820,9 +963,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             kwargs['security_groups'] = self._set_sec_groups(**kwargs)
             kwargs.pop('sg_rules', None)
 
-        ports_list = \
+        ports_list, port_list_trunk, port_list_transparent = \
             self._create_ports_on_networks(num_ports=num_ports,
                                            **kwargs)
+
+        self._create_network_trunks(port_list_trunk)
 
         # After port creation remove kwargs['set_qos']
         if 'set_qos' in kwargs:
@@ -846,7 +991,124 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             servers = self.create_server_with_fip(num_servers=num_servers,
                                                   networks=ports_list,
                                                   **kwargs)
+            self._configure_vlan_trunk_vms(servers, key_pair,
+                                           port_list_trunk)
+            self._configure_vlan_transparent_vms(servers, key_pair,
+                                                 port_list_transparent)
+
         return servers, key_pair
+
+    def _configure_vlan_trunk_vms(self, servers, key_pair, port_list_trunk):
+        """Configure vlan trunks in vms
+
+        It will use ip commands through ssh to configure vlans inside vms
+
+        :param servers: list with servers
+        :param key_pair: key_pair to connect vms
+        :port_list_trunk: list of trunk ports
+        """
+        subnets = None
+        ports = None
+        for server_index, server in enumerate(servers):
+            if len(port_list_trunk[server_index]) > 0:
+                server['trunk_networks'] = []
+                if subnets is None:
+                    subnets = \
+                        self.os_admin.subnets_client.list_subnets()['subnets']
+                if ports is None:
+                    ports = self.os_admin.ports_client.list_ports()['ports']
+                ssh_client = ssh.Client(host=server['fip'],
+                                        username=self.instance_user,
+                                        pkey=key_pair['private_key'])
+                ip_command = ip.IPCommand(ssh_client=ssh_client)
+                for trunk_name, trunk_value in \
+                        port_list_trunk[server_index].items():
+                    parent_port = \
+                        [port for port in ports
+                         if port['id'] == trunk_value['parent_port']][0]
+                    for subport in trunk_value['subports']:
+                        child_port = [port for port in ports
+                                      if port['id'] == subport['port_id']][0]
+                        subnet_id = child_port['fixed_ips'][0]['subnet_id']
+                        vlan_subnet = [subnet for subnet in subnets
+                                       if subnet['id'] == subnet_id][0]
+                        ip_command.configure_vlan_subport(
+                            port=parent_port,
+                            subport=child_port,
+                            vlan_tag=subport['segmentation_id'],
+                            subnets=[vlan_subnet])
+
+                        network = \
+                            [val for val in self.test_network_dict.values()
+                             if child_port['network_id'] in val['net-id']][0]
+                        trunk_dict = {
+                            'network_id':
+                                child_port['network_id'],
+                            'mac_address':
+                                child_port['mac_address'],
+                            'parent_mac_address':
+                                parent_port['mac_address'],
+                            'ip_address':
+                                child_port['fixed_ips'][0]['ip_address'],
+                            'parent_ip_address':
+                                parent_port['fixed_ips'][0]['ip_address'],
+                            'provider:network_type':
+                                network['provider:network_type']
+                        }
+                        server['trunk_networks'].append(trunk_dict)
+
+    def _configure_vlan_transparent_vms(self, servers, key_pair,
+                                        port_list_transparent):
+        """Configure vlan transparent in vms
+
+        It will use ip commands through ssh to configure vlans inside vms
+
+        :param servers: list with servers
+        :param key_pair: key_pair to connect vms
+        :port_list_transparent: list of transparent ports
+        """
+        ports = None
+        for server_index, server in enumerate(servers):
+            if len(port_list_transparent[server_index]) > 0:
+                server['transparent_networks'] = []
+                if ports is None:
+                    ports = self.os_admin.ports_client.list_ports()['ports']
+                ssh_client = ssh.Client(host=server['fip'],
+                                        username=self.instance_user,
+                                        pkey=key_pair['private_key'])
+                ip_command = ip.IPCommand(ssh_client=ssh_client)
+                for transparent_name, transparent_value in \
+                        port_list_transparent[server_index].items():
+                    parent_port = \
+                        [port for port in ports
+                         if port['id'] == transparent_value['parent_port']][0]
+                    for subport in transparent_value['subports']:
+                        device = ip_command.configure_vlan_transparent(
+                            port=parent_port,
+                            vlan_tag=subport['segmentation_id'],
+                            ip_addresses=[subport['ip_address']])
+                        ip_link_output = ip_command.execute('link',
+                                                            'show',
+                                                            device).split(" ")
+                        mac_address = ip_link_output[ip_link_output.index(
+                            'link/ether') + 1]
+
+                        transparent_dict = {
+                            # set segmentation_id as network_id
+                            'network_id':
+                                subport['segmentation_id'],
+                            'provider:network_type':
+                                subport['segmentation_type'],
+                            'mac_address':
+                                mac_address,
+                            'parent_mac_address':
+                                parent_port['mac_address'],
+                            'ip_address':
+                                subport['ip_address'].split('/')[0],
+                            'parent_ip_address':
+                                parent_port['fixed_ips'][0]['ip_address']
+                        }
+                        server['transparent_networks'].append(transparent_dict)
 
     def _set_sec_groups(self, **kwargs):
         """Creates a security group containing rules
