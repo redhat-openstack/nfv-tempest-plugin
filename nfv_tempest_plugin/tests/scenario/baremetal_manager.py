@@ -19,6 +19,8 @@ import os.path
 import paramiko
 import re
 
+from neutron_tempest_plugin.common import ip
+from neutron_tempest_plugin.common import ssh
 from nfv_tempest_plugin.tests.scenario import manager_utils
 from oslo_log import log
 from oslo_serialization import jsonutils
@@ -298,6 +300,17 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             host = aggr_result[0]['hosts']
         return host
 
+    def _create_network_trunks(self, trunk_list):
+        """Method reads test-networks attributes from external_config.yml
+
+        It creates networks trunks if defined in test networks
+        """
+        for server_trunk in trunk_list:
+            for trunk_name, trunk_value in server_trunk.items():
+                self.os_admin_v2.network_client.create_trunk(
+                    parent_port_id=trunk_value['parent_port'],
+                    subports=trunk_value['subports'])
+
     def _create_test_networks(self):
         """Method reads test-networks attributes from external_config.yml
 
@@ -344,6 +357,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                     net['min_qos']
             if net.get('skip_srv_attach') and net['skip_srv_attach']:
                 self.test_network_dict[net['name']]['skip_srv_attach'] = True
+            if 'trunk' in net and 'trunk_parent' in net:
+                self.test_network_dict[net['name']]['trunk'] = \
+                    net['trunk']
+                self.test_network_dict[net['name']]['trunk_parent'] = \
+                    net['trunk_parent']
         network_kwargs = {}
         """
         Create network and subnets
@@ -499,12 +517,15 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                set_qos: true/false set qos policy during port creation
 
         :return ports_list: A list of ports lists
+        :return trunk_ports: vlan trunk ports
         """
         # The "ports_list" holds lists of ports dicts per each instance.
         # Create the number of the nested lists according to the number of the
         # instances.
         ports_list = []
+        trunk_ports = []
         [ports_list.append([]) for i in range(num_ports)]
+        [trunk_ports.append({}) for i in range(num_ports)]
 
         for net_name, net_param in iter(self.test_network_dict.items()):
             if 'skip_srv_attach' in net_param:
@@ -532,6 +553,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 if len(create_port_body['binding:profile']) == 0:
                     del create_port_body['binding:profile']
 
+                trunk_enabled = False
+                trunk_parent = False
+                if 'trunk' in net_param and 'trunk_parent' in net_param:
+                    trunk_enabled = True
+                    trunk_parent = net_param['trunk_parent']
                 for port_index in range(num_ports):
                     port = self._create_port(network_id=net_param['net-id'],
                                              **create_port_body)
@@ -555,14 +581,33 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         net_var['tag'] = "{}:{}".format(
                             net_param['port_type'],
                             net_param['provider:physical_network'])
-                    # In order to proper map the FIP to the instance,
-                    # management network needs to be first in the list of nets.
-                    if net_var['tag'] == 'external':
-                        ports_list[port_index].insert(0, net_var)
-                    else:
-                        ports_list[port_index].append(net_var)
 
-        return ports_list
+                    if not trunk_enabled or (trunk_enabled and trunk_parent):
+                        # In order to proper map the FIP to the instance,
+                        # management network needs to be first in the list
+                        # of nets.
+                        if net_var['tag'] == 'external':
+                            ports_list[port_index].insert(0, net_var)
+                        else:
+                            ports_list[port_index].append(net_var)
+
+                    if trunk_enabled:
+                        if net_param['trunk'] not in \
+                                trunk_ports[port_index].keys():
+                            trunk_ports[port_index][net_param['trunk']] = \
+                                {'subports': []}
+                        trunk = trunk_ports[port_index][net_param['trunk']]
+                        if trunk_parent:
+                            trunk['parent_port'] = port['id']
+                        else:
+                            subport = \
+                                {'port_id': port['id'],
+                                 'segmentation_id':
+                                     net_param['provider:segmentation_id'],
+                                 'segmentation_type': 'vlan'}
+                            trunk['subports'].append(subport)
+
+        return ports_list, trunk_ports
 
     def _create_port(self, network_id, client=None, namestart='port-quotatest',
                      **kwargs):
@@ -820,9 +865,11 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             kwargs['security_groups'] = self._set_sec_groups(**kwargs)
             kwargs.pop('sg_rules', None)
 
-        ports_list = \
+        ports_list, port_list_trunk = \
             self._create_ports_on_networks(num_ports=num_ports,
                                            **kwargs)
+
+        self._create_network_trunks(port_list_trunk)
 
         # After port creation remove kwargs['set_qos']
         if 'set_qos' in kwargs:
@@ -846,7 +893,48 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             servers = self.create_server_with_fip(num_servers=num_servers,
                                                   networks=ports_list,
                                                   **kwargs)
+            self._configure_vlan_trunk_vms(servers, key_pair, port_list_trunk)
+
         return servers, key_pair
+
+    def _configure_vlan_trunk_vms(self, servers, key_pair, port_list_trunk):
+        """Configure vlan trunks in vms
+
+        It will use ip commands through ssh to configure vlans inside vms
+
+        :param servers: list with servers
+        :param key_pair: key_pair to connect vms
+        :port_list_trunk: list of trunk ports
+        """
+        subnets = None
+        ports = None
+        for server_index, server in enumerate(servers):
+            if len(port_list_trunk[server_index]) > 0:
+                if subnets is None:
+                    subnets = \
+                        self.os_admin.subnets_client.list_subnets()['subnets']
+                if ports is None:
+                    ports = self.os_admin.ports_client.list_ports()['ports']
+                ssh_client = ssh.Client(host=server['fip'],
+                                        username=self.instance_user,
+                                        pkey=key_pair['private_key'])
+                ip_command = ip.IPCommand(ssh_client=ssh_client)
+                for trunk_name, trunk_value in \
+                        port_list_trunk[server_index].items():
+                    parent_port = \
+                        [port for port in ports
+                         if port['id'] == trunk_value['parent_port']][0]
+                    for subport in trunk_value['subports']:
+                        child_port = [port for port in ports
+                                      if port['id'] == subport['port_id']][0]
+                        subnet_id = child_port['fixed_ips'][0]['subnet_id']
+                        vlan_subnet = [subnet for subnet in subnets
+                                       if subnet['id'] == subnet_id][0]
+                        ip_command.configure_vlan_subport(
+                            port=parent_port,
+                            subport=child_port,
+                            vlan_tag=subport['segmentation_id'],
+                            subnets=[vlan_subnet])
 
     def _set_sec_groups(self, **kwargs):
         """Creates a security group containing rules
