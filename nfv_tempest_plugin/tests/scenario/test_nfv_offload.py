@@ -216,8 +216,10 @@ class TestNfvOffload(base_test.BaseTest):
 
                 # get vf from the mac address
                 for srv_item in srv_pair:
+                    network = srv_item['network']
                     srv_item['vf_nic'] = shell_utils.get_vf_from_mac(
-                        srv_item['network']['mac_address'],
+                        network.get('parent_mac_address',
+                                    network['mac_address']),
                         srv_item['server']['hypervisor_ip'])
 
                 errors_found += self.check_offload(srv_pair, protocol,
@@ -251,13 +253,13 @@ class TestNfvOffload(base_test.BaseTest):
 
         # execute tcpdump in representor port in both hypervisors
         iperf_port = random.randrange(8000, 9000)
+        mac_addresses = [srv['network']['mac_address'] for srv in srv_pair]
         for srv_item in srv_pair:
             srv_item['tcpdump_file'] = shell_utils.tcpdump(
-                srv_item['server']['hypervisor_ip'],
-                srv_item['vf_nic'],
-                protocol,
-                duration,
-                None if protocol == 'icmp' else iperf_port)
+                server_ip=srv_item['server']['hypervisor_ip'],
+                interface=srv_item['vf_nic'],
+                duration=duration,
+                macs=mac_addresses)
 
         # send traffic
         LOG.info('Sending traffic ({}) from {} to {}'.
@@ -283,7 +285,9 @@ class TestNfvOffload(base_test.BaseTest):
             # check flows in both hypervisors
             offload_flows = shell_utils.get_offload_flows(
                 srv_item['server']['hypervisor_ip'])
-            port = self.get_port_from_ip(srv_item['network']['ip_address'])
+            network = srv_item['network']
+            port = self.get_port_from_ip(network.get('parent_ip_address',
+                                                     network['ip_address']))
             msg_header = "network_type {}, hypervisor {}, vm ip {} " \
                          "protocol {}.".\
                 format(srv_item['network']['provider:network_type'],
@@ -294,9 +298,9 @@ class TestNfvOffload(base_test.BaseTest):
                     not in port['binding:profile']['capabilities']):
                 errors.append("{} Port does not have capabilities configured".
                               format(msg_header))
-            if port['mac_address'] not in offload_flows:
+            if srv_item['network']['mac_address'] not in offload_flows:
                 errors.append("{} mac address {} not in offload flows".
-                              format(msg_header, port['mac_address']))
+                              format(msg_header, srv_item['network']['mac_address']))
             if 'offloaded:yes, dp:tc' not in offload_flows:
                 errors.append("{} 'offloaded:yes, dp:tc' missing in flows".
                               format(msg_header))
