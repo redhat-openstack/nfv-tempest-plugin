@@ -216,8 +216,10 @@ class TestNfvOffload(base_test.BaseTest):
 
                 # get vf from the mac address
                 for srv_item in srv_pair:
+                    network = srv_item['network']
                     srv_item['vf_nic'] = shell_utils.get_vf_from_mac(
-                        srv_item['network']['mac_address'],
+                        network.get('parent_mac_address',
+                                    network['mac_address']),
                         srv_item['server']['hypervisor_ip'])
 
                 errors_found += self.check_offload(srv_pair, protocol,
@@ -283,7 +285,9 @@ class TestNfvOffload(base_test.BaseTest):
             # check flows in both hypervisors
             offload_flows = shell_utils.get_offload_flows(
                 srv_item['server']['hypervisor_ip'])
-            port = self.get_port_from_ip(srv_item['network']['ip_address'])
+            network = srv_item['network']
+            port = self.get_port_from_ip(network.get('parent_ip_address',
+                                                     network['ip_address']))
             msg_header = "network_type {}, hypervisor {}, vm ip {} " \
                          "protocol {}.".\
                 format(srv_item['network']['provider:network_type'],
