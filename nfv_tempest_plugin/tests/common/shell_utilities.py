@@ -542,23 +542,31 @@ def stop_iperf(server_ip, iperf_file):
     return run_command_over_ssh(server_ip, stop_cmd)
 
 
-def tcpdump(server_ip, interface, protocol, duration, port=None):
+def tcpdump(server_ip, interface, duration, macs=[], protocol=None, port=None):
     """Execute tcpdump on hypervisor
 
     The function executes tcpdump on hypervisor in background mode
 
     :param server_ip: server in which tcpdump will be executed
     :param interface: interface in which tcpdump will be executed
-    :param protocol: protocol to capture: tcp, udp, icmp
     :param duration: duration in seconds of the capture
+    :param macs: list of mac addresses
+    :param protocol: protocol to capture: tcp, udp, icmp
     :param port: port to capture
     :return filename: text filename with the capture
     """
-    file = "/tmp/dump_{}_{}_{}_{}.txt".format(
-        interface, protocol, duration, '' if port is None else str(port))
-    tcpdump_cmd = "sudo nohup timeout {} tcpdump -i {} -nne {} {} > {}" \
-                  " 2>&1 &".format(duration, interface, protocol,
+    file = "/tmp/dump_{}_{}_{}_{}_{}.txt".format(
+        interface, '' if protocol is None else protocol,
+        duration, '' if port is None else str(port),
+        '-'.join(macs))
+    macs_str = ' and ether host '.join(macs)
+    macs_str = '' if len(macs_str) == 0 else ' ether host '+ macs_str
+    tcpdump_cmd = "sudo nohup timeout {} tcpdump -i {} -nne {} {} {} > {}" \
+                  " 2>&1 &".format(duration,
+                                   interface,
+                                   '' if protocol is None else protocol,
                                    '' if port is None else "port " + str(port),
+                                   macs_str,
                                    file)
     LOG.info('Executed tcpdump on {}: {}'.format(server_ip, tcpdump_cmd))
     run_command_over_ssh(server_ip, tcpdump_cmd)
