@@ -2,8 +2,8 @@ from keystoneauth1.identity import v3
 from keystoneauth1 import session
 from nfv_tempest_plugin.tests.common.collect_info \
     import CollectInfo
+import openstack
 from oslo_log import log as logging
-from packaging import version
 from tempest import config
 
 
@@ -14,9 +14,9 @@ LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 class KeystoneClient():
     @classmethod
     def set_keystone_clients(cls):
-        osp_version = CollectInfo.get_osp_version()
+        cls.uc_server_client = CollectInfo.check_client()
 
-        if version.parse(osp_version) < version.parse('17.0.0'):
+        if cls.uc_server_client == 'nova':
             undercloud_rc = cls.parse_rc_file(
                 CONF.nfv_plugin_options.undercloud_rc_file)
 
@@ -28,6 +28,9 @@ class KeystoneClient():
                 user_domain_name=undercloud_rc['OS_USER_DOMAIN_NAME'],
                 project_domain_name=undercloud_rc[
                     'OS_PROJECT_DOMAIN_NAME']), verify=False)
+        else:
+            cls.undercloud_keystone_session = openstack.connect(
+                cloud='undercloud', verify=False)
 
         cls.overcloud_keystone_session = session.Session(auth=v3.Password(
             auth_url=CONF.identity.uri,
