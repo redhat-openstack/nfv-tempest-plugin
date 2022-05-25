@@ -526,39 +526,52 @@ def iperf_client(server_ip, server_port, duration,
     return log_file
 
 
-def stop_iperf(server_ip, iperf_file):
+def stop_iperf(ssh_client_local, iperf_file):
     """Stop iperf and return log file
 
     The function stops iperf if it is running and returns log file
 
-    :param server_ip: server in which iperf is running
-    :param iperf_file: tcpdump file with its output
-    :return iperf_output: content of tcpdump_file
+    :param ssh_client_local: ssh client to them vm
+    :param iperf_file: iperf file with its output
+    :return iperf_output: content of iperf_file
     """
     stop_cmd = '(if pgrep iperf; then sudo pkill iperf;' \
                ' fi; file={}; sudo cat $file; sudo rm $file)' \
                ' 2>&1'.format(iperf_file)
-    LOG.info('Executed on {}: {}'.format(server_ip, stop_cmd))
-    return run_command_over_ssh(server_ip, stop_cmd)
+    LOG.info('Stop iperf on vm: {}'.format(stop_cmd))
+    out = ssh_client_local.exec_command(stop_cmd)
+    LOG.info('iperf output: {}'.format(out))
+    return out
 
 
-def tcpdump(server_ip, interface, protocol, duration, port=None):
+def tcpdump(server_ip, interface, duration, macs=[], protocol=None, port=None, hosts=[]):
     """Execute tcpdump on hypervisor
 
     The function executes tcpdump on hypervisor in background mode
 
     :param server_ip: server in which tcpdump will be executed
     :param interface: interface in which tcpdump will be executed
-    :param protocol: protocol to capture: tcp, udp, icmp
     :param duration: duration in seconds of the capture
+    :param macs: list of mac addresses
+    :param protocol: protocol to capture: tcp, udp, icmp
     :param port: port to capture
+    :param host: host ip addresses
     :return filename: text filename with the capture
     """
-    file = "/tmp/dump_{}_{}_{}_{}.txt".format(
-        interface, protocol, duration, '' if port is None else str(port))
-    tcpdump_cmd = "sudo nohup timeout {} tcpdump -i {} -nne {} {} > {}" \
-                  " 2>&1 &".format(duration, interface, protocol,
-                                   '' if port is None else "port " + str(port),
+    file = "/tmp/dump_{}_{}_{}_{}_{}_{}.txt".format(
+        interface, '' if protocol is None else protocol,
+        duration, '' if port is None else str(port),
+        '-'.join(hosts),
+        '-'.join(macs))
+    filters = [' ether host ' + mac for mac in macs]
+    filters.append(protocol)
+    filters.append('port ' + str(port) if port is not None else None)
+    filters += [' host ' + host for host in hosts]
+    filters_str = ' and '.join([filter for filter in filters if filter])
+    tcpdump_cmd = "sudo nohup timeout {} tcpdump -i {} -nne {} > {}" \
+                  " 2>&1 &".format(duration,
+                                   interface,
+                                   filters_str,
                                    file)
     LOG.info('Executed tcpdump on {}: {}'.format(server_ip, tcpdump_cmd))
     run_command_over_ssh(server_ip, tcpdump_cmd)
@@ -578,7 +591,9 @@ def stop_tcpdump(server_ip, tcpdump_file):
                ' fi; file={}; sudo cat $file; sudo rm $file)' \
                ' 2>&1'.format(tcpdump_file)
     LOG.info('Executed on {}: {}'.format(server_ip, stop_cmd))
-    return run_command_over_ssh(server_ip, stop_cmd)
+    out = run_command_over_ssh(server_ip, stop_cmd)
+    LOG.info('tcpdump output: {}'.format(out))
+    return out
 
 
 def get_offload_flows(server_ip):
@@ -592,4 +607,6 @@ def get_offload_flows(server_ip):
     """
     cmd_flows = 'sudo ovs-appctl dpctl/dump-flows -m type=offloaded'
     LOG.info('Executed on {}: {}'.format(server_ip, cmd_flows))
-    return run_command_over_ssh(server_ip, cmd_flows)
+    out = run_command_over_ssh(server_ip, cmd_flows)
+    LOG.info('offload flows output: {}'.format(out))
+    return out
