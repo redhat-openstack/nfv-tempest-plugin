@@ -825,11 +825,12 @@ class ManagerMixin(object):
         :param kwargs['hyper_name']
         """
         ip_addresses = []
+        hypervisors = []
         search_opts = {}
-        nova_client = OsClients()
+        os_clients = OsClients()
         if 'server_id' in kwargs:
             try:
-                hyper_name = nova_client\
+                hyper_name = os_clients\
                     .novaclient_overcloud.servers.list(
                         search_opts={'uuid': kwargs['server_id'],
                                      'all_tenants': True}
@@ -846,17 +847,23 @@ class ManagerMixin(object):
                                'all_tenants': True}
             else:
                 search_opts = {'name': 'compute', 'all_tenants': True}
-
-        hypervisors =\
-            nova_client.novaclient_undercloud\
-            .servers.list(search_opts=search_opts)
-        if len(hypervisors) > 0:
-            for hypervisor in hypervisors:
-                ip_addresses.append(hypervisor
-                                    .addresses['ctlplane'][0]['addr'])
+        if os_clients.uc_server_client == 'nova':
+            hypervisors =\
+                os_clients.novaclient_undercloud\
+                .servers.list(search_opts=search_opts)
+            if len(hypervisors) > 0:
+                for hypervisor in hypervisors:
+                    ip_addresses.append(hypervisor
+                                        .addresses['ctlplane'][0]['addr'])
+            else:
+                raise AssertionError('No hypervisor with '
+                                    'matching pattern were found')
         else:
-            raise AssertionError('No hypervisor with '
-                                 'matching pattern were found')
+            compute_pattern = re.compile(r'compute')
+            undercloud_servers = os_clients.metalsmith.list_instances()
+            for server in undercloud_servers:
+                if compute_pattern.search(server.hostname):
+                    ip_addresses = server.ip_addresses()['ctlplane'][0]
 
         return ip_addresses
 
