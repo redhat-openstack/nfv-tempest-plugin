@@ -95,7 +95,10 @@ class BaseTest(baremetal_manager.BareMetalManager):
         """
         for server in servers:
             # Initialize a custom key inside server object
-            server['provider_networks'] = []
+            # trunk ports will not be associated to the server, so I add
+            # them in advance
+            server['provider_networks'] = server.get('trunk_networks', [])
+            server['provider_networks'] += server.get('transparent_networks', [])
             # Fetch all ports assigned to server
             ports =  \
                 self.os_admin.ports_client.list_ports(device_id=server['id'])
