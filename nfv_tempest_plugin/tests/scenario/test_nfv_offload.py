@@ -216,8 +216,10 @@ class TestNfvOffload(base_test.BaseTest):
 
                 # get vf from the mac address
                 for srv_item in srv_pair:
+                    network = srv_item['network']
                     srv_item['vf_nic'] = shell_utils.get_vf_from_mac(
-                        srv_item['network']['mac_address'],
+                        network.get('parent_mac_address',
+                                    network['mac_address']),
                         srv_item['server']['hypervisor_ip'])
 
                 errors_found += self.check_offload(srv_pair, protocol,
