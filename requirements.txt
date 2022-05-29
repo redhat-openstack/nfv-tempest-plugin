@@ -5,6 +5,7 @@ python-heatclient==2.3.0
 python-keystoneclient==4.2.0
 python-novaclient==17.4.0
 metalsmith
+paramiko==2.11.0
 # openstack-tempest/requirements.txt:jsonschema>=3.2.0 # MIT
 # current version 4.0.0 is breaking aggregates client 
 # validation
