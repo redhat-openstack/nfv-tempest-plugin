@@ -5,3 +5,6 @@
 .idea/
 .tox/
 .tox_*
+build/
+AUTHORS
+ChangeLog
