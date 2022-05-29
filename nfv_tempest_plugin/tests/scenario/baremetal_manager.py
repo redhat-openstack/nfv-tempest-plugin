@@ -595,17 +595,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'transparent_vlan' in net_param and \
                     'transparent_vlan_parent' in net_param:
                 transparent_enabled = True
-                # get list of ips available to assign to transparent
-                # interfaces
-                if net_name not in ips_available:
-                    ips_available[net_name] = list(ipaddress.IPv4Network(
-                        address=net_param['cidr'], strict=False).hosts())
-                    for index, ip_value in reversed(list(enumerate(
-                            ips_available[net_name]))):
-                        start = ipaddress.ip_address(net_param['pool_start'])
-                        end = ipaddress.ip_address(net_param['pool_end'])
-                        if int(ip_value) not in range(int(start), int(end)):
-                            ips_available[net_name].pop(index)
 
                 # create transparent structure if not created yet
                 for port_index in range(num_ports):
@@ -614,7 +603,17 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         transparent_ports[port_index][net_param[
                             'transparent_vlan']] = {'subports': []}
 
-                    if not net_param['transparent_vlan_parent']:
+            if transparent_enabled and not net_param['transparent_vlan_parent']:
+                # get list of ips available to assign to transparent
+                # interfaces
+                if net_name not in ips_available:
+                    start = ipaddress.ip_address(net_param['pool_start'])
+                    end = ipaddress.ip_address(net_param['pool_end'])
+                    ips_available[net_name] = [ i for i in list(ipaddress.IPv4Network(
+                        address=net_param['cidr'], strict=False).hosts()) if i > start and i < end ]
+
+                # create transparent structure if not created yet
+                for port_index in range(num_ports):
                         # add subports
                         transparent = transparent_ports[port_index][
                             net_param['transparent_vlan']]
@@ -627,8 +626,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                              'segmentation_type': 'vlan'}
                         transparent['subports'].append(subport)
                 # not created neutron port for child transparent ports
-                if not net_param['transparent_vlan_parent']:
-                    continue
+                continue
 
             # check if trunk vlan defined
             trunk_enabled = False
@@ -1206,6 +1204,26 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 direction=direction,
                 security_group_id=secgroup_id,
                 **rule)
+
+    def get_security_group_from_partial_string(self, group_name_string):
+        """Get security group based on partial string
+
+        :param: group_name_string: group name string
+        :return filtered_sec_group: filtered security group
+        """
+        client = self.security_groups_client
+        all_sec_groups = client.list_security_groups()
+        filtered_sec_group = \
+            list(filter(lambda g: group_name_string in g['name'],
+                        all_sec_groups['security_groups']))
+        self.assertNotEmpty(filtered_sec_group,
+                            "Failed to locate security group containing "
+                            "string: {}".format(group_name_string))
+        self.assertEqual(1,
+                         len(filtered_sec_group),
+                         "Returned more than one group: "
+                         "{}".format(filtered_sec_group))
+        return filtered_sec_group[0]
 
     def create_floating_ip(self, server, mgmt_port_id, public_network_id):
         """Create floating ip to server
