@@ -13,7 +13,9 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import os
 import random
+import re
 import time
 
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
@@ -414,7 +416,138 @@ class TestNfvOffload(base_test.BaseTest):
 
         return filtered_networks
 
-    def run_offload_testcase(self, test, protocol, network_type):
+    def test_offload_udp_conntrack_vxlan(
+            self, test='offload_udp_conntrack_vxlan'):
+        """Check UDP traffic is offloaded in vxlan network with sec groups
+
+        The following test deploy vms, on hw-offload computes.
+        Vms have security groups enabled.
+        It sends UDP traffic and check conntrack table to check if flows
+        are offloaded
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "udp", "vxlan", True)
+
+    def test_offload_udp_conntrack_vlan(
+            self, test='offload_udp_conntrack_vlan'):
+        """Check UDP traffic is offloaded in vlan network with sec groups
+
+        The following test deploy vms, on hw-offload computes.
+        Vms have security groups enabled.
+        It sends UDP traffic and check conntrack table to check if flows
+        are offloaded
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "udp", "vlan", True)
+
+    def test_offload_udp_conntrack_geneve(
+            self, test='offload_udp_conntrack_geneve'):
+        """Check UDP traffic is offloaded in geneve network with sec groups
+
+        The following test deploy vms, on hw-offload computes.
+        Vms have security groups enabled.
+        It sends UDP traffic and check conntrack table to check if flows
+        are offloaded
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "udp", "geneve", True)
+
+    def test_offload_udp_conntrack_trunk_vlan(
+            self, test='ffload_udp_conntrack_trunk_vlan'):
+        """Check UDP traffic is offloaded in vlan trunk net with sec groups
+
+        The following test deploy vms, on hw-offload computes.
+        Vms have security groups enabled.
+        It sends UDP traffic and check conntrack table to check if flows
+        are offloaded
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "udp", "trunk_vlan", True)
+
+    def test_offload_udp_conntrack_transparent_vlan(
+            self, test='offload_udp_conntrack_transparent_vlan'):
+        """Check UDP traffic is offloaded in transp vlan net with sec groups
+
+        The following test deploy vms, on hw-offload computes.
+        Vms have security groups enabled.
+        It sends UDP traffic and check conntrack table to check if flows
+        are offloaded
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "udp", "transparent_vlan", True)
+
+    def test_offload_tcp_conntrack_vxlan(
+            self, test='offload_tcp_conntrack_vxlan'):
+        """Check TCP traffic is offloaded in vxlan network with sec groups
+
+        The following test deploy vms, on hw-offload computes.
+        Vms have security groups enabled.
+        It sends TCP traffic and check conntrack table to check if flows
+        are offloaded
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "tcp", "vxlan", True)
+
+    def test_offload_tcp_conntrack_vlan(
+            self, test='offload_tcp_conntrack_vlan'):
+        """Check TCP traffic is offloaded in vlan network with sec groups
+
+        The following test deploy vms, on hw-offload computes.
+        Vms have security groups enabled.
+        It sends TCP traffic and check conntrack table to check if flows
+        are offloaded
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "tcp", "vlan", True)
+
+    def test_offload_tcp_conntrack_geneve(
+            self, test='offload_tcp_conntrack_geneve'):
+        """Check TCP traffic is offloaded in geneve network with sec groups
+
+        The following test deploy vms, on hw-offload computes.
+        Vms have security groups enabled.
+        It sends TCP traffic and check conntrack table to check if flows
+        are offloaded
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "tcp", "geneve", True)
+
+    def test_offload_tcp_conntrack_trunk_vlan(
+            self, test='offload_tcp_conntrack_trunk_vlan'):
+        """Check TCP traffic is offloaded in vlan trunk network with sec groups
+
+        The following test deploy vms, on hw-offload computes.
+        Vms have security groups enabled.
+        It sends TCP traffic and check conntrack table to check if flows
+        are offloaded
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "tcp", "trunk_vlan", True)
+
+    def test_offload_tcp_conntrack_transparent_vlan(
+            self, test='offload_tcp_conntrack_transparent_vlan'):
+        """Check TCP traffic is offloaded in transparent vlan network with sec groups
+
+        The following test deploy vms, on hw-offload computes.
+        Vms have security groups enabled.
+        It sends Ttcp traffic and check conntrack table to check if flows
+        are offloaded
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "tcp", "transparent_vlan", True)
+
+    def run_offload_testcase(self, test, protocol,
+                             network_type, sec_groups=False):
         """Run offload testcase with different injection traffic
 
         This function will create resources needed to run offload
@@ -427,6 +560,7 @@ class TestNfvOffload(base_test.BaseTest):
         :param protocol: Protocol to test (udp, tcp, icmp)
         :param network_type: network used (vlan, vxlan,
                              geneve, trunk_vlan, transparent_vlan)
+        :param sec_groups: True/False
         """
         num_vms = int(CONF.nfv_plugin_options.offload_num_vms)
         offload_injection_time = int(
@@ -443,6 +577,9 @@ class TestNfvOffload(base_test.BaseTest):
         servers, key_pair = self.create_and_verify_resources(
             test=test, num_servers=num_vms)
 
+        if sec_groups and not self.sec_groups:
+            raise ValueError("Security groups are required for this test")
+
         # Requiered at least 2 servers (server, client)
         # There may be more servers, in this case server 0 will be the iperf
         # server and server 1,2,3, ... will be the iperf client
@@ -453,9 +590,22 @@ class TestNfvOffload(base_test.BaseTest):
                 private_key=key_pair['private_key'])
 
         # install iperf
-        server_command = "sudo yum install iperf -y; "
+        server_command = "sudo yum install iperf3 -y || echo"
+        server_command += ";sudo yum install iperf -y || echo"
         for server in servers:
             server['ssh_source'].exec_command(server_command)
+
+        if sec_groups and protocol == 'udp':
+            script_dir = os.path.dirname(__file__) + '/external_scripts/'
+            for server in servers:
+                self.copy_file_to_remote_host(
+                    server['fip'],
+                    key_pair['private_key'],
+                    self.instance_user,
+                    files='scapy_async_udp_sniff_send.py',
+                    src_path=script_dir,
+                    dst_path='/tmp/',
+                    timeout=60)
 
         errors_found = []
         network_type_found = False
@@ -486,9 +636,12 @@ class TestNfvOffload(base_test.BaseTest):
                                     network['mac_address']),
                         srv_item['server']['hypervisor_ip'])
 
-                errors_found += self.check_offload(srv_pair, protocol,
-                                                   offload_injection_time,
-                                                   tcpdump_time)
+                if sec_groups:
+                    errors_found += self.check_conntrack(srv_pair, protocol)
+                else:
+                    errors_found += self.check_offload(srv_pair, protocol,
+                                                       offload_injection_time,
+                                                       tcpdump_time)
 
         self.assertTrue(network_type_found, "Network type {} not "
                                             "found".format(network_type))
@@ -649,4 +802,115 @@ class TestNfvOffload(base_test.BaseTest):
         # the following test
         time.sleep(10)
 
+        return errors
+
+    def check_conntrack(self, srv_pair, protocol):
+        """Check OVS offloaded connection tracking is offloaded
+
+        :param srv_pair: server/client data
+        :param protocol: protocol to test (icmp, tcp, udp)
+        :return checks: list with problems found
+        """
+
+        errors = []
+
+        # execute tcpdump in representor port in both hypervisors
+        traffic_port = random.randrange(8000, 9000)
+        # If security group enabled create rules
+        offload_sec_rules = [
+            {
+                'direction': 'ingress',
+                'protocol': protocol,
+            },
+            {
+                'direction': 'egress',
+                'protocol': protocol,
+            }
+        ]
+        # Apply security group if not ICMP
+        for rule in offload_sec_rules:
+            rule['port_range_min'] = rule['port_range_max'] = \
+                traffic_port
+        secgroup = \
+            self.get_security_group_from_partial_string(
+                group_name_string='tempest')
+        # Allow port in security group
+        self.add_security_group_rules(secgroup_id=secgroup['id'],
+                                      rule_list=offload_sec_rules)
+        # Flush connection tracking via OVS
+        shell_utils.run_command_over_ssh(
+            srv_pair[0]['server']['hypervisor_ip'],
+            'sudo ovs-appctl dpctl/flush-conntrack')
+        shell_utils.run_command_over_ssh(
+            srv_pair[1]['server']['hypervisor_ip'],
+            'sudo ovs-appctl dpctl/flush-conntrack')
+        # If we are testing TCPm it is much easier to use iperf
+        if protocol == 'tcp':
+            shell_utils.iperf_server(srv_pair[0]['network']['ip_address'],
+                                     traffic_port, 84600, 'tcp',
+                                     srv_pair[0]['server']['ssh_source'])
+            shell_utils.iperf_client(srv_pair[0]['network']['ip_address'],
+                                     traffic_port, 84600, 'tcp',
+                                     srv_pair[1]['server']['ssh_source'])
+        # If we are testing UDP, it is much easier to use scapy
+        elif protocol == 'udp':
+            ip_address_first_vm = srv_pair[0]['network']['ip_address']
+            ip_address_second_vm = srv_pair[1]['network']['ip_address']
+            local_interface_first_vm = \
+                srv_pair[0]['server']['ssh_source'].get_nic_name_by_ip(
+                    ip_address_first_vm)
+            local_interface_second_vm = \
+                srv_pair[1]['server']['ssh_source'].get_nic_name_by_ip(
+                    ip_address_second_vm)
+            if not local_interface_first_vm and not local_interface_second_vm:
+                raise ValueError('Failed to discover interfaces in VMs, ensure'
+                                 ' IPv4 addresses are configured in all VMs.')
+            cmd_first_vm = ("nohup sudo python3 "
+                            "/tmp/scapy_async_udp_sniff_send.py"
+                            " -s {iface} -d {ip} -p {l4_port}"
+                            .format(iface=local_interface_first_vm,
+                                    ip=ip_address_second_vm,
+                                    l4_port=traffic_port))
+            cmd_second_vm = ("nohup sudo python3 "
+                             "/tmp/scapy_async_udp_sniff_send.py"
+                             " -s {iface} -d {ip} -p {l4_port}"
+                             .format(iface=local_interface_second_vm,
+                                     ip=ip_address_first_vm,
+                                     l4_port=traffic_port))
+            srv_pair[0]['server']['ssh_source'].exec_command(
+                cmd_first_vm + "&")
+            srv_pair[1]['server']['ssh_source'].exec_command(
+                cmd_second_vm + "&")
+        for sv in srv_pair:
+            errors += \
+                self.check_conntrack_table(hyper=sv['server']['hypervisor_ip'],
+                                           source=sv['network']['ip_address'],
+                                           protocol=protocol,
+                                           l4_port=traffic_port)
+
+        return errors
+
+    def check_conntrack_table(self, hyper, source, protocol, l4_port):
+        """Check connection tracking is offloaded
+
+        Reads conntrack table to see if connection tracking is offloaded.
+        :param hyper: hypervisor IP
+        :param source: source IP
+        :param protocol: protocol to test (tcp, udp)
+        :param l4_port: transport protocol
+
+        :return errors: list with errors found
+        """
+        errors = []
+        conntrack_table_string = shell_utils.get_conntrack_table(hyper)
+        regex = \
+            re.compile(r'.*{pr}.*src={s_ip}.*sport={p}.*\[HW_OFFLOAD\].*'
+                       .format(pr=protocol,
+                               s_ip=source,
+                               p=l4_port))
+        test = regex.search(conntrack_table_string)
+        if not test:
+            errors.append("connection tracking for session protocol '{}' "
+                          "with ip '{}' was not offloaded"
+                          .format(protocol, source))
         return errors
