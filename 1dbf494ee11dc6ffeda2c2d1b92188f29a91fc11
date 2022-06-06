@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "84a10461_552539bf",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2022-06-06T09:18:06Z",
+      "side": 1,
+      "message": "we don\u0027t run the plugin with python 2 anymore there are many things that block using python 2 other than this. also we are running on osp13 using the container that uses python3 😊",
+      "parentUuid": "71e5242b_0ff6757f",
+      "range": {
+        "startLine": 191,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 74
+      },
+      "revId": "1dbf494ee11dc6ffeda2c2d1b92188f29a91fc11",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e758b87f_5c4fd815",
         "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
         "patchSetId": 4
@@ -54,6 +78,30 @@
       "writtenOn": "2022-06-06T09:14:52Z",
       "side": 1,
       "message": "nit: Maybe this should be changed to something like\nTODO(eshulman): open a BZ\n\nThis will be more clear when looking at the code from a glance.",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 200,
+        "endChar": 44
+      },
+      "revId": "1dbf494ee11dc6ffeda2c2d1b92188f29a91fc11",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8f48cb1_19ac5c56",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2022-06-06T09:18:06Z",
+      "side": 1,
+      "message": "already opened a BZ I will remove this line",
+      "parentUuid": "e758b87f_5c4fd815",
       "range": {
         "startLine": 200,
         "startChar": 0,
