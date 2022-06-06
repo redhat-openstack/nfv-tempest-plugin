@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6a42448_f61b777f",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1019727
+      },
+      "writtenOn": "2022-06-06T09:14:51Z",
+      "side": 1,
+      "message": "I\u0027d try to keep blank line after the function doc string.",
+      "revId": "1dbf494ee11dc6ffeda2c2d1b92188f29a91fc11",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
