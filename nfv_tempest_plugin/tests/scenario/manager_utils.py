@@ -876,11 +876,10 @@ class ManagerMixin(object):
                 raise AssertionError('No hypervisor with '
                                      'matching pattern were found')
         else:
-            compute_pattern = re.compile(search_opts['name'])
             undercloud_servers = os_clients.metalsmith.list_instances()
             if len(undercloud_servers) > 0:
                 for server in undercloud_servers:
-                    if compute_pattern.search(server.hostname):
+                    if server.node.instance_info['display_name'] == search_opts['name']:
                         ip_addresses.append(
                             server.ip_addresses()['ctlplane'][0])
             else:
