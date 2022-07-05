@@ -103,8 +103,12 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if CONF.nfv_plugin_options.overcloud_node_pkey_file:
             key_str = open(
                 CONF.nfv_plugin_options.overcloud_node_pkey_file).read()
-            CONF.nfv_plugin_options.overcloud_node_pkey_file_rsa = \
-                paramiko.RSAKey.from_private_key(StringIO(key_str))
+            if ssh_key_type == 'ecdsa':
+                CONF.nfv_plugin_options.overcloud_node_pkey_file_key_object = \
+                    paramiko.ECDSAKey.from_private_key(StringIO(key_str))
+            else:
+                CONF.nfv_plugin_options.overcloud_node_pkey_file_key_object = \
+                    paramiko.RSAKey.from_private_key(StringIO(key_str))
         else:
             self.assertIsNotNone(
                 CONF.nfv_plugin_options.overcloud_node_pass,
