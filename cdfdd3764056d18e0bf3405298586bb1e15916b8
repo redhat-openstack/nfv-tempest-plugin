@@ -22,6 +22,30 @@
       },
       "revId": "cdfdd3764056d18e0bf3405298586bb1e15916b8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64c60fe1_b90790ed",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2022-07-05T16:28:15Z",
+      "side": 1,
+      "message": "correct sorry",
+      "parentUuid": "fb595cf4_82e31c63",
+      "range": {
+        "startLine": 50,
+        "startChar": 31,
+        "endLine": 50,
+        "endChar": 59
+      },
+      "revId": "cdfdd3764056d18e0bf3405298586bb1e15916b8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
