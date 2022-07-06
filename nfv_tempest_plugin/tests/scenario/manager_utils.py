@@ -179,12 +179,17 @@ class ManagerMixin(object):
         :return dumpxml_string
         """
 
+        osp_version = self.get_osp_release()
         server_details = \
             self.os_admin.servers_client.show_server(server['id'])['server']
         container_cli = self.get_container_cli(container_cli_must=False)
         cmd = 'sudo {} virsh -c qemu:///system dumpxml'
+        if osp_version >= 17:
+            container_name = 'nova_compute'
+        else:
+            container_name = 'nova_libvirt'
         if container_cli:
-            cmd = cmd.format(container_cli + ' exec -it nova_libvirt')
+            cmd = cmd.format(f'{container_cli} exec -it {container_name}')
         else:
             cmd = cmd.format('')
         cmd += ' {}'
@@ -192,6 +197,18 @@ class ManagerMixin(object):
             cmd.format(server_details['OS-EXT-SRV-ATTR:instance_name'])
         dumpxml_data = shell_utils.\
             run_command_over_ssh(hypervisor, get_dumpxml)
+        # workaround for 17 should be removed after BZ 2093860 is closed
+        if osp_version >= 17:
+            dumpxml_data = dumpxml_data.split('\r')
+            try:
+                dumpxml_data.remove(
+                    'Error registering authentication agent: '
+                    'GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed:'
+                    ' Cannot determine user of subject (polkit-error-quark,'
+                    ' 0)')
+            except ValueError:
+                LOG.info('no error message removed')
+            dumpxml_data = '\r'.join(dumpxml_data)
         dumpxml_string = ELEMENTTree.fromstring(dumpxml_data)
 
         return dumpxml_string
@@ -825,11 +842,12 @@ class ManagerMixin(object):
         :param kwargs['hyper_name']
         """
         ip_addresses = []
+        hypervisors = []
         search_opts = {}
-        nova_client = OsClients()
+        os_clients = OsClients()
         if 'server_id' in kwargs:
             try:
-                hyper_name = nova_client\
+                hyper_name = os_clients\
                     .novaclient_overcloud.servers.list(
                         search_opts={'uuid': kwargs['server_id'],
                                      'all_tenants': True}
@@ -846,18 +864,28 @@ class ManagerMixin(object):
                                'all_tenants': True}
             else:
                 search_opts = {'name': 'compute', 'all_tenants': True}
-
-        hypervisors =\
-            nova_client.novaclient_undercloud\
-            .servers.list(search_opts=search_opts)
-        if len(hypervisors) > 0:
-            for hypervisor in hypervisors:
-                ip_addresses.append(hypervisor
-                                    .addresses['ctlplane'][0]['addr'])
+        if os_clients.uc_server_client == 'nova':
+            hypervisors =\
+                os_clients.novaclient_undercloud\
+                .servers.list(search_opts=search_opts)
+            if len(hypervisors) > 0:
+                for hypervisor in hypervisors:
+                    ip_addresses.append(hypervisor
+                                        .addresses['ctlplane'][0]['addr'])
+            else:
+                raise AssertionError('No hypervisor with '
+                                     'matching pattern were found')
         else:
-            raise AssertionError('No hypervisor with '
-                                 'matching pattern were found')
-
+            compute_pattern = re.compile(search_opts['name'])
+            undercloud_servers = os_clients.metalsmith.list_instances()
+            if len(undercloud_servers) > 0:
+                for server in undercloud_servers:
+                    if compute_pattern.search(server.hostname):
+                        ip_addresses.append(
+                            server.ip_addresses()['ctlplane'][0])
+            else:
+                raise AssertionError('No hypervisor with '
+                                     'matching pattern were found')
         return ip_addresses
 
     def locate_ovs_physnets(self, node=None, keys=None):

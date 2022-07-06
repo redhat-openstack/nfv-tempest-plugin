@@ -47,11 +47,11 @@ def run_command_over_ssh(host, command):
     """Assuming all check done in Setup,
     otherwise Assert failing the test
     """
-    if CONF.nfv_plugin_options.overcloud_node_pkey_file_rsa:
+    if CONF.nfv_plugin_options.overcloud_node_pkey_file_key_object:
         ssh.connect(host,
                     username=CONF.nfv_plugin_options.overcloud_node_user,
                     pkey=CONF.nfv_plugin_options.
-                    overcloud_node_pkey_file_rsa)
+                    overcloud_node_pkey_file_key_object)
     else:
         ssh.connect(host,
                     username=CONF.nfv_plugin_options.overcloud_node_user,
