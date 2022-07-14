@@ -181,11 +181,26 @@ def get_controllers_ip_from_undercloud(**kwargs):
 
     :param kwargs['shell']
     """
-    command = 'openstack server list -c \'Name\' -c ' \
-              '\'Networks\' -f value | grep -i {0} | ' \
-              'cut -d\"=\" -f2'.format('controller')
+    cmd_nova = 'openstack server list -c \'Name\' -c ' \
+               '\'Networks\' -f value | grep -i {0} | ' \
+               'cut -d\"=\" -f2'.format('controller')
+    cmd_metal = 'metalsmith -f value ' \
+                '-c \'Node Name\' -c \'IP Addresses\' list ' \
+                '| grep -i {0} | cut -d\"=\" -f2'.format('controller')
+
+    command = """
+    osp_version=$(sed -n 's/.* \\([0-9]\\+\\).*/\\1/p' /etc/rhosp-release)
+    if [ \"$osp_version\" -ge \"17\" ]
+    then
+        {0}
+    else
+        {1}
+    fi
+    """.format(cmd_metal, cmd_nova)
+
     ip_address_list = run_local_cmd_shell_with_venv(
         command, kwargs['shell'])
+
     return ip_address_list
 
 
