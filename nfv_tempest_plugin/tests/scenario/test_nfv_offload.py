@@ -66,7 +66,7 @@ class TestNfvOffload(base_test.BaseTest):
                                              r=output))
             result.append({hypervisor: output})
         msg = "Not all hypervisors have OVS HW-Offload enabled"
-        self.assertItemsEqual(expected_result, result, msg)
+        self.assertCountEqual(expected_result, result, msg)
 
     def test_offload_nic_eswitch_mode(self):
         """Check eswitch mode of nic for offload on all hypervisors
@@ -120,7 +120,7 @@ class TestNfvOffload(base_test.BaseTest):
                 dev_result.append({nic: output})
             result.append({hypervisor: dev_result})
         msg = "Not all hypervisors contains nics in switchev mode"
-        self.assertItemsEqual(expected_result, result, msg)
+        self.assertCountEqual(expected_result, result, msg)
 
     def test_offload_icmp(self, test='offload_icmp'):
         """Check ICMP traffic is offloaded
