@@ -16,6 +16,24 @@
       "message": "I think in python 3 it was replaced with assertCountEqual why not change to assertCountEqual instead of asserEqual",
       "revId": "b51ce69d1426891b0b3a8042e9c7fb6a9d9ddb88",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0c6611d_a4120eaa",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2022-07-18T14:14:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bddfc3c_393a4c9d",
+      "revId": "b51ce69d1426891b0b3a8042e9c7fb6a9d9ddb88",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
