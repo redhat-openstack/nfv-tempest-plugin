@@ -187,17 +187,14 @@ class TestNfvOffload(base_test.BaseTest):
         servers, key_pair = self.create_and_verify_resources(
             test=test, num_servers=num_vms)
 
-        # ssh connection to vm for executing ping (icmp)
-        # or iperf server (tcp, upd)
-        servers[0]['ssh_source'] = self.get_remote_client(
-            servers[0]['fip'],
-            username=self.instance_user,
-            private_key=key_pair['private_key'])
-        # ssh connection to vm for executing iperf client (tcp, upd)
-        servers[1]['ssh_source'] = self.get_remote_client(
-            servers[1]['fip'],
-            username=self.instance_user,
-            private_key=key_pair['private_key'])
+        # Requiered at least 2 servers (server, client)
+        # There may be more servers, in this case server 0 will be the iperf
+        # server and server 1,2,3, ... will be the iperf client
+        for server in servers:
+            server['ssh_source'] = self.get_remote_client(
+                server['fip'],
+                username=self.instance_user,
+                private_key=key_pair['private_key'])
 
         errors_found = []
         # iterate servers
