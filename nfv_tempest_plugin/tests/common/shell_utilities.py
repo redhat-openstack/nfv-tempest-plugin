@@ -51,7 +51,8 @@ def run_command_over_ssh(host, command):
         ssh.connect(host,
                     username=CONF.nfv_plugin_options.overcloud_node_user,
                     pkey=CONF.nfv_plugin_options.
-                    overcloud_node_pkey_file_key_object)
+                    overcloud_node_pkey_file_key_object,
+                    allow_agent=False)
     else:
         ssh.connect(host,
                     username=CONF.nfv_plugin_options.overcloud_node_user,
