@@ -211,7 +211,7 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
         hypervisor_ips = self._get_hypervisor_ip_from_undercloud()
         ovs_cmd = 'sudo systemctl restart openvswitch.service'
         for hyp in hypervisor_ips:
-            shell_utils.run_command_over_ssh(hyp, ovs_cmd)
+            shell_utils.run_command_over_ssh(hyp, ovs_cmd, allow_agent=False)
         if network_backend == 'ovn':
             ovn_cmd = 'sudo systemctl restart tripleo_ovn_controller.service'
             controller_ips = shell_utils.get_controllers_ip_from_undercloud(
@@ -296,7 +296,8 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
         LOG.info('Executed on {}: {}'.format(
             test_server['hypervisor_ip'], cmd_check_dump))
         output = shell_utils.run_command_over_ssh(test_server['hypervisor_ip'],
-                                                  cmd_check_dump)
+                                                  cmd_check_dump,
+                                                  allow_agent=False)
         self.assertNotEqual(output, '', "tcpdump not installed in {}".format(
             test_server['hypervisor_ip']))
 
@@ -321,7 +322,8 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
         LOG.info('Executed on {}: {}'.format(
             test_server['hypervisor_ip'], cmd_dump))
         shell_utils.run_command_over_ssh(test_server['hypervisor_ip'],
-                                         cmd_dump)
+                                         cmd_dump,
+                                         allow_agent=False)
 
         LOG.info('Executed on {}: {}'.format(test_server['fip'],
                                              cmd_mcast))
@@ -330,7 +332,7 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
         LOG.info('Executed on {}: {}'.format(test_server['hypervisor_ip'],
                                              cmd_mcast))
         output = int(shell_utils.run_command_over_ssh(
-            test_server['hypervisor_ip'], cmd_result))
+            test_server['hypervisor_ip'], cmd_result, allow_agent=False))
 
         self.assertGreater(output, 0, "No igmp reports received")
         LOG.info('Igmp reports being forwarded properly')

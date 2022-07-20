@@ -32,7 +32,7 @@ CONF = config.CONF
 LOG = log.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
-def run_command_over_ssh(host, command):
+def run_command_over_ssh(host, command, **kwargs):
     """This Method run Command Over SSH
 
     Provide Host, user and pass into configuration file
@@ -51,11 +51,13 @@ def run_command_over_ssh(host, command):
         ssh.connect(host,
                     username=CONF.nfv_plugin_options.overcloud_node_user,
                     pkey=CONF.nfv_plugin_options.
-                    overcloud_node_pkey_file_key_object)
+                    overcloud_node_pkey_file_key_object,
+                    **kwargs)
     else:
         ssh.connect(host,
                     username=CONF.nfv_plugin_options.overcloud_node_user,
-                    password=CONF.nfv_plugin_options.overcloud_node_pass)
+                    password=CONF.nfv_plugin_options.overcloud_node_pass,
+                    **kwargs)
 
     LOG.info("Executing command: %s" % command)
     stdin, stdout, stderr = ssh.exec_command(command)
