@@ -32,17 +32,21 @@ CONF = config.CONF
 LOG = log.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
-def run_command_over_ssh(host, command):
+def run_command_over_ssh(host, command, paramiko_connect_opts={}):
     """This Method run Command Over SSH
 
     Provide Host, user and pass into configuration file
 
     :param host
     :param command
+    :paramiko_connect_opts optional arguments for paramiko SSH client
     """
 
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+    if not paramiko_connect_opts:
+        paramiko_connect_opts = {'allow_agent': False}
 
     """Assuming all check done in Setup,
     otherwise Assert failing the test
@@ -51,12 +55,12 @@ def run_command_over_ssh(host, command):
         ssh.connect(host,
                     username=CONF.nfv_plugin_options.overcloud_node_user,
                     pkey=CONF.nfv_plugin_options.
-                    overcloud_node_pkey_file_key_object)
+                    overcloud_node_pkey_file_key_object,
+                    **paramiko_connect_opts)
     else:
         ssh.connect(host,
                     username=CONF.nfv_plugin_options.overcloud_node_user,
                     password=CONF.nfv_plugin_options.overcloud_node_pass)
-
     LOG.info("Executing command: %s" % command)
     stdin, stdout, stderr = ssh.exec_command(command)
     """
@@ -181,11 +185,26 @@ def get_controllers_ip_from_undercloud(**kwargs):
 
     :param kwargs['shell']
     """
-    command = 'openstack server list -c \'Name\' -c ' \
-              '\'Networks\' -f value | grep -i {0} | ' \
-              'cut -d\"=\" -f2'.format('controller')
+    cmd_nova = 'openstack server list -c \'Name\' -c ' \
+               '\'Networks\' -f value | grep -i {0} | ' \
+               'cut -d\"=\" -f2'.format('controller')
+    cmd_metal = 'metalsmith -f value ' \
+                '-c \'Node Name\' -c \'IP Addresses\' list ' \
+                '| grep -i {0} | cut -d\"=\" -f2'.format('controller')
+
+    command = """
+    osp_version=$(sed -n 's/.* \\([0-9]\\+\\).*/\\1/p' /etc/rhosp-release)
+    if [ \"$osp_version\" -ge \"17\" ]
+    then
+        {0}
+    else
+        {1}
+    fi
+    """.format(cmd_metal, cmd_nova)
+
     ip_address_list = run_local_cmd_shell_with_venv(
         command, kwargs['shell'])
+
     return ip_address_list
 
 
