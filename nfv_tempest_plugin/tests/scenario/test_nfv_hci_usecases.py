@@ -114,9 +114,14 @@ class TestHciScenarios(base_test.BaseTest):
         controller_ip = shell_utils.\
             get_controllers_ip_from_undercloud(**hyper_kwargs)[0]
         container_cli = self.get_container_cli()
-        cmd = ("sudo {} exec ceph-mon-`hostname` ceph -s | grep health | "
-               "cut -d':' -f2 | "
-               "sed 's/^[ \t]*//;s/[ \t]*$//'").format(container_cli)
+        if int(self.get_osp_release()) < 17:
+            cmd = ("sudo {} exec ceph-mon-`hostname` ceph -s | grep health | "
+                   "cut -d':' -f2 | "
+                   "sed 's/^[ \t]*//;s/[ \t]*$//'").format(container_cli)
+        else:
+            cmd = ("sudo ceph -s | grep health | "
+                   "cut -d':' -f2 | "
+                   "sed 's/^[ \t]*//;s/[ \t]*$//'")
         result = shell_utils.\
             run_command_over_ssh(controller_ip, cmd).replace("\n", "")
         self.assertEqual(result, 'HEALTH_OK')
