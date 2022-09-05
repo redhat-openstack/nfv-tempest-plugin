@@ -23,6 +23,7 @@ import time
 import xml.etree.ElementTree as ELEMENTTree
 import yaml
 
+from nfv_tempest_plugin.tests.scenario import base_test
 from nfv_tempest_plugin.services.os_clients import OsClients
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from oslo_config import cfg
@@ -142,23 +143,6 @@ class ManagerMixin(object):
                             "Specified user_data file can't be read")
         # Update the floating IP configuration (enable/disable)
         self.fip = self.external_config.get('floating_ip', True)
-
-    def get_osp_release(self, hypervisor=None):
-        """Gather OSP release
-
-        Takes the OSP release from the hypervisor
-        :param hypervisor: Ip of the hypervisor to work on (optional)
-        :return OSP version integer
-        """
-        if not hypervisor:
-            hypervisor = self._get_hypervisor_ip_from_undercloud()[0]
-        ver = shell_utils.\
-            run_command_over_ssh(hypervisor, 'cat /etc/rhosp-release')
-        if ver == '':
-            ver = shell_utils.run_command_over_ssh(
-                hypervisor,
-                'cat /var/lib/rhos-release/latest-installed')
-        return int(re.findall(r'\d+', ver)[0])
 
     def check_flavor_existence(self, testname):
         """Check test specific flavor existence.

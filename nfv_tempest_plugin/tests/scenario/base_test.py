@@ -17,6 +17,7 @@ from importlib import import_module
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import baremetal_manager
 from oslo_log import log as logging
+import re
 from tempest import clients
 from tempest.common import credentials_factory as common_creds
 from tempest import config
@@ -177,3 +178,20 @@ class BaseTest(baremetal_manager.BareMetalManager):
             self.verify_provider_networks(servers, key_pair)
 
         return servers, key_pair
+
+    def get_osp_release(self, hypervisor=None):
+        """Gather OSP release
+
+        Takes the OSP release from the hypervisor
+        :param hypervisor: Ip of the hypervisor to work on (optional)
+        :return OSP version integer
+        """
+        if not hypervisor:
+            hypervisor = self._get_hypervisor_ip_from_undercloud()[0]
+        ver = shell_utils.\
+            run_command_over_ssh(hypervisor, 'cat /etc/rhosp-release')
+        if ver == '':
+            ver = shell_utils.run_command_over_ssh(
+                hypervisor,
+                'cat /var/lib/rhos-release/latest-installed')
+        return int(re.findall(r'\d+', ver)[0])
