@@ -784,7 +784,7 @@ class ManagerMixin(object):
         controller = shell_utils.get_controllers_ip_from_undercloud(
             shell=CONF.nfv_plugin_options.undercloud_rc_file)[0]
         ovn_igmp_cmd = ('sudo podman exec -it ovn_controller'
-                        ' ovn-sbctl list igmp_group')
+                        ' ovn-sbctl --no-leader-only list igmp_group')
         ovn_igmp_output = shell_utils.run_command_over_ssh(
             controller, ovn_igmp_cmd)
         for string in re.split(r'\n+', ovn_igmp_output):

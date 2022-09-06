@@ -107,7 +107,8 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
                 'igmp_snooping_enable')
             self.assertTrue(igmp_configured, 'IGMP not enabled in deployment')
             ovn_logical_switches_cmd = ('sudo podman exec -it ovn_controller'
-                                        ' ovn-nbctl list Logical_Switch')
+                                        ' ovn-nbctl --no-leader-only'
+                                        ' list Logical_Switch')
             ovn_logical_switches_output = shell_utils.run_command_over_ssh(
                 controller, ovn_logical_switches_cmd)
             # We expect to have at least a single logical switch
