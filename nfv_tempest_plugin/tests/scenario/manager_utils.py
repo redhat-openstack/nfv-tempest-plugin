@@ -1115,12 +1115,13 @@ class ManagerMixin(object):
         """Discover HW Offload network interfaces on hypervisor"""
         nodes_nics = self.fetch_nodes_passthrough_nics_info(nodes)
         # Check the nic driver and hw-tc-offload option.
-        # Expecting - 'mlx5e_rep' for the driver and 'on' for the hw-tc-offload
+        # Expecting - 'mlx5e_rep' (osp 16.2) or 'mlx5_core' (osp 17)
+        # for the driver and 'on' for the hw-tc-offload
         mlnx_nics = {}
         for node, nics_info in nodes_nics.items():
             mlnx_nics[node] = {}
             for nic, nic_options in nics_info.items():
-                if (nic_options.get('driver') == 'mlx5e_rep'
+                if (nic_options.get('driver') in ['mlx5e_rep', 'mlx5_core']
                     and nic_options.get('hw-tc-offload') == 'on'):
                     mlnx_nics[node][nic] = {}
                     mlnx_nics[node][nic].update(nic_options)
