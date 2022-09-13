@@ -19,6 +19,7 @@ import paramiko
 import re
 import shlex
 import subprocess as sp
+import time
 
 from backports.configparser import ConfigParser
 from collections import OrderedDict
@@ -588,14 +589,50 @@ def tcpdump(server_ip, interface, duration, macs=[], protocol=None, port=None,
     filters.append('port ' + str(port) if port is not None else None)
     filters += [' host ' + host for host in hosts]
     filters_str = ' and '.join([filter for filter in filters if filter])
-    tcpdump_cmd = "sudo nohup timeout {} tcpdump -i {} -nne {} > {}" \
-                  " 2>&1 &".format(duration,
-                                   interface,
-                                   filters_str,
-                                   file)
+    tcpdump_cmd = "date +'%H:%M:%S.0 START_TIME' > {}; sudo nohup timeout " \
+                  "{} tcpdump -i {} -nne {} >> {} 2>&1 &".format(file,
+                                                                 duration,
+                                                                 interface,
+                                                                 filters_str,
+                                                                 file)
     LOG.info('Executed tcpdump on {}: {}'.format(server_ip, tcpdump_cmd))
     run_command_over_ssh(server_ip, tcpdump_cmd)
     return file
+
+
+def tcpdump_time_filter(dump, start_time=None, end_time=None):
+    """Filter tcpdump output by timestamp
+
+    Filter tcpdump output by timestamp
+    Firstline of dump contains the timestamp at which tcpdump was executed
+    14:04:12 START_TIME
+
+    :param dump: tcpdump string to filter
+    :param start: start time in seconds from the begining
+    :param end: end time  in seconds from the begining
+    :return tcpdump_filter: time filtered tcpdump
+    """
+
+    tcpdump_start_timestamp = None
+    output = []
+    for line in dump.split('\n'):
+        columns = line.split(' ')
+        flags = [True, True]
+        if (len(columns > 0)):
+            timestamp = time.strptime(columns[0].split('.')[0], '%H:%M:%S')
+            if tcpdump_start_timestamp is None:
+                tcpdump_start_timestamp = timestamp
+                continue
+            if start_time is not None and \
+                    (timestamp - tcpdump_start_timestamp) < start_time:
+                flags[0] = False
+            if end_time is not None and \
+                    (timestamp - tcpdump_start_timestamp) > end_time:
+                flags[1] = False
+            if flags[0] and flags[1]:
+                output.append(line)
+
+    return '\n'.join(output)
 
 
 def stop_tcpdump(server_ip, tcpdump_file):
