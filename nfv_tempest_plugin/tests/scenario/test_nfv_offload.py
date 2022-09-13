@@ -182,6 +182,7 @@ class TestNfvOffload(base_test.BaseTest):
         num_vms = int(CONF.nfv_plugin_options.offload_num_vms)
         offload_injection_time = int(
             CONF.nfv_plugin_options.offload_injection_time)
+        tcpdump_time = int(CONF.nfv_plugin_options.tcpdump_time)
         LOG.info('test_offload_ovs_flows create {} vms'.format(num_vms))
         # Create servers
         servers, key_pair = self.create_and_verify_resources(
@@ -220,11 +221,12 @@ class TestNfvOffload(base_test.BaseTest):
                         srv_item['server']['hypervisor_ip'])
 
                 errors_found += self.check_offload(srv_pair, protocol,
-                                                   offload_injection_time)
+                                                   offload_injection_time,
+                                                   tcpdump_time)
 
         self.assertTrue(len(errors_found) == 0, "\n".join(errors_found))
 
-    def check_offload(self, srv_pair, protocol, duration):
+    def check_offload(self, srv_pair, protocol, duration, tcpdump_time):
         """Check OVS offloaded flows and hw offload is working
 
         Two tests are done:
@@ -235,6 +237,7 @@ class TestNfvOffload(base_test.BaseTest):
         :param srv_pair: server/client data
         :param protocol: protocol to test (icmp, tcp, udp)
         :param duration: duration of the injection
+        :param tcpdump_time: skip first seconds in tcpdump output
         :return checks: list with problems found
         """
 
@@ -317,27 +320,58 @@ class TestNfvOffload(base_test.BaseTest):
                 srv_item['server']['hypervisor_ip'],
                 srv_item['tcpdump_file'])
 
+            tcpdump = ["", ""]
+            tcpdump[0] = shell_utils.tcpdump_time_filter(
+                tcpdump_out, end_time=tcpdump_time)
+            tcpdump[1] = shell_utils.tcpdump_time_filter(
+                tcpdump_out, start_time=tcpdump_time)
+
             if protocol == "icmp":
-                icmp_requests = tcpdump_out.count('ICMP echo request')
-                icmp_replies = tcpdump_out.count('ICMP echo reply')
-                if icmp_requests != 1 or icmp_replies != 1:
-                    errors.append("{} There should be a single request/reply "
-                                  "in representor port. Requests: "
-                                  "{}, Replies: {}".format(msg_header,
-                                                           icmp_requests,
-                                                           icmp_replies))
+                icmp_requests = [0, 0]
+                icmp_replies = [0, 0]
+                icmp_requests[0] = tcpdump[0].count('ICMP echo request')
+                icmp_requests[1] = tcpdump[0].count('ICMP echo request')
+                icmp_replies[0] = tcpdump[0].count('ICMP echo reply')
+                icmp_replies[1] = tcpdump[1].count('ICMP echo reply')
+                # At least icmp request and icmp reply expected
+                if icmp_requests[0] > 0 and icmp_requests[1] == 0 and \
+                        icmp_replies[0] > 0 and icmp_replies[1] == 0:
+                    pass
+                else:
+                    errors.append("{} Failed to check packets in representor "
+                                  "port. Requests: {} (>0), {} (0), Replies"
+                                  " {} (>0), {} (0)".format(msg_header,
+                                                            icmp_requests[0],
+                                                            icmp_requests[1],
+                                                            icmp_replies[0],
+                                                            icmp_replies[1])
             elif protocol == "udp":
-                udp_packets = tcpdump_out.count('UDP')
-                if udp_packets != 1:
-                    errors.append("{} There should be a single UDP packet in "
-                                  "representor port. {} packets found".
-                                  format(msg_header, udp_packets))
+                udp_packets = [0, 0]
+                udp_packets[0] = tcpdump[0].count('UDP')
+                udp_packets[1] = tcpdump[1].count('UDP')
+                # At least one packet expected (single flow)
+                if udp_packets[0] > 0 and udp_packets[1] == 0:
+                    pass
+                else:
+                    errors.append("{} Failed to check packets in representor "
+                                  "port. UDP packets: {} (>0), {} (0)".
+                                  format(msg_header,
+                                         udp_packets[0],
+                                         udp_packets[1])
             elif protocol == "tcp":
-                tcp_packets = tcpdump_out.count('IPv4')
-                if tcp_packets != 2:
-                    errors.append("{} There should be two TCP packets in "
-                                  "representor port. {} packets found".
-                                  format(msg_header, tcp_packets))
+                tcp_packets = [0, 0]
+                tcp_packets[0] = tcpdump[0].count('IPv4')
+                tcp_packets[1] = tcpdump[1].count('IPv4')
+                # At least two packets expected (one per direction,
+                # single flow)
+                if tcp_packets[0] > 1 and tcp_packets[1] == 0:
+                    pass
+                else:
+                    errors.append("{} Failed to check packets in representor "
+                                  "port. TCP packets: {} (>1), {} (0)".
+                                  format(msg_header,
+                                         tcp_packets[0],
+                                         tcp_packets[1])
 
         for item in iperf_logs:
             shell_utils.stop_iperf(item['server'], item['log_file'])

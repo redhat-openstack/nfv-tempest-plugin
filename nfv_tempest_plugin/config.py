@@ -151,6 +151,10 @@ NfvPluginOptions = [
                default=10,
                help="Injection time for checking flows and traffic in "
                     "representor port in hwoffload testing"),
+    cfg.IntOpt('tcpdump_time',
+               default=120,
+               help="Time in seconds to split tcpdump file accordint to"
+                    "the timestamp"),
     cfg.StrOpt('kernel_args',
                default='default_hugepagesz=1GB hugepagesz=1G hugepages=64 '
                        'iommu=pt intel_iommu=on isolcpus=2-19,22-39',
