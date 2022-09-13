@@ -19,6 +19,7 @@ import paramiko
 import re
 import shlex
 import subprocess as sp
+import time
 
 from backports.configparser import ConfigParser
 from collections import OrderedDict
@@ -596,6 +597,32 @@ def tcpdump(server_ip, interface, duration, macs=[], protocol=None, port=None,
     LOG.info('Executed tcpdump on {}: {}'.format(server_ip, tcpdump_cmd))
     run_command_over_ssh(server_ip, tcpdump_cmd)
     return file
+
+def tcpdump_time_filter(dump, start_time=None, end_time=None):
+    """Filter tcpdump output by timestamp
+
+    Filter tcpdump output by timestamp
+
+    :param dump: tcpdump string to filter
+    :param start: start time
+    :param end: end time
+    :return tcpdump_filter: time filtered tcpdump
+    """
+
+    output = []
+    for line in dump.split('\n'):
+        columns = line.split(' ')
+        flags = [True, True]
+        if (len(columns > 0)):
+            timestamp = time.strptime(columns[0].split('.')[0], '%H:%M:%S')
+            if start_time is not None and timestamp < start_time:
+                flags[0] = False
+            if end_time is not None and timestamp > end_time:
+                flags[1] = False
+            if flags[0] and flags[1]:
+                output.append(line)
+
+    return '\n'.join(output)
 
 
 def stop_tcpdump(server_ip, tcpdump_file):
