@@ -144,13 +144,17 @@ NfvPluginOptions = [
                default=4,
                help="Num of vms in testcase test_offload_ovs_flows"),
     cfg.IntOpt('flows_timeout',
-               default=10,
+               default=12,
                help="Flows will expire if no packet is received during "
                     "this time"),
     cfg.IntOpt('offload_injection_time',
-               default=10,
+               default=60,
                help="Injection time for checking flows and traffic in "
                     "representor port in hwoffload testing"),
+    cfg.IntOpt('tcpdump_time',
+               default=10,
+               help="Time in seconds to split tcpdump file according to"
+                    "the timestamp"),
     cfg.StrOpt('kernel_args',
                default='default_hugepagesz=1GB hugepagesz=1G hugepages=64 '
                        'iommu=pt intel_iommu=on isolcpus=2-19,22-39',
