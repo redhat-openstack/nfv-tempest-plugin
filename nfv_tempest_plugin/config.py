@@ -116,7 +116,7 @@ NfvPluginOptions = [
                        '"openvswitch"], "tuned_profiles": ["cpu-partitioning",'
                        '"realtime-virtual-host"], "kernel_args": ["hugepages",'
                        '"hugepagesz", "default_hugepagesz", "iommu=pt",'
-                       '"intel_iommu=on", "isolcpus", "nohz=on", "nohz_full",'
+                       '"isolcpus", "nohz=on", "nohz_full",'
                        '"rcu_nocbs", "intel_pstate"]}',
                help='Hypervisor tuning details include: packages, '
                     'services, tuned profiles nad kernel arguments'),
