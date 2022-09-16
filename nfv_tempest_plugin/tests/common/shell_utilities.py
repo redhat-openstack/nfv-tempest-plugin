@@ -671,3 +671,43 @@ def get_offload_flows(server_ip):
     out = run_command_over_ssh(server_ip, cmd_flows)
     LOG.info('offload flows output: {}'.format(out))
     return out
+
+
+def _get_cpu_details(self, node_ip):
+    """Get CPU details from node
+
+    :param node_ip IP address of node
+    :return cpu_model CPU model
+    :return cpu_flags CPU flags
+    """
+    cmd = "sudo lscpu | grep 'Model name';sudo lscpu | grep 'Flags'"
+    output = shell_utils.run_command_over_ssh(node_ip, cmd)
+    if output:
+        cpu_model = ""
+        cpu_flags = []
+        params = output.split('\n')
+        if params:
+            for param in params:
+                if "Model name" in param:
+                    cpu_model = param.split(':')[1].strip(' \n')
+                elif "Flags" in param:
+                    cpu_flags = param.split(':')[1].strip(' \n').split(' ')
+        return cpu_model, cpu_flags
+    else:
+        msg = "Unable to determine 'CPU Model name'"
+        raise Exception(msg)
+
+
+def get_cpu_iommu_kernel_arg(self, node_ip):
+    """Get IOMMU kernel argument based on CPU
+
+    :param node_ip IP address of node
+    :return kernel_arg kernel arg
+    """
+    kernel_arg = {}
+    cpu_model, cpu_flags = self._get_cpu_details(node_ip)
+    if cpu_model.startswith('Intel'):
+        kernel_arg['intel_iommu'] = 'on'
+    elif cpu_model.startswith('AMD'):
+        kernel_args['amd_iommu'] = 'on'
+    return kernel_arg
