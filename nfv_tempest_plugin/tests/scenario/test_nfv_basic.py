@@ -103,6 +103,9 @@ class TestNfvBasic(base_test.BaseTest):
             grub_output_cmd = "sudo cat /proc/cmdline"
             result = shell_utils.run_command_over_ssh(self.hypervisor_ip,
                                                       grub_output_cmd)
+            cpu_kernel_iommu_arg = \
+                shell_utils.get_cpu_iommu_kernel_arg(self.hypervisor_ip)
+            kernel_args.update(cpu_kernel_iommu_arg)
             if result:
                 for arg in kernel_args:
                     if arg not in result:
