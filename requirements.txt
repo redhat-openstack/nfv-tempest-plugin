@@ -1,3 +1,4 @@
+tempest >= 16.1.0
 configparser >= 3.5.0
 envbash==1.2.0
 python-heatclient==2.3.0
