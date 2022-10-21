@@ -314,7 +314,7 @@ def check_pid_ovs(ip_address):
 
 
 def check_guest_interface_config(ssh_client, provider_networks,
-                                 hostname):
+                                 hostname, ip_retries=3):
     """Check guest inteface network configuration
 
     The function aims to check if all provider networks are configured
@@ -322,6 +322,8 @@ def check_guest_interface_config(ssh_client, provider_networks,
 
     :param ssh_client: SSH client configured to connect to server
     :param provider_networks: Server's provider networks details
+    :param hostname: server host name
+    :param ip_retries: number of ip retries
     """
     for provider_network in provider_networks:
         mac = provider_network['mac_address']
@@ -333,8 +335,18 @@ def check_guest_interface_config(ssh_client, provider_networks,
                                            m=mac)
         LOG.info("Located '{m}' in guest '{h}' on interface '{g}'".format(
             m=mac, h=hostname, g=guest_interface))
-        # Attempt to discover guest interface using an IP address
-        ip_interface = ssh_client.get_nic_name_by_ip(ip)
+        # Attempt to discover guest interface using a MAC address
+        # Added retries just in case ips are assigned by dhcp and it takes
+        # some time
+        for counter in range(ip_retries):
+            ip_interface = ssh_client.get_nic_name_by_ip(ip)
+            if ip_interface:
+               break
+            else:
+               LOG.info("IP address not configured yet for Guest '{h}' "
+                        "interface '{g}'".format(h=hostname,
+                                                 g=guest_interface))
+               time.sleep(5)
         msg = ("Guest '{h}' exepected to have interface '{g}' to be "
                "configured with IP address '{i}'")
         assert ip_interface, msg.format(h=hostname, g=guest_interface,
