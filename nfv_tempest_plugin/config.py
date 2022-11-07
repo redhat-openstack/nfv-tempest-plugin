@@ -29,6 +29,10 @@ NfvPluginOptions = [
                default='/home/stack/.ssh/id_rsa',
                help="SSH private key path for overcloud node - "
                     "controller/compute"),
+    cfg.StrOpt('overcloud_node_pkey_file_type',
+               default='rsa',
+               help="SSH private key type for overcloud node - "
+                    "controller/compute"),
     cfg.StrOpt("instance_user",
                default="cloud-user",
                help="SSH user for the guest instance"),
