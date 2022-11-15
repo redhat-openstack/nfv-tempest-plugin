@@ -1049,3 +1049,27 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             self.test_setup_dict[test_name] = \
                 {'flavor-id': self.flavor_ref,
                  'router': True, 'aggregate': None}
+
+    def get_port_from_ip(self, ip):
+        """returns port from ip
+
+        :param ip: ip address to resolve
+        :return int_port: return port date
+        """
+        self.assertNotEmpty(ip, "ip is empty")
+        int_port = self.os_admin.ports_client.list_ports(
+            fixed_ips="ip_address=" + ip)['ports'][0]
+        return int_port
+
+    def get_internal_port_from_fip(self, fip):
+        """returns internal port data mapped to fip
+
+        The function returns mapped port date to fip
+        :param fip: fip address to resolve
+        :return int_port: return port date
+        """
+        self.assertNotEmpty(fip, "fip is empty")
+        fixed_ip = \
+            self.os_admin.floating_ips_client.list_floatingips(
+                floating_ip_address=fip)['floatingips'][0]['fixed_ip_address']
+        return self.get_port_from_ip(fixed_ip)
