@@ -1114,7 +1114,16 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                                             device).split(" ")
                         mac_address = ip_link_output[ip_link_output.index(
                             'link/ether') + 1]
-
+                        # Reduce mtu for inserting vlan tag (4 bytes)
+                        mtu = int(ip_link_output[ip_link_output.index(
+                            'mtu') + 1]) - 4
+                        ip_link_output = ip_command.execute('link',
+                                                            'set',
+                                                            device,
+                                                            'mtu',
+                                                            mtu)
+                        LOG.info('Reduce MTU for transparent vlan interfaces '
+                                 'in vm 4 bytes {}'.format(mtu))
                         transparent_dict = {
                             # set segmentation_id as network_id
                             'network_id':
