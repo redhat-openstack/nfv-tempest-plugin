@@ -216,3 +216,12 @@ class TestNfvBasic(base_test.BaseTest):
                                           'The values of the instance and '
                                           'nova does not match.')
         LOG.info('The {} test passed.'.format(test))
+
+    def test_dummy(self, test='dummy'):
+        """Test dummy
+
+        Do not merge, only for testing purposes
+        """
+        LOG.info('Start dummy test.')
+        self.assertTrue(True)
+        LOG.info('End dummy test.')
