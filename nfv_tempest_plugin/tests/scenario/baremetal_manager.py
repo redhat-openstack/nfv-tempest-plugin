@@ -1075,7 +1075,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                             'parent_ip_address':
                                 parent_port['fixed_ips'][0]['ip_address'],
                             'provider:network_type':
-                                network['provider:network_type']
+                                'trunk_vlan'
                         }
                         server['trunk_networks'].append(trunk_dict)
 
@@ -1129,7 +1129,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                             'network_id':
                                 subport['segmentation_id'],
                             'provider:network_type':
-                                subport['segmentation_type'],
+                                'transparent_vlan',
                             'mac_address':
                                 mac_address,
                             'parent_mac_address':
