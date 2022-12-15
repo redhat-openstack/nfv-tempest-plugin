@@ -122,8 +122,8 @@ class TestNfvOffload(base_test.BaseTest):
         msg = "Not all hypervisors contains nics in switchev mode"
         self.assertCountEqual(expected_result, result, msg)
 
-    def test_offload_icmp(self, test='offload_icmp'):
-        """Check ICMP traffic is offloaded
+    def test_offload_icmp_vlan(self, test='offload_icmp_vlan'):
+        """Check ICMP traffic is offloaded in vlan network
 
         The following test deploy vms, on hw-offload computes.
         It sends async ping and check offload flows exist in ovs.
@@ -134,11 +134,72 @@ class TestNfvOffload(base_test.BaseTest):
 
         :param test: Test name from the external config file.
         """
-        LOG.info('Start test_offload_icmp test.')
-        self.run_offload_testcase(test, "icmp")
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "icmp", "vlan")
 
-    def test_offload_udp(self, test='offload_udp'):
-        """Check UDP traffic is offloaded
+    def test_offload_icmp_vxlan(self, test='offload_icmp_vxlan'):
+        """Check ICMP traffic is offloaded in vxlan network
+
+        The following test deploy vms, on hw-offload computes.
+        It sends async ping and check offload flows exist in ovs.
+        It will also capture traffic in representor port in both
+        hypervisors. There should be a single packet por icmp
+        reply/request. As soon as offloading is working, tcpdump
+        does not show any packet in representor port
+
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "icmp", "vxlan")
+
+    def test_offload_icmp_geneve(self, test='offload_icmp_geneve'):
+        """Check ICMP traffic is offloaded in geneve network
+
+        The following test deploy vms, on hw-offload computes.
+        It sends async ping and check offload flows exist in ovs.
+        It will also capture traffic in representor port in both
+        hypervisors. There should be a single packet por icmp
+        reply/request. As soon as offloading is working, tcpdump
+        does not show any packet in representor port
+
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "icmp", "geneve")
+
+    def test_offload_icmp_vlan_trunk(self, test='offload_icmp_vlan_trunk'):
+        """Check ICMP traffic is offloaded in vlan trunk network
+
+        The following test deploy vms, on hw-offload computes.
+        It sends async ping and check offload flows exist in ovs.
+        It will also capture traffic in representor port in both
+        hypervisors. There should be a single packet por icmp
+        reply/request. As soon as offloading is working, tcpdump
+        does not show any packet in representor port
+
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "icmp", "vlan_trunk")
+
+    def test_offload_icmp_transparent_vlan(
+            self, test='offload_icmp_transparent_vlan'):
+        """Check ICMP traffic is offloaded in transparent vlan network
+
+        The following test deploy vms, on hw-offload computes.
+        It sends async ping and check offload flows exist in ovs.
+        It will also capture traffic in representor port in both
+        hypervisors. There should be a single packet por icmp
+        reply/request. As soon as offloading is working, tcpdump
+        does not show any packet in representor port
+
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "icmp", "transparent_vlan")
+
+    def test_offload_udp_vlan(self, test='offload_udp_vlan'):
+        """Check UDP traffic is offloaded in vlan network
 
         The following test deploy vms, on hw-offload computes.
         It sends UDP traffic and check offload flows exist in ovs.
@@ -149,11 +210,72 @@ class TestNfvOffload(base_test.BaseTest):
 
         :param test: Test name from the external config file.
         """
-        LOG.info('Start test_offload_udp test.')
-        self.run_offload_testcase(test, "udp")
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "udp", "vlan")
 
-    def test_offload_tcp(self, test='offload_tcp'):
-        """Check TCP traffic is offloaded
+    def test_offload_udp_vxlan(self, test='offload_udp_vxlan'):
+        """Check UDP traffic is offloaded in vxlan network
+
+        The following test deploy vms, on hw-offload computes.
+        It sends UDP traffic and check offload flows exist in ovs.
+        It will also capture traffic in representor port in both
+        hypervisors. There should be a single UDP packet.
+        As soon as offloading is working, tcpdump
+        does not show any packet in representor port
+
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "udp", "vxlan")
+
+    def test_offload_udp_geneve(self, test='offload_udp_geneve'):
+        """Check UDP traffic is offloaded in geneve network
+
+        The following test deploy vms, on hw-offload computes.
+        It sends UDP traffic and check offload flows exist in ovs.
+        It will also capture traffic in representor port in both
+        hypervisors. There should be a single UDP packet.
+        As soon as offloading is working, tcpdump
+        does not show any packet in representor port
+
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "udp", "geneve")
+
+    def test_offload_udp_vlan_trunk(self, test='offload_udp_vlan_trunk'):
+        """Check UDP traffic is offloaded in vlan trunk network
+
+        The following test deploy vms, on hw-offload computes.
+        It sends UDP traffic and check offload flows exist in ovs.
+        It will also capture traffic in representor port in both
+        hypervisors. There should be a single UDP packet.
+        As soon as offloading is working, tcpdump
+        does not show any packet in representor port
+
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "udp", "vlan_trunk")
+
+    def test_offload_udp_transparent_vlan(self,
+                                          test='offload_udp_transparent_vlan'):
+        """Check UDP traffic is offloaded in transparent vlan network
+
+        The following test deploy vms, on hw-offload computes.
+        It sends UDP traffic and check offload flows exist in ovs.
+        It will also capture traffic in representor port in both
+        hypervisors. There should be a single UDP packet.
+        As soon as offloading is working, tcpdump
+        does not show any packet in representor port
+
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "udp", "transparent_vlan")
+
+    def test_offload_tcp_vlan(self, test='offload_tcp_vlan'):
+        """Check TCP traffic is offloaded in vlan network
 
         The following test deploy vms, on hw-offload computes.
         It sends TCP traffic and check offload flows exist in ovs.
@@ -164,10 +286,100 @@ class TestNfvOffload(base_test.BaseTest):
 
         :param test: Test name from the external config file.
         """
-        LOG.info('Start test_offload_tcp test.')
-        self.run_offload_testcase(test, "tcp")
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "tcp", "vlan")
 
-    def run_offload_testcase(self, test, protocol):
+    def test_offload_tcp_vxlan(self, test='offload_tcp_vxlan'):
+        """Check TCP traffic is offloaded in vxlan network
+
+        The following test deploy vms, on hw-offload computes.
+        It sends TCP traffic and check offload flows exist in ovs.
+        It will also capture traffic in representor port in both
+        hypervisors. There should be 2 TCP packets (one per direction).
+        As soon as offloading is working, tcpdump
+        does not show any packet in representor port
+
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "tcp", "vxlan")
+
+    def test_offload_tcp_geneve(self, test='offload_tcp_geneve'):
+        """Check TCP traffic is offloaded in geneve network
+
+        The following test deploy vms, on hw-offload computes.
+        It sends TCP traffic and check offload flows exist in ovs.
+        It will also capture traffic in representor port in both
+        hypervisors. There should be 2 TCP packets (one per direction).
+        As soon as offloading is working, tcpdump
+        does not show any packet in representor port
+
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "tcp", "geneve")
+
+    def test_offload_tcp_vlan_trunk(self, test='offload_tcp_vlan_trunk'):
+        """Check TCP traffic is offloaded in vlan trunk network
+
+        The following test deploy vms, on hw-offload computes.
+        It sends TCP traffic and check offload flows exist in ovs.
+        It will also capture traffic in representor port in both
+        hypervisors. There should be 2 TCP packets (one per direction).
+        As soon as offloading is working, tcpdump
+        does not show any packet in representor port
+
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "tcp", "vlan_trunk")
+
+    def test_offload_tcp_transparent_vlan(self,
+                                          test='offload_tcp_transparent_vlan'):
+        """Check TCP traffic is offloaded in transparent vlan network
+
+        The following test deploy vms, on hw-offload computes.
+        It sends TCP traffic and check offload flows exist in ovs.
+        It will also capture traffic in representor port in both
+        hypervisors. There should be 2 TCP packets (one per direction).
+        As soon as offloading is working, tcpdump
+        does not show any packet in representor port
+
+        :param test: Test name from the external config file.
+        """
+        LOG.info('Start test_{} test.'.format(test))
+        self.run_offload_testcase(test, "tcp", "transparent_vlan")
+
+    def filter_test_networks(self, test_networks, network_type):
+        """filter test networks
+
+        Only networks needed for the test will be created:
+        * management network for fip
+        * vlan networks for vlan testing
+        * vxlan networks for vxlan testing
+        * geneve networks for geneve testing
+        * vlan trunk networks for vlan trunk testing
+        * transparent vlan networks for transparent vlan testing
+
+        :param test_networks: list of test networks
+        :param network_type: network used (vlan, vxlan,
+                             geneve, vlan_trunk, transparent_vlan)
+        :return filtered network list
+        """
+        filtered_networks = []
+
+        for network in test_networks:
+            if (('mgmt' in network.keys() and network['mgmt']) or
+                    (network['network_type'] == network_type) or
+                    (network_type == 'vlan_trunk' and
+                     'trunk_vlan' in network.keys()) or
+                    (network_type == 'transparent_vlan' and
+                     'transparent_vlan' in network.keys())):
+                filtered_networks.append(network)
+
+        return filtered_networks
+
+    def run_offload_testcase(self, test, protocol, network_type):
         """Run offload testcase with different injection traffic
 
         This function will create resources needed to run offload
@@ -178,12 +390,20 @@ class TestNfvOffload(base_test.BaseTest):
 
         :param test: Test name from the external config file.
         :param protocol: Protocol to test (udp, tcp, icmp)
+        :param network_type: network used (vlan, vxlan,
+                             geneve, vlan_trunk, transparent_vlan)
         """
         num_vms = int(CONF.nfv_plugin_options.offload_num_vms)
         offload_injection_time = int(
             CONF.nfv_plugin_options.offload_injection_time)
         tcpdump_time = int(CONF.nfv_plugin_options.tcpdump_time)
         LOG.info('test_offload_ovs_flows create {} vms'.format(num_vms))
+
+        # only needed networks will be created
+        full_test_network = self.external_config['test-networks']
+        self.external_config['test-networks'] = \
+            self.filter_test_networks(full_test_network, network_type)
+
         # Create servers
         servers, key_pair = self.create_and_verify_resources(
             test=test, num_servers=num_vms)
@@ -198,10 +418,16 @@ class TestNfvOffload(base_test.BaseTest):
                 private_key=key_pair['private_key'])
 
         errors_found = []
+        network_type_found = False
         # iterate servers
         for server in servers[1:]:
             # iterate networks
             for provider_network in server['provider_networks']:
+
+                if provider_network['provider:network_type'] != network_type:
+                    continue
+
+                network_type_found = True
 
                 # get network in the server in which ping is being executed
                 source_network = \
@@ -224,7 +450,10 @@ class TestNfvOffload(base_test.BaseTest):
                                                    offload_injection_time,
                                                    tcpdump_time)
 
+        self.assertTrue(network_type_found, "Network type {} not "
+                                            "found".format(network_type))
         self.assertTrue(len(errors_found) == 0, "\n".join(errors_found))
+        self.external_config['test-networks'] = full_test_network
 
     def check_offload(self, srv_pair, protocol, duration, tcpdump_time):
         """Check OVS offloaded flows and hw offload is working
