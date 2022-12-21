@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6526912b_6ef8b065",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2022-12-21T10:29:34Z",
+      "side": 1,
+      "message": "It already had +2 from vadim an Ella, only a small fix in latest patch",
+      "revId": "ab21db2240e20205aacc498c231d3c750f5c286f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
