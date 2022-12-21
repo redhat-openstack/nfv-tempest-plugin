@@ -13,7 +13,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from nfv_tempest_plugin.tests.scenario import base_test
+from nfv_tempest_plugin.tests.managers import base_test
 from oslo_log import log as logging
 from tempest.common import waiters
 from tempest import config

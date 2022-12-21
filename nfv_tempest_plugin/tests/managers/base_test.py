@@ -15,7 +15,7 @@
 
 from importlib import import_module
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
-from nfv_tempest_plugin.tests.scenario import baremetal_manager
+from nfv_tempest_plugin.tests.managers import baremetal_manager
 from oslo_log import log as logging
 import re
 from tempest import clients

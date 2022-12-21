@@ -1,6 +1,6 @@
 
 from metalsmith import _provisioner
-from nfv_tempest_plugin.services.keystone_client import KeystoneClient
+from nfv_tempest_plugin.tests.api.keystone_client import KeystoneClient
 
 
 class MetalsmithClient(KeystoneClient):
