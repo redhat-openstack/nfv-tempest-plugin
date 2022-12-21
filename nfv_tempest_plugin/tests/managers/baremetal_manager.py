@@ -22,7 +22,7 @@ import re
 
 from neutron_tempest_plugin.common import ip
 from neutron_tempest_plugin.common import ssh
-from nfv_tempest_plugin.tests.scenario import manager_utils
+from nfv_tempest_plugin.tests.managers import manager_utils
 from oslo_log import log
 from oslo_serialization import jsonutils
 from tempest.api.compute import api_microversion_fixture
@@ -105,20 +105,13 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 CONF.nfv_plugin_options.overcloud_node_pkey_file).read()
             # trying to guess key type, RSA and ECDSA supported
             key_type = None
-            for val in ["rsa", "ecdsa"]:
+            for val in ["RSAKey", "ECDSAKey"]:
                 try:
-                    if val == "ecdsa":
-                        CONF.nfv_plugin_options.\
-                            overcloud_node_pkey_file_key_object = \
-                            paramiko.ECDSAKey.\
-                            from_private_key(StringIO(key_str))
-                    else:
-                        CONF.nfv_plugin_options.\
-                            overcloud_node_pkey_file_key_object = \
-                            paramiko.RSAKey.\
-                            from_private_key(StringIO(key_str))
+                    CONF.nfv_plugin_options.\
+                        overcloud_node_pkey_file_key_object = \
+                            getattr(paramiko, val).\
+                                from_private_key(StringIO(key_str))
                     key_type = val
-                    break
                 except paramiko.ssh_exception.SSHException:
                     pass
             self.assertIsNotNone(key_type,
@@ -128,6 +121,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             self.assertIsNotNone(
                 CONF.nfv_plugin_options.overcloud_node_pass,
                 'Missing SSH password or key_file')
+
         if CONF.nfv_plugin_options.external_config_file:
             if os.path.exists(CONF.nfv_plugin_options.external_config_file):
                 self.read_external_config_file()
