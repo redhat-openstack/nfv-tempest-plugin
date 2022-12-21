@@ -1,8 +1,8 @@
 
 import datetime
-from nfv_tempest_plugin.services.os_clients import OsClients
+from nfv_tempest_plugin.tests.api.os_clients import OsClients
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
-from nfv_tempest_plugin.tests.scenario import base_test
+from nfv_tempest_plugin.tests.managers import base_test
 from oslo_log import log as logging
 from paramiko.ssh_exception import NoValidConnectionsError
 from tempest import config

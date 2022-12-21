@@ -15,8 +15,8 @@
 
 from enum import Enum
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
-from nfv_tempest_plugin.tests.scenario import base_test
-from nfv_tempest_plugin.tests.scenario.multiqueue_manager \
+from nfv_tempest_plugin.tests.managers import base_test
+from nfv_tempest_plugin.tests.managers.multiqueue_manager \
     import MultiqueueClass
 from oslo_log import log as logging
 from tempest import config

@@ -24,7 +24,7 @@ import xml.etree.ElementTree as ELEMENTTree
 import yaml
 
 
-from nfv_tempest_plugin.services.os_clients import OsClients
+from nfv_tempest_plugin.tests.api.os_clients import OsClients
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from oslo_config import cfg
 from oslo_log import log

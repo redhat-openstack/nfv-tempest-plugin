@@ -14,8 +14,8 @@
 #    under the License.
 
 from json import loads
-from nfv_tempest_plugin.tests.scenario import base_test
-from nfv_tempest_plugin.tests.scenario.qos_manager import QoSManagerMixin
+from nfv_tempest_plugin.tests.managers import base_test
+from nfv_tempest_plugin.tests.managers.qos_manager import QoSManagerMixin
 from oslo_log import log as logging
 from tempest import config
 
