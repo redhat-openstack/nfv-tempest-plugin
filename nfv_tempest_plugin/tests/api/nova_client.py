@@ -1,5 +1,5 @@
 
-from nfv_tempest_plugin.services.keystone_client import KeystoneClient
+from nfv_tempest_plugin.tests.api.keystone_client import KeystoneClient
 from novaclient.client import Client
 from tempest import config
 

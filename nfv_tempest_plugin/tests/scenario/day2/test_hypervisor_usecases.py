@@ -16,7 +16,7 @@
 from nfv_tempest_plugin.tests.common.async_utils_manager \
     import AsyncUtilsManager
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
-from nfv_tempest_plugin.tests.scenario.day2.day2_manager import Day2Manager
+from nfv_tempest_plugin.tests.managers.day2_manager import Day2Manager
 from oslo_log import log as logging
 from tempest.api.compute import api_microversion_fixture
 from tempest.common import waiters

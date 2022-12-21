@@ -15,7 +15,7 @@
 
 from importlib import import_module
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
-from nfv_tempest_plugin.tests.scenario import baremetal_manager
+from nfv_tempest_plugin.tests.managers import baremetal_manager
 from oslo_log import log as logging
 import re
 from tempest import clients
@@ -179,6 +179,7 @@ class BaseTest(baremetal_manager.BareMetalManager):
 
         return servers, key_pair
 
+    #TODO: move away to a better location
     def get_osp_release(self, hypervisor=None):
         """Gather OSP release
 

@@ -17,7 +17,7 @@ import random
 import time
 
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
-from nfv_tempest_plugin.tests.scenario import base_test
+from nfv_tempest_plugin.tests.managers import base_test
 from oslo_log import log as logging
 from tempest import config
 
