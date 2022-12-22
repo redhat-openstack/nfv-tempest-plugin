@@ -1,0 +1,9 @@
+test_dict:
+    test_regex:
+        default: '(?!.*)'
+    plugins:
+        nfv-tempest-plugin:
+            repo: 'https://review.gerrithub.io/redhat-openstack/nfv-tempest-plugin'
+            version:
+                default: 'FETCH_HEAD'
+            refspec: 'refs/changes/67/547467/2'
