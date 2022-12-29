@@ -49,7 +49,8 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         trusted_vfs_mac_addresses = []
         servers, key_pair = self.create_and_verify_resources(test=test)
         LOG.info('List ports and search for "trusted" in binding profile.')
-        ports = self.ports_client.list_ports(device_id=servers[0]['id'])
+        ports = self.os_admin.ports_client.list_ports(
+            device_id=servers[0]['id'])
         for port in ports['ports']:
             if 'trusted' in port['binding:profile'] and \
                     port['binding:profile']['trusted']:
