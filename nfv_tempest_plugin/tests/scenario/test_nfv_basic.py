@@ -176,7 +176,8 @@ class TestNfvBasic(base_test.BaseTest):
         waiters.wait_for_server_status(self.os_admin.servers_client,
                                        servers[0]['id'], 'VERIFY_RESIZE')
         LOG.info('Confirm instance resize after the cold migration.')
-        self.servers_client.confirm_resize_server(server_id=servers[0]['id'])
+        self.os_admin.servers_client.confirm_resize_server(
+            server_id=servers[0]['id'])
         LOG.info('Verify instance connectivity after the cold migration.')
         self.check_instance_connectivity(ip_addr=servers[0]['fip'],
                                          user=self.instance_user,
