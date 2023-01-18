@@ -401,6 +401,12 @@ class TestNfvOffload(base_test.BaseTest):
                 select_network = True
 
             if select_network:
+                if (network_type in ['vlan', 'vxlan', 'geneve', 'transparent_vlan']):
+                    network.pop('trunk_vlan', None)
+                    network.pop('trunk_vlan_parent', None)
+                if (network_type in ['vlan', 'vxlan', 'geneve', 'trunk_vlan']):
+                    network.pop('transparent_vlan', None)
+                    network.pop('transparent_vlan_parent', None)
                 filtered_networks.append(network)
 
         return filtered_networks
