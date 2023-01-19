@@ -391,7 +391,8 @@ class TestNfvOffload(base_test.BaseTest):
             if mgmt:
                 select_network = True
             elif ((network_type in ['vlan', 'vxlan', 'geneve'])
-                  and not (trunk_vlan or transparent_vlan)):
+                  and not (trunk_vlan or transparent_vlan)
+                  and network['network_type'] == network_type):
                 select_network = True
             elif ((network_type == 'trunk_vlan')
                   and (trunk_vlan or trunk_vlan_parent)):
