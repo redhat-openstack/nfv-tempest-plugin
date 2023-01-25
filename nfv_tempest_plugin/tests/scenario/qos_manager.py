@@ -215,10 +215,12 @@ class QoSManagerMixin(object):
         :param servers servers list, at least 3
         :param key_pair servers key pairs
         """
+        if not servers:
+            servers = self.servers
         srv = QoSManagerMixin.Servers
         servers_ports_map = \
             [self.os_admin.ports_client.list_ports(
-                device_id=server['id']) for server in self.servers]
+                device_id=server['id']) for server in servers]
 
         # Find machines ports based on type
         tested_ports = [shell_utils.find_vm_interface(
