@@ -220,7 +220,7 @@ class TestDpdkScenarios(base_test.BaseTest, QoSManagerMixin):
         servers, key_pair = self.create_and_verify_resources(
             test=test, num_servers=3, use_mgmt_only=True, **kwargs)
 
-        if len(servers) != 3:
+        if len(servers) < 3:
             raise ValueError('The test requires 3 instances. Only {}'
                              ' exists'.format(len(servers)))
 
