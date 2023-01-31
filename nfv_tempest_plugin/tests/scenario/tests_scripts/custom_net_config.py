@@ -85,6 +85,37 @@ def configure_ssh_dns():
             execute_shell_command('systemctl restart sshd')
 
 
+def configure_dns():
+    """Configure resolv.conf file """
+    try:
+        config_drive = execute_shell_command('mount /dev/sr0 /mnt')
+        logger.info(config_drive)
+        with open('/mnt/openstack/latest/network_data.json') as json_file:
+            network_data = json.load(json_file)
+        execute_shell_command('umount /mnt')
+        logger.info('Config drive unmounted')
+    except ValueError:
+        logger.info('Unable to mount config drive or fetch network_data.')
+
+    services = network_data['services']
+    dns_list = []
+    for item in services:
+        if item['type'] == 'dns':
+            dns_list.append(item['address'])
+
+    with open("/etc/resolv.conf", "r") as f:
+        file = f.readlines()
+
+    # Regenerate nameservers
+    file = filter(lambda x: not x.startswith('nameserver'), file)
+    for dns in dns_list:
+        file.append("nameserver " + dns + "\n")
+
+    with open("/etc/resolv.conf", "w") as f:
+        f.writelines(file)
+    return None
+
+
 def check_existing_interfaces():
     """Check and locate existing network interfaces on instance"""
     ifaces = []
@@ -291,6 +322,7 @@ def main():
     if not cloud_init_installed():
         raise ValueError('The instance must have cloud-init installed to'
                          'properly configure the networking.')
+    configure_dns()
     configure_ssh_dns()
     ifaces = check_existing_interfaces()
     if args.init or not os.path.exists(args.nics_data_path):
