@@ -452,6 +452,11 @@ class TestNfvOffload(base_test.BaseTest):
                 username=self.instance_user,
                 private_key=key_pair['private_key'])
 
+        # install iperf
+        server_command = "sudo yum install iperf -y; "
+        for server in servers:
+            server['ssh_source'].exec_command(server_command)
+
         errors_found = []
         network_type_found = False
         # iterate servers
