@@ -479,9 +479,12 @@ class ManagerMixin(object):
                                         passwd=self.instance_pass)
         repos_config = CONF.nfv_plugin_options.instance_repo
         repos = ''
+        if len(repos_config.items()) > 0:
+            repos = '''
+                             yum_repos:
+                    '''
         for repo_name, repo_url in iter(repos_config.items()):
             repos += '''
-                             yum_repos:
                                  {repo_name}:
                                      name: {repo_name}
                                      baseurl: {repo_url}
