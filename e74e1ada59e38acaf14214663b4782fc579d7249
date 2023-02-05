@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4019577_864d4120",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2023-02-05T15:00:40Z",
+      "side": 1,
+      "message": "@mnieto,\n\nI think this is no longer the recommended way. I will look for the commands that are used instead.",
+      "range": {
+        "startLine": 758,
+        "startChar": 31,
+        "endLine": 758,
+        "endChar": 53
+      },
+      "revId": "e74e1ada59e38acaf14214663b4782fc579d7249",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
