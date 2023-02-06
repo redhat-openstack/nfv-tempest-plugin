@@ -46,6 +46,30 @@
       },
       "revId": "e74e1ada59e38acaf14214663b4782fc579d7249",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56853bb5_2282a1ab",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2023-02-06T10:07:33Z",
+      "side": 1,
+      "message": "I think that maybe we can merge this patch as it is working, and later on update it if there is a better way to get that information",
+      "parentUuid": "d8591735_28c1e8e5",
+      "range": {
+        "startLine": 758,
+        "startChar": 31,
+        "endLine": 758,
+        "endChar": 53
+      },
+      "revId": "e74e1ada59e38acaf14214663b4782fc579d7249",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
