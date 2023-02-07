@@ -463,8 +463,11 @@ class TestNfvOffload(base_test.BaseTest):
         for server in servers[1:]:
             # iterate networks
             for provider_network in server['provider_networks']:
-
-                if provider_network['provider:network_type'] != network_type:
+                if 'provider:network_type' in provider_network:
+                    if provider_network['provider:network_type'] \
+                        != network_type:
+                        continue
+                else:
                     continue
 
                 network_type_found = True
