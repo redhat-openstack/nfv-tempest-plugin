@@ -22,6 +22,7 @@ import re
 
 from neutron_tempest_plugin.common import ip
 from neutron_tempest_plugin.common import ssh
+from nfv_tempest_plugin.services.os_clients import OsClients
 from nfv_tempest_plugin.tests.scenario import manager_utils
 from oslo_log import log
 from oslo_serialization import jsonutils
@@ -35,7 +36,6 @@ from tempest.lib import exceptions as lib_exc
 from tempest.scenario import manager
 """Python 2 and 3 support"""
 from six.moves import StringIO
-
 
 CONF = config.CONF
 LOG = log.getLogger('{} [-] nfv_plugin_test'.format(__name__))
@@ -938,7 +938,18 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         # In case resources created externally, set them.
         if self.external_resources_data is not None:
+            port_list_trunk = [{}]
+            index = 1
+            for port in \
+                self.os_admin.ports_client.list_ports()['ports']:
+                if 'trunk_details' in port:
+                    port_list_trunk[0][f"trunk_{index}"] = \
+                        {"subports": port['trunk_details']['sub_ports'],
+                            "parent_port": port["id"]}
+                    index += 1
             servers, key_pair = self._organize_external_created_resources(test)
+            self._configure_external_vlan_trunk_vms(servers, key_pair,
+                                                    port_list_trunk)
             LOG.info('The resources created by the external tool. '
                      'Continue to the test.')
             return servers, key_pair
@@ -1017,6 +1028,74 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         return servers, key_pair
 
+    def _configure_external_vlan_trunk_vms(self, servers,
+                                           key_pair, port_list_trunk):
+        """Configure vlan trunks in vms
+
+        It will use ip commands through ssh to configure vlans inside vms
+
+        :param servers: list with servers
+        :param key_pair: key_pair to connect vms
+        :port_list_trunk: list of trunk ports
+        """
+        # Exit if no truk ports
+        if not port_list_trunk:
+            return
+
+        os_clients = OsClients()
+
+        subnets = self.os_admin.subnets_client.list_subnets()['subnets']
+        ports = self.os_admin.ports_client.list_ports()['ports']
+
+        for os_server in os_clients.novaclient_overcloud.servers.list():
+            for s in servers:
+                if s['name'] == os_server.name:
+                    nfv_server = s
+
+            nfv_server['trunk_networks'] = []
+            ssh_client = ssh.Client(host=nfv_server['fip'],
+                                    username=self.instance_user,
+                                    pkey=key_pair['private_key'])
+            ip_command = ip.IPCommand(ssh_client=ssh_client)
+            for trunk_values in port_list_trunk[0].values():
+                # This is used to make sure all ports are related to the
+                # server regardless of the order they are in the trunk dict
+                for interface in os_clients.novaclient_overcloud.\
+                    servers.interface_list(os_server):
+                    if trunk_values['parent_port'] == interface.port_id:
+                        parent_port = interface.__dict__
+                        for subp in trunk_values['subports']:
+                            child_port = [port for port in ports
+                                          if port['id'] == subp['port_id']][0]
+                            subnet_id = child_port['fixed_ips'][0]['subnet_id']
+                            vlan_subnet = [subnet for subnet in subnets
+                                           if subnet['id'] == subnet_id][0]
+                            device = ip_command.configure_vlan_subport(
+                                port=parent_port,
+                                subport=child_port,
+                                vlan_tag=subp['segmentation_id'],
+                                subnets=[vlan_subnet])
+                            ip_command.execute('link', 'set', 'address',
+                                               child_port['mac_address'],
+                                               'dev',
+                                               device)
+
+                        trunk_dict = {
+                            'network_id':
+                                child_port['network_id'],
+                            'mac_address':
+                                child_port['mac_address'],
+                            'parent_mac_address':
+                                parent_port['mac_addr'],
+                            'ip_address':
+                                child_port['fixed_ips'][0]['ip_address'],
+                            'parent_ip_address':
+                                parent_port['fixed_ips'][0]['ip_address'],
+                            'provider:network_type':
+                                'trunk_vlan'
+                        }
+                        nfv_server['trunk_networks'].append(trunk_dict)
+
     def _configure_vlan_trunk_vms(self, servers, key_pair, port_list_trunk):
         """Configure vlan trunks in vms
 
@@ -1059,7 +1138,6 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                         ip_command.execute('link', 'set', 'address',
                                            child_port['mac_address'], 'dev',
                                            device)
-
                         trunk_dict = {
                             'network_id':
                                 child_port['network_id'],
