@@ -82,6 +82,17 @@ class BaseTest(baremetal_manager.BareMetalManager):
         super(BaseTest, self).setUp()
         # pre setup creations and checks read from config files
 
+    def map_external_provider_network_types(self, server):
+        networks = self.os_admin.networks_client.list_networks()['networks']
+        for index, server_net in enumerate(server['provider_networks']):
+            if 'provider:network_type' not in server_net:
+                for network in networks:
+                    if server_net['network_id'] == network['id']:
+                        server['provider_networks'][index][
+                            'provider:network_type'] = \
+                            network['provider:network_type']
+        return server
+
     def verify_provider_networks(self, servers=None, key_pair=None):
         """Verifies provider networks attached to guest
 
@@ -117,6 +128,8 @@ class BaseTest(baremetal_manager.BareMetalManager):
                     provider_dict['provider:network_type'] = \
                         network[0]['provider:network_type']
                 server['provider_networks'].append(provider_dict)
+                if self.external_resources_data is not None:
+                    server = self.map_external_provider_network_types(server)
             # Create an SSH connection to server
             ssh_client = self.get_remote_client(server['fip'],
                                                 self.instance_user,
