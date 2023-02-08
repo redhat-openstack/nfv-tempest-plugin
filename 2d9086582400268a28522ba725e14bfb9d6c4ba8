@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "78dec46b_9596a6d1",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-02-08T15:07:36Z",
+      "side": 1,
+      "message": "My idea was not to be strictly dependent on the structure, having that I do not have the trunk list with the external server (as far as I know) so I did what I could with the port list without having to map it to specific servers, I can map it to servers now but I think the structure of trunk_1 is bad and if we would like to do it like this we should at least use the servers name",
+      "parentUuid": "1efde0ca_f7636b77",
+      "revId": "2d9086582400268a28522ba725e14bfb9d6c4ba8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8d5e77f1_abbf6322",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
@@ -48,6 +66,30 @@
       "writtenOn": "2023-02-08T14:42:58Z",
       "side": 1,
       "message": "why port_list_trunk[0]?\nIt contains trunk ports for each server, so 0 is for server0, 1 for server1, ....",
+      "range": {
+        "startLine": 1059,
+        "startChar": 49,
+        "endLine": 1059,
+        "endChar": 50
+      },
+      "revId": "2d9086582400268a28522ba725e14bfb9d6c4ba8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74396d6a_22b37a9b",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1059,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-02-08T15:07:36Z",
+      "side": 1,
+      "message": "from what I saw in the non-precreated VM the port_list_trunk is a list that contains a dictionary with the trunks like so\n[{\u0027trunk_1\u0027: {\u0027subports\u0027: [{\u0027port_id\u0027: \u0027f942ff7a-8e64-4fbd-8f12-8070533fae71\u0027, \u0027segmentation_id\u0027: \u0027136\u0027, \u0027segmentation_type\u0027: \u0027vlan\u0027}], \u0027parent_port\u0027: \u00273b86ca86-c954-41d6-9481-e04524d8e2c8\u0027}, \u0027trunk_2\u0027: {\u0027subports\u0027: [{\u0027port_id\u0027: \u0027a3c00846-db40-4dd6-bd1a-99ad03048db7\u0027, \u0027segmentation_id\u0027: \u0027137\u0027, \u0027segmentation_type\u0027: \u0027vlan\u0027}], \u0027parent_port\u0027: \u00279046449b-2775-48c2-a3f0-f82e36996021\u0027}}]\n\nthere is no [1] only [0]",
+      "parentUuid": "8d5e77f1_abbf6322",
       "range": {
         "startLine": 1059,
         "startChar": 49,
@@ -83,6 +125,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e239ed44_a91f73d4",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-02-08T15:07:36Z",
+      "side": 1,
+      "message": "it is the same structure, I\u0027ve just renamed this var",
+      "parentUuid": "1efaad83_090b0194",
+      "range": {
+        "startLine": 1096,
+        "startChar": 24,
+        "endLine": 1096,
+        "endChar": 34
+      },
+      "revId": "2d9086582400268a28522ba725e14bfb9d6c4ba8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c37ace1c_edf1bf4c",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
         "patchSetId": 4
@@ -94,6 +160,30 @@
       "writtenOn": "2023-02-08T14:42:58Z",
       "side": 1,
       "message": "i think we should always have this attribute. If \u0027provider:network_type\u0027 is not defined, the network will never be used. So, why do we define a network and we do not use it?",
+      "range": {
+        "startLine": 466,
+        "startChar": 46,
+        "endLine": 466,
+        "endChar": 62
+      },
+      "revId": "2d9086582400268a28522ba725e14bfb9d6c4ba8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d785e5ab_41635237",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-02-08T15:07:36Z",
+      "side": 1,
+      "message": "1st if we want it to be used by other people outside our qe team this is the safe way to do it 2nd not sure why but I had networks (I guess the trunk nets) that didn\u0027t have a provider network",
+      "parentUuid": "c37ace1c_edf1bf4c",
       "range": {
         "startLine": 466,
         "startChar": 46,
