@@ -530,13 +530,13 @@ def iperf_server(binding_ip, binding_port, duration,
             format(binding_ip, binding_port, duration,
                    protocols[protocol], log_file)
     except tempest.lib.exceptions.SSHExecCommandFailed:
-        pass
-    try:
-        ssh_client_local.exec_command('which iperf3')
-        cmd_line = "nohup iperf3 -s -B {} -p {} > {} 2>&1 &".\
-            format(binding_ip, binding_port, log_file)
-    except tempest.lib.exceptions.SSHExecCommandFailed:
-        raise ValueError("iperf/iperf3 binaries were not found in $PATH")
+        try:
+            ssh_client_local.exec_command('which iperf3')
+            cmd_line = "nohup iperf3 -s -B {} -p {} > {} 2>&1 &".\
+                format(binding_ip, binding_port, log_file)
+        except tempest.lib.exceptions.SSHExecCommandFailed:
+            raise ValueError("iperf/iperf3 binaries were not found in $PATH")
+
     LOG.debug('Started iperf server: {}'.format(cmd_line))
     ssh_client_local.exec_command(cmd_line)
     return log_file
@@ -557,20 +557,20 @@ def iperf_client(server_ip, server_port, duration,
     :return log_file: iperf output
     """
     protocols = {"tcp": "", "udp": "-u"}
-    try:
-        ssh_client_local.exec_command('which iperf')
-        iperf_binary = 'iperf'
-    except tempest.lib.exceptions.SSHExecCommandFailed:
-        pass
-    try:
-        ssh_client_local.exec_command('which iperf3')
-        iperf_binary = 'iperf3'
-    except tempest.lib.exceptions.SSHExecCommandFailed:
-        raise ValueError("iperf/iperf3 binaries were not found in $PATH")
     log_file = "/tmp/iperf_client-{}-{}-{}-{}.txt".format(server_ip,
                                                           server_port,
                                                           protocol,
                                                           duration)
+    try:
+        ssh_client_local.exec_command('which iperf')
+        iperf_binary = 'iperf'
+    except tempest.lib.exceptions.SSHExecCommandFailed:
+        try:
+            ssh_client_local.exec_command('which iperf3')
+            iperf_binary = 'iperf3'
+        except tempest.lib.exceptions.SSHExecCommandFailed:
+            raise ValueError("iperf/iperf3 binaries were not found in $PATH")
+
     cmd_line = "nohup {} -c {} -T s2 -p {} -t  {} {} > {} 2>&1 &".\
         format(iperf_binary, server_ip, server_port, duration,
                protocols[protocol], log_file)
