@@ -29,6 +29,7 @@ from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from oslo_config import cfg
 from oslo_log import log
 from oslo_serialization import jsonutils
+from swiftclient.service import SwiftError
 from tempest import config
 from tempest.lib import exceptions as lib_exc
 """Python 2 and 3 support"""
@@ -40,6 +41,54 @@ LOG = log.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
 class ManagerMixin(object):
+    def _read_config_from_swift(self, swift_container='terraform',
+                                swift_object='tfstate.tf'):
+        """This method reads from tfstate.tf and populates CONF object
+
+        cloud here is overcloud and swift container is terraform
+        tfstate is stored by default in this location
+        """
+        try:
+            sc = OsClients.overcloud_swift_client
+            object_content = sc.get_object(swift_container, swift_object)[1]
+            data = json.load(object_content)
+            # lets populate the Network, Flavor and Image sections from here
+            # Directly into CONF -
+            # CONF.network.public_network_id
+            filters = ['subnet_v2', 'network_v2', 'router_v2', 'flavor_v2']
+            for i in data['resources']:
+                for f in filters:
+                    if f in i['type']:
+                        for j in i['instances']:
+                            if 'network' in f:
+                                # networkdata
+                                LOG.info(f"Network Record retrieived {j}")
+                                if j['attributes']['name'] == ("access"):
+                                    CONF.network.public_network_id = \
+                                        j['attributes']['id']
+                            elif 'flavor' in f:
+                                # flavordata
+                                # However, we are only storing
+                                # CONF.compute.flavor_ref
+                                # which is hardcoded to 100
+                                log.info(f"flavor Record retrieved {j}")
+                                if j['attributes']['id'] == "100":
+                                    continue
+                                    # skipping since this is hard coded.
+                                CONF.compute.flavor_ref_alt = \
+                                        j['attributes']['id']
+                            elif 'router' in f:
+                                continue
+                                # routerdata
+                                # this is being discovered so populating 
+                                # this is not going to help.
+        except SwiftError as error:
+            print(f'An error occurred {error.value}: \
+                  while retrieving swift object {swift_container}->{swift_object}')
+        except Exception as error_all:
+            LOG.error(f"Failed to retrieve swift config and load to data, \
+                         please check {__name__} : {error_all}")
+
     def read_external_config_file(self):
         """This Method reads network_config.yml
 
@@ -924,7 +973,7 @@ class ManagerMixin(object):
                          'numa_aware_tunnel': {}}
         physnet_list = []
         """" Check type is list"""
-        if type(bridge_mapping) != list:
+        if not isinstance(bridge_mapping, list):
             bridge_mapping = bridge_mapping.split(',')
         for item in bridge_mapping:
             physnet = item.split(':')[0]
