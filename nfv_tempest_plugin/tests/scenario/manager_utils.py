@@ -23,7 +23,7 @@ import time
 import xml.etree.ElementTree as ELEMENTTree
 import yaml
 
-
+from swiftclient.service import SwiftError
 from nfv_tempest_plugin.services.os_clients import OsClients
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from oslo_config import cfg
@@ -40,6 +40,30 @@ LOG = log.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
 class ManagerMixin(object):
+
+    def download_swift_object(self, cloud_name, swift_container, swift_object, filename):
+        if cloud_name == 'overcloud':
+            sc = OsClients.overcloud_swift_client
+        else:
+            sc = OsClients.undercloud_swift_client
+        
+        container_name = swift_container if swift_container else 'terraform'
+        object_name = swift_object if swift_object else 'tfstate.tf'
+        
+        # Download the file 
+        # If filename is given, store the object with the given filename, 
+        # else save it with the same name as object_name
+        file_path = os.path.join(os.getcwd(), filename if filename else object_name)
+        try:
+            with open(file_path, 'wb') as f:
+                object_content = swift_client.get_object(container_name, object_name)[1]
+                # Do we populate CONF by default? or have some parameter to decide this 
+                # ie. populate_conf_from_swift
+                f.write(object_content)
+        except SwiftError as error:
+            print(f'An error occurred {error.value}: while retrieving swift object {container_name}->{object_name}')
+
+
     def read_external_config_file(self):
         """This Method reads network_config.yml
 
