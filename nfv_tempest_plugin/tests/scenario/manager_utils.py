@@ -31,6 +31,7 @@ from oslo_log import log
 from oslo_serialization import jsonutils
 from tempest import config
 from tempest.lib import exceptions as lib_exc
+from swiftclient.service import SwiftError
 """Python 2 and 3 support"""
 from six.moves import StringIO
 from six.moves.urllib.parse import urlparse
@@ -40,6 +41,31 @@ LOG = log.getLogger('{} [-] nfv_plugin_test'.format(__name__))
 
 
 class ManagerMixin(object):
+    def download_swift_object(
+            self, cloud_name, swift_container, swift_object, filename):
+        if cloud_name == 'overcloud':
+            sc = OsClients.overcloud_swift_client
+        else:
+            sc = OsClients.undercloud_swift_client
+        
+        container_name = swift_container if swift_container else 'terraform'
+        object_name = swift_object if swift_object else 'tfstate.tf'
+        
+        # Download the file 
+        # If filename is given, store the object with the given filename,
+        # else save it with the same name as object_name
+        file_path = os.path.join(os.getcwd(), filename if filename else object_name)
+        try:
+            with open(file_path, 'wb') as f:
+                object_content = sc.get_object(container_name, object_name)[1]
+                # Do we populate CONF by default? or have some parameter to
+                # decide this ie. populate_conf_from_swift
+                f.write(object_content)
+        except SwiftError as error:
+            print(f'An error occurred {error.value}: \
+                  while retrieving swift object {container_name}->{object_name}')
+
+
     def read_external_config_file(self):
         """This Method reads network_config.yml
 
