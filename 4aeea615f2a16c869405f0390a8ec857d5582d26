@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e3d8996_2b9beea0",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-03-02T10:53:17Z",
+      "side": 1,
+      "message": "I think it might be easier to send the object you would like to use",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 49
+      },
+      "revId": "4aeea615f2a16c869405f0390a8ec857d5582d26",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d55967e2_d6694d6c",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-03-02T10:53:17Z",
+      "side": 1,
+      "message": "please set defaults in the function definition like\ndef download_swift_object(self, cloudname, swift_container\u003d\u0027terraform\u0027, swift_object\u003d\u0027tfstate.tf\u0027, filename):",
+      "range": {
+        "startLine": 51,
+        "startChar": 8,
+        "endLine": 52,
+        "endChar": 68
+      },
+      "revId": "4aeea615f2a16c869405f0390a8ec857d5582d26",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5632fca5_d2cdc110",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-03-02T10:53:17Z",
+      "side": 1,
+      "message": "wouldn\u0027t it be better to just return the string with the content instead of saving it to a file?",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 39
+      },
+      "revId": "4aeea615f2a16c869405f0390a8ec857d5582d26",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
