@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9fb362e_a231eb4b",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2023-03-02T12:26:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7e3d8996_2b9beea0",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 49
+      },
+      "revId": "4aeea615f2a16c869405f0390a8ec857d5582d26",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d55967e2_d6694d6c",
@@ -47,6 +71,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08f7cb0e_a5071e80",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2023-03-02T12:26:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d55967e2_d6694d6c",
+      "range": {
+        "startLine": 51,
+        "startChar": 8,
+        "endLine": 52,
+        "endChar": 68
+      },
+      "revId": "4aeea615f2a16c869405f0390a8ec857d5582d26",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5632fca5_d2cdc110",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-03-02T10:53:17Z",
       "side": 1,
       "message": "wouldn\u0027t it be better to just return the string with the content instead of saving it to a file?",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 39
+      },
+      "revId": "4aeea615f2a16c869405f0390a8ec857d5582d26",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ed4932b_4e74a147",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2023-03-02T12:26:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5632fca5_d2cdc110",
       "range": {
         "startLine": 57,
         "startChar": 0,
