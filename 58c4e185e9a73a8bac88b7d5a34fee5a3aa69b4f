@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a7d200d_8e5e5231",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2023-03-07T08:03:46Z",
+      "side": 1,
+      "message": "Please re - review",
+      "revId": "58c4e185e9a73a8bac88b7d5a34fee5a3aa69b4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "544275ee_ca9ce5e8",
@@ -24,6 +41,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f14fecde_f1d850aa",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2023-03-07T08:03:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "544275ee_ca9ce5e8",
+      "range": {
+        "startLine": 44,
+        "startChar": 8,
+        "endLine": 44,
+        "endChar": 30
+      },
+      "revId": "58c4e185e9a73a8bac88b7d5a34fee5a3aa69b4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cea7f45_09982c2e",
@@ -37,6 +78,30 @@
       "writtenOn": "2023-03-07T06:48:21Z",
       "side": 1,
       "message": "The `swift` backend is deprecated starting from terraform `1.3.0`. We should add it to a comment.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 70
+      },
+      "revId": "58c4e185e9a73a8bac88b7d5a34fee5a3aa69b4f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb706429_1a7d19de",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2023-03-07T08:03:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4cea7f45_09982c2e",
       "range": {
         "startLine": 46,
         "startChar": 0,
