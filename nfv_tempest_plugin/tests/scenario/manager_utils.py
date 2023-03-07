@@ -625,11 +625,19 @@ class ManagerMixin(object):
         result = None
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        private_key_file = StringIO()
-        private_key_file.write(ssh_key)
-        private_key_file.seek(0)
-        ssh_key = paramiko.RSAKey.from_private_key(private_key_file)
-
+        for val in ["rsa", "ecdsa"]:
+            try:
+                if val == "ecdsa":
+                    ssh_key = paramiko.ECDSAKey.from_private_key(StringIO(ssh_key))
+                else:
+                    ssh_key = paramiko.RSAKey.from_private_key(StringIO(ssh_key))
+                key_type = val
+                break
+            except paramiko.ssh_exception.SSHException:
+                pass
+        self.assertIsNotNone(key_type,
+                             "Unknown key type, "
+                             "only supported RSA and ECDSA")
         if username is None:
             username = self.instance_user
 
