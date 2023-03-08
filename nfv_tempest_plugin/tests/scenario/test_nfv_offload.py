@@ -848,13 +848,20 @@ class TestNfvOffload(base_test.BaseTest):
             srv_pair[1]['server']['hypervisor_ip'],
             'sudo ovs-appctl dpctl/flush-conntrack')
         # If we are testing TCPm it is much easier to use iperf
+        iperf_logs = []
         if protocol == 'tcp':
-            shell_utils.iperf_server(srv_pair[0]['network']['ip_address'],
-                                     traffic_port, 84600, 'tcp',
-                                     srv_pair[0]['server']['ssh_source'])
-            shell_utils.iperf_client(srv_pair[0]['network']['ip_address'],
-                                     traffic_port, 84600, 'tcp',
-                                     srv_pair[1]['server']['ssh_source'])
+            log = shell_utils.iperf_server(
+                srv_pair[0]['network']['ip_address'],
+                traffic_port, 84600, 'tcp',
+                srv_pair[0]['server']['ssh_source'])
+            iperf_logs.append({'server': srv_pair[0]['server']['ssh_source'],
+                               'log_file': log})
+            log = shell_utils.iperf_client(
+                srv_pair[0]['network']['ip_address'],
+                traffic_port, 84600, 'tcp',
+                srv_pair[1]['server']['ssh_source'])
+            iperf_logs.append({'server': srv_pair[1]['server']['ssh_source'],
+                               'log_file': log})
         # If we are testing UDP, it is much easier to use scapy
         elif protocol == 'udp':
             ip_address_first_vm = srv_pair[0]['network']['ip_address']
@@ -891,6 +898,8 @@ class TestNfvOffload(base_test.BaseTest):
                                            protocol=protocol,
                                            l4_port=traffic_port)
 
+        for item in iperf_logs:
+            shell_utils.stop_iperf(item['server'], item['log_file'])
         return errors
 
     def check_conntrack_table(self, hyper, source, protocol, l4_port):
