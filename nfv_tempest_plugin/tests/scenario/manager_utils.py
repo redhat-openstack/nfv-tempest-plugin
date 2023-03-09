@@ -104,7 +104,7 @@ class ManagerMixin(object):
             """Hold flavor, net and images lists"""
             # TODO(read and parse to util move to util)
             # Adding routine to load CONF from tfstate.tf
-            self.read_config_from_swift()
+            self.read_terraform_state_in_swift()
             networks = self.networks_client.list_networks()['networks']
             flavors = self.flavors_client.list_flavors()['flavors']
             images = self.image_client.list_images()['images']
