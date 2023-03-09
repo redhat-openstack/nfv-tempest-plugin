@@ -50,13 +50,19 @@ class ManagerMixin(object):
         NOTE: The swift backend is deprecated starting from terraform 1.3.0
         """
         try:
-            sc = OsClients.overcloud_swift_client
+            os_client = OsClients()
+            sc = os_client.overcloud_swift_client
             object_content = sc.get_object(swift_container, swift_object)[1]
-            data = json.load(object_content)
+            # import ipdb
+            # ipdb.set_trace()
+            data = json.loads(object_content.decode('utf-8'))
         except SwiftError as error:
-            print(f'An error occurred {error.value}: \
+            LOG.error(f'Swift error occurred {error.value}: \
                     while retrieving swift object \
                     {swift_container}->{swift_object}')
+        except AttributeError as error:
+            print(f"AttributeError {error.value} --> object_content: \
+                      {object_content} type: {type(object_content)}")
 
         # lets populate the Network, Flavor and Image sections from here
         # Directly into CONF -
@@ -78,7 +84,7 @@ class ManagerMixin(object):
                             # However, we are only storing
                             # CONF.compute.flavor_ref
                             # which is hardcoded to 100
-                            log.info(f"flavor Record retrieved {j}")
+                            LOG.info(f"flavor Record retrieved {j}")
                             if j['attributes']['id'] == \
                                     CONF.compute.flavor_ref:
                                 continue
@@ -104,7 +110,7 @@ class ManagerMixin(object):
             """Hold flavor, net and images lists"""
             # TODO(read and parse to util move to util)
             # Adding routine to load CONF from tfstate.tf
-            self.read_config_from_swift()
+            self.read_terraform_state_in_swift()
             networks = self.networks_client.list_networks()['networks']
             flavors = self.flavors_client.list_flavors()['flavors']
             images = self.image_client.list_images()['images']
