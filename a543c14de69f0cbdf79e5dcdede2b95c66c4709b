@@ -39,6 +39,30 @@
       },
       "revId": "a543c14de69f0cbdf79e5dcdede2b95c66c4709b",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3c077bc_3afdcec7",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2023-03-09T19:16:27Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "32ecaed2_6f40ec32",
+      "range": {
+        "startLine": 56,
+        "startChar": 20,
+        "endLine": 56,
+        "endChar": 21
+      },
+      "revId": "a543c14de69f0cbdf79e5dcdede2b95c66c4709b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
