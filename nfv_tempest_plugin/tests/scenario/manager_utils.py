@@ -631,6 +631,7 @@ class ManagerMixin(object):
         result = None
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        key_type = None
         for val in ["rsa", "ecdsa"]:
             try:
                 if val == "ecdsa":
