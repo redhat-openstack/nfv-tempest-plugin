@@ -22,6 +22,30 @@
       },
       "revId": "60a0469f1b94e33456a57b6614f1b87124d90d34",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a295819_6caaf47b",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2023-03-10T10:42:07Z",
+      "side": 1,
+      "message": "no, i dont think show. it works as follows:\nssh_key is ecdsa\n1. ssh_key is opened as rsa\n2. exception ---\u003e pass\n3. ssh_key is opened as ecdsa\n4. key_type set as ecdsa\n\nssh_key is rsa\n1. ssh_key is opened as rsa\n2. key_type set as rsa\n\nssh_key is not either rsa or ecdsa\n1. ssh_key is opened as rsa\n2. exception ---\u003e pass\n3. ssh_key is opened as ecdsa\n4. exception ---\u003e pass\nif this is the case, key_type is not set and it will produce an error instead of an assert. I should have initialized key_type. This is not the common path, but i will initialize ssh_key in other patch",
+      "parentUuid": "2a275068_a64c7bc6",
+      "range": {
+        "startLine": 636,
+        "startChar": 16,
+        "endLine": 636,
+        "endChar": 30
+      },
+      "revId": "60a0469f1b94e33456a57b6614f1b87124d90d34",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ],
   "submitRequirementResults": []
