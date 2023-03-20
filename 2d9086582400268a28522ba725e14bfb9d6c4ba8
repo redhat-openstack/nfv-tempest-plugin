@@ -36,6 +36,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5301892_632b37c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-03-20T16:03:45Z",
+      "side": 1,
+      "message": "after looking into it there is no support in the current code for using trunk port in the external file",
+      "parentUuid": "7046940d_8d885a1d",
+      "revId": "2d9086582400268a28522ba725e14bfb9d6c4ba8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1efde0ca_f7636b77",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "My idea was not to be strictly dependent on the structure, having that I do not have the trunk list with the external server (as far as I know) so I did what I could with the port list without having to map it to specific servers, I can map it to servers now but I think the structure of trunk_1 is bad and if we would like to do it like this we should at least use the servers name",
       "parentUuid": "1efde0ca_f7636b77",
+      "revId": "2d9086582400268a28522ba725e14bfb9d6c4ba8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cba56cc_cca1d0b0",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-03-20T16:03:45Z",
+      "side": 1,
+      "message": "after looking into it there is no support in the current code for using trunk port in the external file",
+      "parentUuid": "78dec46b_9596a6d1",
       "revId": "2d9086582400268a28522ba725e14bfb9d6c4ba8",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -165,6 +201,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd104cd5_77efd087",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1096,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-03-20T16:03:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e239ed44_a91f73d4",
+      "range": {
+        "startLine": 1096,
+        "startChar": 24,
+        "endLine": 1096,
+        "endChar": 34
+      },
+      "revId": "2d9086582400268a28522ba725e14bfb9d6c4ba8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c37ace1c_edf1bf4c",
@@ -202,6 +262,30 @@
       "side": 1,
       "message": "1st if we want it to be used by other people outside our qe team this is the safe way to do it 2nd not sure why but I had networks (I guess the trunk nets) that didn\u0027t have a provider network",
       "parentUuid": "c37ace1c_edf1bf4c",
+      "range": {
+        "startLine": 466,
+        "startChar": 46,
+        "endLine": 466,
+        "endChar": 62
+      },
+      "revId": "2d9086582400268a28522ba725e14bfb9d6c4ba8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "840e3aeb_b5567ac7",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_offload.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-03-20T16:03:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d785e5ab_41635237",
       "range": {
         "startLine": 466,
         "startChar": 46,
