@@ -156,6 +156,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d72468a_016c1bca",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1059,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2023-03-21T13:28:43Z",
+      "side": 1,
+      "message": "I would not modify this function, I think it will break current testcases. Even if this would not be the case, this require many more testing to be sure that anything is broken\nIf it is not possible to have the parameters as the ones expected by this function, i would suggest to create a new function for configuring vlan trunk for the external resources.",
+      "parentUuid": "74396d6a_22b37a9b",
+      "range": {
+        "startLine": 1059,
+        "startChar": 49,
+        "endLine": 1059,
+        "endChar": 50
+      },
+      "revId": "2d9086582400268a28522ba725e14bfb9d6c4ba8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1efaad83_090b0194",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
