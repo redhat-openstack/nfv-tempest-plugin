@@ -180,6 +180,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4e84366c_491860bd",
+        "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1059,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-03-21T14:02:50Z",
+      "side": 1,
+      "message": "ok, although I believe we will have to merge them eventually",
+      "parentUuid": "5d72468a_016c1bca",
+      "range": {
+        "startLine": 1059,
+        "startChar": 49,
+        "endLine": 1059,
+        "endChar": 50
+      },
+      "revId": "2d9086582400268a28522ba725e14bfb9d6c4ba8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1efaad83_090b0194",
         "filename": "nfv_tempest_plugin/tests/scenario/baremetal_manager.py",
         "patchSetId": 4
