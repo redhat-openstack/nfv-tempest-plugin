@@ -240,18 +240,17 @@ class ManagerMixin(object):
             cmd.format(server_details['OS-EXT-SRV-ATTR:instance_name'])
         dumpxml_data = shell_utils.\
             run_command_over_ssh(hypervisor, get_dumpxml)
-        # workaround for 17 should be removed after BZ 2093860 is closed
-        if osp_version >= 17:
-            dumpxml_data = dumpxml_data.split('\r')
-            try:
-                dumpxml_data.remove(
-                    'Error registering authentication agent: '
-                    'GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed:'
-                    ' Cannot determine user of subject (polkit-error-quark,'
-                    ' 0)')
-            except ValueError:
-                LOG.info('no error message removed')
-            dumpxml_data = '\r'.join(dumpxml_data)
+        allowed_errors = [
+            # workaround for 17 should be removed after BZ 2093860 is closed
+            'Error registering authentication agent: '
+            'GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed:'
+            ' Cannot determine user of subject (polkit-error-quark,'
+            ' 0)',
+            'Authorization not available. Check if polkit service is '
+            'running or see debug message for more information.'
+        ]
+        dumpxml_data = '\r'.join(list(filter(lambda x: x not in allowed_errors,
+                                             dumpxml_data.split('\r'))))
         dumpxml_string = ELEMENTTree.fromstring(dumpxml_data)
 
         return dumpxml_string
