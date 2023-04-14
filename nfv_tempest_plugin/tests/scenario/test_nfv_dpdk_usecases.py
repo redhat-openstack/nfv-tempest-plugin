@@ -62,9 +62,15 @@ class TestDpdkScenarios(base_test.BaseTest, QoSManagerMixin):
         LOG.info('Create a flavor for the queues test.')
         queues_flavor = self.create_flavor(name='test-queues', vcpus=queues,
                                            **extra_specs)
+        extra_resource_args = {}
+        if CONF.nfv_plugin_options.target_hypervisor:
+            extra_resource_args['availability_zone'] = {
+                'hyper_hosts': [CONF.nfv_plugin_options.target_hypervisor]
+            }
         servers, key_pair = \
             self.create_server_with_resources(test='check-multiqueue-func',
-                                              flavor=queues_flavor)
+                                              flavor=queues_flavor,
+                                              **extra_resource_args)
 
         LOG.info('Check connectivity to the queues instance.')
         self.check_instance_connectivity(ip_addr=servers[0]['fip'],
@@ -168,7 +174,15 @@ class TestDpdkScenarios(base_test.BaseTest, QoSManagerMixin):
         instance vs values of the overcloud nova configuration
         """
 
-        servers, key_pair = self.create_and_verify_resources(test=test)
+        kwargs = {}
+        if CONF.nfv_plugin_options.target_hypervisor:
+            kwargs = {
+                'availability_zone': {
+                    'hyper_hosts': [CONF.nfv_plugin_options.target_hypervisor]
+                }
+            }
+        servers, key_pair = self.create_and_verify_resources(test=test,
+                                                             **kwargs)
 
         check_section = 'libvirt'
         check_value = 'rx_queue_size,tx_queue_size'

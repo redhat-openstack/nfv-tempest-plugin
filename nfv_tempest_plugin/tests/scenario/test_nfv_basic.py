@@ -55,6 +55,10 @@ class TestNfvBasic(base_test.BaseTest):
         tuned_profiles = tuning_details.get("tuned_profiles")
         kernel_args = tuning_details.get("kernel_args")
 
+        if CONF.nfv_plugin_options.target_hypervisor:
+            self.hypervisor_ip = \
+                self._get_hypervisor_ip_from_undercloud(
+                    hyper_name=CONF.nfv_plugin_options.target_hypervisor)
         self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud()[0]
         self.assertNotEmpty(self.hypervisor_ip, "No hypervisor found")
 
@@ -133,7 +137,16 @@ class TestNfvBasic(base_test.BaseTest):
         #                 inside the guest VM using network namespace
         self.assertTrue(self.fip, "Floating IP is required for mtu test")
 
-        servers, key_pair = self.create_and_verify_resources(test=test)
+        kwargs = {}
+        if CONF.nfv_plugin_options.target_hypervisor:
+            hypervisor = CONF.nfv_plugin_options.target_hypervisor
+            kwargs = {
+                'srv_details': {
+                    0: {'availability_zone': 'nova:{}'.format(hypervisor)}
+                }
+            }
+        servers, key_pair = self.create_and_verify_resources(test=test,
+                                                             **kwargs)
 
         if CONF.nfv_plugin_options.instance_def_gw_mtu:
             mtu = CONF.nfv_plugin_options.instance_def_gw_mtu
@@ -168,7 +181,17 @@ class TestNfvBasic(base_test.BaseTest):
         The test shuts down the instance, migrates it to a different
         hypervisor and brings it up to verify resize state.
         """
-        servers, key_pair = self.create_and_verify_resources(test=test)
+
+        kwargs = {}
+        if CONF.nfv_plugin_options.target_hypervisor:
+            hypervisor = CONF.nfv_plugin_options.target_hypervisor
+            kwargs = {
+                'srv_details': {
+                    0: {'availability_zone': 'nova:{}'.format(hypervisor)}
+                }
+            }
+        servers, key_pair = self.create_and_verify_resources(test=test,
+                                                             **kwargs)
 
         LOG.info('Starting the cold migration.')
         self.os_admin.servers_client. \
@@ -198,7 +221,16 @@ class TestNfvBasic(base_test.BaseTest):
                emulatorpin feature was implemented only in version 14.
         """
 
-        servers, key_pair = self.create_and_verify_resources(test=test)
+        kwargs = {}
+        if CONF.nfv_plugin_options.target_hypervisor:
+            hypervisor = CONF.nfv_plugin_options.target_hypervisor
+            kwargs = {
+                'srv_details': {
+                    0: {'availability_zone': 'nova:{}'.format(hypervisor)}
+                }
+            }
+        servers, key_pair = self.create_and_verify_resources(test=test,
+                                                             **kwargs)
 
         config_path = '/var/lib/config-data/puppet-generated' \
                       '/nova_libvirt/etc/nova/nova.conf'

@@ -46,7 +46,16 @@ class TestHypervisorScenarios(Day2Manager, AsyncUtilsManager):
         After hypervisor boot up, the instance will be started
         and tested for the accessability.
         """
-        servers, key_pair = self.create_and_verify_resources(test=test)
+
+        kwargs = {}
+        if CONF.nfv_plugin_options.target_hypervisor:
+            kwargs = {
+                'availability_zone': {
+                    'hyper_hosts': [CONF.nfv_plugin_options.target_hypervisor]
+                }
+            }
+        servers, key_pair = self.create_and_verify_resources(test=test,
+                                                             **kwargs)
         # Ensure that we are using microversion '2.32' from now
         self.useFixture(
             api_microversion_fixture.APIMicroversionFixture('2.32'))
