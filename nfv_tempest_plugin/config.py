@@ -193,5 +193,9 @@ NfvPluginOptions = [
                               'pmd_rxq_affinity': '0:3,1:5,2:7'}
                          ]
                          },
-                help='Multiqueue injector configuration')
+                help='Multiqueue injector configuration'),
+    cfg.StrOpt('target_hypervisor',
+               default='',
+               help='Preferred hypervisor.'
+                    'Establish a preferred hypervisor for test cases.'),
 ]

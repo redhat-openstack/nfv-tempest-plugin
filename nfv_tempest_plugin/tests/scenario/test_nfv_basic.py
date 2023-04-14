@@ -55,6 +55,10 @@ class TestNfvBasic(base_test.BaseTest):
         tuned_profiles = tuning_details.get("tuned_profiles")
         kernel_args = tuning_details.get("kernel_args")
 
+        if CONF.nfv_plugin_options.target_hypervisor:
+            self.hypervisor_ip = \
+                self._get_hypervisor_ip_from_undercloud(
+                    hyper_name=CONF.nfv_plugin_options.target_hypervisor)
         self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud()[0]
         self.assertNotEmpty(self.hypervisor_ip, "No hypervisor found")
 
@@ -133,7 +137,16 @@ class TestNfvBasic(base_test.BaseTest):
         #                 inside the guest VM using network namespace
         self.assertTrue(self.fip, "Floating IP is required for mtu test")
 
-        servers, key_pair = self.create_and_verify_resources(test=test)
+        kwargs = {}
+        if CONF.nfv_plugin_options.target_hypervisor:
+            kwargs = {
+                'availability_zone': {
+                    'hyper_hosts': [CONF.nfv_plugin_options.target_hypervisor]
+                }
+            }
+
+        servers, key_pair = self.create_and_verify_resources(test=test,
+                                                             **kwargs)
 
         if CONF.nfv_plugin_options.instance_def_gw_mtu:
             mtu = CONF.nfv_plugin_options.instance_def_gw_mtu
@@ -197,23 +210,29 @@ class TestNfvBasic(base_test.BaseTest):
         Note - The test suit only for RHOS version 14 and up, since the
                emulatorpin feature was implemented only in version 14.
         """
+        kwargs = {}
+        if CONF.nfv_plugin_options.target_hypervisor:
+            kwargs = {
+                'availability_zone': {
+                    'hyper_hosts': [CONF.nfv_plugin_options.target_hypervisor]
+                }
+            }
 
-        servers, key_pair = self.create_and_verify_resources(test=test)
+        servers, key_pair = self.create_and_verify_resources(test=test, **kwargs)
 
         config_path = '/var/lib/config-data/puppet-generated' \
                       '/nova_libvirt/etc/nova/nova.conf'
         check_section = 'compute'
         check_value = 'cpu_shared_set'
 
-        for srv in servers:
-            LOG.info('Test emulatorpin for the {} instance'.format(srv['fip']))
-            return_value = self. \
-                compare_emulatorpin_to_overcloud_config(srv,
-                                                        srv['hypervisor_ip'],
-                                                        config_path,
-                                                        check_section,
-                                                        check_value)
-            self.assertTrue(return_value, 'The emulatorpin test failed. '
-                                          'The values of the instance and '
-                                          'nova does not match.')
+        LOG.info('Test emulatorpin for the {} instance'.format(servers[0]['fip']))
+        return_value = self. \
+            compare_emulatorpin_to_overcloud_config(servers[0],
+                                                    servers[0]['hypervisor_ip'],
+                                                    config_path,
+                                                    check_section,
+                                                    check_value)
+        self.assertTrue(return_value, 'The emulatorpin test failed. '
+                                      'The values of the instance and '
+                                      'nova does not match.')
         LOG.info('The {} test passed.'.format(test))

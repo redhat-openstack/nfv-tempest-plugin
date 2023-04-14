@@ -47,7 +47,15 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         The test search 'trust on' configuration in the instance interfaces.
         """
         trusted_vfs_mac_addresses = []
-        servers, key_pair = self.create_and_verify_resources(test=test)
+        kwargs = {}
+        if CONF.nfv_plugin_options.target_hypervisor:
+            kwargs = {
+                'availability_zone': {
+                    'hyper_hosts': [CONF.nfv_plugin_options.target_hypervisor]
+                }
+            }
+        servers, key_pair = self.create_and_verify_resources(test=test,
+                                                             **kwargs)
         LOG.info('List ports and search for "trusted" in binding profile.')
         ports = self.os_admin.ports_client.list_ports(
             device_id=servers[0]['id'])
@@ -261,6 +269,10 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
             qos_rules.update(rule)
         self.create_qos_policy_with_rules(**qos_rules)
         resource_args = {'set_qos': True}
+        if CONF.nfv_plugin_options.target_hypervisor:
+            resource_args['availability_zone'] = {
+                'hyper_hosts': [CONF.nfv_plugin_options.target_hypervisor]
+            }
         servers, key_pair = self.create_and_verify_resources(test=test,
                                                              **resource_args)
         # Iterate over servers
@@ -279,6 +291,10 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         self.create_qos_policy_with_rules(**qos_rules)
         # Create servers
         resource_args = {'set_qos': False}
+        if CONF.nfv_plugin_options.target_hypervisor:
+            resource_args['availability_zone'] = {
+                'hyper_hosts': [CONF.nfv_plugin_options.target_hypervisor]
+            }
         servers, key_pair = self.create_and_verify_resources(test=test,
                                                              **resource_args)
         # search for min_qos port
