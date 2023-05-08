@@ -14,7 +14,7 @@
 #    under the License.
 
 import re
-import threading
+import time
 
 from enum import IntEnum
 from math import ceil
@@ -140,6 +140,13 @@ class QoSManagerMixin(object):
                                 'Unable to qos policy '
                                 'self.qos_policy_groups is Empty')
         if 'min_kbps' in kwargs:
+            # In some backends (when TC is used) it is needed to configure
+            # max-bw(ceil) in order to be able to configure min-bw(rate)
+            # we set max_rate 10% more than min rate for testing
+            max_rate = int(kwargs['min_kbps'] * 1.1)
+            self.create_max_bw_qos_rule(
+                policy_id=qos_policy_groups['id'],
+                max_kbps=max_rate, max_burst_kbps=max_rate)
             self.create_min_bw_qos_rule(
                 policy_id=qos_policy_groups['id'],
                 min_kbps=kwargs['min_kbps'])
@@ -244,19 +251,17 @@ class QoSManagerMixin(object):
                                           private_key=key_pair[
                                               'private_key'])
 
-        server_command = "sudo yum install iperf -y; "
-        log_5102 = QoSManagerMixin.LOG_5102
-        log_5101 = QoSManagerMixin.LOG_5101
-        server_command += \
-            "(nohup iperf -s -B {} -p 5102 -i 10 > {} 2>&1)& ".format(
-                ip_addr, log_5102)
-        server_command += \
-            "(nohup iperf -s -B {} -p 5101 -i 10 > {} 2>&1)& ".format(
-                ip_addr, log_5101)
-        LOG.info('Receive iperf traffic from Server3...')
-        ssh_dest.exec_command(server_command)
+        install_iperf_command = "sudo yum install iperf3 -y || echo"
+        install_iperf_command += ";sudo yum install iperf -y || echo"
+        ssh_dest.exec_command(install_iperf_command)
 
-        install_iperf_command = "sudo yum install iperf -y"
+        shell_utils.iperf_server(ip_addr, 5102, 60, "tcp", ssh_dest,
+                                 QoSManagerMixin.LOG_5102)
+        shell_utils.iperf_server(ip_addr, 5101, 60, "tcp", ssh_dest,
+                                 QoSManagerMixin.LOG_5101)
+
+        LOG.info('Receive iperf traffic from Server3...')
+
         ssh_source1 = self. \
             get_remote_client(servers[srv.CLIENT_1]['fip'],
                               username=self.instance_user,
@@ -269,26 +274,12 @@ class QoSManagerMixin(object):
                               private_key=key_pair['private_key'])
         LOG.info('Installing iperf on Server2...')
         ssh_source2.exec_command(install_iperf_command)
-        # must run in background, to check guaranteed min/bw for client1
-        # Running vm CLIENT_2 initially, since it serves as one helper
-        # nohup iperf -c 40.0.0.130 -T s2 -p 5101 -t  2>&1 &
-        # (nohup iperf -c 40.0.0.164 -T s2 -p 5101 -t 60 >
-        # /tmp/iperf.out 2>&1)&"
-        threads = []
-        threads.append(threading.Thread(target=ssh_source1.exec_command,
-                                        args=("iperf -c {} -T s1 -p {} -t 120 "
-                                              " > /tmp/iperf.out 2>&1"
-                                              .format(ip_addr, '5101'),)))
-        threads.append(threading.Thread(target=ssh_source2.exec_command,
-                                        args=("iperf -c {} -T s1 -p {} -t 120 "
-                                              " > /tmp/iperf.out 2>&1"
-                                              .format(ip_addr, '5102'),)))
-        for theread in threads:
-            theread.start()
 
-        LOG.info('Waiting for all iperf threads to complete')
-        for theread in threads:
-            theread.join()
+        shell_utils.iperf_client(ip_addr, 5101, 60, "tcp", ssh_source1)
+        shell_utils.iperf_client(ip_addr, 5102, 60, "tcp", ssh_source2)
+
+        # wait for iperf to finish
+        time.sleep(60)
 
     def collect_iperf_results(self, qos_rules_list=[],
                               servers=[], key_pair=[]):
@@ -303,18 +294,17 @@ class QoSManagerMixin(object):
         """
         srv = QoSManagerMixin.Servers
         log_files = [QoSManagerMixin.LOG_5101, QoSManagerMixin.LOG_5102]
-        # Run grep command over iperf server to verify BW is OK
-        # File format is as following
-        # [  4]  0.0-10.0 sec  4.76 GBytes  4.09 Gbits/sec
-        # [  4] 10.0-20.0 sec  4.76 GBytes  4.09 Gbits/sec
-        # cat /tmp/listen-5101.txt | while read line ; do
-        # if [[ $line =~ [[:space:]]([0-9]{1,2}.[0-9]{1,2})[[:space:]]Gbits ]];
-        # then echo ${BASH_REMATCH[1]}; fi ; done
+
         LOG.info('Collect iperf logs from iperf server, server3...')
-        command = r"cat {} | while read line ;do  "
-        command += r"if [[ \"$line\" =~ [[:space:]]"
-        command += r"([0-9]{1,2}\.[0-9]{1,2})[[:space:]]Gbits ]]; "
-        command += r"then echo \"${BASH_REMATCH[1]}\"; fi; done| sort| uniq"
+
+        # This format
+        # [ID]    Interval        Transfer     Bitrate
+        # [ 5]    0.00-11.77 sec  5.93 GBytes  4.32 Gbits/sec       receiver
+        # or this other format
+        # [ ID]    Interval        Transfer     Bitrate
+        # [  5]    0.00-50.22 sec  53.5 GBytes  9.15 Gbits/sec       iperf3: interrupt - the server has terminated # noqa
+        # receiver
+        command = r"grep -B 1 receiver {} |grep  Gbits | awk '{print $7}'"
         # Receive result with number
         ssh_dest = self.get_remote_client(servers[srv.SERVER]['fip'],
                                           username=self.instance_user,
@@ -325,22 +315,22 @@ class QoSManagerMixin(object):
             # If Default QoS, such as min_bw check only srv.CLIENT_1
             if len(self.qos_policy_groups) > 0 and index == srv.CLIENT_2:
                 break
-            out_testing = ssh_dest. \
+            rate = ssh_dest. \
                 exec_command(command.replace('{}', log_files[index]))
-            iperf_rep = \
-                [i for i in (out_testing.encode('utf8')).split() if i != '']
+
             self.assertNotEmpty(
-                iperf_rep, "Please check QoS definitions, iperf result for "
+                rate, "Please check QoS definitions, iperf result for "
                 "in file {} is empty or low".format(log_files[index]))
-            # Apply average for result
-            res = [float(i.decode("utf-8").
-                         replace('"', '')) for i in iperf_rep]
-            rep = sum(res) / len(res)
+
             qos_type = 'max_kbps'
             # In case of min_bw only one policy is set
             if 'min_kbps' in qos_rules_list[srv(index)]:
                 qos_type = 'min_kbps'
-            self.calculate_deviation(test_type=qos_type, result_number=rep,
+            LOG.info('test_type {}, result_number {}, rate_limit {}'
+                     .format(qos_type, float(rate),
+                             qos_rules_list[srv(index)][qos_type]))
+            self.calculate_deviation(test_type=qos_type,
+                                     result_number=float(rate),
                                      rate_limit=qos_rules_list[
                                          srv(index)][qos_type])
 
