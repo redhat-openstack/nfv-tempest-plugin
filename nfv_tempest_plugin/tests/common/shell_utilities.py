@@ -432,6 +432,24 @@ def find_vm_interface(ports=[],
             if port['binding:vnic_type'] == vnic_type][0]
 
 
+def find_vm_interface_network_id(ports=[],
+                                 network_id=None):
+    """find vm interface with network_id
+
+    The function receive port list and search for requested
+    network_id.
+
+    :param ports: ports connected to specific server
+    :param network_id: network_id
+
+    return port_id, ip_address
+    """
+    assert len(ports), 'ports is empty or None'
+    return [[port['id'], port['fixed_ips'][0]['ip_address']]
+            for port in ports['ports']
+            if port['network_id'] == network_id][0]
+
+
 def continuous_ping(ip_dest,
                     mtu=1422,
                     duration=10,
@@ -505,7 +523,7 @@ def get_vf_from_mac(mac, hypervisor_ip):
 
 
 def iperf_server(binding_ip, binding_port, duration,
-                 protocol, ssh_client_local):
+                 protocol, ssh_client_local, log_file=""):
     """execute iperf server
 
     The function executes iperf server in background mode
@@ -516,14 +534,16 @@ def iperf_server(binding_ip, binding_port, duration,
     :param protocol: udp or tcp
     :param ssh_client_local: ssh client to them vm from which
            iperf will be executed
+    :param log_file: log file to use
     :return log_file: iperf output
     """
     # Check if iperf binary is present in $PATH
     protocols = {"tcp": "", "udp": "-u"}
-    log_file = "/tmp/iperf_server-{}-{}-{}-{}.txt".format(binding_ip,
-                                                          binding_port,
-                                                          protocol,
-                                                          duration)
+    if log_file == "":
+        log_file = "/tmp/iperf_server-{}-{}-{}-{}.txt".format(binding_ip,
+                                                              binding_port,
+                                                              protocol,
+                                                              duration)
     try:
         ssh_client_local.exec_command('which iperf')
         cmd_line = "nohup iperf -s -B {} -p {} -t {} {} > {} 2>&1 &".\
@@ -532,8 +552,8 @@ def iperf_server(binding_ip, binding_port, duration,
     except tempest.lib.exceptions.SSHExecCommandFailed:
         try:
             ssh_client_local.exec_command('which iperf3')
-            cmd_line = "nohup iperf3 -s -B {} -p {} > {} 2>&1 &".\
-                format(binding_ip, binding_port, log_file)
+            cmd_line = "nohup timeout {} iperf3 -s -B {} -p {} > {} 2>&1 &".\
+                format(duration, binding_ip, binding_port, log_file)
         except tempest.lib.exceptions.SSHExecCommandFailed:
             raise ValueError("iperf/iperf3 binaries were not found in $PATH")
 
@@ -543,7 +563,7 @@ def iperf_server(binding_ip, binding_port, duration,
 
 
 def iperf_client(server_ip, server_port, duration,
-                 protocol, ssh_client_local):
+                 protocol, ssh_client_local, log_file=""):
     """execute iperf server
 
     The function executes iperf client in background mode
@@ -554,13 +574,16 @@ def iperf_client(server_ip, server_port, duration,
     :param protocol: udp or tcp
     :param ssh_client_local: ssh client to them vm from which
            iperf will be executed
+    :param log_file: log file
     :return log_file: iperf output
     """
     protocols = {"tcp": "", "udp": "-u"}
-    log_file = "/tmp/iperf_client-{}-{}-{}-{}.txt".format(server_ip,
-                                                          server_port,
-                                                          protocol,
-                                                          duration)
+
+    if log_file == "":
+        log_file = "/tmp/iperf_client-{}-{}-{}-{}.txt".format(server_ip,
+                                                              server_port,
+                                                              protocol,
+                                                              duration)
     try:
         ssh_client_local.exec_command('which iperf')
         iperf_binary = 'iperf'
