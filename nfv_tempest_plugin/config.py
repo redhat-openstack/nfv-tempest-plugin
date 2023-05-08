@@ -87,9 +87,9 @@ NfvPluginOptions = [
                     '"port_range_max":<max_port_range> - string '
                     '"port_range_min":<min_port_range> - string '),
     cfg.StrOpt('max_qos_rules',
-               default='[{"max_kbps": 4000000, "max_burst_kbps": 4000000 }'
+               default='[{"max_kbps": 2000000, "max_burst_kbps": 2000000 }'
                        ','
-                       ' {"max_kbps": 9000000, "max_burst_kbps": 4000000 }]',
+                       ' {"max_kbps": 4000000, "max_burst_kbps": 4000000 }]',
                help='Configuration for max qos rules.'
                     'The format is JSON. '
                     '"max_kbps":<kbps> - string '
