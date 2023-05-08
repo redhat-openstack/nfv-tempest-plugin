@@ -95,7 +95,7 @@ NfvPluginOptions = [
                     '"max_kbps":<kbps> - string '
                     '"max_burst_kbps":<kbps> - string '),
     cfg.StrOpt('min_qos_rules',
-               default='[{"min_kbps": 25000000}]',
+               default='[{"min_kbps": 25000000}, {"max_kbps": 40000000}]',
                help='Configuration for min qos rules.'
                     'The format is JSON. '
                     '"min_kbps":<kbps> - string '),

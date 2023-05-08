@@ -140,6 +140,10 @@ class QoSManagerMixin(object):
                                 'Unable to qos policy '
                                 'self.qos_policy_groups is Empty')
         if 'min_kbps' in kwargs:
+            self.create_max_bw_qos_rule(
+                policy_id=qos_policy_groups['id'],
+                max_kbps=kwargs['max_kbps'])
+            kwargs.pop('max_kbps')
             self.create_min_bw_qos_rule(
                 policy_id=qos_policy_groups['id'],
                 min_kbps=kwargs['min_kbps'])
@@ -232,6 +236,7 @@ class QoSManagerMixin(object):
         LOG.info('Update client ports with QoS policies...')
         # Assume server is the last server index 2,
         # In case one policy parsed, CLIENT_1 is the tested port
+        # Assume there is only one policy
         [self.update_port(
             tested_ports[i][0],
             **{'qos_policy_id': qos_policies[i]['id']})
@@ -244,19 +249,17 @@ class QoSManagerMixin(object):
                                           private_key=key_pair[
                                               'private_key'])
 
-        server_command = "sudo yum install iperf -y; "
-        log_5102 = QoSManagerMixin.LOG_5102
-        log_5101 = QoSManagerMixin.LOG_5101
-        server_command += \
-            "(nohup iperf -s -B {} -p 5102 -i 10 > {} 2>&1)& ".format(
-                ip_addr, log_5102)
-        server_command += \
-            "(nohup iperf -s -B {} -p 5101 -i 10 > {} 2>&1)& ".format(
-                ip_addr, log_5101)
-        LOG.info('Receive iperf traffic from Server3...')
-        ssh_dest.exec_command(server_command)
+        install_iperf_command = "sudo yum install iperf3 -y || echo"
+        install_iperf_command += ";sudo yum install iperf -y || echo"
+        ssh_dest.exec_command(install_iperf_command)
 
-        install_iperf_command = "sudo yum install iperf -y"
+        shell_utils.iperf_server(ip_addr, 5102, 10, "tcp", ssh_dest,
+                                 QoSManagerMixin.LOG_5102)
+        shell_utils.iperf_server(ip_addr, 5101, 10, "tcp", ssh_dest,
+                                 QoSManagerMixin.LOG_5101)
+
+        LOG.info('Receive iperf traffic from Server3...')
+
         ssh_source1 = self. \
             get_remote_client(servers[srv.CLIENT_1]['fip'],
                               username=self.instance_user,
@@ -274,21 +277,9 @@ class QoSManagerMixin(object):
         # nohup iperf -c 40.0.0.130 -T s2 -p 5101 -t  2>&1 &
         # (nohup iperf -c 40.0.0.164 -T s2 -p 5101 -t 60 >
         # /tmp/iperf.out 2>&1)&"
-        threads = []
-        threads.append(threading.Thread(target=ssh_source1.exec_command,
-                                        args=("iperf -c {} -T s1 -p {} -t 120 "
-                                              " > /tmp/iperf.out 2>&1"
-                                              .format(ip_addr, '5101'),)))
-        threads.append(threading.Thread(target=ssh_source2.exec_command,
-                                        args=("iperf -c {} -T s1 -p {} -t 120 "
-                                              " > /tmp/iperf.out 2>&1"
-                                              .format(ip_addr, '5102'),)))
-        for theread in threads:
-            theread.start()
 
-        LOG.info('Waiting for all iperf threads to complete')
-        for theread in threads:
-            theread.join()
+        shell_utils.iperf_client(ip_addr, 5102, 120, "tcp", ssh_source1)
+        shell_utils.iperf_client(ip_addr, 5101, 120, "tcp", ssh_source2)
 
     def collect_iperf_results(self, qos_rules_list=[],
                               servers=[], key_pair=[]):
