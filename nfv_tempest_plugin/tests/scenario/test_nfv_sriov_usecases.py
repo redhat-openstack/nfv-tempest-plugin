@@ -15,7 +15,6 @@
 
 import json
 import re
-import six
 import time
 
 
@@ -407,7 +406,10 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         LOG.info('Create QoS Policies...')
         qos_policies = [self.create_qos_policy_with_rules(
             use_default=False, **i) for i in qos_rules_list]
-        self.run_iperf_test(qos_policies, servers, key_pair)
+        net_id = [net[1]['net-id']
+                  for net in self.test_network_dict.items()
+                  if 'min_qos' in net[1].keys() and net[1]['min_qos']][0]
+        self.run_iperf_test(qos_policies, servers, key_pair, net_id)
         self.collect_iperf_results(qos_rules_list, servers, key_pair)
 
     def test_sriov_min_qos(self, test='min_qos'):
@@ -421,6 +423,9 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         two iperf clients, with min_qos defined run against iperf server.
         The test search for Traffic per second and compare against ports
         seeings
+
+        Provided with the vf network details:
+        min_qos: true
         """
 
         LOG.info('Start SRIOV Min QoS test, search for Mellanox nics')
@@ -445,22 +450,14 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         qos_rules = \
             json.loads(CONF.nfv_plugin_options.min_qos_rules)
         qos_rules_list = [x for x in qos_rules]
-        LOG.info('SRIOV Min QoS test, '
-                 'learn provider network attached to device.')
-        # Assuming both computes have the same hw
-        # searching for physnet of Mellanox
-        devices = \
-            [re.split(r'\s+', i)[1] for i in six.next(six.itervalues(result))]
-        pci_list = shell_utils.\
-            get_value_from_ini_config(six.next(six.iterkeys(result)),
-                                      kw_args['file_path'],
-                                      kw_args['search_param']['section'],
-                                      kw_args['search_param']['value'],
-                                      kw_args['multi_key_values'])
-        pci_list = '[' + pci_list + ']'
-        json_list = json.loads(pci_list.replace("\n", ","))
-        net_name = [pci_item['physical_network'] for pci_item in json_list
-                    if pci_item['devname'] == devices[0]]
+
+        sriov_nets = [net['physical_network']
+                      for net in self.external_config['test-networks']
+                      if 'min_qos' in net.keys() and net['min_qos']]
+        if len(sriov_nets) != 1:
+            raise ValueError('There should be a single test-network '
+                             'with min_qos configured: '
+                             '{}'.format(sriov_nets))
 
         LOG.info('SRIOV Min QoS test, create test vms.')
         # Test deploy 3 VMS on single hypervisor.
@@ -470,7 +467,7 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
             {'availability_zone': {'hyper_hosts': [hyper[0]
                                                    ['hypervisor_hostname']]}}
         default_port_type = \
-            {'ports_filter': "{}:{}".format('external,direct', net_name[0])}
+            {'ports_filter': "{}".format('external,direct:' + sriov_nets[0])}
         kw_test['num_servers'] = 3
         kw_test['srv_details'] = {0: default_port_type,
                                   1: default_port_type,
@@ -484,6 +481,9 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         qos_policies = [self.create_qos_policy_with_rules(
             use_default=True, **i) for i in qos_rules_list]
         LOG.info('SRIOV Min QoS test, run test.')
-        self.run_iperf_test(qos_policies, servers, key_pair)
+        net_id = [net[1]['net-id']
+                  for net in self.test_network_dict.items()
+                  if 'min_qos' in net[1].keys() and net[1]['min_qos']][0]
+        self.run_iperf_test(qos_policies, servers, key_pair, net_id)
         LOG.info('SRIOV Min QoS test, check test result.')
         self.collect_iperf_results(qos_rules_list, servers, key_pair)
