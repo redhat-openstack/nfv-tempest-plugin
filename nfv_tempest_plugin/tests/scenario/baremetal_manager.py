@@ -486,8 +486,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         else:
             subnets.append(mgmt_net['subnet-id'])
         seen_routers = self.os_admin.routers_client.list_routers()['routers']
-        self.assertEqual(len(seen_routers), 1,
-                         "Test require 1 admin router. please check")
+        self.assertGreater(len(seen_routers), 0,
+                           "Test require at least admin router. please check")
         for subnet in subnets:
             self.os_admin.routers_client.add_router_interface(
                 seen_routers[0]['id'], subnet_id=subnet)
