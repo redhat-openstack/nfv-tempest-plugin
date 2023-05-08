@@ -407,7 +407,10 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         LOG.info('Create QoS Policies...')
         qos_policies = [self.create_qos_policy_with_rules(
             use_default=False, **i) for i in qos_rules_list]
-        self.run_iperf_test(qos_policies, servers, key_pair)
+        net_id = [net[1]['net-id']
+                  for net in self.test_network_dict.items()
+                  if 'min_qos' in net[1].keys() and net[1]['min_qos']][0]
+        self.run_iperf_test(qos_policies, servers, key_pair, net_id)
         self.collect_iperf_results(qos_rules_list, servers, key_pair)
 
     def test_sriov_min_qos(self, test='min_qos'):
@@ -484,6 +487,9 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         qos_policies = [self.create_qos_policy_with_rules(
             use_default=True, **i) for i in qos_rules_list]
         LOG.info('SRIOV Min QoS test, run test.')
-        self.run_iperf_test(qos_policies, servers, key_pair)
+        net_id = [net[1]['net-id']
+                  for net in self.test_network_dict.items()
+                  if 'min_qos' in net[1].keys() and net[1]['min_qos']][0]
+        self.run_iperf_test(qos_policies, servers, key_pair, net_id)
         LOG.info('SRIOV Min QoS test, check test result.')
         self.collect_iperf_results(qos_rules_list, servers, key_pair)
