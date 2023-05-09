@@ -866,6 +866,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                     override_details[num]['ports_filter'].\
                                     split(","):
                                 kwargs['networks'].remove(net)
+                if 'availability_zone' in override_details[num]:
+                    kwargs['availability_zone'] = \
+                        override_details[num]['availability_zone']
 
             """ If this parameters exist, parse only mgmt network.
             Example live migration can't run with SRIOV ports attached"""
