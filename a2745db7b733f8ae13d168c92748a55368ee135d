@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "1e3da83f_3f8b11ed",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
@@ -20,10 +21,10 @@
         "endChar": 60
       },
       "revId": "a2745db7b733f8ae13d168c92748a55368ee135d",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "6023cb15_7126ef90",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
@@ -44,10 +45,10 @@
         "endChar": 60
       },
       "revId": "a2745db7b733f8ae13d168c92748a55368ee135d",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "17bcfc58_d0b22740",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
@@ -68,10 +69,10 @@
         "endChar": 60
       },
       "revId": "a2745db7b733f8ae13d168c92748a55368ee135d",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": false
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "25c2d7e9_c4fd6792",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
@@ -91,10 +92,10 @@
         "endChar": 63
       },
       "revId": "a2745db7b733f8ae13d168c92748a55368ee135d",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c012d206_d9ca4405",
         "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
@@ -115,8 +116,31 @@
         "endChar": 63
       },
       "revId": "a2745db7b733f8ae13d168c92748a55368ee135d",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4aff3a73_b1e151db",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_igmp_snooping_usecases.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2023-05-17T09:19:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c012d206_d9ca4405",
+      "range": {
+        "startLine": 226,
+        "startChar": 8,
+        "endLine": 228,
+        "endChar": 63
+      },
+      "revId": "a2745db7b733f8ae13d168c92748a55368ee135d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
