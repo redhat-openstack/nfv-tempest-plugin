@@ -1056,6 +1056,9 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             for s in servers:
                 if s['name'] == os_server.name:
                     nfv_server = s
+                    break
+            else:
+                continue
 
             nfv_server['trunk_networks'] = []
             ssh_client = ssh.Client(host=nfv_server['fip'],
