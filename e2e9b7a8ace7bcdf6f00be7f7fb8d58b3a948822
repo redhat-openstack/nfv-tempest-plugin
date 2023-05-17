@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "08aeed3d_07688adf",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
@@ -20,10 +21,10 @@
         "endChar": 59
       },
       "revId": "e2e9b7a8ace7bcdf6f00be7f7fb8d58b3a948822",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "8703d75d_42af4f07",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
@@ -44,8 +45,31 @@
         "endChar": 59
       },
       "revId": "e2e9b7a8ace7bcdf6f00be7f7fb8d58b3a948822",
-      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
-      "unresolved": true
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f7fb7eb_af900d86",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_sriov_usecases.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2023-05-17T09:18:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8703d75d_42af4f07",
+      "range": {
+        "startLine": 88,
+        "startChar": 3,
+        "endLine": 89,
+        "endChar": 59
+      },
+      "revId": "e2e9b7a8ace7bcdf6f00be7f7fb8d58b3a948822",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
