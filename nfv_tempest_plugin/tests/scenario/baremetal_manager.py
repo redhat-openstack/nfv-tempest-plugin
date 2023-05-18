@@ -876,8 +876,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                 del (kwargs['networks'][1:])
 
             LOG.info('Create instance - {}'.format(num + 1))
-            servers.append(self.create_server(**kwargs))
-        for num, server in enumerate(servers):
+            server = self.create_server(**kwargs)
+            servers.append(server)
             waiters.wait_for_server_status(self.os_admin.servers_client,
                                            server['id'], srv_state,
                                            raise_on_error=raise_on_error)
