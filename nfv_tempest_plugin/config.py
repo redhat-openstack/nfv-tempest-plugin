@@ -140,6 +140,9 @@ NfvPluginOptions = [
                 default=[],
                 help='Network interfaces to be tested for the offload test. '
                      'By default, the nics discovered automatically'),
+    cfg.ListOpt('aggregate_flavors',
+                default=[],
+                help='Each flavor represents a host aggregation'),
     cfg.IntOpt('offload_num_vms',
                default=4,
                help="Num of vms in testcase test_offload_ovs_flows"),
