@@ -566,16 +566,30 @@ class TestNfvOffload(base_test.BaseTest):
         offload_injection_time = int(
             CONF.nfv_plugin_options.offload_injection_time)
         tcpdump_time = int(CONF.nfv_plugin_options.tcpdump_time)
-        LOG.info('test_offload_ovs_flows create {} vms'.format(num_vms))
+        offload_flavors = [int(flavor) for flavor in
+                           CONF.nfv_plugin_options.offload_flavors]
+        LOG.info('run_offload_testcase create {} vms'.format(num_vms))
 
         # only needed networks will be created
         full_test_network = self.external_config['test-networks']
         self.external_config['test-networks'] = \
             self.filter_test_networks(full_test_network, network_type)
 
-        # Create servers
+        # Used host aggregation
+        kw_test = dict()
+        kw_test['num_servers'] = num_vms
+        LOG.info('run_offload_testcase Using flavors {}'.
+                 format(str(','.join(str(flavor)
+                                     for flavor in offload_flavors))))
+        if len(offload_flavors) > 0:
+            kw_test['srv_details'] = {}
+            for vm in range(num_vms):
+                kw_test['srv_details'][vm] = dict()
+                kw_test['srv_details'][vm]['flavor'] = \
+                    offload_flavors[vm % len(offload_flavors)]
+
         servers, key_pair = self.create_and_verify_resources(
-            test=test, num_servers=num_vms)
+            test=test, **kw_test)
 
         if sec_groups and not self.sec_groups:
             raise ValueError("Security groups are required for this test")
