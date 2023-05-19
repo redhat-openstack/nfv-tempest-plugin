@@ -573,9 +573,18 @@ class TestNfvOffload(base_test.BaseTest):
         self.external_config['test-networks'] = \
             self.filter_test_networks(full_test_network, network_type)
 
-        # Create servers
+        # Spawn vms in all hypervisors
+        hyper = self.hypervisor_client.list_hypervisors()['hypervisors']
+
+        kw_test['num_servers'] = num_vms
+        kw_test['srv_details'] = {}
+        for vm in range(num_vms):
+            kw_test['srv_details'][vm] = \
+                {'availability_zone': {'hyper_hosts': [
+                    hyper[vm % len(hyper)]['hypervisor_hostname']]}}
+
         servers, key_pair = self.create_and_verify_resources(
-            test=test, num_servers=num_vms)
+            test=test, **kw_test)
 
         if sec_groups and not self.sec_groups:
             raise ValueError("Security groups are required for this test")
