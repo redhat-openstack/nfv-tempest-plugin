@@ -546,13 +546,13 @@ def iperf_server(binding_ip, binding_port, duration,
                                                               duration)
     try:
         ssh_client_local.exec_command('which iperf')
-        cmd_line = "nohup iperf -s -B {} -p {} -t {} {} > {} 2>&1 &".\
+        cmd_line = "nohup sh -c \"echo $$; exec iperf -s -B {} -p {} -t {} {} \" > {} 2>&1 &".\
             format(binding_ip, binding_port, duration,
                    protocols[protocol], log_file)
     except tempest.lib.exceptions.SSHExecCommandFailed:
         try:
             ssh_client_local.exec_command('which iperf3')
-            cmd_line = "nohup timeout {} iperf3 -s -B {} -p {} > {} 2>&1 &".\
+            cmd_line = "nohup sh -c \"echo $$; exec timeout {} iperf3 -s -B {} -p {} \" > {} 2>&1 &".\
                 format(duration, binding_ip, binding_port, log_file)
         except tempest.lib.exceptions.SSHExecCommandFailed:
             raise ValueError("iperf/iperf3 binaries were not found in $PATH")
@@ -594,7 +594,7 @@ def iperf_client(server_ip, server_port, duration,
         except tempest.lib.exceptions.SSHExecCommandFailed:
             raise ValueError("iperf/iperf3 binaries were not found in $PATH")
 
-    cmd_line = "nohup {} -c {} -T s2 -p {} -t  {} {} > {} 2>&1 &".\
+    cmd_line = "nohup sh -c \"echo $$; exec {} -c {} -T s2 -p {} -t  {} {} > {} \" 2>&1 &".\
         format(iperf_binary, server_ip, server_port, duration,
                protocols[protocol], log_file)
 
@@ -612,9 +612,11 @@ def stop_iperf(ssh_client_local, iperf_file):
     :param iperf_file: iperf file with its output
     :return iperf_output: content of iperf_file
     """
-    stop_cmd = '(if pgrep iperf; then sudo pkill iperf;' \
-               ' fi; file={}; sudo cat $file; sudo rm $file)' \
-               ' 2>&1'.format(iperf_file)
+    # File is like this, so pid is second line
+    # nohup: ignoring input
+    # 6124
+    stop_cmd = '(file={}; sudo kill $(head -1 $file);' \
+               'sudo cat $file; sudo rm $file 2>&1'.format(iperf_file)
     LOG.info('Stop iperf on vm: {}'.format(stop_cmd))
     out = ssh_client_local.exec_command(stop_cmd)
     LOG.info('iperf output: {}'.format(out))
