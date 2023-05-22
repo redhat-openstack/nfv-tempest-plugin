@@ -732,6 +732,18 @@ class TestNfvOffload(base_test.BaseTest):
                 srv_pair[1]['server']['ssh_source'])
             iperf_logs.append({'server': srv_pair[1]['server']['ssh_source'],
                                'log_file': log})
+            log = shell_utils.iperf_server(
+                srv_pair[1]['network']['ip_address'],
+                iperf_port, duration, protocol,
+                srv_pair[1]['server']['ssh_source'])
+            iperf_logs.append({'server': srv_pair[0]['server']['ssh_source'],
+                               'log_file': log})
+            log = shell_utils.iperf_client(
+                srv_pair[1]['network']['ip_address'],
+                iperf_port, duration, protocol,
+                srv_pair[0]['server']['ssh_source'])
+            iperf_logs.append({'server': srv_pair[1]['server']['ssh_source'],
+                               'log_file': log})
 
         # Send traffic for a while, we need several packets
         # Only the first one should be captured by tcpdump
@@ -794,7 +806,8 @@ class TestNfvOffload(base_test.BaseTest):
                                                             icmp_requests[1],
                                                             icmp_replies[0],
                                                             icmp_replies[1]))
-            elif protocol == "udp":
+            err_udp = []
+            if protocol == "udp":
                 udp_packets = [0, 0]
                 udp_packets[0] = tcpdump[0].count('UDP')
                 udp_packets[1] = tcpdump[1].count('UDP')
@@ -802,20 +815,25 @@ class TestNfvOffload(base_test.BaseTest):
                 if udp_packets[0] > 0 and udp_packets[1] == 0:
                     pass
                 else:
-                    errors.append("{} Failed to check packets in representor "
-                                  "port. UDP packets: {} (>0), {} (0)".
-                                  format(msg_header,
-                                         udp_packets[0],
-                                         udp_packets[1]))
-            elif protocol == "tcp":
+                    err_udp.append("{} Failed to check packets in "
+                                   "representor port. UDP packets: "
+                                   "{} (>0), {} (0)".format(msg_header,
+                                                            udp_packets[0],
+                                                            udp_packets[1]))
+            if protocol == "tcp" or len(err_udp) > 0:
                 tcp_packets = [0, 0]
                 tcp_packets[0] = tcpdump[0].count('IPv4')
                 tcp_packets[1] = tcpdump[1].count('IPv4')
                 # At least two packets expected (one per direction,
                 # single flow)
                 if tcp_packets[0] > 1 and tcp_packets[1] == 0:
+                    if len(err_udp) > 0:
+                        LOG.info('Same flow created for UPD/TCP. It is ok "'
+                                 'according to BZ 2186488')
                     pass
                 else:
+                    if len(err_udp) > 0:
+                        errors += err_udp
                     errors.append("{} Failed to check packets in representor "
                                   "port. TCP packets: {} (>1), {} (0)".
                                   format(msg_header,
