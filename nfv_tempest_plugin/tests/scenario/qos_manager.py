@@ -212,7 +212,7 @@ class QoSManagerMixin(object):
             raise ValueError('No QoS policies were applied to ports')
 
     def run_iperf_test(self, qos_policies=[], servers=[], key_pair=[],
-                       network_id=None):
+                       network_id=None, vnic_type='normal'):
         """run_iperf_test
 
         This method receive server list, and prepare machines for iperf
@@ -222,6 +222,7 @@ class QoSManagerMixin(object):
         :param servers servers list, at least 3
         :param key_pair servers key pairs
         :param network_id network_id to use
+        :param vnic_type vnic_type to use
         """
         if not servers:
             servers = self.servers
@@ -231,8 +232,12 @@ class QoSManagerMixin(object):
                 device_id=server['id']) for server in servers]
 
         # Find machines ports based on type
-        tested_ports = [shell_utils.find_vm_interface_network_id(
-            ports, network_id=network_id) for ports in servers_ports_map]
+        if network_id is None:
+            tested_ports = [shell_utils.find_vm_interface(
+                ports, vnic_type=vnic_type) for ports in servers_ports_map]
+        else:
+            tested_ports = [shell_utils.find_vm_interface_network_id(
+                ports, network_id=network_id) for ports in servers_ports_map]
 
         # Bind to iperf server ip_addr
         ip_addr = tested_ports[srv.SERVER][1]
