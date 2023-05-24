@@ -67,7 +67,7 @@ if args.send:
 
     count = 1
     while True:
-        sock.sendto(args.message, (args.group, int(args.port)))
+        sock.sendto(bytes(args.message,'ascii'), (args.group, int(args.port)))
         if args.count:
             if int(args.count) == count:
                 break
