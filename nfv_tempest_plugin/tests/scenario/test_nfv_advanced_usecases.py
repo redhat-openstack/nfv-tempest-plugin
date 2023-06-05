@@ -196,7 +196,7 @@ class TestAdvancedScenarios(base_test.BaseTest):
 
         LOG.info('Live migrate the instance to the second hypervisor')
         self.os_admin.servers_client.live_migrate_server(
-            server_id=srv1[0]['id'], block_migration=True, host=None)
+            server_id=srv1[0]['id'], block_migration='auto', host=None)
         waiters.wait_for_server_status(self.servers_client, srv1[0]['id'],
                                        'ACTIVE')
         self.check_instance_connectivity(ip_addr=srv1[0]['fip'],
@@ -230,7 +230,7 @@ class TestAdvancedScenarios(base_test.BaseTest):
 
         LOG.info('Live migrate srv1 back to the first hypervisor')
         self.os_admin.servers_client.live_migrate_server(
-            server_id=srv1[0]['id'], block_migration=True, host=None)
+            server_id=srv1[0]['id'], block_migration='auto', host=None)
         waiters.wait_for_server_status(self.servers_client, srv1[0]['id'],
                                        'ACTIVE')
         self.check_instance_connectivity(ip_addr=srv1[0]['fip'],
