@@ -83,8 +83,17 @@ class TestLiveMigrationScenarios(base_test.BaseTest):
         msg = "live migration is not configured"
         self.assertTrue(CONF.compute_feature_enabled.live_migration, msg)
         msg = "Live migration Failed"
+        kwargs = {}
+        if CONF.nfv_plugin_options.target_hypervisor:
+            hypervisor = CONF.nfv_plugin_options.target_hypervisor
+            kwargs = {
+                'srv_details': {
+                    0: {'availability_zone': 'nova:{}'.format(hypervisor)}
+                }
+            }
         servers, key_pair = \
-            self.create_and_verify_resources(test=test, use_mgmt_only=True)
+            self.create_and_verify_resources(test=test, use_mgmt_only=True,
+                                             **kwargs)
         self.assertTrue(self._perform_live_migration(
             servers[0], key_pair, use_block_migration=True), msg)
 
@@ -96,7 +105,16 @@ class TestLiveMigrationScenarios(base_test.BaseTest):
         msg = "live migration is not configured"
         self.assertTrue(CONF.compute_feature_enabled.live_migration, msg)
         msg = "Live migration Failed"
+        kwargs = {}
+        if CONF.nfv_plugin_options.target_hypervisor:
+            hypervisor = CONF.nfv_plugin_options.target_hypervisor
+            kwargs = {
+                'srv_details': {
+                    0: {'availability_zone': 'nova:{}'.format(hypervisor)}
+                }
+            }
         servers, key_pair = \
-            self.create_and_verify_resources(test=test, use_mgmt_only=True)
+            self.create_and_verify_resources(test=test, use_mgmt_only=True,
+                                             **kwargs)
         self.assertTrue(self._perform_live_migration(servers[0], key_pair),
                         msg)
