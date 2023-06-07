@@ -709,8 +709,8 @@ def stop_tcpdump(server_ip, tcpdump_file):
     :return tcpdump_output: content of tcpdump_file
     """
     stop_cmd = '(if pgrep tcpdump; then sudo pkill tcpdump;' \
-               ' fi; file={}; sudo cat $file; sudo rm $file)' \
-               ' 2>&1'.format(tcpdump_file)
+               ' fi; file={}; sudo cat $file | head -200; ' \
+               'sudo rm $file) 2>&1'.format(tcpdump_file)
     LOG.info('Executed on {}: {}'.format(server_ip, stop_cmd))
     out = run_command_over_ssh(server_ip, stop_cmd)
     LOG.info('tcpdump output: {}'.format(out))
