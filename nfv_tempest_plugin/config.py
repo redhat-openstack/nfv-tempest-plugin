@@ -201,4 +201,7 @@ NfvPluginOptions = [
                default='',
                help='Preferred hypervisor.'
                     'Establish a preferred hypervisor for test cases.'),
-]
+    cfg.BoolOpt('terraform_swift_integration',
+                default=True,
+                help="Enable Terraform integration to read from Swift backend")
+
