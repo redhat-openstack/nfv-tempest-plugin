@@ -111,6 +111,12 @@ class TestLacpScenarios(base_test.BaseTest):
         """
         LOG.info('Starting balance_tcp test.')
 
+        balance_tcp_retries = \
+            CONF.nfv_plugin_options.balance_tcp_retries
+        balance_tcp_measure_sleep = \
+            CONF.nfv_plugin_options.balance_tcp_measure_sleep
+        balance_tcp_retries_sleep = \
+            CONF.nfv_plugin_options.balance_tcp_retries_sleep
         if self.external_resources_data is None:
             raise ValueError('External resource data is required for the test')
 
@@ -161,11 +167,11 @@ class TestLacpScenarios(base_test.BaseTest):
 
             # it may take some time to balance the traffic properly, so I give
             # 10 tries  to stabilize, usually is stabilized between try 1 and 2
-            for i in range(1, 10):
+            for i in range(1, balance_tcp_retries):
                 stats_begin = self.get_ovs_interface_statistics(
                     lacp_bond['bond_ports'],
                     hypervisor=servers[0]['hypervisor_ip'])
-                time.sleep(10)  # measured time
+                time.sleep(balance_tcp_measure_sleep)  # measured time
                 stats_end = self.get_ovs_interface_statistics(
                     lacp_bond['bond_ports'], stats_begin,
                     servers[0]['hypervisor_ip'])
@@ -182,6 +188,7 @@ class TestLacpScenarios(base_test.BaseTest):
                                                   test['threshold_2']))
                 if test['threshold_2'] >= tx_pks_rel >= test['threshold_1']:
                     break
+                time.sleep(balance_tcp_retries_sleep)
 
             msg = "Traffic not well balanced. Value {} not between the " \
                   "thresholds: {} and {}".format(tx_pks_rel,
