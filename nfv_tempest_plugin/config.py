@@ -203,5 +203,11 @@ NfvPluginOptions = [
                     'Establish a preferred hypervisor for test cases.'),
     cfg.BoolOpt('terraform_swift_integration',
                 default=True,
-                help="Enable Terraform integration to read from Swift backend")
+                help="Enable Terraform integration to read from Swift backend"),
+    cfg.IntOpt('balance_tcp_tries',
+               default=20,
+               help="Number of retries in balance_tcp testcase"),
+    cfg.IntOpt('balance_tcp_sleep',
+               default=15,
+               help="Sleep between retries in balance_tcp testcase")
 ]
