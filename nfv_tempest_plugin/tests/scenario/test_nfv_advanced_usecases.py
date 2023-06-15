@@ -50,6 +50,10 @@ class TestAdvancedScenarios(base_test.BaseTest):
         LOG.info('Create resources for the test.')
         hyper = self.os_admin.hypervisor_client.list_hypervisors()[
             'hypervisors']
+        hyper0 = hyper[0]
+        if CONF.nfv_plugin_options.target_hypervisor:
+            hyper0 = [h for h in hyper if h['hypervisor_hostname']
+                      == CONF.nfv_plugin_options.target_hypervisor][0]
         kwargs = {'availability_zone': {'zone_name': 'numa_aware_avail_zone',
                                         'hyper_hosts':
                                             [hyper[0]['hypervisor_hostname']]}}
@@ -63,7 +67,7 @@ class TestAdvancedScenarios(base_test.BaseTest):
         numa_net = self.locate_numa_aware_networks(numas_phys)
 
         resources = self.list_available_resources_on_hypervisor(
-            hyper[0]['hypervisor_hostname'])
+            hyper0['hypervisor_hostname'])
         flavor_vcpu = self.os_primary.flavors_client.show_flavor(
             self.flavor_ref)['flavor']['vcpus']
         srv_num_to_boot = resources['pcpu_free_per_numa'] // flavor_vcpu
@@ -142,35 +146,38 @@ class TestAdvancedScenarios(base_test.BaseTest):
             raise ValueError("The instances should reside on a single "
                              "hypervisor. Use availability zone to reach "
                              "that state.")
-        migrate_kw_args = {'block_migration': True, 'force': True}
-        # on 16.X microversion is 2.72
-        if float(CONF.compute.min_microversion) > 2.67:
-            migrate_kw_args.pop('force')
-            migrate_kw_args['block_migration'] = 'auto'
-            # Pre migration step,
-            # checks if dest compute is in aggregation group
-            avail_kwargs = {'zone_name': 'numa_aware_avail_zone',
-                            'hyper_hosts': [hyper[1]['hypervisor_hostname']]}
-            self.create_and_set_availability_zone(**avail_kwargs)
 
-        self.os_admin.servers_client.live_migrate_server(
-            server_id=fip_srv[0]['id'],
-            host=hyper[1]['hypervisor_hostname'], **migrate_kw_args)
-        LOG.info('Migrate the instance')
-        waiters.wait_for_server_status(self.servers_client,
-                                       fip_srv[0]['id'], 'ACTIVE')
-        LOG.info('Verify instance connectivity after the cold migration.')
-        self.check_instance_connectivity(ip_addr=fip_srv[0]['fip'],
-                                         user=self.instance_user,
-                                         key_pair=key_pair['private_key'])
-        second_hyper = self._get_hypervisor_ip_from_undercloud(
-            **{'server_id': fip_srv[0]['id']})[0]
-        self.assertNotEqual(fip_srv[0]['hypervisor_ip'], second_hyper,
-                            'The instance was not able to migrate to '
-                            'another hypervisor')
-        LOG.info('The {} instance has been migrated to the {} hypervisor'
-                 .format(numa_aware_srv[0]['id'], second_hyper))
-        LOG.info('Live migration passed.')
+        if not CONF.nfv_plugin_options.target_hypervisor:
+            migrate_kw_args = {'block_migration': True, 'force': True}
+            # on 16.X microversion is 2.72
+            if float(CONF.compute.min_microversion) > 2.67:
+                migrate_kw_args.pop('force')
+                migrate_kw_args['block_migration'] = 'auto'
+                # Pre migration step,
+                # checks if dest compute is in aggregation group
+                avail_kwargs = {'zone_name': 'numa_aware_avail_zone',
+                                'hyper_hosts':
+                                [hyper[1]['hypervisor_hostname']]}
+                self.create_and_set_availability_zone(**avail_kwargs)
+
+            self.os_admin.servers_client.live_migrate_server(
+                server_id=fip_srv[0]['id'],
+                host=hyper[1]['hypervisor_hostname'], **migrate_kw_args)
+            LOG.info('Migrate the instance')
+            waiters.wait_for_server_status(self.servers_client,
+                                           fip_srv[0]['id'], 'ACTIVE')
+            LOG.info('Verify instance connectivity after the cold migration.')
+            self.check_instance_connectivity(ip_addr=fip_srv[0]['fip'],
+                                             user=self.instance_user,
+                                             key_pair=key_pair['private_key'])
+            second_hyper = self._get_hypervisor_ip_from_undercloud(
+                **{'server_id': fip_srv[0]['id']})[0]
+            self.assertNotEqual(fip_srv[0]['hypervisor_ip'], second_hyper,
+                                'The instance was not able to migrate to '
+                                'another hypervisor')
+            LOG.info('The {} instance has been migrated to the {} hypervisor'
+                     .format(numa_aware_srv[0]['id'], second_hyper))
+            LOG.info('Live migration passed.')
         LOG.info('Numa aware test completed.')
 
     def test_pinned_srv_live_migration(self, test='pinned_srv_live_migration'):
