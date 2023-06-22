@@ -446,6 +446,8 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
         Provided with the vf network details:
         min_qos: true
         """
+        aggregate_flavors = [int(flavor) for flavor in
+                             CONF.nfv_plugin_options.aggregate_flavors]
 
         LOG.info('Start SRIOV Min QoS test, search for Mellanox nics')
         # Check setup contains Mellanox nics.
@@ -480,17 +482,20 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
 
         LOG.info('SRIOV Min QoS test, create test vms.')
         # Test deploy 3 VMS on single hypervisor.
-        hyper = self.hypervisor_client.list_hypervisors()['hypervisors']
-
-        kw_test = \
-            {'availability_zone': {'hyper_hosts': [hyper[0]
-                                                   ['hypervisor_hostname']]}}
         default_port_type = \
             {'ports_filter': "{}".format('external,direct:' + sriov_nets[0])}
+        kw_test = {}
         kw_test['num_servers'] = 3
         kw_test['srv_details'] = {0: default_port_type,
                                   1: default_port_type,
                                   2: default_port_type}
+        if len(aggregate_flavors) == 0:
+            hyper = self.hypervisor_client.list_hypervisors()['hypervisors']
+            kw_test['availability_zone'] = \
+                {'hyper_hosts': [hyper[0]['hypervisor_hostname']]}
+        else:
+            for srv_id in kw_test['srv_details'].keys():
+                kw_test['srv_details'][srv_id]['flavor'] = aggregate_flavors[0]
         servers, key_pair = self.create_and_verify_resources(
             test=test, **kw_test)
         if len(servers) != 3:
