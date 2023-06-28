@@ -1227,6 +1227,12 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                 parent_port['fixed_ips'][0]['ip_address']
                         }
                         server['transparent_networks'].append(transparent_dict)
+                        # set allowed-pairs
+                        all_addr_pairs = [
+                            {'ip_address': transparent_dict['ip_address'],
+                             'mac_address': transparent_dict['mac_address']}]
+                        self.update_port(parent_port,
+                                         allowed_address_pairs=all_addr_pairs)
 
     def _set_sec_groups(self, **kwargs):
         """Creates a security group containing rules
