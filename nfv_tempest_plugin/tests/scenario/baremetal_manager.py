@@ -1300,10 +1300,14 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
 
         for rule in rule_list:
             direction = rule.pop('direction')
-            client_rules.create_security_group_rule(
+            secgrouprule = client_rules.create_security_group_rule(
                 direction=direction,
                 security_group_id=secgroup_id,
                 **rule)
+            self.addCleanup(
+                test_utils.call_and_ignore_notfound_exc,
+                client_rules.delete_security_group_rule,
+                secgrouprule['security_group_rule']['id'])
 
     def get_security_group_from_partial_string(self, group_name_string):
         """Get security group based on partial string
