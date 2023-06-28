@@ -1211,7 +1211,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                                                             mtu)
                         LOG.info('Reduce MTU for transparent vlan interfaces '
                                  'in vm 4 bytes: {}'.format(mtu))
-                        transparent_dict = {
+                        transp_dict = {
                             # set segmentation_id as network_id
                             'network_id':
                                 subport['segmentation_id'],
@@ -1226,7 +1226,14 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
                             'parent_ip_address':
                                 parent_port['fixed_ips'][0]['ip_address']
                         }
-                        server['transparent_networks'].append(transparent_dict)
+                        server['transparent_networks'].append(transp_dict)
+                        # set allowed-pairs when using security groups
+                        if self.sec_groups:
+                            all_addr_pairs = [
+                                {'ip_address': transp_dict['ip_address'],
+                                 'mac_address': transp_dict['mac_address']}]
+                            self.update_port(parent_port,
+                                             allowed_address_pairs=all_addr_pairs)
 
     def _set_sec_groups(self, **kwargs):
         """Creates a security group containing rules
