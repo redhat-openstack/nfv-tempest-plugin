@@ -617,7 +617,7 @@ def stop_iperf(ssh_client_local, iperf_file):
     """
     # First line contains process pid
     stop_cmd = '(file={}; sudo kill $(head -1 $file)||echo "";' \
-               'sudo cat $file; sudo rm $file) 2>&1'.format(iperf_file)
+               'sudo head -10 $file; sudo rm $file) 2>&1'.format(iperf_file)
     LOG.info('Stop iperf on vm: {}'.format(stop_cmd))
     out = ssh_client_local.exec_command(stop_cmd)
     LOG.info('iperf output: {}'.format(out))
