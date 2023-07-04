@@ -256,36 +256,36 @@ class QoSManagerMixin(object):
                                           username=self.instance_user,
                                           private_key=key_pair[
                                               'private_key'])
-
         install_iperf_command = "sudo yum install iperf3 -y || echo"
         install_iperf_command += ";sudo yum install iperf -y || echo"
         ssh_dest.exec_command(install_iperf_command)
 
-        shell_utils.iperf_server(ip_addr, 5102, 60, "tcp", ssh_dest,
-                                 QoSManagerMixin.LOG_5102)
-        shell_utils.iperf_server(ip_addr, 5101, 60, "tcp", ssh_dest,
-                                 QoSManagerMixin.LOG_5101)
-
-        LOG.info('Receive iperf traffic from Server3...')
-
+        LOG.info('Installing iperf on Server1...')
         ssh_source1 = self. \
             get_remote_client(servers[srv.CLIENT_1]['fip'],
                               username=self.instance_user,
                               private_key=key_pair['private_key'])
-        LOG.info('Installing iperf on Server1...')
         ssh_source1.exec_command(install_iperf_command)
+        LOG.info('Installing iperf on Server2...')
         ssh_source2 = self. \
             get_remote_client(servers[srv.CLIENT_2]['fip'],
                               username=self.instance_user,
                               private_key=key_pair['private_key'])
-        LOG.info('Installing iperf on Server2...')
         ssh_source2.exec_command(install_iperf_command)
 
+        LOG.info('Receive iperf traffic from Server3...')
+        shell_utils.iperf_server(ip_addr, 5101, 90, "tcp", ssh_dest,
+                                 QoSManagerMixin.LOG_5101)
+        shell_utils.iperf_server(ip_addr, 5102, 90, "tcp", ssh_dest,
+                                 QoSManagerMixin.LOG_5102)
+
+        LOG.info('Send iperf traffic from Server1...')
         shell_utils.iperf_client(ip_addr, 5101, 60, "tcp", ssh_source1)
+        LOG.info('Send iperf traffic from Server2...')
         shell_utils.iperf_client(ip_addr, 5102, 60, "tcp", ssh_source2)
 
         # wait for iperf to finish
-        time.sleep(60)
+        time.sleep(90)
 
     def collect_iperf_results(self, qos_rules_list=[],
                               servers=[], key_pair=[]):
@@ -310,7 +310,11 @@ class QoSManagerMixin(object):
         # [ ID]    Interval        Transfer     Bitrate
         # [  5]    0.00-50.22 sec  53.5 GBytes  9.15 Gbits/sec       iperf3: interrupt - the server has terminated # noqa
         # receiver
-        command = r"grep -B 1 receiver {} |grep  Gbits | awk '{print $7}'"
+        # or this format (no receiver tag)
+        # [ ID] Interval       Transfer     Bandwidth
+        # [  4]  0.0-60.0 sec  28.2 GBytes  4.04 Gbits/sec
+        command = r"(grep -B 1 receiver {} || tail -1 {})"
+        command += r" | grep  Gbits | awk '{print $7}'"
         # Receive result with number
         ssh_dest = self.get_remote_client(servers[srv.SERVER]['fip'],
                                           username=self.instance_user,
