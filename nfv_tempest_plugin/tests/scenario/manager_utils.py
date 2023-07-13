@@ -105,8 +105,7 @@ class ManagerMixin(object):
         with open(CONF.nfv_plugin_options.external_config_file, 'r') as f:
             self.external_config = yaml.safe_load(f)
 
-        if not os.path.exists(
-                CONF.nfv_plugin_options.external_resources_output_file):
+        if not CONF.nfv_plugin_options.external_resources_output_file:
             """Hold flavor, net and images lists"""
             # TODO(read and parse to util move to util)
             # Adding routine to load CONF from tfstate.tf
@@ -170,8 +169,7 @@ class ManagerMixin(object):
                     self.test_setup_dict[test['name']]['data_network'] = \
                         test['data_network']
 
-        if not os.path.exists(
-                CONF.nfv_plugin_options.external_resources_output_file):
+        if not CONF.nfv_plugin_options.external_resources_output_file:
             # iterate flavors_id
             for test, test_param in iter(self.test_setup_dict.items()):
                 if 'flavor' in test_param:

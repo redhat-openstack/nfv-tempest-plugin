@@ -54,7 +54,7 @@ NfvPluginOptions = [
                default='/usr/local/bin/nfv_scripts/',
                help="The default location of nfv test scripts"),
     cfg.StrOpt('external_resources_output_file',
-               default='/home/stack/resources_output_file.yml',
+               default='',
                help="The path to the file output of the created resources"),
     cfg.StrOpt('quota_cores',
                default=40,
