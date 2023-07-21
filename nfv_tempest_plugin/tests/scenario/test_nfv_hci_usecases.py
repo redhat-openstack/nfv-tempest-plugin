@@ -119,7 +119,7 @@ class TestHciScenarios(base_test.BaseTest):
                    "cut -d':' -f2 | "
                    "sed 's/^[ \t]*//;s/[ \t]*$//'").format(container_cli)
         else:
-            cmd = ("sudo ceph -s | grep health | "
+            cmd = ("sudo cephadm shell -- ceph -s | grep health | "
                    "cut -d':' -f2 | "
                    "sed 's/^[ \t]*//;s/[ \t]*$//'")
         result = shell_utils.\
