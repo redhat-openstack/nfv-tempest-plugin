@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5e1e692_47311f3e",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_hci_usecases.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2023-07-23T07:52:17Z",
+      "side": 1,
+      "message": "Moving to `cephadm` will break earlier OSP releases that do not use it.\n\nMaybe a conditional needs to be added where we try to derive the available tool.",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 67
+      },
+      "revId": "a39e794f61e9b7dc7321582d66c804eb29525987",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
