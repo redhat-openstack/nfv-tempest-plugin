@@ -650,8 +650,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'port_type' in net_param:
                 create_port_body['binding:vnic_type'] = \
                     net_param['port_type']
-                if self.sec_groups and net_name == \
-                        self.mgmt_network:
+                if self.sec_groups and 'sec_groups' in net_param and \
+                        net_param['sec_groups']:
                     create_port_body['security_groups'] = \
                         [s['id'] for s in self.sec_groups]
                 if 'trusted_vf' in net_param and \
