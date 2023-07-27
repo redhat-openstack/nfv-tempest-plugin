@@ -625,7 +625,7 @@ def stop_iperf(ssh_client_local, iperf_file):
 
 
 def tcpdump(server_ip, interface, duration, macs=[], protocol=None, port=None,
-            hosts=[]):
+            hosts=[], save_start_time=True):
     """Execute tcpdump on hypervisor
 
     The function executes tcpdump on hypervisor in background mode
@@ -637,6 +637,8 @@ def tcpdump(server_ip, interface, duration, macs=[], protocol=None, port=None,
     :param protocol: protocol to capture: tcp, udp, icmp
     :param port: port to capture
     :param host: host ip addresses
+    :param save_start_time: configure if start time should be
+           stored in output
     :return filename: text filename with the capture
     """
     file = "/tmp/dump_{}_{}_{}_{}_{}_{}.txt".format(
@@ -649,12 +651,15 @@ def tcpdump(server_ip, interface, duration, macs=[], protocol=None, port=None,
     filters.append('port ' + str(port) if port is not None else None)
     filters += [' host ' + host for host in hosts]
     filters_str = ' and '.join([filter for filter in filters if filter])
-    tcpdump_cmd = "date +'%H:%M:%S.0 START_TIME' > {}; sudo nohup timeout " \
-                  "{} tcpdump -i {} -nne {} >> {} 2>&1 &".format(file,
-                                                                 duration,
-                                                                 interface,
-                                                                 filters_str,
-                                                                 file)
+    start_time = ""
+    if save_start_time:
+        start_time = "date +'%H:%M:%S.0 START_TIME' > {};".format(file)
+    tcpdump_cmd = "{} sudo nohup timeout {} tcpdump -i {} -nne {} " \
+                  ">> {} 2>&1 &".format(start_time,
+                                        duration,
+                                        interface,
+                                        filters_str,
+                                        file)
     LOG.info('Executed tcpdump on {}: {}'.format(server_ip, tcpdump_cmd))
     run_command_over_ssh(server_ip, tcpdump_cmd)
     return file
@@ -666,6 +671,8 @@ def tcpdump_time_filter(dump, start_time=None, end_time=None):
     Filter tcpdump output by timestamp
     Firstline of dump contains the timestamp at which tcpdump was executed
     14:04:12 START_TIME
+    If START_TIME is not present, it will be taken the time of the first
+    packet
 
     :param dump: tcpdump string to filter
     :param start: start time in seconds from the begining

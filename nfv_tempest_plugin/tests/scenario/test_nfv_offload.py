@@ -566,6 +566,7 @@ class TestNfvOffload(base_test.BaseTest):
         offload_injection_time = int(
             CONF.nfv_plugin_options.offload_injection_time)
         tcpdump_time = int(CONF.nfv_plugin_options.tcpdump_time)
+        tcpdump_start_time = bool(CONF.nfv_plugin_options.tcpdump_start_time)
         aggregate_flavors = [int(flavor) for flavor in
                              CONF.nfv_plugin_options.aggregate_flavors]
         LOG.info('run_offload_testcase create {} vms'.format(num_vms))
@@ -668,14 +669,16 @@ class TestNfvOffload(base_test.BaseTest):
                 else:
                     errors_found += self.check_offload(srv_pair, protocol,
                                                        offload_injection_time,
-                                                       tcpdump_time)
+                                                       tcpdump_time,
+                                                       tcpdump_start_time)
 
         self.assertTrue(network_type_found, "Network type {} not "
                                             "found".format(network_type))
         self.assertTrue(len(errors_found) == 0, "\n".join(errors_found))
         self.external_config['test-networks'] = full_test_network
 
-    def check_offload(self, srv_pair, protocol, duration, tcpdump_time):
+    def check_offload(self, srv_pair, protocol, duration, tcpdump_time,
+                      tcpdump_start_time):
         """Check OVS offloaded flows and hw offload is working
 
         Two tests are done:
@@ -687,6 +690,8 @@ class TestNfvOffload(base_test.BaseTest):
         :param protocol: protocol to test (icmp, tcp, udp)
         :param duration: duration of the injection
         :param tcpdump_time: skip first seconds in tcpdump output
+        :param tcpdump_start_time: start time is when tcpdump was executed (true)
+        :                          or when first packet was received
         :return checks: list with problems found
         """
 
@@ -708,7 +713,8 @@ class TestNfvOffload(base_test.BaseTest):
                 server_ip=srv_item['server']['hypervisor_ip'],
                 interface=srv_item['vf_nic'],
                 duration=duration,
-                macs=mac_addresses)
+                macs=mac_addresses,
+                save_start_time=tcpdump_start_time)
 
         # send traffic
         LOG.info('Sending traffic ({}) from {} to {}'.
