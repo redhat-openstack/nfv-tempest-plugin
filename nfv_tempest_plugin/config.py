@@ -158,6 +158,10 @@ NfvPluginOptions = [
                default=10,
                help="Time in seconds to split tcpdump file according to"
                     "the timestamp"),
+    cfg.BoolOpt('tcpdump_start_time',
+               default=True,
+               help="save the time tcpdump was executed. If False, start_time"
+                    " will be the time of the first packet"),
     cfg.StrOpt('kernel_args',
                default='default_hugepagesz=1GB hugepagesz=1G hugepages=64 '
                        'iommu=pt intel_iommu=on isolcpus=2-19,22-39',
