@@ -303,7 +303,7 @@ class TestMultiqueueScenarios(base_test.BaseTest):
                                            load_threshold * 0.5)
         elif action == ABActionsEnum.AllCoresOverThreshold:
             pps = multiqueue.load_all_cores(pmd_cores,
-                                            max(load_threshold * 1.5, 80))
+                                            max(load_threshold * 2.0, 80))
         elif action == ABActionsEnum.AllCoresBelowThreshold:
             pps = multiqueue.load_all_cores(pmd_cores,
                                             load_threshold * 0.5)
