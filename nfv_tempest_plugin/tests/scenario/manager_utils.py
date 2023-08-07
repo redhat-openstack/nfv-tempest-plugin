@@ -1170,7 +1170,18 @@ class ManagerMixin(object):
             pci_nics = shell_utils.retrieve_content_from_hiera(node=node,
                                                                keys=key)
             pci_nics = yaml.safe_load(pci_nics[0])
-            nics = [nic['devname'] for nic in pci_nics]
+
+            nics = []
+            for pci_nic in pci_nics:
+                # It is recommended to use address instead of devname for
+                # SR-IOV configuration in NovaPCIPassthrough parameters
+                if 'devname' in pci_nic:
+                    nics.append(pci_nic['devname'])
+                else:
+                    nics.append(
+                        shell_utils.get_nic_devname_from_address(
+                            node, pci_nic['address']))
+
             LOG.info('Detected interfaces are - {}'.format(nics))
             cmd = ("ethtool -i {0} |grep driver;"
                    "ethtool -k {0} |grep tc-offload;"
