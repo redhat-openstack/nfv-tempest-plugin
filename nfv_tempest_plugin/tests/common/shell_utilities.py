@@ -786,3 +786,56 @@ def get_conntrack_table(hypervisor_ip):
     out = run_command_over_ssh(hypervisor_ip, cmd_conn_track)
     LOG.info('{}. conntrack table: {}'.format(hypervisor_ip, out))
     return out
+
+
+def get_nic_devname_from_address(node, pci_address):
+    """Get the NIC devname from the PCI address
+
+    Get the NIC devname from the PCI addres by traversing the
+    /sys/class/pci_bus/*/device/{pci_address}/net directory and reading the
+    uevent files.
+
+    The uevent file has this format:
+    [root@computehwoffload-0 ~]# cat /sys/class/pci_bus/*/device/0000:04:00.0/
+    net/enp4s0f0/uevent
+    INTERFACE=enp4s0f0
+    IFINDEX=10
+
+    In case we have more than one devname for the same PCI address the
+    INTERFACE the one with the lowest IFINDEX is taken. In the example below
+    we'll take enp4s0f0 as devname since it has the lowest IFINDEX:
+    [root@computehwoffload-0 ~]#
+    ls /sys/class/pci_bus/*/device/0000:04:00.0/net
+    enp4s0f0  enp4s0f0_0  enp4s0f0_1  enp4s0f0_2  enp4s0f0_3  enp4s0f0_4
+    enp4s0f0_5  enp4s0f0_6 enp4s0f0_7  enp4s0f0_8  enp4s0f0_9
+    [root@computehwoffload-0 ~]#
+    cat /sys/class/pci_bus/*/device/0000:04:00.0/net/enp4s0f0/uevent
+    INTERFACE=enp4s0f0
+    IFINDEX=10
+    [root@computehwoffload-0 ~]#
+    cat /sys/class/pci_bus/*/device/0000:04:00.0/net/enp4s0f0_0/uevent
+    INTERFACE=enp4s0f0_0
+    IFINDEX=26
+
+    :param node The node IP address
+    :param pci_address The NIC PCI address
+    :return The NIC devname
+    """
+
+    pciaddr_to_devname_script = f"""
+    ifindex="1000000"
+    for uevent in \
+    $(find /sys/class/pci_bus/*/device/{pci_address}/net -name uevent)
+    do
+        source "$uevent"
+        if [ "$IFINDEX" -lt "$ifindex" ]
+        then
+            devname="$INTERFACE"
+            ifindex="$IFINDEX"
+        fi
+    done
+    echo "$devname"
+    """
+    output = run_command_over_ssh(node, pciaddr_to_devname_script).strip()
+
+    return output
