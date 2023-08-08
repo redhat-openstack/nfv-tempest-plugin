@@ -93,6 +93,30 @@
       },
       "revId": "f5162b9f4ea72967927508c1d6268cac9944ed51",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfd72918_2259f6f8",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 1007976
+      },
+      "writtenOn": "2023-08-08T08:13:54Z",
+      "side": 1,
+      "message": "I would say \nfor i in $(cndition):\ndo\n  \nhere under do we have indentation which is required and condition is in one line. I am ok with that, infact that is advisable.",
+      "parentUuid": "e3f4ffe1_63999b0f",
+      "range": {
+        "startLine": 825,
+        "startChar": 31,
+        "endLine": 828,
+        "endChar": 34
+      },
+      "revId": "f5162b9f4ea72967927508c1d6268cac9944ed51",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
