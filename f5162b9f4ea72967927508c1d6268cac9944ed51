@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "205c805a_0e3674cf",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-08-08T05:25:24Z",
+      "side": 1,
+      "message": "are you running this command on the tempest host you are running from?",
+      "range": {
+        "startLine": 828,
+        "startChar": 0,
+        "endLine": 828,
+        "endChar": 2
+      },
+      "revId": "f5162b9f4ea72967927508c1d6268cac9944ed51",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
