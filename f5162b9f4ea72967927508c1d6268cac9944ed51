@@ -69,6 +69,30 @@
       },
       "revId": "f5162b9f4ea72967927508c1d6268cac9944ed51",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3f4ffe1_63999b0f",
+        "filename": "nfv_tempest_plugin/tests/common/shell_utilities.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 1019727
+      },
+      "writtenOn": "2023-08-08T07:00:54Z",
+      "side": 1,
+      "message": "To be honest I prefer keeping it as it it know. Please note that the indent spaces will be also added in the actual command run by paramiko (it shouldn\u0027t be a problem but I\u0027d prefer not add unnecessary things). Besides lint tool doesn\u0027t complain about this. But if the rest of the team prefers it indented I\u0027ll change it.",
+      "parentUuid": "a5ec2ad4_6e4be385",
+      "range": {
+        "startLine": 825,
+        "startChar": 31,
+        "endLine": 828,
+        "endChar": 34
+      },
+      "revId": "f5162b9f4ea72967927508c1d6268cac9944ed51",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
