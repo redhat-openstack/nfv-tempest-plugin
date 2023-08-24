@@ -894,16 +894,18 @@ class TestNfvOffload(base_test.BaseTest):
         if protocol == 'tcp':
             log = shell_utils.iperf_server(
                 srv_pair[0]['network']['ip_address'],
-                traffic_port, 84600, 'tcp',
+                traffic_port, 30, 'tcp',
                 srv_pair[0]['server']['ssh_source'])
             iperf_logs.append({'server': srv_pair[0]['server']['ssh_source'],
                                'log_file': log})
             log = shell_utils.iperf_client(
                 srv_pair[0]['network']['ip_address'],
-                traffic_port, 84600, 'tcp',
+                traffic_port, 30, 'tcp',
                 srv_pair[1]['server']['ssh_source'])
             iperf_logs.append({'server': srv_pair[1]['server']['ssh_source'],
                                'log_file': log})
+            # to ensure that iperf is running and there is some traffic
+            time.sleep(10)
         # If we are testing UDP, it is much easier to use scapy
         elif protocol == 'udp':
             ip_address_first_vm = srv_pair[0]['network']['ip_address']
