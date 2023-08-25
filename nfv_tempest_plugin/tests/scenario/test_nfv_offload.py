@@ -670,6 +670,15 @@ class TestNfvOffload(base_test.BaseTest):
                                                        offload_injection_time,
                                                        tcpdump_time)
 
+        # workaround. Conntrack testcases fail randomly because one vm is
+        # not deleted when the testcase fails. I have seen that it may
+        # be related to the code in which conntrack table is got from the
+        # hypervisor (removing that code, the problem does not happen
+        # again). Including this sleep between that code and the end
+        # of the testcase in which it will start vm removal seems to solve
+        # the issue
+        if sec_groups:
+            time.sleep(30)
         self.assertTrue(network_type_found, "Network type {} not "
                                             "found".format(network_type))
         self.assertTrue(len(errors_found) == 0, "\n".join(errors_found))
