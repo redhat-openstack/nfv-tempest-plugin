@@ -303,7 +303,7 @@ class TestMultiqueueScenarios(base_test.BaseTest):
                                            load_threshold * 0.5)
         elif action == ABActionsEnum.AllCoresOverThreshold:
             pps = multiqueue.load_all_cores(pmd_cores,
-                                            max(load_threshold * 1.5, 80))
+                                            max(load_threshold * 1.5, 70))
         elif action == ABActionsEnum.AllCoresBelowThreshold:
             pps = multiqueue.load_all_cores(pmd_cores,
                                             load_threshold * 0.5)
@@ -313,8 +313,8 @@ class TestMultiqueueScenarios(base_test.BaseTest):
         # to check rebalance 2 times as in the first time it may be possible
         # that it is checked just when we have started traffic and the load
         # is not over the threshold yet.
-        timeout = int(interval * 2.20)
-
+        timeout = int(interval * 1.20)
+        
         # create injection command and start injection
         inj_cmd = "/opt/trex/current/multiqueue.py  --action gen_traffic " \
                   "--traffic_json {} --pps \"{}\" --duration {} " \
