@@ -205,9 +205,9 @@ class MultiqueueClass(object):
                 rates = [rate_per_queue_per_core[ci] for ci in
                          rate_per_queue_per_core.keys()
                          if ci in queue_value["pmd_cores"]]
-                pps[port][queue_id] = min(rates)
+                pps[port][queue_id] = max(rates)
                 LOG.info('MultiqueueClass::load_all_cores rate calculation'
-                         ' {} --> {}'.format(rates, min(rates)))
+                         ' {} --> {}'.format(rates, max(rates)))
         return pps
 
     def check_rebalance(self, pmd_cores, pmd_cores_2):

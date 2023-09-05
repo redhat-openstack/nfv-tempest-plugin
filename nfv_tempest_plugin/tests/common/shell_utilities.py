@@ -843,3 +843,58 @@ def get_nic_devname_from_address(node, pci_address):
     output = run_command_over_ssh(node, pciaddr_to_devname_script).strip()
 
     return output
+
+
+def get_open_vswitch_other_config(host, param_name):
+    """This Method run sudo ovs-vsctl set
+
+    sudo ovs-vsctl set . other_config:param_name=param_value
+
+    Provide Host, param_name and it returns the param value
+
+    :param host
+    :param param_name
+    """
+
+    cmd = 'sudo ovs-vsctl --format=json get ' \
+        'open_vswitch . other_config'
+
+    # parse cmd command
+    output = run_command_over_ssh(host, cmd)
+    # missing double quotes in json, fixing it
+    # {dpdk-extra=" -n 4", dpdk-init="true", dpdk-socket-mem="4096,1024",
+    # pmd-auto-lb="true", pmd-auto-lb-improvement-threshold="50",
+    # pmd-auto-lb-load-threshold="70", pmd-auto-lb-rebal-interval="3",
+    # pmd-cpu-mask=fc}
+    output = output.replace("=", "\":\"").replace("{", "{\"").\
+        replace("}", "\"}").replace(", ", "\", \"").\
+        replace("\"\"", "\"")
+
+    value = json.loads(output)
+    if (param_name in value.keys()):
+        return value[param_name]
+
+
+def set_open_vswitch_other_config(host, param_name, param_value):
+    """This Method run sudo ovs-vsctl set open_vSwitch
+
+    ovs-vsctl set open_vSwitch . other_config:param_name=param_value
+
+    Provide Host, param_name and param_value into configuration file
+
+    :param host
+    :param param_name
+    :param param_value
+    """
+
+    cmd = 'sudo ovs-vsctl --no-wait set open_vSwitch . ' \
+        'other_config:{}={}'.format(param_name, param_value)
+
+    LOG.info('set_open_vSwitch_other_config cmd {}'.format(cmd))
+
+    # servers_dict['testpmd']['hypervisor_ip']
+    result = run_command_over_ssh(
+        host,
+        cmd)
+
+    return result
