@@ -161,10 +161,30 @@ class TestMultiqueueScenarios(base_test.BaseTest):
         # Get trex and testpmd vms
         servers_dict = self.prepare_vms(test)
 
+        # cmd_load_improvement_threshold = 'sudo ovs-vsctl --no-wait ' \
+        #    'set open_vSwitch . other_config:pmd-auto-lb-improvement' \
+        #    '-threshold="50"'
+
+        # LOG.info('Reset load_threshold cmd {}'.
+        #         format(cmd_load_improvement_threshold))
+        # shell_utils.run_command_over_ssh(
+        #     servers_dict['testpmd']['hypervisor_ip'],
+        #     cmd_load_improvement_threshold)
+
         # inject traffic and wait to see if rebalance takes place
         rebalance, cpu_under_threshold = self.\
             autobalance_functionality(servers_dict,
                                       ABActionsEnum.AllCoresOverThreshold)
+
+        # cmd_load_improvement_threshold = 'sudo ovs-vsctl --no-wait ' \
+        #    'set open_vSwitch . other_config:pmd-auto-lb-improvement' \
+        #    '-threshold="25"'
+
+        # LOG.info('Reset load_threshold cmd {}'.
+        #          format(cmd_load_improvement_threshold))
+        # shell_utils.run_command_over_ssh(
+        #      servers_dict['testpmd']['hypervisor_ip'],
+        #    cmd_load_improvement_threshold)
 
         # evaluate if the testcase passed/failed
         msg = 'Unexpected rebalance took place, rebalance {}, ' \
@@ -293,6 +313,7 @@ class TestMultiqueueScenarios(base_test.BaseTest):
         pmd_cores = self. \
             get_pmd_cores_data(servers_dict["testpmd"]['hypervisor_ip'],
                                ports_used)
+        multiplier = 1
 
         if action == ABActionsEnum.OneCoreOverThreshold:
             # get rate to inject each queue to load over the threshold one pmd
@@ -303,7 +324,8 @@ class TestMultiqueueScenarios(base_test.BaseTest):
                                            load_threshold * 0.5)
         elif action == ABActionsEnum.AllCoresOverThreshold:
             pps = multiqueue.load_all_cores(pmd_cores,
-                                            max(load_threshold * 1.5, 80))
+                                            max(load_threshold, 80))
+            multiplier = 3
         elif action == ABActionsEnum.AllCoresBelowThreshold:
             pps = multiqueue.load_all_cores(pmd_cores,
                                             load_threshold * 0.5)
@@ -319,7 +341,7 @@ class TestMultiqueueScenarios(base_test.BaseTest):
         inj_cmd = "/opt/trex/current/multiqueue.py  --action gen_traffic " \
                   "--traffic_json {} --pps \"{}\" --duration {} " \
                   "--multiplier {} > /tmp/multiqueue.log 2>&1 &". \
-            format(trex_queues_json_path, pps, timeout, 1)
+            format(trex_queues_json_path, pps, timeout, multiplier)
 
         LOG.info('Injection command {}'.format(inj_cmd))
         servers_dict['trex']['ssh_source'].exec_command(inj_cmd)
