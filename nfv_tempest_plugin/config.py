@@ -169,7 +169,7 @@ NfvPluginOptions = [
     cfg.StrOpt('autobalance_config',
                default='{"pmd-auto-lb": "true",'
                        '"pmd-auto-lb-improvement-threshold": "25",'
-                       '"pmd-auto-lb-load-threshold": "70",'
+                       '"pmd-auto-lb-load-threshold": "80",'
                        '"pmd-auto-lb-rebal-interval": "2",'
                        '"pmd-cpu-mask": "fc000fc"}',
                help='Autobalance configuration for testcase'),
