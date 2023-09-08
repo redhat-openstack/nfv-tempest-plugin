@@ -490,9 +490,14 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
                                   1: default_port_type,
                                   2: default_port_type}
         if len(aggregate_flavors) == 0:
-            hyper = self.hypervisor_client.list_hypervisors()['hypervisors']
-            kw_test['availability_zone'] = \
-                {'hyper_hosts': [hyper[0]['hypervisor_hostname']]}
+            if CONF.nfv_plugin_options.target_hypervisor:
+                hypervisor = CONF.nfv_plugin_options.target_hypervisor
+                kw_test['availability_zone'] = \
+                    {'hyper_hosts': [hypervisor]}
+            else:
+                hyper = self.hypervisor_client.list_hypervisors()['hypervisors']
+                kw_test['availability_zone'] = \
+                    {'hyper_hosts': [hyper[0]['hypervisor_hostname']]}
         else:
             for srv_id in kw_test['srv_details'].keys():
                 kw_test['srv_details'][srv_id]['flavor'] = aggregate_flavors[0]
