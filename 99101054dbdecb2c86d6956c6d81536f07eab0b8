@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dea8c604_4f2393bd",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_multiqueue_usecases.py",
+        "patchSetId": 21
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2023-09-13T14:07:43Z",
+      "side": 1,
+      "message": "instead of having so much code here, i would create function/s in shell_utilities.py so that here you only need to call it 2 times with different values\n\nAlso, the values may be configurable through parameters instead of hardcoded",
+      "revId": "99101054dbdecb2c86d6956c6d81536f07eab0b8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
