@@ -161,10 +161,16 @@ class TestMultiqueueScenarios(base_test.BaseTest):
         # Get trex and testpmd vms
         servers_dict = self.prepare_vms(test)
 
+        # set new ovs-vsctl values
+        self.set_new_values_no_improvement(servers_dict, "50", "10")
+
         # inject traffic and wait to see if rebalance takes place
         rebalance, cpu_under_threshold = self.\
             autobalance_functionality(servers_dict,
                                       ABActionsEnum.AllCoresOverThreshold)
+
+        # revert to old ovs-vsctl values
+        self.set_old_values_no_improvement(servers_dict)
 
         # evaluate if the testcase passed/failed
         msg = 'Unexpected rebalance took place, rebalance {}, ' \
@@ -215,6 +221,58 @@ class TestMultiqueueScenarios(base_test.BaseTest):
         self.assertTrue(
             end_time - start_time + self.rebalance_check_interval >= interval,
             msg2)
+
+    def set_new_values_no_improvement(self, servers_dict,
+                                      new_pmd_auto_lb_improvement_threshold,
+                                      new_pmd_auto_lb_rebal_interval):
+        """set new ovs-vsctl values
+
+            two properties are changed with a single function here -
+            1. pmd-auto-lb-improvement-threshold
+            2. pmd-auto-lb-rebal-interval
+            we store the old variables so, that we can revert it back
+        """
+
+        self.old_pmd_auto_lb_improvement_threshold = \
+            shell_utils.get_open_vswitch_other_config(
+                servers_dict['testpmd']['hypervisor_ip'],
+                'pmd-auto-lb-improvement-threshold'
+            )
+        self.old_pmd_auto_lb_rebal_interval = \
+            shell_utils.get_open_vswitch_other_config(
+                servers_dict['testpmd']['hypervisor_ip'],
+                'pmd-auto-lb-rebal-interval'
+            )
+        shell_utils.set_open_vswitch_other_config(
+            servers_dict['testpmd']['hypervisor_ip'],
+            'pmd-auto-lb-improvement-threshold',
+            new_pmd_auto_lb_improvement_threshold
+        )
+        shell_utils.set_open_vswitch_other_config(
+            servers_dict['testpmd']['hypervisor_ip'],
+            'pmd-auto-lb-rebal-interval',
+            new_pmd_auto_lb_rebal_interval
+        )
+
+    def set_old_values_no_improvement(self, servers_dict):
+        """set old ovs-vsctl values
+
+            two properties are changed with a single function here -
+            1. pmd-auto-lb-improvement-threshold
+            2. pmd-auto-lb-rebal-interval
+            we restore to the old values
+        """
+
+        shell_utils.set_open_vswitch_other_config(
+            servers_dict['testpmd']['hypervisor_ip'],
+            'pmd-auto-lb-improvement-threshold',
+            self.old_pmd_auto_lb_improvement_threshold
+        )
+        shell_utils.set_open_vswitch_other_config(
+            servers_dict['testpmd']['hypervisor_ip'],
+            'pmd-auto-lb-rebal-interval',
+            self.old_pmd_auto_lb_rebal_interval
+        )
 
     def prepare_vms(self, test):
         """Check that vms needed to run testcases are present
@@ -293,6 +351,7 @@ class TestMultiqueueScenarios(base_test.BaseTest):
         pmd_cores = self. \
             get_pmd_cores_data(servers_dict["testpmd"]['hypervisor_ip'],
                                ports_used)
+        multiplier = 1
 
         if action == ABActionsEnum.OneCoreOverThreshold:
             # get rate to inject each queue to load over the threshold one pmd
@@ -303,7 +362,8 @@ class TestMultiqueueScenarios(base_test.BaseTest):
                                            load_threshold * 0.5)
         elif action == ABActionsEnum.AllCoresOverThreshold:
             pps = multiqueue.load_all_cores(pmd_cores,
-                                            max(load_threshold * 1.5, 80))
+                                            max(load_threshold, 80))
+            multiplier = 6
         elif action == ABActionsEnum.AllCoresBelowThreshold:
             pps = multiqueue.load_all_cores(pmd_cores,
                                             load_threshold * 0.5)
@@ -319,7 +379,7 @@ class TestMultiqueueScenarios(base_test.BaseTest):
         inj_cmd = "/opt/trex/current/multiqueue.py  --action gen_traffic " \
                   "--traffic_json {} --pps \"{}\" --duration {} " \
                   "--multiplier {} > /tmp/multiqueue.log 2>&1 &". \
-            format(trex_queues_json_path, pps, timeout, 1)
+            format(trex_queues_json_path, pps, timeout, multiplier)
 
         LOG.info('Injection command {}'.format(inj_cmd))
         servers_dict['trex']['ssh_source'].exec_command(inj_cmd)
