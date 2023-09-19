@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c194de52_50bde048",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-09-19T10:19:40Z",
+      "side": 1,
+      "message": "if I would do that we won\u0027t be able to set a path in it as required I can change it in to an empty string which will do the same\n\u003e\u003e\u003e a \u003d \u0027\u0027\n\u003e\u003e\u003e if a:\n...     print(\u0027pass\u0027)\n...",
+      "parentUuid": "4ab12e96_b599ce62",
+      "revId": "5809081862af1b7a2143c3899dd51d2c6b473937",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ed703508_05503e40",
         "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2023-09-19T10:10:34Z",
       "side": 1,
       "message": "this is defined as a string, not bool,will it work?\n cfg.StrOpt",
+      "range": {
+        "startLine": 108,
+        "startChar": 11,
+        "endLine": 108,
+        "endChar": 14
+      },
+      "revId": "5809081862af1b7a2143c3899dd51d2c6b473937",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "956d9341_30de807b",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-09-19T10:19:40Z",
+      "side": 1,
+      "message": "yes, if you set a string the return value of it is true\n13:15 [eshulman ~/]: python3\nPython 3.6.8 (default, Oct 20 2022, 09:31:56) \n[GCC 8.5.0 20210514 (Red Hat 8.5.0-15)] on linux\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\n\u003e\u003e\u003e a \u003d \u0027test\u0027\n\u003e\u003e\u003e if a:\n...     print(\u0027pass\u0027)\n... \npass\n\u003e\u003e\u003e",
+      "parentUuid": "ed703508_05503e40",
       "range": {
         "startLine": 108,
         "startChar": 11,
