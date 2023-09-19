@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ab12e96_b599ce62",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1019727
+      },
+      "writtenOn": "2023-09-19T10:13:43Z",
+      "side": 1,
+      "message": "please consider convert this StrOpt into BoolOpt",
+      "revId": "5809081862af1b7a2143c3899dd51d2c6b473937",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ed703508_05503e40",
         "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
         "patchSetId": 1
