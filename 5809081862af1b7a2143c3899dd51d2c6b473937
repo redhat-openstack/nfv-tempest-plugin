@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed703508_05503e40",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2023-09-19T10:10:34Z",
+      "side": 1,
+      "message": "this is defined as a string, not bool,will it work?\n cfg.StrOpt",
+      "range": {
+        "startLine": 108,
+        "startChar": 11,
+        "endLine": 108,
+        "endChar": 14
+      },
+      "revId": "5809081862af1b7a2143c3899dd51d2c6b473937",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
