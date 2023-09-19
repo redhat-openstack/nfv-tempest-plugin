@@ -72,6 +72,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07d5c8ba_4a57ba5c",
+        "filename": "nfv_tempest_plugin/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-09-19T10:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91027d48_8424b625",
+      "revId": "5809081862af1b7a2143c3899dd51d2c6b473937",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed703508_05503e40",
@@ -109,6 +127,30 @@
       "side": 1,
       "message": "yes, if you set a string the return value of it is true\n13:15 [eshulman ~/]: python3\nPython 3.6.8 (default, Oct 20 2022, 09:31:56) \n[GCC 8.5.0 20210514 (Red Hat 8.5.0-15)] on linux\nType \"help\", \"copyright\", \"credits\" or \"license\" for more information.\n\u003e\u003e\u003e a \u003d \u0027test\u0027\n\u003e\u003e\u003e if a:\n...     print(\u0027pass\u0027)\n... \npass\n\u003e\u003e\u003e",
       "parentUuid": "ed703508_05503e40",
+      "range": {
+        "startLine": 108,
+        "startChar": 11,
+        "endLine": 108,
+        "endChar": 14
+      },
+      "revId": "5809081862af1b7a2143c3899dd51d2c6b473937",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "598b6140_8490199d",
+        "filename": "nfv_tempest_plugin/tests/scenario/manager_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-09-19T10:46:12Z",
+      "side": 1,
+      "message": "changed to string",
+      "parentUuid": "956d9341_30de807b",
       "range": {
         "startLine": 108,
         "startChar": 11,
