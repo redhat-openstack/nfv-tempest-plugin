@@ -309,7 +309,7 @@ class TestIgmpSnoopingScenarios(base_test.BaseTest):
         cmd_dump = "PATH=$PATH:/usr/sbin; sudo tcpdump -i {} igmp " \
                    "> {} 2>&1 &".format(reports_interface, tcpdump_file)
         # Filter only igmp reports messages (join/leave), not igmp queries
-        cmd_result = "sudo killall -SIGINT tcpdump;cat {} | " \
+        cmd_result = "sudo killall -SIGINT tcpdump; sleep 3; cat {} | " \
                      "( grep igmp || true ) | ( grep report || true ) | " \
                      "wc -l".format(tcpdump_file)
 
