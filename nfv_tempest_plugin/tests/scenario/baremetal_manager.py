@@ -207,9 +207,10 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         if 'size' not in volume_args:
             volume_args['size'] = CONF.volume.volume_size
         if 'imageRef' in volume_args:
-            volume_args['size'] = \
-                int(self.image_client.show_image(
-                    volume_args['imageRef'])['virtual_size'] / 1073741824) + 1
+            image_virtual_size = self.image_client.show_image(
+                volume_args['imageRef'])['virtual_size']
+            if image_virtual_size:
+                volume_args['size'] = int(image_virtual_size / 1073741824) + 1
         volume = self.volumes_client.create_volume(**volume_args)['volume']
         self.addClassResourceCleanup(
             self.volumes_client.wait_for_resource_deletion, volume['id'])
