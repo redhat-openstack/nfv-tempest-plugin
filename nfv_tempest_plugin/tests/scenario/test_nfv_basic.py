@@ -15,12 +15,15 @@
 
 import fnmatch
 import json
+import time
 
+from nfv_tempest_plugin.services.redfish_client import RedfishClient
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
 from tempest.common import waiters
 from tempest import config
+
 
 CONF = config.CONF
 LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
@@ -119,6 +122,74 @@ class TestNfvBasic(base_test.BaseTest):
 
         test_result = '\n'.join(test_result)
         self.assertEmpty(test_result, test_result)
+
+    def test_power_saving_tuned_profile(self, test='power_save_tuned_profile'):
+        """Test tuned profile for power saving
+
+        The test checks that the tuned profile for power saving is save
+        the power on compute nodes.
+        """
+        if CONF.nfv_plugin_options.target_hypervisor:
+            self.hypervisor_ip = \
+                self._get_hypervisor_ip_from_undercloud(
+                    hyper_name=CONF.nfv_plugin_options.target_hypervisor)
+        self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud()[0]
+        self.assertNotEmpty(self.hypervisor_ip, "No hypervisor found")
+
+        with open(CONF.nfv_plugin_options.instackenv_json_path,
+                  'r') as json_file:
+            data = json.load(json_file)
+
+        hypervisor = [server for server in data['nodes']
+                      if server['name'] == 'compute-0'][0]
+        self.assertNotEmpty(hypervisor, "'compute-0' not found")
+        powersave_profile = CONF.nfv_plugin_options.powersave_profile
+
+        client = RedfishClient(
+            hypervisor['pm_addr'],
+            hypervisor['pm_user'],
+            hypervisor['pm_password']
+        )
+        client.connect()
+
+        # baseline power consumption
+        # make sure that the tuned profile is not the powersave profile
+        active_profile_cmd = "sudo tuned-adm active | awk '{print $4}'"
+        active_profile = shell_utils.run_command_over_ssh(
+            self.hypervisor_ip, active_profile_cmd).strip('\n')
+
+        if active_profile == powersave_profile:
+            switch_profile_cmd = "sudo tuned-adm profile cpu-partitioning"
+            shell_utils.run_command_over_ssh(
+                self.hypervisor_ip, switch_profile_cmd).strip('\n')
+            time.sleep(45)
+
+        # get the baseline power consumption
+        baseline_power = client.get_power_state()
+
+        # change the tuned profile to power saving
+        change_profile_cmd = f"sudo tuned-adm profile " \
+                             f"{powersave_profile}"
+        shell_utils.run_command_over_ssh(
+            self.hypervisor_ip, change_profile_cmd).strip('\n')
+        time.sleep(45)
+
+        # create a VM to make sure it works properly with workload
+        self.create_server()
+
+        # get the power consumption - after the tuned profile change
+        powersave_power = client.get_power_state()
+
+        # change the tuned profile to be as it was
+        cmd = f"sudo tuned-adm profile {active_profile}"
+        shell_utils.run_command_over_ssh(self.hypervisor_ip,
+                                         cmd).strip('\n')
+        client.disconnect()
+
+        # check that the power consumption is lower with the powersave profile
+        self.assertGreater(
+            baseline_power, powersave_power,
+            "Power consumption not reduced with powersave profile")
 
     def test_mtu_ping_test(self, test='test-ping-mtu'):
         """Test MTU by pinging instance gateway
