@@ -15,12 +15,15 @@
 
 import fnmatch
 import json
+import time
 
 from nfv_tempest_plugin.tests.common import shell_utilities as shell_utils
 from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
 from tempest.common import waiters
 from tempest import config
+from nfv_tempest_plugin.services.redfish_client import RedfishClient
+
 
 CONF = config.CONF
 LOG = logging.getLogger('{} [-] nfv_plugin_test'.format(__name__))
@@ -119,6 +122,61 @@ class TestNfvBasic(base_test.BaseTest):
 
         test_result = '\n'.join(test_result)
         self.assertEmpty(test_result, test_result)
+
+    def test_power_saving_tuned_profile(self, test='test_power_saving_tuned_profile'):
+        """Test tuned profile for power saving
+        The test checks that the tuned profile for power saving is save
+        the power on compute nodes.
+        """
+
+        tuning_details = \
+            json.loads(CONF.nfv_plugin_options.hypervisor_tuning_details)
+        packages = tuning_details.get("packages")
+        services = tuning_details.get("services")
+        tuned_profiles = tuning_details.get("tuned_profiles")
+        kernel_args = tuning_details.get("kernel_args")
+
+        if CONF.nfv_plugin_options.target_hypervisor:
+            self.hypervisor_ip = \
+                self._get_hypervisor_ip_from_undercloud(
+                    hyper_name=CONF.nfv_plugin_options.target_hypervisor)
+        self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud()[0]
+        self.assertNotEmpty(self.hypervisor_ip, "No hypervisor found")
+        
+        client = RedfishClient(ip, username, password)
+        client.connect()
+
+        #baseline power consumption
+        #make sure the tuned profile is set to cpu-partitioning
+        cmd = "sudo tuned-adm active | awk '{print $4}'"
+        profile = shell_utils.run_command_over_ssh(self.hypervisor_ip,
+                                                  cmd).strip('\n')
+        if profile != 'cpu-partitioning':
+            cmd = "sudo tuned-adm profile cpu-partitioning"
+            shell_utils.run_command_over_ssh(self.hypervisor_ip,
+                                             cmd).strip('\n')
+
+        time.sleep(30)
+        #get the baseline power consumption
+        baseline_power = client.get_power_state()
+
+        # change the tuned profile to power saving
+        cmd = "sudo tuned-adm profile cpu-partitioning-powersave"
+        shell_utils.run_command_over_ssh(self.hypervisor_ip,
+                                         cmd).strip('\n')
+        time.sleep(30)
+        
+        #get the power consumption
+        powersave_power = client.get_power_state()
+        error_msg = "The power consumption is not reduced with powersave tuned profile"
+        self.assertGreater(baseline_power, powersave_power, error_msg)
+
+        # change the tuned profile to be as it was
+        cmd = f"sudo tuned-adm profile {profile}"
+        shell_utils.run_command_over_ssh(self.hypervisor_ip,
+                                         cmd).strip('\n')
+
+        client.disconnect()
 
     def test_mtu_ping_test(self, test='test-ping-mtu'):
         """Test MTU by pinging instance gateway
