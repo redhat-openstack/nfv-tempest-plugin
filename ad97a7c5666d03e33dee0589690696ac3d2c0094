@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1e35735_9ab3d8bc",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-12-18T08:28:11Z",
+      "side": 1,
+      "message": "please remove it ASAP, don\u0027t upload patches with ip addresses and passwords",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 26
+      },
+      "revId": "ad97a7c5666d03e33dee0589690696ac3d2c0094",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1749a78_952a2f62",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-12-18T08:28:11Z",
+      "side": 1,
+      "message": "if the profile is not cpu-partitioning you are changing it to it? not sure it is a good idea and if you would still like to go for this option please make sure this is not hardcoded",
+      "range": {
+        "startLine": 157,
+        "startChar": 1,
+        "endLine": 160,
+        "endChar": 61
+      },
+      "revId": "ad97a7c5666d03e33dee0589690696ac3d2c0094",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83a8b08f_f42885b4",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-12-18T08:28:11Z",
+      "side": 1,
+      "message": "please remove this space",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 8
+      },
+      "revId": "ad97a7c5666d03e33dee0589690696ac3d2c0094",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
