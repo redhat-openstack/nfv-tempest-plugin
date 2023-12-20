@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03be5bdd_dc5ef9ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-12-20T13:09:23Z",
+      "side": 1,
+      "message": "generally looks good but please try to make things more configurable and fix linting issues",
+      "revId": "4ab20ab2f12fdd77fe3e01e21d1a23156e3eac84",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f18eb44_26c7dfd4",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-12-20T13:09:23Z",
+      "side": 1,
+      "message": "if you are using file please make path configurable. and that you trim the file if needed or at least raise a better exception message",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 43
+      },
+      "revId": "4ab20ab2f12fdd77fe3e01e21d1a23156e3eac84",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
