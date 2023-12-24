@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d34d0081_365ee1c4",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-12-24T15:13:18Z",
+      "side": 1,
+      "message": "is 30 seconds enough? wouldn\u0027t it be easier to first check what profile is on and if it is not the powersaving profile use it as the baseline and move back to it at the end?",
+      "parentUuid": "bf4ffdb7_a65a5183",
+      "range": {
+        "startLine": 157,
+        "startChar": 1,
+        "endLine": 160,
+        "endChar": 61
+      },
+      "revId": "ad97a7c5666d03e33dee0589690696ac3d2c0094",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "83a8b08f_f42885b4",
         "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
         "patchSetId": 2
