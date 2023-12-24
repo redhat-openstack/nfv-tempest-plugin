@@ -65,6 +65,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfc13f11_2f7259ba",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1022025
+      },
+      "writtenOn": "2023-12-24T10:36:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "872eb479_14feeae4",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 55
+      },
+      "revId": "4ab20ab2f12fdd77fe3e01e21d1a23156e3eac84",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f18eb44_26c7dfd4",
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "I\u0027ll add.",
       "parentUuid": "3f18eb44_26c7dfd4",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 43
+      },
+      "revId": "4ab20ab2f12fdd77fe3e01e21d1a23156e3eac84",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2264c95_63dcca93",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1022025
+      },
+      "writtenOn": "2023-12-24T10:36:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b1d9ea8_642bcd7f",
       "range": {
         "startLine": 148,
         "startChar": 0,
