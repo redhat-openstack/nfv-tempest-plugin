@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd847e86_bb62328e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-12-26T08:06:53Z",
+      "side": 1,
+      "message": "me",
+      "revId": "712dbd4d7abcf6c44f9db343d318d2bd7a3ae36b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e50ef8f2_27e6ff9b",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-12-26T08:06:53Z",
+      "side": 1,
+      "message": "if the test fails in the way it is currently built the tuned profile won\u0027t return to be the one it started as. please make sure you are setting back the profile after the test.",
+      "range": {
+        "startLine": 176,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 57
+      },
+      "revId": "712dbd4d7abcf6c44f9db343d318d2bd7a3ae36b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15e7fc37_28093480",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-12-26T08:06:53Z",
+      "side": 1,
+      "message": "why is this sleep required?",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 22
+      },
+      "revId": "712dbd4d7abcf6c44f9db343d318d2bd7a3ae36b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
