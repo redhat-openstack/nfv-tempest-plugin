@@ -18,6 +18,23 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88178278_fc607cf1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-12-26T10:24:24Z",
+      "side": 1,
+      "message": "I think it would also be nice to create a VM on the hypervisor you are testing to make sure it works properly with workload",
+      "revId": "712dbd4d7abcf6c44f9db343d318d2bd7a3ae36b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e50ef8f2_27e6ff9b",
