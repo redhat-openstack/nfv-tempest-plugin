@@ -22,6 +22,30 @@
       },
       "revId": "e36909225220325efa4e0883eeb78888c5b586ee",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3edfdbf1_c25fd459",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2023-12-31T11:59:46Z",
+      "side": 1,
+      "message": "I would say I think it should be before making any change to the profile",
+      "parentUuid": "d684bd28_214ae291",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 0
+      },
+      "revId": "e36909225220325efa4e0883eeb78888c5b586ee",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
