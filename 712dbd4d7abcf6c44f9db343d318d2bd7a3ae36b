@@ -183,6 +183,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce1b91a5_e5928e37",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1022025
+      },
+      "writtenOn": "2023-12-31T13:07:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a9fe237_08cb1c3e",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 22
+      },
+      "revId": "712dbd4d7abcf6c44f9db343d318d2bd7a3ae36b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b699ad8f_3fbbc409",
