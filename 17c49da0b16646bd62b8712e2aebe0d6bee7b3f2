@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9223dab8_ee1bbe76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2024-01-08T08:47:34Z",
+      "side": 1,
+      "message": "I was wondering if there is an important difference in power consumption when the compute is not processing any traffic. Should we inject some traffic and check power consumption in that scenario?\n\nI think we need to run our performance regression too to check if there is any performance degradation in order to verify that bz 2225163\nhttps://bugzilla.redhat.com/show_bug.cgi?id\u003d2225163#c0",
+      "revId": "17c49da0b16646bd62b8712e2aebe0d6bee7b3f2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56b56c39_0f9a65e0",
+        "filename": "nfv_tempest_plugin/services/redfish_client.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2024-01-08T08:47:34Z",
+      "side": 1,
+      "message": "What is the meaning of this value PowerConsumedWatts? Is instant power consumption or is the power compsumption since one moment in time? Do we need to clear it before starting measuring?",
+      "revId": "17c49da0b16646bd62b8712e2aebe0d6bee7b3f2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2da3062b_aa272d90",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1016373
+      },
+      "writtenOn": "2024-01-08T08:47:34Z",
+      "side": 1,
+      "message": "I would not hard-code compute name, it makes testcase dependent on templates. I would keep testcase more generic. Maybe it can be taken first element in the list of servers or configure it as a parameter if the previous solution is not valid.",
+      "revId": "17c49da0b16646bd62b8712e2aebe0d6bee7b3f2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
