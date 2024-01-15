@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d841da2_58996e3d",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1022025
+      },
+      "writtenOn": "2024-01-15T09:03:19Z",
+      "side": 1,
+      "message": "Added this to configuration - the cores are allowed to enter in C6.",
+      "range": {
+        "startLine": 189,
+        "startChar": 8,
+        "endLine": 196,
+        "endChar": 48
+      },
+      "revId": "594b754b19035c3a39fc952aa7987d96f291850f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

@@ -18,6 +18,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ab5ecc1_81f62a66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022025
+      },
+      "writtenOn": "2024-01-15T09:03:19Z",
+      "side": 1,
+      "message": "The profile\u0027s efficiency is primarily observed in CPU idle states, where it can leverage deeper C-states (like C6) for maximum power saving. In active modes, such as during traffic processing, the CPU predominantly operates in higher C-states with minimal power saving, i.e. if you send traffic, the CPU will be used, and won’t have time to go to sleep (C6), so you won’t see any difference in terms of power consumption.\n\nRegarding the performance regression, I\u0027m not sure how to do it in the test, we\u0027re doing it in job stage, no?",
+      "parentUuid": "9223dab8_ee1bbe76",
+      "revId": "17c49da0b16646bd62b8712e2aebe0d6bee7b3f2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56b56c39_0f9a65e0",
@@ -35,6 +53,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1406c2fe_453ffd65",
+        "filename": "nfv_tempest_plugin/services/redfish_client.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1022025
+      },
+      "writtenOn": "2024-01-15T09:03:19Z",
+      "side": 1,
+      "message": "The `PowerConsumedWatts` from the Redfish server shows the current power usage of the server in watts at the moment of querying. It\u0027s a real-time figure, not a cumulative one, so there\u0027s no need to reset or clear it before measuring. Each time you check, you get the power usage at that specific time.",
+      "parentUuid": "56b56c39_0f9a65e0",
+      "revId": "17c49da0b16646bd62b8712e2aebe0d6bee7b3f2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c6bc011_e0d10a09",
@@ -48,6 +84,24 @@
       "writtenOn": "2024-01-08T11:44:31Z",
       "side": 1,
       "message": "Please note you are always overwriting self.hypervisor_ip although CONF.nfv_plugin_options.target_hypervisor is set.",
+      "revId": "17c49da0b16646bd62b8712e2aebe0d6bee7b3f2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a44a687_5b18fd95",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1022025
+      },
+      "writtenOn": "2024-01-15T09:03:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c6bc011_e0d10a09",
       "revId": "17c49da0b16646bd62b8712e2aebe0d6bee7b3f2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -82,6 +136,24 @@
       "writtenOn": "2024-01-08T11:44:31Z",
       "side": 1,
       "message": "create_server without parameters can schedule the VM on any of the available hypervisors. I think you should make sure the VM is created on the target hypervisor. For example doing something like this:\n~~~\nhypervisor \u003d CONF.nfv_plugin_options.target_hypervisor\nkwargs \u003d {\n    \u0027srv_details\u0027: {\n        0: {\u0027availability_zone\u0027: \u0027nova:{}\u0027.format(hypervisor)}\n    }\n}\nself.create_server(kwargs)\n~~~\nThat requires to make CONF.nfv_plugin_options.target_hypervisor mandatory (or alternatively set a default value).",
+      "revId": "17c49da0b16646bd62b8712e2aebe0d6bee7b3f2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7186b8c1_87ba9d7a",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1022025
+      },
+      "writtenOn": "2024-01-15T09:03:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6601a5ce_05b8873e",
       "revId": "17c49da0b16646bd62b8712e2aebe0d6bee7b3f2",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
