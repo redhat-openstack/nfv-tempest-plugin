@@ -123,6 +123,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b31c7bbe_a16cbc29",
+        "filename": "nfv_tempest_plugin/tests/scenario/test_nfv_basic.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1022025
+      },
+      "writtenOn": "2024-01-15T09:03:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2da3062b_aa272d90",
+      "revId": "17c49da0b16646bd62b8712e2aebe0d6bee7b3f2",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6601a5ce_05b8873e",
