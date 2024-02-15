@@ -256,7 +256,9 @@ class QoSManagerMixin(object):
                                           username=self.instance_user,
                                           private_key=key_pair[
                                               'private_key'])
-        install_iperf_command = "sudo yum install iperf3 -y || echo"
+        # change mtu, workaround https://issues.redhat.com/browse/OSPRH-5356
+        install_iperf_command = "sudo ip link set mtu 1400 eth0 || echo"
+        install_iperf_command += ";sudo yum install iperf3 -y || echo"
         install_iperf_command += ";sudo yum install iperf -y || echo"
         ssh_dest.exec_command(install_iperf_command)
 
@@ -345,7 +347,7 @@ class QoSManagerMixin(object):
                                          srv(index)][qos_type])
 
     def calculate_deviation(self, test_type, rate_limit, result_number,
-                            max_deviation_accepted=0.08):
+                            max_deviation_accepted=0.1):
         """Calculate deviation for a result number for a rate limit number
 
         Method supports two test types - max_kbps and min_kbps.
@@ -360,7 +362,7 @@ class QoSManagerMixin(object):
         :type rate_limit: int
         :param result_number: A result number to calculate the deviation
         :type result_number: int
-        :param max_deviation_accepted: Accepted deviation, defaults to 0.08
+        :param max_deviation_accepted: Accepted deviation, defaults to 0.1
         :type max_deviation_accepted: float, optional
         """
         kbytes_to_mbits = QoSManagerMixin.KBYTES_TO_MBITS

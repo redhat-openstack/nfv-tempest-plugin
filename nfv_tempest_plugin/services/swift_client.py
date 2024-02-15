@@ -16,6 +16,3 @@ class SwiftClient(KeystoneClient):
 
         cls.overcloud_swift_client = \
             swift.Connection('1', session=cls.overcloud_keystone_session)
-
-        cls.undercloud_swift_client = \
-            swift.Connection('1', session=cls.undercloud_keystone_session)
