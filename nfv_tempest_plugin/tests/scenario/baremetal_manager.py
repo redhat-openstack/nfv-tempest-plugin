@@ -294,6 +294,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             self.aggregates_client.set_metadata(aggr['aggregate']['id'],
                                                 metadata=meta_body)
         for host in hyper_list:
+            host=host.split('.')[0]
             self.aggregates_client.add_host(aggr['aggregate']['id'], host=host)
             self.addCleanup(self.aggregates_client.remove_host,
                             aggr['aggregate']['id'], host=host)
