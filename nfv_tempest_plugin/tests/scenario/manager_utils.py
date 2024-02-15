@@ -220,36 +220,15 @@ class ManagerMixin(object):
 
         :return dumpxml_string
         """
-
-        osp_version = self.get_osp_release()
         server_details = \
             self.os_admin.servers_client.show_server(server['id'])['server']
-        container_cli = self.get_container_cli(container_cli_must=False)
-        cmd = 'sudo {} virsh -c qemu:///system dumpxml'
-        if osp_version >= 17:
-            container_name = 'nova_compute'
-        else:
-            container_name = 'nova_libvirt'
-        if container_cli:
-            cmd = cmd.format(f'{container_cli} exec -it {container_name}')
-        else:
-            cmd = cmd.format('')
+        cmd = 'sudo virsh -c qemu:///system dumpxml'
         cmd += ' {}'
         get_dumpxml = \
             cmd.format(server_details['OS-EXT-SRV-ATTR:instance_name'])
         dumpxml_data = shell_utils.\
             run_command_over_ssh(hypervisor, get_dumpxml)
-        allowed_errors = [
-            # workaround for 17 should be removed after BZ 2093860 is closed
-            'Error registering authentication agent: '
-            'GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed:'
-            ' Cannot determine user of subject (polkit-error-quark,'
-            ' 0)',
-            'Authorization not available. Check if polkit service is '
-            'running or see debug message for more information.'
-        ]
-        dumpxml_data = '\r'.join(list(filter(lambda x: x not in allowed_errors,
-                                             dumpxml_data.split('\r'))))
+        dumpxml_data = '\r'.join(list(dumpxml_data.split('\r')))
         dumpxml_string = ELEMENTTree.fromstring(dumpxml_data)
 
         return dumpxml_string
@@ -389,28 +368,35 @@ class ManagerMixin(object):
 
         return ','.join(rx_tx_list)
 
-    def locate_dedicated_and_shared_cpu_set(self, node=None, keys=None):
+    def locate_dedicated_and_shared_cpu_set(self, node=None):
         """Locate dedicated and shared cpu set
 
         The method locates the cpus provided by the compute for the instances.
         The cpus divided into two groups: dedicated and shared
 
         :param node: The node that the query should executed on.
-        :param keys: The hiera mapping that should be queried.
         :return Two lists of dedicated and shared cpus set
         """
         if not node:
             node = self._get_hypervisor_ip_from_undercloud()[0]
-        if not keys:
-            hiera_dedicated_cpus = "nova::compute::cpu_dedicated_set"
-            hiera_shared_cpus = "nova::compute::cpu_shared_set"
-            keys = [hiera_dedicated_cpus, hiera_shared_cpus]
-        dedicated, shared = shell_utils.\
-            retrieve_content_from_hiera(node=node, keys=keys)
-        dedicated = dedicated.strip('[""]')
+        dedicated_cpus = "cpu_dedicated_set"
+        shared_cpus = "cpu_shared_set"
+        config_path = "/var/lib/openstack/config/nova" \
+                      "/04-cpu-pinning-nova.conf"
+        section = "compute"
+
+        dedicated = shell_utils.\
+            get_value_from_ini_config(node,
+                                      config_path,
+                                      section,
+                                      dedicated_cpus)
+        shared = shell_utils.\
+            get_value_from_ini_config(node,
+                                      config_path,
+                                      section,
+                                      shared_cpus)
         dedicated = shell_utils.parse_int_ranges_from_number_string(dedicated)
-        shared = shared.strip('[]').split(', ')
-        shared = [int(vcpu) for vcpu in shared]
+        shared = shell_utils.parse_int_ranges_from_number_string(shared)
         return dedicated, shared
 
     def locate_numa_aware_networks(self, numa_physnets):
@@ -897,50 +883,27 @@ class ManagerMixin(object):
         :param kwargs['hyper_name']
         """
         ip_addresses = []
-        hypervisors = []
-        search_opts = {}
-        os_clients = OsClients()
+        hypervisor = ""
         if 'server_id' in kwargs:
             try:
-                hyper_name = os_clients\
-                    .novaclient_overcloud.servers.list(
-                        search_opts={'uuid': kwargs['server_id'],
-                                     'all_tenants': True}
-                        )[0].__dict__['OS-EXT-SRV-ATTR:'
-                                      'hypervisor_hostname']
+                hypervisor = self.os_admin.servers_client.show_server(
+                    kwargs['server_id']
+                )['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']
             except IndexError:
                 raise IndexError('Seems like there is no server with id: '
                                  f'{kwargs["server_id"]}')
-            search_opts = {'name': hyper_name.split('.')[0],
-                           'all_tenants': True}
         else:
             if 'hyper_name' in kwargs:
-                search_opts = {'name': kwargs['hyper_name'],
-                               'all_tenants': True}
-            else:
-                search_opts = {'name': 'compute', 'all_tenants': True}
-        if os_clients.uc_server_client == 'nova':
-            hypervisors =\
-                os_clients.novaclient_undercloud\
-                .servers.list(search_opts=search_opts)
-            if len(hypervisors) > 0:
-                for hypervisor in hypervisors:
-                    ip_addresses.append(hypervisor
-                                        .addresses['ctlplane'][0]['addr'])
-            else:
-                raise AssertionError('No hypervisor with '
-                                     'matching pattern were found')
+                hypervisor = kwargs['hyper_name']
+
+        hyp = self.os_admin.hypervisor_client.list_hypervisors(
+            detail=True)['hypervisors']
+        if hypervisor != "":
+            ip_addresses = [val['host_ip'] for val in hyp
+                            if hypervisor.split('.')[0]
+                            in val['hypervisor_hostname']]
         else:
-            compute_pattern = re.compile(search_opts['name'])
-            undercloud_servers = os_clients.metalsmith.list_instances()
-            if len(undercloud_servers) > 0:
-                for server in undercloud_servers:
-                    if compute_pattern.search(server.hostname):
-                        ip_addresses.append(
-                            server.ip_addresses()['ctlplane'][0])
-            else:
-                raise AssertionError('No hypervisor with '
-                                     'matching pattern were found')
+            ip_addresses = [val['host_ip'] for val in hyp]
         return ip_addresses
 
     def locate_ovs_physnets(self, node=None, keys=None):
