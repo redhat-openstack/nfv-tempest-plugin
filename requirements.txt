@@ -12,3 +12,5 @@ paramiko==2.11.0
 # validation
 jsonschema==3.2.0 # MIT
 cryptography==3.3.2
+tempest
+neutron-tempest-plugin
