@@ -282,7 +282,8 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
         for hyper in self.hypervisor_client.list_hypervisors()['hypervisors']:
             for host in hyper_hosts:
                 if hyper['hypervisor_hostname'].split('.')[0] in host:
-                    hyper_list.append(hyper['hypervisor_hostname'])
+                    hyper_list.append(
+                        hyper['hypervisor_hostname'].split('.')[0])
         if not hyper_list:
             raise ValueError('Provided host for the aggregate does not exist.')
 
