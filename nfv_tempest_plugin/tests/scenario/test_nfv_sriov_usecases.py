@@ -336,13 +336,9 @@ class TestSriovScenarios(base_test.BaseTest, QoSManagerMixin):
                                          3: default_port_type}}
         # Set test parameters
         kw_args = {}
-        osp_release = self.get_osp_release()
-        # Starting from OSP13, installation is containerized
         kw_args['command'] = "sudo ip link show"
-        kw_args['file_path'] = \
-            '/var/lib/config-data/nova_libvirt/etc/nova/nova.conf'
-        if osp_release < 13:
-            kw_args['file_path'] = '/etc/nova/nova.conf'
+        kw_args['file_path'] = ("/var/lib/openstack/config/nova"
+                                "/03-sriov-nova.conf")
         kw_args['search_param'] = \
             {'section': 'pci', 'value': 'passthrough_whitelist'}
         """ Regexp search VF interfaces with neutron MAC prefix,
