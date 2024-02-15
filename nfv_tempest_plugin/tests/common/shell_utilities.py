@@ -251,7 +251,7 @@ def get_value_from_ini_config(overcloud_node, config_path,
     class M(OrderedDict):
         def __setitem__(self, key, value):
             v_val = self.get(key)
-            if v_val is not None and type(value) == list:
+            if v_val is not None and isinstance(value, list):
                 v_val.append(value[0])
             else:
                 v_val = value
