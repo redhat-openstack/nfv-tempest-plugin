@@ -1,14 +1,15 @@
 configparser >= 3.5.0
 envbash==1.2.0
-openstacksdk==0.29.0 ; python_version <= "3.6"
-python-heatclient==2.3.0
-python-keystoneclient==4.2.0
-python-novaclient==17.4.0
-metalsmith
+openstacksdk==1.0.1
+python-heatclient==3.2.0
+python-keystoneclient==5.1.0
+python-novaclient==18.3.0
 redfish
 paramiko==2.11.0
 # openstack-tempest/requirements.txt:jsonschema>=3.2.0 # MIT
-# current version 4.0.0 is breaking aggregates client 
+# current version 4.0.0 is breaking aggregates client
 # validation
-jsonschema==3.2.0 # MIT
-cryptography==3.3.2
+jsonschema==4.16.0 # MIT
+cryptography==38.0.2
+tempest>=27.0.0 # Apache-2.0
+neutron_tempest_plugin>=0.9.0 # Apache-2.0

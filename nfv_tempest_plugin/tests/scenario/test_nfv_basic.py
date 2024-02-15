@@ -137,9 +137,7 @@ class TestNfvBasic(base_test.BaseTest):
             self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud()[0]
         self.assertNotEmpty(self.hypervisor_ip, "No hypervisor found")
 
-        with open(CONF.nfv_plugin_options.instackenv_json_path,
-                  'r') as json_file:
-            data = json.load(json_file)
+        data = eval(CONF.nfv_plugin_options.idrac_data)
 
         hypervisor = data['nodes'][0]
         self.assertNotEmpty(hypervisor, "'compute-0' not found")
@@ -340,8 +338,8 @@ class TestNfvBasic(base_test.BaseTest):
         servers, key_pair = self.create_and_verify_resources(test=test,
                                                              **kwargs)
 
-        config_path = '/var/lib/config-data/puppet-generated' \
-                      '/nova_libvirt/etc/nova/nova.conf'
+        config_path = '/var/lib/openstack/config/nova' \
+                      '/04-cpu-pinning-nova.conf'
         check_section = 'compute'
         check_value = 'cpu_shared_set'
 
