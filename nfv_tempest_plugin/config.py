@@ -26,7 +26,7 @@ NfvPluginOptions = [
                default=None,
                help="SSH password for overcloud node - controller/compute"),
     cfg.StrOpt('overcloud_node_pkey_file',
-               default='/home/stack/.ssh/id_rsa',
+               default='/var/lib/tempest/.ssh/id_ecdsa',
                help="SSH private key path for overcloud node - "
                     "controller/compute"),
     cfg.StrOpt("instance_user",

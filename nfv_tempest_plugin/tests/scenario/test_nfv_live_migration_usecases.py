@@ -53,18 +53,10 @@ class TestLiveMigrationScenarios(base_test.BaseTest):
             host=None)
         """ Switch hypervisor id (compute-0 <=> compute-1) """
         count = 1
-        if host.find('0') > 0:
-            dest = list(host)
-            dest[dest.index('0')] = '1'
-            dest = ''.join(dest)
-        else:
-            dest = list(host)
-            dest[dest.index('1')] = '0'
-            dest = ''.join(dest)
         while count < 30:
             count += 1
             time.sleep(3)
-            if dest == self\
+            if host == self\
                     .os_admin.servers_client.show_server(server[
                     'id'])['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']:
                 """Verify connectivity after migration"""
