@@ -26,7 +26,7 @@ NfvPluginOptions = [
                default=None,
                help="SSH password for overcloud node - controller/compute"),
     cfg.StrOpt('overcloud_node_pkey_file',
-               default='/home/stack/.ssh/id_rsa',
+               default='/var/lib/tempest/.ssh/id_ecdsa',
                help="SSH private key path for overcloud node - "
                     "controller/compute"),
     cfg.StrOpt("instance_user",
@@ -180,12 +180,16 @@ NfvPluginOptions = [
     cfg.StrOpt('trex_queues_json_path',
                default='/tmp/queues.json',
                help='Learned data from queues configuration'),
-    cfg.StrOpt('instackenv_json_path',
-               default='/home/stack/instackenv.json',
-               help='Learned data from instackenv configuration'),
     cfg.StrOpt('powersave_profile',
                default='cpu-partitioning-powersave',
                help='power-saving tuned profile for optimized energy'),
+    cfg.StrOpt('idrac_data',
+               default='{"nodes": ['
+                    '{"pm_addr": "server1-bmc.mgmt.example.com",'
+                    ' "pm_user": "root", "pm_password": "set_password"},'
+                    '{"pm_addr": "server2-bmc.mgmt.example.com",'
+                    ' "pm_user": "root", "pm_password": "set_password"}]}',
+                help='Compute nodes idrac data'),
     cfg.DictOpt('multiqueue_learning',
                 default={'injector': '/opt/trex/current/multiqueue.py',
                          'pps': [{'1': 0.3, '0': 1.2, '2': 0.1},

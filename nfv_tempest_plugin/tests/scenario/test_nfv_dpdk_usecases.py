@@ -187,12 +187,7 @@ class TestDpdkScenarios(base_test.BaseTest, QoSManagerMixin):
 
         check_section = 'libvirt'
         check_value = 'rx_queue_size,tx_queue_size'
-        osp_release = self.get_osp_release()
-        if osp_release >= 13:
-            config_path = '/var/lib/config-data/puppet-generated/' \
-                          'nova_libvirt/etc/nova/nova.conf'
-        else:
-            config_path = '/etc/nova/nova.conf'
+        config_path = "/var/lib/openstack/config/nova/01-nova.conf"
 
         for srv in servers:
             LOG.info('Test RX/TX for the {} instance'.format(srv['fip']))
