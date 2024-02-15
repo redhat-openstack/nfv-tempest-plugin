@@ -256,7 +256,9 @@ class QoSManagerMixin(object):
                                           username=self.instance_user,
                                           private_key=key_pair[
                                               'private_key'])
-        install_iperf_command = "sudo yum install iperf3 -y || echo"
+        # change mtu, workaround https://issues.redhat.com/browse/OSPRH-5356
+        install_iperf_command = "sudo ip link set mtu eth0 1400 || echo"
+        install_iperf_command += "sudo yum install iperf3 -y || echo"
         install_iperf_command += ";sudo yum install iperf -y || echo"
         ssh_dest.exec_command(install_iperf_command)
 
