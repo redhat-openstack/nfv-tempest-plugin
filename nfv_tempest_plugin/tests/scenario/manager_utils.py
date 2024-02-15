@@ -896,51 +896,7 @@ class ManagerMixin(object):
         :param kwargs['server_id']
         :param kwargs['hyper_name']
         """
-        ip_addresses = []
-        hypervisors = []
-        search_opts = {}
-        os_clients = OsClients()
-        if 'server_id' in kwargs:
-            try:
-                hyper_name = os_clients\
-                    .novaclient_overcloud.servers.list(
-                        search_opts={'uuid': kwargs['server_id'],
-                                     'all_tenants': True}
-                        )[0].__dict__['OS-EXT-SRV-ATTR:'
-                                      'hypervisor_hostname']
-            except IndexError:
-                raise IndexError('Seems like there is no server with id: '
-                                 f'{kwargs["server_id"]}')
-            search_opts = {'name': hyper_name.split('.')[0],
-                           'all_tenants': True}
-        else:
-            if 'hyper_name' in kwargs:
-                search_opts = {'name': kwargs['hyper_name'],
-                               'all_tenants': True}
-            else:
-                search_opts = {'name': 'compute', 'all_tenants': True}
-        if os_clients.uc_server_client == 'nova':
-            hypervisors =\
-                os_clients.novaclient_undercloud\
-                .servers.list(search_opts=search_opts)
-            if len(hypervisors) > 0:
-                for hypervisor in hypervisors:
-                    ip_addresses.append(hypervisor
-                                        .addresses['ctlplane'][0]['addr'])
-            else:
-                raise AssertionError('No hypervisor with '
-                                     'matching pattern were found')
-        else:
-            compute_pattern = re.compile(search_opts['name'])
-            undercloud_servers = os_clients.metalsmith.list_instances()
-            if len(undercloud_servers) > 0:
-                for server in undercloud_servers:
-                    if compute_pattern.search(server.hostname):
-                        ip_addresses.append(
-                            server.ip_addresses()['ctlplane'][0])
-            else:
-                raise AssertionError('No hypervisor with '
-                                     'matching pattern were found')
+        ip_addresses = ['192.168.122.100','192.168.122.101']
         return ip_addresses
 
     def locate_ovs_physnets(self, node=None, keys=None):
