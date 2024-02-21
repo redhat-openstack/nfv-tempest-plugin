@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec0de059_e27a381b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1009116
+      },
+      "writtenOn": "2024-02-21T10:11:34Z",
+      "side": 1,
+      "message": "I\u0027d recommend more descriptive commit message, without that I have unfortunately no idea what is the goal of the patch and can\u0027t help with the review :/",
+      "revId": "123a2f1fb401fc4be5da64be91db16ebd25eb807",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83596347_fca8c1fd",
+        "filename": "requirements.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1009116
+      },
+      "writtenOn": "2024-02-21T10:11:34Z",
+      "side": 1,
+      "message": "I recommend setting minimal versions .. the license type is just upstream habbit (optional in this plugin):\ntempest\u003e\u003d27.0.0 # Apache-2.0\nneutron_tempest_plugin\u003e\u003d0.9.0 # Apache-2.0",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 22
+      },
+      "revId": "123a2f1fb401fc4be5da64be91db16ebd25eb807",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
