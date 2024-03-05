@@ -457,7 +457,7 @@ class BareMetalManager(api_version_utils.BaseMicroversionTest,
             if 'pool_start' in net_param:
                 network_kwargs['allocation_pools'] = \
                     [{'start': net_param['pool_start'],
-                      'end':net_param['pool_end']}]
+                      'end': net_param['pool_end']}]
             if 'dns_nameservers' in net_param:
                 network_kwargs['dns_nameservers'] = \
                     net_param['dns_nameservers']
