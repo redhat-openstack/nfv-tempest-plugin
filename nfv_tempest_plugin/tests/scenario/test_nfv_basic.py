@@ -23,6 +23,7 @@ from nfv_tempest_plugin.tests.scenario import base_test
 from oslo_log import log as logging
 from tempest.common import waiters
 from tempest import config
+from redfish.rest.v1 import ServerDownOrUnreachableError
 
 
 CONF = config.CONF
@@ -150,7 +151,19 @@ class TestNfvBasic(base_test.BaseTest):
             hypervisor['pm_user'],
             hypervisor['pm_password']
         )
-        client.connect()
+
+        connect_retries = 5
+        while connect_retries > 0:
+            try:
+                LOG.info('Trying to connect to {} (retry {})'.\
+                         format(hypervisor['pm_addr'], connect_retries))
+                client.connect()
+                break
+            except ServerDownOrUnreachableError as e:
+                connect_retries -= 1
+                if connect_retries == 0: raise e
+                time.sleep(2)
+        LOG.info('Connected to {}'.format(hypervisor['pm_addr']))
 
         # create a VM to make sure it works properly with workload
         hypervisors = \
