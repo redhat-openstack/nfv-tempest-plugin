@@ -101,8 +101,9 @@ def check_existing_interfaces():
 def get_ifcfg_files():
     """Get ifaces with configuration file"""
     files = os.listdir('/etc/sysconfig/network-scripts/')
-    ifaces = [file.replace('ifcfg-', '') for file in files if 'ifcfg' in file]
-    ifaces.remove('lo')
+    ifaces = [file.replace('ifcfg-', '') for file in files
+              if 'ifcfg' in file and 'lo' not in file
+              and 'readme' not in file]
     return ifaces
 
 
@@ -119,7 +120,7 @@ def verify_interfaces_config(ifaces, tag):
        file will be configured.
     """
     files = get_ifcfg_files()
-    if set(files) == set([nic.keys()[0] for nic in ifaces]):
+    if set(files) == set([list(nic)[0] for nic in ifaces]):
         return ifaces
     logger.info('Applying osp10 workaroud. Expected '
                 '{} network files, found {}'.format(len(ifaces),
@@ -305,7 +306,7 @@ def main():
     else:
         logger.info('Recreate network configuration')
         recreate_interfaces_config(args.nics_data_path, ifaces)
-    execute_shell_command('systemctl restart network')
+    execute_shell_command('systemctl restart NetworkManager')
     logger.info('Network configuration completed')
 
 
