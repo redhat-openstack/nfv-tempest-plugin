@@ -203,6 +203,8 @@ class TestAdvancedScenarios(base_test.BaseTest):
         srv1, key_pair = self.create_and_verify_resources(test=test,
                                                           use_mgmt_only=True,
                                                           **kwargs)
+        first_hyper_hostname = self.os_admin.servers_client.show_server(
+            srv1[0]['id'])['server']['OS-EXT-SRV-ATTR:hypervisor_hostname']
         srv1_vcpus_before_migration = \
             self.get_instance_vcpu(srv1[0], srv1[0]['hypervisor_ip'])
         LOG.info('The cores of {srv} instance on the {hyper} hypervisor are '
@@ -235,6 +237,10 @@ class TestAdvancedScenarios(base_test.BaseTest):
             kwargs['srv_details'] = {
                 0: {'availability_zone': 'nova:{}'.format(hypervisor)}
             }
+        else:
+            avail_zone = {'hyper_hosts': [first_hyper_hostname]}
+            kwargs['availability_zone'] = self.create_and_set_availability_zone(
+                **avail_zone)['availability_zone']
         srv2 = self.create_server_with_fip(flavor=self.flavor_ref,
                                            networks=mgmt_net_id, **kwargs)
         self.check_instance_connectivity(ip_addr=srv2[0]['fip'],
@@ -244,7 +250,7 @@ class TestAdvancedScenarios(base_test.BaseTest):
             **{'server_id': srv2[0]['id']})[0]
         LOG.info('Boot second instance {} on the {} hypervisor'
                  .format(srv2[0]['id'], srv2[0]['hypervisor_ip']))
-        srv2_vcpus = self.get_instance_vcpu(srv2[0], srv1[0]['hypervisor_ip'])
+        srv2_vcpus = self.get_instance_vcpu(srv2[0], srv2[0]['hypervisor_ip'])
         LOG.info('The cores of {} instance on the {} hypervisor are {}'.format(
             srv2[0]['id'], srv2[0]['hypervisor_ip'], srv2_vcpus))
 
