@@ -102,6 +102,7 @@ class ManagerMixin(object):
 
         Reads config data and assign it to dictionaries
         """
+        LOG.info('Read external config file')
         with open(CONF.nfv_plugin_options.external_config_file, 'r') as f:
             self.external_config = yaml.safe_load(f)
 
@@ -577,7 +578,7 @@ class ManagerMixin(object):
             scripts_dir = os.path.join(
                 exec_dir, CONF.nfv_plugin_options.transfer_files_src)
             test_scripts = os.listdir(scripts_dir)
-            test_scripts = [fil for fil in test_scripts if fil.endswith('.py')]
+            test_scripts = [fil for fil in test_scripts if fil.endswith((('.py'),('.sh')))]
 
             header = '''
                              write_files:'''
@@ -885,6 +886,15 @@ class ManagerMixin(object):
                         self.manager.hypervisor_client.show_hypervisor(
                             i['id'])['hypervisor']['host_ip']
         return ip_address
+
+    def _get_metalsmith_instances(self):
+        """Get metalsmith instances"""
+
+        os_clients = OsClients()
+        if os_clients.uc_server_client == 'nova':
+            return os_clients.novaclient_undercloud.servers.list()
+        else:
+            return os_clients.metalsmith.list_instances()
 
     def _get_hypervisor_ip_from_undercloud(self, **kwargs):
         """This Method lists aggregation based on name

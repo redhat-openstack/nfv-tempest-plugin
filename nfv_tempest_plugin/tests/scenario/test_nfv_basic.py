@@ -15,6 +15,7 @@
 
 import fnmatch
 import json
+import socket
 import time
 
 from nfv_tempest_plugin.services.redfish_client import RedfishClient
@@ -127,82 +128,146 @@ class TestNfvBasic(base_test.BaseTest):
     def test_power_saving_tuned_profile(self, test='power_save_tuned_profile'):
         """Test tuned profile for power saving
 
-        The test checks that the tuned profile for power saving is save
-        the power on compute nodes.
-        """
-        if CONF.nfv_plugin_options.target_hypervisor:
-            self.hypervisor_ip = \
-                self._get_hypervisor_ip_from_undercloud(
-                    hyper_name=CONF.nfv_plugin_options.target_hypervisor)
-        else:
-            self.hypervisor_ip = self._get_hypervisor_ip_from_undercloud()[0]
-        self.assertNotEmpty(self.hypervisor_ip, "No hypervisor found")
+        The test verifies that power consumption is lower with powersave profile.
 
+        It creates a VM with 2 interfaces connected to ovs-dpdk bridge 
+        and runs a testpmd application inside it. There is no traffic.
+
+        As there is no traffic, it is expected that PMD threads will sleep during
+        some time, depending on the configured value "pmd-sleep-max"
+
+        See https://developers.redhat.com/articles/2023/10/16/save-power-ovs-dpdk-pmd-thread-load-based-sleeping#a_simple_approach_to_reducing_work
+
+        """
+        # Get the hypervisor ip
+        hypervisor_metalsmith = None
+        if CONF.nfv_plugin_options.target_hypervisor:
+            hypervisor_metalsmith = CONF.nfv_plugin_options.target_hypervisor
+        else:
+            hypervisor_metalsmith = self._get_metalsmith_instances()[0].hostname
+        self.hypervisor_ip = \
+            self._get_hypervisor_ip_from_undercloud(
+                hyper_name=hypervisor_metalsmith)[0]
+        self.assertNotEmpty(self.hypervisor_ip, "No hypervisor ip found")
+
+        # Get hypervisor auth details from instack env json file
         with open(CONF.nfv_plugin_options.instackenv_json_path,
                   'r') as json_file:
             data = json.load(json_file)
+        hypervisor_instack = None
+        for node in data['nodes']:
+            if node["name"] == hypervisor_metalsmith:
+                hypervisor_instack = node
+                break
+        self.assertNotEmpty(hypervisor_instack,
+                            "hypervisor not found in instack env json file")
 
-        hypervisor = data['nodes'][0]
-        self.assertNotEmpty(hypervisor, "'compute-0' not found")
+        # Get the powersave profile from the config file
         powersave_profile = CONF.nfv_plugin_options.powersave_profile
 
+        # Connect to the hypervisor
+        # Using ip instead of domain as a workaround, there are issues
+        # in several servers with domain name 
         client = RedfishClient(
-            hypervisor['pm_addr'],
-            hypervisor['pm_user'],
-            hypervisor['pm_password']
+            socket.gethostbyname(hypervisor_instack['pm_addr']),
+            hypervisor_instack['pm_user'],
+            hypervisor_instack['pm_password']
         )
 
         connect_retries = 5
         while connect_retries > 0:
             try:
                 LOG.info('Trying to connect to {} (retry {})'.\
-                         format(hypervisor['pm_addr'], connect_retries))
+                         format(hypervisor_instack['pm_addr'], connect_retries))
                 client.connect()
                 break
             except ServerDownOrUnreachableError as e:
                 connect_retries -= 1
                 if connect_retries == 0: raise e
                 time.sleep(2)
-        LOG.info('Connected to {}'.format(hypervisor['pm_addr']))
+        LOG.info('Connected to {}'.format(hypervisor_instack['pm_addr']))
 
         # create a VM to make sure it works properly with workload
+        hypervisor = None
         hypervisors = \
             self.os_admin.hypervisor_client.list_hypervisors()['hypervisors']
-        # take first element of hypervisor list by default
-        target_hypervisor = hypervisors[0]
-        if CONF.nfv_plugin_options.target_hypervisor:
-            # if target_hypervisor provided look for it in hypervisor list
-            target_hypervisor = [
-                h for h in hypervisors if h['hypervisor_hostname']
-                == CONF.nfv_plugin_options.target_hypervisor][0]
-
+        for hyperv in hypervisors:
+            if hypervisor_metalsmith in hyperv['hypervisor_hostname']:
+             hypervisor = hyperv
+        self.assertNotEmpty(hypervisor, "hypervisor not found")
         kwargs = {
             'availability_zone': {
-                'hyper_hosts': [target_hypervisor['hypervisor_hostname']]
-            }
+                'hyper_hosts': [hypervisor['hypervisor_hostname']]
+            },
+            'num_servers': 1,
+            'srv_details': {0: {'ports_filter': 'external,normal'}}
         }
-        self.create_and_verify_resources(test=test, **kwargs)
+        for net in self.external_config['test-networks']:
+            if net.get('port_type') and net['port_type'] == "normal":
+                if net.get('skip_srv_attach') and net['skip_srv_attach']:
+                    net['skip_srv_attach'] = False
+        servers, key_pair = self.create_and_verify_resources(test=test, **kwargs)
 
-        # baseline power consumption
-        # make sure that the tuned profile is not the powersave profile
+
+        # Update vm so that it is possible to run testpmd
+        ssh_source = self.get_remote_client(
+                servers[0]['fip'],
+                username=self.instance_user,
+                private_key=key_pair['private_key'])
+        ssh_source.exec_command(
+            'sudo grubby --update-kernel ALL --args '
+            '"default_hugepagesz=1GB hugepagesz=1GB hugepages=4 '
+            'transparent_hugepage=never nohz=on isolcpus=3-5 '
+            'nohz_full=3-5 rcu_nocbs=3-5"'
+        )
+        self.servers_client.stop_server(servers[0]['id'])
+        waiters.wait_for_server_status(self.servers_client,
+                                       servers[0]['id'],
+                                       'SHUTOFF')
+        self.servers_client.start_server(servers[0]['id'])
+        waiters.wait_for_server_status(self.servers_client,
+                                       servers[0]['id'],
+                                       'ACTIVE')
+        vm_networks = self.servers_client.show_server(
+            servers[0]['id'])['server']['addresses']
+        dpdk_macs = []
+        for network_item in vm_networks:
+            if len(vm_networks[network_item]) == 1:
+                dpdk_macs.append(
+                    vm_networks[network_item][0]['OS-EXT-IPS-MAC:mac_addr'])
+        testpmd_cmd = 'sudo {0}/start_testpmd.sh {1} {2}'.format(
+            self.nfv_scripts_path, dpdk_macs[0], dpdk_macs[1])
+        ssh_source.exec_command(testpmd_cmd)
+
+        # Get the initial profile
         active_profile_cmd = "sudo tuned-adm active | awk '{print $4}'"
-        active_profile = shell_utils.run_command_over_ssh(
+        initial_profile = shell_utils.run_command_over_ssh(
             self.hypervisor_ip, active_profile_cmd).strip('\n')
 
-        if active_profile == powersave_profile:
+        # Get power consumption with the initial profile
+        # Change to the alternative profile
+        # For the alternative profile, it is needed to update
+        # tuned configuration
+        time.sleep(45)
+        if initial_profile == powersave_profile:
+            powersave_power = client.get_power_state()
             switch_profile_cmd = "sudo tuned-adm profile cpu-partitioning"
+            dest_file = '/etc/tuned/cpu-partitioning-variables.conf'
+            source_file = '/etc/tuned/cpu-partitioning-powersave-variables.conf'
+        else:
+            baseline_power = client.get_power_state()
+            switch_profile_cmd = "sudo tuned-adm profile cpu-partitioning-powersave"
+            source_file = '/etc/tuned/cpu-partitioning-variables.conf'
+            dest_file = '/etc/tuned/cpu-partitioning-powersave-variables.conf'
+
+            # enable the max_power_state=C6
+            new_line = 'max_power_state=cstate.name:C6|140\n'
+            cmd = f"sudo sed -i '/max_power_state=/c\\{new_line}'" \
+                  f" {dest_file}"
             shell_utils.run_command_over_ssh(
-                self.hypervisor_ip, switch_profile_cmd).strip('\n')
-            time.sleep(45)
+                self.hypervisor_ip, cmd).strip('\n')
 
-        # get the baseline power consumption
-        baseline_power = client.get_power_state()
-
-        # configure powersave tuned profile to use max_power_state=C6
-        source_file = '/etc/tuned/cpu-partitioning-variables.conf'
-        dest_file = '/etc/tuned/cpu-partitioning-powersave-variables.conf'
-
-        # copy the vars to the powersave file
+        # Configure cores for tuned in the alternative profile
         extract_cores_cmd = (
             "grep '^isolated_cores=' " + source_file + " | grep -v '^#'"
         )
@@ -213,27 +278,21 @@ class TestNfvBasic(base_test.BaseTest):
         shell_utils.run_command_over_ssh(
             self.hypervisor_ip, replace_cores_cmd).strip('\n')
 
-        # enable the max_power_state=C6
-        new_line = 'max_power_state=cstate.name:C6|140\n'
-        cmd = f"sudo sed -i '/max_power_state=/c\\{new_line}'" \
-              f" {dest_file}"
+        # Switch to the alternative profile and get power consumption
         shell_utils.run_command_over_ssh(
-            self.hypervisor_ip, cmd).strip('\n')
-
-        # change the tuned profile to power saving
-        change_profile_cmd = f"sudo tuned-adm profile " \
-                             f"{powersave_profile}"
-        shell_utils.run_command_over_ssh(
-            self.hypervisor_ip, change_profile_cmd).strip('\n')
+            self.hypervisor_ip, switch_profile_cmd).strip('\n')
         time.sleep(45)
-
-        # get the power consumption - after the tuned profile change
-        powersave_power = client.get_power_state()
+        if initial_profile == powersave_profile:
+            baseline_power = client.get_power_state()
+        else:
+            powersave_power = client.get_power_state()
 
         # change the tuned profile to be as it was
-        cmd = f"sudo tuned-adm profile {active_profile}"
+        cmd = f"sudo tuned-adm profile {initial_profile}"
         shell_utils.run_command_over_ssh(self.hypervisor_ip,
                                          cmd).strip('\n')
+
+        # Disconnect from the hypervisor
         client.disconnect()
 
         # check that the power consumption is lower with the powersave profile
