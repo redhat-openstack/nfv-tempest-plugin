@@ -535,9 +535,9 @@ class TestNfvOffload(base_test.BaseTest):
 
     def test_offload_tcp_conntrack_transparent_vlan(
             self, test='offload_tcp_conntrack_transparent_vlan'):
-        """Check TCP traffic is offloaded in transparent vlan network with sec groups
+        """Check TCP traffic is offloaded in transparent vlan network
 
-        The following test deploy vms, on hw-offload computes.
+        with sec groups. The following test deploy vms, on hw-offload computes.
         Vms have security groups enabled.
         It sends Ttcp traffic and check conntrack table to check if flows
         are offloaded
