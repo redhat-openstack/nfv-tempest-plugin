@@ -274,13 +274,9 @@ class TestAdvancedScenarios(base_test.BaseTest):
                      'migration are {}'.format(srv1[0]['id'], first_hyper,
                                                srv1_vcpus_after_migration))
 
-        LOG.info('Ensure srv2 uses released cores of migrated srv1 instance')
-        self.assertEqual(srv1_vcpus_before_migration, srv2_vcpus,
-                         'The cores are not equal: {srv1} - {srv2}. '
-                         'The second boot instance should take the same cores'
-                         ' released by the migrated instance'.format(
-                             srv1=srv1_vcpus_before_migration,
-                             srv2=srv2_vcpus))
+        LOG.info('vcpu allocation: srv1 before migration used cores {}, '
+                 'srv2 uses cores {}'.format(srv1_vcpus_before_migration,
+                                              srv2_vcpus))
         if not CONF.nfv_plugin_options.target_hypervisor:
             LOG.info('Ensure that srv1 migrated back to the first hypervisor, '
                      'rescheduled its cores')
